@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+<MudInputLabel>@Item.GetItemLabel(Field)</MudInputLabel>
+
+<MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync">
+    <ButtonTemplate>
+        <MudStack Row="true" Class="align-center border rounded pa-2">
+            <MudText Typo="Typo.caption">@ContentInfo</MudText>
+            <MudSpacer />
+            <MudIconButton Color="Color.Primary" Class="pa-0 ma-0"
+                           Icon="@Icons.Material.Filled.Clear"
+                           Disabled="@ClearDisabled()"
+                           Size="Size.Small"
+                           OnClick="ClearContentAsync" />
+            <MudIconButton HtmlTag="label"
+                           Color="Color.Primary" Class="pa-0 ma-0"
+                           Icon="@Icons.Material.Filled.Upload"
+                           Disabled="@UploadDisabled()"
+                           Size="Size.Small"
+                           for="@context" />
+        </MudStack>
+    </ButtonTemplate>
+</MudFileUpload>

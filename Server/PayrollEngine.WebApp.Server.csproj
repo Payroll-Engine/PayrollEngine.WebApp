@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<AssemblyName>PayrollEngine.WebApp.Server</AssemblyName>
+		<RootNamespace>PayrollEngine.WebApp.Server</RootNamespace>
+		<UserSecretsId>WebApp</UserSecretsId>
+		<Authors>Jani Giannoudis</Authors>
+		<Company>Software Consulting Giannoudis</Company>
+		<Product>Payroll Engine</Product>
+		<Description>Payroll Engine Web Application Server</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PayrollEngine.Serilog" Version="0.5.0-pre-230522" />
+		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-pre-230522" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+		<PackageReference Include="BlazorPolyfill.Server" Version="7.0.203.1" />
+		<PackageReference Include="MudBlazor" Version="6.2.2" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Presentation\PayrollEngine.WebApp.Presentation.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,121 @@
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Payrun>
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Server.Components
+@using Task = System.Threading.Tasks.Task
+
+<MudDialog Class="item-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+                <MudTabPanel Text="Common">
+                    <MudStack Spacing="1">
+                        <MudTextField T="string" @bind-Value="Payrun.Name"
+                                      Disabled="@(!PayrollNames.Any())"
+                                      ReadOnly="@Payrun.IsExistingObject"
+                                      MaxLength="@SystemSpecification.KeyTextLength"
+                                      Label="@(Payrun.IsNewObject ? "Name (immutable)" : "Name")"
+                                      Validation="@(!string.IsNullOrWhiteSpace(Payrun.Name))"
+                                      Required="true" RequiredError="Name is required" />
+                        <MudSelect T="string" Label="Payroll" @bind-Value="Payrun.PayrollName">
+                            @foreach (var name in PayrollNames)
+                            {
+                                <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <LocalizationTextField Item="@Payrun" @bind-Value="Payrun.DefaultReason"
+                                               PropertyName="@nameof(Payrun.DefaultReason)"
+                                               Label="Default reason" />
+                        <MudSelect T="RetroTimeType" Label="Retro time type" @bind-Value="Payrun.RetroTimeType">
+                            <EnumSelectItems T="RetroTimeType" />
+                        </MudSelect>
+                        <ItemBaseFields Item="Payrun" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="Expressions">
+                    <MudStack Spacing="1">
+                        <MudTextField T="string" Label="Start expression" @bind-Value="Payrun.StartExpression" Lines="3" />
+                        <MudTextField T="string" Label="Employee available expression" @bind-Value="Payrun.EmployeeAvailableExpression" Lines="3" />
+                        <MudTextField T="string" Label="Employee start expression" @bind-Value="Payrun.EmployeeStartExpression" Lines="3" />
+                        <MudTextField T="string" Label="Employee end expression" @bind-Value="Payrun.EmployeeEndExpression" Lines="3" />
+                        <MudTextField T="string" Label="Wage type available expression" @bind-Value="Payrun.WageTypeAvailableExpression" Lines="3" />
+                        <MudTextField T="string" Label="End expression" @bind-Value="Payrun.EndExpression" Lines="3" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="Calendar">
+                    <MudStack Spacing="1">
+                        <MudSelect T="Month" @bind-Value="Calendar.FirstMonthOfYear" Label="First month of year">
+                            <EnumSelectItems T="Month" />
+                        </MudSelect>
+                        <MudSelect T="PayrollEngine.DayOfWeek" Label="First day of week"
+                        @bind-Value="Calendar.FirstDayOfWeek">
+                            <EnumSelectItems T="PayrollEngine.DayOfWeek" />
+                        </MudSelect>
+                        <MudSelect T="string" @bind-Value="SelectedWorkingDay" @bind-SelectedValues="WorkingDays"
+                                   Label="Working days"
+                                   MultiSelection="true"
+                                   SelectAll="true"
+                                   SelectAllText="Select all days">
+                            <EnumStringSelectItems T="PayrollEngine.DayOfWeek" />
+                        </MudSelect>
+                        <MudSelect T="CalendarCalculationMode" @bind-Value="Calendar.CalculationMode"
+                                   Label="Calculation mode">
+                            <EnumSelectItems T="CalendarCalculationMode" />
+                        </MudSelect>
+                        <MudSelect T="CalendarWeekRule" @bind-Value="Calendar.CalendarWeekRule"
+                                   Label="Week rule mode">
+                            <EnumSelectItems T="CalendarWeekRule" />
+                        </MudSelect>
+                        <MudNumericField T="decimal" @bind-Value="Calendar.AverageMonthDays" Label="Average month days" />
+                        <MudNumericField T="decimal" @bind-Value="Calendar.AverageWorkDays" Label="Average work days" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="Parameters">
+                    <MudStack Spacing="1">
+                        <PayrunParameterGrid Tenant="Tenant" Payrun="Payrun" Style="min-width: fit-content;" />
+                        <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-">
+                            Changes are applied immediately
+                        </MudPaper>
+                    </MudStack>
+                </MudTabPanel>
+            </MudTabs>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="Payrun" FormValidator="this" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Tenant Tenant { get; set; }
+    [Parameter] public Payrun Payrun { get; set; }
+    [Parameter] public List<string> PayrollNames { get; set; }
+
+    private CalendarConfiguration Calendar { get; set; }
+    private string SelectedWorkingDay { get; set; }
+
+    private IEnumerable<string> WorkingDays
+    {
+        get => Calendar.WorkingDays?.Select(x => x.ToString());
+        set
+        {
+            var workingDays = value.Select(Enum.Parse<PayrollEngine.DayOfWeek>).ToList();
+            Calendar.WorkingDays = workingDays;
+        }
+    }
+
+    public async Task<bool> ValidateAsync(Payrun payrun) =>
+        await form.Revalidate();
+
+    protected override Task OnInitializedAsync()
+    {
+        Payrun.Calendar ??= new();
+        Calendar = Payrun.Calendar;
+        return base.OnInitializedAsync();
+    }
+
+}

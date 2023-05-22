@@ -1,0 +1,30 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+@using Task = System.Threading.Tasks.Task
+@using PayrollEngine.WebApp.Server.Dialogs
+
+<TemplateColumn T="Report" ShowColumnOptions="false"
+                ShowFilterIcon="false" Sortable="false">
+    <FilterTemplate />
+    <CellTemplate>
+        <MudStack Row="true" Justify="Justify.FlexEnd" Class="gap-2">
+            <MudTooltip Delay="500" Text="Show Report Log" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ActionOperator.ShowReportLogAsync(context.Item))"
+                               Icon="@Icons.Material.Outlined.History"
+                               Color="Color.Primary"
+                               Variant="Variant.Outlined"
+                               Size="Size.Small" />
+            </MudTooltip>
+            <MudTooltip Delay="500" Text="Start Report" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ActionOperator.StartReportAsync(context.Item))"
+                               Icon="@Icons.Material.Filled.Start"
+                               Color="Color.Primary"
+                               Variant="Variant.Outlined"
+                               Size="Size.Small" />
+            </MudTooltip>
+        </MudStack>
+    </CellTemplate>
+</TemplateColumn>
+
+@code {
+    [Parameter] public IReportOperator ActionOperator { get; set; }
+}

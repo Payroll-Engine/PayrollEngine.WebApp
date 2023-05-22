@@ -1,0 +1,44 @@
+﻿@inherits FieldEditorBase;
+
+<MudSelect T="int?"
+           @bind-Value="Field.ValueAsInteger"
+           Culture="@Culture"
+           Label="@ValueLabel"
+           HelperText="@ValueHelp"
+           Error="@Error"
+           Disabled="@ValuesDisabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError"
+           Adornment="@ValueAdornment"
+           AdornmentText="@ValueAdornmentText">
+    @foreach (var month in Months)
+    {
+        <MudSelectItem T="int?" Value="@month.Item1">@month.Item2</MudSelectItem>
+    }
+</MudSelect>
+
+@code
+{
+    protected override string ValueLabel { get; set; }
+    private List<Tuple<int, string>> Months { get; } = new();
+
+    protected bool ValuesDisabled =>
+        Disabled || !Months.Any();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // label
+        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? "Month";
+
+        // month names
+        var monthNames = Culture.DateTimeFormat.MonthNames.
+            Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+        for (var i = 0; i < monthNames.Count; i++)
+        {
+            Months.Add(new(i + 1, monthNames[i]));
+        }
+
+        await base.OnInitializedAsync();
+    }
+}

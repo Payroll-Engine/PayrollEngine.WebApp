@@ -1,0 +1,20 @@
+﻿@inherits LookupFieldEditorBase;
+
+<MudSelect T="decimal?"
+           @bind-Value="Field.ValueAsDecimal"
+           Culture="@Culture"
+           Label="@ValueLabel"
+           HelperText="@ValueHelp"
+           Error="@Error"
+           Disabled="@ValuesDisabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError">
+    @foreach (var lookupValue in LookupValues)
+    {
+        <MudSelectItem T="decimal?" Value="@lookupValue.GetDecimalValue(ValueFieldName)">
+            @lookupValue.GetStringValue(TextFieldName)
+        </MudSelectItem>
+    }
+</MudSelect>
+

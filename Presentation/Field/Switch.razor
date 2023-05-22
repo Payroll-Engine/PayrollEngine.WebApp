@@ -1,0 +1,18 @@
+﻿@inherits FieldEditorBase;
+
+<MudSwitch T="bool?"
+           @bind-Checked="@Field.ValueAsBoolean"
+           Color="Color.Primary"
+           Culture="@Culture"
+           Label="@ValueLabel"
+           Error="@Error"
+           Disabled="@Disabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError" />
+
+@code
+{
+    [Parameter]
+    public LabelPosition LabelPosition { get; set; } = LabelPosition.Start;
+}

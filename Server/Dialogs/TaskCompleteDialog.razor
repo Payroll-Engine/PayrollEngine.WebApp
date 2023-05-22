@@ -1,0 +1,26 @@
+﻿@using Task = PayrollEngine.WebApp.ViewModel.Task
+
+<MudDialog Style="min-width: 500px;">
+    <DialogContent>
+        <MudStack Spacing="1">
+            <MudTextField T="string" Label="Name" Value="Task.Name" ReadOnly="true" />
+            <MudTextField T="string" Label="Category" Value="Task.Category" ReadOnly="true" />
+            <MudTextField T="string" Label="Instruction" Value="Task.Instruction" Lines="4" ReadOnly="true" />
+            <MudTextField T="DateTime?" Label="Schedule date" Value="Task.Scheduled" ReadOnly="true" />
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Complete">Complete</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Task Task { get; set; } = new();
+
+    void Complete() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

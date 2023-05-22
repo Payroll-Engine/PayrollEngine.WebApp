@@ -1,0 +1,54 @@
+﻿<MudDialog Class="attribute-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudStack Spacing="1">
+                <MudTextField T="string" @bind-Value="Query.Name"
+                              Label="Name"
+                              Validation="@(new Func<string, string>(ValidateName))"
+                              Required="true" RequiredError="Name is required" />
+                <MudTextField T="string" @bind-Value="Query.Value"
+                              Label="Value"
+                              Lines="3"
+                              Required="true" RequiredError="Value is required" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public IDictionary<string, string> Queries { get; set; }
+    [Parameter] public ReportQuery Query { get; set; } = new();
+
+    private string ValidateName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return "Name is required";
+        }
+
+        if (Queries != null && Queries.ContainsKey(name))
+        {
+            return "Name already in use";
+        }
+        return null;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(Query));
+        }
+    }
+}

@@ -1,0 +1,186 @@
+﻿@using PayrollEngine.Client.Service
+@using PayrollEngine.Client.Model
+@using PayrollEngine.WebApp.ViewModel
+@using PayrunJob = PayrollEngine.WebApp.ViewModel.PayrunJob
+@using Task = System.Threading.Tasks.Task
+@using User = PayrollEngine.WebApp.User
+@using Employee = PayrollEngine.WebApp.ViewModel.Employee
+@using Log = PayrollEngine.Log
+
+<MudDialog Style="min-width: 500px;">
+    <DialogContent>
+        <MudStack Spacing="0">
+            <MudSimpleTable>
+                <tbody>
+                    @if (!string.IsNullOrWhiteSpace(Setup.ForecastName))
+                    {
+                        <tr>
+                            <td style="width: 20%">Forecast name</td>
+                            <td>@Setup.ForecastName</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td style="width: 20%">Payrun Job</td>
+                        <td>@Setup.JobName</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%">User</td>
+                        <td>@User.FullName</td>
+                    </tr>
+                    @if (Employees != null && Employees.Any())
+                    {
+                        <tr>
+                            <td>Employees</td>
+                            <td>@(Employees.Count) Employees</td>
+                        </tr>
+                    }
+                    @if (Setup.Parameters != null && Setup.Parameters.Any())
+                    {
+                        <tr>
+                            <td style="width: 40%">Parameters</td>
+                            <td>@(Setup.Parameters.Count) Parameters</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td style="width: 40%">Reason</td>
+                        <td>@Setup.Reason</td>
+                    </tr>
+                </tbody>
+            </MudSimpleTable>
+
+            <div class="py-8">
+                @if (Executing)
+                {
+                    <MudText Class="pb-4">
+                        Executing...
+                    </MudText>
+                    <MudProgressLinear Color="Color.Info" Rounded="true"
+                                   Class="mud-table-loading-progress"
+                                   Indeterminate="true" Size="Size.Large" />
+                }
+                @if (Failed)
+                {
+                    <MudText Class="pb-4" Color="Color.Error">
+                        Payrun execution failure
+                    </MudText>
+                }
+                @if (Completed)
+                {
+                    <MudText Class="pb-4" Color="Color.Success">
+                        Payrun job completed successfully
+                    </MudText>
+                }
+            </div>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            @if (!Completed && !Failed)
+            {
+                <MudButton Variant="Variant.Outlined" OnClick="Cancel"
+                       Disabled="@Executing">Cancel</MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Tertiary"
+                       Disabled="@Executing" OnClick="Start">Start</MudButton>
+            }
+            @if (Completed || Failed)
+            {
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                       OnClick="Close">Close</MudButton>
+            }
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<Employee> Employees { get; set; }
+    [Parameter] public Client.Model.Tenant Tenant { get; set; }
+    [Parameter] public User User { get; set; }
+    [Parameter] public Client.Model.Payroll Payroll { get; set; }
+    [Parameter] public int PayrunId { get; set; }
+    [Parameter] public PayrunJobSetup Setup { get; set; }
+
+    [Inject]
+    protected IPayrunJobService PayrunJobService { get; set; }
+    [Inject]
+    protected IUserNotificationService UserNotification { get; set; }
+
+    private bool Executing { get; set; }
+    private bool Completed { get; set; }
+    private bool Failed { get; set; }
+
+    void Cancel() => MudDialog.Cancel();
+    void Close()
+    {
+        if (Completed)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        MudDialog.Close(DialogResult.Cancel());
+    }
+
+    async Task Start()
+    {
+        if (!Setup.Period.HasValue)
+        {
+            return;
+        }
+
+        try
+        {
+            Executing = true;
+            StateHasChanged();
+
+            // ensure UTC without the same date and time
+            var jobPeriod = DateTime.SpecifyKind(Setup.Period.Value, DateTimeKind.Utc);
+
+            // employees
+            List<string> employeeIdentifiers = null;
+            if (Employees != null &&
+                Setup.SelectedEmployees != null &&
+                Setup.SelectedEmployees.Any())
+            {
+                employeeIdentifiers = Employees.
+                    Where(employee => Setup.SelectedEmployees.Any(selected => selected.Id == employee.Id)).
+                    Select(employee => employee.Identifier).ToList();
+            }
+
+            // new payrun job
+            var jobInvocation = new PayrunJobInvocation
+                {
+                    PayrunId = PayrunId,
+                    PayrollId = Payroll.Id,
+                    UserId = User.Id,
+                    Name = Setup.JobName,
+                    Forecast = Setup.ForecastName,
+                    PeriodStart = jobPeriod,
+                    EmployeeIdentifiers = employeeIdentifiers,
+                    Attributes = Setup.Parameters.ToDictionary(p => p.Name, p => p.GetValueByValueType()),
+                    Reason = Setup.Reason,
+                    // automatic retro mode
+                    RetroPayMode = RetroPayMode.ValueChange
+                };
+
+            // add payrun job
+            var result = await PayrunJobService.StartJobAsync<PayrunJob>(new(Tenant.Id), jobInvocation);
+            if (result == null)
+            {
+                await UserNotification.ShowErrorMessageBoxAsync("Payrun job start", "Payrun job start failed");
+            }
+
+            // expected exit
+            Executing = false;
+            Completed = true;
+            StateHasChanged();
+        }
+        catch (Exception exception)
+        {
+            // failed
+            Log.Error(exception, exception.GetBaseMessage());
+            Executing = false;
+            Failed = true;
+            StateHasChanged();
+        }
+    }
+}

@@ -1,0 +1,61 @@
+﻿@page "/tasks"
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Task, Query, PayrollEngine.WebApp.Server.Dialogs.TaskDialog>
+
+@if (!HasFeature(Feature.Tasks))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Tasks</MudText>
+
+<div class="d-flex flex-wrap justify-end mt-4">
+    <MudStack Row="true" Spacing="0" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+        <MudTooltip Delay="500" Text="Show or hide completed tasks" Placement="Placement.Top">
+            <MudSwitch T="bool" Checked="@CompletedTasks" @onclick="@(ToggleTasksFilterAsync)"
+                       LabelPosition="LabelPosition.Start" Color="Color.Primary">Show completed</MudSwitch>
+        </MudTooltip>
+    </MudStack>
+</div>
+<MudDataGrid @ref="ItemsGrid" T="ViewModel.Task"
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple" 
+             Filterable="true"
+             Hideable="true"
+             ShowColumnOptions="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.GetLocalizedName(User.Language)" />
+        <PropertyColumn Property="x => x.Category" />
+        <PropertyColumn Property="x => x.InstructionText" ShowColumnOptions="false" Title="Instruction"
+                        ShowFilterIcon="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Scheduled"
+                        InitialDirection="SortDirection.Ascending">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Scheduled)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Completed" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <CustomColumns T="ViewModel.Task" Columns="ColumnConfiguration" />
+        <TaskActionsColumn ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="ViewModel.Task" />
+    </PagerContent>
+    <NoRecordsContent>
+        No tasks available
+    </NoRecordsContent>
+</MudDataGrid>

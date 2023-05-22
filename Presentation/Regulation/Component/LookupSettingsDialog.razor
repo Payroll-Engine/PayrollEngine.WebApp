@@ -1,0 +1,79 @@
+﻿@using PayrollEngine.Client.Model
+@using PayrollEngine.Client.Service
+@using PayrollEngine.WebApp.ViewModel
+@using Payroll = PayrollEngine.Client.Model.Payroll
+@using Task = System.Threading.Tasks.Task
+@using Tenant = PayrollEngine.WebApp.ViewModel.Tenant
+
+<MudDialog Class="attribute-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudStack Spacing="1">
+                <MudSelect T="string" Label="Lookup name"
+                @bind-Value="Settings.LookupName"
+                           Disabled="@(!Lookups.Any())"
+                           Required="true" RequiredError="Lookup name is required">
+                    @foreach (var lookup in Lookups)
+                    {
+                        <MudSelectItem T="string" Value="@lookup.Name">
+                            @Language.GetLocalization(lookup.NameLocalizations, lookup.Name)
+                        </MudSelectItem>
+                    }
+                </MudSelect>
+                <MudTextField T="string" @bind-Value="Settings.ValueFieldName"
+                              Label="Value field name"
+                              Required="true" RequiredError="Value field name is required" />
+                <MudTextField T="string" @bind-Value="Settings.TextFieldName"
+                              Label="Text fiels name" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Tenant Tenant { get; set; }
+    [Parameter] public Payroll Payroll { get; set; }
+    [Parameter] public LookupSettings Settings { get; set; } = new();
+    [Parameter] public Language Language { get; set; }
+
+    [Inject] protected IPayrollService PayrollService { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(Settings));
+        }
+    }
+
+    #region Lookups
+
+    private List<RegulationLookup> Lookups { get; set; } = new();
+
+    private async Task SetupLookupsAsync()
+    {
+        var lookups = await PayrollService.GetLookupsAsync<RegulationLookup>(
+            new(Tenant.Id, Payroll.Id));
+        Lookups = lookups;
+    }
+
+    #endregion
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SetupLookupsAsync();
+        await base.OnInitializedAsync();
+    }
+
+}

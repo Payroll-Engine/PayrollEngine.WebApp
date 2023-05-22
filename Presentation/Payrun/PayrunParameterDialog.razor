@@ -1,0 +1,34 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Field
+
+<MudDialog Style="min-width: 500px;">
+    <DialogContent>
+        <MudForm @ref="form">
+            <FieldEditorStack Fields="@Parameters" Language="Language" />
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
+    [Parameter] public Language Language { get; set; }
+
+    void Cancel() => MudDialog.Cancel();
+    private async System.Threading.Tasks.Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+}

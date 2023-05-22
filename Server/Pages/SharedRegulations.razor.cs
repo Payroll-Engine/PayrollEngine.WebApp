@@ -1,0 +1,34 @@
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.ViewModel;
+using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Presentation.BackendService;
+using PayrollEngine.WebApp.Server.Shared;
+
+namespace PayrollEngine.WebApp.Server.Pages;
+
+public partial class SharedRegulations
+{
+    [Inject]
+    protected RegulationShareBackendService RegulationShareBackendService { get; set; }
+    [Inject]
+    protected IDivisionService DivisionService { get; set; }
+
+    protected override string GridId => GetTenantGridId(GridIdentifiers.Payrolls);
+    protected override IBackendService<RegulationShare, Query> BackendService => RegulationShareBackendService;
+    protected override ItemCollection<RegulationShare> Items { get; } = new();
+
+    public SharedRegulations() :
+        base(WorkingItems.None)
+    {
+    }
+
+    protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)
+    {
+        // language
+        parameters.Add(nameof(Language), UserLanguage);
+        return await base.SetupDialogParametersAsync(parameters, operation);
+    }
+}

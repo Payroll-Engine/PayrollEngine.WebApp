@@ -1,0 +1,63 @@
+﻿@inherits FieldEditorBase;
+
+<MudSelect T="int?"
+           @bind-Value="Field.ValueAsInteger"
+           Label="@ValueLabel"
+           HelperText="@ValueHelp"
+           Error="@Error"
+           Disabled="@ValuesDisabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError"
+           Adornment="@ValueAdornment"
+           AdornmentText="@ValueAdornmentText">
+    @foreach (var weekday in Weekdays)
+    {
+        <MudSelectItem T="int?" Value="@weekday.Item1">@weekday.Item2</MudSelectItem>
+    }
+</MudSelect>
+
+@code
+{
+    protected override string ValueLabel { get; set; }
+    private List<Tuple<int, string>> Weekdays { get; } = new();
+
+    protected bool ValuesDisabled =>
+        Disabled || !Weekdays.Any();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // label
+        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? "Day";
+
+        // weekday names
+        var culture = Culture;
+
+        // day names
+        var dayNames = culture.DateTimeFormat.DayNames.ToList();
+
+        // day order
+        var firstDayOfWeek = culture.DateTimeFormat.GetDayName(culture.DateTimeFormat.FirstDayOfWeek);
+        var currentDay = dayNames.First();
+        while (currentDay != null)
+        {
+            if (string.Equals(currentDay, firstDayOfWeek))
+            {
+                break;
+            }
+
+            // move day to the end of the week
+            dayNames.Remove(currentDay);
+            dayNames.Add(currentDay);
+
+            // next day
+            currentDay = dayNames.First();
+        }
+        for (var i = 0; i < dayNames.Count; i++)
+        {
+            Weekdays.Add(new(i, dayNames[i]));
+        }
+
+        await base.OnInitializedAsync();
+    }
+}

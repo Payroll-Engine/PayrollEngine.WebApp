@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollEngine.WebApp.Core", "Core\PayrollEngine.WebApp.Core.csproj", "{385A73CB-57C0-4685-AA42-E1467A382429}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5A80DB4-77AE-4360-94B9-660E85A8CBAA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollEngine.WebApp.ViewModel", "ViewModel\PayrollEngine.WebApp.ViewModel.csproj", "{BBFE4616-2EC0-4FDF-998D-4218FEA10340}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollEngine.WebApp.Server", "Server\PayrollEngine.WebApp.Server.csproj", "{C8F363F8-FDC9-415B-AF87-0E4B4B89C5BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollEngine.WebApp.Presentation", "Presentation\PayrollEngine.WebApp.Presentation.csproj", "{1F8B31B3-CD34-4627-85E6-8294E6409711}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{385A73CB-57C0-4685-AA42-E1467A382429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385A73CB-57C0-4685-AA42-E1467A382429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385A73CB-57C0-4685-AA42-E1467A382429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{385A73CB-57C0-4685-AA42-E1467A382429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBFE4616-2EC0-4FDF-998D-4218FEA10340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBFE4616-2EC0-4FDF-998D-4218FEA10340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBFE4616-2EC0-4FDF-998D-4218FEA10340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBFE4616-2EC0-4FDF-998D-4218FEA10340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8F363F8-FDC9-415B-AF87-0E4B4B89C5BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8F363F8-FDC9-415B-AF87-0E4B4B89C5BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8F363F8-FDC9-415B-AF87-0E4B4B89C5BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8F363F8-FDC9-415B-AF87-0E4B4B89C5BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F8B31B3-CD34-4627-85E6-8294E6409711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F8B31B3-CD34-4627-85E6-8294E6409711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F8B31B3-CD34-4627-85E6-8294E6409711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F8B31B3-CD34-4627-85E6-8294E6409711}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {895DA212-6443-4760-BE72-59456757049E}
+	EndGlobalSection
+EndGlobal

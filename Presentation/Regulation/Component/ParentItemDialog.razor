@@ -1,0 +1,50 @@
+﻿@typeparam T where T : class, IRegulationItem
+
+@using PayrollEngine.WebApp.ViewModel
+<MudDialog DisableSidePadding="true" Style="min-width: 400px">
+    <DialogContent>
+        <div class="px-6">
+            <MudStack Class="border rounded" Style="max-height: 300px; overflow-y: scroll">
+                <MudList @ref="list"
+                         Dense="true"
+                         Clickable="true"
+                         @ondblclick="@Submit"
+                         SelectedValueChanged="SelectedValueChanged">
+                    @foreach (var item in Items)
+                    {
+                        <MudListItem T="string" Value="@item.Name" Text="@item.InheritanceKey" />
+                    }
+                </MudList>
+            </MudStack>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudList list;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<T> Items { get; set; } = new();
+
+    private string SelectedValue { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void Submit()
+    {
+        if (string.IsNullOrWhiteSpace(SelectedValue))
+        {
+            MudDialog.Cancel();
+        }
+        MudDialog.Close(DialogResult.Ok(SelectedValue));
+    }
+
+    private void SelectedValueChanged(object obj) =>
+        SelectedValue = obj as string;
+}

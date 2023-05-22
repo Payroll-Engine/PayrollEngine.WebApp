@@ -1,0 +1,8 @@
+﻿<MudSwitch T="bool"
+           Label="@Item.GetItemLabel(Field)"
+           Color="@Color"
+           Checked="@Value"
+           CheckedChanged="ValueChangedAsync"
+           ReadOnly="@Item.IsReadOnlyField(Field)"
+           Required="@Field.Required"
+           RequiredError="@Field.RequiredError" />

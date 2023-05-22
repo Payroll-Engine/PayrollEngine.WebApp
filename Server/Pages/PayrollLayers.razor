@@ -1,0 +1,67 @@
+﻿@page "/payrolllayers"
+@using PayrollEngine.WebApp.ViewModel
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.PayrollLayer, Query, PayrollEngine.WebApp.Server.Dialogs.PayrollLayerDialog>
+
+@if (!HasFeature(Feature.PayrollLayers))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Payroll Layers</MudText>
+
+@if (!HasTenant)
+{
+    <div>Please select a tenant</div>
+    return;
+}
+@if (!HasPayroll)
+{
+    <div>Please select a payroll</div>
+    return;
+}
+
+<MudDataGrid @ref="ItemsGrid" T="PayrollLayer"
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true" 
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Status" />
+        <PropertyColumn Property="x => x.Level" InitialDirection="SortDirection.Descending" />
+        <PropertyColumn Property="x => x.Priority" InitialDirection="SortDirection.Descending" />
+        <PropertyColumn Property="x => x.RegulationName" Title="Regulation" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <TemplateColumn T="PayrollLayer" Title="Order">
+            <CellTemplate>
+                @{
+                    var orderValidation = ValidateLayerOrder(context.Item);
+                    if (!string.IsNullOrWhiteSpace(orderValidation))
+                    {
+                        <MudText>@orderValidation</MudText>
+                    }
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <ItemActionsColumn T="PayrollLayer" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="PayrollLayer" />
+    </PagerContent>
+    <NoRecordsContent>
+        No payroll layer available
+    </NoRecordsContent>
+</MudDataGrid>

@@ -1,0 +1,39 @@
+﻿@inherits FieldEditorBase;
+
+<MudNumericField T="int?"
+                 @bind-Value="@Field.ValueAsInteger"
+                 Format="@Format"
+                 Culture="@Culture"
+                 Min="@MinValue"
+                 Max="@MaxValue"
+                 Step="@StepSize"
+                 Label="@ValueLabel"
+                 HelperText="@ValueHelp"
+                 Error="@Error"
+                 Disabled="@Disabled"
+                 ReadOnly="@ReadOnly"
+                 Required="@Required"
+                 RequiredError="@ValueRequiredError"
+                 Adornment="@ValueAdornment"
+                 AdornmentText="@ValueAdornmentText" />
+
+@code
+{
+    private int? MinValue { get; set; }
+    private int? MaxValue { get; set; }
+    private int? StepSize { get; set; }
+    private string Format { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // range
+        MinValue = Field.Attributes.GetMinIntegerValue(Language);
+        MaxValue = Field.Attributes.GetMaxIntegerValue(Language);
+        StepSize = Field.Attributes.GetIntegerStepSize(Language);
+
+        // format
+        Format = Field.Attributes.GetFormat(Language);
+
+        await base.OnInitializedAsync();
+    }
+}

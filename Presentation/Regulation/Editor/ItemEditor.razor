@@ -1,0 +1,192 @@
+﻿@using PayrollEngine.WebApp.Presentation.Regulation.Component
+
+@if (HasItem)
+{
+    <MudPaper Row="true" Class="d-flex flex-grow-1 border-solid border mud-border-primary pa-4"
+              Elevation="0">
+        <MudStack Row="false" Spacing="0">
+            <table>
+                @{
+                    const string labelStyle = "text-align: right; padding-right: 8px; line-height: normal; vertical-align: bottom;";
+                    <tr>
+                        <td style="@labelStyle">
+                            <MudText Typo="Typo.caption">@EditItem.InheritanceType @ItemTypeName</MudText>
+                        </td>
+                        <td>
+                            <MudText Typo="Typo.body1">@ItemTitle</MudText>
+                        </td>
+                    </tr>
+                    @if (EditItem.IsChildItem)
+                    {
+                        <tr>
+                            <td style="@labelStyle">
+                                <MudText Typo="Typo.caption">@ParentTypeName</MudText>
+                            </td>
+                            <MudText Typo="Typo.body1">@EditItem.Parent.InheritanceKey</MudText>
+                        </tr>
+                    }
+                    <tr>
+                        <td style="@labelStyle">
+                            <MudText Typo="Typo.caption">Regulation</MudText>
+                        </td>
+                        <td>
+                            <MudText Typo="Typo.body1">
+                                @EditItem.RegulationName
+                                @if (HasBaseItem)
+                                {
+                                    var item = Item.BaseItem;
+                                    while (item != null)
+                                    {
+                                        <span>&nbsp;&#8594;&nbsp;</span>
+                                        @item.RegulationName
+                                        item = item.BaseItem;
+                                    }
+                                }
+                            </MudText>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </MudStack>
+        <MudSpacer />
+        <MudStack Row="false" Spacing="0" Class="d-flex flex-grow-1">
+            <MudText Typo="Typo.caption">Created @ToUiDate(EditItem.Created)</MudText>
+            <MudText Typo="Typo.caption">Updated @ToUiDate(EditItem.Updated)</MudText>
+            <MudText Typo="Typo.caption">
+                @EditItem.Status
+                @if (HasId)
+                {
+                    <span>&nbsp;&#x2022;&nbsp;Id @EditItem.Id</span>
+                }
+            </MudText>
+        </MudStack>
+        <MudStack Row="true">
+            @if (CanDelete())
+            {
+                <MudTooltip Delay="500" Text="@($"Delete {ItemTypeName}")" Placement="Placement.Top">
+                    <MudIconButton @onclick="@OnDeleteItemAsync"
+                                   Color="Color.Secondary" Variant="Variant.Outlined"
+                                   Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                </MudTooltip>
+            }
+            @if (CanSave())
+            {
+                <MudTooltip Delay="500" Text="@($"Save {ItemTypeName}")" Placement="Placement.Top">
+                    <MudIconButton @onclick="@OnSaveItemAsync"
+                                   Disabled="@IsUnchanged"
+                                   Color="Color.Tertiary" Variant="Variant.Outlined"
+                                   Icon="@Icons.Material.Filled.Save" Size="Size.Small" />
+                </MudTooltip>
+            }
+            @if (CanOverride())
+            {
+                <MudTooltip Delay="500" Text="@($"Override {ItemTypeName}")" Placement="Placement.Top">
+                    <MudIconButton @onclick="@OnOverrideItemAsync"
+                                   Color="Color.Tertiary" Variant="Variant.Outlined"
+                                   Icon="@Icons.Material.Filled.PlaylistAdd" Size="Size.Small" />
+                </MudTooltip>
+            }
+        </MudStack>
+    </MudPaper>
+
+    <MudPaper Outlined="true" Class="mt-4">
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true">
+                @{
+                    // common fields
+                    var commonFields = GetCommonFields();
+                    if (commonFields.Any())
+                    {
+                        <MudTabPanel Text="Common">
+                            <MudStack Class="pa-4">
+                                @foreach (var field in commonFields)
+                                {
+                                    <div class="row objectField">
+                                        @if (field.ComponentType != null)
+                                        {
+                                            <DynamicComponent Type="@field.ComponentType"
+                                                              Parameters="@GetComponentParameters(field)" />
+                                        }
+                                    </div>
+                                }
+                            </MudStack>
+                        </MudTabPanel>
+                    }
+
+                    // common grouped fields
+                    var groupFields = GetGroupFields();
+                    foreach (var groupField in groupFields)
+                    {
+                        <MudTabPanel Text="@groupField.Item1.ToPascalSentence()">
+                            <MudStack Class="pa-4">
+                                @foreach (var field in groupField.Item2)
+                                {
+                                    <div class="row objectField">
+                                        @if (field.ComponentType != null)
+                                        {
+                                            <DynamicComponent Type="@field.ComponentType"
+                                                              Parameters="@GetComponentParameters(field)" />
+                                        }
+                                    </div>
+                                }
+                            </MudStack>
+                        </MudTabPanel>
+                    }
+
+                    // action fields
+                    var actionFields = GetActionFields();
+                    if (actionFields.Any())
+                    {
+                        <MudTabPanel Text="Actions">
+                            <MudStack Class="pa-4">
+                                @foreach (var field in actionFields)
+                                {
+                                    <ActionGrid Item="EditItem"
+                                                Field="field"
+                                                EditContext="EditContext"
+                                                ValueChanged="UpdateState">
+                                    </ActionGrid>
+                                }
+                            </MudStack>
+                        </MudTabPanel>
+                    }
+
+                    // expression fields
+                    var scriptFields = GetExpressionFields();
+                    if (scriptFields.Any())
+                    {
+                        <MudTabPanel Text="Scripts">
+                            <MudStack Class="pa-4 gap-4">
+                                @foreach (var field in scriptFields)
+                                {
+                                    @if (field.Expression)
+                                    {
+                                        <TextBox Item="EditItem"
+                                                 Field="field"
+                                                 Variant="Variant.Outlined"
+                                                 ValueChanged="UpdateState"
+                                                 HelperText="C# expression" />
+                                    }
+                                }
+                            </MudStack>
+                        </MudTabPanel>
+                    }
+
+                    // attributes field
+                    if (Item is IAttributeObject && HasAttributeField)
+                    {
+                        <MudTabPanel Text="Attributes">
+                            <MudStack Class="pa-4 gap-4">
+                                <RegulationAttributeGrid EditContext="EditContext"
+                                                         Item="EditItem"
+                                                         Field="AttributeField"
+                                                         ValueChanged="UpdateState">
+                                </RegulationAttributeGrid>
+                            </MudStack>
+                        </MudTabPanel>
+                    }
+                }
+            </MudTabs>
+        </MudForm>
+    </MudPaper>
+}

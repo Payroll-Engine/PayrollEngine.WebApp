@@ -1,0 +1,57 @@
+﻿@inherits PayrollEngine.WebApp.Presentation.Field.DateTimePickerBase
+
+<MudDatePicker @ref="@datePicker"
+               Date="@Date"
+               DateChanged="DateChanged"
+               MinDate="@MinDate"
+               MaxDate="@MaxDate"
+               DateFormat="@Format"
+               Label="@Label"
+               Mask="@Mask"
+               ReadOnly="@ReadOnly"
+               Error="@Error"
+               Required="@Required"
+               RequiredError="@RequiredError"
+               HelperText="@Help"
+               Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+               Variant="@Variant"
+               Class="@Class"
+               Style="@Style"
+               Editable="true" />
+
+@code {
+    MudDatePicker datePicker;
+
+    [Parameter] public DateTime? Date { get; set; }
+    [Parameter] public EventCallback<DateTime?> DateChanged { get; set; }
+    [Parameter] public DateTime? MinDate { get; set; }
+    [Parameter] public DateTime? MaxDate { get; set; }
+    [Parameter] public IMask Mask { get; set; }
+
+    private string Label { get; set; }
+    private string Format { get; set; }
+    private string RequiredError { get; set; }
+    private string Help { get; set; }
+    private bool ReadOnly { get; set; }
+
+    private bool Required => Field.ValueMandatory;
+    private bool Error => !Field.Validator.ValidateStart();
+
+    protected override DatePickerType DatePickerType =>
+        Attributes.GetStartPickerOpen(Language) ?? DatePickerType.Day;
+
+    protected override DateTimeType DateTimeType =>
+        Attributes.GetStartPickerType(Language) ?? DateTimeType.DatePicker;
+
+    protected override Task OnInitializedAsync()
+    {
+        Label = Attributes.GetStartLabel(Language) ?? "Start";
+        Format = Attributes.GetStartFormat(Language) ??
+                     Culture.DateTimeFormat.ShortDatePattern;
+        RequiredError = Attributes.GetStartRequired(Language);
+        Help = Attributes.GetStartHelp(Language);
+        ReadOnly = Attributes.GetStartReadOnly(Language) ?? false;
+
+        return base.OnInitializedAsync();
+    }
+}

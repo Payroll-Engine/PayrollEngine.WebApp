@@ -1,0 +1,168 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Field
+@using Microsoft.AspNetCore.Components
+
+@inherits MainComponentBase
+
+<MudStack Spacing="0" Class="pt-4">
+
+    @* field header *@
+    <div class="d-flex">
+
+        @* field name *@
+        <MudTooltip Delay="500" Text="@Field.GetLocalizedDescription(Language)" Placement="Placement.Top">
+            <MudText Class="pr-4">@Field.GetLocalizedName(Language)</MudText>
+        </MudTooltip>
+
+        @* field actions *@
+        <div class="d-flex flex-grow-1 justify-end">
+
+            @* case change history *@
+            @if (HistoryValuesAvailable)
+            {
+                <MudTooltip Delay="500" Placement="Placement.Top">
+                    <ChildContent>
+                        <MudIcon Color="Color.Primary"
+                                 Class="mx-1"
+                                 Icon="@Icons.Material.Outlined.History" />
+                    </ChildContent>
+                    <TooltipContent>
+                        <MudStack Class="pa-2">
+                            <MudText Typo="Typo.h5" Align="Align.Start">Change History</MudText>
+                            <table>
+                                <tr>
+                                    <th style="text-align: left">Start</th>
+                                    <th style="text-align: left">End</th>
+                                    <th style="text-align: right">Value</th>
+                                </tr>
+                                @foreach (var historyValue in Field.HistoryValues)
+                                {
+                                    <tr>
+                                        <td>
+                                            <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
+                                                @historyValue.Start?.ToCompactString()
+                                            </MudText>
+                                        </td>
+                                        <td>
+                                            <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
+                                                @historyValue.End?.ToCompactString()
+                                            </MudText>
+                                        </td>
+                                        <td>
+                                            <MudText Typo="Typo.body2" Align="Align.End">
+                                                @Field.ValueFormatter.ToString(historyValue.Value, historyValue.ValueType)
+                                            </MudText>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </MudStack>
+                    </TooltipContent>
+                </MudTooltip>
+            }
+
+            @* attachments *@
+            @if (AttachmentsSupported)
+            {
+                <MudTooltip Delay="500" Text="Field documents" Placement="Placement.Top">
+                    @* attachment color: missing mandatory (error), available (tertiary) and empty (primary) *@
+                    <MudIconButton @onclick="@(() => EditAttachmentsAsync(Field))"
+                                   Color="@(!AttachmentsValid ?
+                                          Color.Error :
+                                          AttachmentsAvailable ?
+                                              Color.Tertiary :
+                                              Color.Primary)"
+                                   Variant="Variant.Outlined"
+                                   Class="ml-2"
+                                   Style="zoom: 0.8"
+                                   Icon="@Icons.Material.Filled.AttachFile"
+                                   Size="Size.Small" />
+                </MudTooltip>
+            }
+        </div>
+    </div>
+
+    @* field description *@
+    @if (!string.IsNullOrWhiteSpace(Field.Description) && (Field.Attributes.GetShowDescription(Language) ?? false))
+    {
+        <div>@Field.GetDescriptionMarkup()</div>
+    }
+
+    @* field inputs: start, end and value *@
+    <MudStack Row="true" Spacing="0" Class="d-flex">
+        @* field start *@
+        <div style="width: 25%; align-self: flex-end;">
+            @if (Field.StartAvailable())
+            {
+                var pickerType = Field.Attributes.GetStartPickerType(Language) ?? DateTimeType.DatePicker;
+                if (pickerType is DateTimeType.DatePicker)
+                {
+                    <CaseStartDatePicker @bind-Date="@Field.Start"
+                                         Field="@Field"
+                                         Language="@Language"
+                                         Attributes="@Field.Attributes"
+                                         MaxDate="@Field.End"
+                                         Dense="@Dense"
+                                         Variant="@Variant" />
+                }
+                else if (pickerType == DateTimeType.DateTimePicker)
+                {
+                    <CaseStartDateTimePicker @bind-DateTime="@Field.Start"
+                                             Field="@Field"
+                                             Language="@Language"
+                                             Attributes="@Field.Attributes"
+                                             MaxDate="@Field.End"
+                                             Dense="@Dense"
+                                             Variant="@Variant" />
+                }
+            }
+        </div>
+
+        @* field end *@
+        <div class="pl-4" style="width: 25%; align-self: flex-end;">
+            @if (Field.EndAvailable())
+            {
+                var pickerType = Field.Attributes.GetEndPickerType(Language);
+                if (pickerType is null or DateTimeType.DatePicker)
+                {
+                    <CaseEndDatePicker @bind-Date="@Field.End"
+                                       Field="@Field"
+                                       Language="@Language"
+                                       Attributes="@Field.Attributes"
+                                       MinDate="@Field.Start"
+                                       Dense="@Dense"
+                                       Variant="@Variant" />
+                }
+                else if (pickerType == DateTimeType.DateTimePicker)
+                {
+                    <CaseEndDateTimePicker @bind-DateTime="@Field.End"
+                                           Field="@Field"
+                                           Language="@Language"
+                                           Attributes="@Field.Attributes"
+                                           MinDate="@Field.Start"
+                                           Dense="@Dense"
+                                           Variant="@Variant" />
+                }
+            }
+        </div>
+
+        @* field value *@
+        <div style="width: 50%;">
+            @if (Field.ValueTypeAvailable())
+            {
+                <div class="d-flex flex-grow-1 justify-end pl-8">
+                    @if (Field.LookupSettings == null)
+                    {
+                        // regular case field
+                        <FieldEditor Field="@Field" Language="Language" />
+                    }
+                    else
+                    {
+                        // lookup case field
+                        <LookupEditor Field="@Field" Language="@Language" />
+                    }
+                </div>
+            }
+        </div>
+    </MudStack>
+</MudStack>

@@ -1,0 +1,64 @@
+﻿@using CaseChangeCaseValue = PayrollEngine.WebApp.ViewModel.CaseChangeCaseValue
+
+<MudDialog style="min-width: 40em">
+    <DialogContent>
+        @if (CaseChangeValues.Any())
+        {
+            var caseChange = CaseChangeValues.First();
+            <MudSimpleTable Dense="true" Class="py-4">
+                <tbody>
+                    <tr>
+                        <td style="width: 30%">User</td>
+                        <td>@caseChange.UserIdentifier</td>
+                    </tr>
+                    <tr>
+                        <td>Created</td>
+                        <td>@caseChange.Created.ToCompactString()</td>
+                    </tr>
+                    <tr>
+                        <td>Reason</td>
+                        <td>@caseChange.Reason</td>
+                    </tr>
+                </tbody>
+            </MudSimpleTable>
+            <MudSimpleTable Dense="true" Class="py-4">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var caseValue in CaseChangeValues)
+                    {
+                        <tr>
+                            <td style="width: 30%">@Language.GetLocalization(caseValue.CaseFieldNameLocalizations, caseValue.CaseFieldName)</td>
+                            <td>@ValueFormatter.ToString(caseValue.Value, caseValue.ValueType)</td>
+                        </tr>
+                    }
+                </tbody>
+            </MudSimpleTable>
+        }
+        else
+        {
+            <span>No case values available</span>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Undo</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<CaseChangeCaseValue> CaseChangeValues { get; set; } = new();
+    [Parameter] public IValueFormatter ValueFormatter { get; set; }
+    [Parameter] public Language Language { get; set; }
+    //[Parameter] public CultureInfo Culture { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+}

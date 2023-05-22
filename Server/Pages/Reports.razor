@@ -1,0 +1,54 @@
+﻿@page "/reports"
+@using PayrollEngine.WebApp
+@using PayrollEngine.WebApp.ViewModel
+
+@inherits PayrollEngine.WebApp.Presentation.PageBase
+
+@if (!HasFeature(Feature.Reports))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Reports</MudText>
+
+@if (!HasPayroll)
+{
+    <div>Please select a payroll</div>
+    return;
+}
+
+@* reports grid *@
+<MudDataGrid T="Report"
+             Items="ReportSets"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             Filterable="true"
+             Groupable="false"
+             Hideable="false"
+             ShowColumnOptions="false"
+             SortMode="SortMode.Multiple">
+    <Columns>
+        <PropertyColumn Property="x => x.GetLocalizedName(UserLanguage)", Title="Name" />
+        <PropertyColumn Property="x => x.Description" />
+        <PropertyColumn Property="x => x.Category" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <CustomColumns T="Report" Columns="ColumnConfiguration" />
+        <ReportActionsColumn ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Report" />
+    </PagerContent>
+    <NoRecordsContent>
+        No reports available
+    </NoRecordsContent>
+</MudDataGrid>

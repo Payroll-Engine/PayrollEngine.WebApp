@@ -1,0 +1,19 @@
+﻿@inherits LookupFieldEditorBase;
+
+<MudSelect T="int?"
+           @bind-Value="Field.ValueAsInteger"
+           Culture="@Culture"
+           Label="@ValueLabel"
+           HelperText="@ValueHelp"
+           Error="@Error"
+           Disabled="@ValuesDisabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError">
+    @foreach (var lookupValue in LookupValues)
+    {
+        <MudSelectItem T="int?" Value="@lookupValue.GetIntegerValue(ValueFieldName)">
+            @lookupValue.GetStringValue(TextFieldName)
+        </MudSelectItem>
+    }
+</MudSelect>

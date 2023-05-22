@@ -1,0 +1,46 @@
+﻿@page "/employees"
+@using PayrollEngine.WebApp.ViewModel
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Employee, PayrollEngine.Client.Model.DivisionQuery, PayrollEngine.WebApp.Server.Dialogs.EmployeeDialog>
+
+@if (!HasFeature(Feature.Employees))
+{
+    NavigateHome();
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Employees</MudText>
+
+<MudDataGrid @ref="ItemsGrid" T="Employee" 
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true" 
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Status" />
+        <PropertyColumn Property="x => x.Identifier" />
+        <PropertyColumn Property="x => x.FirstName" Title="First name" />
+        <PropertyColumn Property="x => x.LastName" Title="Last name" />
+        <PropertyColumn Property="x => x.DivisionsAsString" Title="Division" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <CustomColumns T="Employee" Columns="ColumnConfiguration" />
+        <ItemActionsColumn T="Employee" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Employee" />
+    </PagerContent>
+    <NoRecordsContent>
+        No employees available
+    </NoRecordsContent>
+</MudDataGrid>

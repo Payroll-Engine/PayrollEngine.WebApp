@@ -1,0 +1,19 @@
+﻿@inherits LookupFieldEditorBase;
+
+<MudSelect T="DateTime?"
+           @bind-Value="Field.ValueAsDateTime"
+           Culture="@Culture"
+           Label="@ValueLabel"
+           HelperText="@ValueHelp"
+           Error="@Error"
+           Disabled="@ValuesDisabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError">
+    @foreach (var lookupValue in LookupValues)
+    {
+        <MudSelectItem T="DateTime?" Value="@lookupValue.GetDateTimeValue(ValueFieldName)">
+            @lookupValue.GetStringValue(TextFieldName)
+        </MudSelectItem>
+    }
+</MudSelect>

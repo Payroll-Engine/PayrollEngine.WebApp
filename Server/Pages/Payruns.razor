@@ -1,0 +1,43 @@
+﻿@page "/payruns"
+@using PayrollEngine.WebApp.ViewModel
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<Payrun, Query, PayrollEngine.WebApp.Server.Dialogs.PayrunDialog>
+
+@if (!HasFeature(Feature.Payruns))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Payruns</MudText>
+
+<MudDataGrid @ref="ItemsGrid" T="Payrun" 
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true"
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.PayrollName" Sortable="false" Title="Payroll"
+                        Filterable="false" ShowFilterIcon="false" />
+        <PropertyColumn Property="x => x.DefaultReason" Title="Default reason" />
+        <PropertyColumn Property="x => x.RetroTimeType" Title="Retro time type" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <ItemActionsColumn T="Payrun" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Payrun" />
+    </PagerContent>
+</MudDataGrid>

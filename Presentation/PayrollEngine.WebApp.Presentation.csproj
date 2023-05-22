@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<AssemblyName>PayrollEngine.WebApp.Presentation</AssemblyName>
+		<RootNamespace>PayrollEngine.WebApp.Presentation</RootNamespace>
+		<Authors>Jani Giannoudis</Authors>
+		<Company>Software Consulting Giannoudis</Company>
+		<Product>Payroll Engine</Product>
+		<Description>Payroll Engine Web Application Presentation Library</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-pre-230522" />
+		<PackageReference Include="MudBlazor" Version="6.2.2" />
+		<PackageReference Include="NPOI" Version="2.6.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ViewModel\PayrollEngine.WebApp.ViewModel.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Microsoft.Extensions.Hosting.Abstractions">
+			<HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.5\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="wwwroot\" />
+	</ItemGroup>
+
+</Project>

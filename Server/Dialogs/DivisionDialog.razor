@@ -1,0 +1,61 @@
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Division>
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Server.Components
+@using Task = System.Threading.Tasks.Task;
+
+<MudDialog Class="item-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+                <MudTabPanel Text="Common">
+                    <MudStack Spacing="1">
+                        <LocalizationTextField @bind-Value="Division.Name"
+                                               Item="@Division"
+                                               PropertyName="@nameof(Division.Name)"
+                                               MaxLength="@SystemSpecification.KeyTextLength"
+                                               ReadOnly="@Division.IsExistingObject"
+                                               Label="@(Division.IsNewObject ? "Name (immutable)" : "Name")"
+                                               Validation="@(!string.IsNullOrWhiteSpace(Division.Name))"
+                                               Required="true" RequiredError="Name is required" />
+                        <MudSelect T=" string" @bind-Value="Division.Culture"
+                                   Label="Culture"
+                                   Required="true" RequiredError="Culture is required">
+                            @foreach (var cultureName in CultureNames)
+                            {
+                                <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <ItemBaseFields Item="Division" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="Attributes">
+                    <AttributesGrid Item="Division" Class="attributes-grid" />
+                </MudTabPanel>
+            </MudTabs>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="Division" FormValidator="this" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Division Division { get; set; } = new();
+
+    private List<string> CultureNames { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // cultures
+        CultureNames = CultureTool.GetSpecificCultureNames();
+        await base.OnInitializedAsync();
+    }
+
+    public async Task<bool> ValidateAsync(Division division) =>
+        await form.Revalidate();
+}

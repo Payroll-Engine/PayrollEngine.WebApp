@@ -1,0 +1,11 @@
+﻿@inherits FieldEditorBase;
+
+<MudCheckBox T="bool?"
+             @bind-Checked="@Field.ValueAsBoolean"
+             Color="Color.Primary"
+             Label="@ValueLabel"
+             LabelPosition="LabelPosition.Start"
+             Disabled="@Disabled"
+             ReadOnly="@ReadOnly"
+             Required="@Required"
+             Error="@Error" />

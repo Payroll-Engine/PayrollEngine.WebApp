@@ -1,0 +1,14 @@
+﻿@page "/employeecases"
+@inherits PayrollEngine.WebApp.Server.Pages.CasesBase
+
+@if (!HasFeature(Feature.EmployeeCases))
+{
+    NavigateHome();
+    return;
+}
+
+@{
+    // BuildRenderTree needs to be called otherwise inherited HTML won't be rendered.
+    // Might be changed/"fixed" in the future, see: https://github.com/dotnet/aspnetcore/issues/21664
+    base.BuildRenderTree(__builder);
+}

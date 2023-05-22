@@ -1,0 +1,34 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+@using Task = System.Threading.Tasks.Task
+@using PayrollEngine.WebApp.Server.Dialogs
+
+<TemplateColumn T="PayrunJob" ShowColumnOptions="false"
+                ShowFilterIcon="false" Sortable="false">
+    <FilterTemplate />
+    <CellTemplate>
+        <MudStack Row="true" Justify="Justify.FlexEnd" Class="gap-2">
+            <MudTooltip Delay="500" Text="Show Job Details" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ActionOperator.ShowJobAsync(context.Item))"
+                               Icon="@Icons.Material.Outlined.Info"
+                               Color="Color.Primary"
+                               Variant="Variant.Outlined"
+                               Size="Size.Small" />
+            </MudTooltip>
+            @if (Forecast)
+            {
+                <MudTooltip Delay="500" Text="Copy Job to Forecast" Placement="Placement.Top">
+                    <MudIconButton @onclick="@(() => ActionOperator.CopyForecastJobAsync(context.Item))"
+                               Icon="@Icons.Material.Filled.AutoGraph"
+                               Color="Color.Primary"
+                               Variant="Variant.Outlined"
+                               Size="Size.Small" />
+                </MudTooltip>
+            }
+        </MudStack>
+    </CellTemplate>
+</TemplateColumn>
+
+@code {
+    [Parameter] public IPayrunJobOperator ActionOperator { get; set; }
+    [Parameter] public bool Forecast { get; set; }
+}

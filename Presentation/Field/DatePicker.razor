@@ -1,0 +1,41 @@
+﻿@inherits FieldEditorBase
+
+<MudDatePicker @bind-Date="@Field.ValueAsDateTime"
+               DateFormat="@DateFormat"
+               Culture="@Culture"
+               MinDate="@MinValue"
+               MaxDate="@MaxValue"
+               Editable="true"
+               OpenTo="@OpenTo"
+               Label="@ValueLabel"
+               HelperText="@ValueHelp"
+               Error="@Error"
+               Disabled="@Disabled"
+               ReadOnly="@ReadOnly"
+               Required="@Required"
+               RequiredError="@ValueRequiredError" />
+
+@code {
+
+    private string DateFormat { get; set; }
+    private DateTime? MinValue { get; set; }
+    private DateTime? MaxValue { get; set; }
+    private OpenTo OpenTo { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        DateFormat = Field.Attributes.GetFormat(Language) ??
+                     Culture.DateTimeFormat.ShortDatePattern;
+        MinValue = Field.Attributes.GetMinDateTimeValue(Language);
+        MaxValue = Field.Attributes.GetMaxDateTimeValue(Language);
+
+        OpenTo = (Field.Attributes.GetValuePickerOpen(Language) ?? DatePickerType.Day) switch
+        {
+            DatePickerType.Month => OpenTo.Month,
+            DatePickerType.Year => OpenTo.Year,
+            _ => OpenTo.Date
+        };
+
+        await base.OnInitializedAsync();
+    }
+}

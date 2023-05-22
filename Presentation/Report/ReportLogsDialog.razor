@@ -1,0 +1,63 @@
+﻿@using PayrollEngine.Client.Model
+@using PayrollEngine.Client.Service
+@using ReportSet = PayrollEngine.WebApp.ViewModel.ReportSet
+@using PayrollEngine.Client.QueryExpression;
+@using Task = System.Threading.Tasks.Task
+
+<MudDialog style="min-width: 40em">
+    <DialogContent>
+        <MudDataGrid T="ReportLog" Items="ReportLogs"
+                     Filterable="false"
+                     Dense="true"
+                     SortMode="SortMode.None"
+                     Groupable="false"
+                     ShowColumnOptions="false">
+            <Columns>
+                <PropertyColumn Property="x => x.Message" />
+                <PropertyColumn Property="x => x.User" />
+                <PropertyColumn Property="x => x.Key" />
+                <PropertyColumn Property="x => x.ReportDate" Title="Date">
+                    <CellTemplate>
+                        @ValueFormatter.ToCompactString(context.Item.ReportDate)
+                    </CellTemplate>
+                </PropertyColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="ReportLog" />
+            </PagerContent>
+            <NoRecordsContent>
+                No report logs available
+            </NoRecordsContent>
+        </MudDataGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Tenant Tenant { get; set; }
+    [Parameter] public ReportSet Report { get; set; }
+    [Parameter] public IValueFormatter ValueFormatter { get; set; }
+
+    [Inject]
+    private IReportLogService ReportLogService { get; set; }
+
+    private List<ReportLog> ReportLogs { get; set; } = new();
+
+    private void Close() => MudDialog.Close(DialogResult.Ok(true));
+
+    protected override async Task OnInitializedAsync()
+    {
+        ReportLogs = await ReportLogService.QueryAsync<ReportLog>(
+            new(Tenant.Id), new()
+                {
+                    Filter = new Equals(nameof(ReportLog.ReportName), Report.Name)
+                });
+        await base.OnInitializedAsync();
+    }
+
+}

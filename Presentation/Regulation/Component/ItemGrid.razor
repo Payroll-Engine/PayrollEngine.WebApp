@@ -1,0 +1,82 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+
+@typeparam TParent
+@typeparam TItem
+
+<div class="d-flex flex-grow-1 pb-2">
+    <MudText Typo="Typo.h5">@GetItemTypeName(true)</MudText>
+    <div class="d-flex flex-grow-1 justify-end">
+        <MudTooltip Delay="500" Text="Compact view" Placement="Placement.Top">
+            <MudIconButton @onclick="@ToggleGridDenseAsync"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.ViewCompact"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+        @if (HasParent)
+        {
+            <MudTooltip Delay="500" Text="Expand groups" Placement="Placement.Top">
+                <MudIconButton @onclick="@ExpandItemGroups"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.AccountTree"
+                           Class="ml-2"
+                           Size="Size.Small" />
+            </MudTooltip>
+            <MudTooltip Delay="500" Text="Collapse groups" Placement="Placement.Top">
+                <MudIconButton @onclick="@CollapseItemGroups"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.TableRows"
+                           Class="ml-2"
+                           Size="Size.Small" />
+            </MudTooltip>
+        }
+        <MudTooltip Delay="500" Text="@($"Add new {GetItemTypeName()}")" Placement="Placement.Top">
+            <MudIconButton @onclick="@AddItemAsync"
+                           Color="Color.Tertiary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.Add"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+    </div>
+</div>
+
+<MudDataGrid @ref="ItemsGrid" T="TItem" Items="@Items"
+             SelectedItemChanged="SelectedItemChangedAsync"
+             MultiSelection="false"
+             ShowColumnOptions="false"
+             Groupable="@HasParent"
+             Dense="@Dense"
+             GroupExpanded="true"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             Filterable="true"
+             Hideable="true"
+             RowStyleFunc="@RowStyleHandler"
+             ReadOnly="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.InheritanceKey" Title="@KeyHeader" />
+        @if (HasParent)
+        {
+            <PropertyColumn Property="x => x.ParentInheritanceKey"
+                        Grouping="true" Hidden="true"
+                        Title="@ParentKeyHeader" />
+        }
+        @if (ShowDescription)
+        {
+            <PropertyColumn Property="x => x.Description" Title="Description" />
+        }
+        @if (ShowAdditionalInfo)
+        {
+            <PropertyColumn Property="x => x.GetAdditionalInfo(100)" Title="@AdditionalInfoHeader" />
+        }
+        <PropertyColumn Property="x => x.RegulationName" Title="Regulation" />
+        <PropertyColumn Property="x => x.InheritanceType" Title="Inheritance" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="TItem" />
+    </PagerContent>
+    <NoRecordsContent>
+        @($"No {GetItemTypeName()} available")
+    </NoRecordsContent>
+</MudDataGrid>

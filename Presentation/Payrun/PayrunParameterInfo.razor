@@ -1,0 +1,95 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+<MudTooltip Delay="200" Placement="Placement.Top" RootStyle="width: 100%">
+    <ChildContent>
+        <MudTextField T="string"
+                      ReadOnly="true"
+                      Margin="Margin.Dense"
+                      Value="@Label"
+                      Class="@Class"
+                      Adornment="Adornment.End"
+                      Variant="Variant.Outlined"
+                      AdornmentIcon="@Icons.Material.Filled.Info" />
+    </ChildContent>
+    <TooltipContent>
+        @if (Parameters.Any() || ParameterAttributes.Any())
+        {
+            <MudStack Class="pa-2">
+                <MudText Typo="Typo.h6"
+                     Align="Align.Start">Parameters</MudText>
+                <table>
+                    @if (Parameters != null)
+                    {
+                        foreach (var parameter in Parameters)
+                        {
+                            <tr>
+                                <td>
+                                    <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
+                                        @Language.GetLocalization(parameter.NameLocalizations, parameter.Name)
+                                    </MudText>
+                                </td>
+                                <td>
+                                    <MudText Typo="Typo.body2" Align="Align.End">
+                                        @(parameter.Value ?? "-")
+                                    </MudText>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @if (ParameterAttributes != null)
+                    {
+                        foreach (var parameter in ParameterAttributes)
+                        {
+                            <tr>
+                                <td>
+                                    <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
+                                        @parameter.Key
+                                    </MudText>
+                                </td>
+                                <td>
+                                    <MudText Typo="Typo.body2" Align="Align.End">
+                                        @(parameter.Value ?? "-")
+                                    </MudText>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </MudStack>
+        }
+    </TooltipContent>
+</MudTooltip>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
+    [Parameter] public Dictionary<string, object> ParameterAttributes { get; set; } = new();
+    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Class { get; set; }
+
+    private string Label
+    {
+        get
+        {
+            var count = GetParameterCount();
+            if (count == 0)
+            {
+                return "No parameters";
+            }
+            return $"{count} Parameters";
+        }
+    }
+
+    private int GetParameterCount()
+    {
+        var count = 0;
+        if (Parameters != null)
+        {
+            count += Parameters.Count;
+        }
+        if (ParameterAttributes != null)
+        {
+            count += ParameterAttributes.Count;
+        }
+        return count;
+    }
+}

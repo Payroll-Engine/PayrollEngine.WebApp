@@ -1,0 +1,13 @@
+.attributes-grid {
+    min-height: 20em;
+}
+
+.item-dialog {
+    min-width: 30em;
+    max-width: 60em;
+}
+
+.attribute-dialog {
+    min-width: 30em;
+    max-width: 60em;
+}

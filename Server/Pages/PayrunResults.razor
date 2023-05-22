@@ -1,0 +1,114 @@
+﻿@page "/payrunresults"
+@page "/payrunresults/{Payrun}"
+
+@using PayrollEngine.WebApp
+@using PayrollEngine.WebApp.ViewModel
+
+@inherits PayrollEngine.WebApp.Presentation.PageBase
+
+@if (!HasFeature(Feature.PayrunResults))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Payrun Results</MudText>
+
+@if (!HasPayroll)
+{
+    <div>Please select a payroll</div>
+    return;
+}
+@if (!HasPayruns)
+{
+    <div>Please select a payroll with a payrun</div>
+    return;
+}
+
+@* payrun selection *@
+@if (SelectedPayrun == null)
+{
+    <div style="padding-top: 16px">Please select a payrun</div>
+}
+<MudSelect T="string"
+           Value="SelectedPayrunName"
+           ValueChanged="PayrunChanged"
+           Disabled="@(!Payruns.Any())"
+           ReadOnly="@(Payruns.Count == 1)"
+           Label="Payrun"
+           Class="mb-4"
+           Style="max-width: 22em"
+           Variant="Variant.Outlined">
+    @foreach (var payrun in Payruns)
+    {
+        <MudSelectItem T="string" Value="payrun.Name">
+            @UserLanguage.GetLocalization(payrun.NameLocalizations, payrun.Name)
+        </MudSelectItem>
+    }
+</MudSelect>
+@if (SelectedPayrun == null)
+{
+    return;
+}
+
+@* data grid actions *@
+<div class="d-flex pb-2">
+    <MudText Typo="Typo.h6" Class="pt-8">Payrun Results</MudText>
+    <div class="d-flex flex-grow-1 justify-end align-end">
+        <MudTooltip Delay="500" Text="Compact view" Placement="Placement.Top">
+            <MudIconButton @onclick="@ToggleGridDenseAsync"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.ViewCompact"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+        <MudTooltip Delay="500" Text="Filter reset" Placement="Placement.Top">
+            <MudIconButton @onclick="@ResetFilterAsync"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.FilterAltOff"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+        <MudTooltip Delay="500" Text="Excel download" Placement="Placement.Top">
+            <MudIconButton @onclick="@ExcelDownloadAsync"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.Download"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+    </div>
+</div>
+
+@* data grid *@
+<MudDataGrid @ref="ResultsGrid" T="PayrollResultValue"
+             ServerData="GetServerDataAsync"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             Dense="@Dense"
+             Filterable="true"
+             Groupable="false"
+             Hideable="false"
+             ShowColumnOptions="false"
+             SortMode="SortMode.Multiple">
+    <Columns>
+        <PropertyColumn Property="x => x.JobName" Title="Job Name" />
+        <PropertyColumn Property="x => x.JobStatus" Title="Status" />
+        <PropertyColumn Property="x => x.EmployeeIdentifier" Title="Employee" />
+        <PropertyColumn Property="x => x.Forecast" Title="Forcast Name" />
+        <PropertyColumn Property="x => x.Created" InitialDirection="SortDirection.Descending">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.ResultKind" Title="Result type" />
+        <PropertyColumn Property="x => x.KindName" Title="Name" />
+        <PropertyColumn Property="x => x.ResultValue" Title="Result" />
+        <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="PayrollResultValue" />
+    </PagerContent>
+    <NoRecordsContent>
+        No payrun results available
+    </NoRecordsContent>
+</MudDataGrid>

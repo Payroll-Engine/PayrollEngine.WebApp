@@ -1,0 +1,73 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+<MudTooltip Delay="200" Placement="Placement.Top" RootStyle="width: 100%">
+    <ChildContent>
+        <MudTextField T="string"
+                      ReadOnly="true"
+                      Margin="Margin.Dense"
+                      Value="@Label"
+                      Class="@Class"
+                      Adornment="Adornment.End"
+                      Variant="Variant.Outlined"
+                      AdornmentIcon="@Icons.Material.Filled.Info" />
+    </ChildContent>
+    <TooltipContent>
+        @if (Employees != null && Employees.Any())
+        {
+            <MudStack Class="pa-2">
+                <MudText Typo="Typo.h6" Align="Align.Start">Employees</MudText>
+                <div>
+                    <table>
+                        @foreach (var employee in Employees.Where(IsSelectedEmployee))
+                        {
+                            <tr>
+                                <td>
+                                    <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
+                                        @employee.FullName
+                                    </MudText>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </MudStack>
+        }
+    </TooltipContent>
+</MudTooltip>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<Employee> Employees { get; set; } = new();
+    [Parameter] public List<int> SelectedEmployees { get; set; } = new();
+    [Parameter] public string Class { get; set; }
+
+    private string Label
+    {
+        get
+        {
+            if (Employees == null)
+            {
+                return "Missing employees";
+            }
+            var count = Employees.Count;
+            if (count == 0)
+            {
+                return "No employees";
+            }
+            var selected = SelectedEmployees.Count;
+            if (selected == 0 || selected == count)
+            {
+                return selected == 1 ? "1 employee" : $"{count} employees (all)";
+            }
+            return $"{selected} of {count} employees";
+        }
+    }
+
+    private bool IsSelectedEmployee(Employee employee)
+    {
+        if (SelectedEmployees == null || !SelectedEmployees.Any())
+        {
+            return true;
+        }
+        return SelectedEmployees.Contains(employee.Id);
+    }
+}

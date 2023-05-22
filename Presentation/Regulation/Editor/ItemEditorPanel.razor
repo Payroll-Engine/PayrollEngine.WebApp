@@ -1,0 +1,103 @@
+﻿@if (!HasItem)
+{
+    return;
+}
+
+@switch (ItemType)
+{
+    // case and case field
+    case RegulationItemType.Case:
+        <CaseEditor EditContext="EditContext"
+            Item="Item"
+            SaveItem="SaveItem"
+            DeleteItem="DeleteItem"
+            OverrideItem="OverrideItem" />
+        break;
+    case RegulationItemType.CaseField:
+        <CaseFieldEditor EditContext="EditContext"
+                 Item="Item"
+                 SaveItem="SaveItem"
+                 DeleteItem="DeleteItem"
+                 OverrideItem="OverrideItem" />
+        break;
+
+    // case relation
+    case RegulationItemType.CaseRelation:
+        <CaseRelationEditor EditContext="EditContext"
+                    Item="Item"
+                    SaveItem="SaveItem"
+                    DeleteItem="DeleteItem"
+                    OverrideItem="OverrideItem" />
+        break;
+
+    // collector
+    case RegulationItemType.Collector:
+        <CollectorEditor EditContext="EditContext"
+                 Item="Item"
+                 SaveItem="SaveItem"
+                 DeleteItem="DeleteItem"
+                 OverrideItem="OverrideItem" />
+        break;
+
+    // wage type
+    case RegulationItemType.WageType:
+        <WageTypeEditor EditContext="EditContext"
+                Item="Item"
+                SaveItem="SaveItem"
+                DeleteItem="DeleteItem"
+                OverrideItem="OverrideItem" />
+        break;
+
+    // report
+    case RegulationItemType.Report:
+        <ReportEditor EditContext="EditContext"
+              Item="Item"
+              SaveItem="SaveItem"
+              DeleteItem="DeleteItem"
+              OverrideItem="OverrideItem" />
+        break;
+    case RegulationItemType.ReportParameter:
+        <ReportParameterEditor EditContext="EditContext"
+                       Item="Item"
+                       SaveItem="SaveItem"
+                       DeleteItem="DeleteItem"
+                       OverrideItem="OverrideItem" />
+        break;
+    case RegulationItemType.ReportTemplate:
+        <ReportTemplateEditor EditContext="EditContext"
+                      Item="Item"
+                      SaveItem="SaveItem"
+                      DeleteItem="DeleteItem"
+                      OverrideItem="OverrideItem" />
+        break;
+
+    // lookup
+    case RegulationItemType.Lookup:
+        <LookupEditor EditContext="EditContext"
+              Item="Item"
+              SaveItem="SaveItem"
+              DeleteItem="DeleteItem"
+              OverrideItem="OverrideItem" />
+        break;
+    case RegulationItemType.LookupValue:
+        <LookupValueEditor EditContext="EditContext"
+                   Item="Item"
+                   SaveItem="SaveItem"
+                   DeleteItem="DeleteItem"
+                   OverrideItem="OverrideItem" />
+        break;
+
+    // script
+    case RegulationItemType.Script:
+        <ScriptEditor EditContext="EditContext"
+              Item="Item"
+              SaveItem="SaveItem"
+              DeleteItem="DeleteItem"
+              OverrideItem="OverrideItem" />
+        break;
+
+    default:
+        <p>Unknown regulation item type @ItemType</p>
+        break;
+}
+

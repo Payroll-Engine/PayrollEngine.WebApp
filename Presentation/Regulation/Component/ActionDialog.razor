@@ -1,0 +1,115 @@
+﻿@using PayrollEngine.Client.Model
+<MudDialog Style="min-width: 600px">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTextField T="string"
+                          Label="@Item.GetItemLabel(Field)"
+                          HelperText="@Item.GetItemHelp(Field)"
+                          @bind-Value="@Action.Action"
+                          ReadOnly="@Item.IsReadOnlyField(Field)"
+                          Clearable="true"
+                          Required="true"
+                          RequiredError="@($"{Item.GetItemLabel(Field, false)} is required")"
+                          Lines="Field.Lines" />
+            @if (Categories != null && Categories.Count > 2)
+            {
+                <MudChipSet MultiSelection="false" SelectedChip="SelectedCategory"
+                        SelectedChipChanged="SelectedCategoryChanged" Class="py-4">
+                    @foreach (var category in Categories)
+                    {
+                        <MudChip Text="@category.Label"
+                         Default="@string.Equals(category.Label, ActionCategoryAll)"
+                         Variant="Variant.Outlined" SelectedColor="Color.Primary" />
+                    }
+                </MudChipSet>
+            }
+
+            <MudDataGrid T="ActionInfo" Height="30em"
+                         FixedHeader="true" Dense="true"
+                         Items="@CategoryActions"
+                         Filterable="true"
+                         FilterMode="DataGridFilterMode.ColumnFilterRow"
+                         ShowFilterIcons="false">
+                <Columns>
+                    <PropertyColumn Property="x => x.GetExpressionTemplate()" Title="Action" />
+                    <PropertyColumn Property="x => x.Description" />
+                    <TemplateColumn T="ActionInfo" ShowColumnOptions="false"
+                                    ShowFilterIcon="false"
+                                    Sortable="false">
+                        <CellTemplate>
+                            <MudStack Row="true">
+                                <MudTooltip Delay="500" Placement="Placement.Top">
+                                    <ChildContent>
+                                        <MudIcon Color="Color.Primary"
+                                                 Icon="@Icons.Material.Outlined.Info" />
+                                    </ChildContent>
+                                    <TooltipContent>
+                                        <MudStack Class="pa-2">
+                                            <MudText Typo="Typo.h5" Align="Align.Start">@context.Item.Name</MudText>
+                                            <MudText Typo="Typo.subtitle1" Align="Align.Start"><i>@context.Item.Description</i></MudText>
+                                            <table>
+                                                <tr>
+                                                    <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">Source</MudText></td>
+                                                    <td><MudText Typo="Typo.body2" Align="Align.End"><i>@context.Item.Source</i></MudText></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">Namespace</MudText></td>
+                                                    <td><MudText Typo="Typo.body2" Align="Align.End"><i>@context.Item.Namespace</i></MudText></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">Categories</MudText></td>
+                                                    <td><MudText Typo="Typo.body2" Align="Align.End"><i>@string.Join(", ", context.Item.Categories)</i></MudText></td>
+                                                </tr>
+                                            </table>
+                                            @if (context.Item.Parameters != null && context.Item.Parameters.Any())
+                                            {
+                                                <MudText Typo="Typo.h6" Align="Align.Start">Parameters</MudText>
+                                                <table>
+                                                    @foreach (var parameter in context.Item.Parameters)
+                                                    {
+                                                        <tr>
+                                                            <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8"><i>@parameter.Name</i></MudText></td>
+                                                            <td><MudText Typo="Typo.body2" Align="Align.End">@parameter.Description</MudText></td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            }
+                                            @if (context.Item.Issues != null && context.Item.Issues.Any())
+                                            {
+                                                <MudText Typo="Typo.h6" Align="Align.Start">Issues</MudText>
+                                                <table>
+                                                    @foreach (var issue in context.Item.Issues)
+                                                    {
+                                                        <tr>
+                                                            <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">@issue.Name</MudText></td>
+                                                            <td><MudText Typo="Typo.body2" Align="Align.End"><i>@issue.Message</i></MudText></td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            }
+                                        </MudStack>
+                                    </TooltipContent>
+                                </MudTooltip>
+                                <MudTooltip Delay="500" Text="Append action" Placement="Placement.Top">
+                                    <MudIconButton @onclick="@(() => ApplyAction(context.Item))"
+                                                   Color="Color.Tertiary" Variant="Variant.Outlined"
+                                                   Icon="@Icons.Material.Filled.Add" Size="Size.Small" />
+                                </MudTooltip>
+                            </MudStack>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                </Columns>
+                <NoRecordsContent>
+                    No actions available
+                </NoRecordsContent>
+            </MudDataGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>

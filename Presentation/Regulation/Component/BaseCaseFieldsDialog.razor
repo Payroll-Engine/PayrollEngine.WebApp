@@ -1,0 +1,44 @@
+﻿@using PayrollEngine.Client.Model
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudStack Spacing="1">
+                <MudSelect T="string" Label="Case field" @bind-Value="Reference.Name"
+                           Disabled="@(!BaseCaseFields.Any())"
+                           Required="true" RequiredError="Case field is required">
+                    @foreach (var caseField in BaseCaseFields)
+                    {
+                        <MudSelectItem T="string" Value="@caseField.Name">@caseField.Name</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudNumericField T="int?" Label="Order" @bind-Value="Reference.Order"
+                                 Required="true" RequiredError="Order is required" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public IList<CaseField> BaseCaseFields { get; set; }
+    [Parameter] public CaseFieldReference Reference { get; set; } = new();
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async System.Threading.Tasks.Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(Reference));
+        }
+    }
+}

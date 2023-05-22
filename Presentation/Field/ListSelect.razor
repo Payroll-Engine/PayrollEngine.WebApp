@@ -1,0 +1,147 @@
+﻿@inherits FieldEditorBase;
+
+@typeparam T
+
+<MudSelect T="T"
+           @bind-Value="Value"
+           Culture="@Culture"
+           Label="@ValueLabel"
+           HelperText="@ValueHelp"
+           Error="@Error"
+           Disabled="@ValuesDisabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError"
+           Adornment="@ValueAdornment"
+           AdornmentText="@ValueAdornmentText">
+    @foreach (var value in Values)
+    {
+        <MudSelectItem T="T" Value="@value.Item1">@value.Item2</MudSelectItem>
+    }
+</MudSelect>
+
+@code
+{
+    private List<Tuple<T, string>> Values { get; set; } = new();
+
+    protected bool ValuesDisabled =>
+        Disabled || !Values.Any();
+
+    private T Value
+    {
+        get
+        {
+            if (Field.ValueType.IsString())
+            {
+                return (T)Convert.ChangeType(Field.ValueAsString, typeof(T));
+            }
+            if (Field.ValueType.IsBoolean())
+            {
+                return (T)Convert.ChangeType(Field.ValueAsBoolean, typeof(T));
+            }
+            if (Field.ValueType.IsInteger())
+            {
+                return (T)Convert.ChangeType(Field.ValueAsInteger, typeof(T));
+            }
+            if (Field.ValueType.IsDecimal())
+            {
+                return (T)Convert.ChangeType(Field.ValueAsDecimal, typeof(T));
+            }
+            if (Field.ValueType.IsDateTime())
+            {
+                return (T)Convert.ChangeType(Field.ValueAsDateTime, typeof(T));
+            }
+            return default;
+        }
+        set
+        {
+            if (Field.ValueType.IsString())
+            {
+                Field.ValueAsString = (string)Convert.ChangeType(value, typeof(string));
+                return;
+            }
+            if (Field.ValueType.IsBoolean())
+            {
+                Field.ValueAsBoolean = (bool)Convert.ChangeType(value, typeof(bool));
+                return;
+            }
+            if (Field.ValueType.IsInteger())
+            {
+                Field.ValueAsInteger = (int)Convert.ChangeType(value, typeof(int));
+                return;
+            }
+            if (Field.ValueType.IsDecimal())
+            {
+                Field.ValueAsDecimal = (decimal)Convert.ChangeType(value, typeof(decimal));
+                return;
+            }
+            if (Field.ValueType.IsDateTime())
+            {
+                Field.ValueAsDateTime = (DateTime)Convert.ChangeType(value, typeof(DateTime));
+            }
+        }
+    }
+
+    private void SetupList()
+    {
+        // no list
+        if (!Field.Attributes.HasList())
+        {
+            return;
+        }
+
+        // list
+        var list = Field.Attributes.GetList(Language);
+        if (!list.Any())
+        {
+            return;
+        }
+
+        // list values
+        var listValues = Field.Attributes.GetListValues<T>(Language);
+        if (listValues.Any() && listValues.Count != list.Count)
+        {
+            throw new PayrollException("Mismatching list value count");
+        }
+
+        // working list
+        List<Tuple<T, string>> values = new();
+        if (!listValues.Any())
+        {
+            var itemList = Field.Attributes.GetList<T>(Language);
+            foreach (var item in itemList)
+            {
+                values.Add(new(item, item.ToString()));
+            }
+        }
+        else
+        {
+            for (var i = 0; i < list.Count; i++)
+            {
+                values.Add(new(listValues[i], list[i].ToString()));
+            }
+        }
+        Values = values;
+
+        // selection
+        var selection = Field.Attributes.GetListSelection<T>(Language);
+        if (!listValues.Any())
+        {
+            var typedList = Field.Attributes.GetList<T>(Language);
+            if (typedList.Contains(selection))
+            {
+                Value = selection;
+            }
+        }
+        else if (listValues.Contains(selection))
+        {
+            Value = selection;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetupList();
+        await base.OnInitializedAsync();
+    }
+}

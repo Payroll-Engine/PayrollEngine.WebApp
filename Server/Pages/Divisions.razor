@@ -1,0 +1,45 @@
+﻿@page "/divisions"
+@using PayrollEngine.WebApp.ViewModel
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Division, Query, PayrollEngine.WebApp.Server.Dialogs.DivisionDialog>
+
+@if (!HasFeature(Feature.Divisions))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Divisions</MudText>
+
+<MudDataGrid @ref="ItemsGrid" T="Division" 
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true" 
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Status" />
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.Culture" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <CustomColumns T="Division" Columns="ColumnConfiguration" />
+        <ItemActionsColumn T="Division" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Division" />
+    </PagerContent>
+    <NoRecordsContent>
+        No divisions available
+    </NoRecordsContent>
+</MudDataGrid>

@@ -1,0 +1,42 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+
+<MudDialog Class="attribute-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudStack Spacing="1">
+                <MudTextField T="string" @bind-Value="ClusterSet.Name"
+                              Label="Name"
+                              Required="true" RequiredError="Name is required" />
+                <MudTextField T="string" @bind-Value="ClusterSet.IncludeClustersAsString"
+                              HelperText="Comma separated cluster list"
+                              Label="Include clusters" />
+                <MudTextField T="string" @bind-Value="ClusterSet.ExcludeClustersAsString"
+                              HelperText="Comma separated cluster list"
+                              Label="Exclude clusters" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public ClusterSet ClusterSet { get; set; } = new();
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async System.Threading.Tasks.Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(ClusterSet));
+        }
+    }
+}

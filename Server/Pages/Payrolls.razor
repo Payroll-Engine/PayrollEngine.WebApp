@@ -1,0 +1,46 @@
+﻿@page "/payrolls"
+@using PayrollEngine.WebApp.ViewModel
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<Payroll, Query, PayrollEngine.WebApp.Server.Dialogs.PayrollDialog>
+
+@if (!HasFeature(Feature.Payrolls))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Payrolls</MudText>
+
+<MudDataGrid @ref="ItemsGrid" T="Payroll"
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple" 
+             Filterable="true" 
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Status" />
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.DivisionName" Title="Division" />
+        <PropertyColumn Property="x => x.CountryType" Title="Country" />
+        <PropertyColumn Property="x => x.CalendarCalculationMode" Title="Calendar" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <ItemActionsColumn T="Payroll" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Payroll" />
+    </PagerContent>
+    <NoRecordsContent>
+        No payrolls available
+    </NoRecordsContent>
+</MudDataGrid>

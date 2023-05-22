@@ -1,0 +1,18 @@
+﻿
+<MudInputLabel>@Item.GetItemLabel(Field)</MudInputLabel>
+
+<MudStack Row="true" Class="align-center border rounded pa-2">
+    <MudText Typo="Typo.caption">@SettingsInfo</MudText>
+    <MudSpacer />
+    <MudIconButton Color="Color.Primary" Class="pa-0 ma-0"
+                   Icon="@Icons.Material.Filled.Clear"
+                   Disabled="@ClearDisabled()"
+                   Size="Size.Small"
+                   OnClick="ClearSettingsAsync" />
+    <MudIconButton HtmlTag="label"
+                   Color="Color.Primary" Class="pa-0 ma-0"
+                   Icon="@Icons.Material.Filled.Edit"
+                   Disabled="@EditDisabled()"
+                   Size="Size.Small"
+                   OnClick="EditSettingsAsync" />
+</MudStack>

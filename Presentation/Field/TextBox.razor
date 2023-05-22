@@ -1,0 +1,33 @@
+﻿@inherits FieldEditorBase;
+
+<MudTextField T="string"
+              @bind-Value="@Field.Value"
+              Lines="@LineCount"
+              Mask="@Mask"
+              Variant="@Variant"
+              Label="@ValueLabel"
+              HelperText="@ValueHelp"
+              Error="@Error"
+              Disabled="@Disabled"
+              ReadOnly="@ReadOnly"
+              Required="@Required"
+              RequiredError="@ValueRequiredError"
+              Adornment="@ValueAdornment"
+              AdornmentText="@ValueAdornmentText" />
+@code
+{
+    private int LineCount { get; set; }
+    private IMask Mask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // lines
+        LineCount = Field.Attributes.GetLineCount(Language) ?? 1;
+
+        // mask
+        var mask = Field.Attributes.GetValueMask(Language);
+        Mask = string.IsNullOrWhiteSpace(mask) ? null : new PatternMask(mask);
+
+        await base.OnInitializedAsync();
+    }
+}

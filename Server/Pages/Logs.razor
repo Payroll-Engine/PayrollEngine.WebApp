@@ -1,0 +1,44 @@
+﻿@page "/logs"
+@using PayrollEngine.WebApp.ViewModel
+@inherits PayrollEngine.WebApp.Presentation.ItemPageBase<Log, Query>
+
+@if (!HasFeature(Feature.Logs))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Logs</MudText>
+
+<MudDataGrid @ref="ItemsGrid" T="Log" ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple" Filterable="true" 
+             Hideable="true" ShowColumnOptions="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Level" />
+        <PropertyColumn Property="x => x.Message" />
+        <PropertyColumn Property="x => x.Error" />
+        <PropertyColumn Property="x => x.Comment" />
+        <PropertyColumn Property="x => x.Owner" />
+        <PropertyColumn Property="x => x.OwnerType" />
+        <PropertyColumn Property="x => x.Created" InitialDirection="SortDirection.Descending">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Log" />
+    </PagerContent>
+    <NoRecordsContent>
+        No logs available
+    </NoRecordsContent>
+</MudDataGrid>

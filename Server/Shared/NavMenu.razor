@@ -1,0 +1,41 @@
+﻿@using NUglify.JavaScript
+@inherits ComponentBase;
+
+<MudNavMenu Class="pt-1">
+    @if (Session.AnyUserFeature()) {
+        // top pages
+        var topPages = Pages.Where( 
+        x => x.PageGroup == null &&
+        Session.UserFeature(x.Feature));
+        foreach (var topPage in topPages)
+        {
+            <MudNavLink Href="@topPage.PageLink" Match="NavLinkMatch.Prefix"
+                    Title="@topPage.Title">@topPage.PageName</MudNavLink>
+        }
+
+        // grouped pages
+        foreach (var pageGroup in PageGroups)
+        {
+            var groupPages = Pages.Where(x => x.PageGroup != null &&
+            string.Equals(x.PageGroup.GroupName, pageGroup.GroupName) &&
+            Session.UserFeature(x.Feature)).ToList();
+            if (groupPages.Any())
+            {
+                <MudNavGroup Title="@pageGroup.GroupName" Expanded="@pageGroup.Expanded">
+                    @foreach (var groupPage in groupPages)
+                    {
+                        if (Session.UserFeature(groupPage.Feature))
+                        {
+                            <MudNavLink Href="@groupPage.PageLink" Match="NavLinkMatch.Prefix"
+                                    Title="@groupPage.Title">@groupPage.PageName</MudNavLink>
+                        }
+                    }
+                </MudNavGroup>
+            }
+        }
+    }
+    else
+    {
+        <MudText Align="Align.Center" Class="my-2">No features available</MudText>
+    }
+</MudNavMenu>

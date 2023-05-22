@@ -1,0 +1,113 @@
+﻿@using PayrollEngine.WebApp.Presentation.Field
+@using PayrollEngine.Document
+
+<MudDialog Style="min-width: 500px;">
+    <DialogContent>
+
+        @* report name and description *@
+        <MudInputLabel>Report</MudInputLabel>
+        <MudText Class="mb-2">@ReportName</MudText>
+        @if (HasDescription)
+        {
+            <MudInputLabel Class="mt-2">Description</MudInputLabel>
+            <MudText Class="mb-2">@ReportDescription</MudText>
+        }
+
+        @* report parameters *@
+        @if (HasParameters)
+        {
+            <MudPaper Elevation="4" Class="pa-4 my-4">
+                <MudForm @ref="form">
+                    <FieldEditorStack Fields="@Report.Parameters" Language="Language"
+                                  Disabled="@Started" />
+                </MudForm>
+            </MudPaper>
+        }
+
+        @* download notification *@
+        <div class="mb-8">
+            @if (Executing)
+            {
+                <MudText Class="pb-4">Preparing download...</MudText>
+                <MudProgressLinear Color="Color.Info" Rounded="true"
+                               Class="mud-table-loading-progress"
+                               Indeterminate="true" Size="Size.Large" />
+            }
+            @if (Failed)
+            {
+                <MudText Color="Color.Error">Report execution failure</MudText>
+                <MudText>@ErrorMessage</MudText>
+            }
+            @if (Completed)
+            {
+                <MudText Color="Color.Success">Download successfully completed</MudText>
+                <MudText Color="Color.Success" Typo="Typo.caption">@DownloadFileName</MudText>
+            }
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="pa-1 gap-2">
+            @* download buttons *@
+            @if (!Completed && !Failed)
+            {
+                @* XML *@
+                var xmlRaw = true;
+                @if (SupportedDocumentType(DocumentType.Xml))
+                {
+                    <MudButton Variant="Variant.Outlined"
+                       Color="Color.Tertiary"
+                       Disabled="@Started"
+                       OnClick="@(() => StartAsync(DocumentType.Xml))">
+                        XML
+                    </MudButton>
+                    xmlRaw = SupportedDocumentType(DocumentType.XmlRaw);
+                }
+                if (xmlRaw)
+                {
+                    <MudButton Variant="Variant.Outlined"
+                       Color="Color.Tertiary"
+                       Disabled="@Started"
+                       OnClick="@(() => StartAsync(DocumentType.XmlRaw))">
+                        XML Raw
+                    </MudButton>
+                }
+
+                @* Excel *@
+                @if (SupportedDocumentType(DocumentType.Excel))
+                {
+                    <MudButton Variant="Variant.Outlined"
+                       Color="Color.Tertiary"
+                       Disabled="@Started"
+                       OnClick="@(() => StartAsync(DocumentType.Excel))">
+                        Excel
+                    </MudButton>
+                }
+
+                @* Word *@
+                @if (SupportedDocumentType(DocumentType.Word))
+                {
+                    <MudButton Variant="Variant.Outlined"
+                       Color="Color.Tertiary"
+                       Disabled="@Executing"
+                       OnClick="@(() => StartAsync(DocumentType.Word))">
+                        Word
+                    </MudButton>
+                }
+
+                @* Pdf *@
+                @if (SupportedDocumentType(DocumentType.Pdf))
+                {
+                    <MudButton Variant="Variant.Outlined"
+                       Color="Color.Tertiary"
+                       Disabled="@Executing"
+                       OnClick="@(() => StartAsync(DocumentType.Pdf))">
+                        Pdf
+                    </MudButton>
+                }
+            }
+
+            @* close button *@
+            <MudButton Variant="Variant.Outlined" OnClick="Close" Class="ml-8">Close</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>

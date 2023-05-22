@@ -1,0 +1,92 @@
+﻿
+<MudDialog style="min-width: 40em">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudStack Spacing="0">
+                @if (!string.IsNullOrWhiteSpace(LocalizationBase))
+                {
+                    <MudTextField T="string" Label="Localization base"
+                              Value="@LocalizationBase"
+                              ReadOnly="true" />
+                }
+                <MudSelect T="string" Label="Culture" @bind-Value="LocalizationKey"
+                           Validation="@(new Func<string, string>(ValidateCulture))"
+                           Required="true" RequiredError="Culture is required">
+                    @foreach (var cultureName in CultureNames)
+                    {
+                        <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudTextField T="string" Label="Localization"
+                              @bind-Value="LocalizationValue"
+                              MaxLength="@MaxLength"
+                              Required="true" RequiredError="Localized value is required" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+    [Parameter]
+    public string LocalizationBase { get; set; }
+    [Parameter]
+    public IDictionary<string, string> Localizations { get; set; }
+    [Parameter]
+    public KeyValuePair<string, string> Localization { get; set; }
+    [Parameter]
+    public int MaxLength { get; set; } = 524288;
+
+    private string LocalizationKey { get; set; }
+    private string LocalizationValue { get; set; }
+
+    private string ValidateCulture(string culture)
+    {
+        if (string.IsNullOrWhiteSpace(culture))
+        {
+            return "Culture is required";
+        }
+
+        if (Localizations != null && Localizations.ContainsKey(culture))
+        {
+            return "Culture already in use";
+        }
+        return null;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            var result = new KeyValuePair<string, string>(LocalizationKey, LocalizationValue);
+            MudDialog.Close(DialogResult.Ok(result));
+        }
+    }
+
+    private List<string> CultureNames { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // cultures
+        CultureNames = CultureTool.GetSpecificCultureNames();
+        await base.OnInitializedAsync();
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        LocalizationKey = Localization.Key;
+        LocalizationValue = Localization.Value;
+        return base.OnParametersSetAsync();
+    }
+}

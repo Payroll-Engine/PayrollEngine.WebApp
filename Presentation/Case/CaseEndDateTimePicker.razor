@@ -1,0 +1,132 @@
+﻿@inherits PayrollEngine.WebApp.Presentation.Field.DateTimePickerBase
+
+<MudStack Row="true" Spacing="0" Class="align-baseline">
+    <MudDatePicker @ref="@datePicker"
+                   @bind-Date="@Date"
+                   MinDate="@MinDate"
+                   MaxDate="@MaxDate"
+                   DateFormat="@DateFormat"
+                   Label="@DateLabel"
+                   Mask="@Mask"
+                   ReadOnly="@ReadOnly"
+                   Error="@Error"
+                   RequiredError="@RequiredError"
+                   HelperText="@Help"
+                   Required="@Required"
+                   Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                   Variant="@Variant"
+                   Class="@Class"
+                   Style="@Style"
+                   Editable="true" />
+    <MudTimePicker @bind-Time="@Time"
+                   Error="@Error"
+                   TimeFormat="@TimeFormat"
+                   Required="@Required"
+                   ReadOnly="@ReadOnly"
+                   Editable="true" />
+</MudStack>
+
+@code {
+    MudDatePicker datePicker;
+
+    [Parameter] public DateTime? DateTime { get; set; }
+    [Parameter] public EventCallback<DateTime?> DateTimeChanged { get; set; }
+    [Parameter] public DateTime? MinDate { get; set; }
+    [Parameter] public DateTime? MaxDate { get; set; }
+    [Parameter] public IMask Mask { get; set; }
+
+    private string DateLabel { get; set; }
+    private string DateFormat { get; set; }
+    private string TimeFormat { get; set; }
+    private string RequiredError { get; set; }
+    private string Help { get; set; }
+    private bool ReadOnly { get; set; }
+
+    private bool Required =>
+        Field.EndMandatory && (Field.Start.HasValue || !string.IsNullOrWhiteSpace(Field.Value));
+
+    private bool Error => !Field.Validator.ValidateEnd();
+
+    private DateTime? Date
+    {
+        get => DateTime?.Date;
+        set
+        {
+            if (value == DateTime?.Date)
+            {
+                return;
+            }
+
+            DateTime? dateTime;
+            if (value != null && Time.HasValue)
+            {
+                dateTime = value.Value.Add(Time.Value);
+            }
+            else
+            {
+                dateTime = value;
+            }
+            SetDateTime(dateTime);
+        }
+    }
+
+    private TimeSpan? Time
+    {
+        get => DateTime?.TimeOfDay;
+        set
+        {
+            if (value == DateTime?.TimeOfDay)
+            {
+                return;
+            }
+
+            DateTime? dateTime = null;
+            if (value == null)
+            {
+                if (Date.HasValue)
+                {
+                    dateTime = Date.Value.Date;
+                }
+            }
+            else if (Date.HasValue)
+            {
+                dateTime = Date.Value.Date.Add(value.Value);
+            }
+            else
+            {
+                dateTime = System.DateTime.Today.Add(value.Value);
+            }
+            SetDateTime(dateTime);
+        }
+    }
+
+    private void SetDateTime(DateTime? dateTime)
+    {
+        if (dateTime == DateTime)
+        {
+            return;
+        }
+        // change
+        DateTime = dateTime;
+        DateTimeChanged.InvokeAsync(dateTime);
+    }
+
+    protected override DatePickerType DatePickerType =>
+        Attributes.GetEndPickerOpen(Language) ?? DatePickerType.Day;
+
+    protected override DateTimeType DateTimeType =>
+        Attributes.GetEndPickerType(Language) ?? DateTimeType.DatePicker;
+
+    protected override Task OnInitializedAsync()
+    {
+        DateLabel = Attributes.GetEndLabel(Language) ?? "End";
+        DateFormat = Attributes.GetEndFormat(Language) ??
+                     Culture.DateTimeFormat.ShortDatePattern;
+        TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
+        RequiredError = Attributes.GetEndRequired(Language);
+        Help = Attributes.GetEndHelp(Language);
+        ReadOnly = Attributes.GetEndReadOnly(Language) ?? false;
+
+        return base.OnInitializedAsync();
+    }
+}

@@ -1,0 +1,78 @@
+﻿@inherits FieldEditorBase
+
+<MudStack Row="true" Spacing="0">
+    <MudDatePicker @bind-Date="@Field.ValueAsDateTime"
+                   DateFormat="@DateFormat"
+                   Culture="@Culture"
+                   Editable="true"
+                   MinDate="@MinValue"
+                   MaxDate="@MaxValue"
+                   OpenTo="@OpenTo"
+                   Label="@ValueLabel"
+                   HelperText="@ValueHelp"
+                   Error="@Error"
+                   Disabled="@Disabled"
+                   ReadOnly="@ReadOnly"
+                   Required="@Required"
+                   RequiredError="@ValueRequiredError" />
+    <MudTimePicker @bind-Time="@Time"
+                   TimeFormat="@TimeFormat"
+                   Culture="@Culture"
+                   Editable="true"
+                   Disabled="@Disabled"
+                   Required="@Required"
+                   ReadOnly="@ReadOnly"
+                   Error="@Error" />
+</MudStack>
+
+@code {
+
+    private string DateFormat { get; set; }
+    private string TimeFormat { get; set; }
+    private DateTime? MinValue { get; set; }
+    private DateTime? MaxValue { get; set; }
+    private OpenTo OpenTo { get; set; }
+
+    private TimeSpan? Time
+    {
+        get => Field.ValueAsDateTime?.TimeOfDay;
+        set
+        {
+            if (value == null)
+            {
+                if (Field.ValueAsDateTime.HasValue)
+                {
+                    Field.ValueAsDateTime = Field.ValueAsDateTime.Value.Date;
+                }
+            }
+            else
+            {
+                if (Field.ValueAsDateTime.HasValue)
+                {
+                    Field.ValueAsDateTime = Field.ValueAsDateTime.Value.Date + value;
+                }
+                else
+                {
+                    Field.ValueAsDateTime = DateTime.Today + value;
+                }
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        DateFormat = Field.Attributes.GetFormat(Language) ??
+                     Culture.DateTimeFormat.ShortDatePattern;
+        TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
+        MinValue = Field.Attributes.GetMinDateTimeValue(Language);
+        MaxValue = Field.Attributes.GetMaxDateTimeValue(Language);
+        OpenTo = (Field.Attributes.GetValuePickerOpen(Language) ?? DatePickerType.Day) switch
+        {
+            DatePickerType.Month => OpenTo.Month,
+            DatePickerType.Year => OpenTo.Year,
+            _ => OpenTo.Date
+        };
+
+        await base.OnInitializedAsync();
+    }
+}

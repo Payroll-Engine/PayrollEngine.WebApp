@@ -1,0 +1,79 @@
+﻿@using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.Client.Service
+<MudDialog Class="item-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudStack Spacing="1">
+                <MudTextField T="string"
+                              Value="User.Identifier"
+                              ReadOnly="true"
+                              Label="Identifier" />
+                <MudTextField T="string" @bind-Value="User.FirstName"
+                              MaxLength="@SystemSpecification.KeyTextLength"
+                              Label="First name" />
+                <MudTextField T="string" @bind-Value="User.LastName"
+                              MaxLength="@SystemSpecification.KeyTextLength"
+                              Label="Last name" />
+                <MudSelect T="Language" @bind-Value="User.Language"
+                           Label="Language">
+                    <EnumSelectItems T="Language" />
+                </MudSelect>
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="ChangePasswordAsync">Change Password</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="SaveAsync">Save</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Client.Model.Tenant Tenant { get; set; } = new();
+    [Parameter] public Client.Model.User User { get; set; } = new();
+
+    [Inject]
+    private IUserService UserService { get; set; }
+    [Inject]
+    private IUserNotificationService UserNotification { get; set; }
+    [Inject]
+    private IDialogService DialogService { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task SaveAsync()
+    {
+        if (!await form.Revalidate())
+        {
+            return;
+        }
+
+        try
+        {
+            await UserService.UpdateAsync(new(Tenant.Id), User);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await UserNotification.ShowErrorAsync(exception);
+        }
+
+        MudDialog.Close(DialogResult.Ok(User));
+    }
+
+    private async Task ChangePasswordAsync()
+    {
+        // report parameters
+        var parameters = new DialogParameters
+        {
+            { nameof(UserPasswordDialog.Tenant), Tenant },
+            { nameof(UserPasswordDialog.User), User }
+        };
+        await DialogService.ShowAsync<UserPasswordDialog>("Change Password", parameters);
+    }
+}

@@ -1,0 +1,124 @@
+﻿@using PayrollEngine.WebApp.Presentation.Case
+@inherits PayrollEngine.WebApp.Presentation.PageBase
+
+@if (!Cases.Any())
+{
+    <div>Please select a case</div>
+    return;
+}
+
+<div Row="true" Spacing="0" Class="d-flex flex-grow-1 gap-4">
+    @* case edit tree *@
+    <MudForm @ref="@fieldForm">
+        <ChildContent>
+            <MudTreeView Items="@Cases">
+                <ItemTemplate>
+                    @{
+                        var style = $"margin-inline-start: {(context == RootCase ? "0" : "1em")}";
+                        <MudTreeViewItem Style="@style" @bind-Expanded="@context.IsExpanded"
+                                     Items="@context.RelatedCases">
+                            <Content>
+                                <MudPaper Class="pa-2">
+                                    <MudText Typo="Typo.h6">
+                                        @context.GetLocalizedName(UserLanguage)
+                                    </MudText>
+                                    @if (context.HasAnyField)
+                                    {
+                                        // set very first case field focus to true
+                                        foreach (var caseField in context.Fields)
+                                        {
+                                            if (caseField.Attributes?.GetHidden(UserLanguage) ?? false)
+                                            {
+                                                // don't show hidden attributes
+                                                continue;
+                                            }
+
+                                            @* case field *@
+                                            <CaseField Language="@UserLanguage"
+                                           Field="@caseField"
+                                           Dense="@Dense"
+                                           Variant="Variant.Text" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="panelMessage">Case without fields</div>
+                                    }
+                                </MudPaper>
+                            </Content>
+                        </MudTreeViewItem>
+                    }
+                </ItemTemplate>
+            </MudTreeView>
+        </ChildContent>
+    </MudForm>
+
+    @* side panel *@
+    <MudPaper MinWidth="22em" MaxWidth="44em" Class="flex-grow-1 pa-4">
+        <MudForm @ref="@changeForm">
+            <MudStack Spacing="0" Class="gap-8">
+
+                @* case inputs *@
+                <div>
+                    <MudText Typo="Typo.h6">Case</MudText>
+                    <MudTextField T="string"
+                                  Label="Reason"
+                                  @bind-Value="@ChangeReason"
+                                  Required="true"
+                                  Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                  Lines="3"
+                                  Variant="Variant.Outlined"
+                                  Class="pt-4" />
+                    <MudTextField T="string"
+                                  Label="Forecast name"
+                                  @bind-Value="@Forecast"
+                                  MaxLength="SystemSpecification.KeyTextLength"
+                                  Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                  Class="pt-4" />
+                </div>
+
+                @* validation *@
+                @if (!Valid)
+                {
+                    <div>
+                        <MudText Typo="Typo.h6">Validation</MudText>
+                        <MudSimpleTable Dense="@Dense" Outlined="false" Elevation="0"
+                                    Bordered="false" Striped="false">
+                            <tbody>
+                                <tr>
+                                    <th class="pl-0">Field</th>
+                                    <th class="pl-0">Error</th>
+                                </tr>
+                                @foreach (var rule in RootCase.Validity.Rules)
+                                {
+                                    <tr>
+                                        <td class="pl-0">@rule.Name</td>
+                                        <td class="pl-0">@rule.RuleText</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </MudSimpleTable>
+                    </div>
+                }
+
+                @* case submit *@
+                <div class="d-flex flex-grow-1 gap-4">
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Primary"
+                               OnClick="NavigateToParent">
+                        Go to Cases
+                    </MudButton>
+                    <div class="d-flex flex-grow-1 justify-end">
+                        <MudButton Variant="Variant.Outlined"
+                                   Style="Width: 100%"
+                                   Color="Color.Tertiary"
+                                   Disabled="@(!Valid)"
+                                   OnClick="SubmitCaseAsync">
+                            @($"Submit {RootCase.GetLocalizedName(UserLanguage).TruncateSentence(30)}")
+                        </MudButton>
+                    </div>
+                </div>
+            </MudStack>
+        </MudForm>
+    </MudPaper>
+</div>

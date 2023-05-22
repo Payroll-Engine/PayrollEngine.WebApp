@@ -1,0 +1,47 @@
+﻿@using PayrollEngine.Data
+<MudDialog Class="attribute-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudStack Spacing="1">
+                <MudTextField T="string" @bind-Value="DataRelation.Name"
+                              Label="Name"
+                              Required="true" RequiredError="Name is required" />
+                <MudTextField T="string" @bind-Value="DataRelation.ParentTable"
+                              Label="Parent table"
+                              Required="true" RequiredError="Parent table is required" />
+                <MudTextField T="string" @bind-Value="DataRelation.ParentColumn"
+                              Label="Parent column"
+                              Required="true" RequiredError="Parent column is required" />
+                <MudTextField T="string" @bind-Value="DataRelation.ChildTable"
+                              Label="Child table"
+                              Required="true" RequiredError="Child table is required" />
+                <MudTextField T="string" @bind-Value="DataRelation.ChildColumn"
+                              Label="Child column"
+                              Required="true" RequiredError="Child column is required" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public DataRelation DataRelation { get; set; } = new();
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(DataRelation));
+        }
+    }
+}

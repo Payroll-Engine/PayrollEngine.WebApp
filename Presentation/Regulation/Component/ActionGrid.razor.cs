@@ -1,0 +1,317 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.ViewModel;
+using Task = System.Threading.Tasks.Task;
+
+namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
+
+public partial class ActionGrid : IDisposable
+{
+    [Parameter]
+    public RegulationEditContext EditContext { get; set; }
+    [Parameter]
+    public IRegulationItem Item { get; set; }
+    [Parameter]
+    public RegulationField Field { get; set; }
+    [Parameter]
+    public EventCallback<object> ValueChanged { get; set; }
+
+    [Inject]
+    protected ITenantService TenantService { get; set; }
+    [Inject]
+    private IDialogService DialogService { get; set; }
+
+    protected MudDataGrid<ActionItem> Grid { get; set; }
+    protected bool IsBaseValue { get; set; }
+    protected ItemCollection<ActionItem> Actions { get; set; }
+
+    protected string ActionFieldLabel => Field.GetActionFieldName().ToPascalSentence();
+
+    #region Action Commands
+
+    protected bool CanMoveActionUp(ActionItem item) =>
+        Actions.IndexOf(item) > 0;
+
+    protected bool CanMoveActionDown(ActionItem item) =>
+        Actions.IndexOf(item) < Actions.Count - 1;
+
+    private async Task MoveActionUpAsync(ActionItem item)
+    {
+        var index = Actions.IndexOf(item);
+        if (index < 1)
+        {
+            return;
+        }
+
+        Actions.RemoveAt(index);
+        Actions.Insert(index - 1, item);
+
+        await SetFieldValue();
+    }
+
+    private async Task MoveActionDownAsync(ActionItem action)
+    {
+        var index = Actions.IndexOf(action);
+        if (index >= Actions.Count - 1)
+        {
+            return;
+        }
+
+        Actions.RemoveAt(index);
+        Actions.Insert(index + 1, action);
+
+        await SetFieldValue();
+    }
+
+    private async Task AddActionAsync()
+    {
+        // find next free index
+        var index = 1;
+        if (Actions.Any())
+        {
+            index = Actions.Max(x => x.Index) + 1;
+        }
+
+        // new action
+        var action = new ActionItem(index);
+
+        // position
+        int? lastIndex = null;
+        if (lastSelected != null)
+        {
+            lastIndex = Actions.IndexOf(lastSelected);
+            lastSelected = null;
+        }
+
+        // dialog parameters
+        var parameters = new DialogParameters
+        {
+            { nameof(ActionDialog.EditContext), EditContext },
+            { nameof(ActionDialog.Item), Item },
+            { nameof(ActionDialog.Field), Field },
+            { nameof(ActionDialog.Action), action },
+        };
+
+
+        // attribute create dialog
+        var dialog = await (await DialogService.ShowAsync<ActionDialog>("New action", parameters)).Result;
+        if (dialog == null || dialog.Canceled)
+        {
+            return;
+        }
+
+        // new attribute
+        var item = dialog.Data as ActionItem;
+        if (item == null)
+        {
+            return;
+        }
+
+        // add or insert action
+        if (lastIndex.HasValue && lastIndex >= 0)
+        {
+            Actions.Insert(lastIndex.Value + 1, action);
+        }
+        else
+        {
+            Actions.Add(action);
+        }
+        await SetFieldValue();
+    }
+
+    private async Task EditActionAsync(ActionItem action)
+    {
+        if (action == null)
+        {
+            throw new ArgumentNullException(nameof(action));
+        }
+
+        // existing
+        if (!Actions.Contains(action))
+        {
+            return;
+        }
+
+        // edit copy
+        var editItem = new ActionItem(action);
+
+        // dialog parameters
+        var parameters = new DialogParameters
+        {
+            { nameof(ActionDialog.EditContext), EditContext },
+            { nameof(ActionDialog.Item), Item },
+            { nameof(ActionDialog.Field), Field },
+            { nameof(ActionDialog.Action), editItem }
+        };
+
+        // attribute create dialog
+        var dialog = await (await DialogService.ShowAsync<ActionDialog>("Edit action", parameters)).Result;
+        if (dialog == null || dialog.Canceled)
+        {
+            return;
+        }
+
+        // new attribute
+        var item = dialog.Data as ActionItem;
+        if (item == null)
+        {
+            return;
+        }
+
+        // replace action
+        Actions.Remove(action);
+        Actions.Add(editItem);
+        await SetFieldValue();
+    }
+
+    private async Task DeleteActionAsync(ActionItem action)
+    {
+        if (action == null)
+        {
+            throw new ArgumentNullException(nameof(action));
+        }
+
+        // existing
+        if (!Actions.Contains(action))
+        {
+            return;
+        }
+
+        // confirmation
+        if (!await DialogService.ShowDeleteMessageBoxAsync(
+                "Delete action",
+                $"Delete {action.Action} permanently?"))
+        {
+            return;
+        }
+
+        // remove action
+        Actions.Remove(action);
+        await SetFieldValue();
+    }
+
+    private ActionItem lastSelected;
+
+    private void SelectedActionChanged(ActionItem item) =>
+        lastSelected = item;
+
+    #endregion
+
+    #region Value
+
+    private string ActionFieldName => Field.GetActionFieldName();
+
+    protected List<string> FieldValue
+    {
+        get => Item.GetPropertyValue<List<string>>(ActionFieldName);
+        set => Item.SetPropertyValue(ActionFieldName, value);
+    }
+
+    private async Task SetFieldValue()
+    {
+        var value = new List<string>();
+        foreach (var actionItem in Actions)
+        {
+            value.Add(actionItem.Action);
+        }
+
+        // field value
+        if (Item.IsNew() || !Field.KeyField)
+        {
+            var fieldValue = value;
+            if (!fieldValue.Any())
+            {
+                var baseValue = GetBaseValue();
+                if (baseValue != null && baseValue.Any() &&
+                    !Field.Required && CompareTool.EqualLists(fieldValue, baseValue))
+                {
+                    // reset value on non-mandatory fields
+                    fieldValue = null;
+                }
+            }
+
+            FieldValue = fieldValue;
+        }
+
+        // notifications
+        UpdateState();
+        await ValueChanged.InvokeAsync(value);
+    }
+
+    private void ApplyFieldValue()
+    {
+        // value
+        var value = FieldValue;
+        if ((value == null || !value.Any()) && Field.HasBaseValues)
+        {
+            value = GetBaseValue();
+        }
+        var newValue = new ItemCollection<ActionItem>();
+        if (value != null)
+        {
+            var index = 0;
+            foreach (var action in value)
+            {
+                newValue.Add(new(index, action));
+                index++;
+            }
+        }
+        Actions = newValue;
+    }
+
+    protected List<string> GetBaseValue() =>
+        Item.GetBaseValue<List<string>>(Field.PropertyName);
+
+    #endregion
+
+    #region Lifecycle
+
+    private void UpdateState()
+    {
+        var value = Actions;
+
+        // base value
+        IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
+                      CompareTool.EqualLists(value, GetBaseValue());
+
+        StateHasChanged();
+    }
+
+    private IRegulationItem lastObject;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // ensure expression/action field
+        if (!Field.IsAction)
+        {
+            throw new PayrollException($"Field {Field.PropertyName} has no actions");
+        }
+
+        lastObject = Item;
+        ApplyFieldValue();
+        UpdateState();
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (lastObject != Item)
+        {
+            lastObject = Item;
+            ApplyFieldValue();
+            UpdateState();
+        }
+        await base.OnParametersSetAsync();
+    }
+
+    #endregion
+
+    public void Dispose()
+    {
+        Actions?.Dispose();
+    }
+}

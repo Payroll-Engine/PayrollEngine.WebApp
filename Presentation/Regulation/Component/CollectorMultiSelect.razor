@@ -1,0 +1,16 @@
+﻿<MudSelect T="string" 
+           Label="@Item.GetItemLabel(Field)"
+           HelperText="@Item.GetItemHelp(Field)"
+           MultiSelection="true"
+           SelectAll="true" 
+           SelectAllText="@($"Select all {Item.GetItemLabel(Field)}")"
+           SelectedValues="SelectedCollectors" SelectedValuesChanged="SelectionChangedAsync"
+           Value="@CollectorsAsString"
+           Disabled="@(!Collectors.Any())"
+           ReadOnly="@Item.IsReadOnlyField(Field)"
+           Clearable="@Item.IsClearableField(Field)">
+    @foreach (var collector in Collectors)
+    {
+        <MudSelectItem T="string" Value="@collector.Name">@collector.Name</MudSelectItem>
+    }
+</MudSelect>

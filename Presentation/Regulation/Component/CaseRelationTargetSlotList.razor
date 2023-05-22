@@ -1,0 +1,20 @@
+﻿@using PayrollEngine.Client.Model
+
+@inherits CaseSlotListBase
+
+<MudSelect T="CaseSlot"
+           Label="@Item.GetItemLabel(Field)"
+           HelperText="@Item.GetItemHelp(Field)"
+           Value="@SelectedCaseSlot" ValueChanged="ValueChangedAsync"
+           Disabled="@(!CaseSlots.Any())"
+           ReadOnly="@Item.IsReadOnlyField(Field)"
+           Clearable="@Item.IsClearableField(Field)">
+    @{
+        foreach (var caseSlot in CaseSlots)
+        {
+            <MudSelectItem T="CaseSlot" Value="@caseSlot">
+                @EditContext.User.Language.GetLocalization(caseSlot.NameLocalizations, caseSlot.Name)
+            </MudSelectItem>
+        }
+    }
+</MudSelect>

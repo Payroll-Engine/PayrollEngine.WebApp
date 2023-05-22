@@ -1,0 +1,16 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Version>0.5.0-pre-230522</Version>
+    <FileVersion>0.5.0</FileVersion>
+    <InformationalVersion></InformationalVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <NoWarn>1701;1702;8034;AD0001</NoWarn>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,46 @@
+﻿@page "/sharedregulations"
+@using PayrollEngine.WebApp.ViewModel
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<PayrollEngine.WebApp.ViewModel.RegulationShare, Query, PayrollEngine.WebApp.Server.Dialogs.RegulationShareDialog>
+
+@if (!HasFeature(Feature.SharedRegulations))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Shared Regulations</MudText>
+
+<MudDataGrid @ref="ItemsGrid" T="RegulationShare"
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true"
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Status" />
+        <PropertyColumn Property="x => x.ProviderTenantIdentifier" Title="Provider Tenant" />
+        <PropertyColumn Property="x => x.ProviderRegulationName" Title="Provider Regulation" />
+        <PropertyColumn Property="x => x.ConsumerTenantIdentifier" Title="Consumer Tenant" />
+        <PropertyColumn Property="x => x.ConsumerDivisionName" Title="Consumer Division" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <ItemActionsColumn T="RegulationShare" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="RegulationShare" />
+    </PagerContent>
+    <NoRecordsContent>
+        No regulation shares available
+    </NoRecordsContent>
+</MudDataGrid>

@@ -1,0 +1,41 @@
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Tenant>
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Server.Components
+
+<MudDialog Class="item-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+                <MudTabPanel Text="Common">
+                    <MudStack Spacing="1">
+                        <MudTextField T="string" @bind-Value="Tenant.Identifier"
+                                      MaxLength="@SystemSpecification.KeyTextLength"
+                                      ReadOnly="@Tenant.IsExistingObject"
+                                      Label="@(Tenant.IsNewObject ? "Identifier (immutable)" : "Identifier")"
+                                      Validation="@(!string.IsNullOrWhiteSpace(Tenant.Identifier))"
+                                      Required="true" RequiredError="Identifier is required" />
+                        <ItemBaseFields Item="Tenant" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="Attributes">
+                    <AttributesGrid Item="Tenant" Class="attributes-grid" />
+                </MudTabPanel>
+            </MudTabs>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="Tenant" FormValidator="this" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Tenant Tenant { get; set; } = new();
+
+    public async Task<bool> ValidateAsync(Tenant tenant) =>
+        await form.Revalidate();
+}

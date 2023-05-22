@@ -1,0 +1,80 @@
+﻿@using Date = PayrollEngine.Date
+@inherits FieldEditorBase;
+
+@if (!Years.Any())
+{
+    return;
+}
+
+<MudSelect T="int?"
+           @bind-Value="Field.ValueAsInteger"
+           Label="@ValueLabel"
+           HelperText="@ValueHelp"
+           Error="@Error"
+           Disabled="@ValuesDisabled"
+           ReadOnly="@ReadOnly"
+           Required="@Required"
+           RequiredError="@ValueRequiredError"
+           Adornment="@ValueAdornment"
+           AdornmentText="@ValueAdornmentText">
+    @foreach (var year in Years)
+    {
+        <MudSelectItem T="int?" Value="@year">@year</MudSelectItem>
+    }
+</MudSelect>
+
+@code
+{
+    [Parameter]
+    public int MinYear { get; set; }
+    [Parameter]
+    public int MaxYear { get; set; }
+
+    protected override string ValueLabel { get; set; }
+    private List<int> Years { get; } = new();
+
+    protected bool ValuesDisabled =>
+        Disabled || !Years.Any();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // label
+        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? "Year";
+
+        // year selection setup
+        var currentYear = Date.Now.Year;
+        int minYear;
+        if (MinYear > 0)
+        {
+            minYear = MinYear;
+        }
+        else
+        {
+            minYear = Field.Attributes?.GetMinIntegerValue(Language) ??
+                      currentYear - 25;
+        }
+        int maxYear;
+        if (MaxYear > 0)
+        {
+            maxYear = MaxYear;
+        }
+        else
+        {
+            maxYear = Field.Attributes?.GetMaxIntegerValue(Language) ??
+                      currentYear + 25;
+        }
+        for (var year = minYear; year <= maxYear; year++)
+        {
+            Years.Add(year);
+        }
+
+        // value init
+        var value = Field.ValueAsInteger;
+        if (!value.HasValue)
+        {
+            Field.ValueAsInteger = currentYear;
+        }
+
+        await base.OnInitializedAsync();
+    }
+}

@@ -1,0 +1,34 @@
+﻿@typeparam T where T : PayrollEngine.Client.IModel
+
+@using PayrollEngine.Client.Model
+@using PayrollEngine.WebApp.Presentation
+
+<MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+    <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+</MudStack>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public T Item { get; set; }
+    [Parameter] public IItemValidator<T> FormValidator { get; set; }
+    [Parameter] public IItemValidator<T> ItemValidator { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async System.Threading.Tasks.Task Submit()
+    {
+        // form validator
+        if (FormValidator != null && !await FormValidator.ValidateAsync(Item))
+        {
+            return;
+        }
+
+        // model validator
+        if (ItemValidator != null && !await ItemValidator.ValidateAsync(Item))
+        {
+            return;
+        }
+        MudDialog.Close(DialogResult.Ok(Item));
+    }
+}

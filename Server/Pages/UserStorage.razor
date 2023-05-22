@@ -1,0 +1,53 @@
+﻿@page "/userstorage"
+
+@inherits UserStoragePageBase
+
+@if (!HasFeature(Feature.UserStorage))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">User Storage</MudText>
+
+<MudDataGrid T="StorageItem"
+             Items="@Items"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             Filterable="true"
+             Hideable="false">
+    <Columns>
+        <PropertyColumn Property="x => x.Key" />
+        <PropertyColumn Property="x => x.Value" />
+        <TemplateColumn T="StorageItem" CellClass="d-flex justify-end" ShowColumnOptions="false"
+                        ShowFilterIcon="false" Sortable="false">
+            <HeaderTemplate>
+                <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+                    <MudTooltip Delay="500" Text="Remove all" Placement="Placement.Top">
+                        <MudIconButton @onclick="@RemoveAllAsync"
+                                       Disabled="@(Items.Count == 0)"
+                                       Color="Color.Tertiary"
+                                       Variant="Variant.Outlined"
+                                       Icon="@Icons.Material.Filled.DeleteSweep"
+                                       Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+            </HeaderTemplate>
+            <FilterTemplate />
+            <CellTemplate>
+                <MudTooltip Delay="500" Text="@($"Remove item {context.Item.Key}")" Placement="Placement.Top">
+                    <MudIconButton @onclick="@(() => RemoveAsync(context.Item))"
+                                   Color="Color.Secondary"
+                                   Variant="Variant.Outlined"
+                                   Icon="@Icons.Material.Filled.Delete"
+                                   Size="Size.Small" />
+                </MudTooltip>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="StorageItem" />
+    </PagerContent>
+    <NoRecordsContent>
+        No storage items available
+    </NoRecordsContent>
+</MudDataGrid>

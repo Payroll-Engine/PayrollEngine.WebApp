@@ -1,0 +1,19 @@
+﻿@typeparam T
+
+<MudSelect T="string"
+           Label="@Item.GetItemLabel(Field)"
+           HelperText="@Item.GetItemHelp(Field)"
+           MultiSelection="true"
+           SelectAll="true"
+           SelectAllText="@($"Select all {Item.GetItemLabel(Field)}")"
+           SelectedValues="SelectedValues" SelectedValuesChanged="SelectionChangedAsync"
+           MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))"
+           Value="ValuesAsString"
+           ReadOnly="@Item.IsReadOnlyField(Field)"
+           Required="@Field.Required"
+           RequiredError="@Field.RequiredError">
+    @foreach (var item in Enum.GetValues(typeof(T)))
+    {
+        <MudSelectItem T="string" Value="@item.ToString()">@item.ToString().ToPascalSentence()</MudSelectItem>
+    }
+</MudSelect>

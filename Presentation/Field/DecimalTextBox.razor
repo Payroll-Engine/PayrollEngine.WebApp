@@ -1,0 +1,88 @@
+﻿@inherits FieldEditorBase;
+
+@* money input *@
+@if (InputType == DecimalInputType.Money)
+{
+    <MudNumericField T="decimal?"
+                 @bind-Value="@Field.ValueAsDecimal"
+                 Culture="@Culture"
+                 Min="@MinValue"
+                 Max="@MaxValue"
+                 Step="@StepSize"
+                 Label="@ValueLabel"
+                 HelperText="@ValueHelp"
+                 Error="@Error"
+                 Disabled="@Disabled"
+                 ReadOnly="@ReadOnly"
+                 Required="@Required"
+                 RequiredError="@ValueRequiredError"
+                 Adornment="Adornment.End"
+                 AdornmentText="@(ValueAdornmentText ?? CurrencySymbol)" />
+    return;
+}
+
+@* percent input *@
+@if (InputType == DecimalInputType.Percent)
+{
+    <MudNumericField T="decimal?"
+                 @bind-Value="@Field.ValueAsPercent"
+                 Culture="@Culture"
+                 Min="@MinValue"
+                 Max="@MaxValue"
+                 Step="@StepSize"
+                 Label="@ValueLabel"
+                 HelperText="@ValueHelp"
+                 Error="@Error"
+                 Disabled="@Disabled"
+                 ReadOnly="@ReadOnly"
+                 Required="@Required"
+                 RequiredError="@ValueRequiredError"
+                 Adornment="Adornment.End"
+                 AdornmentText="@(ValueAdornmentText ?? "%")" />
+    return;
+}
+
+@* decimal input *@
+<MudNumericField T="decimal?"
+                 @bind-Value="@Field.ValueAsDecimal"
+                 Format="@Format"
+                 Culture="@Culture"
+                 Min="@MinValue"
+                 Max="@MaxValue"
+                 Step="@StepSize"
+                 Label="@ValueLabel"
+                 HelperText="@ValueHelp"
+                 Error="@Error"
+                 Required="@Required"
+                 Disabled="@Disabled"
+                 ReadOnly="@ReadOnly"
+                 RequiredError="@ValueRequiredError"
+                 Adornment="@ValueAdornment"
+                 AdornmentText="@ValueAdornmentText" />
+
+@code
+{
+    [Parameter]
+    public DecimalInputType InputType { get; set; }
+
+    private decimal? MinValue { get; set; }
+    private decimal? MaxValue { get; set; }
+    private decimal? StepSize { get; set; }
+    private string Format { get; set; }
+
+    private string CurrencySymbol =>
+        Culture?.NumberFormat.CurrencySymbol;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // range
+        MinValue = Field.Attributes.GetMinDecimalValue(Language);
+        MaxValue = Field.Attributes.GetMaxDecimalValue(Language);
+        StepSize = Field.Attributes.GetDecimalStepSize(Language);
+
+        // format
+        Format = Field.Attributes.GetFormat(Language);
+
+        await base.OnInitializedAsync();
+    }
+}

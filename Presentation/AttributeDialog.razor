@@ -1,0 +1,110 @@
+﻿<MudDialog Class="attribute-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTextField T="string" @bind-Value="Attribute.Name"
+                          Label="Name"
+                          Validation="@(new Func<string, string>(ValidateName))"
+                          Required="true" RequiredError="Name is required" />
+            <MudSelect @ref="typeSelect" T=" AttributeValueType" Label="Type" Value="Attribute.ValueType"
+                       ValueChanged="ValueTypeChangedHandler">
+                <EnumSelectItems T="AttributeValueType" />
+            </MudSelect>
+            @switch (Attribute.ValueType)
+            {
+                case AttributeValueType.String:
+                    <MudTextField T="string" Label="Value"
+                    @bind-Value="Attribute.ValuesAsString"
+                                  Required="true" RequiredError="Value is required"
+                                  Lines="6" />
+                    <div class="d-flex flex-wrap justify-end">
+                        <MudTooltip Delay="500" Text="Json reformat" Placement="Placement.Bottom">
+                            <MudIconButton @onclick="@(JsonReformatAsync)"
+                                           Icon="@Icons.Material.Outlined.FormatIndentIncrease" />
+                        </MudTooltip>
+                    </div>
+                    break;
+                case AttributeValueType.Numeric:
+                    <MudNumericField T="decimal" Label="Value"
+                    @bind-Value="Attribute.ValuesAsNumber"
+                                     Required="true" RequiredError="Value is required" />
+                    break;
+                case AttributeValueType.Boolean:
+                    <MudSwitch T="bool" Label="Value" Color="Color.Primary"
+                    @bind-Checked="Attribute.ValuesAsBoolean"
+                               Required="true" RequiredError="Value is required" />
+                    break;
+            }
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+    MudSelect<AttributeValueType> typeSelect;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public IDictionary<string, object> Attributes { get; set; }
+    [Parameter] public AttributeItem Attribute { get; set; } = new();
+
+    [Inject] private IDialogService DialogService { get; set; }
+
+    private string ValidateName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return "Name is required";
+        }
+
+        if (Attributes != null && Attributes.ContainsKey(name))
+        {
+            return "Name already in use";
+        }
+        return null;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(Attribute));
+        }
+    }
+
+    private void ValueTypeChangedHandler()
+    {
+        // reset value
+        Attribute.Value = string.Empty;
+        // change type
+        Attribute.ValueType = typeSelect.Value;
+        // replace value control
+        StateHasChanged();
+    }
+
+    private async Task JsonReformatAsync()
+    {
+        var value = Attribute.ValuesAsString;
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return;
+        }
+
+        // json prettify
+        try
+        {
+            Attribute.Value = value.JsonPrettify();
+        }
+        catch (Exception exception)
+        {
+            Log.Trace(exception, exception.GetBaseMessage());
+            await DialogService.ShowErrorMessageBoxAsync("Json error", exception);
+        }
+    }
+}

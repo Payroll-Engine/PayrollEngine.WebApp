@@ -1,0 +1,14 @@
+﻿@typeparam T
+
+<MudSelect T="T" 
+           Label="@Item.GetItemLabel(Field)"
+           HelperText="@Item.GetItemHelp(Field)"
+           Value="@Value" ValueChanged="ValueChangedAsync"
+           ReadOnly="@Item.IsReadOnlyField(Field)"
+           Required="@Field.Required"
+           RequiredError="@Field.RequiredError">
+    @foreach (var item in Enum.GetValues(typeof(T)))
+    {
+        <MudSelectItem T="T" Value="@((T)item)">@item.ToString().ToPascalSentence()</MudSelectItem>
+    }
+</MudSelect>

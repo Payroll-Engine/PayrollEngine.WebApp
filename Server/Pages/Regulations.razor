@@ -1,0 +1,51 @@
+﻿@page "/regulations"
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Regulation, Query, PayrollEngine.WebApp.Server.Dialogs.RegulationDialog>
+
+@if (!HasFeature(Feature.Regulations))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h4" Class="my-4">Regulations</MudText>
+
+<MudDataGrid @ref="ItemsGrid" T="ViewModel.Regulation" 
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true"
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Status" />
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.Description" />
+        <PropertyColumn Property="x => x.Owner" />
+        <PropertyColumn Property="x => x.ValidFrom" Title="Valid from">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.ValidFrom)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Version" />
+        <PropertyColumn Property="x => x.SharedRegulation" />
+        <PropertyColumn Property="x => x.Created">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <ItemActionsColumn T="ViewModel.Regulation" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="ViewModel.Regulation" />
+    </PagerContent>
+    <NoRecordsContent>
+        No regulations available
+    </NoRecordsContent>
+</MudDataGrid>

@@ -1,0 +1,16 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+
+<MudSelect T="RegulationCase"
+           Label="@Item.GetItemLabel(Field)"
+           HelperText="@Item.GetItemHelp(Field)"
+           Value="@SelectedCase" ValueChanged="ValueChangedAsync"
+           Disabled="@(!Cases.Any())"
+           ReadOnly="@Item.IsReadOnlyField(Field)"
+           Clearable="@Item.IsClearableField(Field)">
+    @{
+        foreach (var regulationCase in Cases)
+        {
+            <MudSelectItem T="RegulationCase" Value="@regulationCase">@regulationCase.Name</MudSelectItem>
+        }
+    }
+</MudSelect>
