@@ -93,7 +93,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <param name="feature">The feature to test</param>
     /// <returns>True if feature is available</returns>
     public bool HasFeature(Feature feature) =>
-        Session.UserFeature(feature);
+        Session.Tenant != null && Session.UserFeature(feature);
 
     #endregion
 

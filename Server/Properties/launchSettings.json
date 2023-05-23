@@ -12,7 +12,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "payruns",
+      "launchUrl": "payrolls",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
