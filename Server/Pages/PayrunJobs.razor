@@ -27,7 +27,7 @@
 @* payrun selection *@
 @if (SelectedPayrun == null)
 {
-    <div style="padding-top: 16px">Please select a payrun</div>
+    <div class="pa-1">Please select a payrun</div>
 }
 <MudSelect T="string"
            Value="SelectedPayrunName"
@@ -67,42 +67,42 @@
 
                                 @* job name *@
                                 <MudTextField T="string"
-                                          @bind-Value="LegalSetup.JobName"
-                                          MaxLength="SystemSpecification.KeyTextLength"
-                                          ReadOnly="@HasLegalJob"
-                                          Margin="Margin.Dense"
-                                          Required="@(!HasLegalJob)"
-                                          RequiredError="Payrun job name is required"
-                                          Label="Job name" />
+                                @bind-Value="LegalSetup.JobName"
+                                              MaxLength="SystemSpecification.KeyTextLength"
+                                              ReadOnly="@HasLegalJob"
+                                              Margin="Margin.Dense"
+                                              Required="@(!HasLegalJob)"
+                                              RequiredError="Payrun job name is required"
+                                              Label="Job name" />
 
                                 @* period *@
                                 <MudDatePicker @bind-Date="@LegalSetup.Period"
-                                           ReadOnly="@HasLegalJob"
-                                           Label="Period"
-                                           OpenTo="OpenTo.Month"
-                                           Margin="Margin.Dense"
-                                           Required="@(!HasLegalJob)"
-                                           RequiredError="Payrun job period is required"
-                                           Editable="true" />
+                                               ReadOnly="@HasLegalJob"
+                                               Label="Period"
+                                               OpenTo="OpenTo.Month"
+                                               Margin="Margin.Dense"
+                                               Required="@(!HasLegalJob)"
+                                               RequiredError="Payrun job period is required"
+                                               Editable="true" />
 
                                 @* employees *@
                                 @if (HasLegalJob)
                                 {
                                     <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"
-                                                SelectedEmployees="@LegalSetup.SelectedEmployees.Select(x => x.Id).ToList()" />
+                                                        SelectedEmployees="@LegalSetup.SelectedEmployees.Select(x => x.Id).ToList()" />
                                 }
                                 else
                                 {
                                     <MudSelect T="Employee"
-                                       @bind-Value="LegalSetup.SelectedEmployee"
-                                       @bind-SelectedValues="LegalSetup.SelectedEmployees"
-                                       Disabled="@(!Employees.Any())"
-                                       ReadOnly="@HasLegalJob"
-                                       Label="Employees"
-                                       Margin="Margin.Dense"
-                                       MultiSelection="true"
-                                       SelectAll="true"
-                                       SelectAllText="Select all employees">
+                                    @bind-Value="LegalSetup.SelectedEmployee"
+                                    @bind-SelectedValues="LegalSetup.SelectedEmployees"
+                                               Disabled="@(!Employees.Any())"
+                                               ReadOnly="@HasLegalJob"
+                                               Label="Employees"
+                                               Margin="Margin.Dense"
+                                               MultiSelection="true"
+                                               SelectAll="true"
+                                               SelectAllText="Select all employees">
                                         @foreach (var employee in Employees)
                                         {
                                             <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
@@ -120,28 +120,28 @@
                                     else
                                     {
                                         <MudButton Variant="Variant.Outlined"
-                                       Color="@(LegalSetup.ValidParameters() ? Color.Primary : Color.Error)"
-                                       OnClick="@(() => SetupPayrunParametersAsync(LegalSetup.Parameters))">Parameters</MudButton>
+                                                   Color="@(LegalSetup.ValidParameters() ? Color.Primary : Color.Error)"
+                                                   OnClick="@(() => SetupPayrunParametersAsync(LegalSetup.Parameters))">Parameters</MudButton>
                                     }
                                 }
 
                                 @* reason *@
                                 <MudTextField T="string"
-                                          @bind-Value="LegalSetup.Reason"
-                                          ReadOnly="@HasLegalJob"
-                                          Margin="Margin.Dense"
-                                          Required="@(!HasLegalJob)"
-                                          RequiredError="Payrun job reason is required"
-                                          Lines="3"
-                                          Label="Reason"
-                                          Variant="Variant.Outlined" />
+                                @bind-Value="LegalSetup.Reason"
+                                              ReadOnly="@HasLegalJob"
+                                              Margin="Margin.Dense"
+                                              Required="@(!HasLegalJob)"
+                                              RequiredError="Payrun job reason is required"
+                                              Lines="3"
+                                              Label="Reason"
+                                              Variant="Variant.Outlined" />
                                 @if (!HasLegalJob)
                                 {
                                     <MudButton OnClick="StartLegalJobAsync"
-                                       Style="width: max-content; align-self: end;"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Tertiary"
-                                       Disabled="@(!LegalSetup.IsValidLegalJob())">
+                                               Style="width: max-content; align-self: end;"
+                                               Variant="Variant.Outlined"
+                                               Color="Color.Tertiary"
+                                               Disabled="@(!LegalSetup.IsValidLegalJob())">
                                         Start Payrun
                                     </MudButton>
                                 }
@@ -152,7 +152,7 @@
                     @if (HasLegalJob)
                     {
                         <MudPaper Class="pa-4" Elevation="@(LegalJob.JobStatus.IsDraft() ? 4 : 1)"
-                          Style="max-width: 15em; max-width: 25em">
+                                  Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6" Color="@(LegalJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
                                     Draft
@@ -165,15 +165,15 @@
                                 {
                                     <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
                                         <MudButton OnClick="AbortLegalJobAsync"
-                                       Style="Width: max-content"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Error">
+                                                   Style="Width: max-content"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Error">
                                             Abort
                                         </MudButton>
                                         <MudButton OnClick="ReleaseLegalJobAsync"
-                                       Style="width: max-content"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Tertiary">
+                                                   Style="width: max-content"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Tertiary">
                                             Release
                                         </MudButton>
                                     </div>
@@ -185,10 +185,10 @@
                     @if (HasLegalJob && LegalJob.Released.HasValue)
                     {
                         <MudPaper Class="pa-4" Elevation="@(LegalJob.JobStatus.IsRelease() ? 4 : 1)"
-                          Style="max-width: 15em; max-width: 25em">
+                                  Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
-                                 Color="@(LegalJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
+                                         Color="@(LegalJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
                                     Release
                                 </MudText>
                                 <MudInputLabel Class="pt-2">Date</MudInputLabel>
@@ -202,9 +202,9 @@
                                             Abort
                                         </MudButton>
                                         <MudButton OnClick="ProcessLegalJobAsync"
-                                       Style="width: max-content"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Tertiary">
+                                                   Style="width: max-content"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Tertiary">
                                             Process
                                         </MudButton>
                                     </div>
@@ -216,10 +216,10 @@
                     @if (HasLegalJob && LegalJob.Processed.HasValue)
                     {
                         <MudPaper Class="pa-4" Elevation="@(LegalJob.JobStatus.IsProcess() ? 4 : 1)"
-                          Style="max-width: 15em; max-width: 25em">
+                                  Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
-                                 Color="@(LegalJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
+                                         Color="@(LegalJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
                                     Process
                                 </MudText>
                                 <MudInputLabel Class="pt-2">Date</MudInputLabel>
@@ -230,15 +230,15 @@
                                 {
                                     <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
                                         <MudButton OnClick="CancelLegalJobAsync"
-                                       Style="Width: max-content"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Error">
+                                                   Style="Width: max-content"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Error">
                                             Cancel
                                         </MudButton>
                                         <MudButton OnClick="CompleteLegalJobAsync"
-                                       Style="width: max-content"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Tertiary">
+                                                   Style="width: max-content"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Tertiary">
                                             Complete
                                         </MudButton>
                                     </div>
@@ -251,7 +251,7 @@
                    LegalJob.JobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort)
                     {
                         <MudPaper Class="pa-4" Elevation="4"
-                          Style="max-width: 15em; max-width: 25em">
+                                  Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6" Color="Color.Error">@LegalJob.JobStatus</MudText>
                                 <MudInputLabel Class="pt-2">Created</MudInputLabel>
@@ -266,12 +266,12 @@
                 @* legal payrun job history *@
                 <MudText Typo="Typo.h5" Class="py-4">Job History</MudText>
                 <MudDataGrid @ref="LegalJobsGrid" T="PayrunJob"
-                         ServerData="GetLegalServerDataAsync"
-                         FilterMode="DataGridFilterMode.ColumnFilterRow"
-                         ColumnResizeMode="ResizeMode.Column"
-                         SortMode="SortMode.Multiple"
-                         Filterable="true"
-                         Hideable="true">
+                             ServerData="GetLegalServerDataAsync"
+                             FilterMode="DataGridFilterMode.ColumnFilterRow"
+                             ColumnResizeMode="ResizeMode.Column"
+                             SortMode="SortMode.Multiple"
+                             Filterable="true"
+                             Hideable="true">
                     <Columns>
                         <PropertyColumn Property="x => x.Name" Title="Job Name" />
                         <PropertyColumn Property="x => x.JobStatus" Title="Status" />
@@ -305,41 +305,41 @@
                             <MudStack>
                                 @* forecast name *@
                                 <MudTextField T="string"
-                                          @bind-Value="ForecastSetup.ForecastName"
-                                          MaxLength="SystemSpecification.KeyTextLength"
-                                          Margin="Margin.Dense"
-                                          Required="true"
-                                          RequiredError="Forecast name is required"
-                                          Label="Forecast name" />
+                                @bind-Value="ForecastSetup.ForecastName"
+                                              MaxLength="SystemSpecification.KeyTextLength"
+                                              Margin="Margin.Dense"
+                                              Required="true"
+                                              RequiredError="Forecast name is required"
+                                              Label="Forecast name" />
 
                                 @* job name *@
                                 <MudTextField T="string"
-                                          @bind-Value="ForecastSetup.JobName"
-                                          MaxLength="SystemSpecification.KeyTextLength"
-                                          Margin="Margin.Dense"
-                                          Required="true"
-                                          RequiredError="Forecast job name is required"
-                                          Label="Job name" />
+                                @bind-Value="ForecastSetup.JobName"
+                                              MaxLength="SystemSpecification.KeyTextLength"
+                                              Margin="Margin.Dense"
+                                              Required="true"
+                                              RequiredError="Forecast job name is required"
+                                              Label="Job name" />
 
                                 @* period *@
                                 <MudDatePicker @bind-Date="@ForecastSetup.Period"
-                                           Label="Period"
-                                           OpenTo="OpenTo.Month"
-                                           Margin="Margin.Dense"
-                                           Required="true"
-                                           RequiredError="Forecast job period is required"
-                                           Editable="true" />
+                                               Label="Period"
+                                               OpenTo="OpenTo.Month"
+                                               Margin="Margin.Dense"
+                                               Required="true"
+                                               RequiredError="Forecast job period is required"
+                                               Editable="true" />
 
                                 @* employees *@
                                 <MudSelect T="Employee"
-                                       @bind-Value="ForecastSetup.SelectedEmployee"
-                                       @bind-SelectedValues="ForecastSetup.SelectedEmployees"
-                                       Disabled="@(!Employees.Any())"
-                                       Label="Employees"
-                                       Margin="Margin.Dense"
-                                       MultiSelection="true"
-                                       SelectAll="true"
-                                       SelectAllText="Select all employees">
+                                @bind-Value="ForecastSetup.SelectedEmployee"
+                                @bind-SelectedValues="ForecastSetup.SelectedEmployees"
+                                           Disabled="@(!Employees.Any())"
+                                           Label="Employees"
+                                           Margin="Margin.Dense"
+                                           MultiSelection="true"
+                                           SelectAll="true"
+                                           SelectAllText="Select all employees">
                                     @foreach (var employee in Employees)
                                     {
                                         <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
@@ -350,23 +350,23 @@
                                 @if (ForecastSetup.Parameters.Any())
                                 {
                                     <MudButton Variant="Variant.Outlined"
-                                       Color="@(ForecastSetup.ValidParameters() ? Color.Primary : Color.Error)"
-                                       OnClick="@(() => SetupPayrunParametersAsync(ForecastSetup.Parameters))">Parameters</MudButton>
+                                               Color="@(ForecastSetup.ValidParameters() ? Color.Primary : Color.Error)"
+                                               OnClick="@(() => SetupPayrunParametersAsync(ForecastSetup.Parameters))">Parameters</MudButton>
                                 }
 
                                 @* reason *@
                                 <MudTextField T="string"
-                                          @bind-Value="ForecastSetup.Reason"
-                                          Margin="Margin.Dense"
-                                          RequiredError="Payrun job reason is required"
-                                          Lines="3"
-                                          Label="Reason"
-                                          Variant="Variant.Outlined" />
+                                @bind-Value="ForecastSetup.Reason"
+                                              Margin="Margin.Dense"
+                                              RequiredError="Payrun job reason is required"
+                                              Lines="3"
+                                              Label="Reason"
+                                              Variant="Variant.Outlined" />
                                 <MudButton Style="width: max-content; align-self: end;"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Tertiary"
-                                       Disabled="@(!ForecastSetup.IsValidForecastJob())"
-                                       OnClick="StartForecastJobAsync">Start Forecast Payrun</MudButton>
+                                           Variant="Variant.Outlined"
+                                           Color="Color.Tertiary"
+                                           Disabled="@(!ForecastSetup.IsValidForecastJob())"
+                                           OnClick="StartForecastJobAsync">Start Forecast Payrun</MudButton>
                             </MudStack>
                         </MudForm>
                     </MudPaper>
@@ -375,12 +375,12 @@
                 @* forecast payrun job history *@
                 <MudText Typo="Typo.h5" Class="py-4">Forecast Job History</MudText>
                 <MudDataGrid @ref="ForecastJobsGrid" T="PayrunJob"
-                         ServerData="GetForecastServerDataAsync"
-                         FilterMode="DataGridFilterMode.ColumnFilterRow"
-                         ColumnResizeMode="ResizeMode.Column"
-                         SortMode="SortMode.Multiple"
-                         Filterable="true"
-                         Hideable="true">
+                             ServerData="GetForecastServerDataAsync"
+                             FilterMode="DataGridFilterMode.ColumnFilterRow"
+                             ColumnResizeMode="ResizeMode.Column"
+                             SortMode="SortMode.Multiple"
+                             Filterable="true"
+                             Hideable="true">
                     <Columns>
                         <PropertyColumn Property="x => x.Name" Title="Job Name" />
                         <PropertyColumn Property="x => x.Forecast" Title="Forcast Name" />

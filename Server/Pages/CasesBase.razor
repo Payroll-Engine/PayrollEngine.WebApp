@@ -181,7 +181,7 @@ else
                         var caseName = UserLanguage.GetLocalization(change.CaseNameLocalizations, change.CaseName);
                         <MudTooltip Delay="500" Placement="Placement.Right">
                             <ChildContent>
-                                <span style="display: inline-block; padding: 4px">
+                                <span style="display: inline-block;" class="pa-1">
                                     @($"{caseName} • {ValueFormatter.ToCompactString(change.Created)}")
                                 </span>
                             </ChildContent>
@@ -205,7 +205,7 @@ else
                         @* Label: "<case> - 07.12.21 [Cancel-Button]" *@
                         else if (cancellationType != CaseCancellationType.None && cancellationId == null)
                         {
-                            <span style="display: inline-block; float: right; padding: 4px">
+                            <span style="display: inline-block; float: right;" class="pa-1">
                                 <MudTooltip Delay="500" Text="Undo case change" Placement="Placement.Top">
                                     <MudIconButton @onclick="@(() => CancelCaseChangeAsync(change))"
                                        Color="Color.Secondary" Variant="Variant.Outlined"
@@ -218,7 +218,7 @@ else
                         @* Label: "<case> - 07.12.21, cancelled on 07.12.21" *@
                         else if (cancellationType == CaseCancellationType.None && cancellationId != null)
                         {
-                            <span style="display: inline-block; float: right; padding: 4px">
+                            <span style="display: inline-block; float: right;" class="pa-1">
                                 @($" Undone • {ValueFormatter.ToCompactString(change.CancellationDate)}")
                             </span>
                         }
@@ -226,7 +226,7 @@ else
                         @* Label: "Case 'abc' from 07.12.21" *@
                         else if (cancellationType != CaseCancellationType.None && cancellationId != null)
                         {
-                            <span style="display: inline-block; float: right; padding: 4px">
+                            <span style="display: inline-block; float: right;" class="pa-1">
                                 @($" Undo • {ValueFormatter.ToCompactString(change.CancellationDate)}")
                             </span>
                         }

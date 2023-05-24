@@ -18,7 +18,7 @@
         <MudAppBar Elevation="1">
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
                        OnClick="NavigationToggleAsync" Title="Toggle sidebar" />
-            <MudText Typo="Typo.h5" Style="min-width: 180px; width: max-content;">
+            <MudText Typo="Typo.h5" Style="min-width: 12em; width: max-content;">
                 @ApplicationTitle
             </MudText>
             @if (Session.AnyUserFeature())
@@ -98,7 +98,7 @@
         </MudDrawer>
     }
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Style="margin: 10px 0">
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mx-2 my-0">
             @Body
         </MudContainer>
     </MudMainContent>

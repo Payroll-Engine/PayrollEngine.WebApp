@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Blazor.Polyfill.Server;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -67,7 +66,6 @@ public class Startup
         services.AddRazorPages();
         services.AddServerSideBlazor();
         services.AddBlazoredLocalStorage();
-        services.AddBlazorPolyfill();
 
         // UI
         services.AddMudServices(options =>
@@ -99,7 +97,6 @@ public class Startup
 
         appBuilder.UseSession();
         appBuilder.UseHttpsRedirection();
-        appBuilder.UseBlazorPolyfill();
         appBuilder.UseStaticFiles();
 
         // set culture

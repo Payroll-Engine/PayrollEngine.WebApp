@@ -7,9 +7,9 @@
         <MudStack Row="false" Spacing="0">
             <table>
                 @{
-                    const string labelStyle = "text-align: right; padding-right: 8px; line-height: normal; vertical-align: bottom;";
+                    const string labelStyle = "text-align: right; line-height: normal; vertical-align: bottom;";
                     <tr>
-                        <td style="@labelStyle">
+                        <td style="@labelStyle" class="pr-2">
                             <MudText Typo="Typo.caption">@EditItem.InheritanceType @ItemTypeName</MudText>
                         </td>
                         <td>
