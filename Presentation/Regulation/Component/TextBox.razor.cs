@@ -23,6 +23,10 @@ public partial class TextBox : IRegulationInput
     /// <summary>Override field help</summary>
     [Parameter]
     public string HelperText { get; set; }
+    [Parameter]
+    public string Class { get; set; }
+    [Parameter]
+    public string Style { get; set; }
 
     [Inject]
     private IDialogService DialogService { get; set; }

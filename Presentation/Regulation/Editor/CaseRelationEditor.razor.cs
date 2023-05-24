@@ -53,14 +53,14 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
                 Expression = true,
                 Action = FunctionType.CaseRelationBuild,
                 Label = "Build script",
-                Lines = 5
+                Lines = 8
             },
             new(nameof(RegulationCaseRelation.ValidateExpression), typeof(TextBox))
             {
                 Expression = true,
                 Action = FunctionType.CaseRelationValidate,
                 Label = "Validate script",
-                Lines = 5
+                Lines = 8
             }
         };
     }

@@ -115,12 +115,12 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
             new(nameof(RegulationCaseField.BuildActions), typeof(TextBox))
             {
                 Action = FunctionType.CaseBuild,
-                Lines = 5
+                Lines = 8
             },
             new(nameof(RegulationCaseField.ValidateActions), typeof(TextBox))
             {
                 Action = FunctionType.CaseValidate,
-                Lines = 5
+                Lines = 8
             },
 
             // attributes

@@ -48,19 +48,19 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
             {
                 Expression = true,
                 Label = "Build script",
-                Lines = 5
+                Lines = 8
             },
             new(nameof(RegulationReport.StartExpression), typeof(TextBox))
             {
                 Expression = true,
                 Label = "Start script",
-                Lines = 5
+                Lines = 8
             },
             new(nameof(RegulationReport.EndExpression), typeof(TextBox))
             {
                 Expression = true,
                 Label = "End script",
-                Lines = 5
+                Lines = 8
             },
             // attributes
             new(nameof(RegulationReport.Attributes), null)

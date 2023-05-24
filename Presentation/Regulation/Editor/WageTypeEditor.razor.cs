@@ -50,13 +50,13 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
             {
                 Expression = true,
                 Label = "Value script",
-                Lines = 5
+                Lines = 8
             },
             new(nameof(RegulationWageType.ResultExpression), typeof(TextBox))
             {
                 Expression = true,
                 Label = "Result script",
-                Lines = 5
+                Lines = 8
             }
         };
     }

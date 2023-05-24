@@ -68,21 +68,21 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
                 Expression = true,
                 Action = FunctionType.CaseAvailable,
                 Label = "Available script",
-                Lines = 5
+                Lines = 8
             },
             new(nameof(RegulationCase.BuildExpression), typeof(TextBox))
             {
                 Expression = true,
                 Action = FunctionType.CaseBuild,
                 Label = "Build script",
-                Lines = 5
+                Lines = 8
             },
             new(nameof(RegulationCase.ValidateExpression), typeof(TextBox))
             {
                 Expression = true,
                 Action = FunctionType.CaseValidate,
                 Label = "Validate script",
-                Lines = 5
+                Lines = 8
             },
 
             // attributes
