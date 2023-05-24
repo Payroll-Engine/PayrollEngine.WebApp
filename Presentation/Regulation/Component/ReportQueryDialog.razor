@@ -1,17 +1,19 @@
 ﻿<MudDialog Class="attribute-dialog">
     <DialogContent>
-        <MudForm @ref="form">
-            <MudStack Spacing="1">
-                <MudTextField T="string" @bind-Value="Query.Name"
-                              Label="Name"
-                              Validation="@(new Func<string, string>(ValidateName))"
-                              Required="true" RequiredError="Name is required" />
-                <MudTextField T="string" @bind-Value="Query.Value"
-                              Label="Value"
-                              Lines="3"
-                              Required="true" RequiredError="Value is required" />
-            </MudStack>
-        </MudForm>
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="1">
+                    <MudTextField T="string" @bind-Value="Query.Name"
+                                  Label="Name"
+                                  Validation="@(new Func<string, string>(ValidateName))"
+                                  Required="true" RequiredError="Name is required" />
+                    <MudTextField T="string" @bind-Value="Query.Value"
+                                  Label="Value"
+                                  Lines="3"
+                                  Required="true" RequiredError="Value is required" />
+                </MudStack>
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">

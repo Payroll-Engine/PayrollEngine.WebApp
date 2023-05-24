@@ -9,7 +9,7 @@
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
                 <MudTabPanel Text="Common">
-                    <MudStack Spacing="1">
+                    <MudStack Class="pa-4" Spacing="1">
                         <LocalizationTextField Item="@Payroll" @bind-Value="Payroll.Name"
                                                PropertyName="@nameof(Payroll.Name)"
                                                MaxLength="@SystemSpecification.KeyTextLength"
@@ -41,7 +41,7 @@
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="Clusters">
-                    <MudStack Spacing="1">
+                    <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" Label="Case" @bind-Value="Payroll.ClusterSetCase" />
                         <MudTextField T="string" Label="Case field" @bind-Value="Payroll.ClusterSetCaseField" />
                         <MudTextField T="string" Label="Case value" @bind-Value="Payroll.ClusterSetCaseValue" />
@@ -53,10 +53,10 @@
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="Cluster sets">
-                    <ClusterSetGrid Payroll="Payroll" Class="attributes-grid" />
+                    <ClusterSetGrid Payroll="Payroll" Class="attributes-grid pa-2" />
                 </MudTabPanel>
                 <MudTabPanel Text="Attributes">
-                    <AttributesGrid Item="Payroll" Class="attributes-grid" />
+                    <AttributesGrid Item="Payroll" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
         </MudForm>

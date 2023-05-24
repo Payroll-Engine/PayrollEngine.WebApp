@@ -31,7 +31,7 @@ public class UserStoragePageBase : PageBase
 
     // local storage service
     [Inject]
-    protected ILocalStorageService LocalStorage { get; set; }
+    private ILocalStorageService LocalStorage { get; set; }
 
     /// <summary>
     /// Storage items

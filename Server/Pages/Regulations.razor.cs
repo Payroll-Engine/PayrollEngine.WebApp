@@ -8,7 +8,7 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class Regulations
 {
     [Inject]
-    protected RegulationBackendService RegulationBackendService { get; set; }
+    private RegulationBackendService RegulationBackendService { get; set; }
 
     protected override string GridId => GetTenantGridId(GridIdentifiers.Regulations);
     protected override IBackendService<ViewModel.Regulation, Query> BackendService => RegulationBackendService;

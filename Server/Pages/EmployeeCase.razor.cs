@@ -16,7 +16,7 @@ public partial class EmployeeCase : ICaseValueProvider
     }
 
     [Inject]
-    protected IEmployeeCaseValueService EmployeeCaseValueService { get; set; }
+    private IEmployeeCaseValueService EmployeeCaseValueService { get; set; }
 
     protected override CaseType CaseType => CaseType.Employee;
     protected override string ParentPageName => PageUrls.EmployeeCases;

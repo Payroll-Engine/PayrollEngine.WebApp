@@ -2,12 +2,14 @@
 
 <MudDialog Style="min-width: 500px;">
     <DialogContent>
-        <MudStack Spacing="1">
-            <MudTextField T="string" Label="Name" Value="Task.Name" ReadOnly="true" />
-            <MudTextField T="string" Label="Category" Value="Task.Category" ReadOnly="true" />
-            <MudTextField T="string" Label="Instruction" Value="Task.Instruction" Lines="4" ReadOnly="true" />
-            <MudTextField T="DateTime?" Label="Schedule date" Value="Task.Scheduled" ReadOnly="true" />
-        </MudStack>
+        <MudPaper>
+            <MudStack Class="pa-4" Spacing="1">
+                <MudTextField T="string" Label="Name" Value="Task.Name" ReadOnly="true" />
+                <MudTextField T="string" Label="Category" Value="Task.Category" ReadOnly="true" />
+                <MudTextField T="string" Label="Instruction" Value="Task.Instruction" Lines="4" ReadOnly="true" />
+                <MudTextField T="DateTime?" Label="Schedule date" Value="Task.Scheduled" ReadOnly="true" />
+            </MudStack>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">

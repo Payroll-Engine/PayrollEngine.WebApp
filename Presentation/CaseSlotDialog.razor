@@ -3,17 +3,19 @@
 
 <MudDialog Class="attribute-dialog">
     <DialogContent>
-        <MudForm @ref="form">
-            <MudTextField T="string" @bind-Value="CaseSlot.Name"
-                          Label="Name"
-                          Validation="@(new Func<string, string>(ValidateName))"
-                          Required="true" RequiredError="Name is required"
-                          Adornment="Adornment.End"
-                          AdornmentIcon="@Icons.Material.Filled.Language"
-                          AdornmentColor="@LocalizationColor"
-                          AdornmentAriaLabel="@LocalizationHelp"
-                          OnAdornmentClick="OpenLocalizationsAsync" />
-        </MudForm>
+        <MudPaper>
+            <MudForm @ref="form">
+                <MudTextField T="string" @bind-Value="CaseSlot.Name"
+                              Label="Name"
+                              Validation="@(new Func<string, string>(ValidateName))"
+                              Required="true" RequiredError="Name is required"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@Icons.Material.Filled.Language"
+                              AdornmentColor="@LocalizationColor"
+                              AdornmentAriaLabel="@LocalizationHelp"
+                              OnAdornmentClick="OpenLocalizationsAsync" />
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
@@ -60,7 +62,7 @@
             return;
         }
 
-    // localizations
+        // localizations
         var localizations = result.Data as Dictionary<string, string>;
         if (localizations == null)
         {

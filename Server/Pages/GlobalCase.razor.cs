@@ -15,7 +15,7 @@ public partial class GlobalCase : ICaseValueProvider
     }
 
     [Inject]
-    protected IGlobalCaseValueService GlobalCaseValueService { get; set; }
+    private IGlobalCaseValueService GlobalCaseValueService { get; set; }
 
     protected override CaseType CaseType => CaseType.Global;
     protected override string ParentPageName => PageUrls.GlobalCases;

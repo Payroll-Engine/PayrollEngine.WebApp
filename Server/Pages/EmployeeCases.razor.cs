@@ -1,5 +1,4 @@
 ﻿using PayrollEngine.Client.Model;
-using PayrollEngine.Client.Service;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
@@ -10,13 +9,9 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class EmployeeCases
 {
     [Inject]
-    protected IEmployeeCaseValueService EmployeeCaseValueService { get; set; }
+    private EmployeeCaseChangeValueBackendService CaseValueService { get; set; }
     [Inject]
-    protected IEmployeeCaseChangeService EmployeeCaseChangeService { get; set; }
-    [Inject]
-    protected EmployeeCaseChangeValueBackendService CaseValueService { get; set; }
-    [Inject]
-    protected EmployeeCaseDocumentBackendService CaseDocumentService { get; set; }
+    private EmployeeCaseDocumentBackendService CaseDocumentService { get; set; }
 
     public EmployeeCases() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange | WorkingItems.EmployeeChange)

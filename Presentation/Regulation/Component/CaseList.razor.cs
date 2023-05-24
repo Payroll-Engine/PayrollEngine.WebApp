@@ -19,9 +19,9 @@ public partial class CaseList : IRegulationInput
     public EventCallback<object> ValueChanged { get; set; }
 
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IPayrollService PayrollService { get; set; }
     [Inject]
-    protected IUserNotificationService UserNotification { get; set; }
+    private IUserNotificationService UserNotification { get; set; }
 
     private List<RegulationCase> Cases { get; set; } = new();
     private RegulationCase SelectedCase { get; set; }

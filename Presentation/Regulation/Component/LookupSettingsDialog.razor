@@ -7,26 +7,28 @@
 
 <MudDialog Class="attribute-dialog">
     <DialogContent>
-        <MudForm @ref="form">
-            <MudStack Spacing="1">
-                <MudSelect T="string" Label="Lookup name"
-                @bind-Value="Settings.LookupName"
-                           Disabled="@(!Lookups.Any())"
-                           Required="true" RequiredError="Lookup name is required">
-                    @foreach (var lookup in Lookups)
-                    {
-                        <MudSelectItem T="string" Value="@lookup.Name">
-                            @Language.GetLocalization(lookup.NameLocalizations, lookup.Name)
-                        </MudSelectItem>
-                    }
-                </MudSelect>
-                <MudTextField T="string" @bind-Value="Settings.ValueFieldName"
-                              Label="Value field name"
-                              Required="true" RequiredError="Value field name is required" />
-                <MudTextField T="string" @bind-Value="Settings.TextFieldName"
-                              Label="Text fiels name" />
-            </MudStack>
-        </MudForm>
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="1">
+                    <MudSelect T="string" Label="Lookup name"
+                    @bind-Value="Settings.LookupName"
+                               Disabled="@(!Lookups.Any())"
+                               Required="true" RequiredError="Lookup name is required">
+                        @foreach (var lookup in Lookups)
+                        {
+                            <MudSelectItem T="string" Value="@lookup.Name">
+                                @Language.GetLocalization(lookup.NameLocalizations, lookup.Name)
+                            </MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudTextField T="string" @bind-Value="Settings.ValueFieldName"
+                                  Label="Value field name"
+                                  Required="true" RequiredError="Value field name is required" />
+                    <MudTextField T="string" @bind-Value="Settings.TextFieldName"
+                                  Label="Text fiels name" />
+                </MudStack>
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
@@ -45,7 +47,7 @@
     [Parameter] public LookupSettings Settings { get; set; } = new();
     [Parameter] public Language Language { get; set; }
 
-    [Inject] protected IPayrollService PayrollService { get; set; }
+    [Inject] private IPayrollService PayrollService { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 

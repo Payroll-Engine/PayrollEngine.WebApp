@@ -17,7 +17,7 @@
     {
         <MudAppBar Elevation="1">
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-                       OnClick="SidebarToggleAsync" Title="Toggle sidebar" />
+                       OnClick="NavigationToggleAsync" Title="Toggle sidebar" />
             <MudText Typo="Typo.h5" Style="min-width: 180px; width: max-content;">
                 @ApplicationTitle
             </MudText>
@@ -93,7 +93,7 @@
                 }
             </MudMenu>
         </MudAppBar>
-        <MudDrawer @bind-Open="SidebarOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <MudDrawer @bind-Open="NavigationOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
             <NavMenu />
         </MudDrawer>
     }

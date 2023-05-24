@@ -1,8 +1,8 @@
-﻿@using NUglify.JavaScript
-@inherits ComponentBase;
+﻿@inherits ComponentBase;
 
 <MudNavMenu Class="pt-1">
-    @if (Session.AnyUserFeature()) {
+    @if (Session.AnyUserFeature() && PageGroups != null) 
+    {
         // top pages
         var topPages = Pages.Where( 
         x => x.PageGroup == null &&
@@ -21,7 +21,8 @@
             Session.UserFeature(x.Feature)).ToList();
             if (groupPages.Any())
             {
-                <MudNavGroup Title="@pageGroup.GroupName" Expanded="@pageGroup.Expanded">
+                <MudNavGroup Title="@pageGroup.GroupName" Expanded="@pageGroup.Expanded"
+                             ExpandedChanged="@(() => GroupExpandChangeAsync(pageGroup))">
                     @foreach (var groupPage in groupPages)
                     {
                         if (Session.UserFeature(groupPage.Feature))

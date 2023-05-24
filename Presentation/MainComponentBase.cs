@@ -8,15 +8,15 @@ namespace PayrollEngine.WebApp.Presentation;
 public abstract class MainComponentBase : LayoutComponentBase, IDisposable
 {
     [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
-    [Inject]
     protected UserSession Session { get; set; }
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
     [Inject]
     protected IUserNotificationService UserNotificationService { get; set; }
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; }
 
-    public WorkingItems WorkingItems => Session.WorkingItems;
+    protected WorkingItems WorkingItems => Session.WorkingItems;
 
     protected bool IsInitialized { get; private set; }
 

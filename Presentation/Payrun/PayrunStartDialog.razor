@@ -102,9 +102,9 @@
     [Parameter] public PayrunJobSetup Setup { get; set; }
 
     [Inject]
-    protected IPayrunJobService PayrunJobService { get; set; }
+    private IPayrunJobService PayrunJobService { get; set; }
     [Inject]
-    protected IUserNotificationService UserNotification { get; set; }
+    private IUserNotificationService UserNotification { get; set; }
 
     private bool Executing { get; set; }
     private bool Completed { get; set; }

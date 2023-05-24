@@ -24,19 +24,17 @@ public partial class PayrunJobs : IPayrunJobOperator
     public string Payrun { get; set; }
 
     [Inject]
-    protected PayrunPayrunJobBackendService PayrunPayrunJobBackendService { get; set; }
+    private PayrunPayrunJobBackendService PayrunPayrunJobBackendService { get; set; }
     [Inject]
-    protected IPayrunParameterService PayrunParameterService { get; set; }
+    private IPayrunParameterService PayrunParameterService { get; set; }
     [Inject]
-    protected IPayrunJobService PayrunJobService { get; set; }
+    private IPayrunJobService PayrunJobService { get; set; }
     [Inject]
-    protected IPayrunService PayrunService { get; set; }
+    private IPayrunService PayrunService { get; set; }
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IEmployeeService EmployeeService { get; set; }
     [Inject]
-    protected IEmployeeService EmployeeService { get; set; }
-    [Inject]
-    protected IUserService UserService { get; set; }
+    private IUserService UserService { get; set; }
 
     public PayrunJobs() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)

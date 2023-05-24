@@ -15,7 +15,7 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class Regulation
 {
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IPayrollService PayrollService { get; set; }
 
     protected ItemBrowser ItemBrowser { get; set; }
     protected ItemEditorPanel ItemEditorPanel { get; set; }

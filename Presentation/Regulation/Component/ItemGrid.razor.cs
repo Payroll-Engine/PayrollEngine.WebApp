@@ -30,18 +30,19 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     public ItemCollection<TItem> Items { get; set; }
     [Parameter]
     public int ItemsPageSize { get; set; } = 20;
-    [Parameter] public IItemFactory<TParent> ParentFactory { get; set; } = null;
+    [Parameter] 
+    public IItemFactory<TParent> ParentFactory { get; set; } = null;
     [Parameter]
     public RegulationItemType ItemType { get; set; }
     [Parameter]
     public EventCallback<TItem> SelectedItemChanged { get; set; }
 
     [Inject]
-    public IThemeService ThemeService { get; set; }
+    private IThemeService ThemeService { get; set; }
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    public ILocalStorageService LocalStorage { get; set; }
+    private ILocalStorageService LocalStorage { get; set; }
 
     protected bool HasParent => ParentFactory != null;
     protected MudDataGrid<TItem> ItemsGrid { get; set; }

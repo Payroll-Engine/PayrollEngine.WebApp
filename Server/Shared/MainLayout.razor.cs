@@ -17,18 +17,18 @@ public abstract class MainLayoutBase : MainComponentBase
     [Inject]
     private IConfiguration Configuration { get; set; }
     [Inject]
-    public IThemeService ThemeService { get; set; }
+    private IThemeService ThemeService { get; set; }
     [Inject]
-    public ILocalStorageService LocalStorage { get; set; }
+    private ILocalStorageService LocalStorage { get; set; }
     [Inject]
-    public IDialogService DialogService { get; set; }
+    private IDialogService DialogService { get; set; }
 
     /// <summary>
     /// Application title
     /// </summary>
-    public string ApplicationTitle { get; private set; }
+    protected string ApplicationTitle { get; private set; }
 
-    protected bool SidebarOpen { get; set; } = true;
+    protected bool NavigationOpen { get; set; } = true;
 
     #region Tenant
 
@@ -193,20 +193,21 @@ public abstract class MainLayoutBase : MainComponentBase
 
     #region Navigation
 
-    protected async Task SidebarToggleAsync()
+    protected async Task NavigationToggleAsync()
     {
-        SidebarOpen = !SidebarOpen;
+        NavigationOpen = !NavigationOpen;
 
-        // store sidebar state
-        await LocalStorage.SetItemAsBooleanAsync("SidebarOpen", SidebarOpen);
+        // store navigation state
+        await LocalStorage.SetItemAsBooleanAsync("NavigationOpen", NavigationOpen);
     }
 
     private async Task SetupNavigationAsync()
     {
-        var sidebarOpen = await LocalStorage.GetItemAsBooleanAsync("SidebarOpen");
-        if (sidebarOpen.HasValue)
+        // navigation state
+        var navigationOpen = await LocalStorage.GetItemAsBooleanAsync("NavigationOpen");
+        if (navigationOpen.HasValue)
         {
-            SidebarOpen = sidebarOpen.Value;
+            NavigationOpen = navigationOpen.Value;
         }
     }
 

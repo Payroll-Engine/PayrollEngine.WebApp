@@ -5,6 +5,7 @@ namespace PayrollEngine.WebApp.Presentation;
 public class PageGroupInfo
 {
     public string GroupName { get; }
+
     public bool Expanded { get; set; }
 
     public PageGroupInfo(string groupName, bool expanded = false)

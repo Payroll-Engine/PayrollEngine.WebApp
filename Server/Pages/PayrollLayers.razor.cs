@@ -18,9 +18,9 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class PayrollLayers
 {
     [Inject]
-    protected IRegulationService RegulationService { get; set; }
+    private IRegulationService RegulationService { get; set; }
     [Inject]
-    protected PayrollLayerBackendService PayrollLayerBackendService { get; set; }
+    private PayrollLayerBackendService PayrollLayerBackendService { get; set; }
 
     private List<ViewModel.Regulation> Regulations { get; set; }
     protected override string GridId => GetTenantGridId(GridIdentifiers.PayrollLayers);

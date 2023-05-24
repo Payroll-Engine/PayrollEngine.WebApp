@@ -14,9 +14,9 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class Payrolls
 {
     [Inject]
-    protected PayrollBackendService PayrollBackendService { get; set; }
+    private PayrollBackendService PayrollBackendService { get; set; }
     [Inject]
-    protected IDivisionService DivisionService { get; set; }
+    private IDivisionService DivisionService { get; set; }
 
     protected override string GridId => GetTenantGridId(GridIdentifiers.Payrolls);
     protected override IBackendService<Payroll, Query> BackendService => PayrollBackendService;

@@ -8,7 +8,7 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class Users
 {
     [Inject]
-    protected UserBackendService UserBackendService { get; set; }
+    private UserBackendService UserBackendService { get; set; }
 
     protected override string GridId => GetTenantGridId(GridIdentifiers.Users);
     protected override IBackendService<ViewModel.User, Query> BackendService => UserBackendService;

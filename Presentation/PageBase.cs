@@ -14,7 +14,7 @@ namespace PayrollEngine.WebApp.Presentation;
 public abstract class PageBase : ComponentBase, IDisposable
 {
     /// <summary>Default calendar</summary>
-    public static readonly CalendarConfiguration DefaultCalendar = new()
+    protected static readonly CalendarConfiguration DefaultCalendar = new()
     {
         FirstMonthOfYear = Month.January, // calendar year
         AverageMonthDays = 30M, // switzerland
@@ -29,11 +29,6 @@ public abstract class PageBase : ComponentBase, IDisposable
         }
     };
 
-    public static readonly int DefaultPageSizeMain = 25;
-    public static readonly int DefaultPageSizeChild = 15;
-    public static readonly int DefaultPageSizeHistory = 5;
-    public static readonly int DataGridPageSizeLookup = 10;
-
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
     [Inject]
@@ -41,13 +36,13 @@ public abstract class PageBase : ComponentBase, IDisposable
     [Inject]
     protected ITenantService TenantService { get; set; }
     [Inject]
-    protected ILogService LogService { get; set; }
-    [Inject]
     protected IDialogService DialogService { get; set; }
     [Inject]
     protected IUserNotificationService UserNotification { get; set; }
     [Inject]
-    public IThemeService ThemeService { get; set; }
+    private ILogService LogService { get; set; }
+    [Inject]
+    private IThemeService ThemeService { get; set; }
 
     protected IValueFormatter ValueFormatter => Session.ValueFormatter;
 
@@ -66,7 +61,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// The page working items
     /// </summary>
-    public WorkingItems WorkingItems { get; }
+    protected WorkingItems WorkingItems { get; }
 
     protected virtual bool WorkingItemsFulfilled(int? tenantId, int? payrollId, int? employeeId) =>
         (!WorkingItems.TenantView() && !WorkingItems.TenantChange() || tenantId.HasValue) &&
@@ -80,19 +75,19 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     ///  Thw working user
     /// </summary>
-    public User User => Session.User;
+    protected User User => Session.User;
 
     /// <summary>
     /// The users language
     /// </summary>
-    public Language UserLanguage => User.Language;
+    protected Language UserLanguage => User.Language;
 
     /// <summary>
     /// Check for user feature
     /// </summary>
     /// <param name="feature">The feature to test</param>
     /// <returns>True if feature is available</returns>
-    public bool HasFeature(Feature feature) =>
+    protected bool HasFeature(Feature feature) =>
         Session.Tenant != null && Session.UserFeature(feature);
 
     #endregion
@@ -102,12 +97,12 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// The working tenant
     /// </summary>
-    public Tenant Tenant => Session.Tenant;
+    protected Tenant Tenant => Session.Tenant;
 
     /// <summary>
     /// True if tenant is available
     /// </summary>
-    public bool HasTenant => Tenant != null;
+    protected bool HasTenant => Tenant != null;
 
     /// <summary>
     /// True if tenant is missing
@@ -184,12 +179,12 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// The working payroll
     /// </summary>
-    public Payroll Payroll => Session.Payroll;
+    protected Payroll Payroll => Session.Payroll;
 
     /// <summary>
     /// True if payroll is available
     /// </summary>
-    public bool HasPayroll => Session.Payroll != null;
+    protected bool HasPayroll => Session.Payroll != null;
 
     /// <summary>
     /// True if payroll is missing
@@ -216,12 +211,12 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// The working employee
     /// </summary>
-    public Employee Employee => Session.Employee;
+    protected Employee Employee => Session.Employee;
 
     /// <summary>
     /// True if employee is available
     /// </summary>
-    public bool HasEmployee => Session.Employee != null;
+    protected bool HasEmployee => Session.Employee != null;
 
     /// <summary>
     /// True if employee id missing
@@ -342,7 +337,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// Navigate to home page
     /// </summary>
     /// <param name="forceLoad">Enforce page reload</param>
-    public void NavigateHome(bool forceLoad = false) =>
+    protected void NavigateHome(bool forceLoad = false) =>
         NavigateTo("/", forceLoad);
 
     /// <summary>
@@ -350,7 +345,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// </summary>
     /// <param name="uri">The target page address</param>
     /// <param name="forceLoad">Enforce page reload</param>
-    public void NavigateTo(string uri, bool forceLoad = false) =>
+    protected void NavigateTo(string uri, bool forceLoad = false) =>
         NavigationManager.NavigateTo(uri, forceLoad);
 
     #endregion
@@ -399,6 +394,15 @@ public abstract class PageBase : ComponentBase, IDisposable
 
     #region Lifecycle
 
+    private async Task TenantChangedEvent(object sender, Tenant tenant) =>
+        await OnTenantChangedAsync(tenant);
+
+    private async Task PayrollChangedEvent(object sender, Payroll payroll) =>
+        await OnPayrollChangedAsync(payroll);
+
+    private async Task EmployeeChangedEvent(object sender, ViewModel.Employee employee) =>
+        await OnEmployeeChangedAsync(employee);
+
     // see https://stackoverflow.com/questions/56477829/how-to-fix-the-current-thread-is-not-associated-with-the-renderers-synchroniza
     // answer: https://stackoverflow.com/a/60353701
     protected async Task StateHasChangedAsync()
@@ -435,15 +439,6 @@ public abstract class PageBase : ComponentBase, IDisposable
             Session.TenantChanged -= TenantChangedEvent;
         }
     }
-
-    private async Task TenantChangedEvent(object sender, Tenant tenant) =>
-        await OnTenantChangedAsync(tenant);
-
-    private async Task PayrollChangedEvent(object sender, Payroll payroll) =>
-        await OnPayrollChangedAsync(payroll);
-
-    private async Task EmployeeChangedEvent(object sender, ViewModel.Employee employee) =>
-        await OnEmployeeChangedAsync(employee);
 
     #endregion
 

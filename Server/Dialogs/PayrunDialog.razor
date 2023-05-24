@@ -10,7 +10,7 @@
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
                 <MudTabPanel Text="Common">
-                    <MudStack Spacing="1">
+                    <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" @bind-Value="Payrun.Name"
                                       Disabled="@(!PayrollNames.Any())"
                                       ReadOnly="@Payrun.IsExistingObject"
@@ -34,7 +34,7 @@
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="Expressions">
-                    <MudStack Spacing="1">
+                    <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" Label="Start expression" @bind-Value="Payrun.StartExpression" Lines="3" />
                         <MudTextField T="string" Label="Employee available expression" @bind-Value="Payrun.EmployeeAvailableExpression" Lines="3" />
                         <MudTextField T="string" Label="Employee start expression" @bind-Value="Payrun.EmployeeStartExpression" Lines="3" />
@@ -44,7 +44,7 @@
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="Calendar">
-                    <MudStack Spacing="1">
+                    <MudStack Class="pa-4" Spacing="1">
                         <MudSelect T="Month" @bind-Value="Calendar.FirstMonthOfYear" Label="First month of year">
                             <EnumSelectItems T="Month" />
                         </MudSelect>
@@ -72,7 +72,7 @@
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="Parameters">
-                    <MudStack Spacing="1">
+                    <MudStack Class="pa-4" Spacing="1">
                         <PayrunParameterGrid Tenant="Tenant" Payrun="Payrun" Style="min-width: fit-content;" />
                         <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-">
                             Changes are applied immediately

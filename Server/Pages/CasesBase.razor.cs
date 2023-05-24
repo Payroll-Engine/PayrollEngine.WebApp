@@ -19,11 +19,9 @@ public abstract partial class CasesBase
 {
     // external services
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IPayrollService PayrollService { get; set; }
     [Inject]
-    protected IPayrollCaseChangeValueService PayrollCaseChangeValueService { get; set; }
-    [Inject]
-    public ILocalStorageService LocalStorage { get; set; }
+    private ILocalStorageService LocalStorage { get; set; }
 
     protected CasesBase(WorkingItems workingItems) :
         base(workingItems)

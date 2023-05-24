@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.Model;
-using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
 using PayrollEngine.WebApp.Server.Shared;
@@ -10,13 +9,9 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class GlobalCases
 {
     [Inject]
-    protected IGlobalCaseValueService GlobalCaseValueService { get; set; }
+    private GlobalCaseChangeValueBackendService CaseValueService { get; set; }
     [Inject]
-    protected IGlobalCaseChangeService GlobalCaseChangeService { get; set; }
-    [Inject]
-    protected GlobalCaseChangeValueBackendService CaseValueService { get; set; }
-    [Inject]
-    protected GlobalCaseDocumentBackendService CaseDocumentService { get; set; }
+    private GlobalCaseDocumentBackendService CaseDocumentService { get; set; }
 
     public GlobalCases() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)

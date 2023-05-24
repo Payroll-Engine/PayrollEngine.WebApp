@@ -6,50 +6,50 @@
 - Browser client application
 
 ## Input Attributes
-| Name                     | Description                             | Type          | Default  | Supported by |
+| Name                       | Description                             | Type          | Default  | Supported by |
 |--|--|--|--|--|
-input.startLabel           | start date input label                  | string        | Start    | all |
-input.startHelp            | start date help text                    | string        | -        | all |
-input.startRequired        | start date required error text          | string        | Start    | all |
-input.startReadOnly        | start date is read only                 | bool          | false    | all (start date) |
-input.startFormat          | start date input format <sup>4)</sup>   | string        | system   | date, date-time |
-input.startPickerOpen      | start picker open mode <sup>2)</sup>    | string        | day      | date |
-input.startPickerType      | start date datetime type <sup>6)</sup>  | string        | date     | all |
+*input.startLabel*           | start date input label                  | string        | Start    | all |
+*input.startHelp*            | start date help text                    | string        | -        | all |
+*input.startRequired*        | start date required error text          | string        | Start    | all |
+*input.startReadOnly*        | start date is read only                 | bool          | false    | all (start date) |
+*input.startFormat*          | start date input format <sup>4)</sup>   | string        | system   | date, date-time |
+*input.startPickerOpen*      | start picker open mode <sup>2)</sup>    | string        | day      | date |
+*input.startPickerType*      | start date datetime type <sup>6)</sup>  | string        | date     | all |
 | | | | | |
-input.endLabel             | end date input label                    | string        | End      | all |
-input.endHelp              | end date help text                      | string        | -        | all |
-input.endRequired          | end date required error text            | string        | Start    | all |
-input.endReadOnly          | end date is read only                   | bool          | false    | all (end date) |
-input.endFormat            | end date input format <sup>4)</sup>     | string        | system   | date, date-time |
-input.endPickerOpen        | end picker date type <sup>2)</sup>      | string        | day      | date |
+*input.endLabel*             | end date input label                    | string        | End      | all |
+*input.endHelp*              | end date help text                      | string        | -        | all |
+*input.endRequired*          | end date required error text            | string        | Start    | all |
+*input.endReadOnly*          | end date is read only                   | bool          | false    | all (end date) |
+*input.endFormat*            | end date input format <sup>4)</sup>     | string        | system   | date, date-time |
+*input.endPickerOpen*        | end picker date type <sup>2)</sup>      | string        | day      | date |
 | | | | | |
-input.valueLabel           | input value placeholder text            | string        | system   | all |
-input.valueAdornment       | value adornment text                    | string        | -        | text, numeric |
-input.valueHelp            | value help text                         | string        | -        | all |
-input.valueRequired        | input value required error text         | string        | system   | all |
-input.valuePickerOpen      | date picker date type <sup>2)</sup>     | string        | day      | date |
+*input.valueLabel*           | input value placeholder text            | string        | system   | all |
+*input.valueAdornment*       | value adornment text                    | string        | -        | text, numeric |
+*input.valueHelp*            | value help text                         | string        | -        | all |
+*input.valueRequired*        | input value required error text         | string        | system   | all |
+*input.valuePickerOpen*      | date picker date type <sup>2)</sup>     | string        | day      | date |
 | | | | | |
-input.readOnly             | input is read only                      | bool          | false    | all |
-input.hidden               | input is hidden                         | bool          | false    | all |
-input.showDescription      | input description is visible            | bool          | false    | all |
-input.culture              | the display culture/currency <sup>1)</sup> | string     | system   | money |
-input.minValue             | minimum input value                     | DateTime/num  | -        | numeric, date, date-time |
-input.maxValue             | maximum input value                     | DateTime/num  | -        | numeric, date, date-time |
-input.stepSize             | step size on spin buttons               | num           | 1        | numeric |
-input.format               | input format <sup>4)</sup>              | string        | system   | date, date-time |
-input.mask                 | input mask <sup>3)</sup>                | string        | -        | text |
-input.sortOrder            | sorting order <sup>5)</sup>             | int           | system   | all |
-input.lineCount            | show multiple text lines                | int           | 1        | text |
-input.maxLength            | maximum text length                     | int           | -        | text |
-input.check                | input checkbox instead of switch        | bool          | false    | boolean |
-input.customValue          | able to enter custom lookup value       | bool          | false    | lookups |
+*input.readOnly*             | input is read only                      | bool          | false    | all |
+*input.hidden*               | input is hidden                         | bool          | false    | all |
+*input.showDescription*      | input description is visible            | bool          | false    | all |
+*input.culture*              | the display culture/currency <sup>1)</sup> | string     | system   | money |
+*input.minValue*             | minimum input value                     | DateTime/num  | -        | numeric, date, date-time |
+*input.maxValue*             | maximum input value                     | DateTime/num  | -        | numeric, date, date-time |
+*input.stepSize*             | step size on spin buttons               | num           | 1        | numeric |
+*input.format*               | input format <sup>4)</sup>              | string        | system   | date, date-time |
+*input.mask*                 | input mask <sup>3)</sup>                | string        | -        | text |
+*input.sortOrder*            | sorting order <sup>5)</sup>             | int           | system   | all |
+*input.lineCount*            | show multiple text lines                | int           | 1        | text |
+*input.maxLength*            | maximum text length                     | int           | -        | text |
+*input.check*                | input checkbox instead of switch        | bool          | false    | boolean |
+*input.customValue*          | able to enter custom lookup value       | bool          | false    | lookups |
 | | | | | |
-input.attachment           | enable document upload <sup>7)</sup>   | string        | none     | all |
-input.attachmentExtensions | allowed files for upload <sup>8)</sup> | string        | -        | all |
+*input.attachment*           | enable document upload <sup>7)</sup>   | string        | none     | all |
+*input.attachmentExtensions* | allowed files for upload <sup>8)</sup> | string        | -        | all |
 | | | | | |
-input.list                 | provide list of possible inputs         | object[] <sup>9)</sup> | -  | all |
-input.listValues           | provide values for a list               | object[] <sup>10)</sup> | key | all |
-input.listSelection        | preselected list value                  | string <sup>11)</sup>       | -        | all |
+*input.list*                 | provide list of possible inputs         | object[] <sup>9)</sup> | -  | all |
+*input.listValues*           | provide values for a list               | object[] <sup>10)</sup> | key | all |
+*input.listSelection*        | preselected list value                  | string <sup>11)</sup>       | -        | all |
 
 <sup>1\)</sup> culture names https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
 

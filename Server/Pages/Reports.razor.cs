@@ -17,11 +17,7 @@ public partial class Reports : IReportOperator
     }
 
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
-    [Inject]
-    protected IReportService ReportService { get; set; }
-    [Inject]
-    protected IReportSetService ReportSetService { get; set; }
+    private IPayrollService PayrollService { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnTenantChangedAsync(Client.Model.Tenant tenant)

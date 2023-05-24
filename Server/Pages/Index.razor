@@ -5,10 +5,9 @@
 @code
 {
     [Inject]
-    protected UserSession Session { get; set; }
-
+    private UserSession Session { get; set; }
     [Inject]
-    protected NavigationManager NavigationManager { get; set; }
+    private NavigationManager NavigationManager { get; set; }
 
     protected override void OnAfterRender(bool firstRender)
     {

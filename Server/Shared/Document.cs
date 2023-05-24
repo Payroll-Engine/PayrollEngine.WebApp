@@ -18,9 +18,9 @@ public class Document : ComponentBase, IDisposable
     public string BaseLabel { get; set; }
 
     [Inject]
-    protected NavigationManager NavigationManager { get; set; }
+    private NavigationManager NavigationManager { get; set; }
     [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
+    private IJSRuntime JsRuntime { get; set; }
 
     private async Task SetTitle(Uri uri)
     {

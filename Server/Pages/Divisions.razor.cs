@@ -9,7 +9,7 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class Divisions
 {
     [Inject]
-    protected DivisionBackendService DivisionBackendService { get; set; }
+    private DivisionBackendService DivisionBackendService { get; set; }
 
     protected override string GridId => GetTenantGridId(GridIdentifiers.Divisions);
     protected override IBackendService<Division, Query> BackendService => DivisionBackendService;

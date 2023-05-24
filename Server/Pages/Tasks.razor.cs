@@ -17,11 +17,11 @@ public partial class Tasks : ITaskOperator<ViewModel.Task>
 {
     // injected services
     [Inject]
-    protected ITaskService TaskService { get; set; }
+    private ITaskService TaskService { get; set; }
     [Inject]
-    protected TaskBackendService TaskBackendService { get; set; }
+    private TaskBackendService TaskBackendService { get; set; }
     [Inject]
-    public ILocalStorageService LocalStorage { get; set; }
+    private ILocalStorageService LocalStorage { get; set; }
 
     protected override string GridId => GetTenantGridId(GridIdentifiers.Tasks);
     protected override IBackendService<ViewModel.Task, Query> BackendService => TaskBackendService;

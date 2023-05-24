@@ -22,7 +22,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
     public EventCallback<object> ValueChanged { get; set; }
 
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IPayrollService PayrollService { get; set; }
     [Inject]
     private IDialogService DialogService { get; set; }
 

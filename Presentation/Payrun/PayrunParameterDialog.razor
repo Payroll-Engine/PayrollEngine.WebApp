@@ -4,9 +4,11 @@
 
 <MudDialog Style="min-width: 500px;">
     <DialogContent>
-        <MudForm @ref="form">
-            <FieldEditorStack Fields="@Parameters" Language="Language" />
-        </MudForm>
+        <MudPaper>
+            <MudForm @ref="form">
+                <FieldEditorStack Fields="@Parameters" Language="Language" />
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">

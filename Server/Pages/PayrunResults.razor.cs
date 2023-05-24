@@ -28,15 +28,15 @@ public partial class PayrunResults
     public string Payrun { get; set; }
 
     [Inject]
-    protected IPayrunService PayrunService { get; set; }
+    private IPayrunService PayrunService { get; set; }
     [Inject]
-    protected PayrollResultBackendService PayrollResultBackendService { get; set; }
+    private PayrollResultBackendService PayrollResultBackendService { get; set; }
     [Inject]
-    protected IConfiguration Configuration { get; set; }
+    private IConfiguration Configuration { get; set; }
     [Inject]
-    public ILocalStorageService LocalStorage { get; set; }
+    private ILocalStorageService LocalStorage { get; set; }
     [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
+    private IJSRuntime JsRuntime { get; set; }
 
     public PayrunResults() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)

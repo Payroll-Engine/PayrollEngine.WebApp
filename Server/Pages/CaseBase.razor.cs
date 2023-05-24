@@ -33,11 +33,9 @@ public abstract partial class CaseBase
     public bool Dense { get; set; } = true;
 
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IPayrollService PayrollService { get; set; }
     [Inject]
-    protected ICaseRelationService CaseRelationService { get; set; }
-    [Inject]
-    protected IConfiguration Configuration { get; set; }
+    private IConfiguration Configuration { get; set; }
 
     /// <summary>
     /// The root case

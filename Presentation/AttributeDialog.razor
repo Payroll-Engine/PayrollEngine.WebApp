@@ -1,40 +1,44 @@
 ﻿<MudDialog Class="attribute-dialog">
     <DialogContent>
-        <MudForm @ref="form">
-            <MudTextField T="string" @bind-Value="Attribute.Name"
-                          Label="Name"
-                          Validation="@(new Func<string, string>(ValidateName))"
-                          Required="true" RequiredError="Name is required" />
-            <MudSelect @ref="typeSelect" T=" AttributeValueType" Label="Type" Value="Attribute.ValueType"
-                       ValueChanged="ValueTypeChangedHandler">
-                <EnumSelectItems T="AttributeValueType" />
-            </MudSelect>
-            @switch (Attribute.ValueType)
-            {
-                case AttributeValueType.String:
-                    <MudTextField T="string" Label="Value"
-                    @bind-Value="Attribute.ValuesAsString"
-                                  Required="true" RequiredError="Value is required"
-                                  Lines="6" />
-                    <div class="d-flex flex-wrap justify-end">
-                        <MudTooltip Delay="500" Text="Json reformat" Placement="Placement.Bottom">
-                            <MudIconButton @onclick="@(JsonReformatAsync)"
-                                           Icon="@Icons.Material.Outlined.FormatIndentIncrease" />
-                        </MudTooltip>
-                    </div>
-                    break;
-                case AttributeValueType.Numeric:
-                    <MudNumericField T="decimal" Label="Value"
-                    @bind-Value="Attribute.ValuesAsNumber"
-                                     Required="true" RequiredError="Value is required" />
-                    break;
-                case AttributeValueType.Boolean:
-                    <MudSwitch T="bool" Label="Value" Color="Color.Primary"
-                    @bind-Checked="Attribute.ValuesAsBoolean"
-                               Required="true" RequiredError="Value is required" />
-                    break;
-            }
-        </MudForm>
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="1">
+                    <MudTextField T="string" @bind-Value="Attribute.Name"
+                                  Label="Name"
+                                  Validation="@(new Func<string, string>(ValidateName))"
+                                  Required="true" RequiredError="Name is required" />
+                    <MudSelect @ref="typeSelect" T="AttributeValueType" Label="Type" Value="Attribute.ValueType"
+                               ValueChanged="ValueTypeChangedHandler">
+                        <EnumSelectItems T="AttributeValueType" />
+                    </MudSelect>
+                    @switch (Attribute.ValueType)
+                    {
+                        case AttributeValueType.String:
+                            <MudTextField T="string" Label="Value"
+                            @bind-Value="Attribute.ValuesAsString"
+                                          Required="true" RequiredError="Value is required"
+                                          Lines="6" />
+                            <div class="d-flex flex-wrap justify-end">
+                                <MudTooltip Delay="500" Text="Json reformat" Placement="Placement.Bottom">
+                                    <MudIconButton @onclick="@(JsonReformatAsync)"
+                                                   Icon="@Icons.Material.Outlined.FormatIndentIncrease" />
+                                </MudTooltip>
+                            </div>
+                            break;
+                        case AttributeValueType.Numeric:
+                            <MudNumericField T="decimal" Label="Value"
+                            @bind-Value="Attribute.ValuesAsNumber"
+                                             Required="true" RequiredError="Value is required" />
+                            break;
+                        case AttributeValueType.Boolean:
+                            <MudSwitch T="bool" Label="Value" Color="Color.Primary"
+                            @bind-Checked="Attribute.ValuesAsBoolean"
+                                       Required="true" RequiredError="Value is required" />
+                            break;
+                    }
+                </MudStack>
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">

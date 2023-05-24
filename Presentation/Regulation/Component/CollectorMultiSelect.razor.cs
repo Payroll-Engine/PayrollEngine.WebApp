@@ -22,7 +22,7 @@ public partial class CollectorMultiSelect : IRegulationInput
     public EventCallback<object> ValueChanged { get; set; }
 
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IPayrollService PayrollService { get; set; }
 
     protected List<RegulationCollector> Collectors { get; set; }
     protected List<string> Value { get; set; }

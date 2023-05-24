@@ -2,19 +2,21 @@
 
 <MudDialog Class="attribute-dialog">
     <DialogContent>
-        <MudForm @ref="form">
-            <MudStack Spacing="1">
-                <MudTextField T="string" @bind-Value="ClusterSet.Name"
-                              Label="Name"
-                              Required="true" RequiredError="Name is required" />
-                <MudTextField T="string" @bind-Value="ClusterSet.IncludeClustersAsString"
-                              HelperText="Comma separated cluster list"
-                              Label="Include clusters" />
-                <MudTextField T="string" @bind-Value="ClusterSet.ExcludeClustersAsString"
-                              HelperText="Comma separated cluster list"
-                              Label="Exclude clusters" />
-            </MudStack>
-        </MudForm>
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="1">
+                    <MudTextField T="string" @bind-Value="ClusterSet.Name"
+                                  Label="Name"
+                                  Required="true" RequiredError="Name is required" />
+                    <MudTextField T="string" @bind-Value="ClusterSet.IncludeClustersAsString"
+                                  HelperText="Comma separated cluster list"
+                                  Label="Include clusters" />
+                    <MudTextField T="string" @bind-Value="ClusterSet.ExcludeClustersAsString"
+                                  HelperText="Comma separated cluster list"
+                                  Label="Exclude clusters" />
+                </MudStack>
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">

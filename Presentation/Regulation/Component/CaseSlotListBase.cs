@@ -15,8 +15,8 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Component
         [Parameter] public RegulationField Field { get; set; }
         [Parameter] public EventCallback<object> ValueChanged { get; set; }
 
-        [Inject] protected IPayrollService PayrollService { get; set; }
-        [Inject] protected IUserNotificationService UserNotification { get; set; }
+        [Inject] private IPayrollService PayrollService { get; set; }
+        [Inject] private IUserNotificationService UserNotification { get; set; }
 
         protected List<CaseSlot> CaseSlots { get; set; } = new();
         protected CaseSlot SelectedCaseSlot { get; set; }

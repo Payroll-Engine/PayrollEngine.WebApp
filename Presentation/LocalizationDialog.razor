@@ -1,28 +1,30 @@
 ﻿
 <MudDialog style="min-width: 40em">
     <DialogContent>
-        <MudForm @ref="form">
-            <MudStack Spacing="0">
-                @if (!string.IsNullOrWhiteSpace(LocalizationBase))
-                {
-                    <MudTextField T="string" Label="Localization base"
-                              Value="@LocalizationBase"
-                              ReadOnly="true" />
-                }
-                <MudSelect T="string" Label="Culture" @bind-Value="LocalizationKey"
-                           Validation="@(new Func<string, string>(ValidateCulture))"
-                           Required="true" RequiredError="Culture is required">
-                    @foreach (var cultureName in CultureNames)
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="0">
+                    @if (!string.IsNullOrWhiteSpace(LocalizationBase))
                     {
-                        <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                        <MudTextField T="string" Label="Localization base"
+                                      Value="@LocalizationBase"
+                                      ReadOnly="true" />
                     }
-                </MudSelect>
-                <MudTextField T="string" Label="Localization"
-                              @bind-Value="LocalizationValue"
-                              MaxLength="@MaxLength"
-                              Required="true" RequiredError="Localized value is required" />
-            </MudStack>
-        </MudForm>
+                    <MudSelect T="string" Label="Culture" @bind-Value="LocalizationKey"
+                               Validation="@(new Func<string, string>(ValidateCulture))"
+                               Required="true" RequiredError="Culture is required">
+                        @foreach (var cultureName in CultureNames)
+                        {
+                            <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudTextField T="string" Label="Localization"
+                    @bind-Value="LocalizationValue"
+                                  MaxLength="@MaxLength"
+                                  Required="true" RequiredError="Localized value is required" />
+                </MudStack>
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">

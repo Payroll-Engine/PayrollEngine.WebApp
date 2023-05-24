@@ -24,29 +24,29 @@ public partial class ItemBrowser : IDisposable
     public EventCallback<IRegulationItem> SelectedItemChanged { get; set; }
 
     [Inject]
-    protected ICaseService CaseService { get; set; }
+    private ICaseService CaseService { get; set; }
     [Inject]
-    protected ICaseFieldService CaseFieldService { get; set; }
+    private ICaseFieldService CaseFieldService { get; set; }
     [Inject]
-    protected ICaseRelationService CaseRelationService { get; set; }
+    private ICaseRelationService CaseRelationService { get; set; }
     [Inject]
-    protected ICollectorService CollectorService { get; set; }
+    private ICollectorService CollectorService { get; set; }
     [Inject]
-    protected IWageTypeService WageTypeService { get; set; }
+    private IWageTypeService WageTypeService { get; set; }
     [Inject]
-    protected IReportService ReportService { get; set; }
+    private IReportService ReportService { get; set; }
     [Inject]
-    protected IReportParameterService ReportParameterService { get; set; }
+    private IReportParameterService ReportParameterService { get; set; }
     [Inject]
-    protected IReportTemplateService ReportTemplateService { get; set; }
+    private IReportTemplateService ReportTemplateService { get; set; }
     [Inject]
-    protected ILookupService LookupService { get; set; }
+    private ILookupService LookupService { get; set; }
     [Inject]
-    protected ILookupValueService LookupValueService { get; set; }
+    private ILookupValueService LookupValueService { get; set; }
     [Inject]
-    protected IScriptService ScriptService { get; set; }
+    private IScriptService ScriptService { get; set; }
     [Inject]
-    protected IPayrollService PayrollService { get; set; }
+    private IPayrollService PayrollService { get; set; }
 
     private List<Client.Model.Regulation> regulations;
     private Tenant Tenant => EditContext.Tenant;

@@ -8,10 +8,10 @@ namespace PayrollEngine.WebApp.Server.Pages;
 
 public partial class Tenants
 {
-    protected override string GridId => GetTenantGridId(GridIdentifiers.Tenants);
-
     [Inject]
-    protected TenantBackendService TenantBackendService { get; set; }
+    private TenantBackendService TenantBackendService { get; set; }
+
+    protected override string GridId => GetTenantGridId(GridIdentifiers.Tenants);
     protected override IBackendService<Tenant, Query> BackendService => TenantBackendService;
     protected override ItemCollection<Tenant> Items => Session.Tenants;
 

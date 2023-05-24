@@ -8,7 +8,7 @@ namespace PayrollEngine.WebApp.Server.Pages;
 public partial class Logs
 {
     [Inject]
-    protected LogBackendService LogBackendService { get; set; }
+    private LogBackendService LogBackendService { get; set; }
 
     protected override string GridId => GetTenantGridId(GridIdentifiers.Logs);
     protected override IBackendService<ViewModel.Log, Query> BackendService => LogBackendService;

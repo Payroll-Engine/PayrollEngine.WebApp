@@ -29,17 +29,17 @@ namespace PayrollEngine.WebApp.Presentation.Report
         [Parameter] public ValueFormatter ValueFormatter { get; set; }
 
         [Inject]
-        protected IPayrollService PayrollService { get; set; }
+        private IPayrollService PayrollService { get; set; }
         [Inject]
-        protected IReportService ReportService { get; set; }
+        private IReportService ReportService { get; set; }
         [Inject]
-        protected IReportSetService ReportSetService { get; set; }
+        private IReportSetService ReportSetService { get; set; }
         [Inject]
-        protected IDataMerge DataMerge { get; set; }
+        private IDataMerge DataMerge { get; set; }
         [Inject]
-        protected IUserNotificationService UserNotification { get; set; }
+        private IUserNotificationService UserNotification { get; set; }
         [Inject]
-        protected IJSRuntime JsRuntime { get; set; }
+        private IJSRuntime JsRuntime { get; set; }
 
         private Client.Model.ReportTemplate ReportTemplate { get; set; }
 

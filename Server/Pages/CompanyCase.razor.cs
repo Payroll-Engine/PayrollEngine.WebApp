@@ -15,7 +15,7 @@ public partial class CompanyCase : ICaseValueProvider
     }
 
     [Inject]
-    protected ICompanyCaseValueService CompanyCaseValueService { get; set; }
+    private ICompanyCaseValueService CompanyCaseValueService { get; set; }
 
     protected override CaseType CaseType => CaseType.Company;
     protected override string ParentPageName => PageUrls.CompanyCases;

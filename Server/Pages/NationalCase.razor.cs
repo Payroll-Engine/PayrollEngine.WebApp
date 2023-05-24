@@ -15,7 +15,7 @@ public partial class NationalCase : ICaseValueProvider
     }
 
     [Inject]
-    protected INationalCaseValueService NationalCaseValueService { get; set; }
+    private INationalCaseValueService NationalCaseValueService { get; set; }
 
     protected override CaseType CaseType => CaseType.National;
     protected override string ParentPageName => PageUrls.NationalCases;

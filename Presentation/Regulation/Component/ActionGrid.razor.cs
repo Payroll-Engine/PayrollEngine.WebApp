@@ -21,8 +21,6 @@ public partial class ActionGrid : IDisposable
     public EventCallback<object> ValueChanged { get; set; }
 
     [Inject]
-    protected ITenantService TenantService { get; set; }
-    [Inject]
     private IDialogService DialogService { get; set; }
 
     protected MudDataGrid<ActionItem> Grid { get; set; }

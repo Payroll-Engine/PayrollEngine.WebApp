@@ -2,24 +2,26 @@
 @using PayrollEngine.Client.Service
 <MudDialog Class="item-dialog">
     <DialogContent>
-        <MudForm @ref="form">
-            <MudStack Spacing="1">
-                <MudTextField T="string"
-                              Value="User.Identifier"
-                              ReadOnly="true"
-                              Label="Identifier" />
-                <MudTextField T="string" @bind-Value="User.FirstName"
-                              MaxLength="@SystemSpecification.KeyTextLength"
-                              Label="First name" />
-                <MudTextField T="string" @bind-Value="User.LastName"
-                              MaxLength="@SystemSpecification.KeyTextLength"
-                              Label="Last name" />
-                <MudSelect T="Language" @bind-Value="User.Language"
-                           Label="Language">
-                    <EnumSelectItems T="Language" />
-                </MudSelect>
-            </MudStack>
-        </MudForm>
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="1">
+                    <MudTextField T="string"
+                                  Value="User.Identifier"
+                                  ReadOnly="true"
+                                  Label="Identifier" />
+                    <MudTextField T="string" @bind-Value="User.FirstName"
+                                  MaxLength="@SystemSpecification.KeyTextLength"
+                                  Label="First name" />
+                    <MudTextField T="string" @bind-Value="User.LastName"
+                                  MaxLength="@SystemSpecification.KeyTextLength"
+                                  Label="Last name" />
+                    <MudSelect T="Language" @bind-Value="User.Language"
+                               Label="Language">
+                        <EnumSelectItems T="Language" />
+                    </MudSelect>
+                </MudStack>
+            </MudForm>
+        </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
