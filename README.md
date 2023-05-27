@@ -1,13 +1,79 @@
-# PayrollEngine.WebApp
-[Payroll Engine](https://github.com/Payroll-Engine) web application (Blazor):
+<h1>Payroll Engine Web Application</h1>
 
-- View model
-- Component with adaptor
-- Browser client application
+The Web Application provides full access to the Payroll Engine.
+Zum Verständnis der Arbeitskonzepte empfieht sich das **[Payroll Engine White Paper](https://github.com/Payroll-Engine/PayrollEngine/blob/main/Documents/PayrolEnginelWhitePaper.pdf)** zu lesen.
+
+<br />
+
+## Features
+
+Die Funktionen der Web App sind in Features unterteilt:
+| Feature             | Group          | Description                             |
+|--|--|--|
+| Tasks               | General        | Manage the user tasks                   |
+| Employee Cases      | General        | Add new employee case                   |
+| Company Cases       | General        | Add new company case                    |
+| National Cases      | General        | Add new national case                   |
+| Global Cases        | General        | Add new global case                     |
+| Reports             | General        | Build a report <sup>1)</sup>            |
+| Payrun Results      | Payrun         | View and Export the payrun results      |
+| Payrun Jobs         | Payrun         | Manage the payrun jobs                  |
+| Payruns             | Payrun         | Manage the payruns                      |
+| Payrolls            | Payroll        | Manage the payrolls                     |
+| Payroll Layers      | Payroll        | Add new employee case                   |
+| Regulations         | Payroll        | Manage the regulations                  |
+| Regulation          | Payroll        | Edit a regulation                       |
+| Shared Regulations  | Administration | Manage the shared regulations           |
+| Tenants             | Administration | Manage the tenants                      |
+| Users               | Administration | Manage the users <sup>2) 3)</sup>       |
+| Divisions           | Administration | Manage the divisions                    |
+| Employees           | Administration | Manage the employees                    |
+| Logs                | Administration | View the tenant logs <sup>4)</sup>      |
+| User Storage        | System         | Manage the local user storage           |
+<br/>
+
+<sup>1)</sup> Based on [FastReports](https://github.com/FastReports).<br/>
+<sup>2)</sup> Dem *User* können die verfügbaren Feature zugeordnet werden.<br/>
+<sup>3)</sup> User mit der Option *Supervisor* verwalten die Features.<br/>
+<sup>4)</sup> Tenant Logs werden von den Regulierungen generiert und sind nicht mit dem Applikations-Log zu verwechseln.<br/>
+
+<br />
+
+## User Login
+Beim erstmaligen anmelden muss der User ein Passwort welches folgende Regeln einhält, bestimmen:
+- minimum 8 characters
+- 1 digit character
+- 1 lowercase character
+- 1 uppercase character
+- 1 special character
+
+> For local development you can use the auto-login feature (*appsettings.json*) with various startup options.
+
+<br/>
+
+## Configuration
+Die Applikations-Konfiguration *Server\appsetings.json* beinhaltet folgende Einstellungen:
+- Culture
+- Default features for new users
+- Application title
+- Case change log
+- Session timeout
+- Systemlog mit [Serilog](https://serilog.net/), andere Logging-Tools können integriert werden
+
+> It is recommended to save the application settings within your local [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets).
+
+<br/>
 
 ## Input Attributes
+Mit den Case Input-Attributen kann das Verhalten der Benutzereingaben gesteuert werden.
+
 | Name                       | Description                             | Type          | Default  | Supported by |
 |--|--|--|--|--|
+| <b>General</b> |
+*input.hidden*               | input is hidden                         | bool          | false    | all |
+*input.showDescription*      | input description is visible            | bool          | false    | all |
+*input.sortOrder*            | sorting order <sup>5)</sup>             | int           | system   | all |
+| <b>Start</b> |
 *input.startLabel*           | start date input label                  | string        | Start    | all |
 *input.startHelp*            | start date help text                    | string        | -        | all |
 *input.startRequired*        | start date required error text          | string        | Start    | all |
@@ -15,68 +81,54 @@
 *input.startFormat*          | start date input format <sup>4)</sup>   | string        | system   | date, date-time |
 *input.startPickerOpen*      | start picker open mode <sup>2)</sup>    | string        | day      | date |
 *input.startPickerType*      | start date datetime type <sup>6)</sup>  | string        | date     | all |
-| | | | | |
+| <b>End</b> |
 *input.endLabel*             | end date input label                    | string        | End      | all |
 *input.endHelp*              | end date help text                      | string        | -        | all |
 *input.endRequired*          | end date required error text            | string        | Start    | all |
 *input.endReadOnly*          | end date is read only                   | bool          | false    | all (end date) |
 *input.endFormat*            | end date input format <sup>4)</sup>     | string        | system   | date, date-time |
 *input.endPickerOpen*        | end picker date type <sup>2)</sup>      | string        | day      | date |
-| | | | | |
-*input.valueLabel*           | input value placeholder text            | string        | system   | all |
-*input.valueAdornment*       | value adornment text                    | string        | -        | text, numeric |
-*input.valueHelp*            | value help text                         | string        | -        | all |
+| <b>Value</b> |
+*input.valueLabel*           | input value label                       | string        | system   | all |
+*input.valueAdornment*       | input value adornment text              | string        | -        | text, numeric |
+*input.valueHelp*            | input value help text                   | string        | -        | all |
+*input.valueMask*            | input mask <sup>3)</sup>                | string        | -        | text |
 *input.valueRequired*        | input value required error text         | string        | system   | all |
+*input.valueReadOnly*        | input is read only                      | bool          | false    | all |
 *input.valuePickerOpen*      | date picker date type <sup>2)</sup>     | string        | day      | date |
-| | | | | |
-*input.readOnly*             | input is read only                      | bool          | false    | all |
-*input.hidden*               | input is hidden                         | bool          | false    | all |
-*input.showDescription*      | input description is visible            | bool          | false    | all |
-*input.culture*              | the display culture/currency <sup>1)</sup> | string     | system   | money |
+*input.culture*              | the display culture <sup>1)</sup>       | string        | system   | money |
 *input.minValue*             | minimum input value                     | DateTime/num  | -        | numeric, date, date-time |
 *input.maxValue*             | maximum input value                     | DateTime/num  | -        | numeric, date, date-time |
 *input.stepSize*             | step size on spin buttons               | num           | 1        | numeric |
 *input.format*               | input format <sup>4)</sup>              | string        | system   | date, date-time |
-*input.mask*                 | input mask <sup>3)</sup>                | string        | -        | text |
-*input.sortOrder*            | sorting order <sup>5)</sup>             | int           | system   | all |
 *input.lineCount*            | show multiple text lines                | int           | 1        | text |
 *input.maxLength*            | maximum text length                     | int           | -        | text |
 *input.check*                | input checkbox instead of switch        | bool          | false    | boolean |
-*input.customValue*          | able to enter custom lookup value       | bool          | false    | lookups |
-| | | | | |
-*input.attachment*           | enable document upload <sup>7)</sup>   | string        | none     | all |
-*input.attachmentExtensions* | allowed files for upload <sup>8)</sup> | string        | -        | all |
-| | | | | |
-*input.list*                 | provide list of possible inputs         | object[] <sup>9)</sup> | -  | all |
+| <b>Attachment</b> |
+*input.attachment*           | enable document upload <sup>7)</sup>    | string        | none     | all |
+*input.attachmentExtensions* | allowed files for upload <sup>8)</sup>  | string        | -        | all |
+| <b>List</b> |
+*input.list*                 | provide list of possible inputs         | object[] <sup>9)</sup>  | -  | all |
 *input.listValues*           | provide values for a list               | object[] <sup>10)</sup> | key | all |
-*input.listSelection*        | preselected list value                  | string <sup>11)</sup>       | -        | all |
+*input.listSelection*        | preselected list value                  | string <sup>11)</sup>   | -        | all |
+<br/>
 
-<sup>1\)</sup> culture names https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
+<sup>1)</sup> culture names https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c<br/>
+<sup>2)</sup> date picker open mode: day, month, year<br/>
+<sup>3)</sup> text box input mask *<br/>
+<sup>4)</sup> Date and time format<br/>
+    - Standard format strings: https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings<br/>
+    - Custom format strings: https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings<br/>
+<sup>5)</sup> Related cases sorting order using types "Ordered" (sorted by input.sortOrder attribute), "Ascending" or "Descending"<br/>
+<sup>6)</sup> Date picker type: "DatePicker" (date only), "DateTimePicker" (date and time)<br/>
+<sup>7)</sup> Document attachment mode: "None", "Optional", "Mandatory"<br/>
+<sup>8)</sup> Comma separated string,  example: ".jpg,.png"<br/>
+<sup>9)</sup> Json array with field value type<br/>
+<sup>10)</sup> Json array with the same count of list values<br/>
+<sup>11)</sup> Sleetced list value when available otherwise the selected list item (field value type)
+<br />
 
-<sup>2\)</sup> date picker open mode: day, month, year
-
-<sup>3\)</sup> text box input mask *
-
-<sup>4\)</sup> Date and time format
-   
-    - Standard format strings: https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings
-    - Custom format strings: https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
-
-<sup>5\)</sup> Related cases sorting order using types "Ordered" (sorted by input.sortOrder attribute), "Ascending" or "Descending"
-
-<sup>6\)</sup> Date picker type: "DatePicker" (date only), "DateTimePicker" (date and time)
-
-<sup>7\)</sup> Document attachment mode: "None", "Optional", "Mandatory"
-
-<sup>8\)</sup> Comma separated string,  example: ".jpg,.png"
-
-<sup>9\)</sup> Json array with field value type
-
-<sup>10\)</sup> Json array with the same count of list values
-
-<sup>11\)</sup> Sleetced list value when available otherwise the selected list item (field value type)
-
-## Text input mask
+### **Text input mask**
 | Mask  | Description |
 |--|--|
 |0   | Digit required. This element will accept any single digit from 0 to 9 |
@@ -90,6 +142,7 @@
 |a   | Alphanumeric (A-Za-z0-9) or space, optional |
 |<   | Shift down. Converts all characters to lower case |
 |\>   | Shift up. Converts all characters to upper case |
+<br/>
 
 Escapes a mask character, turning it into a literal.
 All other characters: Literals. All non-mask elements (literals) will appear as themselves within MaskedTextBox.
@@ -102,10 +155,13 @@ All other characters: Literals. All non-mask elements (literals) will appear as 
 | &&&&&     | A12# |
 | \>LLL<LLL | SAMple |
 | \\\A999   | A321 |
+<br/>
 
 MaskedTextBox documentation: https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.maskedtextbox.mask
 
-## Date expressions
+<br />
+
+### **Date expressions**
 | Expression  | Description |
 |--|--|
 yesterday     | yesterday |
@@ -119,6 +175,7 @@ year          | first day of current calendar year |
 nextyear      | first day of next calendar year |
 offset:<c><t> | offset from today* |
 DateTime      | the date/time string representation, supported types: JSON and .net |
+<br/>
 
 \*\<c> is the offset count
 \<t> is the offset type
@@ -135,8 +192,7 @@ example minus 4 years: offset:-4y
 
 TimeSpan documentation: https://docs.microsoft.com/en-us/dotnet/api/system.timespan
 
-## Data Grids
-### Grid Identifiers
+### **Data Grids**
 | Source  | Grid Id |
 |--|--|
 Tasks     | TasksGrid |
@@ -158,13 +214,15 @@ Tenants     | TenantsGrid |
 Divisions     | DivisionsGrid |
 Employees     | EmployeesGrid |
 Logs     | LogsGrid |
+<br/>
 
-Attribute syntax:
+Attribute syntax:<br />
+`
 **grid.<GridId>=<GridSettings>**
+`
 
-GridSettings: JSON dictionary with grid settings, see chapter 'Grid settings'
+**Grid settings**
 
-### Grid settings
 Grid settings are stored as tenant attribute, using the grid identifier as attribute key.
 The attribute value contains a json array with custom column configuration:
 
@@ -173,55 +231,7 @@ The attribute value contains a json array with custom column configuration:
 Attribute | The attribute name | string | 
 Header    | The column header  | string | x (default: attribute name) |
 ValueType | Payroll value type | string | ?
+<br/>
 
 **Configuration Example**
 "grid.TenantsGrid": "[{\"Attribute\":\"ErpId\",\"Header\":\"Erp Id\",\"ValueType\":\"String\"}]"
-
-### Grid filtering
-- String
-    - foo: contains foo (case sensitive, contains is the default filter mode)
-    - *foo: starts with foo
-    - %foo: ends with foo
-- Number (default is equal)
-    - =22: equal 22
-    - !=22: not equal 22
-    - \>22: greater than 22
-    - \>=22: greater than or equal 22
-    - <22: less than 22
-    - <=22: less than or equal 22
-- Date
-    - year filter:
-        - 19
-        - 2019
-    - month filter:
-        - 1.19
-        - 1.2019
-        - Jan 19 (month name from calendar)
-        - Jan 2019
-    - date period filter:
-        - 1.1.19 - 1.10.19
-        - 1.1.2019 - 1.10.2019
-    - date filter:
-        - 1.1.19
-        - 1.1.2019
-        - operators (default is equal)
-            - =1.1.19: equal 1.1.2019
-            - !=1.1.19: not equal 1.1.2019
-            - \>1.1.19: greater than 1.1.2019
-            - \>=1.1.19: greater than or equal 1.1.2019
-            - <1.1.19: less than 1.1.2019
-            - <=1.1.19: less than or equal 1.1.2019
-- Boolean
-    - compare true/false
-
-## User Login
-User login supports url parameters to pre-select inputs and redirect user to specific page.
-
-Supported arguments are:
-- user: user identifier (e.g. peter.schmid@foo.com)
-- tenant: tenant identifier (e.g. SimplePayroll) Note: requires user to be set
-- redirectTo: page name (i.e. employeecases, report, payroll, ...)
-
-## Logging
-- Configuration: Client\appsettings.json
-- Log-File:      Client\Logs
