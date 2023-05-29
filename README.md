@@ -217,9 +217,9 @@ Logs     | LogsGrid |
 <br/>
 
 Attribute syntax:<br />
-`
+```
 **grid.<GridId>=<GridSettings>**
-`
+```
 <br />
 
 ## Data Grid settings
