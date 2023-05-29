@@ -25,6 +25,12 @@ public class User : Client.Model.User
     {
     }
 
+    #region Tasks
+
+    public int OpenTaskCount { get; set; }
+
+    #endregion
+
     #region Feature
 
     public List<Feature> Features

@@ -211,6 +211,9 @@ public abstract class MainLayoutBase : MainComponentBase
         }
     }
 
+    protected void NavigateToTasks() =>
+        NavigateTo(PageUrls.Tasks);
+
     #endregion
 
     #region Lifecycle

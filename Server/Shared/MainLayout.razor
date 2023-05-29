@@ -72,8 +72,16 @@
                 </MudGrid>
             }
             <MudSpacer />
+
             @* working user *@
-            <MudInputLabel Class="pr-4" Style="min-width: max-content">@Session.User.FirstName&nbsp;@Session.User.LastName</MudInputLabel>
+            <MudBadge Visible="@(HasFeature(Feature.Tasks) && Session.User.OpenTaskCount > 0)"
+                      Color="Color.Primary"
+                      Content="@Session.User.OpenTaskCount"
+                      OnClick="NavigateToTasks"
+                      Overlap="true">
+                <MudInputLabel Class="pr-4" Style="min-width: max-content">@Session.User.FirstName&nbsp;@Session.User.LastName</MudInputLabel>
+            </MudBadge>
+
             @* user menu *@
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit"
                  AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">

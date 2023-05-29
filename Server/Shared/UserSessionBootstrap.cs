@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
 using ClientModel = PayrollEngine.Client.Model;
@@ -19,6 +20,7 @@ public class UserSessionBootstrap
     public IConfiguration Configuration { get; }
     public UserSession UserSession { get; }
     public IUserService UserService { get; }
+    public ITaskService TaskService { get; }
     public ITenantService TenantService { get; }
     public IEmployeeService EmployeeService { get; }
     public IPayrollService PayrollService { get; }
@@ -27,6 +29,7 @@ public class UserSessionBootstrap
         IConfiguration configuration,
         UserSession userSession,
         IUserService userService,
+        ITaskService taskService,
         ITenantService tenantService,
         IEmployeeService employeeService,
         IPayrollService payrollService)
@@ -35,6 +38,7 @@ public class UserSessionBootstrap
         Configuration = configuration;
         UserSession = userSession;
         UserService = userService;
+        TaskService = taskService;
         TenantService = tenantService;
         EmployeeService = employeeService;
         PayrollService = payrollService;
@@ -113,6 +117,7 @@ public class UserSessionBootstrap
                     {
                         throw OnError($"Missing user in tenant {tenant.Identifier}");
                     }
+                    await SetupUserTasksAsync(tenant, user);
                 }
 
                 // user culture
@@ -122,13 +127,13 @@ public class UserSessionBootstrap
 
                 // user login
                 await UserSession.LoginAsync(tenant, user);
-                
+
                 // working payroll
                 if (payroll != null)
                 {
                     await UserSession.ChangePayrollAsync(payroll);
                 }
-                
+
                 // working employee
                 if (employee != null)
                 {
@@ -161,16 +166,28 @@ public class UserSessionBootstrap
 
     private async Task<User> GetStartupUser(Tenant tenant, string startupUser)
     {
-        User user = null;
-        if (!string.IsNullOrWhiteSpace(startupUser))
+        if (string.IsNullOrWhiteSpace(startupUser)) 
         {
-            user = await UserService.GetAsync<User>(new(tenant.Id), startupUser);
-            if (user == null)
-            {
-                throw OnError($"Unknown startup user: {startupUser}");
-            }
+            return null;
         }
+        var user = await UserService.GetAsync<User>(new(tenant.Id), startupUser);
+        if (user == null)
+        {
+            throw OnError($"Unknown startup user: {startupUser}");
+        }
+        await SetupUserTasksAsync(tenant, user);
         return user;
+    }
+
+    private async Task SetupUserTasksAsync(Tenant tenant, User user)
+    {
+        var tasks = await TaskService.QueryAsync<Client.Model.Task>(new(tenant.Id), new()
+        {
+            Filter = new Equals(nameof(Client.Model.Task.ScheduledUserId), user.Id).
+                And(new Equals(nameof(Client.Model.Task.Completed), null)).
+                And(new LessFilter(nameof(Client.Model.Task.Scheduled), Date.Now))
+        });
+        user.OpenTaskCount = tasks.Count;
     }
 
     private async Task<ClientModel.Payroll> GetStartupPayroll(Tenant tenant, User user)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.Model;
+using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
 using Task = System.Threading.Tasks.Task;
 using Division = PayrollEngine.WebApp.ViewModel.Division;
@@ -16,6 +18,9 @@ public class UserSession : IDisposable
     private readonly WorkingItemsWatcher<IDivisionService, TenantServiceContext, Division, Query> divisionWatcher;
     private readonly WorkingItemsWatcher<IPayrollService, TenantServiceContext, Payroll, Query> payrollWatcher;
     private readonly WorkingItemsWatcher<IEmployeeService, TenantServiceContext, Employee, DivisionQuery> employeeWatcher;
+
+    [Inject]
+    private ITaskService TaskService { get; set; } 
 
     /// <summary>
     /// The value formatter 
@@ -73,6 +78,7 @@ public class UserSession : IDisposable
 
         // user change
         User = user;
+        await SetupUserTasks(user);
 
         // value formatter
         var culture = CultureTool.GetCulture(user.Language.LanguageCode());
@@ -83,6 +89,22 @@ public class UserSession : IDisposable
 
         // update tenant
         await ChangeTenantAsync(userTenant, user);
+    }
+
+    private async Task SetupUserTasks(User user)
+    {
+        if (TaskService == null)
+        {
+            return;
+        }
+        
+        var tasks = await TaskService.QueryAsync<Client.Model.Task>(new(Tenant.Id), new()
+        {
+            Filter = new Equals(nameof(Client.Model.Task.ScheduledUserId), user.Id).
+                And(new Equals(nameof(Client.Model.Task.Completed), null)).
+                And(new LessFilter(nameof(Client.Model.Task.Scheduled), Date.Now))
+        });
+        user.OpenTaskCount = tasks.Count;
     }
 
     public async Task LogoutAsync()
