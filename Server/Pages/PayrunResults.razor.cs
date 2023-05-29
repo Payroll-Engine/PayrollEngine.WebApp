@@ -170,6 +170,20 @@ public partial class PayrunResults
 
     #endregion
 
+    #region Payrun Jobs
+
+    private void NavigateToJobs()
+    {
+        if (SelectedPayrun == null)
+        {
+            return;
+        }
+        var jobsUrl = $"{PageUrls.PayrunJobs}/{SelectedPayrun.Name}";
+        NavigateTo(jobsUrl);
+    }
+
+    #endregion
+
     #region Grid
 
     private MudDataGrid<PayrollResultValue> ResultsGrid { get; set; }

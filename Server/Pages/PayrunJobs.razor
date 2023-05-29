@@ -29,22 +29,35 @@
 {
     <div class="pa-1">Please select a payrun</div>
 }
-<MudSelect T="string"
-           Value="SelectedPayrunName"
-           ValueChanged="PayrunChanged"
-           Disabled="@(!Payruns.Any())"
-           ReadOnly="@(Payruns.Count == 1)"
-           Label="Payrun"
-           Class="mb-4"
-           Style="max-width: 22em"
-           Variant="Variant.Outlined">
-    @foreach (var payrun in Payruns)
+
+<MudStack Row="true" Spacing="0" Class="gap-2 mb-4">
+    <MudStack Spacing="0" Style="max-width: 22em">
+        <MudSelect T="string"
+                   Value="SelectedPayrunName"
+                   ValueChanged="PayrunChanged"
+                   Disabled="@(!Payruns.Any())"
+                   ReadOnly="@(Payruns.Count == 1)"
+                   Label="Payrun"
+                   Variant="Variant.Outlined">
+            @foreach (var payrun in Payruns)
+            {
+                <MudSelectItem T="string" Value="payrun.Name">
+                    @UserLanguage.GetLocalization(payrun.NameLocalizations, payrun.Name)
+                </MudSelectItem>
+            }
+        </MudSelect>
+    </MudStack>
+    @if (SelectedPayrun != null && HasFeature(Feature.PayrunResults))
     {
-        <MudSelectItem T="string" Value="payrun.Name">
-            @UserLanguage.GetLocalization(payrun.NameLocalizations, payrun.Name)
-        </MudSelectItem>
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   Style="height: fit-content; align-self: end;"
+                   OnClick="NavigateToResults">
+            View Job Results
+        </MudButton>
     }
-</MudSelect>
+</MudStack>
+
 @if (SelectedPayrun == null)
 {
     return;

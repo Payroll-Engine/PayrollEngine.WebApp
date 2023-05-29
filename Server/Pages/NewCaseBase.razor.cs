@@ -15,7 +15,7 @@ using CaseSet = PayrollEngine.WebApp.ViewModel.CaseSet;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public abstract partial class CaseBase
+public abstract partial class NewCaseBase
 {
     private MudForm fieldForm;
     private MudForm changeForm;
@@ -42,7 +42,7 @@ public abstract partial class CaseBase
     /// </summary>
     protected CaseSet RootCase => Cases?.FirstOrDefault();
 
-    protected CaseBase(WorkingItems workingItems) :
+    protected NewCaseBase(WorkingItems workingItems) :
            base(workingItems)
     {
     }

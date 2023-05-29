@@ -604,6 +604,20 @@ public partial class PayrunJobs : IPayrunJobOperator
 
     #endregion
 
+    #region Job Results
+
+    private void NavigateToResults()
+    {
+        if (SelectedPayrun == null)
+        {
+            return;
+        }
+        var jobResultsUrl = $"{PageUrls.PayrunResults}/{SelectedPayrun.Name}";
+        NavigateTo(jobResultsUrl);
+    }
+
+    #endregion
+
     #region Employees
 
     /// <summary>
