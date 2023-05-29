@@ -5,13 +5,14 @@
 		<RootNamespace>PayrollEngine.WebApp.Presentation</RootNamespace>
 		<Authors>Jani Giannoudis</Authors>
 		<Company>Software Consulting Giannoudis</Company>
+		<Copyright>2023 Software Consulting Giannoudis</Copyright>
 		<Product>Payroll Engine</Product>
 		<Description>Payroll Engine Web Application Presentation Library</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-pre-230526" />
-		<PackageReference Include="MudBlazor" Version="6.2.2" />
+		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-pre-230527" />
+		<PackageReference Include="MudBlazor" Version="6.3.1" />
 		<PackageReference Include="NPOI" Version="2.6.0" />
 	</ItemGroup>
 

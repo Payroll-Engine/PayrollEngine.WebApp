@@ -5,6 +5,7 @@
 		<RootNamespace>PayrollEngine.WebApp</RootNamespace>
 		<Authors>Jani Giannoudis</Authors>
 		<Company>Software Consulting Giannoudis</Company>
+		<Copyright>2023 Software Consulting Giannoudis</Copyright>
 		<Product>Payroll Engine</Product>
 		<Description>Payroll Engine Web Application Core Library</Description>
 	</PropertyGroup>
@@ -15,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230526" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230527" />
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.5" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
 		<PackageReference Include="Microsoft.JSInterop" Version="7.0.5" />

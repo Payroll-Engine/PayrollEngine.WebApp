@@ -5,7 +5,7 @@ Zum Verständnis der Arbeitskonzepte empfieht sich das **[Payroll Engine White P
 
 <br />
 
-## Features
+# Features
 
 Die Funktionen der Web App sind in Features unterteilt:
 | Feature             | Group          | Description                             |
@@ -39,7 +39,7 @@ Die Funktionen der Web App sind in Features unterteilt:
 
 <br />
 
-## User Login
+# User Login
 Beim erstmaligen anmelden muss der User ein Passwort welches folgende Regeln einhält, bestimmen:
 - minimum 8 characters
 - 1 digit character
@@ -51,7 +51,7 @@ Beim erstmaligen anmelden muss der User ein Passwort welches folgende Regeln ein
 
 <br/>
 
-## Configuration
+# Configuration
 Die Applikations-Konfiguration *Server\appsetings.json* beinhaltet folgende Einstellungen:
 - Culture
 - Default features for new users
@@ -64,7 +64,7 @@ Die Applikations-Konfiguration *Server\appsetings.json* beinhaltet folgende Eins
 
 <br/>
 
-## Input Attributes
+# Input Attributes
 Mit den Case Input-Attributen kann das Verhalten der Benutzereingaben gesteuert werden.
 
 | Name                       | Description                             | Type          | Default  | Supported by |
@@ -128,7 +128,7 @@ Mit den Case Input-Attributen kann das Verhalten der Benutzereingaben gesteuert 
 <sup>11)</sup> Sleetced list value when available otherwise the selected list item (field value type)
 <br />
 
-### **Text input mask**
+## Text input mask
 | Mask  | Description |
 |--|--|
 |0   | Digit required. This element will accept any single digit from 0 to 9 |
@@ -161,7 +161,7 @@ MaskedTextBox documentation: https://docs.microsoft.com/en-us/dotnet/api/system.
 
 <br />
 
-### **Date expressions**
+**Date expressions**
 | Expression  | Description |
 |--|--|
 yesterday     | yesterday |
@@ -192,7 +192,7 @@ example minus 4 years: offset:-4y
 
 TimeSpan documentation: https://docs.microsoft.com/en-us/dotnet/api/system.timespan
 
-### **Data Grids**
+# Data Grids
 | Source  | Grid Id |
 |--|--|
 Tasks     | TasksGrid |
@@ -220,10 +220,11 @@ Attribute syntax:<br />
 `
 **grid.<GridId>=<GridSettings>**
 `
+<br />
 
-**Grid settings**
+## Data Grid settings
 
-Grid settings are stored as tenant attribute, using the grid identifier as attribute key.
+Data Grid settings are stored as tenant attribute, using the grid identifier as attribute key.
 The attribute value contains a json array with custom column configuration:
 
 | Property | Description | Type | Optional |
@@ -233,5 +234,7 @@ Header    | The column header  | string | x (default: attribute name) |
 ValueType | Payroll value type | string | ?
 <br/>
 
-**Configuration Example**
+*Configuration example:*<br />
+` 
 "grid.TenantsGrid": "[{\"Attribute\":\"ErpId\",\"Header\":\"Erp Id\",\"ValueType\":\"String\"}]"
+`

@@ -15,7 +15,7 @@ public partial class Switch : IRegulationInput
     public RegulationField Field { get; set; }
     [Parameter]
     public EventCallback<object> ValueChanged { get; set; }
-    [Parameter] 
+    [Parameter]
     public Color Color { get; set; } = Color.Primary;
 
     #region Value
@@ -87,4 +87,5 @@ public partial class Switch : IRegulationInput
     }
 
     #endregion
+
 }

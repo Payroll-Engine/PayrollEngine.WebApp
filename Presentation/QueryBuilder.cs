@@ -75,7 +75,7 @@ public class QueryBuilder<TQuery, TModel>
 
     #region Filter
 
-    private string BuildFilterString(ICollection<FilterDefinition<TModel>> filters, IQueryResolver queryResolver = null)
+    private string BuildFilterString(ICollection<IFilterDefinition<TModel>> filters, IQueryResolver queryResolver = null)
     {
         if (!filters.Any())
         {
@@ -101,11 +101,11 @@ public class QueryBuilder<TQuery, TModel>
         return filterString;
     }
 
-    private string FormatFilter(FilterDefinition<TModel> whereFilter, IQueryResolver queryResolver = null)
+    private string FormatFilter(IFilterDefinition<TModel> whereFilter, IQueryResolver queryResolver = null)
     {
         // column
-        var column = queryResolver != null ? 
-            queryResolver.GetColumnName(whereFilter.Column) : 
+        var column = queryResolver != null ?
+            queryResolver.GetColumnName(whereFilter.Column) :
             whereFilter.Column?.PropertyName;
         if (string.IsNullOrWhiteSpace(column))
         {
@@ -136,7 +136,7 @@ public class QueryBuilder<TQuery, TModel>
         return filter;
     }
 
-    private object GetFilterValue(FilterDefinition<TModel> whereFilter)
+    private object GetFilterValue(IFilterDefinition<TModel> whereFilter)
     {
         if (whereFilter == null)
         {

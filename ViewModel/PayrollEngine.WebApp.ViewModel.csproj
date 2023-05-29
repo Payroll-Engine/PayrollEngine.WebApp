@@ -5,6 +5,7 @@
     <RootNamespace>PayrollEngine.WebApp.ViewModel</RootNamespace>
 	  <Authors>Jani Giannoudis</Authors>
 	  <Company>Software Consulting Giannoudis</Company>
+		<Copyright>2023 Software Consulting Giannoudis</Copyright>
 	  <Product>Payroll Engine</Product>
 	  <Description>Payroll Engine Web Application View-Model Library</Description>
   </PropertyGroup>

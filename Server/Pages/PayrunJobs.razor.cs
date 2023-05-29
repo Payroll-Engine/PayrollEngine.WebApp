@@ -314,7 +314,7 @@ public partial class PayrunJobs : IPayrunJobOperator
                 }
 
                 // exclude forecast payrun jobs
-                state.FilterDefinitions.Add(new()
+                state.FilterDefinitions.Add(new FilterDefinition<PayrunJob>
                 {
                     Column = column,
                     Operator = "is not",
