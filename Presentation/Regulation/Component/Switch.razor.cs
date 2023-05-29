@@ -30,8 +30,18 @@ public partial class Switch : IRegulationInput
 
     protected bool IsBaseValue { get; set; }
 
+    // ReSharper disable once UnusedMember.Local
     private async Task ValueChangedAsync(bool value) =>
         await SetFieldValue(value);
+
+    // method exists only prevent a ReSharper for the CheckedChanged event
+    private async Task ValueChangedAsync(bool? value)
+    {
+        if (value.HasValue)
+        {
+            await SetFieldValue(value.Value);
+        }
+    }
 
     private async Task SetFieldValue(bool value)
     {
