@@ -39,6 +39,14 @@ Die Funktionen der Web App sind in Features unterteilt:
 
 <br />
 
+# Web Applicaion Server Hosting
+Für den Betrieb des Web Applikations Servers muss der Webhoster die Ausführung von .NET Core Applikationen unterstützen. Für die lokale Entwicklung dient [IIS Express](https://learn.microsoft.com/en-us/iis/extensions/introduction-to-iis-express/iis-express-overview) als Host in zwei Ausführungsvarianten:
+- [CLI dotnet command](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet) using the batch:
+```
+PayrollEngine\Batches\WebApp.Server.Start.bat
+```
+- Visual Studio Solution ***PayrollEngine\PayrollEngine.Backend\PayrollEngine.Backend.sln*** using the debugger
+
 # User Login
 Beim erstmaligen anmelden muss der User ein Passwort welches folgende Regeln einhält, bestimmen:
 - minimum 8 characters
