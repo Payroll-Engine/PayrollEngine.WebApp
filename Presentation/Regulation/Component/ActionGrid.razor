@@ -26,7 +26,7 @@
              SelectedItemChanged="SelectedActionChanged">
     <Columns>
         <PropertyColumn Property="x => x.Index" Hidden="true" />
-        <PropertyColumn Property="x => x.Action" />
+        <PropertyColumn Property="x => x.Action" CellStyle="font-family: monospace; font-size: medium;" />
         <TemplateColumn T="ActionItem" CellClass="d-flex justify-end" ShowColumnOptions="false"
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>

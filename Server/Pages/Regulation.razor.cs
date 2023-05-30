@@ -39,7 +39,7 @@ public partial class Regulation
 
     protected bool HasRegulations { get; set; }
 
-    
+
     // top regulation
     private string TopRegulationName
     {
@@ -88,6 +88,9 @@ public partial class Regulation
         SelectedItem = null;
         return Task.CompletedTask;
     }
+
+    private string GetItemsLabel(RegulationItemType itemType) =>
+        itemType.ToString().EnsureEnd("s").ToPascalSentence(CharacterCase.ToUpper);
 
     // case
     private Variant CaseVariant =>

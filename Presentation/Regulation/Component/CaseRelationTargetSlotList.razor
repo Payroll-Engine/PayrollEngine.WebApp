@@ -6,7 +6,7 @@
            Label="@Item.GetItemLabel(Field)"
            HelperText="@Item.GetItemHelp(Field)"
            Value="@SelectedCaseSlot" ValueChanged="ValueChangedAsync"
-           Disabled="@(!CaseSlots.Any())"
+           Disabled="@(CaseSlots == null || !CaseSlots.Any())"
            ReadOnly="@Item.IsReadOnlyField(Field)"
            Clearable="@Item.IsClearableField(Field)">
     @{

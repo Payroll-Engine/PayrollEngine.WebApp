@@ -35,7 +35,7 @@
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@CaseVariant">
-        @SelectedCaseType
+        @GetItemsLabel(SelectedCaseType)
     </MudButton>
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
              Color="Color.Primary"
@@ -46,11 +46,11 @@
              Variant="@CaseVariant">
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.Case)"
                      Style="text-transform: capitalize;">
-            Cases
+        @GetItemsLabel(RegulationItemType.Case)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.CaseField)"
                      Style="text-transform: capitalize;">
-            Case Fields
+            @GetItemsLabel(RegulationItemType.CaseField)
         </MudMenuItem>
     </MudMenu>
 
@@ -60,7 +60,7 @@
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@CaseRelationVariant">
-        Case Relations
+        @GetItemsLabel(RegulationItemType.CaseRelation)
     </MudButton>
 
     @* collector *@
@@ -69,7 +69,7 @@
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@CollectorVariant">
-        Collectors
+        @GetItemsLabel(RegulationItemType.Collector)
     </MudButton>
 
     @* wage type *@
@@ -78,7 +78,7 @@
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@WageTypeVariant">
-        Wage Types
+        @GetItemsLabel(RegulationItemType.WageType)
     </MudButton>
 
     @* report *@
@@ -87,7 +87,7 @@
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@ReportVariant">
-        @SelectedReportType
+        @GetItemsLabel(SelectedReportType)
     </MudButton>
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
              Color="Color.Primary"
@@ -98,15 +98,15 @@
              Variant="@ReportVariant">
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.Report)"
                      Style="text-transform: capitalize;">
-            Report
+            @GetItemsLabel(RegulationItemType.Report)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.ReportParameter)"
                      Style="text-transform: capitalize;">
-            Report Parameters
+            @GetItemsLabel(RegulationItemType.ReportParameter)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.ReportTemplate)"
                      Style="text-transform: capitalize;">
-            Report Templates
+            @GetItemsLabel(RegulationItemType.ReportTemplate)
         </MudMenuItem>
     </MudMenu>
 
@@ -116,7 +116,7 @@
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@LookupVariant">
-        @SelectedLookupType
+        @GetItemsLabel(SelectedLookupType)
     </MudButton>
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
              Color="Color.Primary"
@@ -127,11 +127,11 @@
              Variant="@LookupVariant">
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.Lookup)"
                      Style="text-transform: capitalize;">
-            Lookups
+            @GetItemsLabel(RegulationItemType.Lookup)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.LookupValue)"
                      Style="text-transform: capitalize;">
-            Lookup Values
+            @GetItemsLabel(RegulationItemType.LookupValue)
         </MudMenuItem>
     </MudMenu>
 
@@ -141,7 +141,7 @@
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@ScriptVariant">
-        Scripts
+        @GetItemsLabel(RegulationItemType.Script)
     </MudButton>
 </MudButtonGroup>
 

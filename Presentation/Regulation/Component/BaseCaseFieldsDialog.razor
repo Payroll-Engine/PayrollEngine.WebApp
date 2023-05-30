@@ -5,7 +5,7 @@
         <MudForm @ref="form">
             <MudStack Spacing="1">
                 <MudSelect T="string" Label="Case field" @bind-Value="Reference.Name"
-                           Disabled="@(!BaseCaseFields.Any())"
+                           Disabled="@(BaseCaseFields == null || !BaseCaseFields.Any())"
                            Required="true" RequiredError="Case field is required">
                     @foreach (var caseField in BaseCaseFields)
                     {

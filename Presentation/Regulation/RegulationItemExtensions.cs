@@ -149,14 +149,9 @@ public static class RegulationItemExtensions
         return buffer.ToString();
     }
 
-    public static string GetItemLabel(this IRegulationItem item,
-        RegulationField field, bool includeState = true)
+    public static string GetItemLabel(this IRegulationItem item, RegulationField field)
     {
         var label = field.Label ?? field.PropertyName.ToPascalSentence();
-        if (!includeState)
-        {
-            return label + " ";
-        }
 
         // derived field
         if (IsDerived(item))
@@ -176,6 +171,19 @@ public static class RegulationItemExtensions
             return $"{label} (read only) ";
         }
 
+        return label + " ";
+    }
+
+    public static string GetItemActionLabel(this IRegulationItem item, RegulationField field)
+    {
+        // base name
+        var name = field.PropertyName;
+        if (field.IsAction)
+        {
+            name = name.RemoveFromEnd("Expression").EnsureEnd("Action");
+        }
+
+        var label = name.ToPascalSentence();
         return label + " ";
     }
 

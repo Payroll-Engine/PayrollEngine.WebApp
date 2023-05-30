@@ -35,8 +35,8 @@
         <MudSelect T="string"
                    Value="SelectedPayrunName"
                    ValueChanged="PayrunChanged"
-                   Disabled="@(!Payruns.Any())"
-                   ReadOnly="@(Payruns.Count == 1)"
+                   Disabled="@(Payruns == null || !Payruns.Any())"
+                   ReadOnly="@(Payruns == null || Payruns.Count == 1)"
                    Label="Payrun"
                    Variant="Variant.Outlined">
             @foreach (var payrun in Payruns)
@@ -109,7 +109,7 @@
                                     <MudSelect T="Employee"
                                     @bind-Value="LegalSetup.SelectedEmployee"
                                     @bind-SelectedValues="LegalSetup.SelectedEmployees"
-                                               Disabled="@(!Employees.Any())"
+                                               Disabled="@(Employees == null || !Employees.Any())"
                                                ReadOnly="@HasLegalJob"
                                                Label="Employees"
                                                Margin="Margin.Dense"
@@ -347,7 +347,7 @@
                                 <MudSelect T="Employee"
                                 @bind-Value="ForecastSetup.SelectedEmployee"
                                 @bind-SelectedValues="ForecastSetup.SelectedEmployees"
-                                           Disabled="@(!Employees.Any())"
+                                           Disabled="@(Employees == null || !Employees.Any())"
                                            Label="Employees"
                                            Margin="Margin.Dense"
                                            MultiSelection="true"

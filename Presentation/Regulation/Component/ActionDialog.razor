@@ -3,23 +3,24 @@
     <DialogContent>
         <MudForm @ref="form">
             <MudTextField T="string"
-                          Label="@Item.GetItemLabel(Field)"
-                          HelperText="@Item.GetItemHelp(Field)"
-                          @bind-Value="@Action.Action"
+                          Label="@Item.GetItemActionLabel(Field)"
+                          HelperText="@(Item.GetItemHelp(Field) ?? "Action expression")"
+            @bind-Value="@Action.Action"
                           ReadOnly="@Item.IsReadOnlyField(Field)"
                           Clearable="true"
                           Required="true"
-                          RequiredError="@($"{Item.GetItemLabel(Field, false)} is required")"
+                          Style="font-family: monospace; font-size: medium;"
+                          RequiredError="@($"{Item.GetItemActionLabel(Field)} is required")"
                           Lines="Field.Lines" />
             @if (Categories != null && Categories.Count > 2)
             {
                 <MudChipSet MultiSelection="false" SelectedChip="SelectedCategory"
-                        SelectedChipChanged="SelectedCategoryChanged" Class="py-4">
+                            SelectedChipChanged="SelectedCategoryChanged" Class="py-4">
                     @foreach (var category in Categories)
                     {
                         <MudChip Text="@category.Label"
-                         Default="@string.Equals(category.Label, ActionCategoryAll)"
-                         Variant="Variant.Outlined" SelectedColor="Color.Primary" />
+                                 Default="@string.Equals(category.Label, ActionCategoryAll)"
+                                 Variant="Variant.Outlined" SelectedColor="Color.Primary" />
                     }
                 </MudChipSet>
             }
@@ -107,9 +108,19 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+        <div class="d-flex flex-grow-1 mx-4 mb-2 gap-2">
+            <MudTooltip Placement="Placement.Top">
+                <ChildContent>
+                    <MudIcon Color="Color.Primary" Icon="@Icons.Material.Outlined.Help" />
+                </ChildContent>
+                <TooltipContent>
+                    @* ReSharper disable once Html.PathError *@
+                    <img src="/images/CaseActions.png" style="max-width: 60em" alt="Case Actions"/>
+                </TooltipContent>
+            </MudTooltip>
+            <MudSpacer />
             <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
-        </MudStack>
+        </div>
     </DialogActions>
 </MudDialog>

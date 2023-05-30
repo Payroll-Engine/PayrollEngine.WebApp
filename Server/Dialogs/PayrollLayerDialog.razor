@@ -12,7 +12,7 @@
                     <MudStack Class="pa-4" Spacing="1">
                         <MudSelect T="string" @bind-Value="PayrollLayer.RegulationName"
                                    Label="Regulation"
-                                   Disabled="@(!RegulationNames.Any())"
+                                   Disabled="@(RegulationNames == null || !RegulationNames.Any())"
                                    Required="true" RequiredError="Regulation is required">
                             @foreach (var name in RegulationNames)
                             {
