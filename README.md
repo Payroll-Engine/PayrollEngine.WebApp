@@ -15,19 +15,19 @@ Die Funktionen der Web App sind in Features unterteilt:
 | Company Cases       | General        | Add new company case                    |
 | National Cases      | General        | Add new national case                   |
 | Global Cases        | General        | Add new global case                     |
-| Reports             | General        | Build a report <sup>1)</sup>            |
-| Payrun Results      | Payrun         | View and Export the payrun results      |
-| Payrun Jobs         | Payrun         | Manage the payrun jobs                  |
-| Payruns             | Payrun         | Manage the payruns                      |
-| Payrolls            | Payroll        | Manage the payrolls                     |
-| Payroll Layers      | Payroll        | Add new employee case                   |
-| Regulations         | Payroll        | Manage the regulations                  |
-| Regulation          | Payroll        | Edit a regulation                       |
-| Shared Regulations  | Administration | Manage the shared regulations           |
-| Tenants             | Administration | Manage the tenants                      |
-| Users               | Administration | Manage the users <sup>2) 3)</sup>       |
-| Divisions           | Administration | Manage the divisions                    |
-| Employees           | Administration | Manage the employees                    |
+| Reports             | General        | Build reports <sup>1)</sup>             |
+| Payrun Results      | Payrun         | View and Export payrun results          |
+| Payrun Jobs         | Payrun         | Start and manage payrun jobs            |
+| Payruns             | Payrun         | Add or change a payrun                  |
+| Payrolls            | Payroll        | Add or change payroll and clusters      |
+| Payroll Layers      | Payroll        | Add or change payroll layer             |
+| Regulations         | Payroll        | Add or remove regulation                |
+| Regulation          | Payroll        | Derived regulation edit                 |
+| Shared Regulations  | Administration | Manage shared regulations               |
+| Tenants             | Administration | Add or change a tenant                  |
+| Users               | Administration | Add or change an users<sup>2) 3)</sup>  |
+| Divisions           | Administration | Add or change a division                |
+| Employees           | Administration | Add or change an employee               |
 | Logs                | Administration | View the tenant logs <sup>4)</sup>      |
 | User Storage        | System         | Manage the local user storage           |
 <br/>
