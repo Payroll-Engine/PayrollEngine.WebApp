@@ -15,7 +15,7 @@ Die Funktionen der Web App sind in Features unterteilt:
 | Company Cases       | General        | Add new company case                    |
 | National Cases      | General        | Add new national case                   |
 | Global Cases        | General        | Add new global case                     |
-| Reports             | General        | Build reports <sup>1)</sup>             |
+| Reports             | General        | Build reports[^1]                       |
 | Payrun Results      | Payrun         | View and Export payrun results          |
 | Payrun Jobs         | Payrun         | Start and manage payrun jobs            |
 | Payruns             | Payrun         | Add or change a payrun                  |
@@ -32,7 +32,7 @@ Die Funktionen der Web App sind in Features unterteilt:
 | User Storage        | System         | Manage the local user storage           |
 <br/>
 
-<sup>1)</sup> Based on [FastReports](https://github.com/FastReports).<br/>
+[^1]: Based on [FastReports](https://github.com/FastReports).<br/>
 <sup>2)</sup> Dem *User* können die verfügbaren Feature zugeordnet werden.<br/>
 <sup>3)</sup> User mit der Option *Supervisor* verwalten die Features.<br/>
 <sup>4)</sup> Tenant Logs werden von den Regulierungen generiert und sind nicht mit dem Applikations-Log zu verwechseln.<br/>
