@@ -15,7 +15,7 @@ Die Funktionen der Web App sind in Features unterteilt:
 | Company Cases       | General        | Add new company case                    |
 | National Cases      | General        | Add new national case                   |
 | Global Cases        | General        | Add new global case                     |
-| Reports             | General        | Build reports[^1]                       |
+| Reports             | General        | Build reports <sup>1)</sup>             |
 | Payrun Results      | Payrun         | View and Export payrun results          |
 | Payrun Jobs         | Payrun         | Start and manage payrun jobs            |
 | Payruns             | Payrun         | Add or change a payrun                  |
@@ -25,17 +25,17 @@ Die Funktionen der Web App sind in Features unterteilt:
 | Regulation          | Payroll        | Derived regulation edit                 |
 | Shared Regulations  | Administration | Manage shared regulations               |
 | Tenants             | Administration | Add or change a tenant                  |
-| Users               | Administration | Add or change an users[^2][^3]          |
+| Users               | Administration | Add or change an users<sup>2) 3)</sup>  |
 | Divisions           | Administration | Add or change a division                |
 | Employees           | Administration | Add or change an employee               |
-| Logs                | Administration | View the tenant logs [^4]               |
+| Logs                | Administration | View the tenant logs <sup>4)</sup>      |
 | User Storage        | System         | Manage the local user storage           |
 <br/>
 
-[^1]: Based on [FastReports](https://github.com/FastReports).<br/>
-[^2]: Dem *User* können die verfügbaren Feature zugeordnet werden.<br/>
-[^3]: User mit der Option *Supervisor* verwalten die Features.<br/>
-[^4]: Tenant Logs werden von den Regulierungen generiert und sind nicht mit dem Applikations-Log zu verwechseln.<br/>
+<sup>1)</sup> Based on [FastReports](https://github.com/FastReports).<br/>
+<sup>2)</sup> Dem *User* können die verfügbaren Feature zugeordnet werden.<br/>
+<sup>3)</sup> User mit der Option *Supervisor* verwalten die Features.<br/>
+<sup>4)</sup> Tenant Logs werden von den Regulierungen generiert und sind nicht mit dem Applikations-Log zu verwechseln.<br/>
 
 <br />
 
