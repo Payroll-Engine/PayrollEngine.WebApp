@@ -35,7 +35,7 @@ public partial class Switch : IRegulationInput
         await SetFieldValue(value);
 
     // method exists only prevent a ReSharper for the CheckedChanged event
-    private async Task ValueChangedAsync(bool? value)
+    public async Task ValueChangedAsync(bool? value)
     {
         if (value.HasValue)
         {

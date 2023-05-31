@@ -262,7 +262,7 @@ public class UserSession : IDisposable
         }
 
         // log
-        Log.Debug($"Tenant changed to {tenant.Identifier} with user {user.Identifier}");
+        Log.Trace($"Tenant changed to {tenant.Identifier} with user {user.Identifier}");
     }
 
     private async Task SetupTenantsAsync()

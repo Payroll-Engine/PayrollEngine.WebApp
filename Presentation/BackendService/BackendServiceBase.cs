@@ -136,22 +136,6 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
             Log.Trace($"response from {typeof(TService).Name}: {result.Items.Length} of {result.Count}");
 
-            // TOD SF grouping from service read
-            // grouping
-            /*
-            IEnumerable resultItems = result.Items.ToList();
-            if (dataRequest.Group != null)
-            {
-                foreach (var group in dataRequest.Group)
-                {
-                    // grouping, perform lazy load grouping need to send LazyLoad property in Group method
-                    resultItems = DataUtil.Group<TItem>(resultItems, group,
-                        dataRequest.Aggregates, 0, dataRequest.GroupByFormatter,
-                        dataRequest.LazyLoad, dataRequest.LazyExpandAllGroup);
-                }
-            }
-            */
-
             var itemsList = result.Items.ToList();
             gridData.Items = itemsList;
 
@@ -178,7 +162,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             {
                 throw new PayrollException($"Service {typeof(TService).Name} can't create the type {ItemTypeName}");
             }
-            Log.Debug($"Read object on {typeof(TService).Name} with id: {itemId}");
+            Log.Trace($"Read object on {typeof(TService).Name} with id: {itemId}");
             var item = await readService.GetAsync<TItem>(CreateServiceContext(), itemId);
 
             // derived notification
@@ -211,7 +195,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             {
                 throw new PayrollException($"Service {typeof(TService).Name} can't create the type {ItemTypeName}");
             }
-            Log.Debug($"Create object on {typeof(TService).Name}: {item}");
+            Log.Trace($"Create object on {typeof(TService).Name}: {item}");
             return await createService.CreateAsync(CreateServiceContext(), item);
         }
         catch (Exception exception)
@@ -241,7 +225,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             {
                 throw new PayrollException($"Service {typeof(TService).Name} can't update the type {ItemTypeName}");
             }
-            Log.Debug($"Update object on {typeof(TService).Name}: {item}");
+            Log.Trace($"Update object on {typeof(TService).Name}: {item}");
             await crudService.UpdateAsync(CreateServiceContext(), item);
             return item;
         }
@@ -272,7 +256,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             {
                 throw new PayrollException($"Service {typeof(TService).Name} can't delete the type {ItemTypeName}");
             }
-            Log.Debug($"Delete object on {typeof(TService).Name}: {itemId}");
+            Log.Trace($"Delete object on {typeof(TService).Name}: {itemId}");
             await createService.DeleteAsync(CreateServiceContext(), itemId);
             return true;
         }

@@ -41,9 +41,9 @@ Die Funktionen der Web App sind in Features unterteilt:
 
 # Web Applicaion Server Hosting
 Für den Betrieb des Web Applikations Servers muss der Webhoster die Ausführung von .NET Core Applikationen unterstützen. Für die lokale Entwicklung dient [IIS Express](https://learn.microsoft.com/en-us/iis/extensions/introduction-to-iis-express/iis-express-overview) als Host in zwei Ausführungsvarianten:
-- [CLI dotnet command](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet) using the batch:
+- [CLI dotnet command](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet) using the command:
 ```
-PayrollEngine\Batches\WebApp.Server.Start.bat
+PayrollEngine\Commands\WebApp.Server.Start.cmd
 ```
 - Visual Studio Solution ***PayrollEngine\PayrollEngine.Backend\PayrollEngine.Backend.sln*** using the debugger
 
