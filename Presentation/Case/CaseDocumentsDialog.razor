@@ -40,7 +40,8 @@
                      Groupable="false"
                      ShowColumnOptions="false">
             <Columns>
-                <PropertyColumn Property="x => x.Name" Title="Name" />
+                <PropertyColumn Property="x => x.Name" />
+                <PropertyColumn Property="x => x.ContentType" Title="Content type" />
                 <TemplateColumn T="TDoc" CellStyle="text-align: right">
                     <CellTemplate>
                         @if (Editable)
@@ -92,7 +93,13 @@
     {
         try
         {
-            await JsRuntime.SaveAs(document.Name, Convert.FromBase64String(document.Content));
+            var name = document.Name;
+            var typeProvider = new FileExtensionContentTypeProvider();
+            if (typeProvider.TryGetExtension(document.ContentType, out var extension))
+            {
+                name += extension;
+            }
+            await JsRuntime.SaveAs(name, Convert.FromBase64String(document.Content));
         }
         catch (Exception exception)
         {

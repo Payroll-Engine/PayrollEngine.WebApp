@@ -305,7 +305,7 @@ public abstract partial class CasesBase
         {
             { nameof(CaseDocumentsDialog<CaseDocument>.Documents), documents }
         };
-        await DialogService.ShowAsync<CaseDocumentsDialog<CaseDocument>>($"{caseChange.CaseFieldName.ToPascalSentence()} documents", parameters);
+        await DialogService.ShowAsync<CaseDocumentsDialog<CaseDocument>>(caseChange.CaseFieldName.ToPascalSentence().EnsureEnd(" documents"), parameters);
     }
 
     /// <summary>

@@ -98,7 +98,7 @@ public partial class PayrunResults
             {
                 Filter = new Equals(nameof(ViewModel.Payrun.PayrollId), Payroll.Id)
             };
-            List<Payrun> payruns =
+            var payruns =
                 HasPayroll ?
                 await PayrunService.QueryAsync<Payrun>(new(Tenant.Id), query) :
                 null;

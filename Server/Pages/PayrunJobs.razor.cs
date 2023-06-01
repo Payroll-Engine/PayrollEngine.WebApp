@@ -696,7 +696,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             {
                 Filter = new Equals(nameof(ViewModel.Payrun.PayrollId), Payroll.Id)
             };
-            List<Payrun> payruns =
+            var payruns =
                 HasPayroll ?
                 await PayrunService.QueryAsync<Payrun>(new(Tenant.Id), query) :
                 null;
