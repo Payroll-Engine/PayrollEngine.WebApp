@@ -65,5 +65,5 @@ public class PayrollResultValue : Client.Model.PayrollResultValue, IEquatable<Pa
     public bool Equals(PayrollResultValue compare) =>
         compare != null &&
         base.Equals(compare) &&
-        CultureInfo.Equals(compare.CultureInfo);
+        Equals(CultureInfo, compare.CultureInfo);
 }
