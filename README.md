@@ -34,7 +34,7 @@ Die Funktionen der Web App sind in Features unterteilt:
 
 <sup>1)</sup> Based on [FastReports](https://github.com/FastReports).<br/>
 <sup>2)</sup> Dem *User* können die verfügbaren Feature zugeordnet werden.<br/>
-<sup>3)</sup> User mit der Option *Supervisor* verwalten die Features.<br/>
+<sup>3)</sup> Der Usertyp *Supervisor* kann alle Features verwalten.<br/>
 <sup>4)</sup> Tenant Logs werden von den Regulierungen generiert und sind nicht mit dem Applikations-Log zu verwechseln.<br/>
 
 <br />

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
+using MudBlazor;
+using Org.BouncyCastle.Bcpg.Sig;
+using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.WebApp.Presentation;
 
 namespace PayrollEngine.WebApp.Server.Shared;
@@ -13,6 +17,8 @@ public partial class NavMenu : IDisposable
     private UserSession Session { get; set; }
     [Inject]
     private ILocalStorageService LocalStorage { get; set; }
+    [Inject]
+    private IConfiguration Configuration { get; set; }
 
     protected List<PageGroupInfo> PageGroups { get; private set; }
     protected List<PageInfo> Pages => PageRegister.Pages;
@@ -45,6 +51,16 @@ public partial class NavMenu : IDisposable
             pageGroups.Add(pageGroup);
         }
         PageGroups = pageGroups;
+    }
+
+    private MarkupString GetNoFeatureText()
+    {
+        var adminEmail = Configuration.GetConfiguration<AppConfiguration>().AdminEmail;
+        if (string.IsNullOrEmpty(adminEmail))
+        {
+            return new("No features available<br/>Please contact your administrator");
+        }
+        return new($"No features available<br/>Please <a href=\"mailto:{adminEmail}\">contact</a> your administrator");
     }
 
     protected override async Task OnInitializedAsync()

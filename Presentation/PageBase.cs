@@ -61,7 +61,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// The page working items
     /// </summary>
-    protected WorkingItems WorkingItems { get; }
+    protected virtual WorkingItems WorkingItems { get; }
 
     protected virtual bool WorkingItemsFulfilled(int? tenantId, int? payrollId, int? employeeId) =>
         (!WorkingItems.TenantView() && !WorkingItems.TenantChange() || tenantId.HasValue) &&

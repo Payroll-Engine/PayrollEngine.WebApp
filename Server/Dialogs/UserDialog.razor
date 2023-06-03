@@ -19,12 +19,10 @@
                         <MudTextField T="string" @bind-Value="User.FirstName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="First name" />
-                        <MudTextField T="string"
-                        @bind-Value="User.LastName"
+                        <MudTextField T="string" @bind-Value="User.LastName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="Last name" />
-                        <MudSelect T="Language" @bind-Value="User.Language"
-                                   Label="Language">
+                        <MudSelect T="Language" @bind-Value="User.Language" Label="Language">
                             <EnumSelectItems T="Language" />
                         </MudSelect>
                         <MudSelect T="string" @bind-Value="SelectedFeature" @bind-SelectedValues="User.FeaturesAsEnum"
@@ -34,9 +32,9 @@
                                    SelectAllText="Select all features">
                             <EnumStringSelectItems T="Feature" />
                         </MudSelect>
-                        <MudSwitch T="bool" @bind-Checked="User.Supervisor"
-                                   Color="Color.Primary"
-                                   Label="Supervisor" />
+                        <MudSelect T="UserType" @bind-Value="User.UserType" Label="User type">
+                            <EnumSelectItems T="UserType" />
+                        </MudSelect>
                         <ItemBaseFields Item="User" />
                     </MudStack>
                 </MudTabPanel>

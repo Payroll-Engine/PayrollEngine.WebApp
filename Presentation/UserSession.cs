@@ -20,7 +20,7 @@ public class UserSession : IDisposable
     private readonly WorkingItemsWatcher<IEmployeeService, TenantServiceContext, Employee, DivisionQuery> employeeWatcher;
 
     [Inject]
-    private ITaskService TaskService { get; set; } 
+    private ITaskService TaskService { get; set; }
 
     /// <summary>
     /// The value formatter 
@@ -97,7 +97,7 @@ public class UserSession : IDisposable
         {
             return;
         }
-        
+
         var tasks = await TaskService.QueryAsync<Client.Model.Task>(new(Tenant.Id), new()
         {
             Filter = new Equals(nameof(Client.Model.Task.ScheduledUserId), user.Id).
@@ -359,17 +359,35 @@ public class UserSession : IDisposable
         // auto select employee
         if (AutoSelectMode)
         {
-            if (Employees.Count == 1)
+            Employee startupEmployee = null;
+            // user employee
+            if (User.UserType == UserType.Employee)
             {
-                await ChangeEmployeeAsync(Employees.First());
-            }
-            else if (!string.IsNullOrWhiteSpace(User.StartupEmployee))
-            {
-                var startupEmployee = Employees.FirstOrDefault(x => string.Equals(x.Identifier, User.StartupEmployee));
-                if (startupEmployee != null)
+                // user and employee must have the same identifier
+                startupEmployee = Employees.FirstOrDefault(x => string.Equals(x.Identifier, User.Identifier));
+                if (startupEmployee == null)
                 {
-                    await ChangeEmployeeAsync(startupEmployee);
+                    throw new PayrollException($"Missing user employee: {User.Identifier}");
                 }
+            }
+            else
+            {
+                // regular single employee
+                if (Employees.Count == 1)
+                {
+                    startupEmployee = Employees.First();
+                }
+                // regular multi employee: user startup setting
+                else if (!string.IsNullOrWhiteSpace(User.StartupEmployee))
+                {
+                    startupEmployee = Employees.FirstOrDefault(x => string.Equals(x.Identifier, User.StartupEmployee));
+                }
+            }
+
+            // employee change
+            if (startupEmployee != null)
+            {
+                await ChangeEmployeeAsync(startupEmployee);
             }
         }
     }

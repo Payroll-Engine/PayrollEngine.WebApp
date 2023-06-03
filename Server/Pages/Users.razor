@@ -25,6 +25,7 @@
         <PropertyColumn Property="x => x.FirstName" Title="First name" />
         <PropertyColumn Property="x => x.LastName" Title="Last name" />
         <PropertyColumn Property="x => x.Language" />
+        <PropertyColumn Property="x => x.UserType" Title="User type" />
         <PropertyColumn Property="x => x.Created">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)

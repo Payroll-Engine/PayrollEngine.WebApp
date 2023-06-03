@@ -11,6 +11,9 @@ public class AppConfiguration
     /// <summary>The application tile</summary>
     public string AppTitle { get; set; }
 
+    /// <summary>The administrator contact</summary>
+    public string AdminEmail { get; set; }
+
     /// <summary>The default features</summary>
     public List<string> DefaultFeatures { get; set; } = new();
 

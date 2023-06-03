@@ -1,9 +1,16 @@
 ﻿@page "/employeecases"
-@inherits PayrollEngine.WebApp.Server.Pages.CasesBase
+@inherits PayrollEngine.WebApp.Server.Pages.CasesPageBase
 
 @if (!HasFeature(Feature.EmployeeCases))
 {
     NavigateHome();
+    return;
+}
+
+@if (!IsValidUser())
+{
+    <br />
+    @GetInvalidUserText()
     return;
 }
 

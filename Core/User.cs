@@ -25,6 +25,12 @@ public class User : Client.Model.User
     {
     }
 
+    public bool Employee =>
+        UserType == UserType.Employee;
+
+    public bool Supervisor =>
+        UserType == UserType.Supervisor;
+
     #region Tasks
 
     public int OpenTaskCount { get; set; }

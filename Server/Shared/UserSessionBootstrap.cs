@@ -94,7 +94,11 @@ public class UserSessionBootstrap
                         if (payroll != null)
                         {
                             // startup employee
-                            employee = await GetStartupEmployee(tenant, user);
+                            employee = user.UserType == UserType.Employee ?
+                                // user employee
+                                await GetUserEmployee(tenant, user) :
+                                // regular employee
+                                await GetStartupEmployee(tenant, user);
                         }
                     }
                 }
@@ -166,7 +170,7 @@ public class UserSessionBootstrap
 
     private async Task<User> GetStartupUser(Tenant tenant, string startupUser)
     {
-        if (string.IsNullOrWhiteSpace(startupUser)) 
+        if (string.IsNullOrWhiteSpace(startupUser))
         {
             return null;
         }
@@ -204,6 +208,17 @@ public class UserSessionBootstrap
             }
         }
         return payroll;
+    }
+
+    private async Task<Employee> GetUserEmployee(Tenant tenant, User user)
+    {
+        // user and employee must have the same identifier
+        var employee = await EmployeeService.GetAsync<Employee>(new(tenant.Id), user.Identifier);
+        if (employee == null)
+        {
+            throw OnError($"Missing user employee: {user.Identifier}");
+        }
+        return employee;
     }
 
     private async Task<Employee> GetStartupEmployee(Tenant tenant, User user)

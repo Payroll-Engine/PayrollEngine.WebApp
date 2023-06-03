@@ -15,7 +15,7 @@ using Case = PayrollEngine.WebApp.ViewModel.Case;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public abstract partial class CasesBase
+public abstract partial class CasesPageBase
 {
     // external services
     [Inject]
@@ -23,7 +23,7 @@ public abstract partial class CasesBase
     [Inject]
     private ILocalStorageService LocalStorage { get; set; }
 
-    protected CasesBase(WorkingItems workingItems) :
+    protected CasesPageBase(WorkingItems workingItems) :
         base(workingItems)
     {
     }
@@ -171,19 +171,19 @@ public abstract partial class CasesBase
     /// Expand all case changes
     /// </summary>
     protected void ExpandItemGroups() =>
-        CaseValuesGrid.ExpandAllGroups();
+        CaseValuesGrid?.ExpandAllGroups();
 
     /// <summary>
     /// Collapse all case changes
     /// </summary>
     protected void CollapseItemGroups() =>
-        CaseValuesGrid.CollapseAllGroups();
+        CaseValuesGrid?.CollapseAllGroups();
 
     /// <summary>
     /// Reset the expand state
     /// </summary>
     protected void ResetItemGroups() =>
-        CaseValuesGrid.ExpandAllGroups();
+        CaseValuesGrid?.ExpandAllGroups();
 
     /// <summary>
     /// Reset all grid filters
