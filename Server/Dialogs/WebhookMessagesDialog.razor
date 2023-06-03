@@ -1,0 +1,23 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Server.Components
+
+<MudDialog>
+    <DialogContent>
+        <MudStack Class="pa-4" Spacing="1">
+            <WebhookMessageGrid Tenant="Tenant" Webhook="Webhook" Style="min-width: fit-content;" />
+            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-">
+                Changes are applied immediately
+            </MudPaper>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="Webhook" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Tenant Tenant { get; set; }
+    [Parameter] public Webhook Webhook { get; set; } = new();
+}

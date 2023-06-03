@@ -28,6 +28,7 @@ Die Funktionen der Web App sind in Features unterteilt:
 | Users               | Administration | Add or change an users<sup>2) 3)</sup>  |
 | Divisions           | Administration | Add or change a division                |
 | Employees           | Administration | Add or change an employee               |
+| Webhooks            | Administration | Add or change webhooks and messages     |
 | Logs                | Administration | View the tenant logs <sup>4)</sup>      |
 | User Storage        | System         | Manage the local user storage           |
 <br/>

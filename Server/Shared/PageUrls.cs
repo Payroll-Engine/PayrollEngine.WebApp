@@ -32,6 +32,7 @@ public static class PageUrls
     public static readonly string Users = "users";
     public static readonly string Divisions = "divisions";
     public static readonly string Employees = "employees";
+    public static readonly string Webhooks = "webhooks";
     public static readonly string Logs = "logs";
 
     // System

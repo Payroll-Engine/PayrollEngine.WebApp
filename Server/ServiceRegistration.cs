@@ -150,6 +150,12 @@ public static class ServiceRegistration
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<TaskBackendService>();
 
+        // webhooks
+        services.AddScoped<IWebhookService, WebhookService>();
+        services.AddScoped<WebhookBackendService>();
+        services.AddScoped<IWebhookMessageService, WebhookMessageService>();
+        services.AddScoped<WebhookMessageBackendService>();
+
         // logs
         services.AddScoped<ILogService, LogService>();
         services.AddScoped<IReportLogService, ReportLogService>();

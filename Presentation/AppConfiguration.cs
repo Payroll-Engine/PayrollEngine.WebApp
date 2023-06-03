@@ -56,6 +56,7 @@ public class AppConfiguration
     public bool Users { get; set; }
     public bool Divisions { get; set; }
     public bool Employees { get; set; }
+    public bool Webhooks { get; set; }
     public bool Logs { get; set; }
 
     // System
@@ -91,6 +92,7 @@ public class AppConfiguration
         AddFeature(Users, features, Feature.Users);
         AddFeature(Divisions, features, Feature.Divisions);
         AddFeature(Employees, features, Feature.Employees);
+        AddFeature(Webhooks, features, Feature.Webhooks);
         AddFeature(Logs, features, Feature.Logs);
 
         // System

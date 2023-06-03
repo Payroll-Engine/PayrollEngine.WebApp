@@ -28,6 +28,7 @@ public enum Feature
     Users,
     Divisions,
     Employees,
+    Webhooks,
     Logs,
 
     // System

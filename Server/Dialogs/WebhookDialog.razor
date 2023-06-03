@@ -1,0 +1,52 @@
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Webhook>
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Server.Components
+
+<MudDialog Class="item-dialog">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+                <MudTabPanel Text="Common">
+                    <MudStack Class="pa-4" Spacing="1">
+                        <MudTextField T="string" @bind-Value="Webhook.Name"
+                                      MaxLength="@SystemSpecification.KeyTextLength"
+                                      ReadOnly="@Webhook.IsExistingObject"
+                                      Label="Name"
+                                      Validation="@(!string.IsNullOrWhiteSpace(Webhook.Name))"
+                                      Required="true" RequiredError="Name is required" />
+                        <MudTextField T="string" @bind-Value="Webhook.ReceiverAddress"
+                                      MaxLength="@SystemSpecification.KeyTextLength"
+                                      Label="Receiver address"
+                                      Validation="@(!string.IsNullOrWhiteSpace(Webhook.ReceiverAddress))"
+                                      Required="true" RequiredError="Receiver address is required" />
+                        <MudSelect T="WebhookAction" @bind-Value="Webhook.Action"
+                                   Label="Webhook action"
+                                   Validation="@(!string.IsNullOrWhiteSpace(Webhook.ReceiverAddress))"
+                                   Required="true" RequiredError="Receiver is required">
+                            <EnumSelectItems T="WebhookAction" />
+                        </MudSelect>
+                        <ItemBaseFields Item="Webhook" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="Attributes">
+                    <AttributesGrid Item="Webhook" Class="attributes-grid pa-2" />
+                </MudTabPanel>
+            </MudTabs>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="Webhook" FormValidator="this" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Webhook Webhook { get; set; } = new();
+
+    public async Task<bool> ValidateAsync(Webhook webhook) =>
+        await form.Revalidate();
+}

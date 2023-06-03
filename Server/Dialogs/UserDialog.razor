@@ -35,6 +35,12 @@
                         <MudSelect T="UserType" @bind-Value="User.UserType" Label="User type">
                             <EnumSelectItems T="UserType" />
                         </MudSelect>
+                        @if (User.UserType == UserType.Employee)
+                        {
+                            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
+                                @($"Please ensure an existing employee with identifier {User.Identifier}.")
+                            </MudPaper>
+                        }
                         <ItemBaseFields Item="User" />
                     </MudStack>
                 </MudTabPanel>

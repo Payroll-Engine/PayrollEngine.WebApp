@@ -1,0 +1,46 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+<MudDataGrid @ref="Grid" T="WebhookMessage" Items="@WebhookMessages"
+             Height="@Height" Class="@Class" Style="@Style">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.ActionName" Title="Action" />
+        <PropertyColumn Property="x => x.ReceiverAddress" Title="Receiver address" />
+        <PropertyColumn Property="x => x.RequestDate" Title="Request date" />
+        <PropertyColumn Property="x => x.RequestMessage" Title="Request message" />
+        <PropertyColumn Property="x => x.RequestOperation" Title="Request operation" />
+        <PropertyColumn Property="x => x.ResponseDate" Title="Response date" />
+        <PropertyColumn Property="x => x.ResponseStatus" Title="Response status" />
+        <PropertyColumn Property="x => x.ResponseMessage" Title="Response message" />
+        <TemplateColumn T="WebhookMessage" CellClass="d-flex justify-end" ShowColumnOptions="false"
+                        ShowFilterIcon="false" Sortable="false">
+            <HeaderTemplate>
+                <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+                    <MudTooltip Delay="500" Text="Add new webhook message" Placement="Placement.Top">
+                        <MudIconButton @onclick="@AddWebhookMessageAsync"
+                                       Color="Color.Tertiary" Variant="Variant.Outlined"
+                                       Icon="@Icons.Material.Filled.Add"
+                                       Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+            </HeaderTemplate>
+            <FilterTemplate />
+            <CellTemplate>
+                <MudStack Row="true">
+                    <MudTooltip Delay="500" Text="Delete webhook message" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => DeleteWebhookMessageAsync(context.Item))"
+                                       Color="Color.Secondary" Variant="Variant.Outlined"
+                                       Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                    </MudTooltip>
+                    <MudTooltip Delay="500" Text="Edit webhook message" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => EditWebhookMessageAsync(context.Item))"
+                                       Color="Color.Primary" Variant="Variant.Outlined"
+                                       Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <NoRecordsContent>
+        No webhook messages available
+    </NoRecordsContent>
+</MudDataGrid>

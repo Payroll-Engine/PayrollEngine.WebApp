@@ -25,6 +25,9 @@ public class User : Client.Model.User
     {
     }
 
+    public bool HasPassword =>
+        !string.IsNullOrWhiteSpace(Password);
+
     public bool Employee =>
         UserType == UserType.Employee;
 

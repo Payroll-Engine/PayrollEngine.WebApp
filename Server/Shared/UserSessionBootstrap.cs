@@ -72,7 +72,10 @@ public class UserSessionBootstrap
 
 
             // features
-            UserSession.DefaultFeatures = appConfiguration.DefaultFeatures;
+            if (appConfiguration.DefaultFeatures != null)
+            {
+                UserSession.DefaultFeatures = appConfiguration.DefaultFeatures.Select(Enum.Parse<Feature>).ToList();
+            }
 
             if (startupConfiguration.AutoLogin)
             {

@@ -30,7 +30,7 @@ public class UserSession : IDisposable
     /// <summary>
     /// Default features if no features are present
     /// </summary>
-    public List<string> DefaultFeatures { get; set; }
+    public List<Feature> DefaultFeatures { get; set; }
 
     /// <summary>
     /// Auto select children
@@ -70,10 +70,9 @@ public class UserSession : IDisposable
             throw new ArgumentNullException(nameof(user));
         }
         // user features
-        if (DefaultFeatures != null && DefaultFeatures.Any() &&
-            (user.FeaturesAsEnum == null || !user.FeaturesAsEnum.Any()))
+        if (DefaultFeatures != null && !user.Features.Any() || !user.HasPassword)
         {
-            user.FeaturesAsEnum = new List<string>(DefaultFeatures);
+            user.Features = DefaultFeatures;
         }
 
         // user change
@@ -224,6 +223,11 @@ public class UserSession : IDisposable
         {
             // user change
             User = user;
+            // features
+            if (DefaultFeatures != null && !user.Features.Any() || !user.HasPassword)
+            {
+                User.Features = DefaultFeatures;
+            }
 
             // event
             await (UserChanged?.InvokeAsync(this, user) ?? Task.CompletedTask);

@@ -55,6 +55,7 @@ public static class PageRegister
             new(Feature.Users, PageUrls.Users, "Users", adminGroup),
             new(Feature.Divisions, PageUrls.Divisions, "Divisions", adminGroup),
             new(Feature.Employees, PageUrls.Employees, "Employees", adminGroup),
+            new(Feature.Webhooks, PageUrls.Webhooks, "Webhooks", adminGroup),
             new(Feature.Logs, PageUrls.Logs, "Logs", adminGroup)
             // System
 #if SYSTEM_PAGES
