@@ -12,7 +12,7 @@
                     <MudStack Class="pa-4" Spacing="1">
                         <MudSelect T="string" @bind-Value="PayrollLayer.RegulationName"
                                    Label="Regulation"
-                                   Disabled="@(RegulationNames == null || !RegulationNames.Any())"
+                                   Disabled="@(RegulationNames == null || RegulationNames.Count < 1)"
                                    Required="true" RequiredError="Regulation is required">
                             @foreach (var name in RegulationNames)
                             {
@@ -22,12 +22,12 @@
                         <MudTooltip Delay="500" Text="Arrow for the next free level" Placement="Placement.Top">
                             <MudNumericField T="int" @bind-Value="PayrollLayer.Level"
                                              Label="Level"
+                                             HelperText="Default level is 1"
                                              Min="1"
                                              Adornment="Adornment.End"
                                              AdornmentIcon="@Icons.Material.Filled.ArrowUpward"
                                              OnAdornmentClick="SetNextFreeLevel"
-                                             Validation="@(new Func<int, string>(ValidateLevel))"
-                                             Required="true" RequiredError="Level is required" />
+                                             Validation="@(new Func<int, string>(ValidateLevel))" />
                         </MudTooltip>
                         <MudTooltip Delay="500" Text="Arrow for the next free priority" Placement="Placement.Top">
                             <MudNumericField T="int" @bind-Value="PayrollLayer.Priority"

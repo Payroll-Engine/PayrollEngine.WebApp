@@ -4,7 +4,7 @@
            Label="@Item.GetItemLabel(Field)"
            HelperText="@Item.GetItemHelp(Field)"
            Value="@SelectedCase" ValueChanged="ValueChangedAsync"
-           Disabled="@(Cases == null || !Cases.Any())"
+           Disabled="@(Cases == null || Cases.Count < 1)"
            ReadOnly="@Item.IsReadOnlyField(Field)"
            Clearable="@Item.IsClearableField(Field)">
     @{

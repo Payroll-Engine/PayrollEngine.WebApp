@@ -24,7 +24,7 @@
                                       Label="Last name" />
                         <MudSelect T="string" @bind-Value="SelectedDivision" @bind-SelectedValues="Employee.DivisionsAsEnum"
                                    Label="Divisions"
-                                   Disabled="@(Divisions == null || !Divisions.Any())"
+                                   Disabled="@(Divisions == null || Divisions.Count < 1)"
                                    MultiSelection="true"
                                    SelectAll="true"
                                    SelectAllText="Select all divisions">

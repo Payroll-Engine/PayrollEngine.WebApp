@@ -36,7 +36,7 @@
         <MudSelect T="string"
                    Value="SelectedPayrunName"
                    ValueChanged="PayrunChanged"
-                   Disabled="@(Payruns == null || !Payruns.Any())"
+                   Disabled="@(Payruns == null || Payruns.Count < 1)"
                    ReadOnly="@(Payruns == null || Payruns.Count == 1)"
                    Label="Payrun"
                    Variant="Variant.Outlined">

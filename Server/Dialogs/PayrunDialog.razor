@@ -12,7 +12,7 @@
                 <MudTabPanel Text="Common">
                     <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" @bind-Value="Payrun.Name"
-                                      Disabled="@(PayrollNames == null || !PayrollNames.Any())"
+                                      Disabled="@(PayrollNames == null || PayrollNames.Count < 1)"
                                       ReadOnly="@Payrun.IsExistingObject"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="@(Payrun.IsNewObject ? "Name (immutable)" : "Name")"

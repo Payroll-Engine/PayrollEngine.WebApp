@@ -6,7 +6,7 @@
            SelectAllText="@($"Select all {Item.GetItemLabel(Field)}")"
            SelectedValues="SelectedCollectors" SelectedValuesChanged="SelectionChangedAsync"
            Value="@CollectorsAsString"
-           Disabled="@(Collectors == null || !Collectors.Any())"
+           Disabled="@(Collectors == null || Collectors.Count < 1)"
            ReadOnly="@Item.IsReadOnlyField(Field)"
            Clearable="@Item.IsClearableField(Field)">
     @if (Collectors != null)

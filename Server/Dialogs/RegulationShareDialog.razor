@@ -16,7 +16,7 @@
                         <MudSelect T="string"
                                    Value="RegulationShare.ProviderTenantIdentifier"
                                    ValueChanged="ProviderTenantChangedAsync"
-                                   Disabled="@(Tenants == null || !Tenants.Any())"
+                                   Disabled="@(Tenants == null || Tenants.Count < 1)"
                                    Label="Provider tenant"
                                    Required="true">
                             @foreach (var tenant in Tenants)
@@ -29,7 +29,7 @@
                         <MudSelect T="string"
                                    Value="RegulationShare.ProviderRegulationName"
                                    ValueChanged="ProviderRegulationChanged"
-                                   Disabled="@(ProviderRegulations == null || !ProviderRegulations.Any() || !HasProviderTenant())"
+                                   Disabled="@(ProviderRegulations == null || ProviderRegulations.Count < 1 || !HasProviderTenant())"
                                    Label="Provider regulation"
                                    Required="true">
                             @foreach (var regulation in ProviderRegulations)
@@ -42,7 +42,7 @@
                         <MudSelect T="string"
                                    Value="RegulationShare.ConsumerTenantIdentifier"
                                    ValueChanged="ConsumerTenantChangedAsync"
-                                   Disabled="@(Tenants == null || !Tenants.Any() || !HasProviderRegulation())"
+                                   Disabled="@(Tenants == null || Tenants.Count < 1 || !HasProviderRegulation())"
                                    Label="Consumer tenant"
                                    Required="true">
                             @foreach (var tenant in Tenants)
@@ -61,7 +61,7 @@
                                    Value="RegulationShare.ConsumerDivisionName"
                                    ValueChanged="ConsumerDivisionChanged"
                                    Clearable="true"
-                                   Disabled="@(ConsumerDivisions == null || !ConsumerDivisions.Any() || !HasConsumerTenant())"
+                                   Disabled="@(ConsumerDivisions == null || ConsumerDivisions.Count < 1 || !HasConsumerTenant())"
                                    Label="Consumer division">
                             @foreach (var division in ConsumerDivisions)
                             {

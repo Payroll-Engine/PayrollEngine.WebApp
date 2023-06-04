@@ -18,7 +18,7 @@
                                                Validation="@(!string.IsNullOrWhiteSpace(Payroll.Name))"
                                                Required="true" RequiredError="Name is required" />
                         <MudSelect T="string" @bind-Value="Payroll.DivisionName"
-                                   Disabled="@(DivisionNames == null || !DivisionNames.Any())"
+                                   Disabled="@(DivisionNames == null || DivisionNames.Count < 1)"
                                    ReadOnly="@Payroll.IsExistingObject"
                                    Label="@(Payroll.IsNewObject ? "Division (immutable)" : "Division")">
                             @foreach (var name in DivisionNames)

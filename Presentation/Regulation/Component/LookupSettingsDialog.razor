@@ -12,7 +12,7 @@
                 <MudStack Spacing="1">
                     <MudSelect T="string" Label="Lookup name"
                     @bind-Value="Settings.LookupName"
-                               Disabled="@(Lookups == null || !Lookups.Any())"
+                               Disabled="@(Lookups == null || Lookups.Count < 1)"
                                Required="true" RequiredError="Lookup name is required">
                         @foreach (var lookup in Lookups)
                         {
