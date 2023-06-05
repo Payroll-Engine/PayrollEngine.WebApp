@@ -1,5 +1,8 @@
 ﻿@page "/divisions"
+
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Server.Components
+
 @inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Division, Query, PayrollEngine.WebApp.Server.Dialogs.DivisionDialog>
 
 @if (!HasFeature(Feature.Divisions))
@@ -8,7 +11,7 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Divisions</MudText>
+<ItemPageActions PageActions="this" Title="Divisions" />
 
 <MudDataGrid @ref="ItemsGrid" T="Division" 
              ServerData="GetServerDataAsync"

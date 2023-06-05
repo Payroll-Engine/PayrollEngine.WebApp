@@ -3,6 +3,7 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation.Payrun
+
 @inherits PayrollEngine.WebApp.Presentation.PageBase
 
 @if (!HasFeature(Feature.Payruns))
@@ -11,7 +12,7 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Payrun Jobs</MudText>
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">Payrun Jobs</MudText>
 
 @if (!HasPayroll)
 {
@@ -27,10 +28,10 @@
 @* payrun selection *@
 @if (SelectedPayrun == null)
 {
-    <div class="pa-1">Please select a payrun</div>
+    <div class="pa-1 mt-4">Please select a payrun</div>
 }
 
-<MudStack Row="true" Spacing="0" Class="gap-2 mb-4">
+<MudStack Row="true" Spacing="0" Class="gap-2 my-4">
     <MudStack Spacing="0" Style="max-width: 22em">
         <MudSelect T="string"
                    Value="SelectedPayrunName"

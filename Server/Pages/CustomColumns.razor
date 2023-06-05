@@ -32,17 +32,17 @@
             {
                 case AttributeValueType.String:
                     <PropertyColumn T="T" TProperty="string"
-                Property="x => x.GetStringAttribute(name)" Title="@header"
-                Tag="@($"TA_{name}")" ShowColumnOptions="false"
-                ShowFilterIcon="@allowFiltering" Filterable="@allowFiltering"
-                Sortable="@allowSorting" Groupable="@allowGrouping" />
+                                    Property="x => x.GetStringAttribute(name)" Title="@header"
+                                    Tag="@($"{TextAttributePrefix}{name}")" ShowColumnOptions="false"
+                                    ShowFilterIcon="@allowFiltering" Filterable="@allowFiltering"
+                                    Sortable="@allowSorting" Groupable="@allowGrouping" />
                     break;
                 case AttributeValueType.Numeric:
                     <PropertyColumn T="T" TProperty="decimal"
-                Property="x => x.GetNumericAttribute(name)" Title="@header"
-                Tag="@($"NA_{name}")" ShowColumnOptions="false"
-                ShowFilterIcon="@allowFiltering" Filterable="@allowFiltering"
-                Sortable="@allowSorting" Groupable="@allowGrouping" />
+                                    Property="x => x.GetNumericAttribute(name)" Title="@header"
+                                    Tag="@($"{NumericAttributePrefix}{name}")" ShowColumnOptions="false"
+                                    ShowFilterIcon="@allowFiltering" Filterable="@allowFiltering"
+                                    Sortable="@allowSorting" Groupable="@allowGrouping" />
                     break;
             }
         }
@@ -52,4 +52,7 @@
 @code {
     [Parameter]
     public List<GridColumnConfiguration> Columns { get; set; }
+
+    private string TextAttributePrefix = PayrollEngine.SystemSpecification.TextAttributePrefix;
+    private string NumericAttributePrefix = PayrollEngine.SystemSpecification.NumericAttributePrefix;
 }

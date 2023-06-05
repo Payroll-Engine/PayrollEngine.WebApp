@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor;
@@ -7,7 +8,6 @@ namespace PayrollEngine.WebApp.Presentation;
 
 public static class MudDataGridExtensions
 {
-
     public static GridState<T> BuildExportState<T>(this MudDataGrid<T> dataGrid, int page = 0,
         int pageSize = 0)
     {
@@ -40,6 +40,7 @@ public static class MudDataGridExtensions
         {
             throw new ArgumentException(nameof(columnName));
         }
+
         if (filterOperator == null)
         {
             throw new ArgumentNullException(nameof(filterOperator));
@@ -71,5 +72,27 @@ public static class MudDataGridExtensions
         await dataGrid.ClearFiltersAsync();
         await dataGrid.AddFilterAsync(filter);
         return true;
+    }
+
+    public static List<string> GetColumnProperties<T>(this MudDataGrid<T> dataGrid)
+    {
+        var properties = new List<string>();
+        foreach (var column in dataGrid.RenderedColumns)
+        {
+            if (column.Tag is string attributeTag)
+            {
+                string attributeName = attributeTag.RemoveAttributePrefix();
+                if (string.IsNullOrWhiteSpace(attributeName))
+                {
+                    throw new PayrollException($"Invalid attribute tag {attributeTag} in grid column {column.Title}");
+                }
+                properties.Add($"{nameof(IAttributeObject.Attributes)}.{attributeName}");
+            }
+            else
+            {
+                properties.Add(column.PropertyName);
+            }
+        }
+        return properties;
     }
 }

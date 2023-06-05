@@ -1,4 +1,7 @@
 ﻿@page "/regulations"
+
+@using PayrollEngine.WebApp.Server.Components
+
 @inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Regulation, Query, PayrollEngine.WebApp.Server.Dialogs.RegulationDialog>
 
 @if (!HasFeature(Feature.Regulations))
@@ -7,7 +10,7 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Regulations</MudText>
+<ItemPageActions PageActions="this" Title="Regulations" />
 
 <MudDataGrid @ref="ItemsGrid" T="ViewModel.Regulation" 
              ServerData="GetServerDataAsync"

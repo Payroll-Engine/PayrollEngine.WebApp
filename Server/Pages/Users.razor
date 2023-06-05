@@ -1,5 +1,8 @@
 ﻿@page "/users"
+
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Server.Components
+
 @inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.User, Query, PayrollEngine.WebApp.Server.Dialogs.UserDialog>
 
 @if (!HasFeature(Feature.Users))
@@ -8,7 +11,7 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Users</MudText>
+<ItemPageActions PageActions="this" Title="Users" />
 
 <MudDataGrid @ref="ItemsGrid" T="User"
              ServerData="GetServerDataAsync"

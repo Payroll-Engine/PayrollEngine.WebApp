@@ -1,5 +1,8 @@
 ﻿@page "/logs"
+
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Server.Components
+
 @inherits PayrollEngine.WebApp.Presentation.ItemPageBase<Log, Query>
 
 @if (!HasFeature(Feature.Logs))
@@ -8,13 +11,13 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Logs</MudText>
+<ItemPageActions PageActions="this" Title="Logs" />
 
 <MudDataGrid @ref="ItemsGrid" T="Log" ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
-             SortMode="SortMode.Multiple" Filterable="true" 
+             SortMode="SortMode.Multiple" Filterable="true"
              Hideable="true" ShowColumnOptions="true">
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />

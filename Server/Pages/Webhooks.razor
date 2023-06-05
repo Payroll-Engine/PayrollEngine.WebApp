@@ -1,5 +1,8 @@
 ﻿@page "/webhooks"
+
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Server.Components
+
 @inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Webhook, Query, PayrollEngine.WebApp.Server.Dialogs.WebhookDialog>
 
 @if (!HasFeature(Feature.Webhooks))
@@ -8,13 +11,13 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Webhooks</MudText>
+<ItemPageActions PageActions="this" Title="Webhooks" />
 
 <MudDataGrid @ref="ItemsGrid" T="Webhook" ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
-             SortMode="SortMode.Multiple" Filterable="true" 
+             SortMode="SortMode.Multiple" Filterable="true"
              Hideable="true" ShowColumnOptions="true">
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
@@ -37,7 +40,7 @@
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
                     <MudTooltip Delay="500" Text="Add new Webhook" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddItemAsync"
-                                       Color="Color.Tertiary" 
+                                       Color="Color.Tertiary"
                                        Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Add"
                                        Size="Size.Small" />
@@ -51,14 +54,14 @@
                         <MudIconButton @onclick="@(() => DeleteItemAsync(context.Item))"
                                        Color="Color.Secondary"
                                        Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Delete" 
+                                       Icon="@Icons.Material.Filled.Delete"
                                        Size="Size.Small" />
                     </MudTooltip>
                     <MudTooltip Delay="500" Text="Edit Webhook" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditItemAsync(context.Item))"
-                                       Color="Color.Primary" 
+                                       Color="Color.Primary"
                                        Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Edit" 
+                                       Icon="@Icons.Material.Filled.Edit"
                                        Size="Size.Small" />
                     </MudTooltip>
                     <MudTooltip Delay="500" Text="Webhook Messages" Placement="Placement.Top">

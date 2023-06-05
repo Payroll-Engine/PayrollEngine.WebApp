@@ -217,9 +217,9 @@ public partial class PayrunResults
     protected async Task ResetFilterAsync() =>
         await ResultsGrid.ClearFiltersAsync();
 
-
     /// <summary>
-    /// Reset all grid filters
+    /// Download excel file from unfiltered grid data
+    /// <remarks>Copy from <see cref="ItemPageBase{TItem,TQuery}.ExcelDownloadAsync"/> </remarks>
     /// </summary>
     protected async Task ExcelDownloadAsync()
     {
@@ -238,11 +238,16 @@ public partial class PayrunResults
 
         try
         {
-            var name = "PayrunResults";
-            // convert items to data set
-            var dataSet = new System.Data.DataSet(name);
+            // column properties
+            var properties = ResultsGrid.GetColumnProperties();
+            if (!properties.Any())
+            {
+                return;
+            }
 
-            var properties = ResultsGrid.RenderedColumns.Select(x => x.PropertyName).ToList();
+            // convert items to data set
+            var name = "PayrunResults";
+            var dataSet = new System.Data.DataSet(name);
             var dataTable = items.ToSystemDataTable(name, includeRows: true, properties: properties);
             dataSet.Tables.Add(dataTable);
 
@@ -262,6 +267,7 @@ public partial class PayrunResults
         }
         catch (Exception exception)
         {
+            Log.Error(exception, exception.GetBaseMessage());
             await UserNotification.ShowErrorMessageBoxAsync("Excel download error", exception);
         }
     }

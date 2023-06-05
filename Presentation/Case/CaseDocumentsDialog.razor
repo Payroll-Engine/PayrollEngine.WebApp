@@ -103,6 +103,7 @@
         }
         catch (Exception exception)
         {
+            PayrollEngine.Log.Error(exception, exception.GetBaseMessage());
             await UserNotification.ShowErrorMessageBoxAsync("Case documents error", exception);
         }
     }
@@ -126,6 +127,7 @@
         }
         catch (Exception exception)
         {
+            PayrollEngine.Log.Error(exception, exception.GetBaseMessage());
             await UserNotification.ShowErrorMessageBoxAsync("Case documents error", exception);
         }
     }

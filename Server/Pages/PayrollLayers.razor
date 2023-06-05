@@ -1,5 +1,8 @@
 ﻿@page "/payrolllayers"
+
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Server.Components
+
 @inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.PayrollLayer, Query, PayrollEngine.WebApp.Server.Dialogs.PayrollLayerDialog>
 
 @if (!HasFeature(Feature.PayrollLayers))
@@ -8,18 +11,20 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Payroll Layers</MudText>
-
 @if (!HasTenant)
 {
+    <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">Payroll Layers</MudText>
     <div>Please select a tenant</div>
     return;
 }
 @if (!HasPayroll)
 {
+    <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">Payroll Layers</MudText>
     <div>Please select a payroll</div>
     return;
 }
+
+<ItemPageActions PageActions="this" Title="Payroll Layers" />
 
 <MudDataGrid @ref="ItemsGrid" T="PayrollLayer"
              ServerData="GetServerDataAsync"
@@ -27,7 +32,7 @@
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
              SortMode="SortMode.Multiple"
-             Filterable="true" 
+             Filterable="true"
              Hideable="true">
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />

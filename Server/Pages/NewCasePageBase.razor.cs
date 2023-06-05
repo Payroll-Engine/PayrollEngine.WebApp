@@ -260,6 +260,7 @@ public abstract partial class NewCasePageBase
         }
         catch (Exception exception)
         {
+            Log.Error(exception, exception.GetBaseMessage());
             await UserNotification.ShowErrorMessageBoxAsync("Submit Case", exception);
         }
     }
@@ -286,6 +287,7 @@ public abstract partial class NewCasePageBase
         }
         catch (Exception exception)
         {
+            Log.Error(exception, exception.GetBaseMessage());
             await UserNotification.ShowErrorMessageBoxAsync("Build Case", exception);
             return null;
         }

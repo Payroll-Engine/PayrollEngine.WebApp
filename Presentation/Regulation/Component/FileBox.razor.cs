@@ -81,6 +81,7 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Component
             }
             catch (Exception exception)
             {
+                Log.Error(exception, exception.GetBaseMessage());
                 await UserNotification.ShowErrorMessageBoxAsync("File upload error", exception);
             }
         }

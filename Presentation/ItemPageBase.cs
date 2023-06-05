@@ -1,24 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
 using MudBlazor;
+using NPOI.XSSF.UserModel;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
+using PayrollEngine.Data;
+using PayrollEngine.Document;
+using PayrollEngine.IO;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation;
 
-public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver
+public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, IItemPageActions
     where TItem : class, IModel, IEquatable<TItem>, new()
     where TQuery : Query, new()
 {
+    [Inject]
+    private IConfiguration Configuration { get; set; }
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; }
+
     protected ItemPageBase(WorkingItems workingItems) :
         base(workingItems)
     {
     }
 
-    #region Data and Grid
+    #region Grid
 
     protected abstract string GridId { get; }
     protected abstract IBackendService<TItem, TQuery> BackendService { get; }
@@ -114,6 +127,65 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver
     protected virtual Task<bool> PrepareServerDataRequestAsync(
         GridState<TItem> state, IDictionary<string, object> parameters) =>
         Task.FromResult(true);
+
+    /// <summary>
+    /// Reset all grid filters
+    /// </summary>
+    public virtual async Task ResetFilterAsync() =>
+        await ItemsGrid.ClearFiltersAsync();
+
+    /// <summary>
+    /// Download excel file from unfiltered grid data
+    /// </summary>
+    public virtual async Task ExcelDownloadAsync(string name)
+    {
+        // server request
+        var maxExport = Configuration.GetConfiguration<AppConfiguration>().ExcelExportMaxRecords;
+        var state = ItemsGrid.BuildExportState(pageSize: maxExport);
+
+        // retrieve all items, without any filter and sort
+        var data = await GetServerDataAsync(state);
+        var items = data.Items.ToList();
+        if (!items.Any())
+        {
+            await UserNotification.ShowErrorMessageBoxAsync("Excel Download", "Empty collection");
+            return;
+        }
+
+        try
+        {
+            // column properties
+            var properties = ItemsGrid.GetColumnProperties();
+            if (!properties.Any())
+            {
+                return;
+            }
+
+            // convert items to data set
+            var dataSet = new System.Data.DataSet(name);
+            var dataTable = items.ToSystemDataTable(name, includeRows: true, properties: properties);
+            dataSet.Tables.Add(dataTable);
+
+            // xlsx workbook
+            using var workbook = new XSSFWorkbook();
+            // import 
+            workbook.Import(dataSet);
+
+            // result
+            using var resultStream = new MemoryStream();
+            workbook.Write(resultStream, true);
+            resultStream.Seek(0, SeekOrigin.Begin);
+
+            var download = $"{name}_{FileTool.CurrentTimeStamp()}{FileExtensions.ExcelDocument}";
+            await JsRuntime.SaveAs(download, resultStream.ToArray());
+            await UserNotification.ShowSuccessAsync("Download completed");
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await UserNotification.ShowErrorMessageBoxAsync("Excel download error", exception);
+        }
+    }
 
     protected virtual async Task<TItem> GetItemAsync(int itemId)
     {

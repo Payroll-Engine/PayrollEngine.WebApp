@@ -95,6 +95,8 @@ public static class ServiceRegistration
         services.AddScoped<IScriptService, ScriptService>();
         services.AddScoped<IRegulationService, RegulationService>();
         services.AddScoped<RegulationBackendService>();
+        services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<ReportBackendService>();
 
         // payroll result
         services.AddScoped<IPayrollResultService, PayrollResultService>();

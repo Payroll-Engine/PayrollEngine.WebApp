@@ -12,7 +12,7 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Payrun Results</MudText>
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">Payrun Results</MudText>
 
 @if (!HasPayroll)
 {
@@ -28,10 +28,10 @@
 @* payrun selection *@
 @if (SelectedPayrun == null)
 {
-    <div class="pa-1">Please select a payrun</div>
+    <div class="pa-1 mt-4">Please select a payrun</div>
 }
 
-<MudStack Row="true" Spacing="0" Class="gap-2 mb-4">
+<MudStack Row="true" Spacing="0" Class="gap-2 my-4">
     <MudStack Spacing="0" Style="max-width: 22em">
         <MudSelect T="string"
                    Value="SelectedPayrunName"
@@ -64,9 +64,8 @@
     return;
 }
 
-@* data grid actions *@
+@* title and grid actions *@
 <div class="d-flex pb-2">
-    <MudText Typo="Typo.h6" Class="pt-8">Payrun Results</MudText>
     <div class="d-flex flex-grow-1 justify-end align-end">
         <MudTooltip Delay="500" Text="Compact view" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
@@ -85,7 +84,7 @@
         <MudTooltip Delay="500" Text="Excel download" Placement="Placement.Top">
             <MudIconButton @onclick="@ExcelDownloadAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
-                           Icon="@Icons.Material.Filled.Download"
+                           Icon="@Icons.Custom.FileFormats.FileExcel"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>

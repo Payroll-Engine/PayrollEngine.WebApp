@@ -1,5 +1,8 @@
 ﻿@page "/tenants"
+
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Server.Components
+
 @inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<Tenant, Query, PayrollEngine.WebApp.Server.Dialogs.TenantDialog>
 
 @if (!HasFeature(Feature.Tenants))
@@ -8,15 +11,15 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Tenants</MudText>
+<ItemPageActions PageActions="this" Title="Tenants" />
 
-<MudDataGrid @ref="ItemsGrid" T="Tenant" 
+<MudDataGrid @ref="ItemsGrid" T="Tenant"
              ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
              SortMode="SortMode.Multiple"
-             Filterable="true" 
+             Filterable="true"
              Hideable="true">
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />

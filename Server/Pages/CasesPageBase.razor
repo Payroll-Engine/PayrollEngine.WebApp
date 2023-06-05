@@ -1,7 +1,8 @@
 ﻿@using PayrollEngine.WebApp.ViewModel
+
 @inherits PayrollEngine.WebApp.Presentation.PageBase
 
-<MudText Typo="Typo.h5" Class="pt-2">@PageTitle</MudText>
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@PageTitle</MudText>
 
 @if (IsTenantMissing)
 {
@@ -27,15 +28,15 @@
         </MudText>
         <div class="d-flex flex-grow-1">
             <MudTextField T="string" Style="align-self: end"
-                      Value="AvailableCaseFilter"
-                      Margin="Margin.Dense"
-                      Clearable="true"
-                      Placeholder="Search"
-                      Adornment="Adornment.End"
-                      AdornmentIcon="@Icons.Material.Filled.Search"
-                      IconSize="Size.Small"
-                      ValueChanged="AvailableCaseFilterChangedAsync"
-                      Immediate="true" />
+                          Value="AvailableCaseFilter"
+                          Margin="Margin.Dense"
+                          Clearable="true"
+                          Placeholder="Search"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          IconSize="Size.Small"
+                          ValueChanged="AvailableCaseFilterChangedAsync"
+                          Immediate="true" />
         </div>
     </div>
 
@@ -45,12 +46,12 @@
         {
             <MudStack Row="true" Spacing="0" Class="d-flex align-center gap-4">
                 <MudChipSet MultiSelection="false" SelectedChip="SelectedCluster"
-                SelectedChipChanged="SelectedClusterChanged" Class="pa-0">
+                            SelectedChipChanged="SelectedClusterChanged" Class="pa-0">
                     @foreach (var cluster in Clusters)
                     {
                         <MudChip Text="@cluster"
-                 Default="@string.Equals(cluster, ClusterAll)"
-                 Variant="Variant.Outlined" SelectedColor="Color.Primary" />
+                                 Default="@string.Equals(cluster, ClusterAll)"
+                                 Variant="Variant.Outlined" SelectedColor="Color.Primary" />
                     }
                 </MudChipSet>
             </MudStack>
@@ -58,7 +59,7 @@
 
         @* available cases list *@
         <MudStack Row="true" Class="d-flex flex-wrap flex-grow-1 align-content-start gap-4 mt-2"
-          Style="max-height: 22em; overflow-y: scroll">
+                  Style="max-height: 22em; overflow-y: scroll">
             @foreach (var availableCase in AvailableCases)
             {
                 var caseName = availableCase.GetLocalizedName(UserLanguage).TruncateSentence(100);
@@ -96,19 +97,19 @@
                         <MudStack Row="true" Spacing="0" Class="flex flex-grow-1 justify-end">
                             <MudTooltip Delay="500" Text="@($"Search Case {caseName}")" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => SearchCaseAsync(availableCase))"
-                                   Color="Color.Primary"
-                                   Variant="Variant.Outlined"
-                                   Class="ml-2"
-                                   Style="zoom: 0.8; height: fit-content"
-                                   Icon="@Icons.Material.Filled.Search" Size="Size.Small" />
+                                               Color="Color.Primary"
+                                               Variant="Variant.Outlined"
+                                               Class="ml-2"
+                                               Style="zoom: 0.8; height: fit-content"
+                                               Icon="@Icons.Material.Filled.Search" Size="Size.Small" />
                             </MudTooltip>
                             <MudTooltip Delay="500" Text="@($"Start Case {caseName}")" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => StartCase(availableCase))"
-                                   Color="Color.Tertiary"
-                                   Variant="Variant.Outlined"
-                                   Class="ml-2"
-                                   Style="zoom: 0.8; height: fit-content"
-                                   Icon="@Icons.Material.Filled.Start" Size="Size.Small" />
+                                               Color="Color.Tertiary"
+                                               Variant="Variant.Outlined"
+                                               Class="ml-2"
+                                               Style="zoom: 0.8; height: fit-content"
+                                               Icon="@Icons.Material.Filled.Start" Size="Size.Small" />
                             </MudTooltip>
                         </MudStack>
                     </MudStack>
@@ -208,9 +209,9 @@ else
                             <span style="display: inline-block; float: right;" class="pa-1">
                                 <MudTooltip Delay="500" Text="Undo case change" Placement="Placement.Top">
                                     <MudIconButton @onclick="@(() => CancelCaseChangeAsync(change))"
-                                       Color="Color.Secondary" Variant="Variant.Outlined"
-                                       Style="zoom: 0.8; height: fit-content"
-                                       Icon="@Icons.Material.Filled.Undo" Size="Size.Small" />
+                                                   Color="Color.Secondary" Variant="Variant.Outlined"
+                                                   Style="zoom: 0.8; height: fit-content"
+                                                   Icon="@Icons.Material.Filled.Undo" Size="Size.Small" />
                                 </MudTooltip>
                             </span>
                         }
@@ -274,9 +275,9 @@ else
                 @if (context.Item?.Documents > 0)
                 {
                     <MudIconButton @onclick="@(() => ShowDocumentsAsync(context.Item))"
-                               Color="Color.Primary" Variant="Variant.Outlined"
-                               Style="zoom: 0.8"
-                               Icon="@Icons.Material.Filled.AttachFile" Size="Size.Small" />
+                                   Color="Color.Primary" Variant="Variant.Outlined"
+                                   Style="zoom: 0.8"
+                                   Icon="@Icons.Material.Filled.AttachFile" Size="Size.Small" />
                 }
             </CellTemplate>
         </TemplateColumn>

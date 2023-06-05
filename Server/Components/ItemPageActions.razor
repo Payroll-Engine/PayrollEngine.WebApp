@@ -1,0 +1,27 @@
+﻿@using PayrollEngine.WebApp.Presentation
+
+@* title and grid actions *@
+<div class="d-flex pb-2 pt-8">
+    <MudText Typo="Typo.h5">@Title</MudText>
+    <div class="d-flex flex-grow-1 justify-end align-end">
+        <MudTooltip Delay="500" Text="Filter reset" Placement="Placement.Top">
+            <MudIconButton @onclick="@PageActions.ResetFilterAsync"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Material.Filled.FilterAltOff"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+        <MudTooltip Delay="500" Text="Excel download" Placement="Placement.Top">
+            <MudIconButton @onclick="@(() => PageActions.ExcelDownloadAsync(Title))"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Custom.FileFormats.FileExcel"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+    </div>
+</div>
+
+@code {
+    [Parameter] public IItemPageActions PageActions { get; set; }
+    [Parameter] public string Title { get; set; }
+}

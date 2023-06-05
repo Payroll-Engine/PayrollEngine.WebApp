@@ -7,22 +7,41 @@
     return;
 }
 
-<MudText Typo="Typo.h4" Class="my-4">Tasks</MudText>
-
-<div class="d-flex flex-wrap justify-end mt-4">
-    <MudStack Row="true" Spacing="0" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-        <MudTooltip Delay="500" Text="Show or hide completed tasks" Placement="Placement.Top">
-            <MudSwitch T="bool" Checked="@CompletedTasks" @onclick="@(ToggleTasksFilterAsync)"
-                       LabelPosition="LabelPosition.Start" Color="Color.Primary">Show completed</MudSwitch>
-        </MudTooltip>
-    </MudStack>
+<div class="d-flex pb-2 pt-8">
+    <MudText Typo="Typo.h5">Tasks</MudText>
+    <div class="d-flex flex-grow-1 justify-end align-end">
+        <MudStack Row="true" Spacing="0" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+            <MudTooltip Delay="500" Text="Show or hide completed tasks" Placement="Placement.Top">
+                <MudSwitch T="bool" Checked="@CompletedTasks" @onclick="@(ToggleTasksFilterAsync)"
+                           LabelPosition="LabelPosition.Start"
+                           Color="Color.Primary">
+                    Show completed
+                </MudSwitch>
+            </MudTooltip>
+            <MudTooltip Delay="500" Text="Filter reset" Placement="Placement.Top">
+                <MudIconButton @onclick="@ResetFilterAsync"
+                               Color="Color.Primary" Variant="Variant.Outlined"
+                               Icon="@Icons.Material.Filled.FilterAltOff"
+                               Class="ml-2"
+                               Size="Size.Small" />
+            </MudTooltip>
+            <MudTooltip Delay="500" Text="Excel download" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ExcelDownloadAsync("Tasks"))"
+                               Color="Color.Primary" Variant="Variant.Outlined"
+                               Icon="@Icons.Custom.FileFormats.FileExcel"
+                               Class="ml-2"
+                               Size="Size.Small" />
+            </MudTooltip>
+        </MudStack>
+    </div>
 </div>
+
 <MudDataGrid @ref="ItemsGrid" T="ViewModel.Task"
              ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
-             SortMode="SortMode.Multiple" 
+             SortMode="SortMode.Multiple"
              Filterable="true"
              Hideable="true"
              ShowColumnOptions="true">
