@@ -39,7 +39,7 @@ public partial class PayrunResults
     private IJSRuntime JsRuntime { get; set; }
 
     public PayrunResults() :
-        base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
+        base(WorkingItems.TenantChange | WorkingItems.PayrollChange | WorkingItems.EmployeeChange)
     {
     }
 
@@ -48,7 +48,6 @@ public partial class PayrunResults
     {
         await SetupPage();
         await base.OnTenantChangedAsync(tenant);
-        StateHasChanged();
     }
 
     /// <inheritdoc />
@@ -56,7 +55,13 @@ public partial class PayrunResults
     {
         await SetupPage();
         await base.OnPayrollChangedAsync(payroll);
-        StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnEmployeeChangedAsync(Client.Model.Employee employee)
+    {
+        await RefreshServerDataAsync();
+        await base.OnEmployeeChangedAsync(employee);
     }
 
     #region Payruns

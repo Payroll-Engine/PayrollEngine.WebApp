@@ -84,7 +84,10 @@
             }
             @if (Completed || Failed)
             {
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                           StartIcon="@Icons.Material.Filled.NavigateNext"
+                           OnClick="CloseViewResults">Job Results</MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Tertiary"
                        OnClick="Close">Close</MudButton>
             }
         </MudStack>
@@ -110,17 +113,27 @@
     private bool Completed { get; set; }
     private bool Failed { get; set; }
 
-    void Cancel() => MudDialog.Cancel();
-    void Close()
+    private void Cancel() => MudDialog.Cancel();
+    private void CloseViewResults()
     {
         if (Completed)
         {
             MudDialog.Close(DialogResult.Ok(true));
+            return;
+        }
+        MudDialog.Close(DialogResult.Cancel());
+    }
+    private void Close()
+    {
+        if (Completed)
+        {
+            MudDialog.Close(DialogResult.Ok(false));
+            return;
         }
         MudDialog.Close(DialogResult.Cancel());
     }
 
-    async Task Start()
+    private async Task Start()
     {
         if (!Setup.Period.HasValue)
         {

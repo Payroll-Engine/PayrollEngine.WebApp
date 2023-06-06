@@ -61,7 +61,7 @@
                        ValueChanged="@TenantSelected"
                        AutoFocus="true"
                        Label="Tenant"
-                       HelperText="Please select your tenant">
+                       HelperText="Please select a Tenant">
                     @foreach (var tenant in GetUserTenants())
                     {
                         <MudSelectItem T="string" Value="@tenant.Identifier">@tenant.Identifier</MudSelectItem>

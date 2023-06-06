@@ -16,19 +16,19 @@
 
 @if (!HasPayroll)
 {
-    <div>Please select a payroll</div>
+    <div>Please select a Payroll</div>
     return;
 }
 @if (!HasPayruns)
 {
-    <div>Please select a payroll with a payrun</div>
+    <div>Please select a Payroll with a Payrun</div>
     return;
 }
 
 @* payrun selection *@
 @if (SelectedPayrun == null)
 {
-    <div class="pa-1 mt-4">Please select a payrun</div>
+    <div class="pa-1 mt-4">Please select a Payrun</div>
 }
 
 <MudStack Row="true" Spacing="0" Class="gap-2 my-4">
@@ -50,11 +50,11 @@
     </MudStack>
     @if (SelectedPayrun != null && HasFeature(Feature.PayrunResults))
     {
-        <MudButton Variant="Variant.Outlined"
-                   Color="Color.Primary"
+        <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                   StartIcon="@Icons.Material.Filled.NavigateNext"
                    Style="height: fit-content; align-self: end;"
                    OnClick="NavigateToResults">
-            View Job Results
+            Job Results
         </MudButton>
     }
 </MudStack>
@@ -80,8 +80,7 @@
                                 <MudText Typo="Typo.h6">Payrun Job</MudText>
 
                                 @* job name *@
-                                <MudTextField T="string"
-                                @bind-Value="LegalSetup.JobName"
+                                <MudTextField T="string" @bind-Value="LegalSetup.JobName"
                                               MaxLength="SystemSpecification.KeyTextLength"
                                               ReadOnly="@HasLegalJob"
                                               Margin="Margin.Dense"
@@ -107,8 +106,7 @@
                                 }
                                 else
                                 {
-                                    <MudSelect T="Employee"
-                                    @bind-Value="LegalSetup.SelectedEmployee"
+                                    <MudSelect T="Employee" @bind-Value="LegalSetup.SelectedEmployee"
                                     @bind-SelectedValues="LegalSetup.SelectedEmployees"
                                                Disabled="@(Employees == null || Employees.Count < 1)"
                                                ReadOnly="@HasLegalJob"

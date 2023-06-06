@@ -2,21 +2,21 @@
 
 @inherits PayrollEngine.WebApp.Presentation.PageBase
 
-<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@PageTitle</MudText>
+<MudText Typo="Typo.h5" Class="my-4 pb-1 pt-2">@PageTitle</MudText>
 
 @if (IsTenantMissing)
 {
-    <div>Please select a tenant</div>
+    <div>Please select a Tenant</div>
     return;
 }
 @if (IsPayrollMissing)
 {
-    <div>Please select a payroll</div>
+    <div>Please select a Payroll</div>
     return;
 }
 @if (IsEmployeeMissing)
 {
-    <div>Please select an employee</div>
+    <div>Please select an Employee</div>
     return;
 }
 

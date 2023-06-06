@@ -528,17 +528,29 @@ public partial class PayrunJobs : IPayrunJobOperator
             return false;
         }
 
+        var employees = setup.SelectedEmployees?.ToList() ?? Employees;
         var parameters = new DialogParameters
         {
-            { nameof(PayrunStartDialog.Employees), Employees },
             { nameof(PayrunStartDialog.Tenant), Tenant },
             { nameof(PayrunStartDialog.User), User },
+            { nameof(PayrunStartDialog.Employees), employees },
             { nameof(PayrunStartDialog.Payroll), Payroll},
             { nameof(PayrunStartDialog.PayrunId), SelectedPayrun.Id },
             { nameof(PayrunStartDialog.Setup) , setup }
         };
         var result = await (await DialogService.ShowAsync<PayrunStartDialog>(title, parameters)).Result;
-        return !result.Canceled;
+        if (result.Canceled)
+        {
+            return false;
+        }
+
+        // jump to results
+        if (result.Data is bool viewResults && viewResults)
+        {
+            NavigateToResults();
+            return false;
+        }
+        return true;
     }
 
     /// <summary>

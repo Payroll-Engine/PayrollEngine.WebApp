@@ -27,6 +27,7 @@ public class PayrollResultBackendService : BackendServiceBase<PayrollResultValue
 
     protected override void SetupReadQuery(PayrollResultValueServiceContext context, Query query, IDictionary<string, object> parameters = null)
     {
+        // payrun
         if (parameters == null || !parameters.ContainsKey(nameof(ViewModel.PayrollResultValue.PayrunId)))
         {
             throw new PayrollException("Missing payrun id on payroll result query");
@@ -35,6 +36,13 @@ public class PayrollResultBackendService : BackendServiceBase<PayrollResultValue
         if (payrunId is not int intPayrunId || intPayrunId <= 0)
         {
             throw new PayrollException("Invalid payrun id on payroll result query");
+        }
+
+        // employee
+        var employeeId = UserSession.Employee?.Id;
+        if (!employeeId.HasValue || employeeId.Value == default)
+        {
+            throw new PayrollException("Missing employee id on payroll result query");
         }
 
         var filter = new Equals(nameof(ViewModel.PayrollResultValue.PayrunId), intPayrunId);
