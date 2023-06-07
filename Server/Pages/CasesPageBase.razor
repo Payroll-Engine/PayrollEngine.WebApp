@@ -127,33 +127,34 @@ else
 <div class="d-flex pb-2">
     <MudText Typo="Typo.h6" Class="pt-8">Change History</MudText>
     <div class="d-flex flex-grow-1 justify-end align-end">
+        @* TODO case change predefined filters (days, weeks, months) *@
         <MudTooltip Delay="500" Text="Compact view" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.ViewCompact"
                            Class="ml-2"
-                           Size="Size.Small" />
+                           Size="Size.Small"/>
         </MudTooltip>
         <MudTooltip Delay="500" Text="Expand groups" Placement="Placement.Top">
             <MudIconButton @onclick="@ExpandItemGroups"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.AccountTree"
                            Class="ml-2"
-                           Size="Size.Small" />
+                           Size="Size.Small"/>
         </MudTooltip>
         <MudTooltip Delay="500" Text="Collapse groups" Placement="Placement.Top">
             <MudIconButton @onclick="@CollapseItemGroups"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.TableRows"
                            Class="ml-2"
-                           Size="Size.Small" />
+                           Size="Size.Small"/>
         </MudTooltip>
         <MudTooltip Delay="500" Text="Filter reset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.FilterAltOff"
                            Class="ml-2"
-                           Size="Size.Small" />
+                           Size="Size.Small"/>
         </MudTooltip>
     </div>
 </div>

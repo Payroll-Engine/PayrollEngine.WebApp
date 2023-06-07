@@ -108,21 +108,22 @@
              ShowColumnOptions="false"
              SortMode="SortMode.Multiple">
     <Columns>
-        <PropertyColumn Property="x => x.PeriodStart" Title="Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending" />
-        <PropertyColumn Property="x => x.JobName" Title="Job Name" />
-        <PropertyColumn Property="x => x.JobStatus" Title="Status" />
-        <PropertyColumn Property="x => x.EmployeeIdentifier" Title="Employee" />
-        <PropertyColumn Property="x => x.Forecast" Title="Forcast Name" />
+        @* TODO payroll result period predefined filters (days, weeks, months) *@
+        <PropertyColumn Property="x => x.PeriodStart" Title="Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending"/>
+        <PropertyColumn Property="x => x.JobName" Title="Job Name"/>
+        <PropertyColumn Property="x => x.JobStatus" Title="Status"/>
+        <PropertyColumn Property="x => x.EmployeeIdentifier" Title="Employee"/>
+        <PropertyColumn Property="x => x.Forecast" Title="Forcast Name"/>
         <PropertyColumn Property="x => x.ResultCreated" Title="Created">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.ResultCreated)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.ResultKind" Title="Result type" />
-        <PropertyColumn Property="x => x.KindName" Title="Name" />
-        <PropertyColumn Property="x => x.ResultValue" Title="Value" />
-        <PropertyColumn Property="x => x.ResultNumericValue" Title="# Value" Format="0.##" />
-        <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration" />
+        <PropertyColumn Property="x => x.ResultKind" Title="Result type"/>
+        <PropertyColumn Property="x => x.KindName" Title="Name"/>
+        <PropertyColumn Property="x => x.ResultValue" Title="Value"/>
+        <PropertyColumn Property="x => x.ResultNumericValue" Title="# Value" Format="0.##"/>
+        <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration"/>
     </Columns>
     <PagerContent>
         <MudDataGridPager T="PayrollResultValue" />

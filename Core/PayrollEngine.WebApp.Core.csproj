@@ -3,11 +3,7 @@
 	<PropertyGroup>
 		<AssemblyName>PayrollEngine.WebApp</AssemblyName>
 		<RootNamespace>PayrollEngine.WebApp</RootNamespace>
-		<Authors>Jani Giannoudis</Authors>
-		<Company>Software Consulting Giannoudis</Company>
-		<Copyright>2023 Software Consulting Giannoudis</Copyright>
-		<Product>Payroll Engine</Product>
-		<Description>Payroll Engine Web Application Core Library</Description>
+		<Description>Payroll Engine Web Application Core</Description>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -16,7 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230606-3" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230606-4" />
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.5" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
 		<PackageReference Include="Microsoft.JSInterop" Version="7.0.5" />

@@ -4,16 +4,12 @@
 		<AssemblyName>PayrollEngine.WebApp.Server</AssemblyName>
 		<RootNamespace>PayrollEngine.WebApp.Server</RootNamespace>
 		<UserSecretsId>WebApp</UserSecretsId>
-		<Authors>Jani Giannoudis</Authors>
-		<Company>Software Consulting Giannoudis</Company>
-		<Copyright>2023 Software Consulting Giannoudis</Copyright>
-		<Product>Payroll Engine</Product>
 		<Description>Payroll Engine Web Application Server</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PayrollEngine.Serilog" Version="0.5.0-pre-230606-3" />
-		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-pre-230606-3" />
+		<PackageReference Include="PayrollEngine.Serilog" Version="0.5.0-pre-230606-4" />
+		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-pre-230606-4" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
 		<PackageReference Include="MudBlazor" Version="6.3.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
