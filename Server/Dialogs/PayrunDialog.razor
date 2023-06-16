@@ -3,7 +3,6 @@
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Server.Components
-@using Task = System.Threading.Tasks.Task
 
 <MudDialog Class="item-dialog">
     <DialogContent>
@@ -43,34 +42,6 @@
                         <MudTextField T="string" Label="End expression" @bind-Value="Payrun.EndExpression" Lines="3" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Calendar">
-                    <MudStack Class="pa-4" Spacing="1">
-                        <MudSelect T="Month" @bind-Value="Calendar.FirstMonthOfYear" Label="First month of year">
-                            <EnumSelectItems T="Month" />
-                        </MudSelect>
-                        <MudSelect T="PayrollEngine.DayOfWeek" Label="First day of week"
-                        @bind-Value="Calendar.FirstDayOfWeek">
-                            <EnumSelectItems T="PayrollEngine.DayOfWeek" />
-                        </MudSelect>
-                        <MudSelect T="string" @bind-Value="SelectedWorkingDay" @bind-SelectedValues="WorkingDays"
-                                   Label="Working days"
-                                   MultiSelection="true"
-                                   SelectAll="true"
-                                   SelectAllText="Select all days">
-                            <EnumStringSelectItems T="PayrollEngine.DayOfWeek" />
-                        </MudSelect>
-                        <MudSelect T="CalendarCalculationMode" @bind-Value="Calendar.CalculationMode"
-                                   Label="Calculation mode">
-                            <EnumSelectItems T="CalendarCalculationMode" />
-                        </MudSelect>
-                        <MudSelect T="CalendarWeekRule" @bind-Value="Calendar.CalendarWeekRule"
-                                   Label="Week rule mode">
-                            <EnumSelectItems T="CalendarWeekRule" />
-                        </MudSelect>
-                        <MudNumericField T="decimal" @bind-Value="Calendar.AverageMonthDays" Label="Average month days" />
-                        <MudNumericField T="decimal" @bind-Value="Calendar.AverageWorkDays" Label="Average work days" />
-                    </MudStack>
-                </MudTabPanel>
                 <MudTabPanel Text="Parameters">
                     <MudStack Class="pa-4" Spacing="1">
                         <PayrunParameterGrid Tenant="Tenant" Payrun="Payrun" Style="min-width: fit-content;" />
@@ -95,27 +66,6 @@
     [Parameter] public Payrun Payrun { get; set; }
     [Parameter] public List<string> PayrollNames { get; set; }
 
-    private CalendarConfiguration Calendar { get; set; }
-    private string SelectedWorkingDay { get; set; }
-
-    private IEnumerable<string> WorkingDays
-    {
-        get => Calendar.WorkingDays?.Select(x => x.ToString());
-        set
-        {
-            var workingDays = value.Select(Enum.Parse<PayrollEngine.DayOfWeek>).ToList();
-            Calendar.WorkingDays = workingDays;
-        }
-    }
-
     public async Task<bool> ValidateAsync(Payrun payrun) =>
         await form.Revalidate();
-
-    protected override Task OnInitializedAsync()
-    {
-        Payrun.Calendar ??= new();
-        Calendar = Payrun.Calendar;
-        return base.OnInitializedAsync();
-    }
-
 }

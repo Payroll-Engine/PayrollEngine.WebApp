@@ -13,22 +13,6 @@ namespace PayrollEngine.WebApp.Presentation;
 
 public abstract class PageBase : ComponentBase, IDisposable
 {
-    /// <summary>Default calendar</summary>
-    protected static readonly CalendarConfiguration DefaultCalendar = new()
-    {
-        FirstMonthOfYear = Month.January, // calendar year
-        AverageMonthDays = 30M, // switzerland
-        AverageWorkDays = 21.75M, // switzerland
-        WorkingDays = new[]
-        {
-            DayOfWeek.Monday,
-            DayOfWeek.Tuesday,
-            DayOfWeek.Wednesday,
-            DayOfWeek.Thursday,
-            DayOfWeek.Friday,
-        }
-    };
-
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
     [Inject]
@@ -108,9 +92,6 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// True if tenant is missing
     /// </summary>
     protected virtual bool IsTenantMissing => !HasTenant;
-
-    protected virtual CalendarConfiguration CalendarConfiguration =>
-        Tenant.Calendar ?? DefaultCalendar;
 
     /// <summary>
     /// Handler fot tenant change

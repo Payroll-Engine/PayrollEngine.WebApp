@@ -25,6 +25,7 @@ public static class GridIdentifiers
     // Administration
     public static readonly string Users = "UsersGrid";
     public static readonly string Tenants = "TenantsGrid";
+    public static readonly string Calendars = "CalendarsGrid";
     public static readonly string Divisions = "DivisionsGrid";
     public static readonly string Employees = "EmployeesGrid";
     public static readonly string Webhooks = "WebhooksGrid";

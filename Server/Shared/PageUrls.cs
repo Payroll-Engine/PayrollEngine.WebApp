@@ -30,6 +30,7 @@ public static class PageUrls
     public static readonly string SharedRegulations = "sharedregulations";
     public static readonly string Tenants = "tenants";
     public static readonly string Users = "users";
+    public static readonly string Calendars = "calendars";
     public static readonly string Divisions = "divisions";
     public static readonly string Employees = "employees";
     public static readonly string Webhooks = "webhooks";

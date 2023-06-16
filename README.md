@@ -26,6 +26,7 @@ Die Funktionen der Web App sind in Features unterteilt:
 | Shared Regulations  | Administration | Manage shared regulations               |
 | Tenants             | Administration | Add or change a tenant                  |
 | Users               | Administration | Add or change an users<sup>2) 3)</sup>  |
+| Calendars           | Administration | Add or change a payroll calendar        |
 | Divisions           | Administration | Add or change a division                |
 | Employees           | Administration | Add or change an employee               |
 | Webhooks            | Administration | Add or change webhooks and messages     |

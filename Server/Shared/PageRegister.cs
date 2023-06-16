@@ -53,6 +53,7 @@ public static class PageRegister
             // Administration
             new(Feature.Tenants, PageUrls.Tenants, "Tenants", adminGroup),
             new(Feature.Users, PageUrls.Users, "Users", adminGroup),
+            new(Feature.Calendars, PageUrls.Calendars, "Calendars", adminGroup),
             new(Feature.Divisions, PageUrls.Divisions, "Divisions", adminGroup),
             new(Feature.Employees, PageUrls.Employees, "Employees", adminGroup),
             new(Feature.Webhooks, PageUrls.Webhooks, "Webhooks", adminGroup),

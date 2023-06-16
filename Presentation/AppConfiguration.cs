@@ -54,6 +54,7 @@ public class AppConfiguration
     public bool SharedRegulations { get; set; }
     public bool Tenants { get; set; }
     public bool Users { get; set; }
+    public bool Calendars { get; set; }
     public bool Divisions { get; set; }
     public bool Employees { get; set; }
     public bool Webhooks { get; set; }
@@ -90,6 +91,7 @@ public class AppConfiguration
         AddFeature(Tenants, features, Feature.Tenants);
         AddFeature(Tenants, features, Feature.Tenants);
         AddFeature(Users, features, Feature.Users);
+        AddFeature(Calendars, features, Feature.Calendars);
         AddFeature(Divisions, features, Feature.Divisions);
         AddFeature(Employees, features, Feature.Employees);
         AddFeature(Webhooks, features, Feature.Webhooks);

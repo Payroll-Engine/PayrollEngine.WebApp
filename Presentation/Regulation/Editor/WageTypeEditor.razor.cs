@@ -40,7 +40,7 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
                 Required = true,
                 RequiredError = "Value type is required"
             },
-            new(nameof(RegulationWageType.CalendarCalculationMode), typeof(EnumListBox<CalendarCalculationMode>)),
+            new(nameof(RegulationWageType.Calendar), typeof(TextBox)),
             new(nameof(RegulationWageType.OverrideType), typeof(EnumListBox<OverrideType>)),
             new(nameof(RegulationWageType.Collectors), typeof(CollectorMultiSelect)),
             new(nameof(RegulationWageType.CollectorGroups), typeof(CsvTextBox)),

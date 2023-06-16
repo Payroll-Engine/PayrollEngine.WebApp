@@ -25,6 +25,8 @@
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
         <PropertyColumn Property="x => x.Status" />
         <PropertyColumn Property="x => x.Identifier" />
+        <PropertyColumn Property="x => x.Culture" />
+        <PropertyColumn Property="x => x.Calendar" />
         <PropertyColumn Property="x => x.Created">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)

@@ -26,6 +26,7 @@
         <PropertyColumn Property="x => x.Status" />
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.Culture" />
+        <PropertyColumn Property="x => x.Calendar" />
         <PropertyColumn Property="x => x.Created">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)

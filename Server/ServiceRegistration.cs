@@ -67,6 +67,10 @@ public static class ServiceRegistration
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<UserBackendService>();
 
+        // calendar
+        services.AddScoped<ICalendarService, CalendarService>();
+        services.AddScoped<CalendarBackendService>();
+
         // division
         services.AddScoped<IDivisionService, DivisionService>();
         services.AddScoped<DivisionBackendService>();

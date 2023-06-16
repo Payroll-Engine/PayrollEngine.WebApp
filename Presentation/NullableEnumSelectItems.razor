@@ -1,0 +1,11 @@
+﻿@typeparam T
+@{
+    var enumType = Nullable.GetUnderlyingType(typeof(T));
+    if (enumType != null)
+    {
+        foreach (var item in Enum.GetValues(enumType))
+        {
+            <MudSelectItem T="T" Value="@((T)item)">@item.ToString().ToPascalSentence()</MudSelectItem>
+        }
+    }
+}

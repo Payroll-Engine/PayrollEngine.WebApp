@@ -3,6 +3,7 @@
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Server.Components
+@using Task = System.Threading.Tasks.Task;
 
 <MudDialog Class="item-dialog">
     <DialogContent>
@@ -33,6 +34,15 @@
                                 <MudSelectItem T="string" Value="@division.Name">@division.Name</MudSelectItem>
                             }
                         </MudSelect>
+                        <MudSelect T=" string" @bind-Value="Employee.Culture" Label="Culture">
+                            @foreach (var cultureName in CultureNames)
+                            {
+                                <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudTextField T="string" @bind-Value="Employee.Calendar"
+                                      MaxLength="@SystemSpecification.KeyTextLength"
+                                      Label="Calendar" />
                         <ItemBaseFields Item="Employee" />
                     </MudStack>
                 </MudTabPanel>
@@ -54,7 +64,15 @@
     [Parameter] public Employee Employee { get; set; } = new();
     [Parameter] public List<Division> Divisions { get; set; }
 
+    private List<string> CultureNames { get; set; }
     private string SelectedDivision { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+    // cultures
+        CultureNames = CultureTool.GetSpecificCultureNames();
+        await base.OnInitializedAsync();
+    }
 
     public async Task<bool> ValidateAsync(Employee employee) =>
         await form.Revalidate();

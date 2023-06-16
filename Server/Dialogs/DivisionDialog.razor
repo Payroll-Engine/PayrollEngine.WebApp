@@ -27,6 +27,9 @@
                                 <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
                             }
                         </MudSelect>
+                        <MudTextField T="string" @bind-Value="Division.Calendar"
+                                      MaxLength="@SystemSpecification.KeyTextLength"
+                                      Label="Calendar" />
                         <ItemBaseFields Item="Division" />
                     </MudStack>
                 </MudTabPanel>

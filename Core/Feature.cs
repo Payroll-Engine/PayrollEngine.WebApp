@@ -26,6 +26,7 @@ public enum Feature
     SharedRegulations,
     Tenants,
     Users,
+    Calendars,
     Divisions,
     Employees,
     Webhooks,

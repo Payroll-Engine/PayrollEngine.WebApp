@@ -1,32 +1,34 @@
-﻿@page "/payrolls"
+﻿@page "/calendars"
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<Payroll, Query, PayrollEngine.WebApp.Server.Dialogs.PayrollDialog>
+@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Calendar, Query, PayrollEngine.WebApp.Server.Dialogs.CalendarDialog>
 
-@if (!HasFeature(Feature.Payrolls))
+@if (!HasFeature(Feature.Calendars))
 {
     NavigateHome();
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Payrolls" />
+<ItemPageActions PageActions="this" Title="Calendars" />
 
-<MudDataGrid @ref="ItemsGrid" T="Payroll"
+<MudDataGrid @ref="ItemsGrid" T="Calendar"
              ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
-             SortMode="SortMode.Multiple" 
-             Filterable="true" 
+             SortMode="SortMode.Multiple"
+             Filterable="true"
              Hideable="true">
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
         <PropertyColumn Property="x => x.Status" />
         <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.DivisionName" Title="Division" />
-        <PropertyColumn Property="x => x.CountryType" Title="Country" />
+        <PropertyColumn Property="x => x.CycleTimeUnit" Title="Cycle type" />
+        <PropertyColumn Property="x => x.PeriodTimeUnit" Title="Period type" />
+        <PropertyColumn Property="x => x.TimeMap" Title="Time map" />
+        <PropertyColumn Property="x => x.WeekMode" Title="Week mode" />
         <PropertyColumn Property="x => x.Created">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
@@ -37,12 +39,13 @@
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
         </PropertyColumn>
-        <ItemActionsColumn T="Payroll" ActionOperator="this" />
+        <CustomColumns T="Calendar" Columns="ColumnConfiguration" />
+        <ItemActionsColumn T="Calendar" ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="Payroll" />
+        <MudDataGridPager T="Calendar" />
     </PagerContent>
     <NoRecordsContent>
-        No payrolls available
+        No calendars available
     </NoRecordsContent>
 </MudDataGrid>

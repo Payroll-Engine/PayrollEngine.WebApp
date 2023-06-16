@@ -3,6 +3,7 @@
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Server.Components
+@using Task = System.Threading.Tasks.Task;
 
 <MudDialog Class="item-dialog">
     <DialogContent>
@@ -16,6 +17,15 @@
                                       Label="@(Tenant.IsNewObject ? "Identifier (immutable)" : "Identifier")"
                                       Validation="@(!string.IsNullOrWhiteSpace(Tenant.Identifier))"
                                       Required="true" RequiredError="Identifier is required" />
+                        <MudSelect T=" string" @bind-Value="Tenant.Culture" Label="Culture">
+                            @foreach (var cultureName in CultureNames)
+                            {
+                                <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudTextField T="string" @bind-Value="Tenant.Calendar"
+                                      MaxLength="@SystemSpecification.KeyTextLength"
+                                      Label="Calendar" />
                         <ItemBaseFields Item="Tenant" />
                     </MudStack>
                 </MudTabPanel>
@@ -35,6 +45,15 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Tenant Tenant { get; set; } = new();
+
+    private List<string> CultureNames { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // cultures
+        CultureNames = CultureTool.GetSpecificCultureNames();
+        await base.OnInitializedAsync();
+    }
 
     public async Task<bool> ValidateAsync(Tenant tenant) =>
         await form.Revalidate();
