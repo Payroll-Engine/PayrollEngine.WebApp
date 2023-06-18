@@ -16,5 +16,5 @@ public static class CaseValueTimeTypeExtensions
     /// <param name="timeType">The value type</param>
     /// <returns>True for time types with an end</returns>
     public static bool HasEnd(this CaseFieldTimeType timeType) =>
-        timeType is CaseFieldTimeType.Period or CaseFieldTimeType.ScaledPeriod;
+        timeType is CaseFieldTimeType.Period or CaseFieldTimeType.CalendarPeriod;
 }
