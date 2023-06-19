@@ -34,7 +34,7 @@ public static class ServiceRegistration
             // debug break point
             if (Debugger.IsAttached)
             {
-                // please start the backend server
+                // please start the payroll engine backend server
                 Debug.WriteLine($"!!! {message} !!!");
                 Debugger.Break();
             }
