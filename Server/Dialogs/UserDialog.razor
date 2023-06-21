@@ -28,6 +28,7 @@
                         <MudSelect T="string" @bind-Value="SelectedFeature" @bind-SelectedValues="User.FeaturesAsEnum"
                                    Label="Features"
                                    MultiSelection="true"
+                                   Clearable="true"
                                    SelectAll="true"
                                    SelectAllText="Select all features">
                             <EnumStringSelectItems T="Feature" />

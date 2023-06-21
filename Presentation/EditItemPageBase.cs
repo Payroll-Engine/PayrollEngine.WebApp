@@ -41,6 +41,10 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         {
             return;
         }
+        if (IsDialogParameter(nameof(Tenant)))
+        {
+            parameters.Add(nameof(Tenant), Tenant);
+        }
 
         // dialog
         var dialog = await (await DialogService.ShowAsync<TDialog>($"Create {ItemTypeUiName}", parameters, options)).Result;
@@ -119,6 +123,10 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         {
             return;
         }
+        if (IsDialogParameter(nameof(Tenant)))
+        {
+            parameters.Add(nameof(Tenant), Tenant);
+        }
 
         // dialog
         var dialog = await (await DialogService.ShowAsync<TDialog>($"Edit {ItemTypeUiName}", parameters, options)).Result;
@@ -152,6 +160,9 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
 
         await RefreshServerDataAsync();
     }
+
+    private bool IsDialogParameter(string name) =>
+        typeof(TDialog).GetProperty(name) != null;
 
     public async Task DeleteItemAsync(TItem item)
     {

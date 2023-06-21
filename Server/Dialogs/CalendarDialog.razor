@@ -28,25 +28,25 @@
                                    Required="true" RequiredError="Period time unit is required">
                             <EnumSelectItems T="CalendarTimeUnit" />
                         </MudSelect>
-                        <MudSelect T="CalendarTimeMap" @bind-Value="Calendar.TimeMap"
+                        <MudSelect T="CalendarTimeMap" @bind-Value="Calendar.TimeMap" Clearable="true"
                                    Label="Time map">
                             <EnumSelectItems T="CalendarTimeMap" />
                         </MudSelect>
-                        <MudSelect T="Month?" @bind-Value="Calendar.FirstMonthOfYear"
+                        <MudSelect T="Month?" @bind-Value="Calendar.FirstMonthOfYear" Clearable="true"
                                    Label="First month of year">
                             <NullableEnumSelectItems T="Month?" />
                         </MudSelect>
                         <MudNumericField T="decimal?" @bind-Value="Calendar.MonthDayCount"
                                          Label="Month day count" />
-                        <MudSelect T="CalendarWeekRule?" @bind-Value="Calendar.YearWeekRule"
+                        <MudSelect T="CalendarWeekRule?" @bind-Value="Calendar.YearWeekRule" Clearable="true"
                                    Label="Year week rule">
                             <NullableEnumSelectItems T="CalendarWeekRule?" />
                         </MudSelect>
-                        <MudSelect T="PayrollEngine.DayOfWeek?" @bind-Value="Calendar.FirstDayOfWeek"
+                        <MudSelect T="PayrollEngine.DayOfWeek?" @bind-Value="Calendar.FirstDayOfWeek" Clearable="true"
                                    Label="First day of week">
                             <NullableEnumSelectItems T="PayrollEngine.DayOfWeek?" />
                         </MudSelect>
-                        <MudSelect T="CalendarWeekMode" @bind-Value="Calendar.WeekMode"
+                        <MudSelect T="CalendarWeekMode" @bind-Value="Calendar.WeekMode" Clearable="true"
                                    Label="Week mode">
                             <EnumSelectItems T="CalendarWeekMode" />
                         </MudSelect>

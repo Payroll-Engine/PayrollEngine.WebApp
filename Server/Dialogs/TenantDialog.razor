@@ -4,6 +4,7 @@
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Server.Components
 @using Task = System.Threading.Tasks.Task;
+@using PayrollEngine.Client.Service
 
 <MudDialog Class="item-dialog">
     <DialogContent>
@@ -17,15 +18,18 @@
                                       Label="@(Tenant.IsNewObject ? "Identifier (immutable)" : "Identifier")"
                                       Validation="@(!string.IsNullOrWhiteSpace(Tenant.Identifier))"
                                       Required="true" RequiredError="Identifier is required" />
-                        <MudSelect T=" string" @bind-Value="Tenant.Culture" Label="Culture">
+                        <MudSelect T=" string" @bind-Value="Tenant.Culture" Label="Culture" Clearable="true">
                             @foreach (var cultureName in CultureNames)
                             {
                                 <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudTextField T="string" @bind-Value="Tenant.Calendar"
-                                      MaxLength="@SystemSpecification.KeyTextLength"
-                                      Label="Calendar" />
+                        <MudSelect T=" string" @bind-Value="Tenant.Calendar" Label="Calendar" Clearable="true">
+                            @foreach (var calendarName in CalendarNames)
+                            {
+                                <MudSelectItem T="string" Value="@calendarName">@calendarName</MudSelectItem>
+                            }
+                        </MudSelect>
                         <ItemBaseFields Item="Tenant" />
                     </MudStack>
                 </MudTabPanel>
@@ -46,12 +50,24 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Tenant Tenant { get; set; } = new();
 
+    [Inject] private ICalendarService CalendarService { get; set; }
+
     private List<string> CultureNames { get; set; }
+    private List<string> CalendarNames { get; set; }
+
+    private async Task<List<string>> GetCalendarsAsync()
+    {
+        var calendars = await CalendarService.QueryAsync<Calendar>(new(Tenant.Id));
+        return calendars.Select(x => x.Name).ToList();
+    }
 
     protected override async Task OnInitializedAsync()
     {
         // cultures
         CultureNames = CultureTool.GetSpecificCultureNames();
+        // calendars
+        CalendarNames = Task.Run(GetCalendarsAsync).Result;
+
         await base.OnInitializedAsync();
     }
 

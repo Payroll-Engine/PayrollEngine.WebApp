@@ -29,7 +29,7 @@
                         <LocalizationTextField Item="@Payroll" @bind-Value="Payroll.Description"
                                                PropertyName="@nameof(Payroll.Description)"
                                                Label="Description" />
-                        <MudSelect T="Country" @bind-Value="Payroll.CountryType"
+                        <MudSelect T="Country" @bind-Value="Payroll.CountryType" Clearable="true"
                                    Label="Country">
                             <EnumSelectItems T="Country" />
                         </MudSelect>
