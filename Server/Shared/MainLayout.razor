@@ -17,10 +17,21 @@
     {
         <MudAppBar Elevation="1">
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-                       OnClick="NavigationToggleAsync" Title="Toggle sidebar" />
-            <MudText Typo="Typo.h5" Style="min-width: 8em; width: max-content;">
-                @ApplicationTitle
-            </MudText>
+                           OnClick="NavigationToggleAsync" Title="Toggle sidebar" />
+            
+            @{
+                var appImage = CurrentAppImage;
+                if (!string.IsNullOrWhiteSpace(appImage))
+                {
+                    <img src="@appImage" style="max-width: 13em" />
+                }
+                else
+                {
+                    <MudText Typo="Typo.h5" Style="min-width: 8em; width: max-content;">
+                        @AppTitle
+                    </MudText>
+                }
+            }
             @if (Session.AnyUserFeature())
             {
                 <MudGrid>
@@ -112,5 +123,5 @@
     </MudMainContent>
 </MudLayout>
 
-<Document BaseLabel="@ApplicationTitle" />
+<Document BaseLabel="@AppTitle" />
 <UserNotification @ref="Notification" />

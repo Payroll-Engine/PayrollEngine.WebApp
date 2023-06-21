@@ -105,7 +105,7 @@ public partial class TextBox : IRegulationInput
     private Color LocalizationColor =>
         IsLocalizable && Localizations.Any() ? Color.Tertiary : Color.Primary;
 
-    private readonly string LocalizationHelp = "Localizations";
+    private const string LocalizationHelp = "Localizations";
 
     private async Task OpenLocalizationsAsync()
     {

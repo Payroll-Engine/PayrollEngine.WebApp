@@ -1,0 +1,49 @@
+﻿@using System.Diagnostics;
+
+<MudDialog Class="item-dialog">
+    <DialogContent>
+        <MudStack Class="pa-4 gap-4">
+            @if (!string.IsNullOrWhiteSpace(AppImage))
+            {
+                <img src="@AppImage" style="max-width: 40em" />
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">@AppTitle</MudText>
+            }
+            <MudText>Web App Version: @AppVersion</MudText>
+            <MudText>Backend Version: @BackendVersion</MudText>
+            <MudText>Created by Software Consulting Giannoudis</MudText>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string AppTitle { get; set; }
+
+    [Parameter]
+    public string AppImage { get; set; }
+
+    private string AppVersion { get; set; }
+    private string BackendVersion { get; set; }
+
+    private void Close() => MudDialog.Close(DialogResult.Ok(true));
+
+    protected override Task OnInitializedAsync()
+    {
+        var assemblyInfo = FileVersionInfo.GetVersionInfo(GetType().Assembly.Location);
+        var backendAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(PayrollEngine.SystemSpecification).Assembly.Location);
+        AppVersion = assemblyInfo.ProductVersion;
+        BackendVersion = backendAssemblyInfo.ProductVersion;
+
+        return base.OnInitializedAsync();
+    }
+}

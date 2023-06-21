@@ -53,6 +53,6 @@
     [Parameter]
     public List<GridColumnConfiguration> Columns { get; set; }
 
-    private string TextAttributePrefix = PayrollEngine.SystemSpecification.TextAttributePrefix;
-    private string NumericAttributePrefix = PayrollEngine.SystemSpecification.NumericAttributePrefix;
+    private string TextAttributePrefix { get; } = PayrollEngine.SystemSpecification.TextAttributePrefix;
+    private string NumericAttributePrefix { get; } = PayrollEngine.SystemSpecification.NumericAttributePrefix;
 }

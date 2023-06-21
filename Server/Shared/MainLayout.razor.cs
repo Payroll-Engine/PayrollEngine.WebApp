@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +25,24 @@ public abstract class MainLayoutBase : MainComponentBase
     /// <summary>
     /// Application title
     /// </summary>
-    protected string ApplicationTitle { get; private set; }
+    protected string AppTitle { get; private set; }
+
+    /// <summary>
+    /// Application image
+    /// </summary>
+    protected string AppImage { get; private set; }
+
+    /// <summary>
+    /// Application image dark mode
+    /// </summary>
+    protected string AppImageDarkMode { get; private set; }
+
+    /// <summary>
+    /// Current application image
+    /// </summary>
+    protected string CurrentAppImage =>
+        IsDarkMode ? AppImageDarkMode : AppImage;
+
 
     protected bool NavigationOpen { get; set; } = true;
 
@@ -113,7 +129,7 @@ public abstract class MainLayoutBase : MainComponentBase
             return;
         }
 
-        // report parameters
+        // dialog parameters
         var parameters = new DialogParameters
         {
             { nameof(UserSettingsDialog.Tenant), Session.Tenant },
@@ -218,15 +234,15 @@ public abstract class MainLayoutBase : MainComponentBase
 
     #region Lifecycle
 
-    private const string CreatedBy = "Software Consulting Giannoudis";
     protected async Task AboutAsync()
     {
-        FileVersionInfo assemblyInfo = FileVersionInfo.GetVersionInfo(GetType().Assembly.Location);
-        FileVersionInfo backendAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(PayrollEngine.SystemSpecification).Assembly.Location);
-        await UserNotificationService.ShowMessageBoxAsync(ApplicationTitle,
-            new MarkupString($"Web App Version: {assemblyInfo.ProductVersion}<br />" +
-                             $"Backend Version: {backendAssemblyInfo.ProductVersion}<br /><br />" +
-                             $"Created by {CreatedBy}<br />"), yesText: "OK");
+        // dialog parameters
+        var parameters = new DialogParameters
+        {
+            { nameof(AboutDialog.AppTitle), AppTitle },
+            { nameof(AboutDialog.AppImage), CurrentAppImage }
+        };
+        await DialogService.ShowAsync<AboutDialog>(null, parameters);
     }
 
     protected MudTheme AppTheme { get; set; }
@@ -234,7 +250,9 @@ public abstract class MainLayoutBase : MainComponentBase
     {
         // application
         var appConfiguration = Configuration.GetConfiguration<AppConfiguration>();
-        ApplicationTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
+        AppTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
+        AppImage = appConfiguration.AppImage;
+        AppImageDarkMode = appConfiguration.AppImageDarkMode;
 
         // theme
         AppTheme = ThemeService.Theme;

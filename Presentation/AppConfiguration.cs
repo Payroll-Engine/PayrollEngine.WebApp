@@ -11,6 +11,12 @@ public class AppConfiguration
     /// <summary>The application tile</summary>
     public string AppTitle { get; set; }
 
+    /// <summary>The application image</summary>
+    public string AppImage { get; set; }
+
+    /// <summary>The application image in dark mode</summary>
+    public string AppImageDarkMode { get; set; }
+
     /// <summary>The administrator contact</summary>
     public string AdminEmail { get; set; }
 
