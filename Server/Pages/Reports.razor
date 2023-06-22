@@ -18,9 +18,28 @@
     return;
 }
 
-@* title and grid actions *@
-<div class="d-flex pb-2 pt-8">
-    <MudText Typo="Typo.h5">Reports</MudText>
+@* title *@
+<MudText Typo="Typo.h5" Class=" pt-8">Reports</MudText>
+
+@* clusters and grid actions *@
+<div class="d-flex pb-2 pt-2">
+
+    @* report clusters *@
+    @if (HasClusters)
+    {
+        <MudStack Row="true" Spacing="0" Class="d-flex align-center gap-4">
+            <MudChipSet MultiSelection="false" SelectedChip="SelectedCluster"
+                        SelectedChipChanged="SelectedClusterChanged" Class="pa-0">
+                @foreach (var cluster in Clusters)
+                {
+                    <MudChip Text="@cluster"
+                             Default="@string.Equals(cluster, ClusterAll)"
+                             Variant="Variant.Outlined" SelectedColor="Color.Primary" />
+                }
+            </MudChipSet>
+        </MudStack>
+    }
+
     <div class="d-flex flex-grow-1 justify-end align-end">
         <MudTooltip Delay="500" Text="Filter reset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
@@ -38,9 +57,10 @@
         </MudTooltip>
     </div>
 </div>
+
 @* reports grid *@
 <MudDataGrid @ref="ReportsGrid" T="Report"
-             Items="Items"
+             Items="AvailableReports"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
              Filterable="true"

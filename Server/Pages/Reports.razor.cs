@@ -33,15 +33,17 @@ public partial class Reports : IReportOperator
     /// <inheritdoc />
     protected override async Task OnTenantChangedAsync(Client.Model.Tenant tenant)
     {
-        await base.OnTenantChangedAsync(tenant);
         await SetupReportsAsync();
+        SetupAvailableReports();
+        await base.OnTenantChangedAsync(tenant);
     }
 
     /// <inheritdoc />
     protected override async Task OnPayrollChangedAsync(Client.Model.Payroll payroll)
     {
-        await base.OnPayrollChangedAsync(payroll);
         await SetupReportsAsync();
+        SetupAvailableReports();
+        await base.OnPayrollChangedAsync(payroll);
     }
 
     #region Grid
@@ -56,9 +58,80 @@ public partial class Reports : IReportOperator
 
     #endregion
 
+    #region Clusters
+
+    private const string ClusterAll = "All";
+
+    /// <summary>
+    /// The filtered/working clusters
+    /// </summary>
+    public List<string> Clusters { get; set; }
+
+    /// <summary>
+    /// Test for filtered/working clusters
+    /// </summary>
+    public bool HasClusters => Clusters != null && Clusters.Any();
+
+    /// <summary>
+    /// The selected cluster
+    /// </summary>
+    public MudChip SelectedCluster { get; set; }
+
+    /// <summary>
+    /// Setup filtered/working clusters
+    /// </summary>
+    private void SetupClusters()
+    {
+        var uniqueClusters = new HashSet<string>();
+
+        // collect report clusters
+        if (AllReports != null)
+        {
+            foreach (var report in AllReports)
+            {
+                if (report.Clusters != null)
+                {
+                    foreach (var cluster in report.Clusters)
+                    {
+                        uniqueClusters.Add(cluster);
+                    }
+                }
+            }
+        }
+        var clusters = uniqueClusters.ToList();
+        // cluster all
+        if (clusters.Any())
+        {
+            clusters.Insert(0, ClusterAll);
+        }
+        Clusters = clusters;
+    }
+
+    /// <summary>
+    /// Handler for cluster change
+    /// </summary>
+    /// <param name="cluster">The selected cluster</param>
+    private void SelectedClusterChanged(MudChip cluster)
+    {
+        SetupAvailableReports(cluster?.Text);
+        SelectedCluster = cluster;
+    }
+
+    /// <summary>
+    /// Reset all clusters
+    /// </summary>
+    private void ResetClusters()
+    {
+        Clusters = null;
+        SelectedCluster = null;
+    }
+
+    #endregion
+
     #region Report
 
-    protected List<Report> Items { get; set; } = new();
+    protected List<Report> AllReports { get; set; } = new();
+    protected List<Report> AvailableReports { get; set; } = new();
 
     private async Task SetupReportsAsync()
     {
@@ -67,18 +140,46 @@ public partial class Reports : IReportOperator
             return;
         }
 
+        // reset report clusters
+        ResetClusters();
+
         // retrieve active payroll reports
         var reports = await PayrollService.GetReportsAsync<Report>(
             new(Tenant.Id, Payroll.Id));
-        Items = reports;
-        StateHasChanged();
+        AllReports = reports;
+
+        // cluster setup
+        SetupClusters();
+    }
+
+    private void SetupAvailableReports() =>
+        SetupAvailableReports(SelectedCluster?.Text);
+
+    private void SetupAvailableReports(string cluster)
+    {
+        AvailableReports = null;
+        if (AllReports == null)
+        {
+            return;
+        }
+
+        // all available reports: no cluster or all
+        if (string.IsNullOrWhiteSpace(cluster) || string.Equals(cluster, ClusterAll))
+        {
+            AvailableReports = AllReports;
+            return;
+        }
+
+        // filter available reports by cluster
+        AvailableReports = AllReports.
+                Where(x => x.Clusters != null && x.Clusters.Contains(cluster)).ToList();
     }
 
     #endregion
 
     #region Actions
 
-        /// <summary>
+    /// <summary>
     /// Reset all grid filters
     /// </summary>
     protected async Task ResetFilterAsync() =>
@@ -91,7 +192,7 @@ public partial class Reports : IReportOperator
     protected async Task ExcelDownloadAsync()
     {
         // retrieve all items, without any filter and sort
-        if (!Items.Any())
+        if (!AvailableReports.Any())
         {
             await UserNotification.ShowErrorMessageBoxAsync("Excel Download", "Empty collection");
             return;
@@ -109,7 +210,7 @@ public partial class Reports : IReportOperator
             // convert items to data set
             var name = "PayrunResults";
             var dataSet = new System.Data.DataSet(name);
-            var dataTable = Items.ToSystemDataTable(name, includeRows: true, properties: properties);
+            var dataTable = AvailableReports.ToSystemDataTable(name, includeRows: true, properties: properties);
             dataSet.Tables.Add(dataTable);
 
             // xlsx workbook
@@ -167,6 +268,7 @@ public partial class Reports : IReportOperator
     protected override async Task OnInitializedAsync()
     {
         await SetupReportsAsync();
+        SetupAvailableReports();
         await base.OnInitializedAsync();
     }
 

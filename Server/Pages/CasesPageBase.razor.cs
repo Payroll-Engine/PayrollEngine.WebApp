@@ -405,15 +405,17 @@ public abstract partial class CasesPageBase
             return;
         }
 
-        var clusters = new List<string>();
-        // exclude empty clusters
+        // collect case clusters
+        var uniqueClusters = new HashSet<string>();
         foreach (var cluster in PayrollClusters)
         {
             if (GetPayrollAvailableCases(cluster).Any())
             {
-                clusters.Add(cluster);
+                uniqueClusters.Add(cluster);
             }
         }
+        var clusters = uniqueClusters.ToList();
+        // cluster all
         if (clusters.Any())
         {
             clusters.Insert(0, ClusterAll);
