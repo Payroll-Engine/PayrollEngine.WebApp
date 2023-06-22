@@ -5,6 +5,6 @@ namespace PayrollEngine.WebApp.Server.Pages;
 
 public interface IReportOperator
 {
-    Task ShowReportLogAsync(Report report);
-    Task StartReportAsync(Report report);
+    Task ShowReportLogAsync(ReportSet report);
+    Task StartReportAsync(ReportSet report);
 }

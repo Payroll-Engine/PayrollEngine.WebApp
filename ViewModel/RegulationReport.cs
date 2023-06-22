@@ -3,7 +3,7 @@ using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
-public class RegulationReport : Report, IRegulationItem, IKeyEquatable<RegulationReport>
+public class RegulationReport : ReportSet, IRegulationItem, IKeyEquatable<RegulationReport>
 {
     public RegulationReport()
     {
@@ -15,14 +15,10 @@ public class RegulationReport : Report, IRegulationItem, IKeyEquatable<Regulatio
         CopyTool.CopyProperties(copySource, this);
     }
 
-    protected RegulationReport(Report copySource) :
+    protected RegulationReport(ReportSet copySource) :
         base(copySource)
     {
     }
-
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     #region Regulation Object
 

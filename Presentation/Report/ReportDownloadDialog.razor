@@ -38,7 +38,7 @@
                 <MudText Color="Color.Error">Report execution failure</MudText>
                 <MudText>@ErrorMessage</MudText>
             }
-            @if (Completed)
+            else if (Completed)
             {
                 <MudText Color="Color.Success">Download successfully completed</MudText>
                 <MudText Color="Color.Success" Typo="Typo.caption">@DownloadFileName</MudText>

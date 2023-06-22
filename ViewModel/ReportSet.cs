@@ -19,6 +19,12 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
         }
     }
 
+    public ReportSet(Report copySource) :
+        base(copySource)
+    {
+        Parameters = new();
+    }
+
     public ReportSet(Client.Model.ReportSet copySource) :
         base(copySource)
     {

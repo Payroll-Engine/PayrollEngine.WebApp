@@ -59,7 +59,7 @@
 </div>
 
 @* reports grid *@
-<MudDataGrid @ref="ReportsGrid" T="Report"
+<MudDataGrid @ref="ReportsGrid" T="ReportSet"
              Items="AvailableReports"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
@@ -82,7 +82,7 @@
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
         </PropertyColumn>
-        <CustomColumns T="Report" Columns="ColumnConfiguration" />
+        <CustomColumns T="ReportSet" Columns="ColumnConfiguration" />
         <ReportActionsColumn ActionOperator="this" />
     </Columns>
     <PagerContent>

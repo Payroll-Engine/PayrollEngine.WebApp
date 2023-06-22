@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,9 +8,11 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
+using PayrollEngine.Data;
 using PayrollEngine.Document;
 using PayrollEngine.IO;
 using PayrollEngine.WebApp.ViewModel;
+using DataSet = System.Data.DataSet;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Report
@@ -115,66 +116,75 @@ namespace PayrollEngine.WebApp.Presentation.Report
                     Modified = now
                 };
 
-                DataSet dataSet = Data.DataSetExtensions.ToSystemDataSet(response.Result);
-                DownloadFileName =
-                    $"{Report.Name}_{FileTool.CurrentTimeStamp()}{documentType.GetFileExtension()}";
-
-                var reportName = Report.GetLocalizedName(Language);
-
-                // document stream
-                MemoryStream documentStream = null;
-                switch (documentType)
+                // data set
+                DataSet dataSet = response.Result.ToSystemDataSet();
+                if (!dataSet.HasRows())
                 {
-                    case DocumentType.Excel:
-                        documentStream = DataMerge.ExcelMerge(dataSet, documentMetadata);
-                        break;
-                    case DocumentType.Word:
-                    case DocumentType.Pdf:
-                        if (ReportTemplate != null)
-                        {
-                            documentStream = DataMerge.Merge(
-                                new MemoryStream(Convert.FromBase64String(ReportTemplate.Content)),
-                                dataSet, documentType, documentMetadata);
-                        }
-                        else
-                        {
-                            await UserNotification.ShowErrorMessageBoxAsync($"Report {reportName}",
-                                $"Report {reportName} without template in language {User.Language}");
-                        }
-                        break;
-                    case DocumentType.Xml:
-                        var transformedXml = XmlUtil.TransformXmlFromXsl(dataSet, ReportTemplate.Content);
-                        if (string.IsNullOrWhiteSpace(ReportTemplate.Schema) ||
-                            XmlUtil.ValidateXmlString(transformedXml, ReportTemplate.Schema))
-                        {
-                            documentStream = XmlUtil.XmlToMemoryStream(transformedXml);
-                        }
-                        else
-                        {
-                            await UserNotification.ShowErrorMessageBoxAsync($"Report {reportName}",
-                               $"Invalid XML for report {reportName}, please check the XSD schema");
-                        }
-                        break;
-                    case DocumentType.XmlRaw:
-                        var rawXml = XmlUtil.TransformXml(dataSet);
-                        if (!string.IsNullOrWhiteSpace(rawXml))
-                        {
-                            documentStream = XmlUtil.XmlToMemoryStream(rawXml);
-                        }
-                        else
-                        {
-                            await UserNotification.ShowErrorMessageBoxAsync($"Report {reportName}",
-                                $"Empty XML raw report {reportName}");
-                        }
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(documentType));
+                    Failed = true;
+                    await UserNotification.ShowErrorMessageBoxAsync("Report start", "Report without data");
                 }
-
-                // browser download
-                if (documentStream != null)
+                else
                 {
-                    await JsRuntime.SaveAs(DownloadFileName, documentStream.ToArray());
+                    // download
+                    DownloadFileName =
+                        $"{Report.Name}_{FileTool.CurrentTimeStamp()}{documentType.GetFileExtension()}";
+                    var reportName = Report.GetLocalizedName(Language);
+
+                    // document stream
+                    MemoryStream documentStream = null;
+                    switch (documentType)
+                    {
+                        case DocumentType.Excel:
+                            documentStream = DataMerge.ExcelMerge(dataSet, documentMetadata);
+                            break;
+                        case DocumentType.Word:
+                        case DocumentType.Pdf:
+                            if (ReportTemplate != null)
+                            {
+                                documentStream = DataMerge.Merge(
+                                    new MemoryStream(Convert.FromBase64String(ReportTemplate.Content)),
+                                    dataSet, documentType, documentMetadata);
+                            }
+                            else
+                            {
+                                await UserNotification.ShowErrorMessageBoxAsync($"Report {reportName}",
+                                    $"Report {reportName} without template in language {User.Language}");
+                            }
+                            break;
+                        case DocumentType.Xml:
+                            var transformedXml = XmlUtil.TransformXmlFromXsl(dataSet, ReportTemplate.Content);
+                            if (string.IsNullOrWhiteSpace(ReportTemplate.Schema) ||
+                                XmlUtil.ValidateXmlString(transformedXml, ReportTemplate.Schema))
+                            {
+                                documentStream = XmlUtil.XmlToMemoryStream(transformedXml);
+                            }
+                            else
+                            {
+                                await UserNotification.ShowErrorMessageBoxAsync($"Report {reportName}",
+                                   $"Invalid XML for report {reportName}, please check the XSD schema");
+                            }
+                            break;
+                        case DocumentType.XmlRaw:
+                            var rawXml = XmlUtil.TransformXml(dataSet);
+                            if (!string.IsNullOrWhiteSpace(rawXml))
+                            {
+                                documentStream = XmlUtil.XmlToMemoryStream(rawXml);
+                            }
+                            else
+                            {
+                                await UserNotification.ShowErrorMessageBoxAsync($"Report {reportName}",
+                                    $"Empty XML raw report {reportName}");
+                            }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(documentType));
+                    }
+
+                    // browser download
+                    if (documentStream != null)
+                    {
+                        await JsRuntime.SaveAs(DownloadFileName, documentStream.ToArray());
+                    }
                 }
 
                 Executing = false;

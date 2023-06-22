@@ -48,7 +48,7 @@ public partial class Reports : IReportOperator
 
     #region Grid
 
-    private MudDataGrid<Report> ReportsGrid { get; set; }
+    private MudDataGrid<ReportSet> ReportsGrid { get; set; }
 
     /// <summary>
     /// The grid column configuration
@@ -130,8 +130,8 @@ public partial class Reports : IReportOperator
 
     #region Report
 
-    protected List<Report> AllReports { get; set; } = new();
-    protected List<Report> AvailableReports { get; set; } = new();
+    protected List<ReportSet> AllReports { get; set; } = new();
+    protected List<ReportSet> AvailableReports { get; set; } = new();
 
     private async Task SetupReportsAsync()
     {
@@ -144,7 +144,7 @@ public partial class Reports : IReportOperator
         ResetClusters();
 
         // retrieve active payroll reports
-        var reports = await PayrollService.GetReportsAsync<Report>(
+        var reports = await PayrollService.GetReportsAsync<ReportSet>(
             new(Tenant.Id, Payroll.Id));
         AllReports = reports;
 
@@ -234,7 +234,7 @@ public partial class Reports : IReportOperator
         }
     }
 
-    public async Task ShowReportLogAsync(Report report)
+    public async Task ShowReportLogAsync(ReportSet report)
     {
         var parameters = new DialogParameters
         {
@@ -245,7 +245,7 @@ public partial class Reports : IReportOperator
         await DialogService.ShowAsync<ReportLogsDialog>("Report Logs", parameters);
     }
 
-    public async Task StartReportAsync(Report report)
+    public async Task StartReportAsync(ReportSet report)
     {
         // report parameters
         var parameters = new DialogParameters
