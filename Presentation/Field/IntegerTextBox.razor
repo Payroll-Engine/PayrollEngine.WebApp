@@ -3,7 +3,7 @@
 <MudNumericField T="int?"
                  @bind-Value="@Field.ValueAsInteger"
                  Format="@Format"
-                 Culture="@Culture"
+                 Culture="@CultureInfo"
                  Min="@MinValue"
                  Max="@MaxValue"
                  Step="@StepSize"
@@ -27,12 +27,12 @@
     protected override async Task OnInitializedAsync()
     {
         // range
-        MinValue = Field.Attributes.GetMinIntegerValue(Language);
-        MaxValue = Field.Attributes.GetMaxIntegerValue(Language);
-        StepSize = Field.Attributes.GetIntegerStepSize(Language);
+        MinValue = Field.Attributes.GetMinIntegerValue(Culture);
+        MaxValue = Field.Attributes.GetMaxIntegerValue(Culture);
+        StepSize = Field.Attributes.GetIntegerStepSize(Culture);
 
         // format
-        Format = Field.Attributes.GetFormat(Language);
+        Format = Field.Attributes.GetFormat(Culture);
 
         await base.OnInitializedAsync();
     }

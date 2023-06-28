@@ -22,10 +22,10 @@
     protected override async Task OnInitializedAsync()
     {
         // lines
-        LineCount = Field.Attributes.GetLineCount(Language) ?? 1;
+        LineCount = Field.Attributes.GetLineCount(Culture) ?? 1;
 
         // mask
-        var mask = Field.Attributes.GetValueMask(Language);
+        var mask = Field.Attributes.GetValueMask(Culture);
         Mask = string.IsNullOrWhiteSpace(mask) ? null : new PatternMask(mask);
 
         await base.OnInitializedAsync();

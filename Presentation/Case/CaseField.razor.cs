@@ -13,7 +13,7 @@ public partial class CaseField
     [Parameter]
     public CaseFieldSet Field { get; set; }
     [Parameter]
-    public Language Language { get; set; }
+    public string Culture { get; set; }
     [Parameter]
     public bool Dense { get; set; }
     [Parameter]
@@ -59,7 +59,7 @@ public partial class CaseField
     private async Task EditAttachmentsAsync(CaseFieldSet caseField)
     {
         // editable document dialog
-        var accept = Field.Attributes?.GetAttachmentExtensions(Language);
+        var accept = Field.Attributes?.GetAttachmentExtensions(Culture);
         var parameters = new DialogParameters
         {
             { nameof(CaseDocumentsDialog<CaseDocument>.Documents), caseField.Documents },

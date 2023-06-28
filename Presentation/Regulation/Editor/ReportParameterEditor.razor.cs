@@ -39,11 +39,11 @@ public partial class ReportParameterEditor
             },
             new(nameof(RegulationReportParameter.Description), typeof(TextBox))
             {
-                Label = Localizer.Shared.Description,
+                Label = Localizer.Shared.Description
             },
             new(nameof(RegulationReportParameter.Value), typeof(TextBox))
             {
-                Label = Localizer.Shared.Value,
+                Label = Localizer.Shared.Value
             },
             new(nameof(RegulationReportParameter.ValueType), typeof(EnumListBox<ValueType>))
             {
@@ -55,11 +55,11 @@ public partial class ReportParameterEditor
             },
             new(nameof(RegulationReportParameter.ParameterType), typeof(EnumListBox<ReportParameterType>))
             {
-                Label = Localizer.ReportParameter.ParameterType,
+                Label = Localizer.ReportParameter.ParameterType
             },
             new(nameof(RegulationReportParameter.OverrideType), typeof(EnumListBox<OverrideType>))
             {
-                Label = Localizer.Shared.OverrideType,
+                Label = Localizer.Shared.OverrideType
             },
             new(nameof(RegulationReportParameter.Attributes), null)
         };

@@ -4,8 +4,8 @@
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
-@using Task = System.Threading.Tasks.Task;
 @using PayrollEngine.Client.Service
+@using Task = System.Threading.Tasks.Task;
 
 <MudDialog Class="item-dialog">
     <DialogContent>
@@ -29,7 +29,7 @@
                                 <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudSelect T=" string" @bind-Value="Division.Calendar" 
+                        <MudSelect T=" string" @bind-Value="Division.Calendar"
                                    Label="@Localizer.Shared.Calendar"
                                    Disabled="@(CalendarNames == null || CalendarNames.Count < 1)"
                                    Clearable="true">
@@ -71,6 +71,9 @@
         return calendars.Select(x => x.Name).ToList();
     }
 
+    public async Task<bool> ValidateAsync(Division division) =>
+        await form.Revalidate();
+
     protected override async Task OnInitializedAsync()
     {
         // cultures
@@ -80,7 +83,4 @@
 
         await base.OnInitializedAsync();
     }
-
-    public async Task<bool> ValidateAsync(Division division) =>
-        await form.Revalidate();
 }

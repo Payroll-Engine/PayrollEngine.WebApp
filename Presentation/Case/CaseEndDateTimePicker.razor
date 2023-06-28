@@ -114,20 +114,20 @@
     }
 
     protected override DatePickerType DatePickerType =>
-        Attributes.GetEndPickerOpen(Language) ?? DatePickerType.Day;
+        Attributes.GetEndPickerOpen(Culture) ?? DatePickerType.Day;
 
     protected override DateTimeType DateTimeType =>
-        Attributes.GetEndPickerType(Language) ?? DateTimeType.DatePicker;
+        Attributes.GetEndPickerType(Culture) ?? DateTimeType.DatePicker;
 
     protected override Task OnInitializedAsync()
     {
-        DateLabel = Attributes.GetEndLabel(Language) ?? Localizer.Shared.End;
-        DateFormat = Attributes.GetEndFormat(Language) ??
-                     Culture.DateTimeFormat.ShortDatePattern;
-        TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
-        RequiredError = Attributes.GetEndRequired(Language);
-        Help = Attributes.GetEndHelp(Language);
-        ReadOnly = Attributes.GetEndReadOnly(Language) ?? false;
+        DateLabel = Attributes.GetEndLabel(Culture) ?? Localizer.Shared.End;
+        DateFormat = Attributes.GetEndFormat(Culture) ??
+                     CultureInfo.DateTimeFormat.ShortDatePattern;
+        TimeFormat = CultureInfo.DateTimeFormat.ShortTimePattern;
+        RequiredError = Attributes.GetEndRequired(Culture);
+        Help = Attributes.GetEndHelp(Culture);
+        ReadOnly = Attributes.GetEndReadOnly(Culture) ?? false;
 
         return base.OnInitializedAsync();
     }

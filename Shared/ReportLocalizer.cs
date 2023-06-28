@@ -39,8 +39,8 @@ public class ReportLocalizer : LocalizerBase
     public string RelationChildTable => FromCaller();
     public string RelationChildColumn => FromCaller();
 
-    public string TemplateNotAvailable(string report, Language language) =>
-        string.Format(FromCaller(), report, language);
+    public string TemplateNotAvailable(string report, string culture) =>
+        string.Format(FromCaller(), report, culture);
     public string XmlValidationError(string report) =>
         string.Format(FromCaller(), report);
     public string EmptyXmlRaw(string report) =>

@@ -47,7 +47,7 @@ public class SharedLocalizer : LocalizerBase
     public string Inheritance => FromCaller();
     public string Culture => FromCaller();
     public string Calendar => FromCaller();
-    public string Language => FromCaller();
+   // public string Language => FromCaller();
 
     public string FeaturesAdmin => FromCaller();
     public string FeaturesSystem => FromCaller();

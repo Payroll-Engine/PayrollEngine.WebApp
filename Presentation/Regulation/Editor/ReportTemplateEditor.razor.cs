@@ -38,9 +38,9 @@ public partial class ReportTemplateEditor
                 RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
-            new(nameof(RegulationReportTemplate.Language), typeof(EnumListBox<Language>))
+            new(nameof(RegulationReportTemplate.Culture), typeof(TextBox))
             {
-                Label = Localizer.Shared.Language,
+                Label = Localizer.Shared.Culture
             },
             new(nameof(RegulationReportTemplate.Content), typeof(FileBox))
             {
@@ -50,11 +50,11 @@ public partial class ReportTemplateEditor
             },
             new(nameof(RegulationReportTemplate.ContentType), typeof(TextBox))
             {
-                Label = Localizer.Shared.Description,
+                Label = Localizer.Shared.Description
             },
             new(nameof(RegulationReportTemplate.Schema), typeof(FileBox))
             {
-                Label = Localizer.Shared.Description,
+                Label = Localizer.Shared.Description
             },
             new(nameof(RegulationReportTemplate.Resource), typeof(TextBox))
             {
@@ -63,7 +63,7 @@ public partial class ReportTemplateEditor
             },
             new(nameof(RegulationReportTemplate.OverrideType), typeof(EnumListBox<OverrideType>))
             {
-                Label = Localizer.Shared.Description,
+                Label = Localizer.Shared.Description
             },
             new(nameof(RegulationReportTemplate.Attributes), null)
         };

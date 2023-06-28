@@ -70,7 +70,7 @@
              ShowColumnOptions="false"
              SortMode="SortMode.Multiple">
     <Columns>
-        <PropertyColumn Property="x => x.GetLocalizedName(UserLanguage)" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.GetLocalizedName(UserCulture)" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.Description" Title="@Localizer.Shared.Description" />
         <PropertyColumn Property="x => x.Category" Title="@Localizer.Report.Category" />
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">

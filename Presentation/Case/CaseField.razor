@@ -9,8 +9,8 @@
     <div class="d-flex">
 
         @* field name *@
-        <MudTooltip Delay="500" Text="@Field.GetLocalizedDescription(Language)" Placement="Placement.Top">
-            <MudText Class="pr-4">@Field.GetLocalizedName(Language)</MudText>
+        <MudTooltip Delay="500" Text="@Field.GetLocalizedDescription(Culture)" Placement="Placement.Top">
+            <MudText Class="pr-4">@Field.GetLocalizedName(Culture)</MudText>
         </MudTooltip>
 
         @* field actions *@
@@ -82,7 +82,7 @@
     </div>
 
     @* field description *@
-    @if (!string.IsNullOrWhiteSpace(Field.Description) && (Field.Attributes.GetShowDescription(Language) ?? false))
+    @if (!string.IsNullOrWhiteSpace(Field.Description) && (Field.Attributes.GetShowDescription(Culture) ?? false))
     {
         <div>@Field.GetDescriptionMarkup()</div>
     }
@@ -93,12 +93,12 @@
         <div style="width: 25%; align-self: flex-end;">
             @if (Field.StartAvailable())
             {
-                var pickerType = Field.Attributes.GetStartPickerType(Language) ?? DateTimeType.DatePicker;
+                var pickerType = Field.Attributes.GetStartPickerType(Culture) ?? DateTimeType.DatePicker;
                 if (pickerType is DateTimeType.DatePicker)
                 {
                     <CaseStartDatePicker @bind-Date="@Field.Start"
                                          Field="@Field"
-                                         Language="@Language"
+                                         Culture="@Culture"
                                          Attributes="@Field.Attributes"
                                          MaxDate="@Field.End"
                                          Dense="@Dense"
@@ -108,7 +108,7 @@
                 {
                     <CaseStartDateTimePicker @bind-DateTime="@Field.Start"
                                              Field="@Field"
-                                             Language="@Language"
+                                             Culture="@Culture"
                                              Attributes="@Field.Attributes"
                                              MaxDate="@Field.End"
                                              Dense="@Dense"
@@ -121,12 +121,12 @@
         <div class="pl-4" style="width: 25%; align-self: flex-end;">
             @if (Field.EndAvailable())
             {
-                var pickerType = Field.Attributes.GetEndPickerType(Language);
+                var pickerType = Field.Attributes.GetEndPickerType(Culture);
                 if (pickerType is null or DateTimeType.DatePicker)
                 {
                     <CaseEndDatePicker @bind-Date="@Field.End"
                                        Field="@Field"
-                                       Language="@Language"
+                                       Culture="@Culture"
                                        Attributes="@Field.Attributes"
                                        MinDate="@Field.Start"
                                        Dense="@Dense"
@@ -136,7 +136,7 @@
                 {
                     <CaseEndDateTimePicker @bind-DateTime="@Field.End"
                                            Field="@Field"
-                                           Language="@Language"
+                                           Culture="@Culture"
                                            Attributes="@Field.Attributes"
                                            MinDate="@Field.Start"
                                            Dense="@Dense"
@@ -153,12 +153,12 @@
                     @if (Field.LookupSettings == null)
                     {
                         // regular case field
-                        <FieldEditor Field="@Field" Language="Language" />
+                        <FieldEditor Field="@Field" Culture="Culture" />
                     }
                     else
                     {
                         // lookup case field
-                        <LookupEditor Field="@Field" Language="@Language" />
+                        <LookupEditor Field="@Field" Culture="@Culture" />
                     }
                 </div>
             }

@@ -43,19 +43,19 @@
     private bool Error => !Field.Validator.ValidateEnd();
 
     protected override DatePickerType DatePickerType =>
-        Attributes.GetEndPickerOpen(Language) ?? DatePickerType.Day;
+        Attributes.GetEndPickerOpen(Culture) ?? DatePickerType.Day;
 
     protected override DateTimeType DateTimeType =>
-        Attributes.GetEndPickerType(Language) ?? DateTimeType.DatePicker;
+        Attributes.GetEndPickerType(Culture) ?? DateTimeType.DatePicker;
 
     protected override async Task OnInitializedAsync()
     {
-        Label = Attributes.GetEndLabel(Language) ?? Localizer.Shared.End;
-        Format = Attributes.GetEndFormat(Language) ??
-                     Culture.DateTimeFormat.ShortDatePattern;
-        RequiredError = Attributes.GetEndRequired(Language);
-        Help = Attributes.GetEndHelp(Language);
-        ReadOnly = Attributes.GetEndReadOnly(Language) ?? false;
+        Label = Attributes.GetEndLabel(Culture) ?? Localizer.Shared.End;
+        Format = Attributes.GetEndFormat(Culture) ??
+                     CultureInfo.DateTimeFormat.ShortDatePattern;
+        RequiredError = Attributes.GetEndRequired(Culture);
+        Help = Attributes.GetEndHelp(Culture);
+        ReadOnly = Attributes.GetEndReadOnly(Culture) ?? false;
 
         await base.OnInitializedAsync();
     }

@@ -75,7 +75,7 @@
         }
         @if (ShowAdditionalInfo)
         {
-            <PropertyColumn Property="x => x.GetAdditionalInfo(Localizer, 100)" Title="@AdditionalInfoHeader" />
+            <PropertyColumn Property="x => x.GetAdditionalInfo(Localizer)" Title="@AdditionalInfoHeader" />
         }
         <PropertyColumn Property="x => x.RegulationName" Title="@Localizer.Regulation.Regulation" />
         <PropertyColumn Property="x => x.InheritanceType" Title="@Localizer.Shared.Inheritance">

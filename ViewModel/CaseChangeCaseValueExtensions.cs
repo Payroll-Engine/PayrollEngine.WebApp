@@ -6,12 +6,12 @@ public static class CaseChangeCaseValueExtensions
     /// Localize slot values
     /// </summary>
     /// <param name="resultItems">List of CaseValue items</param>
-    /// <param name="language">Translation language</param>
-    public static void LocalizeSlot(this CaseChangeCaseValue[] resultItems, Language language)
+    /// <param name="culture">Translation culture</param>
+    public static void LocalizeSlot(this CaseChangeCaseValue[] resultItems, string culture)
     {
         foreach (var item in resultItems)
         {
-            item.CaseSlot = language.GetLocalization(item.CaseSlotLocalizations, item.CaseSlot);
+            item.CaseSlot = culture.GetLocalization(item.CaseSlotLocalizations, item.CaseSlot);
         }
     }
 }

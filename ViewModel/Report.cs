@@ -35,11 +35,11 @@ public class Report : Client.Model.Report, IViewModel,
 
     #endregion
 
-    public string GetLocalizedName(Language language) =>
-        language.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(string culture) =>
+        culture.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(Language language) =>
-        language.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(string culture) =>
+        culture.GetLocalization(DescriptionLocalizations, Description);
 
     /// <summary>Compare two objects</summary>
     /// <param name="compare">The object to compare with this</param>

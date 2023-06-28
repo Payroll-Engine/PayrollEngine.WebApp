@@ -65,9 +65,9 @@ public abstract class PageBase : ComponentBase, IDisposable
     protected User User => Session.User;
 
     /// <summary>
-    /// The users language
+    /// The users culture
     /// </summary>
-    protected Language UserLanguage => User.Language;
+    protected string UserCulture => User.Culture;
 
     /// <summary>
     /// Check for user feature

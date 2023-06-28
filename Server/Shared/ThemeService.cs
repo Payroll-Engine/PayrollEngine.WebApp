@@ -16,7 +16,7 @@ public class ThemeService : IThemeService
             Primary = Colors.Grey.Darken4,
             Secondary = Colors.Grey.Darken3,
             AppbarText = Colors.Grey.Darken4,
-            AppbarBackground = Colors.Grey.Lighten5,
+            AppbarBackground = Colors.Grey.Lighten5
         },
         PaletteDark = new PaletteDark()
     };

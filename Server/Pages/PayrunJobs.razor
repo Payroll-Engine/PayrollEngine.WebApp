@@ -44,7 +44,7 @@
             @foreach (var payrun in Payruns)
             {
                 <MudSelectItem T="string" Value="payrun.Name">
-                    @UserLanguage.GetLocalization(payrun.NameLocalizations, payrun.Name)
+                    @UserCulture.GetLocalization(payrun.NameLocalizations, payrun.Name)
                 </MudSelectItem>
             }
         </MudSelect>

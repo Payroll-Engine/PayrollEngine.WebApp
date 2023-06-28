@@ -128,7 +128,7 @@ public class UserSessionBootstrap
                 }
 
                 // user culture
-                var culture = CultureTool.GetCulture(user.Language.LanguageCode());
+                var culture = CultureTool.GetCulture(user.Culture);
                 // set new value formatter
                 UserSession.ValueFormatter = new ValueFormatter(culture);
 

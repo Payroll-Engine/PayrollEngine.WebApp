@@ -27,7 +27,7 @@ public partial class ReportDownloadDialog
     [Parameter] public User User { get; set; }
     [Parameter] public Client.Model.Payroll Payroll { get; set; }
     [Parameter] public ReportSet Report { get; set; }
-    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Culture { get; set; }
     [Parameter] public ValueFormatter ValueFormatter { get; set; }
 
     [Inject]
@@ -55,9 +55,9 @@ public partial class ReportDownloadDialog
     private string ErrorMessage { get; set; }
     private string DownloadFileName { get; set; }
 
-    private string ReportName => Report.GetLocalizedName(Language);
+    private string ReportName => Report.GetLocalizedName(Culture);
 
-    private string ReportDescription => Report.GetLocalizedDescription(Language);
+    private string ReportDescription => Report.GetLocalizedDescription(Culture);
     private bool HasDescription =>
         !string.IsNullOrWhiteSpace(ReportDescription);
 
@@ -92,7 +92,7 @@ public partial class ReportDownloadDialog
         if (documentType is DocumentType.Word or DocumentType.Pdf or DocumentType.Xml && ReportTemplate == null)
         {
             await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
-                Localizer.Report.TemplateNotAvailable(ReportName, User.Language));
+                Localizer.Report.TemplateNotAvailable(ReportName, Culture));
             return;
         }
 
@@ -108,21 +108,21 @@ public partial class ReportDownloadDialog
                 new(Tenant.Id, Report.RegulationId), Report.Id,
                 new()
                 {
-                    Language = Language,
+                    Culture = Culture,
                     Parameters = parameters,
                     UserId = User.Id
                 });
 
             // report metadata
             var now = DateTime.Now; // use local time (no UTC)
-            var title = Report.GetLocalizedName(Language);
+            var title = Report.GetLocalizedName(Culture);
             var documentMetadata = new DocumentMetadata
             {
                 Author = User.Identifier,
                 Category = Report.Category,
                 Company = Tenant.Identifier,
                 Title = title,
-                Keywords = response.Language.ToString(),
+                Keywords = response.Culture,
                 CustomProperties = parameters,
                 Created = now,
                 Modified = now
@@ -140,7 +140,7 @@ public partial class ReportDownloadDialog
                 // download
                 DownloadFileName =
                     $"{Report.Name}_{FileTool.CurrentTimeStamp()}{documentType.GetFileExtension()}";
-                var reportName = Report.GetLocalizedName(Language);
+                var reportName = Report.GetLocalizedName(Culture);
 
                 // document stream
                 MemoryStream documentStream = null;
@@ -231,7 +231,7 @@ public partial class ReportDownloadDialog
         var reportRequest = new Client.Model.ReportRequest
         {
             UserId = User.Id,
-            Language = User.Language
+            Culture = User.Culture
         };
         if (reportSet.Parameters != null)
         {
@@ -280,7 +280,7 @@ public partial class ReportDownloadDialog
         try
         {
             ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
-                new(Tenant.Id, Payroll.Id), new[] { Report.Name }, User.Language)).FirstOrDefault();
+                new(Tenant.Id, Payroll.Id), new[] { Report.Name }, User.Culture)).FirstOrDefault();
         }
         catch (HttpRequestException exception)
         {

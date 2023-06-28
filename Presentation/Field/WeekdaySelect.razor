@@ -30,7 +30,7 @@
 
     private void SetupWeekdays()
     {
-        var culture = Culture;
+        var culture = CultureInfo;
         // day names
         var dayNames = culture.DateTimeFormat.DayNames.ToList();
 
@@ -62,7 +62,7 @@
     protected override async Task OnInitializedAsync()
     {
         // label
-        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? Localizer.Calendar.Day;
+        ValueLabel = Field.Attributes.GetValueLabel(Culture) ?? Localizer.Calendar.Day;
         // weekday names
         SetupWeekdays();
 

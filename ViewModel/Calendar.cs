@@ -19,8 +19,8 @@ public class Calendar : Client.Model.Calendar, IViewModel,
     {
     }
 
-    public string GetLocalizedName(Language language) =>
-        language.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(string culture) =>
+        culture.GetLocalization(NameLocalizations, Name);
 
     #region Attributes
 

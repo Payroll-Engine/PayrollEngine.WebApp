@@ -90,11 +90,11 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
         set => Value = ValueConvert.ToJson(value);
     }
 
-    public string GetLocalizedName(Language language) =>
-        language.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(string culture) =>
+        culture.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(Language language) =>
-        language.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(string culture) =>
+        culture.GetLocalization(DescriptionLocalizations, Description);
 
     #endregion
 

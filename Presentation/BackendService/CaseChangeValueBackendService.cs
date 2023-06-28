@@ -23,7 +23,7 @@ public class CaseChangeValueBackendService : BackendServiceBase<PayrollCaseChang
     protected override void SetupReadQuery(PayrollServiceContext context, PayrollCaseChangeQuery query, IDictionary<string, object> parameters = null)
     {
         query.UserId = UserSession.User.Id;
-        query.Language = UserSession.User.Language;
+        query.Culture = UserSession.User.Culture;
 
         // division filter
         query.DivisionId = UserSession.Payroll.DivisionId;
@@ -51,5 +51,5 @@ public class CaseChangeValueBackendService : BackendServiceBase<PayrollCaseChang
 
     /// <summary>Localize slots</summary>
     protected override void ProcessReceivedItems(ViewModel.CaseChangeCaseValue[] resultItems, IDictionary<string, object> parameters = null) =>
-        resultItems.LocalizeSlot(UserSession.User.Language);
+        resultItems.LocalizeSlot(UserSession.User.Culture);
 }

@@ -39,7 +39,7 @@
     protected override async Task OnInitializedAsync()
     {
         // label
-        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? Localizer.Calendar.Year;
+        ValueLabel = Field.Attributes.GetValueLabel((Culture)) ?? Localizer.Calendar.Year;
 
         // year selection setup
         var currentYear = Date.Now.Year;
@@ -50,7 +50,7 @@
         }
         else
         {
-            minYear = Field.Attributes?.GetMinIntegerValue(Language) ??
+            minYear = Field.Attributes?.GetMinIntegerValue((Culture)) ??
                       currentYear - 25;
         }
         int maxYear;
@@ -60,7 +60,7 @@
         }
         else
         {
-            maxYear = Field.Attributes?.GetMaxIntegerValue(Language) ??
+            maxYear = Field.Attributes?.GetMaxIntegerValue((Culture)) ??
                       currentYear + 25;
         }
         for (var year = minYear; year <= maxYear; year++)

@@ -402,7 +402,7 @@ public class FileExtensionContentTypeProvider
             { ".xtp", "application/octet-stream" },
             { ".xwd", "image/x-xwindowdump" },
             { ".z", "application/x-compress" },
-            { ".zip", "application/x-zip-compressed" },
+            { ".zip", "application/x-zip-compressed" }
         })
     {
     }

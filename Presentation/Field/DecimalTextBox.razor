@@ -5,7 +5,7 @@
 {
     <MudNumericField T="decimal?"
                  @bind-Value="@Field.ValueAsDecimal"
-                 Culture="@Culture"
+                 Culture="@CultureInfo"
                  Min="@MinValue"
                  Max="@MaxValue"
                  Step="@StepSize"
@@ -26,7 +26,7 @@
 {
     <MudNumericField T="decimal?"
                  @bind-Value="@Field.ValueAsPercent"
-                 Culture="@Culture"
+                 Culture="@CultureInfo"
                  Min="@MinValue"
                  Max="@MaxValue"
                  Step="@StepSize"
@@ -46,7 +46,7 @@
 <MudNumericField T="decimal?"
                  @bind-Value="@Field.ValueAsDecimal"
                  Format="@Format"
-                 Culture="@Culture"
+                 Culture="@CultureInfo"
                  Min="@MinValue"
                  Max="@MaxValue"
                  Step="@StepSize"
@@ -71,17 +71,17 @@
     private string Format { get; set; }
 
     private string CurrencySymbol =>
-        Culture?.NumberFormat.CurrencySymbol;
+        CultureInfo?.NumberFormat.CurrencySymbol;
 
     protected override async Task OnInitializedAsync()
     {
         // range
-        MinValue = Field.Attributes.GetMinDecimalValue(Language);
-        MaxValue = Field.Attributes.GetMaxDecimalValue(Language);
-        StepSize = Field.Attributes.GetDecimalStepSize(Language);
+        MinValue = Field.Attributes.GetMinDecimalValue(Culture);
+        MaxValue = Field.Attributes.GetMaxDecimalValue(Culture);
+        StepSize = Field.Attributes.GetDecimalStepSize(Culture);
 
         // format
-        Format = Field.Attributes.GetFormat(Language);
+        Format = Field.Attributes.GetFormat(Culture);
 
         await base.OnInitializedAsync();
     }

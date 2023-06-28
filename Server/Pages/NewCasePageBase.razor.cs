@@ -237,7 +237,7 @@ public abstract partial class NewCasePageBase
 
             // user notification
             string message;
-            var caseName = User.Language.GetLocalization(caseSet.NameLocalizations, caseSet.Name);
+            var caseName = User.Culture.GetLocalization(caseSet.NameLocalizations, caseSet.Name);
             if (caseChange.Values.Any())
             {
                 message = $"Case {caseName} successfully submitted";
@@ -283,7 +283,7 @@ public abstract partial class NewCasePageBase
         try
         {
             return await PayrollService.BuildCaseAsync<Client.Model.CaseSet>(new(Tenant.Id, Payroll.Id),
-                derivedCaseName, User.Id, employeeId: Employee?.Id, language: User.Language,
+                derivedCaseName, User.Id, employeeId: Employee?.Id, culture: User.Culture,
                 caseChangeSetup: caseChangeSetup);
         }
         catch (Exception exception)
@@ -405,7 +405,7 @@ public abstract partial class NewCasePageBase
                     // retrieve lookup data
                     LookupData lookupData = (await PayrollService.GetLookupDataAsync<LookupData>(
                         new(Tenant.Id, Payroll.Id),
-                        lookupNames: new[] { lookupName }, language: Session.User.Language)).FirstOrDefault();
+                        lookupNames: new[] { lookupName }, culture: Session.User.Culture)).FirstOrDefault();
                     if (lookupData?.Values != null && lookupData.Values.Any())
                     {
                         var valueFieldName = lookupField.LookupSettings.ValueFieldName;

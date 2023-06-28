@@ -49,7 +49,7 @@
              ShowColumnOptions="true">
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
-        <PropertyColumn Property="x => x.GetLocalizedName(User.Language)" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.GetLocalizedName(User.Culture)" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.Category" Title="@Localizer.Task.Category" />
         <PropertyColumn Property="x => x.InstructionText" ShowColumnOptions="false" Title="@Localizer.Task.Instruction"
                         ShowFilterIcon="false" Filterable="false" />

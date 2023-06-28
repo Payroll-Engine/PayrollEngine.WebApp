@@ -24,7 +24,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
-    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Culture { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
     void Cancel() => MudDialog.Cancel();

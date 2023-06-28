@@ -9,28 +9,28 @@
 
 @if (Field.ValueType.IsString())
 {
-    <StringLookup Field="@Field" Language="@Language" Disabled="@Disabled" />
+    <StringLookup Field="@Field" Culture="@Culture" Disabled="@Disabled" />
 }
 else if (Field.ValueType.IsBoolean())
 {
-    <BooleanLookup Field="@Field" Language="@Language" Disabled="@Disabled" />
+    <BooleanLookup Field="@Field" Culture="@Culture" Disabled="@Disabled" />
 }
 else if (Field.ValueType.IsInteger())
 {
-    <IntegerLookup Field="@Field" Language="@Language" Disabled="@Disabled" />
+    <IntegerLookup Field="@Field" Culture="@Culture" Disabled="@Disabled" />
 }
 else if (Field.ValueType.IsDecimal())
 {
-    <DecimalLookup Field="@Field" Language="@Language" Disabled="@Disabled" />
+    <DecimalLookup Field="@Field" Culture="@Culture" Disabled="@Disabled" />
 }
 else if (Field.ValueType.IsDateTime())
 {
-    <DateTimeLookup Field="@Field" Language="@Language" Disabled="@Disabled" />
+    <DateTimeLookup Field="@Field" Culture="@Culture" Disabled="@Disabled" />
 }
 
 @code
 {
     [Parameter] public IFieldObject Field { get; set; }
-    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Culture { get; set; }
     [Parameter] public bool Disabled { get; set; }
 }

@@ -107,7 +107,7 @@ public partial class LookupSettingsBox : IRegulationInput
             { nameof(LookupSettingsDialog.Tenant), EditContext.Tenant },
             { nameof(LookupSettingsDialog.Payroll), EditContext.Payroll },
             { nameof(LookupSettingsDialog.Settings), editItem },
-            { nameof(LookupSettingsDialog.Language), EditContext.User.Language }
+            { nameof(LookupSettingsDialog.Culture), EditContext.User.Culture }
         };
 
         // attribute edit dialog

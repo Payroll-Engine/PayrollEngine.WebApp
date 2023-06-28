@@ -3,7 +3,7 @@
 <MudStack Row="true" Spacing="0">
     <MudDatePicker @bind-Date="@Field.ValueAsDateTime"
                    DateFormat="@DateFormat"
-                   Culture="@Culture"
+                   Culture="@CultureInfo"
                    Editable="true"
                    MinDate="@MinValue"
                    MaxDate="@MaxValue"
@@ -17,7 +17,7 @@
                    RequiredError="@ValueRequiredError" />
     <MudTimePicker @bind-Time="@Time"
                    TimeFormat="@TimeFormat"
-                   Culture="@Culture"
+                   Culture="@CultureInfo"
                    Editable="true"
                    Disabled="@Disabled"
                    Required="@Required"
@@ -61,12 +61,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        DateFormat = Field.Attributes.GetFormat(Language) ??
-                     Culture.DateTimeFormat.ShortDatePattern;
-        TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
-        MinValue = Field.Attributes.GetMinDateTimeValue(Language);
-        MaxValue = Field.Attributes.GetMaxDateTimeValue(Language);
-        OpenTo = (Field.Attributes.GetValuePickerOpen(Language) ?? DatePickerType.Day) switch
+        DateFormat = Field.Attributes.GetFormat(Culture) ??
+                     CultureInfo.DateTimeFormat.ShortDatePattern;
+        TimeFormat = CultureInfo.DateTimeFormat.ShortTimePattern;
+        MinValue = Field.Attributes.GetMinDateTimeValue(Culture);
+        MaxValue = Field.Attributes.GetMaxDateTimeValue(Culture);
+        OpenTo = (Field.Attributes.GetValuePickerOpen(Culture) ?? DatePickerType.Day) switch
         {
             DatePickerType.Month => OpenTo.Month,
             DatePickerType.Year => OpenTo.Year,

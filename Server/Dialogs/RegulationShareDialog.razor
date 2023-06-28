@@ -36,7 +36,7 @@
                             @foreach (var regulation in ProviderRegulations)
                             {
                                 <MudSelectItem T="string" Value="@regulation.Name">
-                                    @Language.GetLocalization(regulation.NameLocalizations, regulation.Name)
+                                    @Culture.GetLocalization(regulation.NameLocalizations, regulation.Name)
                                 </MudSelectItem>
                             }
                         </MudSelect>
@@ -67,7 +67,7 @@
                             @foreach (var division in ConsumerDivisions)
                             {
                                 <MudSelectItem T="string" Value="@division.Name">
-                                    @Language.GetLocalization(division.NameLocalizations, division.Name)
+                                    @Culture.GetLocalization(division.NameLocalizations, division.Name)
                                 </MudSelectItem>
                             }
                         </MudSelect>
@@ -90,7 +90,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public RegulationShare RegulationShare { get; set; } = new();
-    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Culture { get; set; }
 
     [Inject] private ITenantService TenantService { get; set; }
     [Inject] private IRegulationService RegulationService { get; set; }

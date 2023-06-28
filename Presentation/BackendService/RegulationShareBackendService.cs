@@ -37,10 +37,11 @@ public class RegulationShareBackendService : BackendServiceBase<RegulationShareS
 
     public async Task ApplyShareAsync(IEnumerable<RegulationShare> shares, IDictionary<string, object> parameters = null)
     {
-        Language? language = null;
-        if (parameters != null && parameters.TryGetValue(nameof(Language), out var languageValue))
+        // culture
+        string culture = null;
+        if (parameters != null && parameters.TryGetValue("Culture", out var cultureValue))
         {
-            language = (Language)languageValue;
+            culture = (string)cultureValue;
         }
 
         var tenants = await TenantService.QueryAsync<Tenant>(new(), new Query { Status = ObjectStatus.Active });
@@ -60,8 +61,8 @@ public class RegulationShareBackendService : BackendServiceBase<RegulationShareS
             {
                 continue;
             }
-            share.ProviderRegulationName = language.HasValue ?
-                language.Value.GetLocalization(providerRegulation.NameLocalizations, providerRegulation.Name) :
+            share.ProviderRegulationName = culture != null ?
+                culture.GetLocalization(providerRegulation.NameLocalizations, providerRegulation.Name) :
                 providerRegulation.Name;
 
             // consumer tenant
@@ -80,8 +81,8 @@ public class RegulationShareBackendService : BackendServiceBase<RegulationShareS
                 {
                     continue;
                 }
-                share.ConsumerDivisionName = language.HasValue ?
-                    language.Value.GetLocalization(consumerDivision.NameLocalizations, consumerDivision.Name) :
+                share.ConsumerDivisionName = culture != null ?
+                    culture.GetLocalization(consumerDivision.NameLocalizations, consumerDivision.Name) :
                     consumerDivision.Name;
             }
         }

@@ -4,18 +4,18 @@
     @foreach (var field in Fields)
     {
         // ignore hidden fields
-        if (field.Attributes?.GetHidden(Language) ?? false)
+        if (field.Attributes?.GetHidden(Culture) ?? false)
         {
             continue;
         }
-        <FieldEditor Field="field" Language="@Language" Disabled="@Disabled" />
+        <FieldEditor Field="field" Language="@Culture" Disabled="@Disabled" />
     }
 </MudStack>
 
 @code
 {
     [Parameter] public IEnumerable<IFieldObject> Fields { get; set; }
-    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Culture { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public int Spacing { get; set; } = 0;
 }

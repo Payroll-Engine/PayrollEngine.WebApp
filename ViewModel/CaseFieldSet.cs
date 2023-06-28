@@ -85,11 +85,11 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     public bool IsValidValue() => Validator.ValidateValue();
 
-    public string GetLocalizedName(Language language) =>
-        language.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(string culture) =>
+        culture.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(Language language) =>
-        language.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(string culture) =>
+        culture.GetLocalization(DescriptionLocalizations, Description);
 
     #region Case Value
 

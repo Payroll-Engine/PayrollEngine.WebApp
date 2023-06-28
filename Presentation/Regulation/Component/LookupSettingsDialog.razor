@@ -8,7 +8,7 @@
 
 <MudDialog Class="attribute-dialog">
     <DialogContent>
-        <MudPaper Class="pa-4">
+        <MudPaper Class="pa-4 mb-2" Elevation="4">
             <MudForm @ref="form">
                 <MudStack Spacing="1">
                     <MudSelect T="string" Label="@Localizer.Lookup.LookupName"
@@ -18,7 +18,7 @@
                         @foreach (var lookup in Lookups)
                         {
                             <MudSelectItem T="string" Value="@lookup.Name">
-                                @Language.GetLocalization(lookup.NameLocalizations, lookup.Name)
+                                @Culture.GetLocalization(lookup.NameLocalizations, lookup.Name)
                             </MudSelectItem>
                         }
                     </MudSelect>
@@ -46,7 +46,7 @@
     [Parameter] public Tenant Tenant { get; set; }
     [Parameter] public Payroll Payroll { get; set; }
     [Parameter] public LookupSettings Settings { get; set; } = new();
-    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Culture { get; set; }
 
     [Inject] private IPayrollService PayrollService { get; set; }
     [Inject] private Localizer Localizer { get; set; }

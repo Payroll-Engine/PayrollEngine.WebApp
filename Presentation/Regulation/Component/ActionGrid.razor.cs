@@ -94,7 +94,7 @@ public partial class ActionGrid : IDisposable
             { nameof(ActionDialog.EditContext), EditContext },
             { nameof(ActionDialog.Item), Item },
             { nameof(ActionDialog.Field), Field },
-            { nameof(ActionDialog.Action), action },
+            { nameof(ActionDialog.Action), action }
         };
 
 

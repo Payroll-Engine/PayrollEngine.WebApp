@@ -27,9 +27,9 @@ public class Case : Client.Model.Case, IViewModel,
     private string GetCaseSlotId() =>
         string.IsNullOrWhiteSpace(CaseSlot) ? $"{Id}" : $"{Id}:{CaseSlot}";
 
-    public string GetDisplayName(Language language)
+    public string GetDisplayName(string culture)
     {
-        var displayName = language.GetLocalization(NameLocalizations, Name);
+        var displayName = culture.GetLocalization(NameLocalizations, Name);
         if (!string.IsNullOrWhiteSpace(CaseSlot))
         {
             displayName = $"{displayName} {CaseSlot}";
@@ -47,25 +47,25 @@ public class Case : Client.Model.Case, IViewModel,
     /// </summary>
     public string CaseSlot { get; }
 
-    public string GetLocalizedName(Language language) =>
-        language.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(string culture) =>
+        culture.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(Language language) =>
-        language.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(string culture) =>
+        culture.GetLocalization(DescriptionLocalizations, Description);
 
-    public string GetLocalizedDefaultReason(Language language) =>
-        language.GetLocalization(DefaultReasonLocalizations, DefaultReason);
+    public string GetLocalizedDefaultReason(string culture) =>
+        culture.GetLocalization(DefaultReasonLocalizations, DefaultReason);
 
-    public bool IsMatching(string search, Language language)
+    public bool IsMatching(string search, string culture)
     {
-        var name = language.GetLocalization(NameLocalizations, Name);
+        var name = culture.GetLocalization(NameLocalizations, Name);
         if (name.Contains(search, StringComparison.InvariantCultureIgnoreCase))
         {
             return true;
         }
         if (!string.IsNullOrWhiteSpace(Description))
         {
-            var description = language.GetLocalization(DescriptionLocalizations, Name);
+            var description = culture.GetLocalization(DescriptionLocalizations, Name);
             if (description.Contains(search, StringComparison.InvariantCultureIgnoreCase))
             {
                 return true;

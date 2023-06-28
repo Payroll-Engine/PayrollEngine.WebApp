@@ -3,7 +3,7 @@
 
 <MudSelect T="int?"
 @bind-Value="Field.ValueAsInteger"
-           Culture="@Culture"
+           Culture="@CultureInfo"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
@@ -32,10 +32,10 @@
     protected override async Task OnInitializedAsync()
     {
         // label
-        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? Localizer.Calendar.Month;
+        ValueLabel = Field.Attributes.GetValueLabel(Culture) ?? Localizer.Calendar.Month;
 
         // month names
-        var monthNames = Culture.DateTimeFormat.MonthNames.
+        var monthNames = CultureInfo.DateTimeFormat.MonthNames.
             Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
         for (var i = 0; i < monthNames.Count; i++)
         {

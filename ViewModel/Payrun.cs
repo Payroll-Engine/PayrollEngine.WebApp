@@ -22,8 +22,8 @@ public class Payrun : Client.Model.Payrun, IViewModel, IKeyEquatable<Payrun>
     /// <summary>The division name</summary>
     public string DivisionName { get; set; }
 
-    public string GetLocalizedDefaultReason(Language language) =>
-        language.GetLocalization(DefaultReasonLocalizations, DefaultReason);
+    public string GetLocalizedDefaultReason(string culture) =>
+        culture.GetLocalization(DefaultReasonLocalizations, DefaultReason);
 
     /// <summary>Compare two objects</summary>
     /// <param name="compare">The object to compare with this</param>

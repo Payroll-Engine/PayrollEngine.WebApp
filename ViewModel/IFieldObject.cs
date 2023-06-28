@@ -13,16 +13,16 @@ public interface IFieldObject : IVariantValue, IAttributeObject
     /// <summary>
     /// Get the localized name
     /// </summary>
-    /// <param name="language">The language</param>
-    /// <returns>The language name</returns>
-    string GetLocalizedName(Language language);
+    /// <param name="culture">The culture</param>
+    /// <returns>The culture name</returns>
+    string GetLocalizedName(string culture);
 
     /// <summary>
     /// Get the localized description
     /// </summary>
-    /// <param name="language">The language</param>
-    /// <returns>The language description</returns>
-    string GetLocalizedDescription(Language language);
+    /// <param name="culture">The culture</param>
+    /// <returns>The culture description</returns>
+    string GetLocalizedDescription(string culture);
 
     /// <summary>
     /// The value formatter

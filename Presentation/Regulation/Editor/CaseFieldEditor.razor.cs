@@ -84,27 +84,27 @@ public partial class CaseFieldEditor
             new(nameof(RegulationCaseField.StartDateType), typeof(EnumListBox<CaseFieldDateType>))
             {
                 Label = Localizer.CaseField.StartDateType,
-                Group = Localizer.CaseField.TimeGroup,
+                Group = Localizer.CaseField.TimeGroup
             },
             new(nameof(RegulationCaseField.DefaultStart), typeof(TextBox))
             {
                 Label = Localizer.CaseField.DefaultStart,
-                Group = Localizer.CaseField.TimeGroup,
+                Group = Localizer.CaseField.TimeGroup
             },
             new(nameof(RegulationCaseField.EndDateType), typeof(EnumListBox<CaseFieldDateType>))
             {
                 Label = Localizer.CaseField.EndDateType,
-                Group = Localizer.CaseField.TimeGroup,
+                Group = Localizer.CaseField.TimeGroup
             },
             new(nameof(RegulationCaseField.DefaultEnd), typeof(TextBox))
             {
                 Label = Localizer.CaseField.DefaultEnd,
-                Group = Localizer.CaseField.TimeGroup,
+                Group = Localizer.CaseField.TimeGroup
             },
             new(nameof(RegulationCaseField.EndMandatory), typeof(Switch))
             {
                 Label = Localizer.CaseField.EndMandatory,
-                Group = Localizer.CaseField.TimeGroup,
+                Group = Localizer.CaseField.TimeGroup
             },
 
             // value

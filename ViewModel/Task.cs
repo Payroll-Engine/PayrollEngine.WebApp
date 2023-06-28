@@ -29,8 +29,8 @@ public class Task : Client.Model.Task, IViewModel,
 
     public bool IsScheduled => base.Scheduled != DateTime.MinValue;
 
-    public string GetLocalizedName(Language language) =>
-        language.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(string culture) =>
+        culture.GetLocalization(NameLocalizations, Name);
 
     public string InstructionText =>
         Instruction.RemoveLinks();

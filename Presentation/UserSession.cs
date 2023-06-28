@@ -101,12 +101,24 @@ public class UserSession : IDisposable
         {
             return;
         }
-        var culture = CultureTool.GetCulture(User.Language.LanguageCode());
+
+        // culture with fallback
+        var cultureName = User.Culture;
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            cultureName = Tenant.Culture;
+        }
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            cultureName = CultureInfo.CurrentCulture.Name;
+        }
+        var culture = CultureTool.GetCulture(cultureName);
         CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+        // value format
         ValueFormatter = new ValueFormatter(culture);
     }
-
 
     private async Task SetupUserTasks(User user)
     {

@@ -247,7 +247,7 @@ public abstract partial class CasesPageBase
         {
             { nameof(CaseUndoDialog.CaseChangeValues), caseChangeValues },
             { nameof(CaseUndoDialog.ValueFormatter), ValueFormatter },
-            { nameof(CaseUndoDialog.Language) , UserLanguage }
+            { nameof(CaseUndoDialog.Culture) , UserCulture }
         };
         var caseName = caseChangeValues.First().ValidationCaseName;
         var dialog = await (await DialogService.ShowAsync<CaseUndoDialog>(Localizer.CaseChange.UndoQuery(caseName), parameters)).Result;
@@ -346,7 +346,7 @@ public abstract partial class CasesPageBase
         {
             CaseType = CaseType,
             UserId = Session.User.Id,
-            Language = Session.User.Language
+            Culture = Session.User.Culture
         };
         if (HasPayroll)
         {
@@ -529,7 +529,7 @@ public abstract partial class CasesPageBase
                     CaseType, employeeId: employeeId);
 
                 // order
-                cases = cases.OrderBy(x => x.GetLocalizedName(UserLanguage)).ToList();
+                cases = cases.OrderBy(x => x.GetLocalizedName(UserCulture)).ToList();
                 payrollCases.AddRange(cases);
             }
             catch (Exception exception)
@@ -542,7 +542,7 @@ public abstract partial class CasesPageBase
         // available cases (filtering hidden cases)
         PayrollAvailableCases = !payrollCases.Any()
             ? new()
-            : payrollCases.Where(c => !(c.Attributes?.GetHidden(UserLanguage) ?? false)).ToList();
+            : payrollCases.Where(c => !(c.Attributes?.GetHidden(UserCulture) ?? false)).ToList();
     }
 
     /// <summary>
@@ -569,7 +569,7 @@ public abstract partial class CasesPageBase
         // case filter
         if (!string.IsNullOrWhiteSpace(filter))
         {
-            cases = cases.Where(x => x.IsMatching(filter, UserLanguage));
+            cases = cases.Where(x => x.IsMatching(filter, UserCulture));
         }
         AvailableCases = cases.ToList();
     }
@@ -592,7 +592,7 @@ public abstract partial class CasesPageBase
         {
             return;
         }
-        await ApplyFilterAsync(@case.GetLocalizedName(UserLanguage));
+        await ApplyFilterAsync(@case.GetLocalizedName(UserCulture));
     }
 
     private void ResetAvailableCases()

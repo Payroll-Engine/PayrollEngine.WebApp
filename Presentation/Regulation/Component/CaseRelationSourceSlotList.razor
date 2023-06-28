@@ -13,7 +13,7 @@
         foreach (var caseSlot in CaseSlots)
         {
             <MudSelectItem T="CaseSlot" Value="@caseSlot">
-                @EditContext.User.Language.GetLocalization(caseSlot.NameLocalizations, caseSlot.Name)
+                @EditContext.User.Culture.GetLocalization(caseSlot.NameLocalizations, caseSlot.Name)
             </MudSelectItem>
         }
     }

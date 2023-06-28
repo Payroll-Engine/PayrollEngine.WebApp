@@ -5,7 +5,7 @@
 {
     if (Field.ValueType.IsString())
     {
-        <ListSelect T="string" Field="@Field" Language="@Language" Disabled="@Disabled" />
+        <ListSelect T="string" Field="@Field" Culture="@Culture" Disabled="@Disabled" />
         @* web resource markup *@
         if (Field.ValueType == PayrollEngine.ValueType.WebResource)
         {
@@ -14,19 +14,19 @@
     }
     else if (Field.ValueType.IsBoolean())
     {
-        <ListSelect T="bool" Field="@Field" Language="@Language" Disabled="@Disabled" />
+        <ListSelect T="bool" Field="@Field" Culture="@Culture" Disabled="@Disabled" />
     }
     else if (Field.ValueType.IsInteger())
     {
-        <ListSelect T="int" Field="@Field" Language="@Language" Disabled="@Disabled" />
+        <ListSelect T="int" Field="@Field" Culture="@Culture" Disabled="@Disabled" />
     }
     else if (Field.ValueType.IsDecimal())
     {
-        <ListSelect T="decimal" Field="@Field" Language="@Language" Disabled="@Disabled" />
+        <ListSelect T="decimal" Field="@Field" Culture="@Culture" Disabled="@Disabled" />
     }
     else if (Field.ValueType.IsDateTime())
     {
-        <ListSelect T="DateTime" Field="@Field" Language="@Language" Disabled="@Disabled" />
+        <ListSelect T="DateTime" Field="@Field" Culture="@Culture" Disabled="@Disabled" />
     }
     else
     {
@@ -39,7 +39,7 @@ else
     {
         case PayrollEngine.ValueType.String:
         case PayrollEngine.ValueType.WebResource:
-            <TextBox Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <TextBox Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             @* web resource markup *@
             @if (Field.ValueType == PayrollEngine.ValueType.WebResource)
             {
@@ -47,43 +47,43 @@ else
             }
             break;
         case PayrollEngine.ValueType.Boolean:
-            if (Field.Attributes.GetCheck(Language) ?? false)
+            if (Field.Attributes.GetCheck(Culture) ?? false)
             {
-                <CheckBox Field="@Field" Language="@Language" Disabled="@Disabled" />
+                <CheckBox Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             }
             else
             {
-                <Switch Field="@Field" Language="@Language" Disabled="@Disabled" />
+                <Switch Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             }
             break;
         case PayrollEngine.ValueType.Integer:
-            <IntegerTextBox Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <IntegerTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         case PayrollEngine.ValueType.Weekday:
-            <WeekdaySelect Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <WeekdaySelect Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         case PayrollEngine.ValueType.Month:
-            <MonthSelect Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <MonthSelect Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         case PayrollEngine.ValueType.Year:
-            <YearSelect Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <YearSelect Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         case PayrollEngine.ValueType.Decimal:
-            <DecimalTextBox Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <DecimalTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         case PayrollEngine.ValueType.Money:
-            <DecimalTextBox Field="@Field" Language="@Language" Disabled="@Disabled"
+            <DecimalTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled"
                 InputType="DecimalInputType.Money" />
             break;
         case PayrollEngine.ValueType.Percent:
-            <DecimalTextBox Field="@Field" Language="@Language" Disabled="@Disabled"
+            <DecimalTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled"
                 InputType="DecimalInputType.Percent" />
             break;
         case PayrollEngine.ValueType.DateTime:
-            <DateTimePicker Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <DateTimePicker Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         case PayrollEngine.ValueType.Date:
-            <DatePicker Field="@Field" Language="@Language" Disabled="@Disabled" />
+            <DatePicker Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         default:
             PayrollEngine.Log.Error($"Unsupported field type: {Field.ValueType}");
@@ -94,6 +94,6 @@ else
 @code
 {
     [Parameter] public IFieldObject Field { get; set; }
-    [Parameter] public Language Language { get; set; }
+    [Parameter] public string Culture { get; set; }
     [Parameter] public bool Disabled { get; set; }
 }

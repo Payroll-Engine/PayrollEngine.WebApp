@@ -57,7 +57,7 @@ public class RegulationReportTemplate : ReportTemplate, IRegulationItem, IEquata
 
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => 
-        Enum.GetName(typeof(Language), Language);
+        Culture;
 
     /// <inheritdoc />
     public IRegulationItem Clone() =>

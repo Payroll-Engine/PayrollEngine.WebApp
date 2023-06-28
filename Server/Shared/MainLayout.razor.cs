@@ -85,7 +85,7 @@ public abstract class MainLayoutBase : MainComponentBase
     }
 
     protected string GetPayrollName(ClientModel.Payroll payroll) =>
-        Session.User.Language.GetLocalization(payroll.NameLocalizations, payroll.Name);
+        Session.User.Culture.GetLocalization(payroll.NameLocalizations, payroll.Name);
 
     protected string GetPayrollDivisionName(ClientModel.Payroll payroll)
     {
@@ -100,7 +100,7 @@ public abstract class MainLayoutBase : MainComponentBase
             Log.Warning($"Unknown division {payroll.DivisionName} in payroll {payroll.Name} ({payroll.Id})");
             return null;
         }
-        return Session.User.Language.GetLocalization(division.NameLocalizations, division.Name);
+        return Session.User.Culture.GetLocalization(division.NameLocalizations, division.Name);
     }
 
     #endregion
@@ -139,8 +139,12 @@ public abstract class MainLayoutBase : MainComponentBase
             { nameof(UserSettingsDialog.Tenant), Session.Tenant },
             { nameof(UserSettingsDialog.User), Session.User }
         };
-        await (await DialogService.ShowAsync<UserSettingsDialog>(
+        var result = await (await DialogService.ShowAsync<UserSettingsDialog>(
             Localizer.User.UserSettings, parameters)).Result;
+        if (result == null || result.Canceled)
+        {
+            return;
+        }
 
         // update user culture
         Session.UpdateUserState();

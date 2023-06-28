@@ -4,7 +4,7 @@
 
 <MudSelect T="T"
            @bind-Value="Value"
-           Culture="@Culture"
+           Culture="@CultureInfo"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
@@ -91,14 +91,14 @@
         }
 
         // list
-        var list = Field.Attributes.GetList(Language);
+        var list = Field.Attributes.GetList(Culture);
         if (!list.Any())
         {
             return;
         }
 
         // list values
-        var listValues = Field.Attributes.GetListValues<T>(Language);
+        var listValues = Field.Attributes.GetListValues<T>(Culture);
         if (listValues.Any() && listValues.Count != list.Count)
         {
             throw new PayrollException("Mismatching list value count");
@@ -108,7 +108,7 @@
         List<Tuple<T, string>> values = new();
         if (!listValues.Any())
         {
-            var itemList = Field.Attributes.GetList<T>(Language);
+            var itemList = Field.Attributes.GetList<T>(Culture);
             foreach (var item in itemList)
             {
                 values.Add(new(item, item.ToString()));
@@ -124,10 +124,10 @@
         Values = values;
 
         // selection
-        var selection = Field.Attributes.GetListSelection<T>(Language);
+        var selection = Field.Attributes.GetListSelection<T>(Culture);
         if (!listValues.Any())
         {
-            var typedList = Field.Attributes.GetList<T>(Language);
+            var typedList = Field.Attributes.GetList<T>(Culture);
             if (typedList.Contains(selection))
             {
                 Value = selection;

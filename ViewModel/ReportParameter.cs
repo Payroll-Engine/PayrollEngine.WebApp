@@ -130,11 +130,11 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
         }
     }
 
-    public string GetLocalizedName(Language language) =>
-        language.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(string culture) =>
+        culture.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(Language language) =>
-        language.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(string culture) =>
+        culture.GetLocalization(DescriptionLocalizations, Description);
 
     private void OnReportParameterChanged() =>
         ParameterChanged?.Invoke(this);

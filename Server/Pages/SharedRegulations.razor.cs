@@ -25,7 +25,7 @@ public partial class SharedRegulations
     protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)
     {
         // language
-        parameters.Add(nameof(Language), UserLanguage);
+        parameters.Add("Culture", UserCulture);
         return await base.SetupDialogParametersAsync(parameters, operation);
     }
 }

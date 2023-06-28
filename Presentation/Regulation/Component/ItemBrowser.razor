@@ -59,7 +59,7 @@
         case RegulationItemType.ReportTemplate:
             <ItemGrid TParent="RegulationReport" TItem="RegulationReportTemplate" Items="ReportTemplates"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.ReportTemplate"
-                      KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Shared.Language"
+                      KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Shared.Culture"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem"
                       ParentKeyHeader="@Localizer.Report.Report" ParentFactory="ReportFactory" />
             break;
