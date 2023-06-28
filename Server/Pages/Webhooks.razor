@@ -1,9 +1,10 @@
 ﻿@page "/webhooks"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Webhook, Query, PayrollEngine.WebApp.Server.Dialogs.WebhookDialog>
+@inherits EditItemPageBase<Webhook, Query, Dialogs.WebhookDialog>
 
 @if (!HasFeature(Feature.Webhooks))
 {
@@ -11,7 +12,7 @@
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Webhooks" />
+<ItemPageActions PageActions="this" Title="@Localizer.Webhook.Webhooks" />
 
 <MudDataGrid @ref="ItemsGrid" T="Webhook" ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
@@ -20,16 +21,20 @@
              SortMode="SortMode.Multiple" Filterable="true"
              Hideable="true" ShowColumnOptions="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.ReceiverAddress" Title="Receiver address" />
-        <PropertyColumn Property="x => x.Action" />
-        <PropertyColumn Property="x => x.Created" InitialDirection="SortDirection.Descending">
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.ReceiverAddress" Title="@Localizer.Webhook.ReceiverAddress" />
+        <PropertyColumn Property="x => x.Action" Title="@Localizer.Webhook.Action">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.Action)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated" InitialDirection="SortDirection.Descending">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
@@ -38,7 +43,7 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="Add new Webhook" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.AddTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddItemAsync"
                                        Color="Color.Tertiary"
                                        Variant="Variant.Outlined"
@@ -50,21 +55,21 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="Delete Webhook" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeleteItemAsync(context.Item))"
                                        Color="Color.Secondary"
                                        Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Delete"
                                        Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="Edit Webhook" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.EditTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditItemAsync(context.Item))"
                                        Color="Color.Primary"
                                        Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Edit"
                                        Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="Webhook Messages" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.WebhookMessage.WebhookMessages" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => WebhookMessagesAsync(context.Item))"
                                        Color="Color.Primary"
                                        Variant="Variant.Outlined"
@@ -79,6 +84,6 @@
         <MudDataGridPager T="Webhook" />
     </PagerContent>
     <NoRecordsContent>
-        No webhooks available
+        @Localizer.Webhook.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

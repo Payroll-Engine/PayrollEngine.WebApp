@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -20,6 +21,8 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
 
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected ItemCollection<ReportQuery> Queries { get; set; } = new();
     protected MudDataGrid<ReportQuery> Grid { get; set; }
@@ -85,7 +88,8 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
         };
 
         // report query create dialog
-        var dialog = await (await DialogService.ShowAsync<ReportQueryDialog>("Add report query", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<ReportQueryDialog>(
+            Localizer.Item.AddTitle(Localizer.ReportQuery.ReportQuery), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -126,7 +130,8 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
         };
 
         // report query edit dialog
-        var dialog = await (await DialogService.ShowAsync<ReportQueryDialog>("Edit report query", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<ReportQueryDialog>(
+            Localizer.Item.EditTitle(Localizer.ReportQuery.ReportQuery), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -153,8 +158,9 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                        "Delete report query",
-                        $"Delete {item.Name} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.ReportQuery.ReportQuery),
+                Localizer.Item.DeleteQuery(item.Name)))
         {
             return;
         }

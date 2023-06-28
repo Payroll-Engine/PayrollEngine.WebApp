@@ -45,7 +45,7 @@ public partial class Regulation
     {
         get
         {
-            var name = "not available";
+            var name = Localizer.Shared.NotAvailable;
             var regulation = EditContext?.Regulations?.FirstOrDefault();
             if (regulation != null)
             {
@@ -90,7 +90,7 @@ public partial class Regulation
     }
 
     private string GetItemsLabel(RegulationItemType itemType) =>
-        itemType.ToString().EnsureEnd("s").ToPascalSentence(CharacterCase.ToUpper);
+        Localizer.FromGroupKey(itemType.ToString());
 
     // case
     private Variant CaseVariant =>
@@ -151,34 +151,34 @@ public partial class Regulation
             if (item is IRegulationItem regulationItem && await ItemBrowser.SaveItem(regulationItem))
             {
                 ChangeSelectedItem(regulationItem);
-                await UserNotification.ShowSuccessAsync($"{GetItemUiName(regulationItem)} saved");
+                await UserNotification.ShowSuccessAsync($"{GetItemLocalizedName(regulationItem)} saved");
             }
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Save Error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Save Error", exception);
         }
     }
 
-    private async Task OverrideItem(object item)
+    private async Task DeriveItem(object item)
     {
         try
         {
             if (item is IRegulationItem regulationItem)
             {
-                var overrideObject = ItemBrowser.OverrideItem(regulationItem);
+                var overrideObject = ItemBrowser.DeriveItem(regulationItem);
                 if (overrideObject != null)
                 {
                     ChangeSelectedItem(overrideObject);
-                    await UserNotification.ShowInformationAsync($"{GetItemUiName(regulationItem)} created");
+                    await UserNotification.ShowInformationAsync($"{GetItemLocalizedName(regulationItem)} created");
                 }
             }
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Override Error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Override Error", exception);
         }
     }
 
@@ -191,7 +191,7 @@ public partial class Regulation
                 var deleteObject = await ItemBrowser.DeleteItem(regulationItem);
                 if (deleteObject == null)
                 {
-                    await UserNotification.ShowErrorAsync("Delete failed");
+                    await UserNotification.ShowErrorAsync(Localizer.Error.DeleteFailed);
                 }
                 else
                 {
@@ -201,19 +201,19 @@ public partial class Regulation
                         deleteObject = null;
                     }
                     ChangeSelectedItem(deleteObject);
-                    await UserNotification.ShowInformationAsync($"{GetItemUiName(regulationItem)} deleted");
+                    await UserNotification.ShowInformationAsync(Localizer.Item.Deleted(GetItemLocalizedName(regulationItem)));
                 }
             }
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Delete Error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.DeleteFailed, exception);
         }
     }
 
-    private static string GetItemUiName(IRegulationItem regulationItem) =>
-        $"{regulationItem.ItemName.ToPascalSentence()} {regulationItem.InheritanceKey}";
+    private string GetItemLocalizedName(IRegulationItem regulationItem) =>
+        Localizer.FromGroupKey(regulationItem.ItemType.ToString());
 
     #endregion
 

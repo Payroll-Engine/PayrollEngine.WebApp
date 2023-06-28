@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using PayrollEngine.WebApp.Presentation.Component;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -21,11 +23,15 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
 
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected ItemCollection<AttributeItem> Attributes { get; set; } = new();
     protected MudDataGrid<AttributeItem> Grid { get; set; }
 
-    private string ItemName => Item.GetType().Name.ToPascalSentence();
+    private string LocalizedItemName => Localizer.FromGroupKey(Item.ItemType.ToString());
+    private string LocalizedItemFullName =>
+        $"{LocalizedItemName} {Localizer.Attribute.Attribute}";
     private static string AttributesFieldName => nameof(IAttributeObject.Attributes);
 
     #region Value
@@ -90,7 +96,8 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
         };
 
         // attribute create dialog
-        var dialog = await (await DialogService.ShowAsync<AttributeDialog>($"Add {ItemName} attribute", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<AttributeDialog>(
+            Localizer.Item.AddHelp(LocalizedItemFullName), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -132,7 +139,8 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
         };
 
         // attribute edit dialog
-        var dialog = await (await DialogService.ShowAsync<AttributeDialog>($"Edit {ItemName} attribute", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<AttributeDialog>(
+            Localizer.Item.EditHelp(LocalizedItemFullName), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -160,8 +168,9 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                        "Delete attribute",
-                        $"Delete {item.Name} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(LocalizedItemFullName),
+                Localizer.Item.DeleteQuery(LocalizedItemFullName)))
         {
             return;
         }

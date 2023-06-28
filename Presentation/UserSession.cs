@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.Shared;
 using Task = System.Threading.Tasks.Task;
 using Division = PayrollEngine.WebApp.ViewModel.Division;
 using Employee = PayrollEngine.WebApp.ViewModel.Employee;
@@ -21,6 +23,8 @@ public class UserSession : IDisposable
 
     [Inject]
     private ITaskService TaskService { get; set; }
+    [Inject]
+    public Localizer Localizer { get; set; }
 
     /// <summary>
     /// The value formatter 
@@ -69,8 +73,9 @@ public class UserSession : IDisposable
         {
             throw new ArgumentNullException(nameof(user));
         }
+
         // user features
-        if (DefaultFeatures != null && !user.Features.Any() || !user.HasPassword)
+        if (DefaultFeatures != null && !user.Features.Any() && !user.HasPassword)
         {
             user.Features = DefaultFeatures;
         }
@@ -78,10 +83,7 @@ public class UserSession : IDisposable
         // user change
         User = user;
         await SetupUserTasks(user);
-
-        // value formatter
-        var culture = CultureTool.GetCulture(user.Language.LanguageCode());
-        ValueFormatter = new ValueFormatter(culture);
+        UpdateUserState();
 
         // event
         await (UserChanged?.InvokeAsync(this, user) ?? Task.CompletedTask);
@@ -89,6 +91,22 @@ public class UserSession : IDisposable
         // update tenant
         await ChangeTenantAsync(userTenant, user);
     }
+
+    /// <summary>
+    /// Update the use culture and value formatter
+    /// </summary>
+    public void UpdateUserState()
+    {
+        if (User == null)
+        {
+            return;
+        }
+        var culture = CultureTool.GetCulture(User.Language.LanguageCode());
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        ValueFormatter = new ValueFormatter(culture);
+    }
+
 
     private async Task SetupUserTasks(User user)
     {

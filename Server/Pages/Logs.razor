@@ -1,9 +1,10 @@
 ﻿@page "/logs"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.ItemPageBase<Log, Query>
+@inherits ItemPageBase<Log, Query>
 
 @if (!HasFeature(Feature.Logs))
 {
@@ -11,7 +12,7 @@
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Logs" />
+<ItemPageActions PageActions="this" Title="@Localizer.Log.Logs" />
 
 <MudDataGrid @ref="ItemsGrid" T="Log" ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
@@ -20,19 +21,19 @@
              SortMode="SortMode.Multiple" Filterable="true"
              Hideable="true" ShowColumnOptions="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Level" />
-        <PropertyColumn Property="x => x.Message" />
-        <PropertyColumn Property="x => x.Error" />
-        <PropertyColumn Property="x => x.Comment" />
-        <PropertyColumn Property="x => x.Owner" />
-        <PropertyColumn Property="x => x.OwnerType" />
-        <PropertyColumn Property="x => x.Created" InitialDirection="SortDirection.Descending">
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Level" Title="@Localizer.Log.Level" />
+        <PropertyColumn Property="x => x.Message" Title="@Localizer.Log.Message" />
+        <PropertyColumn Property="x => x.Error" Title="@Localizer.Log.Error" />
+        <PropertyColumn Property="x => x.Comment" Title="@Localizer.Log.Comment" />
+        <PropertyColumn Property="x => x.Owner" Title="@Localizer.Shared.Owner" />
+        <PropertyColumn Property="x => x.OwnerType" Title="@Localizer.Log.OwnerType" />
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated" InitialDirection="SortDirection.Descending">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
@@ -42,6 +43,6 @@
         <MudDataGridPager T="Log" />
     </PagerContent>
     <NoRecordsContent>
-        No logs available
+        @Localizer.Log.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

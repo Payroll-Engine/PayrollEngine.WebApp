@@ -7,16 +7,16 @@
     <FilterTemplate />
     <CellTemplate>
         <MudStack Row="true" Justify="Justify.FlexEnd" Class="gap-2">
-            <MudTooltip Delay="500" Text="Show Job Details" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.PayrunJob.ShowJobDetails" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.ShowJobAsync(context.Item))"
                                Icon="@Icons.Material.Outlined.Info"
                                Color="Color.Primary"
                                Variant="Variant.Outlined"
                                Size="Size.Small" />
             </MudTooltip>
-            @if (Forecast)
+            @if (Forecasts)
             {
-                <MudTooltip Delay="500" Text="Copy Job to Forecast" Placement="Placement.Top">
+                <MudTooltip Delay="500" Text="@Localizer.Forecast.CopyToForecast" Placement="Placement.Top">
                     <MudIconButton @onclick="@(() => ActionOperator.CopyForecastJobAsync(context.Item))"
                                Icon="@Icons.Material.Filled.AutoGraph"
                                Color="Color.Primary"
@@ -30,5 +30,6 @@
 
 @code {
     [Parameter] public IPayrunJobOperator ActionOperator { get; set; }
-    [Parameter] public bool Forecast { get; set; }
+    [Parameter] public bool Forecasts { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 }

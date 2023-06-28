@@ -4,8 +4,8 @@
 @using PayrollEngine.WebApp.Presentation
 
 <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-    <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
 </MudStack>
 
 @code {
@@ -13,6 +13,8 @@
     [Parameter] public T Item { get; set; }
     [Parameter] public IItemValidator<T> FormValidator { get; set; }
     [Parameter] public IItemValidator<T> ItemValidator { get; set; }
+
+    [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 

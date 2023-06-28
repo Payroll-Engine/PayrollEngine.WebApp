@@ -1,9 +1,10 @@
 ﻿@page "/payruns"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<Payrun, Query, PayrollEngine.WebApp.Server.Dialogs.PayrunDialog>
+@inherits EditItemPageBase<Payrun, Query, Dialogs.PayrunDialog>
 
 @if (!HasFeature(Feature.Payruns))
 {
@@ -11,9 +12,9 @@
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Payruns" />
+<ItemPageActions PageActions="this" Title="@Localizer.Payrun.Payruns" />
 
-<MudDataGrid @ref="ItemsGrid" T="Payrun" 
+<MudDataGrid @ref="ItemsGrid" T="Payrun"
              ServerData="GetServerDataAsync"
              EditMode="DataGridEditMode.Form"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
@@ -22,18 +23,22 @@
              Filterable="true"
              Hideable="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.PayrollName" Sortable="false" Title="Payroll"
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.PayrollName" Sortable="false" Title="@Localizer.Payroll.Payroll"
                         Filterable="false" ShowFilterIcon="false" />
-        <PropertyColumn Property="x => x.DefaultReason" Title="Default reason" />
-        <PropertyColumn Property="x => x.RetroTimeType" Title="Retro time type" />
-        <PropertyColumn Property="x => x.Created">
+        <PropertyColumn Property="x => x.DefaultReason" Title="@Localizer.Payrun.DefaultReason" />
+        <PropertyColumn Property="x => x.RetroTimeType" Title="@Localizer.Payrun.RetroTimeType">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.RetroTimeType)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>

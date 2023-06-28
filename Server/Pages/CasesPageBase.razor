@@ -1,22 +1,23 @@
-﻿@using PayrollEngine.WebApp.ViewModel
+﻿@using PayrollEngine.WebApp.Presentation.Component
+@using PayrollEngine.WebApp.ViewModel
 
-@inherits PayrollEngine.WebApp.Presentation.PageBase
+@inherits PageBase
 
 <MudText Typo="Typo.h5" Class="my-4 pb-1 pt-2">@PageTitle</MudText>
 
 @if (IsTenantMissing)
 {
-    <div>Please select a Tenant</div>
+    <div>@Localizer.App.SelectTenant</div>
     return;
 }
 @if (IsPayrollMissing)
 {
-    <div>Please select a Payroll</div>
+    <div>@Localizer.App.SelectPayroll</div>
     return;
 }
 @if (IsEmployeeMissing)
 {
-    <div>Please select an Employee</div>
+    <div>@Localizer.App.SelectEmployee</div>
     return;
 }
 
@@ -24,14 +25,14 @@
 {
     <div class="d-flex pb-2">
         <MudText Typo="Typo.h6" Class="pt-2">
-            Available Cases
+            @Localizer.Case.AvailableCases
         </MudText>
         <div class="d-flex flex-grow-1">
             <MudTextField T="string" Style="align-self: end"
                           Value="AvailableCaseFilter"
                           Margin="Margin.Dense"
                           Clearable="true"
-                          Placeholder="Search"
+                          Placeholder="@Localizer.Shared.Search"
                           Adornment="Adornment.End"
                           AdornmentIcon="@Icons.Material.Filled.Search"
                           IconSize="Size.Small"
@@ -89,14 +90,14 @@
                     <MudStack Row="true" Spacing="0" Class="flex align-end" Style="height: 100%">
                         @if (availableCase.CancellationType == CaseCancellationType.Case)
                         {
-                            <MudTooltip Delay="500" Text="Case with undo" Placement="Placement.Top">
+                            <MudTooltip Delay="500" Text="@Localizer.Case.UndoCase" Placement="Placement.Top">
                                 <MudAvatar Color="Color.Info" Variant="Variant.Outlined" Size="Size.Small">
                                     <MudIcon Icon="@Icons.Material.Filled.Undo" Size="Size.Small" Color="Color.Info" />
                                 </MudAvatar>
                             </MudTooltip>
                         }
                         <MudStack Row="true" Spacing="0" Class="flex flex-grow-1 justify-end">
-                            <MudTooltip Delay="500" Text="@($"Search Case {caseName}")" Placement="Placement.Top">
+                            <MudTooltip Delay="500" Text="@Localizer.Case.SearchCase(caseName)" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => SearchCaseAsync(availableCase))"
                                                Color="Color.Primary"
                                                Variant="Variant.Outlined"
@@ -104,7 +105,7 @@
                                                Style="zoom: 0.8; height: fit-content"
                                                Icon="@Icons.Material.Filled.Search" Size="Size.Small" />
                             </MudTooltip>
-                            <MudTooltip Delay="500" Text="@($"Start Case {caseName}")" Placement="Placement.Top">
+                            <MudTooltip Delay="500" Text="@Localizer.Case.StartCase(caseName)" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => StartCase(availableCase))"
                                                Color="Color.Tertiary"
                                                Variant="Variant.Outlined"
@@ -121,41 +122,41 @@
 }
 else
 {
-    <MudText>No cases available</MudText>
+    <MudText>@Localizer.Case.NotAvailable</MudText>
 }
 
 @* data grid actions *@
 <div class="d-flex pb-2">
-    <MudText Typo="Typo.h6" Class="pt-8">Change History</MudText>
+    <MudText Typo="Typo.h6" Class="pt-8">@Localizer.Case.ChangeHistory</MudText>
     <div class="d-flex flex-grow-1 justify-end align-end">
         @* TODO case change predefined filters (days, weeks, months) *@
-        <MudTooltip Delay="500" Text="Compact view" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.App.CompactView" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.ViewCompact"
                            Class="ml-2"
-                           Size="Size.Small"/>
+                           Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="Expand groups" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.App.ExpandGroups" Placement="Placement.Top">
             <MudIconButton @onclick="@ExpandItemGroups"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.AccountTree"
                            Class="ml-2"
-                           Size="Size.Small"/>
+                           Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="Collapse groups" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.App.CollapseGroups" Placement="Placement.Top">
             <MudIconButton @onclick="@CollapseItemGroups"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.TableRows"
                            Class="ml-2"
-                           Size="Size.Small"/>
+                           Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="Filter reset" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.App.FilterReset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.FilterAltOff"
                            Class="ml-2"
-                           Size="Size.Small"/>
+                           Size="Size.Small" />
         </MudTooltip>
     </div>
 </div>
@@ -172,7 +173,7 @@ else
              ShowColumnOptions="false"
              SortMode="SortMode.None">
     <Columns>
-        <PropertyColumn Property="x => x.CaseName" Title="Name"
+        <PropertyColumn Property="x => x.CaseName" Title="@Localizer.Case.Case"
                         Grouping="true" ShowFilterIcon="false"
                         GroupBy="CaseGroupBy" SortBy="CaseSortBy"
                         InitialDirection="SortDirection.Descending">
@@ -189,7 +190,7 @@ else
                                 </span>
                             </ChildContent>
                             <TooltipContent>
-                                <MudText Typo="Typo.caption">Reason</MudText>
+                                <MudText Typo="Typo.caption">@Localizer.CaseChange.Reason</MudText>
                                 <MudText Typo="Typo.body2">@change.Reason</MudText>
                             </TooltipContent>
                         </MudTooltip>
@@ -209,7 +210,7 @@ else
                         else if (cancellationType != CaseCancellationType.None && cancellationId == null)
                         {
                             <span style="display: inline-block; float: right;" class="pa-1">
-                                <MudTooltip Delay="500" Text="Undo case change" Placement="Placement.Top">
+                                <MudTooltip Delay="500" Text="@Localizer.CaseChange.UndoCaseChange" Placement="Placement.Top">
                                     <MudIconButton @onclick="@(() => CancelCaseChangeAsync(change))"
                                                    Color="Color.Secondary" Variant="Variant.Outlined"
                                                    Style="zoom: 0.8; height: fit-content"
@@ -217,60 +218,56 @@ else
                                 </MudTooltip>
                             </span>
                         }
-                        @* Undone  (CancellationType==None, CancellationId!=NULL) *@
+                        @* Undone  (CancellationId!=NULL) *@
                         @* Label: "<case> - 07.12.21, cancelled on 07.12.21" *@
-                        else if (cancellationType == CaseCancellationType.None && cancellationId != null)
+                        else if (cancellationId != null)
                         {
                             <span style="display: inline-block; float: right;" class="pa-1">
-                                @($" Undone • {ValueFormatter.ToCompactString(change.CancellationDate)}")
-                            </span>
-                        }
-                        @* Undo (CancellationType!=None, CancellationId!=NULL) *@
-                        @* Label: "Case 'abc' from 07.12.21" *@
-                        else if (cancellationType != CaseCancellationType.None && cancellationId != null)
-                        {
-                            <span style="display: inline-block; float: right;" class="pa-1">
-                                @($" Undo • {ValueFormatter.ToCompactString(change.CancellationDate)}")
+                                @($" {Localizer.CaseChange.UndoCancelGroup(ValueFormatter.ToCompactString(change.CancellationDate))})")
                             </span>
                         }
                     }
                     else
                     {
-                        <span>@($"Case change {context.Grouping.Key}")</span>
+                        <span>@Localizer.CaseChange.CaseChangeGroup(context.Grouping.Key)</span>
                     }
                 }
             </GroupTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.CaseFieldName" Title="Field" />
-        <PropertyColumn Property="x => x.Forecast" />
-        <PropertyColumn Property="x => x.Start">
+        <PropertyColumn Property="x => x.CaseFieldName" Title="@Localizer.CaseField.CaseField" />
+        @if (HasFeature(Feature.Forecasts))
+        {
+            <PropertyColumn Property="x => x.Forecast" Title="@Localizer.Forecast.Forecast" />
+        }
+        <PropertyColumn Property="x => x.Start" Title="@Localizer.Shared.Start">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Start)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.End">
+        <PropertyColumn Property="x => x.End" Title="@Localizer.Shared.End">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.End)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Created">
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Value" CellStyle="text-align: right">
+        <PropertyColumn Property="x => x.Value" Title="@Localizer.Shared.Value"
+                        CellStyle="text-align: right">
             <CellTemplate>
                 @ValueFormatter.ToString((string)context.Item.Value,
                 context.Item.ValueType)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.NumericValue" CellStyle="text-align: right"
-                        Title="# Value" Format="0.####" />
+                        Title="@Localizer.Shared.NumericValue" Format="0.####" />
         <CustomColumns T="CaseChangeCaseValue" Columns="ColumnConfiguration" />
         <TemplateColumn T="CaseChangeCaseValue" CellStyle="text-align: right">
             <HeaderTemplate>
                 <MudSpacer />
-                Attachments
+                @Localizer.Document.Attachments
             </HeaderTemplate>
             <FilterTemplate />
             <CellTemplate>
@@ -288,6 +285,6 @@ else
         <MudDataGridPager T="CaseChangeCaseValue" />
     </PagerContent>
     <NoRecordsContent>
-        No changes available
+        @Localizer.CaseChange.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

@@ -1,15 +1,15 @@
-﻿<MudInputLabel>@ActionFieldLabel</MudInputLabel>
+﻿<MudInputLabel>@Field.ActionLabel</MudInputLabel>
 
 @if (!Actions.Any())
 {
     <div class="d-flex flex-grow-1 pb-2">
-        None
+        @Localizer.Shared.None
         <div class="d-flex flex-grow-1 justify-end">
-            <MudTooltip Delay="500" Text="Add new action" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(Localizer.Action.Action)" Placement="Placement.Top">
                 <MudIconButton @onclick="@AddActionAsync"
-                           Color="Color.Tertiary" Variant="Variant.Outlined"
-                           Icon="@Icons.Material.Filled.Add"
-                           Size="Size.Small" />
+                               Color="Color.Tertiary" Variant="Variant.Outlined"
+                               Icon="@Icons.Material.Filled.Add"
+                               Size="Size.Small" />
             </MudTooltip>
         </div>
     </div>
@@ -26,12 +26,13 @@
              SelectedItemChanged="SelectedActionChanged">
     <Columns>
         <PropertyColumn Property="x => x.Index" Hidden="true" />
-        <PropertyColumn Property="x => x.Action" CellStyle="font-family: monospace; font-size: medium;" />
+        <PropertyColumn Property="x => x.Action" Title="@Localizer.Action.Action"
+                        CellStyle="font-family: monospace; font-size: medium;" />
         <TemplateColumn T="ActionItem" CellClass="d-flex justify-end" ShowColumnOptions="false"
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="Add new action" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(Localizer.Action.Action)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddActionAsync"
                                        Color="Color.Tertiary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Add"
@@ -42,28 +43,28 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="Delete action" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteHelp(Localizer.Action.Action)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeleteActionAsync(context.Item))"
                                        Color="Color.Secondary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
                     </MudTooltip>
                     @if (CanMoveActionUp(context.Item))
                     {
-                        <MudTooltip Delay="500" Text="Move action up" Placement="Placement.Top">
+                        <MudTooltip Delay="500" Text="@Localizer.Action.MoveUp" Placement="Placement.Top">
                             <MudIconButton @onclick="@(() => MoveActionUpAsync(context.Item))"
-                                       Color="Color.Tertiary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.KeyboardArrowUp" Size="Size.Small" />
+                                           Color="Color.Tertiary" Variant="Variant.Outlined"
+                                           Icon="@Icons.Material.Filled.KeyboardArrowUp" Size="Size.Small" />
                         </MudTooltip>
                     }
                     @if (CanMoveActionDown(context.Item))
                     {
-                        <MudTooltip Delay="500" Text="Move action down" Placement="Placement.Top">
+                        <MudTooltip Delay="500" Text="@Localizer.Action.MoveDown" Placement="Placement.Top">
                             <MudIconButton @onclick="@(() => MoveActionDownAsync(context.Item))"
-                                       Color="Color.Tertiary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.KeyboardArrowDown" Size="Size.Small" />
+                                           Color="Color.Tertiary" Variant="Variant.Outlined"
+                                           Icon="@Icons.Material.Filled.KeyboardArrowDown" Size="Size.Small" />
                         </MudTooltip>
                     }
-                    <MudTooltip Delay="500" Text="Edit action" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.EditHelp(Localizer.Action.Action)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditActionAsync(context.Item))"
                                        Color="Color.Primary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
@@ -73,6 +74,6 @@
         </TemplateColumn>
     </Columns>
     <NoRecordsContent>
-        No actions available
+        @Localizer.Action.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
@@ -62,7 +63,7 @@ public partial class EnumListBox<T> : IRegulationInput
     {
         // enum values
         var enumType = GetEnumType();
-        EnumValues = enumType != null ? new List<string>(Enum.GetNames(enumType)) : new();
+        EnumValues = enumType != null ? new List<string>(GetEnumValues().Select(X => X.Item2)) : new();
 
         // value
         var value = FieldValue;
@@ -126,6 +127,18 @@ public partial class EnumListBox<T> : IRegulationInput
 
     protected object GetBaseValue() =>
         Item.GetBaseValue<object>(Field.PropertyName);
+
+    private List<Tuple<T, string>> GetEnumValues()
+    {
+        var enumItems = Enum.GetValues(typeof(T)).Cast<T>().ToList();
+        List<Tuple<T, string>> values = new();
+        foreach (var item in enumItems)
+        {
+            var text = Localizer != null ? Localizer.FromEnum(item) : item.ToString().ToPascalSentence();
+            values.Add(new(item, text));
+        }
+        return values;
+    }
 
     #endregion
 

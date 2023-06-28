@@ -1,13 +1,13 @@
 ﻿@using PayrollEngine.Client.Model
 
-<MudInputLabel>@Item.GetItemLabel(Field)</MudInputLabel>
+<MudInputLabel>@Item.GetItemLabel(Field, Localizer)</MudInputLabel>
 
 @if (!References.Any())
 {
     <div class="d-flex flex-grow-1 pb-2">
-        None
+        @Localizer.Shared.None
         <div class="d-flex flex-grow-1 justify-end">
-            <MudTooltip Delay="500" Text="Add base case field" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                 <MudIconButton @onclick="@CreateReferenceAsync"
                            Color="Color.Tertiary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.Add"
@@ -23,13 +23,13 @@
              Dense="true"
              ReadOnly="@Item.IsReadOnlyField(Field)">
     <Columns>
-        <PropertyColumn Property="x => x.Name" Title="Base case field" />
-        <PropertyColumn Property="x => x.Order" />
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Case.BaseCaseField" />
+        <PropertyColumn Property="x => x.Order" Title="@Localizer.Shared.Order" />
         <TemplateColumn T="CaseFieldReference" CellClass="d-flex justify-end" ShowColumnOptions="false"
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="Add base case field" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                         <MudIconButton @onclick="@CreateReferenceAsync"
                                        Color="Color.Tertiary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Add"
@@ -40,12 +40,12 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="Delete base case field" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeleteReferenceAsync(context.Item))"
                                        Color="Color.Secondary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="Edit base case field" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.EditHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => UpdateReferenceAsync(context.Item))"
                                        Color="Color.Primary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />

@@ -1,5 +1,9 @@
-﻿<MudTextField T="string"
-              Label="@Item.GetItemLabel(Field)"
+﻿@using PayrollEngine.WebApp.Shared
+
+@inject Localizer Localizer;
+
+<MudTextField T="string"
+              Label="@Item.GetItemLabel(Field, Localizer)"
               HelperText="@Item.GetItemHelp(Field)"
               Value="@Value" ValueChanged="ValueChangedAsync"
               ReadOnly="@Item.IsReadOnlyField(Field)"

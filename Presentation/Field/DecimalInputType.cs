@@ -1,10 +1,9 @@
 ﻿
-namespace PayrollEngine.WebApp.Presentation.Field
+namespace PayrollEngine.WebApp.Presentation.Field;
+
+public enum DecimalInputType
 {
-    public enum DecimalInputType
-    {
-        Decimal,
-        Money,
-        Percent
-    }
+    Decimal,
+    Money,
+    Percent
 }

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -63,9 +64,8 @@ public class RegulationLookupValue : LookupValue, IRegulationItem, IKeyEquatable
     public string Description => null;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string AdditionalInfo => 
-        RangeValue?.ToString(SystemSpecification.DecimalFormat, CultureInfo.InvariantCulture);
+    public string GetAdditionalInfo(Localizer localizer) => 
+       RangeValue?.ToString(SystemSpecification.DecimalFormat, CultureInfo.InvariantCulture);
 
     /// <inheritdoc />
     public IRegulationItem Clone() =>

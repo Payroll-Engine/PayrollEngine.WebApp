@@ -1,68 +1,73 @@
 ﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Calendar>
-
-@using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
+@using Calendar = PayrollEngine.WebApp.ViewModel.Calendar
+@using CalendarWeekRule = PayrollEngine.CalendarWeekRule
+@using System.Globalization
 
 <MudDialog Class="item-dialog">
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <LocalizationTextField @bind-Value="Calendar.Name"
                                                Item="@Calendar"
                                                PropertyName="@nameof(Calendar.Name)"
                                                MaxLength="@SystemSpecification.KeyTextLength"
                                                ReadOnly="@Calendar.IsExistingObject"
-                                               Label="@(Calendar.IsNewObject ? "Name (immutable)" : "Name")"
+                                               Label="@(Calendar.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Calendar.Name))"
-                                               Required="true" RequiredError="Name is required" />
+                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
                         <MudSelect T="CalendarTimeUnit" @bind-Value="Calendar.CycleTimeUnit"
-                                   Label="Cycle time unit"
-                                   Required="true" RequiredError="Cycle time unit is required">
+                                   Label="@Localizer.Calendar.CycleTimeUnit"
+                                   Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Calendar.CycleTimeUnit)">
                             <EnumSelectItems T="CalendarTimeUnit" />
                         </MudSelect>
                         <MudSelect T="CalendarTimeUnit" @bind-Value="Calendar.PeriodTimeUnit"
-                                   Label="Period time unit"
-                                   Required="true" RequiredError="Period time unit is required">
+                                   Label="@Localizer.Calendar.PeriodTimeUnit"
+                                   Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Calendar.PeriodTimeUnit)">
                             <EnumSelectItems T="CalendarTimeUnit" />
                         </MudSelect>
                         <MudSelect T="CalendarTimeMap" @bind-Value="Calendar.TimeMap" Clearable="true"
-                                   Label="Time map">
+                                   Label="@Localizer.Calendar.TimeMap">
                             <EnumSelectItems T="CalendarTimeMap" />
                         </MudSelect>
                         <MudSelect T="Month?" @bind-Value="Calendar.FirstMonthOfYear" Clearable="true"
-                                   Label="First month of year">
-                            <NullableEnumSelectItems T="Month?" />
+                                   Label="@Localizer.Calendar.FirstMonthOfYear">
+                            <NullableMonthSelectItems />
                         </MudSelect>
                         <MudNumericField T="decimal?" @bind-Value="Calendar.MonthDayCount"
-                                         Label="Month day count" />
+                                         Label="@Localizer.Calendar.MonthDayCount"
+                                         Clearable="true" />
                         <MudSelect T="CalendarWeekRule?" @bind-Value="Calendar.YearWeekRule" Clearable="true"
-                                   Label="Year week rule">
+                                   Label="@Localizer.Calendar.YearWeekRule">
                             <NullableEnumSelectItems T="CalendarWeekRule?" />
                         </MudSelect>
                         <MudSelect T="PayrollEngine.DayOfWeek?" @bind-Value="Calendar.FirstDayOfWeek" Clearable="true"
-                                   Label="First day of week">
-                            <NullableEnumSelectItems T="PayrollEngine.DayOfWeek?" />
+                                   Label="@Localizer.Calendar.FirstDayOfWeek">
+                            <NullableWeekdaySelectItems />
                         </MudSelect>
-                        <MudSelect T="CalendarWeekMode" @bind-Value="Calendar.WeekMode" Clearable="true"
-                                   Label="Week mode">
+                        <MudSelect T="CalendarWeekMode" @bind-Value="Calendar.WeekMode"
+                                   Label="@Localizer.Calendar.WeekMode">
                             <EnumSelectItems T="CalendarWeekMode" />
                         </MudSelect>
                         <MudStack Row="true" Spacing="0">
-                            <MudCheckBox @bind-Checked="@Calendar.WorkMonday" Label="Monday" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkTuesday" Label="Tuesday" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkWednesday" Label="Wednesday" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkThursday" Label="Thursday" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkFriday" Label="Friday" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkSaturday" Label="Saturday" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkSunday" Label="Sunday" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Checked="@Calendar.WorkMonday" Label="@GetDayName(DayOfWeek.Monday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Checked="@Calendar.WorkTuesday" Label="@GetDayName(DayOfWeek.Tuesday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Checked="@Calendar.WorkWednesday" Label="@GetDayName(DayOfWeek.Wednesday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Checked="@Calendar.WorkThursday" Label="@GetDayName(DayOfWeek.Thursday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Checked="@Calendar.WorkFriday" Label="@GetDayName(DayOfWeek.Friday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                        </MudStack>
+                        <MudStack Row="true" Spacing="0">
+                            <MudCheckBox @bind-Checked="@Calendar.WorkSaturday" Label="@GetDayName(DayOfWeek.Saturday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Checked="@Calendar.WorkSunday" Label="@GetDayName(DayOfWeek.Sunday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
                         </MudStack>
                         <ItemBaseFields Item="Calendar" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="Calendar" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -78,7 +83,11 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Calendar Calendar { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
 
     public async Task<bool> ValidateAsync(Calendar division) =>
         await form.Revalidate();
+
+    private static string GetDayName(DayOfWeek dayOfWeek) =>
+        CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int)dayOfWeek];
 }

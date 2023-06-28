@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -56,8 +57,7 @@ public class RegulationCaseRelation : CaseRelation, IRegulationItem, IKeyEquatab
     public string Description => null;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string AdditionalInfo => null;
+    public string GetAdditionalInfo(Localizer localizer) => null;
 
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }

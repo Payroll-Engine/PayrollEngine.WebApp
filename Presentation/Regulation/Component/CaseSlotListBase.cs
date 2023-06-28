@@ -3,164 +3,165 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
-namespace PayrollEngine.WebApp.Presentation.Regulation.Component
+namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
+
+public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
 {
-    public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
+    [Parameter] public RegulationEditContext EditContext { get; set; }
+    [Parameter] public IRegulationItem Item { get; set; }
+    [Parameter] public RegulationField Field { get; set; }
+    [Parameter] public EventCallback<object> ValueChanged { get; set; }
+
+    [Inject] protected Localizer Localizer { get; set; }
+    [Inject] private IPayrollService PayrollService { get; set; }
+    [Inject] private IUserNotificationService UserNotification { get; set; }
+
+    protected List<CaseSlot> CaseSlots { get; set; } = new();
+    protected CaseSlot SelectedCaseSlot { get; set; }
+    private string Value { get; set; }
+
+    public bool AllowClear => !Field.KeyField && !Field.Required;
+
+    protected string FieldValue
     {
-        [Parameter] public RegulationEditContext EditContext { get; set; }
-        [Parameter] public IRegulationItem Item { get; set; }
-        [Parameter] public RegulationField Field { get; set; }
-        [Parameter] public EventCallback<object> ValueChanged { get; set; }
+        get => Item.GetPropertyValue<string>(Field.PropertyName);
+        set => Item.SetPropertyValue(Field.PropertyName, value);
+    }
 
-        [Inject] private IPayrollService PayrollService { get; set; }
-        [Inject] private IUserNotificationService UserNotification { get; set; }
+    protected bool IsBaseValue { get; set; }
 
-        protected List<CaseSlot> CaseSlots { get; set; } = new();
-        protected CaseSlot SelectedCaseSlot { get; set; }
-        private string Value { get; set; }
+    #region Value
 
-        public bool AllowClear => !Field.KeyField && !Field.Required;
+    protected async Task ValueChangedAsync(CaseSlot caseSlot) =>
+        await SetFieldValue(caseSlot.Name);
 
-        protected string FieldValue
+    private async Task SetFieldValue(string value)
+    {
+        // field value
+        var fieldValue = value;
+        if (fieldValue != null && fieldValue.Any())
         {
-            get => Item.GetPropertyValue<string>(Field.PropertyName);
-            set => Item.SetPropertyValue(Field.PropertyName, value);
+            var baseValue = GetBaseValue();
+            if (baseValue != null &&
+                !Field.Required && Equals(fieldValue, baseValue))
+            {
+                // reset value on non-mandatory fields
+                fieldValue = null;
+            }
         }
 
-        protected bool IsBaseValue { get; set; }
+        FieldValue = fieldValue;
+        ApplyFieldValue();
 
-        #region Value
+        // notifications
+        await UpdateStateAsync();
+        await ValueChanged.InvokeAsync(value);
+    }
 
-        protected async Task ValueChangedAsync(CaseSlot caseSlot) =>
-            await SetFieldValue(caseSlot.Name);
-
-        private async Task SetFieldValue(string value)
+    private void ApplyFieldValue()
+    {
+        // base value
+        var value = FieldValue;
+        if (value == null && Field.HasBaseValues)
         {
-            // field value
-            var fieldValue = value;
-            if (fieldValue != null && fieldValue.Any())
+            value = GetBaseValue();
+        }
+
+        Value = value;
+    }
+
+    protected string GetBaseValue() =>
+        Item.GetBaseValue<string>(Field.PropertyName);
+
+    #endregion
+
+    #region Case slots
+
+    protected abstract string GetSlotCaseName();
+
+    /// <summary>
+    /// Setup case slots
+    /// </summary>
+    private async Task SetupCaseSlotsAsync()
+    {
+        var caseSlots = new List<CaseSlot>();
+
+        var @case = (await PayrollService.GetCasesAsync<RegulationCase>(
+            new(EditContext.Tenant.Id, EditContext.Payroll.Id),
+            caseNames: new[] { GetSlotCaseName() })).FirstOrDefault();
+        if (@case?.Slots != null)
+        {
+            foreach (var slot in @case.Slots)
             {
-                var baseValue = GetBaseValue();
-                if (baseValue != null &&
-                    !Field.Required && Equals(fieldValue, baseValue))
+                var existing = caseSlots.FirstOrDefault(x => string.Equals(x.Name, slot.Name));
+                if (existing == null)
                 {
-                    // reset value on non-mandatory fields
-                    fieldValue = null;
+                    caseSlots.Add(slot);
                 }
             }
-
-            FieldValue = fieldValue;
-            ApplyFieldValue();
-
-            // notifications
-            await UpdateStateAsync();
-            await ValueChanged.InvokeAsync(value);
         }
 
-        private void ApplyFieldValue()
+        CaseSlots = caseSlots;
+    }
+
+    #endregion
+
+    #region Lifecycle
+
+    private async Task UpdateStateAsync()
+    {
+        var value = Value;
+
+        // selected slot
+        CaseSlot selectedCaseSlot = null;
+        if (!string.IsNullOrWhiteSpace(value))
         {
-            // base value
-            var value = FieldValue;
-            if (value == null && Field.HasBaseValues)
+            selectedCaseSlot = CaseSlots.FirstOrDefault(x => string.Equals(x.Name, value));
+            if (selectedCaseSlot == null)
             {
-                value = GetBaseValue();
+                await UserNotification.ShowErrorAsync($"Unknown case slot {value}");
             }
-
-            Value = value;
         }
 
-        protected string GetBaseValue() =>
-            Item.GetBaseValue<string>(Field.PropertyName);
+        SelectedCaseSlot = selectedCaseSlot;
 
-        #endregion
+        // base value
+        IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
+                      Equals(value, GetBaseValue());
 
-        #region Case slots
+        StateHasChanged();
+    }
 
-        protected abstract string GetSlotCaseName();
+    private IRegulationItem lastItem;
 
-        /// <summary>
-        /// Setup case slots
-        /// </summary>
-        private async Task SetupCaseSlotsAsync()
-        {
-            var caseSlots = new List<CaseSlot>();
+    protected override async Task OnInitializedAsync()
+    {
+        lastItem = Item;
+        // The case request needs to be synchronously,
+        // otherwise the rendering interrupts the sequence
+        await Task.Run(SetupCaseSlotsAsync);
+        ApplyFieldValue();
+        await UpdateStateAsync();
+        await base.OnInitializedAsync();
+    }
 
-            var @case = (await PayrollService.GetCasesAsync<RegulationCase>(
-                new(EditContext.Tenant.Id, EditContext.Payroll.Id),
-                caseNames: new[] { GetSlotCaseName() })).FirstOrDefault();
-            if (@case?.Slots != null)
-            {
-                foreach (var slot in @case.Slots)
-                {
-                    var existing = caseSlots.FirstOrDefault(x => string.Equals(x.Name, slot.Name));
-                    if (existing == null)
-                    {
-                        caseSlots.Add(slot);
-                    }
-                }
-            }
-
-            CaseSlots = caseSlots;
-        }
-
-        #endregion
-
-        #region Lifecycle
-
-        private async Task UpdateStateAsync()
-        {
-            var value = Value;
-
-            // selected slot
-            CaseSlot selectedCaseSlot = null;
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                selectedCaseSlot = CaseSlots.FirstOrDefault(x => string.Equals(x.Name, value));
-                if (selectedCaseSlot == null)
-                {
-                    await UserNotification.ShowErrorAsync($"Unknown case slot {value}");
-                }
-            }
-
-            SelectedCaseSlot = selectedCaseSlot;
-
-            // base value
-            IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
-                          Equals(value, GetBaseValue());
-
-            StateHasChanged();
-        }
-
-        private IRegulationItem lastItem;
-
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
+    {
+        if (lastItem != Item)
         {
             lastItem = Item;
-            // The case request needs to be synchronously,
-            // otherwise the rendering interrupts the sequence
-            await Task.Run(SetupCaseSlotsAsync);
+            await SetupCaseSlotsAsync();
             ApplyFieldValue();
             await UpdateStateAsync();
-            await base.OnInitializedAsync();
         }
 
-        protected override async Task OnParametersSetAsync()
-        {
-            if (lastItem != Item)
-            {
-                lastItem = Item;
-                await SetupCaseSlotsAsync();
-                ApplyFieldValue();
-                await UpdateStateAsync();
-            }
-
-            await base.OnParametersSetAsync();
-        }
-
-        #endregion
-
+        await base.OnParametersSetAsync();
     }
+
+    #endregion
+
 }

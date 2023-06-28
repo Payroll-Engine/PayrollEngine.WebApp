@@ -5,14 +5,18 @@ using Microsoft.Extensions.Configuration;
 using MudBlazor;
 using PayrollEngine.WebApp.Presentation;
 using ClientModel = PayrollEngine.Client.Model;
-using Task = System.Threading.Tasks.Task;
 using PayrollEngine.WebApp.ViewModel;
 using PayrollEngine.WebApp.Server.Dialogs;
+using PayrollEngine.WebApp.Shared;
+using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Server.Shared;
 
 public abstract class MainLayoutBase : MainComponentBase
 {
+    [Inject]
+    protected Localizer Localizer { get; set; }
     [Inject]
     private IConfiguration Configuration { get; set; }
     [Inject]
@@ -122,7 +126,7 @@ public abstract class MainLayoutBase : MainComponentBase
 
     #region User
 
-    protected async Task SetupAccountAsync()
+    protected async Task ChangeUserSettingsAsync()
     {
         if (Session.User == null)
         {
@@ -135,7 +139,14 @@ public abstract class MainLayoutBase : MainComponentBase
             { nameof(UserSettingsDialog.Tenant), Session.Tenant },
             { nameof(UserSettingsDialog.User), Session.User }
         };
-        await DialogService.ShowAsync<UserSettingsDialog>("User Account", parameters);
+        await (await DialogService.ShowAsync<UserSettingsDialog>(
+            Localizer.User.UserSettings, parameters)).Result;
+
+        // update user culture
+        Session.UpdateUserState();
+
+        // refresh the page
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
     }
 
     #endregion

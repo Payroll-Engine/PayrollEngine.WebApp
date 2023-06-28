@@ -147,7 +147,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync($"{ItemTypeName} query error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} query error", exception);
             return new();
         }
     }
@@ -173,7 +173,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync($"{ItemTypeName} read error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} read error", exception);
             return null;
         }
     }
@@ -201,7 +201,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync($"{ItemTypeName} create error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} create error", exception);
             return null;
         }
     }
@@ -232,7 +232,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync($"{ItemTypeName} update error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} update error", exception);
             return null;
         }
     }
@@ -263,7 +263,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync($"{ItemTypeName} delete error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} delete error", exception);
             return false;
         }
     }

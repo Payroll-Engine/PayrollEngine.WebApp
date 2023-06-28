@@ -3,6 +3,7 @@ using MudBlazor;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation;
 
@@ -26,29 +27,37 @@ public static class DialogServiceExtensions
         return result == true;
     }
 
-    public static async Task<bool> ShowDeleteMessageBoxAsync(this IDialogService dialogService,
+    public static async Task<bool> ShowDeleteMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, string message) =>
-        await ShowMessageBoxAsync(dialogService, title, message, yesText: "Delete", cancelText: "Cancel");
+        await ShowMessageBoxAsync(dialogService, title, message, 
+            yesText: localizer.Dialog.Delete, 
+            cancelText: localizer.Dialog.Cancel);
 
-    public static async Task<bool> ShowDeleteMessageBoxAsync(this IDialogService dialogService,
+    public static async Task<bool> ShowDeleteMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, MarkupString message) =>
-        await ShowMessageBoxAsync(dialogService, title, message, yesText: "Delete", cancelText: "Cancel");
+        await ShowMessageBoxAsync(dialogService, title, message,
+            yesText: localizer.Dialog.Delete, 
+            cancelText: localizer.Dialog.Cancel);
 
-    public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService,
+    public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, string message) =>
-        await ShowMessageBoxAsync(dialogService, title, message, yesText: "OK", cancelText: string.Empty);
+        await ShowMessageBoxAsync(dialogService, title, message,
+            yesText: localizer.Dialog.Ok, 
+            cancelText: string.Empty);
 
-    public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService,
+    public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, MarkupString message) =>
-        await ShowMessageBoxAsync(dialogService, title, message, yesText: "OK", cancelText: string.Empty);
+        await ShowMessageBoxAsync(dialogService, title, message, 
+            yesText: localizer.Dialog.Ok, 
+            cancelText: string.Empty);
 
-    public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService,
+    public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, Exception exception)
     {
         var message = new MarkupString(exception.GetApiErrorMessage()
             .Replace("\r\n", "<br />")
             .Replace(". ", ".<br />")
             .EnsureEnd("."));
-        await ShowErrorMessageBoxAsync(dialogService, title, message);
+        await ShowErrorMessageBoxAsync(dialogService, localizer, title, message);
     }
 }

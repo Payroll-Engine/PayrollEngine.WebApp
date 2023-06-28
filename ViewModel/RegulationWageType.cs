@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -40,8 +41,7 @@ public class RegulationWageType : WageType, IRegulationItem, IKeyEquatable<Regul
     public RegulationItemType ItemType => RegulationItemType.WageType;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string AdditionalInfo => Name;
+    public string GetAdditionalInfo(Localizer localizer) => Name;
 
     /// <inheritdoc />
     [JsonIgnore]

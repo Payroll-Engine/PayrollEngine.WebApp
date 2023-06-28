@@ -1,7 +1,10 @@
-﻿@typeparam T
+﻿@using PayrollEngine.WebApp.Shared
+@typeparam T
+
+@inject Localizer Localizer;
 
 <MudNumericField T="T"
-                 Label="@Item.GetItemLabel(Field)"
+                 Label="@Item.GetItemLabel(Field, Localizer)"
                  HelperText="@Item.GetItemHelp(Field)"
                  Value="@Value" ValueChanged="ValueChangedAsync"
                  ReadOnly="@Item.IsReadOnlyField(Field)"

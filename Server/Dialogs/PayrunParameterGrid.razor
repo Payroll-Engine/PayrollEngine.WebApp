@@ -1,17 +1,18 @@
 ﻿@using PayrollEngine.WebApp.ViewModel
+
 <MudDataGrid @ref="Grid" T="PayrunParameter" Items="@PayrunParameters"
              Height="@Height" Class="@Class" Style="@Style">
     <Columns>
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.Description" />
-        <PropertyColumn Property="x => x.Mandatory" />
-        <PropertyColumn Property="x => x.ValueType" Title="Value type" />
-        <PropertyColumn Property="x => x.Value" Title="Value" />
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.Description" Title="@Localizer.Shared.Description" />
+        <PropertyColumn Property="x => x.Mandatory" Title="@Localizer.Shared.Mandatory" />
+        <PropertyColumn Property="x => x.ValueType" Title="@Localizer.Shared.ValueType" />
+        <PropertyColumn Property="x => x.Value" Title="@Localizer.Shared.Value" />
         <TemplateColumn T="PayrunParameter" CellClass="d-flex justify-end" ShowColumnOptions="false"
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="Add new payrun parameter" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddPayrunParameterAsync"
                                        Color="Color.Tertiary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Add"
@@ -22,12 +23,12 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="Delete payrun parameter" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeletePayrunParameterAsync(context.Item))"
                                        Color="Color.Secondary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="Edit payrun parameter" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.EditHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditPayrunParameterAsync(context.Item))"
                                        Color="Color.Primary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
@@ -37,6 +38,6 @@
         </TemplateColumn>
     </Columns>
     <NoRecordsContent>
-        No payrun parameters available
+        @Localizer.PayrunParameter.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

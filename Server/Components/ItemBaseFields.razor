@@ -1,5 +1,6 @@
 ﻿@using PayrollEngine.Client
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 
 @inject IThemeService ThemeService;
 
@@ -10,14 +11,15 @@
 {
     <MudText Class="d-flex flex-grow-1 justify-center mt-3 py-1 px-4 rounded" Typo="Typo.overline" Align="Align.Center"
          Style="@($"color:{ThemeService.Palette.TextPrimary}; background:{ThemeService.Palette.BackgroundGrey};")">
-        Id @Item.Id&nbsp;&#x2022;&nbsp;Created @Item.Created.ToLocalTime().ToCompactString()
+        @Localizer.Shared.ObjectId @Item.Id&nbsp;&#x2022;&nbsp;@Localizer.Shared.ObjectCreated @Item.Created.ToLocalTime().ToCompactString()
         @if (Item.Created != Item.Updated)
         {
-            <span>&nbsp;&#x2022;&nbsp;Updated @Item.Updated.ToLocalTime().ToCompactString()</span>
+            <span>&nbsp;&#x2022;&nbsp;@Localizer.Shared.ObjectUpdated @Item.Updated.ToLocalTime().ToCompactString()</span>
         }
     </MudText>
 }
 
 @code {
     [Parameter] public IModel Item { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 }

@@ -21,7 +21,7 @@ public partial class CompanyCases
     // mandatory
     protected override CaseType CaseType => CaseType.Company;
     protected override string NewCasePageName => PageUrls.CompanyCase;
-    protected override string PageTitle => "Company Cases";
+    protected override string PageTitle => Localizer.Case.CompanyCases;
     protected override string GridId => GetTenantGridId(GridIdentifiers.CompanyCaseChangeValues);
 
     protected override IBackendService<ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery> CaseValueBackendService => CaseValueService;

@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using MudBlazor;
-using Org.BouncyCastle.Bcpg.Sig;
-using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Server.Shared;
 
@@ -19,9 +17,11 @@ public partial class NavMenu : IDisposable
     private ILocalStorageService LocalStorage { get; set; }
     [Inject]
     private IConfiguration Configuration { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected List<PageGroupInfo> PageGroups { get; private set; }
-    protected List<PageInfo> Pages => PageRegister.Pages;
+    protected List<PageInfo> Pages { get; private set; }
 
     private Task UserChangedEvent(object sender, User user)
     {
@@ -38,10 +38,16 @@ public partial class NavMenu : IDisposable
         Task.Run(() => LocalStorage.SetItemAsBooleanAsync($"Navigation{pageGroup.GroupName}", pageGroup.Expanded));
     }
 
-    private async Task SetupPageGroupsAsync()
+    private async Task SetupPagesAsync()
     {
+        // pages
+        var register = new PageRegister(Localizer);
+        Pages = register.Pages;
+        PageGroups = register.PageGroups;
+
+        // page groups
         var pageGroups = new List<PageGroupInfo>();
-        foreach (var pageGroup in PageRegister.PageGroups)
+        foreach (var pageGroup in register.PageGroups)
         {
             var groupSetting = await LocalStorage.GetItemAsBooleanAsync($"Navigation{pageGroup.GroupName}");
             if (groupSetting.HasValue)
@@ -58,9 +64,9 @@ public partial class NavMenu : IDisposable
         var adminEmail = Configuration.GetConfiguration<AppConfiguration>().AdminEmail;
         if (string.IsNullOrEmpty(adminEmail))
         {
-            return new("No features available<br/>Please contact your administrator");
+            return new($"{Localizer.App.MissingFeatures}<br/>{Localizer.App.AdminContact}");
         }
-        return new($"No features available<br/>Please <a href=\"mailto:{adminEmail}\">contact</a> your administrator");
+        return new($"{Localizer.App.MissingFeatures}<br/><a href=\"mailto:{adminEmail}\">{Localizer.App.AdminContact}</a>");
     }
 
     protected override async Task OnInitializedAsync()
@@ -68,7 +74,7 @@ public partial class NavMenu : IDisposable
         // register user change handler
         Session.UserChanged += UserChangedEvent;
 
-        await SetupPageGroupsAsync();
+        await SetupPagesAsync();
         await base.OnInitializedAsync();
     }
 

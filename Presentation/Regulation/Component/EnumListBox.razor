@@ -1,14 +1,18 @@
-﻿@typeparam T
+﻿@using PayrollEngine.WebApp.Shared
+@typeparam T
+
+@inject Localizer Localizer;
 
 <MudSelect T="T" 
-           Label="@Item.GetItemLabel(Field)"
+           Label="@Item.GetItemLabel(Field, Localizer)"
            HelperText="@Item.GetItemHelp(Field)"
            Value="@Value" ValueChanged="ValueChangedAsync"
            ReadOnly="@Item.IsReadOnlyField(Field)"
            Required="@Field.Required"
            RequiredError="@Field.RequiredError">
-    @foreach (var item in Enum.GetValues(typeof(T)))
+    @foreach (var value in GetEnumValues())
     {
-        <MudSelectItem T="T" Value="@((T)item)">@item.ToString().ToPascalSentence()</MudSelectItem>
+        <MudSelectItem T="T" Value="@value.Item1">@value.Item2</MudSelectItem>
     }
 </MudSelect>
+

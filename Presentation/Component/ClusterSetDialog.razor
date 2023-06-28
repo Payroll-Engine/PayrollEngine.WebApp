@@ -1,0 +1,46 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Shared
+
+<MudDialog Class="attribute-dialog">
+    <DialogContent>
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="1">
+                    <MudTextField T="string" @bind-Value="ClusterSet.Name"
+                                  Label="@Localizer.Shared.Name"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                    <MudTextField T="string" @bind-Value="ClusterSet.IncludeClustersAsString"
+                                  Label="@Localizer.ClusterSet.IncludeClusters"
+                                  HelperText="@Localizer.Shared.CommaSeparatedList" />
+                    <MudTextField T="string" @bind-Value="ClusterSet.ExcludeClustersAsString"
+                                  Label="@Localizer.ClusterSet.ExcludeClusters"
+                                  HelperText="@Localizer.Shared.CommaSeparatedList" />
+                </MudStack>
+            </MudForm>
+        </MudPaper>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public ClusterSet ClusterSet { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async System.Threading.Tasks.Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            MudDialog.Close(DialogResult.Ok(ClusterSet));
+        }
+    }
+}

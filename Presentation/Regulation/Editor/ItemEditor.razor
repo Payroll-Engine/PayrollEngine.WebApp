@@ -7,13 +7,13 @@
         <MudStack Row="false" Spacing="0">
             <table>
                 @{
-                    const string labelStyle = "text-align: right; line-height: normal; vertical-align: bottom;";
+                    const string labelStyle = "text-align: right; padding-right: 10px !important; line-height: normal; vertical-align: bottom;";
                     <tr>
                         <td style="@labelStyle" class="pr-2">
-                            <MudText Typo="Typo.caption">@EditItem.InheritanceType @ItemTypeName</MudText>
+                            <MudText Typo="Typo.caption">@ItemTypeName</MudText>
                         </td>
                         <td>
-                            <MudText Typo="Typo.body1">@ItemTitle</MudText>
+                            <MudText Typo="Typo.body1">@ItemTitle (@EditItem.InheritanceType.ToText(Localizer))</MudText>
                         </td>
                     </tr>
                     @if (EditItem.IsChildItem)
@@ -27,7 +27,7 @@
                     }
                     <tr>
                         <td style="@labelStyle">
-                            <MudText Typo="Typo.caption">Regulation</MudText>
+                            <MudText Typo="Typo.caption">@Localizer.Regulation.Regulation</MudText>
                         </td>
                         <td>
                             <MudText Typo="Typo.body1">
@@ -50,20 +50,20 @@
         </MudStack>
         <MudSpacer />
         <MudStack Row="false" Spacing="0" Class="d-flex flex-grow-1">
-            <MudText Typo="Typo.caption">Created @ToUiDate(EditItem.Created)</MudText>
-            <MudText Typo="Typo.caption">Updated @ToUiDate(EditItem.Updated)</MudText>
+            <MudText Typo="Typo.caption">@Localizer.Shared.ObjectCreated @ToUiDate(EditItem.Created)</MudText>
+            <MudText Typo="Typo.caption">@Localizer.Shared.ObjectUpdated @ToUiDate(EditItem.Updated)</MudText>
             <MudText Typo="Typo.caption">
                 @EditItem.Status
                 @if (HasId)
                 {
-                    <span>&nbsp;&#x2022;&nbsp;Id @EditItem.Id</span>
+                    <span>&nbsp;&#x2022;&nbsp;@Localizer.Shared.ObjectId @EditItem.Id</span>
                 }
             </MudText>
         </MudStack>
         <MudStack Row="true">
             @if (CanDelete())
             {
-                <MudTooltip Delay="500" Text="@($"Delete {ItemTypeName}")" Placement="Placement.Top">
+                <MudTooltip Delay="500" Text="@Localizer.Item.DeleteHelp(ItemTypeName)" Placement="Placement.Top">
                     <MudIconButton @onclick="@OnDeleteItemAsync"
                                    Color="Color.Secondary" Variant="Variant.Outlined"
                                    Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
@@ -71,17 +71,17 @@
             }
             @if (CanSave())
             {
-                <MudTooltip Delay="500" Text="@($"Save {ItemTypeName}")" Placement="Placement.Top">
+                <MudTooltip Delay="500" Text="@Localizer.Item.SaveHelp(ItemTypeName)" Placement="Placement.Top">
                     <MudIconButton @onclick="@OnSaveItemAsync"
                                    Disabled="@IsUnchanged"
                                    Color="Color.Tertiary" Variant="Variant.Outlined"
                                    Icon="@Icons.Material.Filled.Save" Size="Size.Small" />
                 </MudTooltip>
             }
-            @if (CanOverride())
+            @if (CanDerive())
             {
-                <MudTooltip Delay="500" Text="@($"Override {ItemTypeName}")" Placement="Placement.Top">
-                    <MudIconButton @onclick="@OnOverrideItemAsync"
+                <MudTooltip Delay="500" Text="@Localizer.Item.DeriveHelp(ItemTypeName)" Placement="Placement.Top">
+                    <MudIconButton @onclick="@OnDeriveItemAsync"
                                    Color="Color.Tertiary" Variant="Variant.Outlined"
                                    Icon="@Icons.Material.Filled.PlaylistAdd" Size="Size.Small" />
                 </MudTooltip>
@@ -97,7 +97,7 @@
                     var commonFields = GetCommonFields();
                     if (commonFields.Any())
                     {
-                        <MudTabPanel Text="Common">
+                        <MudTabPanel Text="@Localizer.Shared.CommonFields">
                             <MudStack Class="pa-4">
                                 @foreach (var field in commonFields)
                                 {
@@ -137,7 +137,7 @@
                     var actionFields = GetActionFields();
                     if (actionFields.Any())
                     {
-                        <MudTabPanel Text="Actions">
+                        <MudTabPanel Text="@Localizer.Action.Actions">
                             <MudStack Class="pa-4">
                                 @foreach (var field in actionFields)
                                 {
@@ -155,7 +155,7 @@
                     var scriptFields = GetExpressionFields();
                     if (scriptFields.Any())
                     {
-                        <MudTabPanel Text="Scripts">
+                        <MudTabPanel Text="@Localizer.Script.Scripts">
                             <MudStack Class="pa-4 gap-4">
                                 @foreach (var field in scriptFields)
                                 {
@@ -166,7 +166,7 @@
                                                  Variant="Variant.Outlined"
                                                  ValueChanged="UpdateState"
                                                  Style="font-family: monospace; font-size: medium;"
-                                                 HelperText="C# expression" />
+                                                 HelperText="@Localizer.Item.CSharpExpression" />
                                     }
                                 }
                             </MudStack>
@@ -176,7 +176,7 @@
                     // attributes field
                     if (Item is IAttributeObject && HasAttributeField)
                     {
-                        <MudTabPanel Text="Attributes">
+                        <MudTabPanel Text="@Localizer.Attribute.Attributes">
                             <MudStack Class="pa-4 gap-4">
                                 <RegulationAttributeGrid EditContext="EditContext"
                                                          Item="EditItem"

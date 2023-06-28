@@ -2,6 +2,7 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 @using Task = System.Threading.Tasks.Task;
 @using PayrollEngine.Client.Service
@@ -10,39 +11,42 @@
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" @bind-Value="Employee.Identifier"
                                       ReadOnly="@Employee.IsExistingObject"
                                       MaxLength="@SystemSpecification.KeyTextLength"
-                                      Label="@(Employee.IsNewObject ? "Identifier (immutable)" : "Identifier")"
+                                      Label="@(Employee.IsNewObject ? $"{Localizer.Shared.Identifier} ({Localizer.Shared.Immutable})" : Localizer.Shared.Identifier)"
                                       Validation="@(!string.IsNullOrWhiteSpace(Employee.Identifier))"
-                                      Required="true" RequiredError="Identifier is required" />
+                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Identifier)" />
                         <MudTextField T="string" @bind-Value="Employee.FirstName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
-                                      Label="First name" />
+                                      Label="@Localizer.Employee.FirstName" />
                         <MudTextField T="string" @bind-Value="Employee.LastName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
-                                      Label="Last name" />
+                                      Label="@Localizer.Employee.LastName" />
                         <MudSelect T="string" @bind-Value="SelectedDivision" @bind-SelectedValues="Employee.DivisionsAsEnum"
-                                   Label="Divisions"
+                                   Label="@Localizer.Division.Divisions"
                                    Disabled="@(Divisions == null || Divisions.Count < 1)"
                                    Clearable="true"
                                    MultiSelection="true"
                                    SelectAll="true"
-                                   SelectAllText="Select all divisions">
+                                   SelectAllText="@Localizer.Shared.SelectAll">
                             @foreach (var division in Divisions)
                             {
                                 <MudSelectItem T="string" Value="@division.Name">@division.Name</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudSelect T=" string" @bind-Value="Employee.Culture" Label="Culture" Clearable="true">
+                        <MudSelect T=" string" @bind-Value="Employee.Culture" Label="@Localizer.Shared.Culture" Clearable="true">
                             @foreach (var cultureName in CultureNames)
                             {
                                 <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudSelect T=" string" @bind-Value="Employee.Calendar" Label="Calendar" Clearable="true">
+                        <MudSelect T=" string" @bind-Value="Employee.Calendar" 
+                                   Label="@Localizer.Shared.Calendar" 
+                                   Disabled="@(CalendarNames == null || CalendarNames.Count < 1)"
+                                   Clearable="true">
                             @foreach (var calendarName in CalendarNames)
                             {
                                 <MudSelectItem T="string" Value="@calendarName">@calendarName</MudSelectItem>
@@ -51,7 +55,7 @@
                         <ItemBaseFields Item="Employee" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="Employee" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -71,6 +75,7 @@
     [Parameter] public List<Division> Divisions { get; set; }
 
     [Inject] private ICalendarService CalendarService { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private List<string> CultureNames { get; set; }
     private List<string> CalendarNames { get; set; }

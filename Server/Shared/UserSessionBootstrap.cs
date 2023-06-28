@@ -100,7 +100,7 @@ public class UserSessionBootstrap
                             employee = user.UserType == UserType.Employee ?
                                 // user employee
                                 await GetUserEmployee(tenant, user) :
-                                // regular employee
+                                // regular employee or supervisor
                                 await GetStartupEmployee(tenant, user);
                         }
                     }

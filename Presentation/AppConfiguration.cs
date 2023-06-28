@@ -37,7 +37,7 @@ public class AppConfiguration
 
     #region Features
 
-    // Main
+    // main
     public bool Tasks { get; set; }
     public bool EmployeeCases { get; set; }
     public bool CompanyCases { get; set; }
@@ -45,18 +45,18 @@ public class AppConfiguration
     public bool GlobalCases { get; set; }
     public bool Reports { get; set; }
 
-    // Payrun
+    // payrun
     public bool PayrunResults { get; set; }
     public bool PayrunJobs { get; set; }
     public bool Payruns { get; set; }
 
-    // Payroll
+    // payroll
     public bool Payrolls { get; set; }
     public bool PayrollLayers { get; set; }
     public bool Regulations { get; set; }
     public bool Regulation { get; set; }
 
-    // Administration
+    // administration
     public bool SharedRegulations { get; set; }
     public bool Tenants { get; set; }
     public bool Users { get; set; }
@@ -66,14 +66,17 @@ public class AppConfiguration
     public bool Webhooks { get; set; }
     public bool Logs { get; set; }
 
-    // System
+    // shared
+    public bool Forecast { get; set; }
+
+    // system
     public bool UserStorage { get; set; }
 
     public List<Feature> GetFeatures()
     {
         var features = new List<Feature>();
 
-        // Main
+        // main
         AddFeature(Tasks, features, Feature.Tasks);
         AddFeature(EmployeeCases, features, Feature.EmployeeCases);
         AddFeature(CompanyCases, features, Feature.CompanyCases);
@@ -81,18 +84,18 @@ public class AppConfiguration
         AddFeature(GlobalCases, features, Feature.GlobalCases);
         AddFeature(Reports, features, Feature.Reports);
 
-        // Payrun
+        // payrun
         AddFeature(PayrunResults, features, Feature.PayrunResults);
         AddFeature(PayrunJobs, features, Feature.PayrunJobs);
         AddFeature(Payruns, features, Feature.Payruns);
 
-        // Payroll
+        // payroll
         AddFeature(Payrolls, features, Feature.Payrolls);
         AddFeature(PayrollLayers, features, Feature.PayrollLayers);
         AddFeature(Regulations, features, Feature.Regulations);
         AddFeature(Regulations, features, Feature.Regulation);
 
-        // Administration
+        // administration
         AddFeature(SharedRegulations, features, Feature.SharedRegulations);
         AddFeature(Tenants, features, Feature.Tenants);
         AddFeature(Tenants, features, Feature.Tenants);
@@ -103,7 +106,10 @@ public class AppConfiguration
         AddFeature(Webhooks, features, Feature.Webhooks);
         AddFeature(Logs, features, Feature.Logs);
 
-        // System
+        // shared
+        AddFeature(Forecast, features, Feature.Forecasts);
+
+        // system
         AddFeature(UserStorage, features, Feature.UserStorage);
 
         return features;

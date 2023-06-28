@@ -1,5 +1,6 @@
 ﻿@using PayrollEngine.Client.Model
 @using PayrollEngine.Client.Service
+@using PayrollEngine.WebApp.Shared
 @using PayrollEngine.WebApp.ViewModel
 @using Payroll = PayrollEngine.Client.Model.Payroll
 @using Task = System.Threading.Tasks.Task
@@ -10,10 +11,10 @@
         <MudPaper Class="pa-4">
             <MudForm @ref="form">
                 <MudStack Spacing="1">
-                    <MudSelect T="string" Label="Lookup name"
+                    <MudSelect T="string" Label="@Localizer.Lookup.LookupName"
                     @bind-Value="Settings.LookupName"
                                Disabled="@(Lookups == null || Lookups.Count < 1)"
-                               Required="true" RequiredError="Lookup name is required">
+                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Lookup.LookupName)">
                         @foreach (var lookup in Lookups)
                         {
                             <MudSelectItem T="string" Value="@lookup.Name">
@@ -22,18 +23,18 @@
                         }
                     </MudSelect>
                     <MudTextField T="string" @bind-Value="Settings.ValueFieldName"
-                                  Label="Value field name"
-                                  Required="true" RequiredError="Value field name is required" />
+                                  Label="@Localizer.Lookup.ValueFieldName"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Lookup.ValueFieldName)" />
                     <MudTextField T="string" @bind-Value="Settings.TextFieldName"
-                                  Label="Text fiels name" />
+                                  Label="@Localizer.Lookup.TextFieldName" />
                 </MudStack>
             </MudForm>
         </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -48,6 +49,7 @@
     [Parameter] public Language Language { get; set; }
 
     [Inject] private IPayrollService PayrollService { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 

@@ -1,6 +1,7 @@
 ﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<ViewModel.Task>
 
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 @using Task = PayrollEngine.WebApp.ViewModel.Task
 
@@ -8,34 +9,34 @@
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <LocalizationTextField Item="@Task" @bind-Value="Task.Name"
                                                PropertyName="@nameof(Task.Name)"
                                                MaxLength="@SystemSpecification.KeyTextLength"
                                                ReadOnly="@Task.IsExistingObject"
-                                               Label="@(Task.IsNewObject ? "Name (immutable)" : "Name")"
+                                               Label="@(Task.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Task.Name))"
-                                               Required="true" RequiredError="Name is required" />
+                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
                         <MudTextField T="string" @bind-Value="Task.Instruction"
-                                      Label="Instruction"
+                                      Label="@Localizer.Task.Instruction"
                                       Lines="4"
                                       Validation="@(!string.IsNullOrWhiteSpace(Task.Instruction))"
-                                      Required="true" RequiredError="Instruction is required" />
+                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Task.Instruction)" />
                         <MudDatePicker @bind-Date="Task.Scheduled"
-                                       Label="Schedule date"
+                                       Label="@Localizer.Task.ScheduledDate"
                                        Validation="@Task.IsScheduled"
                                        Editable="true"
-                                       Required="true" RequiredError="Schedule date is required" />
+                                       Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Task.ScheduledDate)" />
                         <MudDatePicker @bind-Date="Task.Completed"
-                                       Label="Complete date"
+                                       Label="@Localizer.Task.CompletedDate"
                                        Editable="true" />
                         <MudTextField T="string" @bind-Value="Task.Category"
-                                      Label="Category" />
+                                      Label="@Localizer.Task.Category" />
                         <ItemBaseFields Item="Task" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="Task" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -52,6 +53,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Task Task { get; set; } = new();
     [Parameter] public IItemValidator<Task> Validator { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     public async Task<bool> ValidateAsync(Task task) =>
         await form.Revalidate();

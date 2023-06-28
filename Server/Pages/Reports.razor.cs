@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
-using NPOI.XSSF.UserModel;
 using PayrollEngine.Client.Service;
-using PayrollEngine.Data;
-using PayrollEngine.Document;
-using PayrollEngine.IO;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Presentation.Report;
 using PayrollEngine.WebApp.Server.Shared;
 using PayrollEngine.WebApp.ViewModel;
@@ -60,7 +56,7 @@ public partial class Reports : IReportOperator
 
     #region Clusters
 
-    private const string ClusterAll = "All";
+    private string ClusterAll => Localizer.Shared.All;
 
     /// <summary>
     /// The filtered/working clusters
@@ -194,43 +190,20 @@ public partial class Reports : IReportOperator
         // retrieve all items, without any filter and sort
         if (!AvailableReports.Any())
         {
-            await UserNotification.ShowErrorMessageBoxAsync("Excel Download", "Empty collection");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
+                Localizer.Error.EmptyCollection);
             return;
         }
 
         try
         {
-            // column properties
-            var properties = ReportsGrid.GetColumnProperties();
-            if (!properties.Any())
-            {
-                return;
-            }
-
-            // convert items to data set
-            var name = "PayrunResults";
-            var dataSet = new System.Data.DataSet(name);
-            var dataTable = AvailableReports.ToSystemDataTable(name, includeRows: true, properties: properties);
-            dataSet.Tables.Add(dataTable);
-
-            // xlsx workbook
-            using var workbook = new XSSFWorkbook();
-            // import 
-            workbook.Import(dataSet);
-
-            // result
-            using var resultStream = new MemoryStream();
-            workbook.Write(resultStream, true);
-            resultStream.Seek(0, SeekOrigin.Begin);
-
-            var download = $"{name}_{FileTool.CurrentTimeStamp()}{FileExtensions.ExcelDocument}";
-            await JsRuntime.SaveAs(download, resultStream.ToArray());
-            await UserNotification.ShowSuccessAsync("Download completed");
+            await new ExcelDownload().StartAsync(ReportsGrid, AvailableReports, JsRuntime);
+            await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Excel download error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report, exception);
         }
     }
 
@@ -242,7 +215,7 @@ public partial class Reports : IReportOperator
             { nameof(ReportLogsDialog.Report), report },
             { nameof(ReportLogsDialog.ValueFormatter), ValueFormatter }
         };
-        await DialogService.ShowAsync<ReportLogsDialog>("Report Logs", parameters);
+        await DialogService.ShowAsync<ReportLogsDialog>(Localizer.ReportLog.ReportLogs, parameters);
     }
 
     public async Task StartReportAsync(ReportSet report)
@@ -258,7 +231,7 @@ public partial class Reports : IReportOperator
             { nameof(ReportDownloadDialog.ValueFormatter), ValueFormatter }
         };
         await DialogService.ShowAsync<ReportDownloadDialog>(
-            "Report Download", parameters);
+            Localizer.Report.ReportDownload, parameters);
     }
 
     #endregion

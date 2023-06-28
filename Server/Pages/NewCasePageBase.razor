@@ -1,13 +1,14 @@
-﻿@using PayrollEngine.WebApp.Presentation.Case
-@inherits PayrollEngine.WebApp.Presentation.PageBase
+﻿@using PayrollEngine.WebApp.Presentation.Component
+@using PayrollEngine.WebApp.Presentation.Case
+@inherits PageBase
 
 @if (!Cases.Any())
 {
-    <div>Please select a Case</div>
+    <div>@Localizer.Case.SelectCase</div>
     return;
 }
 
-<div Row="true" Spacing="0" Class="d-flex flex-grow-1 gap-4">
+<div Row="true" Spacing="0" Class="d-flex flex-grow-1 gap-4 mt-4">
     @* case edit tree *@
     <MudForm @ref="@fieldForm">
         <ChildContent>
@@ -16,7 +17,7 @@
                     @{
                         var style = $"margin-inline-start: {(context == RootCase ? "0" : "1em")}";
                         <MudTreeViewItem Style="@style" @bind-Expanded="@context.IsExpanded"
-                                     Items="@context.RelatedCases">
+                                         Items="@context.RelatedCases">
                             <Content>
                                 <MudPaper Class="pa-2">
                                     <MudText Typo="Typo.h6">
@@ -35,14 +36,14 @@
 
                                             @* case field *@
                                             <CaseField Language="@UserLanguage"
-                                           Field="@caseField"
-                                           Dense="@Dense"
-                                           Variant="Variant.Text" />
+                                                       Field="@caseField"
+                                                       Dense="@Dense"
+                                                       Variant="Variant.Text" />
                                         }
                                     }
                                     else
                                     {
-                                        <div class="panelMessage">Case without fields</div>
+                                        <div class="panelMessage">@Localizer.Case.CaseWithoutFields</div>
                                     }
                                 </MudPaper>
                             </Content>
@@ -60,34 +61,39 @@
 
                 @* case inputs *@
                 <div>
-                    <MudText Typo="Typo.h6">Case</MudText>
+                    <MudText Typo="Typo.h6">@Localizer.Case.Case</MudText>
                     <MudTextField T="string"
-                                  Label="Reason"
-                                  @bind-Value="@ChangeReason"
+                                  Label="@Localizer.CaseChange.Reason"
+                    @bind-Value="@ChangeReason"
                                   Required="true"
                                   Margin="@(Dense ? Margin.Dense : Margin.Normal)"
                                   Lines="3"
                                   Variant="Variant.Outlined"
                                   Class="pt-4" />
-                    <MudTextField T="string"
-                                  Label="Forecast name"
-                                  @bind-Value="@Forecast"
-                                  MaxLength="SystemSpecification.KeyTextLength"
-                                  Margin="@(Dense ? Margin.Dense : Margin.Normal)"
-                                  Class="pt-4" />
+
+                    @* forecast change *@
+                    @if (HasFeature(Feature.Forecasts))
+                    {
+                        <MudTextField T="string"
+                                      Label="@Localizer.Forecast.Name"
+                        @bind-Value="@Forecast"
+                                      MaxLength="SystemSpecification.KeyTextLength"
+                                      Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                      Class="pt-4" />
+                    }
                 </div>
 
                 @* validation *@
                 @if (!Valid)
                 {
                     <div>
-                        <MudText Typo="Typo.h6">Validation</MudText>
+                        <MudText Typo="Typo.h6">@Localizer.Case.Validation</MudText>
                         <MudSimpleTable Dense="@Dense" Outlined="false" Elevation="0"
-                                    Bordered="false" Striped="false">
+                                        Bordered="false" Striped="false">
                             <tbody>
                                 <tr>
-                                    <th class="pl-0">Field</th>
-                                    <th class="pl-0">Error</th>
+                                    <th class="pl-0">@Localizer.Shared.Field</th>
+                                    <th class="pl-0">@Localizer.Error.Error</th>
                                 </tr>
                                 @foreach (var rule in RootCase.Validity.Rules)
                                 {
@@ -106,7 +112,7 @@
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Primary"
                                OnClick="NavigateToParent">
-                        Go to Cases
+                        @Localizer.Dialog.Cancel
                     </MudButton>
                     <div class="d-flex flex-grow-1 justify-end">
                         <MudButton Variant="Variant.Outlined"
@@ -114,7 +120,7 @@
                                    Color="Color.Tertiary"
                                    Disabled="@(!Valid)"
                                    OnClick="SubmitCaseAsync">
-                            @($"Submit {RootCase.GetLocalizedName(UserLanguage).TruncateSentence(30)}")
+                            @Localizer.Dialog.Submit
                         </MudButton>
                     </div>
                 </div>

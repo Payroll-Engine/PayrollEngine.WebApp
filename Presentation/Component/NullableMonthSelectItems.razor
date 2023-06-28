@@ -1,0 +1,30 @@
+﻿@using System.Collections.Generic
+@using System.Globalization
+
+@foreach (var month in Months)
+{
+       <MudSelectItem T="Month?" Value="@month.Item1">@month.Item2</MudSelectItem>
+}
+
+@code
+{
+    private List<Tuple<Month?, string>> Months { get; set; } = new();
+
+    private void SetupMonths()
+    {
+        var monthNames = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.
+            Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+        var i = 1;
+        foreach (var monthName in monthNames)
+        {
+            Months.Add(new((Month?)i, monthName));
+            i++;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetupMonths();
+        await base.OnInitializedAsync();
+    }
+}

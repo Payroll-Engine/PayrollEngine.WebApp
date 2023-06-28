@@ -1,0 +1,48 @@
+﻿@using System.Globalization
+
+@foreach (var weekday in Weekdays)
+{
+    <MudSelectItem T="PayrollEngine.DayOfWeek?" Value="@((PayrollEngine.DayOfWeek?)weekday.Item1)">@weekday.Item2</MudSelectItem>
+}
+
+@code
+{
+    private List<Tuple<int, string>> Weekdays { get; } = new();
+
+    private void SetupWeekdays()
+    {
+        var culture = CultureInfo.CurrentCulture;
+        // day names
+        var dayNames = culture.DateTimeFormat.DayNames.ToList();
+
+        // day order
+        var firstDayOfWeek = culture.DateTimeFormat.GetDayName(culture.DateTimeFormat.FirstDayOfWeek);
+        var currentDay = dayNames.First();
+        while (currentDay != null)
+        {
+            if (string.Equals(currentDay, firstDayOfWeek))
+            {
+                break;
+            }
+
+            // move day to the end of the week
+            dayNames.Remove(currentDay);
+            dayNames.Add(currentDay);
+
+            // next day
+            currentDay = dayNames.First();
+        }
+
+        // apply days
+        for (var i = 0; i < dayNames.Count; i++)
+        {
+            Weekdays.Add(new(i, dayNames[i]));
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetupWeekdays();
+        await base.OnInitializedAsync();
+    }
+}

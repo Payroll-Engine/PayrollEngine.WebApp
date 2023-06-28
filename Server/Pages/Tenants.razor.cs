@@ -14,6 +14,7 @@ public partial class Tenants
     protected override string GridId => GetTenantGridId(GridIdentifiers.Tenants);
     protected override IBackendService<Tenant, Query> BackendService => TenantBackendService;
     protected override ItemCollection<Tenant> Items => Session.Tenants;
+    protected override bool AddItemTenantParameter => false;
 
     public Tenants() :
         base(WorkingItems.None)

@@ -1,32 +1,34 @@
 ﻿@using PayrollEngine.Data
+@using PayrollEngine.WebApp.Shared
+
 <MudDialog Class="attribute-dialog">
     <DialogContent>
         <MudPaper Class="pa-4">
             <MudForm @ref="form">
                 <MudStack Spacing="1">
                     <MudTextField T="string" @bind-Value="DataRelation.Name"
-                                  Label="Name"
-                                  Required="true" RequiredError="Name is required" />
+                                  Label="@Localizer.Shared.Name"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ParentTable"
-                                  Label="Parent table"
-                                  Required="true" RequiredError="Parent table is required" />
+                                  Label="@Localizer.Report.RelationParentTable"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationParentTable)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ParentColumn"
-                                  Label="Parent column"
-                                  Required="true" RequiredError="Parent column is required" />
+                                  Label="@Localizer.Report.RelationParentColumn"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationParentColumn)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ChildTable"
-                                  Label="Child table"
-                                  Required="true" RequiredError="Child table is required" />
+                                  Label="@Localizer.Report.RelationChildTable"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationChildTable)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ChildColumn"
-                                  Label="Child column"
-                                  Required="true" RequiredError="Child column is required" />
+                                  Label="@Localizer.Report.RelationChildColumn"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationChildColumn)" />
                 </MudStack>
             </MudForm>
         </MudPaper>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -36,6 +38,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public DataRelation DataRelation { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 

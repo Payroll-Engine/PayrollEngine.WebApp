@@ -1,9 +1,10 @@
 ﻿@page "/divisions"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Division, Query, PayrollEngine.WebApp.Server.Dialogs.DivisionDialog>
+@inherits EditItemPageBase<Division, Query, Dialogs.DivisionDialog>
 
 @if (!HasFeature(Feature.Divisions))
 {
@@ -11,7 +12,7 @@
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Divisions" />
+<ItemPageActions PageActions="this" Title="@Localizer.Division.Divisions" />
 
 <MudDataGrid @ref="ItemsGrid" T="Division" 
              ServerData="GetServerDataAsync"
@@ -22,17 +23,21 @@
              Filterable="true" 
              Hideable="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Status" />
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.Culture" />
-        <PropertyColumn Property="x => x.Calendar" />
-        <PropertyColumn Property="x => x.Created">
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.Status)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.Culture" Title="@Localizer.Shared.Culture" />
+        <PropertyColumn Property="x => x.Calendar" Title="@Localizer.Shared.Calendar" />
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
@@ -44,6 +49,6 @@
         <MudDataGridPager T="Division" />
     </PagerContent>
     <NoRecordsContent>
-        No divisions available
+        @Localizer.Division.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

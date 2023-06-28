@@ -55,8 +55,7 @@ public partial class PayrollLayers
         }
         if (!regulationNames.Any())
         {
-            await DialogService.ShowMessageBox(ItemTypeUiName,
-                new MarkupString("No regulations available.<br />Please add a regulation to the payroll."));
+            await DialogService.ShowMessageBox(ItemTypeUiName, Localizer.PayrollLayer.InvalidPayrollRegulation);
             return false;
         }
         parameters.Add(nameof(PayrollLayerDialog.RegulationNames), regulationNames);
@@ -72,12 +71,12 @@ public partial class PayrollLayers
         // regulation
         if (string.IsNullOrWhiteSpace(payrollLayer.RegulationName))
         {
-            return "missing base regulation";
+            return Localizer.PayrollLayer.InvalidPayrollRegulation;
         }
         var regulation = Regulations.FirstOrDefault(r => string.Equals(r.Name, payrollLayer.RegulationName));
         if (regulation == null)
         {
-            return $"invalid regulation {payrollLayer.RegulationName}";
+            return Localizer.PayrollLayer.MissingRegulation(payrollLayer.RegulationName);
         }
 
         // regulation without base regulations
@@ -94,7 +93,7 @@ public partial class PayrollLayers
         {
             if (!baseLayers.Any(layer => string.Equals(layer.RegulationName, baseRegulation)))
             {
-                return $"missing base regulation {baseRegulation}";
+                return Localizer.PayrollLayer.MissingBaseRegulation(baseRegulation);
             }
         }
         return string.Empty;

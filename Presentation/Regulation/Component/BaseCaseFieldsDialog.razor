@@ -1,26 +1,27 @@
 ﻿@using PayrollEngine.Client.Model
+@using PayrollEngine.WebApp.Shared
 
 <MudDialog>
     <DialogContent>
         <MudForm @ref="form">
             <MudStack Spacing="1">
-                <MudSelect T="string" Label="Case field" @bind-Value="Reference.Name"
+                <MudSelect T="string" Label="@Localizer.CaseField.CaseField" @bind-Value="Reference.Name"
                            Disabled="@(BaseCaseFields == null || BaseCaseFields.Count < 1)"
-                           Required="true" RequiredError="Case field is required">
+                           Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.CaseField.CaseField)">
                     @foreach (var caseField in BaseCaseFields)
                     {
                         <MudSelectItem T="string" Value="@caseField.Name">@caseField.Name</MudSelectItem>
                     }
                 </MudSelect>
-                <MudNumericField T="int?" Label="Order" @bind-Value="Reference.Order"
-                                 Required="true" RequiredError="Order is required" />
+                <MudNumericField T="int?" Label="@Localizer.Shared.Order" @bind-Value="Reference.Order"
+                                 Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Order)" />
             </MudStack>
         </MudForm>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -31,6 +32,8 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public IList<CaseField> BaseCaseFields { get; set; }
     [Parameter] public CaseFieldReference Reference { get; set; } = new();
+
+    [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 

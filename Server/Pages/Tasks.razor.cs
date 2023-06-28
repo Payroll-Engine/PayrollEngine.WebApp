@@ -77,7 +77,7 @@ public partial class Tasks : ITaskOperator<ViewModel.Task>
         {
             { nameof(ViewModel.Task), task }
         };
-        var result = await (await DialogService.ShowAsync<TaskCompleteDialog>("Complete Task", parameters)).Result;
+        var result = await (await DialogService.ShowAsync<TaskCompleteDialog>(Localizer.Task.Task, parameters)).Result;
         if (result == null || result.Canceled)
         {
             return;

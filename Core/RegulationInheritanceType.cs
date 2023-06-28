@@ -3,6 +3,6 @@
 public enum RegulationInheritanceType
 {
     New,
-    Override,
-    Derived
+    Derived,
+    Base
 }

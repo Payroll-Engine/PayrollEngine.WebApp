@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using MudBlazor;
+using NPOI.XSSF.UserModel;
+using PayrollEngine.Data;
+using PayrollEngine.Document;
+using PayrollEngine.IO;
 using PayrollEngine.WebApp.Presentation.Regulation.Factory;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -30,7 +37,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     public ItemCollection<TItem> Items { get; set; }
     [Parameter]
     public int ItemsPageSize { get; set; } = 20;
-    [Parameter] 
+    [Parameter]
     public IItemFactory<TParent> ParentFactory { get; set; } = null;
     [Parameter]
     public RegulationItemType ItemType { get; set; }
@@ -43,6 +50,12 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     private IDialogService DialogService { get; set; }
     [Inject]
     private ILocalStorageService LocalStorage { get; set; }
+    [Inject]
+    private IUserNotificationService NotificationService { get; set; }
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected bool HasParent => ParentFactory != null;
     protected MudDataGrid<TItem> ItemsGrid { get; set; }
@@ -54,13 +67,13 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
             return null;
         }
 
-        return ItemType.ParentType().ToString().ToPascalSentence();
+        return Localizer.FromGroupKey(ItemType.ParentType().ToString());
     }
 
     protected string GetItemTypeName(bool multiple = false)
     {
-        var itemTypeName = ItemType.ToString().ToPascalSentence();
-        return multiple ? $"{itemTypeName}s" : itemTypeName;
+        var key = ItemType.ToString();
+        return Localizer.FromKey(key, multiple ? $"{key}s" : key);
     }
 
     protected bool Dense { get; set; }
@@ -112,7 +125,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
             var parentItems = await ParentFactory.QueryPayrollItems();
             if (!parentItems.Any())
             {
-                Log.Warning($"Missing parent {typeof(TParent).Name.ToPascalSentence()}");
+                Log.Warning($"Missing parent {GetParentTypeName()}");
                 return;
             }
 
@@ -121,7 +134,8 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
             {
                 { nameof(ParentItemDialog<TItem>.Items), parentItems }
             };
-            var dialog = await (await DialogService.ShowAsync<ParentItemDialog<TParent>>($"Select {GetParentTypeName()}", parameters)).Result;
+            var dialog = await (await DialogService.ShowAsync<ParentItemDialog<TParent>>(
+                Localizer.Item.SelectParent(GetParentTypeName()), parameters)).Result;
             if (dialog == null || dialog.Canceled)
             {
                 return;
@@ -131,7 +145,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
             var parent = parentItems.FirstOrDefault(x => string.Equals(x.Name, dialog.Data as string));
             if (parent == null)
             {
-                Log.Warning($"Invalid parent {typeof(TParent).Name.ToPascalSentence()}");
+                Log.Warning($"Invalid parent {GetParentTypeName()}");
                 return;
             }
 
@@ -141,6 +155,20 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
 
         // object without parent
         await CreateItemAsync();
+    }
+
+    private async Task ExcelDownloadAsync()
+    {
+        try
+        {
+            await new ExcelDownload().StartAsync(ItemsGrid, Items, JsRuntime);
+            await NotificationService.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await NotificationService.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.FileDownloadError, exception);
+        }
     }
 
     private async Task CreateItemAsync(TParent parent = null)

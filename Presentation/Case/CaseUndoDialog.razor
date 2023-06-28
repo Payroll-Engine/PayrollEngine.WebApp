@@ -1,4 +1,5 @@
 ﻿@using CaseChangeCaseValue = PayrollEngine.WebApp.ViewModel.CaseChangeCaseValue
+@using PayrollEngine.WebApp.Shared
 
 <MudDialog style="min-width: 40em">
     <DialogContent>
@@ -8,15 +9,15 @@
             <MudSimpleTable Dense="true" Class="py-4">
                 <tbody>
                     <tr>
-                        <td style="width: 30%">User</td>
+                        <td style="width: 30%">@Localizer.User.User</td>
                         <td>@caseChange.UserIdentifier</td>
                     </tr>
                     <tr>
-                        <td>Created</td>
+                        <td>@Localizer.Shared.ObjectCreated</td>
                         <td>@caseChange.Created.ToCompactString()</td>
                     </tr>
                     <tr>
-                        <td>Reason</td>
+                        <td>@Localizer.CaseChange.Reason</td>
                         <td>@caseChange.Reason</td>
                     </tr>
                 </tbody>
@@ -24,8 +25,8 @@
             <MudSimpleTable Dense="true" Class="py-4">
                 <thead>
                     <tr>
-                        <th>Field</th>
-                        <th>Value</th>
+                        <th>@Localizer.Shared.Field</th>
+                        <th>@Localizer.Shared.Value</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,13 +42,13 @@
         }
         else
         {
-            <span>No case values available</span>
+            <span>@Localizer.CaseValue.NotAvailable</span>
         }
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Undo</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.CaseChange.Undo</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -57,7 +58,7 @@
     [Parameter] public List<CaseChangeCaseValue> CaseChangeValues { get; set; } = new();
     [Parameter] public IValueFormatter ValueFormatter { get; set; }
     [Parameter] public Language Language { get; set; }
-    //[Parameter] public CultureInfo Culture { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
     private void Submit() => MudDialog.Close(DialogResult.Ok(true));

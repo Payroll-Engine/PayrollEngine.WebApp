@@ -221,7 +221,7 @@ public abstract partial class CasesPageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Case values read error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, exception);
         }
     }
 
@@ -238,7 +238,7 @@ public abstract partial class CasesPageBase
         var caseChangeValues = CaseValues.Where(x => x.Id == caseChange.Id).ToList();
         if (!caseChangeValues.Any())
         {
-            await UserNotification.ShowErrorMessageBoxAsync("Case undo update error", "Case change without values");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, Localizer.CaseChange.EmptyCaseChange);
             return;
         }
 
@@ -250,7 +250,7 @@ public abstract partial class CasesPageBase
             { nameof(CaseUndoDialog.Language) , UserLanguage }
         };
         var caseName = caseChangeValues.First().ValidationCaseName;
-        var dialog = await (await DialogService.ShowAsync<CaseUndoDialog>($"Undo case {caseName}", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<CaseUndoDialog>(Localizer.CaseChange.UndoQuery(caseName), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -271,7 +271,7 @@ public abstract partial class CasesPageBase
         try
         {
             await PayrollService.AddCaseAsync<CaseChangeSetup, CaseChange>(new(Tenant.Id, Payroll.Id), caseChangeSetup);
-            await UserNotification.ShowSuccessAsync($"Undo successful for Case {caseChange.ValidationCaseName}");
+            await UserNotification.ShowSuccessAsync(Localizer.CaseChange.UndoSuccess(caseChange.ValidationCaseName));
 
             // update case values
             await SetupCaseValuesAsync();
@@ -279,7 +279,7 @@ public abstract partial class CasesPageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Case undo update error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.CaseChange.UndoError(caseChange.ValidationCaseName), exception);
         }
     }
 
@@ -305,7 +305,7 @@ public abstract partial class CasesPageBase
         {
             { nameof(CaseDocumentsDialog<CaseDocument>.Documents), documents }
         };
-        await DialogService.ShowAsync<CaseDocumentsDialog<CaseDocument>>(caseChange.CaseFieldName.ToPascalSentence().EnsureEnd(" documents"), parameters);
+        await DialogService.ShowAsync<CaseDocumentsDialog<CaseDocument>>(Localizer.Document.Documents, parameters);
     }
 
     /// <summary>
@@ -331,7 +331,7 @@ public abstract partial class CasesPageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Case values read error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, exception);
         }
         return null;
     }
@@ -359,7 +359,7 @@ public abstract partial class CasesPageBase
 
     #region Clusters
 
-    private const string ClusterAll = "All";
+    private string ClusterAll => Localizer.Shared.All;
 
     /// <summary>
     /// The payroll clusters
@@ -535,7 +535,7 @@ public abstract partial class CasesPageBase
             catch (Exception exception)
             {
                 Log.Error(exception, exception.GetBaseMessage());
-                await UserNotification.ShowErrorMessageBoxAsync("Case read error", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, exception);
             }
         }
 

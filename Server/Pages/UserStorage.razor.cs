@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
@@ -51,8 +52,9 @@ public class UserStoragePageBase : PageBase
     {
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                "Remove storage item",
-                new MarkupString($"Remove storage item <b>&#xbb;{item.Key}&#xab;</b>?")))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.Storage.StorageItem),
+                Localizer.Item.DeleteQuery(item.Key)))
         {
             return;
         }
@@ -63,12 +65,12 @@ public class UserStoragePageBase : PageBase
             {
                 await LocalStorage.RemoveItemAsync(item.Key);
             }
-            await UserNotification.ShowSuccessAsync($"Removed {item.Key}");
+            await UserNotification.ShowSuccessAsync(Localizer.Item.Removed(item.Key));
         }
         catch (Exception exception)
         {
             LogError(exception);
-            await UserNotification.ShowErrorMessageBoxAsync("Remove storage item", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Item.DeleteTitle(Localizer.Storage.StorageItem), exception);
         }
         finally
         {
@@ -89,7 +91,9 @@ public class UserStoragePageBase : PageBase
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                "Clear user storage", new MarkupString($"Remove all {Items.Count} storage items?")))
+                Localizer,
+                Localizer.Storage.ClearStorage,
+                Localizer.Storage.ClearQuery(Items.Count)))
         {
             return;
         }
@@ -97,12 +101,12 @@ public class UserStoragePageBase : PageBase
         try
         {
             await LocalStorage.ClearAsync();
-            await UserNotification.ShowSuccessAsync("Storage cleared");
+            await UserNotification.ShowSuccessAsync(Localizer.Storage.Cleared);
         }
         catch (Exception exception)
         {
             LogError(exception);
-            await UserNotification.ShowErrorMessageBoxAsync("Clear user storage", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Storage.ClearStorage, exception);
         }
         finally
         {
@@ -157,7 +161,7 @@ public class UserStoragePageBase : PageBase
         catch (Exception exception)
         {
             LogError(exception);
-            await UserNotification.ShowErrorMessageBoxAsync("Load user storage", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Storage.Storage, exception);
         }
     }
 

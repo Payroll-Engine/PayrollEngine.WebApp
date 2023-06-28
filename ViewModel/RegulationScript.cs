@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -56,17 +57,14 @@ public class RegulationScript : Script, IRegulationItem, IKeyEquatable<Regulatio
     public string Description => null;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string AdditionalInfo
+    public string GetAdditionalInfo(Localizer localizer)
     {
-        get
+        if (FunctionTypes == null || !FunctionTypes.Any())
         {
-            if (FunctionTypes == null || !FunctionTypes.Any())
-            {
-                return string.Empty;
-            }
-            return FunctionTypes.Count == 1 ? "1 function" : $"{FunctionTypes.Count} functions";
+            return string.Empty;
         }
+        return FunctionTypes.Count == 1 ?
+            localizer.Script.SingleFunction : localizer.Script.FunctionCount(FunctionTypes.Count);
     }
 
     /// <inheritdoc />

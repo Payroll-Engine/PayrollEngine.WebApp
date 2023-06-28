@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Presentation.Component;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -22,6 +24,8 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected ItemCollection<CaseSlot> CaseSlots { get; } = new();
     protected MudDataGrid<CaseSlot> Grid { get; set; }
@@ -69,7 +73,8 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
         };
 
         // create dialog
-        var dialog = await (await DialogService.ShowAsync<CaseSlotDialog>("Add case slot", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<CaseSlotDialog>(
+            Localizer.Item.AddTitle(Localizer.CaseSlot.CaseSlot), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -111,7 +116,8 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
         };
 
         // edit dialog
-        var dialog = await (await DialogService.ShowAsync<CaseSlotDialog>("Edit case slot", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<CaseSlotDialog>(
+            Localizer.Item.EditTitle(Localizer.CaseSlot.CaseSlot), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -139,8 +145,9 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                        "Delete case slot",
-                        $"Delete {item.Name} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.CaseSlot.CaseSlot),
+                Localizer.Item.DeleteQuery(item.Name)))
         {
             return;
         }

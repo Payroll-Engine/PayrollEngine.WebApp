@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Data;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -21,6 +22,8 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
 
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected ItemCollection<DataRelation> DataRelations { get; set; } = new();
     protected MudDataGrid<DataRelation> Grid { get; set; }
@@ -39,7 +42,7 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
         var fieldValue = new List<DataRelation>();
         foreach (var item in DataRelations)
         {
-            fieldValue.Add(new (item));
+            fieldValue.Add(new(item));
         }
         if (CompareTool.EqualLists(FieldValue, fieldValue))
         {
@@ -76,7 +79,8 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
     protected async Task AddDataRelationAsync()
     {
         // data relation create dialog
-        var dialog = await (await DialogService.ShowAsync<DataRelationDialog>("Add data relation")).Result;
+        var dialog = await (await DialogService.ShowAsync<DataRelationDialog>(
+            Localizer.Item.AddTitle(Localizer.Report.Relation))).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -117,7 +121,8 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
         };
 
         // data relation edit dialog
-        var dialog = await (await DialogService.ShowAsync<DataRelationDialog>("Edit data relation", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<DataRelationDialog>(
+            Localizer.Item.EditTitle(Localizer.Report.Relation), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -144,8 +149,9 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                        "Delete data relation",
-                        $"Delete {item.Name} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.Report.Relation),
+                Localizer.Item.DeleteQuery(item.Name)))
         {
             return;
         }

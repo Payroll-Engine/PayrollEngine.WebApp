@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -47,8 +48,9 @@ public class RegulationCase : Case, IRegulationItem, IKeyEquatable<RegulationCas
     [JsonIgnore]
     public string ParentInheritanceKey => null;
 
-    [JsonIgnore]
-    public string AdditionalInfo => Enum.GetName(typeof(CaseType), CaseType);
+    /// <inheritdoc />
+    public string GetAdditionalInfo(Localizer localizer) => 
+        Enum.GetName(typeof(CaseType), CaseType);
 
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }

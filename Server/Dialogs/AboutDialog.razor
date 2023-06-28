@@ -1,4 +1,6 @@
 ﻿@using System.Diagnostics;
+@using System.Reflection
+@using Date = PayrollEngine.Date
 
 <MudDialog Class="item-dialog">
     <DialogContent>
@@ -11,38 +13,48 @@
             {
                 <MudText Typo="Typo.h5">@AppTitle</MudText>
             }
-            <MudText>Web App Version: @AppVersion</MudText>
-            <MudText>Backend Version: @BackendVersion</MudText>
-            <MudText>Created by Software Consulting Giannoudis</MudText>
+            <MudText Class="align-self-center">@Localizer.App.WebAppVersion - @AppVersion</MudText>
+            <MudText Class="align-self-center">@Localizer.App.BackendVersion - @BackendVersion</MudText>
+            <MudText Class="align-self-center">@Localizer.App.Copyright(CopyRight)</MudText>
         </MudStack>
     </DialogContent>
     <DialogActions>
-        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">Close</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">@Localizer.Dialog.Close</MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
 
-    [CascadingParameter]
-    MudDialogInstance MudDialog { get; set; }
-
-    [Parameter]
-    public string AppTitle { get; set; }
-
-    [Parameter]
-    public string AppImage { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string AppTitle { get; set; }
+    [Parameter] public string AppImage { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private string AppVersion { get; set; }
     private string BackendVersion { get; set; }
+    private string CopyRight { get; set; }
 
     private void Close() => MudDialog.Close(DialogResult.Ok(true));
 
     protected override Task OnInitializedAsync()
     {
-        var assemblyInfo = FileVersionInfo.GetVersionInfo(GetType().Assembly.Location);
+        // assembly
+        var assembly = GetType().Assembly;
+        var assemblyInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
         var backendAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(PayrollEngine.SystemSpecification).Assembly.Location);
+
+        // version
         AppVersion = assemblyInfo.ProductVersion;
         BackendVersion = backendAssemblyInfo.ProductVersion;
+
+        // copyright
+        var copyRight = $"{Date.Now.Year} Software Consulting Giannoudis";
+        if (assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), true).FirstOrDefault()
+            is AssemblyCopyrightAttribute copyRightAttribute)
+        {
+            copyRight = copyRightAttribute.Copyright;
+        }
+        CopyRight = copyRight;
 
         return base.OnInitializedAsync();
     }

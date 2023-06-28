@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation;
@@ -18,18 +19,18 @@ public static class RegulationItemExtensions
         item != null && item.InheritanceType == RegulationInheritanceType.New;
 
     /// <summary>
-    /// Test for override object
-    /// </summary>
-    /// <param name="iem">The regulation item</param>
-    public static bool IsOverride(this IRegulationItem iem) =>
-        iem != null && iem.InheritanceType == RegulationInheritanceType.Override;
-
-    /// <summary>
     /// Test for derived object
     /// </summary>
+    /// <param name="iem">The regulation item</param>
+    public static bool IsDerived(this IRegulationItem iem) =>
+        iem != null && iem.InheritanceType == RegulationInheritanceType.Derived;
+
+    /// <summary>
+    /// Test for base object
+    /// </summary>
     /// <param name="item">The regulation item</param>
-    public static bool IsDerived(this IRegulationItem item) =>
-        item != null && item.InheritanceType == RegulationInheritanceType.Derived;
+    public static bool IsBase(this IRegulationItem item) =>
+        item != null && item.InheritanceType == RegulationInheritanceType.Base;
 
     /// <summary>
     /// Test for field localizations
@@ -117,9 +118,9 @@ public static class RegulationItemExtensions
     }
 
     public static string GetItemHelp(this IRegulationItem item, RegulationField field,
-        string overrideHelp = null)
+        string derivedHelp = null)
     {
-        var help = overrideHelp ?? field.Help;
+        var help = derivedHelp ?? field.Help;
         if (!field.HasBaseValues)
         {
             return help;
@@ -149,56 +150,43 @@ public static class RegulationItemExtensions
         return buffer.ToString();
     }
 
-    public static string GetItemLabel(this IRegulationItem item, RegulationField field)
+    public static string GetItemLabel(this IRegulationItem item, RegulationField field, Localizer localizer)
     {
         var label = field.Label ?? field.PropertyName.ToPascalSentence();
 
-        // derived field
-        if (IsDerived(item))
+        // base field
+        if (IsBase(item))
         {
-            return $"{label} (derived) ";
+            return $"{label} ({localizer.Item.BaseField}) ";
         }
 
         // init field
         if (field.ReadOnly && (IsNew(item) || item.Id != 0))
         {
-            return $"{label} (init only) ";
+            return $"{label} ({localizer.Item.InitOnlyField}) ";
         }
 
         // read only field
-        if (IsOverride(item) && field.KeyField)
+        if (IsDerived(item) && field.KeyField)
         {
-            return $"{label} (read only) ";
+            return $"{label} ({localizer.Item.ReadOnlyField}) ";
         }
 
-        return label + " ";
-    }
-
-    public static string GetItemActionLabel(this IRegulationItem item, RegulationField field)
-    {
-        // base name
-        var name = field.PropertyName;
-        if (field.IsAction)
-        {
-            name = name.RemoveFromEnd("Expression").EnsureEnd("Action");
-        }
-
-        var label = name.ToPascalSentence();
         return label + " ";
     }
 
     public static bool IsReadOnlyField(this IRegulationItem item, RegulationField field)
     {
-        // no edit of derived fields
-        if (IsDerived(item))
+        // no edit of base fields
+        if (IsBase(item))
         {
             return true;
         }
 
-        // disable changes on key and read only fields on override fields
-        if (IsOverride(item))
+        // disable changes on key and read only fields on derived fields
+        if (IsDerived(item))
         {
-            // override key field
+            // derived key field
             if (field.KeyField)
             {
                 return true;

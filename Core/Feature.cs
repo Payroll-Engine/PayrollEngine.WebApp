@@ -3,7 +3,7 @@ namespace PayrollEngine.WebApp;
 
 public enum Feature
 {
-    // Main
+    // main
     Tasks,
     EmployeeCases,
     CompanyCases,
@@ -11,18 +11,18 @@ public enum Feature
     GlobalCases,
     Reports,
 
-    // Payrun
+    // payrun
     PayrunResults,
     PayrunJobs,
     Payruns,
 
-    // Payroll
+    // payroll
     Payrolls,
     PayrollLayers,
     Regulations,
     Regulation,
 
-    // Administration
+    // administration
     SharedRegulations,
     Tenants,
     Users,
@@ -32,6 +32,9 @@ public enum Feature
     Webhooks,
     Logs,
 
-    // System
+    // shared
+    Forecasts,
+
+    // system
     UserStorage
 }

@@ -1,5 +1,7 @@
 ﻿@using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.Client.Service
+
 <MudDialog Class="item-dialog">
     <DialogContent>
         <MudPaper Class="pa-4">
@@ -8,15 +10,15 @@
                     <MudTextField T="string"
                                   Value="User.Identifier"
                                   ReadOnly="true"
-                                  Label="Identifier" />
+                                  Label="@Localizer.Shared.Identifier" />
                     <MudTextField T="string" @bind-Value="User.FirstName"
                                   MaxLength="@SystemSpecification.KeyTextLength"
-                                  Label="First name" />
+                                  Label="@Localizer.User.FirstName" />
                     <MudTextField T="string" @bind-Value="User.LastName"
                                   MaxLength="@SystemSpecification.KeyTextLength"
-                                  Label="Last name" />
+                                  Label="@Localizer.User.LastName" />
                     <MudSelect T="Language" @bind-Value="User.Language"
-                               Label="Language">
+                               Label="@Localizer.Shared.Language">
                         <EnumSelectItems T="Language" />
                     </MudSelect>
                 </MudStack>
@@ -25,9 +27,9 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" OnClick="ChangePasswordAsync">Change Password</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="SaveAsync">Save</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="ChangePasswordAsync">@Localizer.User.ChangePasswordTitle</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="SubmitAsync">@Localizer.Dialog.Submit</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -39,16 +41,14 @@
     [Parameter] public Client.Model.Tenant Tenant { get; set; } = new();
     [Parameter] public Client.Model.User User { get; set; } = new();
 
-    [Inject]
-    private IUserService UserService { get; set; }
-    [Inject]
-    private IUserNotificationService UserNotification { get; set; }
-    [Inject]
-    private IDialogService DialogService { get; set; }
+    [Inject] private IUserService UserService { get; set; }
+    [Inject] private IUserNotificationService UserNotification { get; set; }
+    [Inject] private IDialogService DialogService { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 
-    private async Task SaveAsync()
+    private async Task SubmitAsync()
     {
         if (!await form.Revalidate())
         {
@@ -76,6 +76,6 @@
             { nameof(UserPasswordDialog.Tenant), Tenant },
             { nameof(UserPasswordDialog.User), User }
         };
-        await DialogService.ShowAsync<UserPasswordDialog>("Change Password", parameters);
+        await DialogService.ShowAsync<UserPasswordDialog>(Localizer.User.ChangePasswordTitle, parameters);
     }
 }

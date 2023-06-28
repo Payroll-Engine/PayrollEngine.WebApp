@@ -49,6 +49,23 @@ public static class CultureTool
         return cultureInfo == null ? null : new RegionInfo(cultureName).ISOCurrencySymbol;
     }
 
-    public static CultureInfo GetCulture(string cultureName) =>
-        CultureInfos.ContainsKey(cultureName) ? CultureInfos[cultureName] : CultureInfo.CurrentCulture;
+    public static CultureInfo GetCulture(string cultureName)
+    {
+        // matching culture
+        if (CultureInfos.TryGetValue(cultureName, out var culture))
+        {
+            return culture;
+        }
+
+        // matching language
+        foreach (var key in CultureInfos.Keys)
+        {
+            if (key.StartsWith(cultureName))
+            {
+                return CultureInfos[key];
+            }
+        }
+        
+        return CultureInfo.CurrentCulture;
+    }
 }

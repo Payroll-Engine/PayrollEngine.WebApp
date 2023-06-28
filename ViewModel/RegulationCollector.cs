@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -52,8 +53,8 @@ public class RegulationCollector : Collector, IRegulationItem, IKeyEquatable<Reg
     public string Description => null;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string AdditionalInfo => Enum.GetName(typeof(CollectType), CollectType);
+    public string GetAdditionalInfo(Localizer localizer) => 
+        Enum.GetName(typeof(CollectType), CollectType);
 
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }

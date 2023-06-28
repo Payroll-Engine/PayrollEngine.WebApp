@@ -1,5 +1,9 @@
-﻿<MudTextField T="string"
-              Label="@Item.GetItemLabel(Field)"
+﻿@using PayrollEngine.WebApp.Shared
+
+@inject Localizer Localizer;
+
+<MudTextField T="string"
+              Label="@Item.GetItemLabel(Field, Localizer)"
               HelperText="@Item.GetItemHelp(Field, HelperText)"
               Variant="@Variant"
               Class="@Class"
@@ -13,5 +17,5 @@
               Adornment="@LocalizationAdornment"
               AdornmentIcon="@Icons.Material.Filled.Language"
               AdornmentColor="@LocalizationColor"
-              AdornmentAriaLabel="@LocalizationHelp"
+              AdornmentAriaLabel="@Localizer.Shared.Localizations"
               OnAdornmentClick="OpenLocalizationsAsync" />

@@ -2,6 +2,7 @@
 @using PayrollEngine.Client.Service
 @using ReportSet = PayrollEngine.WebApp.ViewModel.ReportSet
 @using PayrollEngine.Client.QueryExpression;
+@using PayrollEngine.WebApp.Shared
 @using Task = System.Threading.Tasks.Task
 
 <MudDialog style="min-width: 40em">
@@ -13,10 +14,10 @@
                      Groupable="false"
                      ShowColumnOptions="false">
             <Columns>
-                <PropertyColumn Property="x => x.Message" />
-                <PropertyColumn Property="x => x.User" />
-                <PropertyColumn Property="x => x.Key" />
-                <PropertyColumn Property="x => x.ReportDate" Title="Date">
+                <PropertyColumn Property="x => x.Message" Title="@Localizer.ReportLog.Message" />
+                <PropertyColumn Property="x => x.User" Title="@Localizer.User.User" />
+                <PropertyColumn Property="x => x.Key" Title="@Localizer.Shared.Key" />
+                <PropertyColumn Property="x => x.ReportDate" Title="@Localizer.ReportLog.ReportDate">
                     <CellTemplate>
                         @ValueFormatter.ToCompactString(context.Item.ReportDate)
                     </CellTemplate>
@@ -26,13 +27,13 @@
                 <MudDataGridPager T="ReportLog" />
             </PagerContent>
             <NoRecordsContent>
-                No report logs available
+                @Localizer.ReportLog.NotAvailable
             </NoRecordsContent>
         </MudDataGrid>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">Ok</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -43,8 +44,8 @@
     [Parameter] public ReportSet Report { get; set; }
     [Parameter] public IValueFormatter ValueFormatter { get; set; }
 
-    [Inject]
-    private IReportLogService ReportLogService { get; set; }
+    [Inject] private IReportLogService ReportLogService { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private List<ReportLog> ReportLogs { get; set; } = new();
 

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>PayrollEngine.WebApp.Shared</AssemblyName>
+		<RootNamespace>PayrollEngine.WebApp.Shared</RootNamespace>
+		<Description>Payroll Engine Web Application Shared</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.8" />
+		<PackageReference Include="PayrollEngine.Core" Version="0.5.0-pre-230628" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\Localizations.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Localizations.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Localizations.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Localizations.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+</Project>

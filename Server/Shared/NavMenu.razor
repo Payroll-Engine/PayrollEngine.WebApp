@@ -1,16 +1,14 @@
 ﻿@inherits ComponentBase;
 
 <MudNavMenu Class="pt-1">
-    @if (Session.AnyUserFeature() && PageGroups != null) 
+    @if (Session.AnyUserFeature() && PageGroups != null)
     {
         // top pages
-        var topPages = Pages.Where( 
-        x => x.PageGroup == null &&
-        Session.UserFeature(x.Feature));
+        var topPages = Pages.Where(x => x.PageGroup == null && Session.UserFeature(x.Feature));
         foreach (var topPage in topPages)
         {
             <MudNavLink Href="@topPage.PageLink" Match="NavLinkMatch.Prefix"
-                    Title="@topPage.Title">@topPage.PageName</MudNavLink>
+                        Title="@topPage.Title">@topPage.PageName</MudNavLink>
         }
 
         // grouped pages
@@ -28,7 +26,7 @@
                         if (Session.UserFeature(groupPage.Feature))
                         {
                             <MudNavLink Href="@groupPage.PageLink" Match="NavLinkMatch.Prefix"
-                                    Title="@groupPage.Title">@groupPage.PageName</MudNavLink>
+                                        Title="@groupPage.Title">@groupPage.PageName</MudNavLink>
                         }
                     }
                 </MudNavGroup>

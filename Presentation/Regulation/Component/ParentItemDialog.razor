@@ -1,6 +1,7 @@
 ﻿@typeparam T where T : class, IRegulationItem
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Shared
 <MudDialog DisableSidePadding="true" Style="min-width: 25em">
     <DialogContent>
         <div class="px-6">
@@ -20,8 +21,8 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -31,6 +32,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public List<T> Items { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
 
     private string SelectedValue { get; set; }
 

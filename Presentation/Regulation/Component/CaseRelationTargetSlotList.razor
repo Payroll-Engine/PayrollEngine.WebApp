@@ -3,7 +3,7 @@
 @inherits CaseSlotListBase
 
 <MudSelect T="CaseSlot"
-           Label="@Item.GetItemLabel(Field)"
+           Label="@Item.GetItemLabel(Field, Localizer)"
            HelperText="@Item.GetItemHelp(Field)"
            Value="@SelectedCaseSlot" ValueChanged="ValueChangedAsync"
            Disabled="@(CaseSlots == null || CaseSlots.Count < 1)"

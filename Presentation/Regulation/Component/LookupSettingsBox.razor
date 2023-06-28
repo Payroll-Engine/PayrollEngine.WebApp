@@ -1,5 +1,8 @@
-﻿
-<MudInputLabel>@Item.GetItemLabel(Field)</MudInputLabel>
+﻿@using PayrollEngine.WebApp.Shared
+
+@inject Localizer Localizer;
+
+<MudInputLabel>@Item.GetItemLabel(Field, Localizer)</MudInputLabel>
 
 <MudStack Row="true" Class="align-center border rounded pa-2">
     <MudText Typo="Typo.caption">@SettingsInfo</MudText>

@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -44,8 +45,7 @@ public class RegulationReport : ReportSet, IRegulationItem, IKeyEquatable<Regula
     public string ParentInheritanceKey => null;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string AdditionalInfo => Category;
+    public string GetAdditionalInfo(Localizer localizer) => Category;
 
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }

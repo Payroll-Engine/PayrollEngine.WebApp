@@ -1,9 +1,10 @@
 ﻿@page "/calendars"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Calendar, Query, PayrollEngine.WebApp.Server.Dialogs.CalendarDialog>
+@inherits EditItemPageBase<Calendar, Query, Dialogs.CalendarDialog>
 
 @if (!HasFeature(Feature.Calendars))
 {
@@ -11,7 +12,7 @@
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Calendars" />
+<ItemPageActions PageActions="this" Title="@Localizer.Calendar.Calendars" />
 
 <MudDataGrid @ref="ItemsGrid" T="Calendar"
              ServerData="GetServerDataAsync"
@@ -22,19 +23,39 @@
              Filterable="true"
              Hideable="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Status" />
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.CycleTimeUnit" Title="Cycle type" />
-        <PropertyColumn Property="x => x.PeriodTimeUnit" Title="Period type" />
-        <PropertyColumn Property="x => x.TimeMap" Title="Time map" />
-        <PropertyColumn Property="x => x.WeekMode" Title="Week mode" />
-        <PropertyColumn Property="x => x.Created">
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.Status)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.CycleTimeUnit" Title="@Localizer.Calendar.CycleTimeUnit">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.CycleTimeUnit)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.PeriodTimeUnit" Title="@Localizer.Calendar.PeriodTimeUnit">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.PeriodTimeUnit)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.TimeMap" Title="@Localizer.Calendar.TimeMap">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.TimeMap)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.WeekMode" Title="@Localizer.Calendar.WeekMode">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.WeekMode)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
@@ -46,6 +67,6 @@
         <MudDataGridPager T="Calendar" />
     </PagerContent>
     <NoRecordsContent>
-        No calendars available
+        @Localizer.Calendar.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

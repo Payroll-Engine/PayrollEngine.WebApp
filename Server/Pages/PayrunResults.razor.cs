@@ -19,6 +19,7 @@ using PayrollEngine.Document;
 using Task = System.Threading.Tasks.Task;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
@@ -137,7 +138,7 @@ public partial class PayrunResults
             Log.Error(exception, exception.GetBaseMessage());
             if (Initialized)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Payruns setup", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Payruns setup", exception);
             }
             else
             {
@@ -237,7 +238,7 @@ public partial class PayrunResults
         var items = data.Items.ToList();
         if (!items.Any())
         {
-            await UserNotification.ShowErrorMessageBoxAsync("Excel Download", "Empty collection");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Excel Download", "Empty collection");
             return;
         }
 
@@ -273,7 +274,7 @@ public partial class PayrunResults
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Excel download error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Excel download error", exception);
         }
     }
 

@@ -5,21 +5,29 @@
     <DialogContent>
 
         @* report name and description *@
-        <MudInputLabel>Report</MudInputLabel>
-        <MudText Class="mb-2">@ReportName</MudText>
-        @if (HasDescription)
-        {
-            <MudInputLabel Class="mt-2">Description</MudInputLabel>
-            <MudText Class="mb-2">@ReportDescription</MudText>
-        }
+        <MudPaper Elevation="4" Class="pa-4">
+            <table>
+                <tr>
+                    <td class="pr-2" style="text-align: right"><MudInputLabel>@Localizer.Report.Report</MudInputLabel></td>
+                    <td><MudText Typo="Typo.h6">@ReportName</MudText></td>
+                </tr>
+                @if (HasDescription)
+                {
+                    <tr>
+                        <td class="pr-2" style="text-align: right"><MudInputLabel>@Localizer.Shared.Description</MudInputLabel></td>
+                        <td>@ReportDescription</td>
+                    </tr>
+                }
+            </table>
+        </MudPaper>
 
         @* report parameters *@
         @if (HasParameters)
         {
-            <MudPaper Elevation="4" Class="pa-4 my-4">
+            <MudPaper Elevation="4" Class="pa-4 mt-8 mb-4">
                 <MudForm @ref="form">
                     <FieldEditorStack Fields="@Report.Parameters" Language="Language"
-                                  Disabled="@Started" />
+                                      Disabled="@Started" />
                 </MudForm>
             </MudPaper>
         }
@@ -28,19 +36,19 @@
         <div class="mb-8">
             @if (Executing)
             {
-                <MudText Class="pb-4">Preparing download...</MudText>
+                <MudText Class="pb-4">@Localizer.Report.PreparingDownload</MudText>
                 <MudProgressLinear Color="Color.Info" Rounded="true"
-                               Class="mud-table-loading-progress"
-                               Indeterminate="true" Size="Size.Large" />
+                                   Class="mud-table-loading-progress"
+                                   Indeterminate="true" Size="Size.Large" />
             }
             @if (Failed)
             {
-                <MudText Color="Color.Error">Report execution failure</MudText>
+                <MudText Color="Color.Error">@Localizer.Report.ExecutionError</MudText>
                 <MudText>@ErrorMessage</MudText>
             }
             else if (Completed)
             {
-                <MudText Color="Color.Success">Download successfully completed</MudText>
+                <MudText Color="Color.Success">@Localizer.Shared.DownloadCompleted</MudText>
                 <MudText Color="Color.Success" Typo="Typo.caption">@DownloadFileName</MudText>
             }
         </div>
@@ -55,20 +63,20 @@
                 @if (SupportedDocumentType(DocumentType.Xml))
                 {
                     <MudButton Variant="Variant.Outlined"
-                       Color="Color.Tertiary"
-                       Disabled="@Started"
-                       OnClick="@(() => StartAsync(DocumentType.Xml))">
-                        XML
+                               Color="Color.Tertiary"
+                               Disabled="@Started"
+                               OnClick="@(() => StartAsync(DocumentType.Xml))">
+                        @Localizer.Report.Xml
                     </MudButton>
                     xmlRaw = SupportedDocumentType(DocumentType.XmlRaw);
                 }
                 if (xmlRaw)
                 {
                     <MudButton Variant="Variant.Outlined"
-                       Color="Color.Tertiary"
-                       Disabled="@Started"
-                       OnClick="@(() => StartAsync(DocumentType.XmlRaw))">
-                        XML Raw
+                               Color="Color.Tertiary"
+                               Disabled="@Started"
+                               OnClick="@(() => StartAsync(DocumentType.XmlRaw))">
+                        @Localizer.Report.XmlRaw
                     </MudButton>
                 }
 
@@ -76,10 +84,10 @@
                 @if (SupportedDocumentType(DocumentType.Excel))
                 {
                     <MudButton Variant="Variant.Outlined"
-                       Color="Color.Tertiary"
-                       Disabled="@Started"
-                       OnClick="@(() => StartAsync(DocumentType.Excel))">
-                        Excel
+                               Color="Color.Tertiary"
+                               Disabled="@Started"
+                               OnClick="@(() => StartAsync(DocumentType.Excel))">
+                        @Localizer.Report.Excel
                     </MudButton>
                 }
 
@@ -87,10 +95,10 @@
                 @if (SupportedDocumentType(DocumentType.Word))
                 {
                     <MudButton Variant="Variant.Outlined"
-                       Color="Color.Tertiary"
-                       Disabled="@Executing"
-                       OnClick="@(() => StartAsync(DocumentType.Word))">
-                        Word
+                               Color="Color.Tertiary"
+                               Disabled="@Executing"
+                               OnClick="@(() => StartAsync(DocumentType.Word))">
+                        @Localizer.Report.Word
                     </MudButton>
                 }
 
@@ -98,16 +106,16 @@
                 @if (SupportedDocumentType(DocumentType.Pdf))
                 {
                     <MudButton Variant="Variant.Outlined"
-                       Color="Color.Tertiary"
-                       Disabled="@Executing"
-                       OnClick="@(() => StartAsync(DocumentType.Pdf))">
-                        Pdf
+                               Color="Color.Tertiary"
+                               Disabled="@Executing"
+                               OnClick="@(() => StartAsync(DocumentType.Pdf))">
+                        @Localizer.Report.Pdf
                     </MudButton>
                 }
             }
 
             @* close button *@
-            <MudButton Variant="Variant.Outlined" OnClick="Close" Class="ml-8">Close</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Close" Class="ml-8">@Localizer.Dialog.Close</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>

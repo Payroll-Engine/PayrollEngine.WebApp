@@ -2,50 +2,53 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
 <MudDialog Class="item-dialog">
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" @bind-Value="User.Identifier"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       ReadOnly="@User.IsExistingObject"
-                                      Label="@(User.IsNewObject ? "Identifier (immutable)" : "Identifier")"
+                                      Label="@(User.IsNewObject ? $"{Localizer.Shared.Identifier} ({Localizer.Shared.Immutable})" : Localizer.Shared.Identifier)"
                                       Validation="@(!string.IsNullOrWhiteSpace(User.Identifier))"
-                                      Required="true" RequiredError="Identifier is required" />
+                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Identifier)" />
                         <MudTextField T="string" @bind-Value="User.FirstName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
-                                      Label="First name" />
+                                      Label="@Localizer.User.FirstName" />
                         <MudTextField T="string" @bind-Value="User.LastName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
-                                      Label="Last name" />
-                        <MudSelect T="Language" @bind-Value="User.Language" Label="Language">
+                                      Label="@Localizer.User.LastName" />
+                        <MudSelect T="Language" @bind-Value="User.Language" Label="@Localizer.Shared.Language">
                             <EnumSelectItems T="Language" />
                         </MudSelect>
-                        <MudSelect T="string" @bind-Value="SelectedFeature" @bind-SelectedValues="User.FeaturesAsEnum"
-                                   Label="Features"
-                                   MultiSelection="true"
-                                   Clearable="true"
-                                   SelectAll="true"
-                                   SelectAllText="Select all features">
-                            <EnumStringSelectItems T="Feature" />
-                        </MudSelect>
-                        <MudSelect T="UserType" @bind-Value="User.UserType" Label="User type">
+                        <MudTooltip Delay="500" Placement="Placement.Top" Text="@SelectedFeature" RootStyle="width: 100%">
+                            <MudSelect T="string" @bind-Value="SelectedFeature" @bind-SelectedValues="User.FeaturesAsEnum"
+                                       Label="@Localizer.User.Features"
+                                       MultiSelection="true"
+                                       Clearable="true"
+                                       SelectAll="true"
+                                       SelectAllText="@Localizer.Shared.SelectAll">
+                                <EnumStringSelectItems T="Feature" />
+                            </MudSelect>
+                        </MudTooltip>
+                        <MudSelect T="UserType" @bind-Value="User.UserType" Label="@Localizer.User.UserType">
                             <EnumSelectItems T="UserType" />
                         </MudSelect>
                         @if (User.UserType == UserType.Employee)
                         {
                             <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
-                                @($"Please ensure an existing employee with identifier {User.Identifier}.")
+                                @Localizer.Error.MissingEmployee(User.Identifier)
                             </MudPaper>
                         }
                         <ItemBaseFields Item="User" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="User" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -61,6 +64,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public User User { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
 
     private string SelectedFeature { get; set; }
 

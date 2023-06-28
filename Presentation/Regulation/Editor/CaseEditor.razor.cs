@@ -1,92 +1,132 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.WebApp.Presentation.Regulation.Component;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
+using Task = System.Threading.Tasks.Task;
 
-namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
+namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
+
+public partial class CaseEditor
 {
-    public partial class CaseEditor
-    {
-        [Parameter]
-        public RegulationEditContext EditContext { get; set; }
-        [Parameter]
-        public IRegulationItem Item { get; set; }
-        [Parameter]
-        public EventCallback<IRegulationItem> SaveItem { get; set; }
-        [Parameter]
-        public EventCallback<IRegulationItem> DeleteItem { get; set; }
-        [Parameter]
-        public EventCallback<IRegulationItem> OverrideItem { get; set; }
+    [Parameter]
+    public RegulationEditContext EditContext { get; set; }
+    [Parameter]
+    public IRegulationItem Item { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> SaveItem { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> DeleteItem { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> DeriveItem { get; set; }
 
-        protected List<RegulationField> Fields { get; } = new() {
+    [Inject]
+    private Localizer Localizer { get; set; }
+
+    protected List<RegulationField> Fields { get; private set; }
+
+    private void SetupFields()
+    {
+        var fields = new List<RegulationField>
+        {
             // common
             new(nameof(RegulationCase.Name), typeof(TextBox))
             {
                 KeyField = true,
                 Required = true,
-                Label = "Case name",
-                RequiredError = "Name is required",
+                Label = Localizer.Shared.Name,
+                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
-            new(nameof(RegulationCase.Description), typeof(TextBox)),
-            new(nameof(RegulationCase.DefaultReason), typeof(TextBox)),
-            new(nameof(RegulationCase.Lookups), typeof(CsvTextBox)),
-            new(nameof(RegulationCase.Clusters), typeof(CsvTextBox)),
+            new(nameof(RegulationCase.Description), typeof(TextBox))
+            {
+                Label = Localizer.Shared.Description
+            },
+            new(nameof(RegulationCase.DefaultReason), typeof(TextBox))
+            {
+                Label = Localizer.Case.DefaultReason
+            },
+            new(nameof(RegulationCase.Lookups), typeof(CsvTextBox))
+            {
+                Label = Localizer.Lookup.Lookups
+            },
+            new(nameof(RegulationCase.Clusters), typeof(CsvTextBox))
+            {
+                Label = Localizer.Case.Clusters
+            },
             new(nameof(RegulationCase.CaseType), typeof(EnumListBox<CaseType>))
             {
+                Label = Localizer.Case.CaseType,
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = "Case type is required"
+                RequiredError = Localizer.Shared.RequiredField(Localizer.Case.CaseType)
             },
-            new(nameof(RegulationCase.CancellationType), typeof(EnumListBox<CaseCancellationType>)),
+            new(nameof(RegulationCase.CancellationType), typeof(EnumListBox<CaseCancellationType>))
+            {
+                Label = Localizer.Case.CancellationType
+            },
 
             // derived
             new(nameof(RegulationCase.OverrideType), typeof(EnumListBox<OverrideType>))
             {
-                Group = "Derived"
+                Label = Localizer.Case.OverrideType,
+                Group = Localizer.Regulation.InheritanceDerived
             },
             new(nameof(RegulationCase.BaseCase), typeof(CaseList))
             {
-                Group = "Derived",
+                Label = Localizer.Case.BaseCase,
+                Group = Localizer.Regulation.InheritanceDerived,
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationCase.BaseCaseFields), typeof(BaseCaseFieldGrid))
             {
-                Group = "Derived"
+                Label = Localizer.Case.BaseCaseFields,
+                Group = Localizer.Regulation.InheritanceDerived
             },
 
             // case slots
             new(nameof(RegulationCase.Slots), typeof(RegulationCaseSlotGrid))
             {
-                Group = "Slots"
+                Label = Localizer.Case.Slots,
+                Group = Localizer.Case.Slots
             },
 
             // expressions and actions
             new(nameof(RegulationCase.AvailableExpression), typeof(TextBox))
             {
+                Label = Localizer.Case.AvailableExpression,
+                ActionLabel = Localizer.Case.AvailableActions,
                 Expression = true,
                 Action = FunctionType.CaseAvailable,
-                Label = "Available script",
                 Lines = 8
             },
             new(nameof(RegulationCase.BuildExpression), typeof(TextBox))
             {
+                Label = Localizer.Case.BuildExpression,
+                ActionLabel = Localizer.Case.BuildActions,
                 Expression = true,
                 Action = FunctionType.CaseBuild,
-                Label = "Build script",
                 Lines = 8
             },
             new(nameof(RegulationCase.ValidateExpression), typeof(TextBox))
             {
+                Label = Localizer.Case.ValidateExpression,
+                ActionLabel = Localizer.Case.ValidateActions,
                 Expression = true,
                 Action = FunctionType.CaseValidate,
-                Label = "Validate script",
                 Lines = 8
             },
 
             // attributes
             new(nameof(RegulationCase.Attributes), null)
         };
+        Fields = fields;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        SetupFields();
+        return base.OnInitializedAsync();
     }
 }

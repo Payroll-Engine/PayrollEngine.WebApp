@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -27,6 +28,8 @@ public partial class PayrunParameterGrid : IDisposable
     private IDialogService DialogService { get; set; }
     [Inject]
     private IUserNotificationService UserNotification { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected ItemCollection<PayrunParameter> PayrunParameters { get; set; } = new();
     protected MudDataGrid<PayrunParameter> Grid { get; set; }
@@ -36,7 +39,8 @@ public partial class PayrunParameterGrid : IDisposable
     protected async Task AddPayrunParameterAsync()
     {
         // payrun parameter create dialog
-        var dialog = await (await DialogService.ShowAsync<PayrunParameterDialog>("Add payrun parameter")).Result;
+        var dialog = await (await DialogService.ShowAsync<PayrunParameterDialog>(
+            Localizer.Item.AddTitle(Localizer.PayrunParameter.PayrunParameter))).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -55,13 +59,13 @@ public partial class PayrunParameterGrid : IDisposable
             if (result != null)
             {
                 PayrunParameters.Add(payrunParameter);
-                await UserNotification.ShowSuccessAsync($"Payrun parameter {payrunParameter.Name} added");
+                await UserNotification.ShowSuccessAsync(Localizer.Item.Added(payrunParameter.Name));
             }
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Add payrun parameter", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Item.AddTitle(Localizer.PayrunParameter.PayrunParameter), exception);
         }
     }
 
@@ -83,7 +87,8 @@ public partial class PayrunParameterGrid : IDisposable
         };
 
         // payrun parameter edit dialog
-        var dialog = await (await DialogService.ShowAsync<PayrunParameterDialog>("Edit payrun parameter", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<PayrunParameterDialog>(
+            Localizer.Item.EditTitle(Localizer.PayrunParameter.PayrunParameter), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -95,12 +100,12 @@ public partial class PayrunParameterGrid : IDisposable
             await PayrunParameterService.UpdateAsync(new(Tenant.Id, Payrun.Id), editItem);
             PayrunParameters.Remove(payrunParameter);
             PayrunParameters.Add(editItem);
-            await UserNotification.ShowSuccessAsync($"Payrun parameter {payrunParameter.Name} updated");
+            await UserNotification.ShowSuccessAsync(Localizer.Item.Updated(payrunParameter.Name));
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Edit payrun parameter", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Item.EditTitle(Localizer.PayrunParameter.PayrunParameter), exception);
         }
     }
 
@@ -114,8 +119,9 @@ public partial class PayrunParameterGrid : IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                "Delete payrun parameter",
-                $"Delete {payrunParameter.Name} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.PayrunParameter.PayrunParameter),
+                Localizer.Item.DeleteQuery(Localizer.PayrunParameter.PayrunParameter)))
         {
             return;
         }
@@ -125,12 +131,12 @@ public partial class PayrunParameterGrid : IDisposable
         {
             await PayrunParameterService.DeleteAsync(new(Tenant.Id, Payrun.Id), payrunParameter.Id);
             PayrunParameters.Remove(payrunParameter);
-            await UserNotification.ShowSuccessAsync($"Payrun parameter {payrunParameter.Name} removed");
+            await UserNotification.ShowSuccessAsync(Localizer.Item.Removed(payrunParameter.Name));
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Delete payrun parameter", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Item.DeleteTitle(Localizer.PayrunParameter.PayrunParameter), exception);
         }
     }
 
@@ -155,7 +161,7 @@ public partial class PayrunParameterGrid : IDisposable
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Delete payrun parameter", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Item.DeleteTitle(Localizer.PayrunParameter.PayrunParameter), exception);
         }
     }
 

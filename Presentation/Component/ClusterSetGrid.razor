@@ -1,0 +1,40 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+<MudDataGrid @ref="Grid" T="ClusterSet" Items="@ClusterSets"
+             Height="@Height" Class="@Class" Style="@Style">
+    <Columns>
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.IncludeClustersAsString" Title="@Localizer.ClusterSet.IncludeClusters" />
+        <PropertyColumn Property="x => x.ExcludeClustersAsString" Title="@Localizer.ClusterSet.ExcludeClusters" />
+        <TemplateColumn T="ClusterSet" CellClass="d-flex justify-end" ShowColumnOptions="false"
+                        ShowFilterIcon="false" Sortable="false">
+            <HeaderTemplate>
+                <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.AddTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@AddClusterSetAsync"
+                                       Color="Color.Tertiary" Variant="Variant.Outlined"
+                                       Icon="@Icons.Material.Filled.Add"
+                                       Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+            </HeaderTemplate>
+            <FilterTemplate />
+            <CellTemplate>
+                <MudStack Row="true">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => DeleteClusterSetAsync(context.Item))"
+                                       Color="Color.Secondary" Variant="Variant.Outlined"
+                                       Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                    </MudTooltip>
+                    <MudTooltip Delay="500" Text="@Localizer.Item.EditTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => EditClusterSetAsync(context.Item))"
+                                       Color="Color.Primary" Variant="Variant.Outlined"
+                                       Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <NoRecordsContent>
+        @Localizer.ClusterSet.NotAvailable
+    </NoRecordsContent>
+</MudDataGrid>

@@ -8,7 +8,7 @@
     return;
 }
 
-<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">User Storage</MudText>
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.Storage.Storage</MudText>
 
 <MudDataGrid T="StorageItem"
              Items="@Items"
@@ -16,13 +16,13 @@
              Filterable="true"
              Hideable="false">
     <Columns>
-        <PropertyColumn Property="x => x.Key" />
-        <PropertyColumn Property="x => x.Value" />
+        <PropertyColumn Property="x => x.Key" Title="@Localizer.Shared.Key" />
+        <PropertyColumn Property="x => x.Value" Title="@Localizer.Shared.Value" />
         <TemplateColumn T="StorageItem" CellClass="d-flex justify-end" ShowColumnOptions="false"
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="Remove all" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.RemoveAll" Placement="Placement.Top">
                         <MudIconButton @onclick="@RemoveAllAsync"
                                        Disabled="@(Items.Count == 0)"
                                        Color="Color.Tertiary"
@@ -34,7 +34,7 @@
             </HeaderTemplate>
             <FilterTemplate />
             <CellTemplate>
-                <MudTooltip Delay="500" Text="@($"Remove item {context.Item.Key}")" Placement="Placement.Top">
+                <MudTooltip Delay="500" Text="@Localizer.Item.DeleteTitle(context.Item.Key)" Placement="Placement.Top">
                     <MudIconButton @onclick="@(() => RemoveAsync(context.Item))"
                                    Color="Color.Secondary"
                                    Variant="Variant.Outlined"
@@ -48,6 +48,6 @@
         <MudDataGridPager T="StorageItem" />
     </PagerContent>
     <NoRecordsContent>
-        No storage items available
+        @Localizer.Storage.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

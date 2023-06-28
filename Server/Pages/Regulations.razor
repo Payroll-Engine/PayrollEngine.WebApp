@@ -1,8 +1,9 @@
 ﻿@page "/regulations"
 
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.Regulation, Query, PayrollEngine.WebApp.Server.Dialogs.RegulationDialog>
+@inherits EditItemPageBase<ViewModel.Regulation, Query, Dialogs.RegulationDialog>
 
 @if (!HasFeature(Feature.Regulations))
 {
@@ -10,7 +11,7 @@
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Regulations" />
+<ItemPageActions PageActions="this" Title="@Localizer.Regulation.Regulations" />
 
 <MudDataGrid @ref="ItemsGrid" T="ViewModel.Regulation" 
              ServerData="GetServerDataAsync"
@@ -21,24 +22,28 @@
              Filterable="true"
              Hideable="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Status" />
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.Description" />
-        <PropertyColumn Property="x => x.Owner" />
-        <PropertyColumn Property="x => x.ValidFrom" Title="Valid from">
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.Status)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.Description" Title="@Localizer.Shared.Description" />
+        <PropertyColumn Property="x => x.Owner" Title="@Localizer.Shared.Owner" />
+        <PropertyColumn Property="x => x.ValidFrom" Title="@Localizer.Regulation.ValidFrom">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.ValidFrom)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Version" />
-        <PropertyColumn Property="x => x.SharedRegulation" />
-        <PropertyColumn Property="x => x.Created">
+        <PropertyColumn Property="x => x.Version" Title="@Localizer.Regulation.Version" />
+        <PropertyColumn Property="x => x.SharedRegulation" Title="@Localizer.Regulation.SharedRegulation" />
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
@@ -49,6 +54,6 @@
         <MudDataGridPager T="ViewModel.Regulation" />
     </PagerContent>
     <NoRecordsContent>
-        No regulations available
+        @Localizer.Regulation.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

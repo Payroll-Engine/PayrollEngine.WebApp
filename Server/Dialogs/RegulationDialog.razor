@@ -2,39 +2,40 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
 <MudDialog Class="item-dialog">
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <LocalizationTextField Item="@Regulation" @bind-Value="Regulation.Name"
                                                PropertyName="@nameof(Regulation.Name)"
                                                MaxLength="@SystemSpecification.KeyTextLength"
                                                ReadOnly="@Regulation.IsExistingObject"
-                                               Label="@(Regulation.IsNewObject ? "Name (immutable)" : "Name")"
+                                               Label="@(Regulation.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Regulation.Name))"
-                                               Required="true" RequiredError="Name is required" />
+                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
                         <LocalizationTextField Item="@Regulation" @bind-Value="Regulation.Description"
                                                PropertyName="@nameof(Regulation.Description)"
-                                               Label="Description" />
+                                               Label="@Localizer.Shared.Description" />
                         <MudTextField T="string" @bind-Value="Regulation.Owner"
-                                      Label="Owner" />
+                                      Label="@Localizer.Shared.Owner" />
                         <MudDatePicker @bind-Date="Regulation.ValidFrom"
-                                       Label="Valid from date"
+                                       Label="@Localizer.Regulation.ValidFrom"
                                        Editable="true" />
                         <MudNumericField T="int" @bind-Value="Regulation.Version"
-                                         Label="Version" />
+                                         Label="@Localizer.Regulation.Version" />
                         <MudSwitch T="bool" @bind-Checked="Regulation.SharedRegulation"
                                    Color="Color.Primary"
                                    ReadOnly="@Regulation.IsExistingObject"
-                                   Label="@(Regulation.IsNewObject ? "Shared regulation (immutable)" : "Shared regulation")" />
+                                   Label="@(Regulation.IsNewObject ? $"{Localizer.Regulation.SharedRegulation} ({Localizer.Shared.Immutable})" : Localizer.Regulation.SharedRegulation)" />
                         <ItemBaseFields Item="Regulation" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="Regulation" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -50,6 +51,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Regulation Regulation { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
 
     public async Task<bool> ValidateAsync(Regulation regulation) =>
         await form.Revalidate();

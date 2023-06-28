@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -25,6 +26,8 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
     private IPayrollService PayrollService { get; set; }
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected ItemCollection<CaseFieldReference> References { get; set; } = new();
 
@@ -78,7 +81,8 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
         };
 
         // attribute create dialog
-        var dialog = await (await DialogService.ShowAsync<BaseCaseFieldsDialog>("Add base case field", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<BaseCaseFieldsDialog>(
+            Localizer.Item.AddTitle(Localizer.Case.BaseCaseField), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -120,7 +124,8 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
         };
 
         // attribute edit dialog
-        var dialog = await (await DialogService.ShowAsync<BaseCaseFieldsDialog>("Edit base case field", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<BaseCaseFieldsDialog>(
+            Localizer.Item.EditTitle(Localizer.Case.BaseCaseField), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -147,8 +152,9 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                "Delete base case field",
-                $"Delete {reference.Name} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.Case.BaseCaseField),
+                Localizer.Item.DeleteQuery(Localizer.Case.BaseCaseField)))
         {
             return;
         }

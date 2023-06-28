@@ -1,6 +1,0 @@
-﻿@typeparam T
-
-@foreach (var item in Enum.GetValues(typeof(T)))
-{
-    <MudSelectItem T="T" Value="@((T)item)">@item.ToString().ToPascalSentence()</MudSelectItem>
-}

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -24,6 +25,9 @@ public partial class ActionDialog
     public EventCallback ActionAccepted { get; set; }
     [Parameter]
     public EventCallback ActionCanceled { get; set; }
+
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     private MudForm form;
     protected List<ActionInfo> CategoryActions { get; set; }
@@ -47,7 +51,6 @@ public partial class ActionDialog
 
     protected MudChip SelectedCategory { get; set; }
     protected List<ActionCategory> Categories { get; set; }
-    private const string ActionCategoryAll = "All";
 
     private async Task SetupActionsAsync()
     {
@@ -94,7 +97,7 @@ public partial class ActionDialog
         orderedCategories.Insert(0, new()
         {
             Name = null,
-            Label = ActionCategoryAll
+            Label = Localizer.Shared.All
         });
 
         Categories = orderedCategories;
@@ -103,7 +106,7 @@ public partial class ActionDialog
     private void SetCategory(string category)
     {
         // all
-        if (string.Equals(category, ActionCategoryAll))
+        if (string.Equals(category, Localizer.Shared.All))
         {
             CategoryActions = AllActions.OrderBy(x => x.GetExpressionTemplate()).ToList();
             return;
@@ -162,7 +165,7 @@ public partial class ActionDialog
         // categories
         SetupCategories();
         // default category
-        SetCategory(ActionCategoryAll);
+        SetCategory(Localizer.Shared.All);
 
         await base.OnInitializedAsync();
     }

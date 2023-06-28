@@ -1,0 +1,92 @@
+﻿@using PayrollEngine.WebApp.Shared
+
+<MudDialog style="min-width: 40em">
+    <DialogContent>
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form">
+                <MudStack Spacing="0">
+                    @if (!string.IsNullOrWhiteSpace(LocalizationBase))
+                    {
+                        <MudTextField T="string" Label="@Localizer.Localization.LocalizationBase"
+                                      Value="@LocalizationBase"
+                                      ReadOnly="true" />
+                    }
+                    <MudSelect T="string" Label="@Localizer.Shared.Culture" @bind-Value="LocalizationKey"
+                               Validation="@(new Func<string, string>(ValidateCulture))"
+                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Culture)">
+                        @foreach (var cultureName in CultureNames)
+                        {
+                            <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudTextField T="string" Label="@Localizer.Localization.Localization"
+                    @bind-Value="LocalizationValue"
+                                  MaxLength="@MaxLength"
+                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Localization.Localization)" />
+                </MudStack>
+            </MudForm>
+        </MudPaper>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string LocalizationBase { get; set; }
+    [Parameter] public IDictionary<string, string> Localizations { get; set; }
+    [Parameter] public KeyValuePair<string, string> Localization { get; set; }
+    [Parameter] public int MaxLength { get; set; } = 524288;
+    [Inject] private Localizer Localizer { get; set; }
+
+    private string LocalizationKey { get; set; }
+    private string LocalizationValue { get; set; }
+
+    private string ValidateCulture(string culture)
+    {
+        if (string.IsNullOrWhiteSpace(culture))
+        {
+            return "Culture is required";
+        }
+
+        if (Localizations != null && Localizations.ContainsKey(culture))
+        {
+            return "Culture already in use";
+        }
+        return null;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        if (await form.Revalidate())
+        {
+            var result = new KeyValuePair<string, string>(LocalizationKey, LocalizationValue);
+            MudDialog.Close(DialogResult.Ok(result));
+        }
+    }
+
+    private List<string> CultureNames { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // cultures
+        CultureNames = CultureTool.GetSpecificCultureNames();
+        await base.OnInitializedAsync();
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        LocalizationKey = Localization.Key;
+        LocalizationValue = Localization.Value;
+        return base.OnParametersSetAsync();
+    }
+}

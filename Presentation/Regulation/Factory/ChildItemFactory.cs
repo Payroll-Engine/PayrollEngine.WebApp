@@ -115,17 +115,17 @@ public abstract class ChildItemFactory<TParent, TObject> : ItemFactoryBase<TObje
             RegulationInheritanceType inheritanceType;
             if (item.BaseItem == null)
             {
-                // new or derived
+                // new or base
                 inheritanceType = regulation == Regulations.First() ?
                     RegulationInheritanceType.New :
-                    RegulationInheritanceType.Derived;
+                    RegulationInheritanceType.Base;
             }
             else
             {
-                // override or derived
+                // derived or base
                 inheritanceType = regulation == Regulations.First() ?
-                    RegulationInheritanceType.Override :
-                    RegulationInheritanceType.Derived;
+                    RegulationInheritanceType.Derived :
+                    RegulationInheritanceType.Base;
             }
             SetRegulation(regulation, item, inheritanceType);
         }

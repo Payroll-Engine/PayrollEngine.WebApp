@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
+using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Server.Shared;
 
@@ -21,6 +24,10 @@ public class Document : ComponentBase, IDisposable
     private NavigationManager NavigationManager { get; set; }
     [Inject]
     private IJSRuntime JsRuntime { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
+
+    protected List<PageInfo> Pages { get; private set; }
 
     private async Task SetTitle(Uri uri)
     {
@@ -28,7 +35,7 @@ public class Document : ComponentBase, IDisposable
         await JsRuntime.InvokeVoidAsync("JsFunctions.setDocumentTitle", GetPageTitle(name, BaseLabel));
     }
 
-    public static string GetPageTitle(string uri, string baseLabel)
+    public string GetPageTitle(string uri, string baseLabel)
     {
         if (string.IsNullOrWhiteSpace(uri))
         {
@@ -43,7 +50,7 @@ public class Document : ComponentBase, IDisposable
 
         // page register info
         var pageLink = uri.EnsureEnd("/");
-        var page = PageRegister.Pages.FirstOrDefault(
+        var page = Pages.FirstOrDefault(
             x => string.Equals(x.PageLink, pageLink, StringComparison.InvariantCultureIgnoreCase));
 
         // title
@@ -58,6 +65,10 @@ public class Document : ComponentBase, IDisposable
 
     protected override void OnInitialized()
     {
+        // pages
+        Pages = new PageRegister(Localizer).Pages;
+
+        // navigation
         NavigationManager.LocationChanged += LocationChangedHandler;
     }
 

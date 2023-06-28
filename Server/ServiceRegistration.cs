@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -9,6 +12,7 @@ using PayrollEngine.Document;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
 using PayrollEngine.WebApp.Server.Shared;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Server;
 
@@ -43,6 +47,16 @@ public static class ServiceRegistration
             throw new PayrollException(message);
         }
 
+        // localizations
+        services.AddLocalization(o => { o.ResourcesPath = "Resources"; });
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var supportedCultures = SharedCultures.GetCultures();
+            options.DefaultRequestCulture = new RequestCulture(SharedCultures.DefaultCulture);
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+        });
+
         // tenants check
         var tenantCount = Task.Run(() =>
             new TenantService(httpClient).QueryCountAsync(new())).Result;
@@ -58,6 +72,10 @@ public static class ServiceRegistration
 
         // theme
         services.AddSingleton<IThemeService>(new ThemeService());
+
+        // localization
+        services.AddTransient<Localizer>();
+        services.AddTransient<MudLocalizer, AppMudLocalizer>();
 
         // tenant
         services.AddScoped<ITenantService, TenantService>();

@@ -1,9 +1,13 @@
-﻿<MudSelect T="string"
-           Label="@Item.GetItemLabel(Field)"
+﻿@using PayrollEngine.WebApp.Shared
+
+@inject Localizer Localizer;
+
+<MudSelect T="string"
+           Label="@Item.GetItemLabel(Field, Localizer)"
            HelperText="@Item.GetItemHelp(Field)"
            MultiSelection="true"
            SelectAll="true"
-           SelectAllText="@($"Select all {Item.GetItemLabel(Field)}")"
+           SelectAllText="@($"Select all {Item.GetItemLabel(Field, Localizer)}")"
            SelectedValues="SelectedCollectors" SelectedValuesChanged="SelectionChangedAsync"
            Value="@CollectorsAsString"
            Disabled="@(Collectors == null || Collectors.Count < 1)"

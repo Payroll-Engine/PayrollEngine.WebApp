@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -22,12 +23,14 @@ public partial class ActionGrid : IDisposable
 
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected MudDataGrid<ActionItem> Grid { get; set; }
     protected bool IsBaseValue { get; set; }
     protected ItemCollection<ActionItem> Actions { get; set; }
 
-    protected string ActionFieldLabel => Field.GetActionFieldName().ToPascalSentence();
+    //protected string ActionFieldLabel => Field.GetActionFieldName(Localizer);
 
     #region Action Commands
 
@@ -96,7 +99,8 @@ public partial class ActionGrid : IDisposable
 
 
         // attribute create dialog
-        var dialog = await (await DialogService.ShowAsync<ActionDialog>("New action", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<ActionDialog>(
+            Localizer.Item.AddTitle(Localizer.Action.Action), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -147,7 +151,8 @@ public partial class ActionGrid : IDisposable
         };
 
         // attribute create dialog
-        var dialog = await (await DialogService.ShowAsync<ActionDialog>("Edit action", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<ActionDialog>(
+            Localizer.Item.EditTitle(Localizer.Action.Action), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -181,8 +186,9 @@ public partial class ActionGrid : IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                "Delete action",
-                $"Delete {action.Action} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.Action.Action),
+                Localizer.Item.DeleteQuery(action.Action)))
         {
             return;
         }
@@ -286,7 +292,7 @@ public partial class ActionGrid : IDisposable
         // ensure expression/action field
         if (!Field.IsAction)
         {
-            throw new PayrollException($"Field {Field.PropertyName} has no actions");
+            throw new PayrollException(Localizer.Error.EmptyActionField(Field.PropertyName));
         }
 
         lastObject = Item;

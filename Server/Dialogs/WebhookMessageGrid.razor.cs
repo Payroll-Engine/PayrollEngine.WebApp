@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -27,6 +28,8 @@ public partial class WebhookMessageGrid : IDisposable
     private IDialogService DialogService { get; set; }
     [Inject]
     private IUserNotificationService UserNotification { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     protected ItemCollection<WebhookMessage> WebhookMessages { get; set; } = new();
     protected MudDataGrid<WebhookMessage> Grid { get; set; }
@@ -36,7 +39,8 @@ public partial class WebhookMessageGrid : IDisposable
     protected async Task AddWebhookMessageAsync()
     {
         // webhook message create dialog
-        var dialog = await (await DialogService.ShowAsync<WebhookMessageDialog>("Add webhook message")).Result;
+        var dialog = await (await DialogService.ShowAsync<WebhookMessageDialog>(
+            Localizer.Item.AddTitle(Localizer.WebhookMessage.WebhookMessage))).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -55,13 +59,14 @@ public partial class WebhookMessageGrid : IDisposable
             if (result != null)
             {
                 WebhookMessages.Add(webhookMessage);
-                await UserNotification.ShowSuccessAsync($"Webhook message {webhookMessage.ActionName} added");
+                await UserNotification.ShowSuccessAsync(Localizer.Item.Added(webhookMessage.ActionName));
             }
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Add webhook message", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer,
+                Localizer.Item.AddTitle(Localizer.WebhookMessage.WebhookMessage), exception);
         }
     }
 
@@ -83,7 +88,8 @@ public partial class WebhookMessageGrid : IDisposable
         };
 
         // webhook message edit dialog
-        var dialog = await (await DialogService.ShowAsync<WebhookMessageDialog>("Edit webhook message", parameters)).Result;
+        var dialog = await (await DialogService.ShowAsync<WebhookMessageDialog>(
+            Localizer.Item.EditTitle(Localizer.WebhookMessage.WebhookMessage), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -95,12 +101,13 @@ public partial class WebhookMessageGrid : IDisposable
             await WebhookMessageService.UpdateAsync(new(Tenant.Id, Webhook.Id), editItem);
             WebhookMessages.Remove(webhookMessage);
             WebhookMessages.Add(editItem);
-            await UserNotification.ShowSuccessAsync($"Webhook message {webhookMessage.ActionName} updated");
+            await UserNotification.ShowSuccessAsync(Localizer.Item.Updated(webhookMessage.ActionName));
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Edit webhook message", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer,
+                Localizer.Item.EditTitle(Localizer.WebhookMessage.WebhookMessage), exception);
         }
     }
 
@@ -114,8 +121,9 @@ public partial class WebhookMessageGrid : IDisposable
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                "Delete webhook message",
-                $"Delete {webhookMessage.ActionName} permanently?"))
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.WebhookMessage.WebhookMessage),
+                Localizer.Item.DeleteQuery(Localizer.WebhookMessage.WebhookMessage)))
         {
             return;
         }
@@ -125,12 +133,13 @@ public partial class WebhookMessageGrid : IDisposable
         {
             await WebhookMessageService.DeleteAsync(new(Tenant.Id, Webhook.Id), webhookMessage.Id);
             WebhookMessages.Remove(webhookMessage);
-            await UserNotification.ShowSuccessAsync($"Webhook message {webhookMessage.ActionName} removed");
+            await UserNotification.ShowSuccessAsync(Localizer.Item.Removed(webhookMessage.ActionName));
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Delete webhook message", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer,
+                Localizer.Item.DeleteTitle(Localizer.WebhookMessage.WebhookMessage), exception);
         }
     }
 
@@ -155,7 +164,9 @@ public partial class WebhookMessageGrid : IDisposable
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Delete webhook message", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(
+                Localizer,
+                Localizer.WebhookMessage.WebhookMessage, exception);
         }
     }
 

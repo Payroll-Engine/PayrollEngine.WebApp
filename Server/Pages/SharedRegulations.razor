@@ -1,9 +1,10 @@
 ﻿@page "/sharedregulations"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<PayrollEngine.WebApp.ViewModel.RegulationShare, Query, PayrollEngine.WebApp.Server.Dialogs.RegulationShareDialog>
+@inherits EditItemPageBase<RegulationShare, Query, Dialogs.RegulationShareDialog>
 
 @if (!HasFeature(Feature.SharedRegulations))
 {
@@ -11,7 +12,7 @@
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Shared Regulations" />
+<ItemPageActions PageActions="this" Title="@Localizer.RegulationShare.RegulationShares" />
 
 <MudDataGrid @ref="ItemsGrid" T="RegulationShare"
              ServerData="GetServerDataAsync"
@@ -22,18 +23,22 @@
              Filterable="true"
              Hideable="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Status" />
-        <PropertyColumn Property="x => x.ProviderTenantIdentifier" Title="Provider Tenant" />
-        <PropertyColumn Property="x => x.ProviderRegulationName" Title="Provider Regulation" />
-        <PropertyColumn Property="x => x.ConsumerTenantIdentifier" Title="Consumer Tenant" />
-        <PropertyColumn Property="x => x.ConsumerDivisionName" Title="Consumer Division" />
-        <PropertyColumn Property="x => x.Created">
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.Status)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.ProviderTenantIdentifier" Title="@Localizer.RegulationShare.ProviderTenant" />
+        <PropertyColumn Property="x => x.ProviderRegulationName" Title="@Localizer.RegulationShare.ProviderRegulation" />
+        <PropertyColumn Property="x => x.ConsumerTenantIdentifier" Title="@Localizer.RegulationShare.ConsumerTenant" />
+        <PropertyColumn Property="x => x.ConsumerDivisionName" Title="@Localizer.RegulationShare.ConsumerDivision" />
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
@@ -44,6 +49,6 @@
         <MudDataGridPager T="RegulationShare" />
     </PagerContent>
     <NoRecordsContent>
-        No regulation shares available
+        @Localizer.RegulationShare.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

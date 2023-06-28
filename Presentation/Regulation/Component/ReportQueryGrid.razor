@@ -2,13 +2,13 @@
              Items="@Queries"
              ReadOnly="@Item.IsReadOnlyField(Field)">
     <Columns>
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.Value" />
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.Value" Title="@Localizer.Shared.Value" />
         <TemplateColumn T="ReportQuery" CellClass="d-flex justify-end" ShowColumnOptions="false"
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="Add new report query" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.AddTitle(Localizer.ReportQuery.ReportQuery)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddQueryAsync"
                                        Color="Color.Tertiary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Add"
@@ -19,12 +19,12 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="Delete report query" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteTitle(Localizer.ReportQuery.ReportQuery)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeleteQueryAsync(context.Item))"
                                        Color="Color.Secondary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="Edit report query" Placement="Placement.Top">
+                    <MudTooltip Delay="500" Text="@Localizer.Item.EditTitle(Localizer.ReportQuery.ReportQuery)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditQueryAsync(context.Item))"
                                        Color="Color.Primary" Variant="Variant.Outlined"
                                        Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
@@ -34,6 +34,6 @@
         </TemplateColumn>
     </Columns>
     <NoRecordsContent>
-        No report queries available
+        @Localizer.ReportQuery.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

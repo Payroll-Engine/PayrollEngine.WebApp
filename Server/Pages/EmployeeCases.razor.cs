@@ -32,7 +32,7 @@ public partial class EmployeeCases
 
     protected override CaseType CaseType => CaseType.Employee;
     protected override string NewCasePageName => PageUrls.EmployeeCase;
-    protected override string PageTitle => "Employee Cases";
+    protected override string PageTitle => Localizer.Case.EmployeeCases;
     protected override string GridId => GetTenantGridId(GridIdentifiers.EmployeeCaseChangeValues);
 
     protected override IBackendService<ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery> CaseValueBackendService => CaseValueService;
@@ -67,8 +67,8 @@ public partial class EmployeeCases
         var adminEmail = Configuration.GetConfiguration<AppConfiguration>().AdminEmail;
         if (string.IsNullOrEmpty(adminEmail))
         {
-            return new("Access denied, please contact your administrator.");
+            return new($"{Localizer.App.AccessDenied}. {Localizer.App.AdminContact}.");
         }
-        return new($"Access denied, please <a href=\"mailto:{adminEmail}\">contact</a> your administrator.");
+        return new($"{Localizer.App.AccessDenied}. <a href=\"mailto:{adminEmail}\">{Localizer.App.AdminContact}</a>.");
     }
 }

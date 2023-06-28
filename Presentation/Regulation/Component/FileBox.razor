@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 
-<MudInputLabel>@Item.GetItemLabel(Field)</MudInputLabel>
+<MudInputLabel>@Item.GetItemLabel(Field, Localizer)</MudInputLabel>
 
 <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync">
     <ButtonTemplate>

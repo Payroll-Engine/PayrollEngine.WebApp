@@ -1,9 +1,10 @@
 ﻿@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Shared
 
 <MudDialog Style="min-width: 30em;">
     <DialogContent>
 
-        <MudText Typo="Typo.h5" Class="mb-4">Payrun Job @PayrunJob.Name</MudText>
+        <MudText Typo="Typo.h5" Class="mb-4">@PayrunJob.Name</MudText>
 
         @* legal job *@
         <MudStack Row="true" Class="gap-4 mb-4">
@@ -11,40 +12,36 @@
             {
                 @* legal job: new *@
                 <MudPaper Class="pa-4"
-                      Style="min-width: 25em; max-width: 40em">
+                          Style="min-width: 25em; max-width: 40em">
                     <MudStack Spacing="0">
-                        <MudText Typo="Typo.h6">New</MudText>
-                        <MudInputLabel Class="pt-4">Date</MudInputLabel>
+                        <MudText Typo="Typo.h6">@Localizer.PayrunJob.New</MudText>
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.Created</MudText>
-                        <MudInputLabel Class="pt-4">User</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                         <MudText Class="pr-4">@GetUserName(PayrunJob.CreatedUserId)</MudText>
-                        <MudInputLabel Class="pt-4">Period</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobPeriod</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.PeriodStart</MudText>
-                        <MudInputLabel Class="pt-4">Retro pay mode</MudInputLabel>
-                        <MudText Class="pr-4">
-                            @(PayrunJob.RetroPayMode == RetroPayMode.ValueChange ? "On" : "Off")
-                        </MudText>
-                        <MudInputLabel Class="pt-4">Reason</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobReason</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.CreatedReason</MudText>
                         <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"
-                                        SelectedEmployees="@PayrunJob.Employees?.Select(x => x.EmployeeId).ToList()" />
+                                            SelectedEmployees="@PayrunJob.Employees?.Select(x => x.EmployeeId).ToList()" />
                         @if (PayrunJob.Attributes != null && PayrunJob.Attributes.Any())
                         {
                             <PayrunParameterInfo Class="pt-4" Language="Language"
-                                         ParameterAttributes="PayrunJob.Attributes" />
+                                                 ParameterAttributes="PayrunJob.Attributes" />
                         }
                     </MudStack>
                 </MudPaper>
                 @* legal job: draft *@
                 <MudPaper Class="pa-4" Elevation="@(PayrunJob.JobStatus.IsDraft() ? 4 : 1)"
-                      Style="min-width: 15em; max-width: 25em">
+                          Style="min-width: 15em; max-width: 25em">
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.h6" Color="@(PayrunJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
-                            Draft
+                            @Localizer.PayrunJob.Draft
                         </MudText>
-                        <MudInputLabel Class="pt-4">Date</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.Created</MudText>
-                        <MudInputLabel Class="pt-4">User</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                         <MudText Class="pr-4">@GetUserName(PayrunJob.CreatedUserId)</MudText>
                     </MudStack>
                 </MudPaper>
@@ -52,15 +49,15 @@
                 @if (PayrunJob.Released.HasValue)
                 {
                     <MudPaper Class="pa-4" Elevation="@(PayrunJob.JobStatus.IsRelease() ? 4 : 1)"
-                      Style="min-width: 15em; max-width: 25em">
+                              Style="min-width: 15em; max-width: 25em">
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6"
-                             Color="@(PayrunJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
-                                Release
+                                     Color="@(PayrunJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
+                                @Localizer.PayrunJob.Release
                             </MudText>
-                            <MudInputLabel Class="pt-4">Date</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                             <MudText Class="pr-4">@PayrunJob.Released</MudText>
-                            <MudInputLabel Class="pt-4">User</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.ReleasedUserId)</MudText>
                         </MudStack>
                     </MudPaper>
@@ -69,48 +66,46 @@
                 @if (PayrunJob.Processed.HasValue)
                 {
                     <MudPaper Class="pa-4" Elevation="@(PayrunJob.JobStatus.IsProcess() ? 4 : 1)"
-                      Style="min-width: 15em; max-width: 25em">
+                              Style="min-width: 15em; max-width: 25em">
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6"
-                             Color="@(PayrunJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
-                                Process
+                                     Color="@(PayrunJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
+                                @Localizer.PayrunJob.Process
                             </MudText>
-                            <MudInputLabel Class="pt-4">Date</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                             <MudText Class="pr-4">@PayrunJob.Processed</MudText>
-                            <MudInputLabel Class="pt-4">User</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.ProcessedUserId)</MudText>
                         </MudStack>
                     </MudPaper>
                 }
                 @* legal job: complete *@
-                @if (PayrunJob.Finished.HasValue &&
-               PayrunJob.JobStatus is PayrunJobStatus.Complete)
+                @if (PayrunJob.Finished.HasValue && PayrunJob.JobStatus is PayrunJobStatus.Complete)
                 {
                     <MudPaper Class="pa-4" Elevation="@(PayrunJob.JobStatus.IsComplete() ? 4 : 1)"
-                      Style="min-width: 15em; max-width: 25em">
+                              Style="min-width: 15em; max-width: 25em">
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6"
-                             Color="@(PayrunJob.JobStatus == PayrunJobStatus.Complete ? Color.Tertiary : Color.Default)">
-                                Complete
+                                     Color="@(PayrunJob.JobStatus == PayrunJobStatus.Complete ? Color.Tertiary : Color.Default)">
+                                @Localizer.PayrunJob.Complete
                             </MudText>
-                            <MudInputLabel Class="pt-4">Date</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                             <MudText Class="pr-4">@PayrunJob.Finished</MudText>
-                            <MudInputLabel Class="pt-4">User</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.FinishedUserId)</MudText>
                         </MudStack>
                     </MudPaper>
                 }
                 @* legal job: cancel or abort *@
-                @if (PayrunJob.Finished.HasValue &&
-               PayrunJob.JobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort)
+                @if (PayrunJob.Finished.HasValue && PayrunJob.JobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort)
                 {
                     <MudPaper Class="pa-4" Elevation="4"
-                      Style="min-width: 15em; max-width: 25em">
+                              Style="min-width: 15em; max-width: 25em">
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6" Color="Color.Error">@PayrunJob.JobStatus</MudText>
-                            <MudInputLabel Class="pt-4">Date</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                             <MudText Class="pr-4">@PayrunJob.Finished</MudText>
-                            <MudInputLabel Class="pt-4">User</MudInputLabel>
+                            <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.FinishedUserId)</MudText>
                         </MudStack>
                     </MudPaper>
@@ -120,25 +115,21 @@
             {
                 @* forecast job *@
                 <MudPaper Class="pa-4" Elevation="4"
-                      Style="min-width: 35em; max-width: 50em">
+                          Style="min-width: 35em; max-width: 50em">
                     <MudStack Spacing="0">
-                        <MudText Typo="Typo.h6">New</MudText>
-                        <MudInputLabel Class="pt-4">Date</MudInputLabel>
+                        <MudText Typo="Typo.h6">@Localizer.PayrunJob.New</MudText>
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.Created</MudText>
                         <MudInputLabel Class="pt-4">Name</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.Forecast</MudText>
-                        <MudInputLabel Class="pt-4">User</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                         <MudText Class="pr-4">@GetUserName(PayrunJob.CreatedUserId)</MudText>
-                        <MudInputLabel Class="pt-4">Period</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobPeriod</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.PeriodStart</MudText>
-                        <MudInputLabel Class="pt-4">Retro pay mode</MudInputLabel>
-                        <MudText Class="pr-4">
-                            @(PayrunJob.RetroPayMode == RetroPayMode.ValueChange ? "On" : "Off")
-                        </MudText>
-                        <MudInputLabel Class="pt-4">Reason</MudInputLabel>
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobReason</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.CreatedReason</MudText>
                         <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"
-                                        SelectedEmployees="@PayrunJob.Employees?.Select(x => x.EmployeeId).ToList()" />
+                                            SelectedEmployees="@PayrunJob.Employees?.Select(x => x.EmployeeId).ToList()" />
                         @if (PayrunJob.Attributes != null && PayrunJob.Attributes.Any())
                         {
                             <PayrunParameterInfo Class="pt-4" ParameterAttributes="@PayrunJob.Attributes" />
@@ -150,7 +141,7 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">Close</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">@Localizer.Dialog.Close</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -161,6 +152,7 @@
     [Parameter] public List<PayrollEngine.WebApp.User> Users { get; set; } = new();
     [Parameter] public List<Employee> Employees { get; set; } = new();
     [Parameter] public Language Language { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     void Close() => MudDialog.Close(DialogResult.Ok(true));
 

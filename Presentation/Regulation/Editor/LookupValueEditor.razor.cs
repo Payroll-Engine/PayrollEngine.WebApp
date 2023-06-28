@@ -1,41 +1,63 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.WebApp.Presentation.Regulation.Component;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
+using Task = System.Threading.Tasks.Task;
 
-namespace PayrollEngine.WebApp.Presentation.Regulation.Editor
+namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
+
+public partial class LookupValueEditor
 {
-    public partial class LookupValueEditor
-    {
-        [Parameter]
-        public RegulationEditContext EditContext { get; set; }
-        [Parameter]
-        public IRegulationItem Item { get; set; }
-        [Parameter]
-        public EventCallback<IRegulationItem> SaveItem { get; set; }
-        [Parameter]
-        public EventCallback<IRegulationItem> DeleteItem { get; set; }
-        [Parameter]
-        public EventCallback<IRegulationItem> OverrideItem { get; set; }
+    [Parameter]
+    public RegulationEditContext EditContext { get; set; }
+    [Parameter]
+    public IRegulationItem Item { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> SaveItem { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> DeleteItem { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> DeriveItem { get; set; }
 
-        protected List<RegulationField> Fields { get; } = new() {
+    [Inject]
+    private Localizer Localizer { get; set; }
+
+    protected List<RegulationField> Fields { get; private set; }
+
+    private void SetupFields()
+    {
+        var fields = new List<RegulationField>
+        {
             new(nameof(RegulationLookupValue.Key), typeof(TextBox))
             {
+                Label = Localizer.Shared.Key,
                 KeyField = true,
                 Required = true,
-                Label = "Lookup key",
-                RequiredError = "Key is required"
+                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Key)
             },
             new(nameof(RegulationLookupValue.Value), typeof(TextBox))
             {
+                Label = Localizer.Shared.Value,
                 Required = true,
-                RequiredError = "Value is required"
+                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Value)
             },
             new(nameof(RegulationLookupValue.RangeValue), typeof(NumericTextBox<decimal>))
             {
+                Label = Localizer.LookupValue.RangeValue,
                 Format = SystemSpecification.DecimalFormat
             },
-            new(nameof(RegulationLookupValue.OverrideType), typeof(EnumListBox<OverrideType>)),
+            new(nameof(RegulationLookupValue.OverrideType), typeof(EnumListBox<OverrideType>))
+            {
+                Label = Localizer.Shared.OverrideType
+            }
         };
+        Fields = fields;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        SetupFields();
+        return base.OnInitializedAsync();
     }
 }

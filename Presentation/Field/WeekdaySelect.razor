@@ -1,7 +1,8 @@
-﻿@inherits FieldEditorBase;
+﻿@using PayrollEngine.WebApp.Shared
+@inherits FieldEditorBase;
 
 <MudSelect T="int?"
-           @bind-Value="Field.ValueAsInteger"
+@bind-Value="Field.ValueAsInteger"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
@@ -19,20 +20,17 @@
 
 @code
 {
+    [Inject] private Localizer Localizer { get; set; }
+
     protected override string ValueLabel { get; set; }
     private List<Tuple<int, string>> Weekdays { get; } = new();
 
     protected bool ValuesDisabled =>
         Disabled || !Weekdays.Any();
 
-    protected override async Task OnInitializedAsync()
+    private void SetupWeekdays()
     {
-        // label
-        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? "Day";
-
-        // weekday names
         var culture = Culture;
-
         // day names
         var dayNames = culture.DateTimeFormat.DayNames.ToList();
 
@@ -53,10 +51,20 @@
             // next day
             currentDay = dayNames.First();
         }
+
+        // apply days
         for (var i = 0; i < dayNames.Count; i++)
         {
             Weekdays.Add(new(i, dayNames[i]));
         }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // label
+        ValueLabel = Field.Attributes.GetValueLabel(Language) ?? Localizer.Calendar.Day;
+        // weekday names
+        SetupWeekdays();
 
         await base.OnInitializedAsync();
     }

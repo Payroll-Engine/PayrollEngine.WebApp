@@ -2,9 +2,10 @@
 @page "/payrunjobs/{Payrun}"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Presentation.Payrun
 
-@inherits PayrollEngine.WebApp.Presentation.PageBase
+@inherits PageBase
 
 @if (!HasFeature(Feature.Payruns))
 {
@@ -12,23 +13,23 @@
     return;
 }
 
-<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">Payrun Jobs</MudText>
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">@Localizer.PayrunJob.PayrunJobs</MudText>
 
 @if (!HasPayroll)
 {
-    <div>Please select a Payroll</div>
+    <div>@Localizer.App.SelectPayroll</div>
     return;
 }
 @if (!HasPayruns)
 {
-    <div>Please select a Payroll with a Payrun</div>
+    <div>@Localizer.App.SelectPayrollWithPayrun</div>
     return;
 }
 
 @* payrun selection *@
 @if (SelectedPayrun == null)
 {
-    <div class="pa-1 mt-4">Please select a Payrun</div>
+    <div class="pa-1 mt-4">@Localizer.App.SelectPayrun</div>
 }
 
 <MudStack Row="true" Spacing="0" Class="gap-2 my-4">
@@ -38,7 +39,7 @@
                    ValueChanged="PayrunChanged"
                    Disabled="@(Payruns == null || Payruns.Count < 1)"
                    ReadOnly="@(Payruns == null || Payruns.Count == 1)"
-                   Label="Payrun"
+                   Label="@Localizer.Payrun.Payrun"
                    Variant="Variant.Outlined">
             @foreach (var payrun in Payruns)
             {
@@ -54,7 +55,7 @@
                    StartIcon="@Icons.Material.Filled.NavigateNext"
                    Style="height: fit-content; align-self: end;"
                    OnClick="NavigateToResults">
-            Job Results
+            @Localizer.PayrunJob.JobResults
         </MudButton>
     }
 </MudStack>
@@ -71,31 +72,31 @@
         <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
 
             @* legal payrun job *@
-            <MudTabPanel Text="Legal">
+            <MudTabPanel Text="@Localizer.PayrunJob.Legal">
                 <MudStack Row="true" Class="gap-4">
                     @* legal job: new *@
                     <MudPaper Class="pa-4" Style="min-width: 40em; max-width: 80em">
                         <MudForm @ref="@legalForm">
                             <MudStack>
-                                <MudText Typo="Typo.h6">Payrun Job</MudText>
+                                <MudText Typo="Typo.h6">@Localizer.PayrunJob.PayrunJob</MudText>
 
                                 @* job name *@
                                 <MudTextField T="string" @bind-Value="LegalSetup.JobName"
+                                              Label="@Localizer.PayrunJob.JobName"
                                               MaxLength="SystemSpecification.KeyTextLength"
                                               ReadOnly="@HasLegalJob"
                                               Margin="Margin.Dense"
                                               Required="@(!HasLegalJob)"
-                                              RequiredError="Payrun job name is required"
-                                              Label="Job name" />
+                                              RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobName)" />
 
                                 @* period *@
                                 <MudDatePicker @bind-Date="@LegalSetup.Period"
+                                               Label="@Localizer.PayrunJob.JobPeriod"
                                                ReadOnly="@HasLegalJob"
-                                               Label="Period"
                                                OpenTo="OpenTo.Month"
                                                Margin="Margin.Dense"
                                                Required="@(!HasLegalJob)"
-                                               RequiredError="Payrun job period is required"
+                                               RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobPeriod)"
                                                Editable="true" />
 
                                 @* employees *@
@@ -110,12 +111,12 @@
                                     @bind-SelectedValues="LegalSetup.SelectedEmployees"
                                                Disabled="@(Employees == null || Employees.Count < 1)"
                                                ReadOnly="@HasLegalJob"
-                                               Label="Employees"
+                                               Label="@Localizer.Employee.Employees"
                                                Margin="Margin.Dense"
                                                Clearable="true"
                                                MultiSelection="true"
                                                SelectAll="true"
-                                               SelectAllText="Select all employees">
+                                               SelectAllText="@Localizer.Shared.SelectAll">
                                         @foreach (var employee in Employees)
                                         {
                                             <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
@@ -134,19 +135,21 @@
                                     {
                                         <MudButton Variant="Variant.Outlined"
                                                    Color="@(LegalSetup.ValidParameters() ? Color.Primary : Color.Error)"
-                                                   OnClick="@(() => SetupPayrunParametersAsync(LegalSetup.Parameters))">Parameters</MudButton>
+                                                   OnClick="@(() => SetupPayrunParametersAsync(LegalSetup.Parameters))">
+                                            @Localizer.Payrun.Parameters
+                                        </MudButton>
                                     }
                                 }
 
                                 @* reason *@
                                 <MudTextField T="string"
                                 @bind-Value="LegalSetup.Reason"
+                                              Label="@Localizer.PayrunJob.JobReason"
                                               ReadOnly="@HasLegalJob"
                                               Margin="Margin.Dense"
                                               Required="@(!HasLegalJob)"
-                                              RequiredError="Payrun job reason is required"
+                                              RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobReason)"
                                               Lines="3"
-                                              Label="Reason"
                                               Variant="Variant.Outlined" />
                                 @if (!HasLegalJob)
                                 {
@@ -155,7 +158,7 @@
                                                Variant="Variant.Outlined"
                                                Color="Color.Tertiary"
                                                Disabled="@(!LegalSetup.IsValidLegalJob())">
-                                        Start Payrun
+                                        @Localizer.PayrunJob.StartPayrun
                                     </MudButton>
                                 }
                             </MudStack>
@@ -168,11 +171,11 @@
                                   Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6" Color="@(LegalJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
-                                    Draft
+                                    @Localizer.PayrunJob.Draft
                                 </MudText>
-                                <MudInputLabel Class="pt-2">Date</MudInputLabel>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Created</MudText>
-                                <MudInputLabel Class="pt-2">User</MudInputLabel>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
                                 <MudText Class="pr-4">@GetUserName(LegalJob.CreatedUserId)</MudText>
                                 @if (LegalJob.JobStatus == PayrunJobStatus.Draft)
                                 {
@@ -181,13 +184,13 @@
                                                    Style="Width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Error">
-                                            Abort
+                                            @Localizer.PayrunJob.Abort
                                         </MudButton>
                                         <MudButton OnClick="ReleaseLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            Release
+                                            @Localizer.PayrunJob.Release
                                         </MudButton>
                                     </div>
                                 }
@@ -202,23 +205,23 @@
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
                                          Color="@(LegalJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
-                                    Release
+                                    @Localizer.PayrunJob.Release
                                 </MudText>
-                                <MudInputLabel Class="pt-2">Date</MudInputLabel>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Released</MudText>
-                                <MudInputLabel Class="pt-2">User</MudInputLabel>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
                                 <MudText Class="pr-4">@GetUserName(LegalJob.ReleasedUserId)</MudText>
                                 @if (LegalJob.JobStatus == PayrunJobStatus.Release)
                                 {
                                     <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
                                         <MudButton OnClick="AbortLegalJobAsync" Style="Width: max-content" Variant="Variant.Outlined" Color="Color.Error">
-                                            Abort
+                                            @Localizer.PayrunJob.Abort
                                         </MudButton>
                                         <MudButton OnClick="ProcessLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            Process
+                                            @Localizer.PayrunJob.Process
                                         </MudButton>
                                     </div>
                                 }
@@ -233,11 +236,11 @@
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
                                          Color="@(LegalJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
-                                    Process
+                                    @Localizer.PayrunJob.Process
                                 </MudText>
-                                <MudInputLabel Class="pt-2">Date</MudInputLabel>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Processed</MudText>
-                                <MudInputLabel Class="pt-2">User</MudInputLabel>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
                                 <MudText Class="pr-4">@GetUserName(LegalJob.ProcessedUserId)</MudText>
                                 @if (LegalJob.JobStatus == PayrunJobStatus.Process)
                                 {
@@ -246,13 +249,13 @@
                                                    Style="Width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Error">
-                                            Cancel
+                                            @Localizer.PayrunJob.Cancel
                                         </MudButton>
                                         <MudButton OnClick="CompleteLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            Complete
+                                            @Localizer.PayrunJob.Complete
                                         </MudButton>
                                     </div>
                                 }
@@ -266,10 +269,10 @@
                         <MudPaper Class="pa-4" Elevation="4"
                                   Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
-                                <MudText Typo="Typo.h6" Color="Color.Error">@LegalJob.JobStatus</MudText>
-                                <MudInputLabel Class="pt-2">Created</MudInputLabel>
+                                <MudText Typo="Typo.h6" Color="Color.Error">@Localizer.FromEnum(LegalJob.JobStatus)</MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Finished</MudText>
-                                <MudInputLabel Class="pt-2">User</MudInputLabel>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
                                 <MudText Class="pr-4">@GetUserName(LegalJob.FinishedUserId)</MudText>
                             </MudStack>
                         </MudPaper>
@@ -277,7 +280,7 @@
                 </MudStack>
 
                 @* legal payrun job history *@
-                <MudText Typo="Typo.h5" Class="py-4">Job History</MudText>
+                <MudText Typo="Typo.h5" Class="py-4">@Localizer.PayrunJob.JobHistory</MudText>
                 <MudDataGrid @ref="LegalJobsGrid" T="PayrunJob"
                              ServerData="GetLegalServerDataAsync"
                              FilterMode="DataGridFilterMode.ColumnFilterRow"
@@ -286,14 +289,19 @@
                              Filterable="true"
                              Hideable="true">
                     <Columns>
-                        <PropertyColumn Property="x => x.Name" Title="Job Name" />
-                        <PropertyColumn Property="x => x.JobStatus" Title="Status" />
-                        <PropertyColumn Property="x => x.Created">
+                        <PropertyColumn Property="x => x.Name" Title="@Localizer.PayrunJob.JobName" />
+                        <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
+                            <CellTemplate>
+                                @Localizer.FromEnum(context.Item.JobStatus)
+                            </CellTemplate>
+                        </PropertyColumn>
+                        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
                             <CellTemplate>
                                 @ValueFormatter.ToCompactString(context.Item.Created)
                             </CellTemplate>
                         </PropertyColumn>
-                        <PropertyColumn Property="x => x.Updated" InitialDirection="SortDirection.Descending">
+                        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated"
+                                        InitialDirection="SortDirection.Descending">
                             <CellTemplate>
                                 @ValueFormatter.ToCompactString(context.Item.Updated)
                             </CellTemplate>
@@ -305,121 +313,133 @@
                         <MudDataGridPager T="PayrunJob" />
                     </PagerContent>
                     <NoRecordsContent>
-                        No payrun jobs available
+                        @Localizer.PayrunJob.NotAvailable
                     </NoRecordsContent>
                 </MudDataGrid>
             </MudTabPanel>
 
             @* forecast payrun job *@
-            <MudTabPanel Text="Forecast">
-                <MudStack Row="true" Class="gap-4">
-                    <MudPaper Class="pa-4" Style="min-width: 40em; max-width: 80em;">
-                        <MudForm @ref="@forecastForm">
-                            <MudStack>
-                                @* forecast name *@
-                                <MudTextField T="string"
-                                @bind-Value="ForecastSetup.ForecastName"
-                                              MaxLength="SystemSpecification.KeyTextLength"
-                                              Margin="Margin.Dense"
-                                              Required="true"
-                                              RequiredError="Forecast name is required"
-                                              Label="Forecast name" />
+            @if (HasFeature(Feature.Forecasts))
+            {
+                <MudTabPanel Text="@Localizer.Forecast.Forecast">
+                    <MudStack Row="true" Class="gap-4">
+                        <MudPaper Class="pa-4" Style="min-width: 40em; max-width: 80em;">
+                            <MudForm @ref="@forecastForm">
+                                <MudStack>
+                                    <MudText Typo="Typo.h6">@Localizer.Forecast.PayrunJob</MudText>
 
-                                @* job name *@
-                                <MudTextField T="string"
-                                @bind-Value="ForecastSetup.JobName"
-                                              MaxLength="SystemSpecification.KeyTextLength"
-                                              Margin="Margin.Dense"
-                                              Required="true"
-                                              RequiredError="Forecast job name is required"
-                                              Label="Job name" />
+                                    @* forecast name *@
+                                    <MudTextField T="string"
+                                    @bind-Value="ForecastSetup.ForecastName"
+                                                  Label="@Localizer.Forecast.Name"
+                                                  MaxLength="SystemSpecification.KeyTextLength"
+                                                  Margin="Margin.Dense"
+                                                  Required="true"
+                                                  RequiredError="@Localizer.Error.FieldRequired(Localizer.Forecast.Name)" />
 
-                                @* period *@
-                                <MudDatePicker @bind-Date="@ForecastSetup.Period"
-                                               Label="Period"
-                                               OpenTo="OpenTo.Month"
+                                    @* job name *@
+                                    <MudTextField T="string"
+                                    @bind-Value="ForecastSetup.JobName"
+                                                  Label="@Localizer.Forecast.JobName"
+                                                  MaxLength="SystemSpecification.KeyTextLength"
+                                                  Margin="Margin.Dense"
+                                                  Required="true"
+                                                  RequiredError="@Localizer.Error.FieldRequired(Localizer.Forecast.JobName)" />
+
+                                    @* period *@
+                                    <MudDatePicker @bind-Date="@ForecastSetup.Period"
+                                                   Label="@Localizer.Forecast.JobPeriod"
+                                                   OpenTo="OpenTo.Month"
+                                                   Margin="Margin.Dense"
+                                                   Required="true"
+                                                   RequiredError="@Localizer.Error.FieldRequired(Localizer.Forecast.JobPeriod)"
+                                                   Editable="true" />
+
+                                    @* employees *@
+                                    <MudSelect T="Employee"
+                                    @bind-Value="ForecastSetup.SelectedEmployee"
+                                    @bind-SelectedValues="ForecastSetup.SelectedEmployees"
+                                               Label="@Localizer.Employee.Employees"
+                                               Disabled="@(Employees == null || Employees.Count < 1)"
                                                Margin="Margin.Dense"
-                                               Required="true"
-                                               RequiredError="Forecast job period is required"
-                                               Editable="true" />
+                                               MultiSelection="true"
+                                               Clearable="true"
+                                               SelectAll="true"
+                                               SelectAllText="@Localizer.Shared.SelectAll">
+                                        @foreach (var employee in Employees)
+                                        {
+                                            <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
+                                        }
+                                    </MudSelect>
 
-                                @* employees *@
-                                <MudSelect T="Employee"
-                                @bind-Value="ForecastSetup.SelectedEmployee"
-                                @bind-SelectedValues="ForecastSetup.SelectedEmployees"
-                                           Disabled="@(Employees == null || Employees.Count < 1)"
-                                           Label="Employees"
-                                           Margin="Margin.Dense"
-                                           MultiSelection="true"
-                                           Clearable="true"
-                                           SelectAll="true"
-                                           SelectAllText="Select all employees">
-                                    @foreach (var employee in Employees)
+                                    @* parameter *@
+                                    @if (ForecastSetup.Parameters.Any())
                                     {
-                                        <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
+                                        <MudButton Variant="Variant.Outlined"
+                                                   Color="@(ForecastSetup.ValidParameters() ? Color.Primary : Color.Error)"
+                                                   OnClick="@(() => SetupPayrunParametersAsync(ForecastSetup.Parameters))">
+                                            @Localizer.Payrun.Parameters
+                                        </MudButton>
                                     }
-                                </MudSelect>
 
-                                @* parameter *@
-                                @if (ForecastSetup.Parameters.Any())
-                                {
-                                    <MudButton Variant="Variant.Outlined"
-                                               Color="@(ForecastSetup.ValidParameters() ? Color.Primary : Color.Error)"
-                                               OnClick="@(() => SetupPayrunParametersAsync(ForecastSetup.Parameters))">Parameters</MudButton>
-                                }
+                                    @* reason *@
+                                    <MudTextField T="string"
+                                    @bind-Value="ForecastSetup.Reason"
+                                                  Label="@Localizer.PayrunJob.JobReason"
+                                                  Margin="Margin.Dense"
+                                                  RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobReason)"
+                                                  Lines="3"
+                                                  Variant="Variant.Outlined" />
+                                    <MudButton Style="width: max-content; align-self: end;"
+                                               Variant="Variant.Outlined"
+                                               Color="Color.Tertiary"
+                                               Disabled="@(!ForecastSetup.IsValidForecastJob())"
+                                               OnClick="StartForecastJobAsync">@Localizer.Forecast.StartForecastPayrun</MudButton>
+                                </MudStack>
+                            </MudForm>
+                        </MudPaper>
+                    </MudStack>
 
-                                @* reason *@
-                                <MudTextField T="string"
-                                @bind-Value="ForecastSetup.Reason"
-                                              Margin="Margin.Dense"
-                                              RequiredError="Payrun job reason is required"
-                                              Lines="3"
-                                              Label="Reason"
-                                              Variant="Variant.Outlined" />
-                                <MudButton Style="width: max-content; align-self: end;"
-                                           Variant="Variant.Outlined"
-                                           Color="Color.Tertiary"
-                                           Disabled="@(!ForecastSetup.IsValidForecastJob())"
-                                           OnClick="StartForecastJobAsync">Start Forecast Payrun</MudButton>
-                            </MudStack>
-                        </MudForm>
-                    </MudPaper>
-                </MudStack>
-
-                @* forecast payrun job history *@
-                <MudText Typo="Typo.h5" Class="py-4">Forecast Job History</MudText>
-                <MudDataGrid @ref="ForecastJobsGrid" T="PayrunJob"
-                             ServerData="GetForecastServerDataAsync"
-                             FilterMode="DataGridFilterMode.ColumnFilterRow"
-                             ColumnResizeMode="ResizeMode.Column"
-                             SortMode="SortMode.Multiple"
-                             Filterable="true"
-                             Hideable="true">
-                    <Columns>
-                        <PropertyColumn Property="x => x.Name" Title="Job Name" />
-                        <PropertyColumn Property="x => x.Forecast" Title="Forcast Name" />
-                        <PropertyColumn Property="x => x.JobStatus" Title="Status" />
-                        <PropertyColumn Property="x => x.Created">
-                            <CellTemplate>
-                                @ValueFormatter.ToCompactString(context.Item.Created)
-                            </CellTemplate>
-                        </PropertyColumn>
-                        <PropertyColumn Property="x => x.Updated" InitialDirection="SortDirection.Descending">
-                            <CellTemplate>
-                                @ValueFormatter.ToCompactString(context.Item.Updated)
-                            </CellTemplate>
-                        </PropertyColumn>
-                        <CustomColumns T="PayrunJob" Columns="ForecastColumnConfiguration" />
-                        <PayrunJobActionsColumn ActionOperator="this" Forecast="true" />
-                    </Columns>
-                    <PagerContent>
-                        <MudDataGridPager T="PayrunJob" />
-                    </PagerContent>
-                    <NoRecordsContent>
-                        No payrun jobs available
-                    </NoRecordsContent>
-                </MudDataGrid>
-            </MudTabPanel>
+                    @* forecast payrun job history *@
+                    <MudText Typo="Typo.h5" Class="py-4">@Localizer.Forecast.JobHistory</MudText>
+                    <MudDataGrid @ref="ForecastJobsGrid" T="PayrunJob"
+                                 ServerData="GetForecastServerDataAsync"
+                                 FilterMode="DataGridFilterMode.ColumnFilterRow"
+                                 ColumnResizeMode="ResizeMode.Column"
+                                 SortMode="SortMode.Multiple"
+                                 Filterable="true"
+                                 Hideable="true">
+                        <Columns>
+                            <PropertyColumn Property="x => x.Name" Title="@Localizer.PayrunJob.JobName" />
+                            <PropertyColumn Property="x => x.Forecast" Title="@Localizer.Forecast.Name" />
+                            <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
+                                <CellTemplate>
+                                    @Localizer.FromEnum(context.Item.JobStatus)
+                                </CellTemplate>
+                            </PropertyColumn>
+                            <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
+                                <CellTemplate>
+                                    @ValueFormatter.ToCompactString(context.Item.Created)
+                                </CellTemplate>
+                            </PropertyColumn>
+                            <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated"
+                                            InitialDirection="SortDirection.Descending">
+                                <CellTemplate>
+                                    @ValueFormatter.ToCompactString(context.Item.Updated)
+                                </CellTemplate>
+                            </PropertyColumn>
+                            <CustomColumns T="PayrunJob" Columns="ForecastColumnConfiguration" />
+                            <PayrunJobActionsColumn ActionOperator="this" Forecasts="true" />
+                        </Columns>
+                        <PagerContent>
+                            <MudDataGridPager T="PayrunJob" />
+                        </PagerContent>
+                        <NoRecordsContent>
+                            @Localizer.Forecast.NotAvailable
+                        </NoRecordsContent>
+                    </MudDataGrid>
+                </MudTabPanel>
+            }
         </MudTabs>
     </MudGrid>
 }

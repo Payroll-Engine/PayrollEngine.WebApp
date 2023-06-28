@@ -1,9 +1,10 @@
 ﻿@page "/payrolllayers"
 
 @using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
-@inherits PayrollEngine.WebApp.Presentation.EditItemPageBase<ViewModel.PayrollLayer, Query, PayrollEngine.WebApp.Server.Dialogs.PayrollLayerDialog>
+@inherits EditItemPageBase<PayrollLayer, Query, Dialogs.PayrollLayerDialog>
 
 @if (!HasFeature(Feature.PayrollLayers))
 {
@@ -13,18 +14,18 @@
 
 @if (!HasTenant)
 {
-    <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">Payroll Layers</MudText>
-    <div>Please select a Tenant</div>
+    <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.PayrollLayer.PayrollLayers</MudText>
+    <div>@Localizer.App.SelectTenant</div>
     return;
 }
 @if (!HasPayroll)
 {
-    <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">Payroll Layers</MudText>
-    <div>Please select a Payroll</div>
+    <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.PayrollLayer.PayrollLayers</MudText>
+    <div>@Localizer.App.SelectPayroll</div>
     return;
 }
 
-<ItemPageActions PageActions="this" Title="Payroll Layers" />
+<ItemPageActions PageActions="this" Title="@Localizer.PayrollLayer.PayrollLayers" />
 
 <MudDataGrid @ref="ItemsGrid" T="PayrollLayer"
              ServerData="GetServerDataAsync"
@@ -35,22 +36,28 @@
              Filterable="true"
              Hideable="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Status" />
-        <PropertyColumn Property="x => x.Level" InitialDirection="SortDirection.Descending" />
-        <PropertyColumn Property="x => x.Priority" InitialDirection="SortDirection.Descending" />
-        <PropertyColumn Property="x => x.RegulationName" Title="Regulation" />
-        <PropertyColumn Property="x => x.Created">
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.Status)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Level" Title="@Localizer.PayrollLayer.Level"
+                        InitialDirection="SortDirection.Descending" />
+        <PropertyColumn Property="x => x.Priority" Title="@Localizer.PayrollLayer.Priority"
+                        InitialDirection="SortDirection.Descending" />
+        <PropertyColumn Property="x => x.RegulationName" Title="@Localizer.Regulation.Regulation" />
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Updated">
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Updated)
             </CellTemplate>
         </PropertyColumn>
-        <TemplateColumn T="PayrollLayer" Title="Order">
+        <TemplateColumn T="PayrollLayer" Title="@Localizer.Shared.Order">
             <CellTemplate>
                 @{
                     var orderValidation = ValidateLayerOrder(context.Item);
@@ -67,6 +74,6 @@
         <MudDataGridPager T="PayrollLayer" />
     </PagerContent>
     <NoRecordsContent>
-        No payroll layer available
+        @Localizer.PayrollLayer.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

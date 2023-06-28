@@ -6,9 +6,9 @@
                 ShowFilterIcon="false" Sortable="false">
     <HeaderTemplate>
         <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-            <MudTooltip Delay="500" Text="@($"Add new {TypeName}")" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.Item.AddTitle(TypeName)" Placement="Placement.Top">
                 <MudIconButton @onclick="@ActionOperator.AddItemAsync"
-                               Color="Color.Tertiary" 
+                               Color="Color.Tertiary"
                                Variant="Variant.Outlined"
                                Icon="@Icons.Material.Filled.Add"
                                Size="Size.Small" />
@@ -18,18 +18,18 @@
     <FilterTemplate />
     <CellTemplate>
         <MudStack Row="true">
-            <MudTooltip Delay="500" Text="@($"Delete {TypeName}")" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.Item.DeleteTitle(TypeName)" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.DeleteItemAsync(context.Item))"
                                Color="Color.Secondary"
                                Variant="Variant.Outlined"
-                               Icon="@Icons.Material.Filled.Delete" 
+                               Icon="@Icons.Material.Filled.Delete"
                                Size="Size.Small" />
             </MudTooltip>
-            <MudTooltip Delay="500" Text="@($"Edit {TypeName}")" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.Item.EditTitle(TypeName)" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.EditItemAsync(context.Item))"
-                               Color="Color.Primary" 
+                               Color="Color.Primary"
                                Variant="Variant.Outlined"
-                               Icon="@Icons.Material.Filled.Edit" 
+                               Icon="@Icons.Material.Filled.Edit"
                                Size="Size.Small" />
             </MudTooltip>
         </MudStack>
@@ -38,7 +38,16 @@
 
 @code {
     [Parameter] public IItemOperator<T> ActionOperator { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
-    private string TypeName => 
-        typeof(T).Name.ToPascalSentence();
+    private string TypeName
+    {
+        get
+        {
+            var name = typeof(T).Name;
+            // assume group name is same as the localization key
+            return Localizer.FromGroupKey(name);
+        }
+    }
+
 }

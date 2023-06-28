@@ -2,9 +2,10 @@
 @page "/payrunresults/{Payrun}"
 
 @using PayrollEngine.WebApp
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.ViewModel
 
-@inherits PayrollEngine.WebApp.Presentation.PageBase
+@inherits PageBase
 
 @if (!HasFeature(Feature.PayrunResults))
 {
@@ -12,28 +13,28 @@
     return;
 }
 
-<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">Payrun Results</MudText>
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">@Localizer.PayrunResult.PayrunResults</MudText>
 
 @if (!HasPayroll)
 {
-    <div>Please select a Payroll</div>
+    <div>@Localizer.App.SelectPayroll</div>
     return;
 }
 @if (!HasEmployee)
 {
-    <div>Please select an Employee</div>
+    <div>@Localizer.App.SelectEmployee</div>
     return;
 }
 @if (!HasPayruns)
 {
-    <div>Please select a Payroll with a Payrun</div>
+    <div>@Localizer.App.SelectPayrollWithPayrun</div>
     return;
 }
 
 @* payrun selection *@
 @if (SelectedPayrun == null)
 {
-    <div class="pa-1 mt-4">Please select a Payrun</div>
+    <div class="pa-1 mt-4">@Localizer.App.SelectPayrun</div>
 }
 
 <MudStack Row="true" Spacing="0" Class="gap-2 my-4">
@@ -43,7 +44,7 @@
                    ValueChanged="PayrunChanged"
                    Disabled="@(Payruns == null || Payruns.Count < 1)"
                    ReadOnly="@(Payruns == null || Payruns.Count == 1)"
-                   Label="Payrun"
+                   Label="@Localizer.Payrun.Payrun"
                    Variant="Variant.Outlined">
             @foreach (var payrun in Payruns)
             {
@@ -59,7 +60,7 @@
                    StartIcon="@Icons.Material.Filled.NavigateNext"
                    Style="height: fit-content; align-self: end;"
                    OnClick="NavigateToJobs">
-            Jobs
+            @Localizer.PayrunJob.PayrunJobs
         </MudButton>
     }
 </MudStack>
@@ -72,21 +73,21 @@
 @* title and grid actions *@
 <div class="d-flex pb-2">
     <div class="d-flex flex-grow-1 justify-end align-end">
-        <MudTooltip Delay="500" Text="Compact view" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.App.CompactView" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.ViewCompact"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="Filter reset" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.App.FilterReset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.FilterAltOff"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="Excel download" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
             <MudIconButton @onclick="@ExcelDownloadAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Custom.FileFormats.FileExcel"
@@ -109,26 +110,34 @@
              SortMode="SortMode.Multiple">
     <Columns>
         @* TODO payroll result period predefined filters (days, weeks, months) *@
-        <PropertyColumn Property="x => x.PeriodStart" Title="Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending"/>
-        <PropertyColumn Property="x => x.JobName" Title="Job Name"/>
-        <PropertyColumn Property="x => x.JobStatus" Title="Status"/>
-        <PropertyColumn Property="x => x.EmployeeIdentifier" Title="Employee"/>
-        <PropertyColumn Property="x => x.Forecast" Title="Forcast Name"/>
-        <PropertyColumn Property="x => x.ResultCreated" Title="Created">
+        <PropertyColumn Property="x => x.PeriodStart" Title="@Localizer.PayrunResult.Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending" />
+        <PropertyColumn Property="x => x.JobName" Title="@Localizer.PayrunJob.JobName" />
+        <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.JobStatus)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.EmployeeIdentifier" Title="@Localizer.Employee.Employee" />
+        <PropertyColumn Property="x => x.Forecast" Title="@Localizer.Forecast.Name" />
+        <PropertyColumn Property="x => x.ResultCreated" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.ResultCreated)
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.ResultKind" Title="Result type"/>
-        <PropertyColumn Property="x => x.KindName" Title="Name"/>
-        <PropertyColumn Property="x => x.ResultValue" Title="Value"/>
-        <PropertyColumn Property="x => x.ResultNumericValue" Title="# Value" Format="0.##"/>
-        <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration"/>
+        <PropertyColumn Property="x => x.ResultKind" Title="@Localizer.PayrunResult.ResultKind">
+            <CellTemplate>
+                @Localizer.FromEnum(context.Item.ResultKind)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.KindName" Title="@Localizer.PayrunResult.KindName" />
+        <PropertyColumn Property="x => x.ResultValue" Title="@Localizer.PayrunResult.ResultValue" />
+        <PropertyColumn Property="x => x.ResultNumericValue" Title="@Localizer.Shared.NumericValue" Format="0.##" />
+        <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration" />
     </Columns>
     <PagerContent>
         <MudDataGridPager T="PayrollResultValue" />
     </PagerContent>
     <NoRecordsContent>
-        No payrun results available
+        @Localizer.PayrunResult.NotAvailable
     </NoRecordsContent>
 </MudDataGrid>

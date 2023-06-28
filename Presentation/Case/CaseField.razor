@@ -1,8 +1,7 @@
-﻿@using PayrollEngine.WebApp.ViewModel
-@using PayrollEngine.WebApp.Presentation.Field
+﻿@using PayrollEngine.WebApp.Presentation.Field
 @using Microsoft.AspNetCore.Components
 
-@inherits MainComponentBase
+@inherits PayrollEngine.WebApp.Presentation.Component.MainComponentBase
 
 <MudStack Spacing="0" Class="pt-4">
 
@@ -28,12 +27,12 @@
                     </ChildContent>
                     <TooltipContent>
                         <MudStack Class="pa-2">
-                            <MudText Typo="Typo.h5" Align="Align.Start">Change History</MudText>
+                            <MudText Typo="Typo.h5" Align="Align.Start">@Localizer.Case.ChangeHistory</MudText>
                             <table>
                                 <tr>
-                                    <th style="text-align: left">Start</th>
-                                    <th style="text-align: left">End</th>
-                                    <th style="text-align: right">Value</th>
+                                    <th style="text-align: left">@Localizer.Shared.Start</th>
+                                    <th style="text-align: left">@Localizer.Shared.End</th>
+                                    <th style="text-align: right">@Localizer.Shared.Value</th>
                                 </tr>
                                 @foreach (var historyValue in Field.HistoryValues)
                                 {
@@ -64,7 +63,7 @@
             @* attachments *@
             @if (AttachmentsSupported)
             {
-                <MudTooltip Delay="500" Text="Field documents" Placement="Placement.Top">
+                <MudTooltip Delay="500" Text="@Localizer.CaseField.FieldDocuments" Placement="Placement.Top">
                     @* attachment color: missing mandatory (error), available (tertiary) and empty (primary) *@
                     <MudIconButton @onclick="@(() => EditAttachmentsAsync(Field))"
                                    Color="@(!AttachmentsValid ?

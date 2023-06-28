@@ -6,7 +6,7 @@
 <div class="d-flex flex-grow-1 pb-2">
     <MudText Typo="Typo.h5">@GetItemTypeName(true)</MudText>
     <div class="d-flex flex-grow-1 justify-end">
-        <MudTooltip Delay="500" Text="Compact view" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.App.CompactView" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.ViewCompact"
@@ -15,22 +15,29 @@
         </MudTooltip>
         @if (HasParent)
         {
-            <MudTooltip Delay="500" Text="Expand groups" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.App.ExpandGroups" Placement="Placement.Top">
                 <MudIconButton @onclick="@ExpandItemGroups"
-                           Color="Color.Primary" Variant="Variant.Outlined"
-                           Icon="@Icons.Material.Filled.AccountTree"
-                           Class="ml-2"
-                           Size="Size.Small" />
+                               Color="Color.Primary" Variant="Variant.Outlined"
+                               Icon="@Icons.Material.Filled.AccountTree"
+                               Class="ml-2"
+                               Size="Size.Small" />
             </MudTooltip>
-            <MudTooltip Delay="500" Text="Collapse groups" Placement="Placement.Top">
+            <MudTooltip Delay="500" Text="@Localizer.App.CollapseGroups" Placement="Placement.Top">
                 <MudIconButton @onclick="@CollapseItemGroups"
-                           Color="Color.Primary" Variant="Variant.Outlined"
-                           Icon="@Icons.Material.Filled.TableRows"
-                           Class="ml-2"
-                           Size="Size.Small" />
+                               Color="Color.Primary" Variant="Variant.Outlined"
+                               Icon="@Icons.Material.Filled.TableRows"
+                               Class="ml-2"
+                               Size="Size.Small" />
             </MudTooltip>
         }
-        <MudTooltip Delay="500" Text="@($"Add new {GetItemTypeName()}")" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+            <MudIconButton @onclick="@ExcelDownloadAsync"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Custom.FileFormats.FileExcel"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+        <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(GetItemTypeName())" Placement="Placement.Top">
             <MudIconButton @onclick="@AddItemAsync"
                            Color="Color.Tertiary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.Add"
@@ -54,29 +61,33 @@
              RowStyleFunc="@RowStyleHandler"
              ReadOnly="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.InheritanceKey" Title="@KeyHeader" />
         @if (HasParent)
         {
             <PropertyColumn Property="x => x.ParentInheritanceKey"
-                        Grouping="true" Hidden="true"
-                        Title="@ParentKeyHeader" />
+                            Grouping="true" Hidden="true"
+                            Title="@ParentKeyHeader" />
         }
         @if (ShowDescription)
         {
-            <PropertyColumn Property="x => x.Description" Title="Description" />
+            <PropertyColumn Property="x => x.Description" Title="@Localizer.Shared.Description" />
         }
         @if (ShowAdditionalInfo)
         {
-            <PropertyColumn Property="x => x.GetAdditionalInfo(100)" Title="@AdditionalInfoHeader" />
+            <PropertyColumn Property="x => x.GetAdditionalInfo(Localizer, 100)" Title="@AdditionalInfoHeader" />
         }
-        <PropertyColumn Property="x => x.RegulationName" Title="Regulation" />
-        <PropertyColumn Property="x => x.InheritanceType" Title="Inheritance" />
+        <PropertyColumn Property="x => x.RegulationName" Title="@Localizer.Regulation.Regulation" />
+        <PropertyColumn Property="x => x.InheritanceType" Title="@Localizer.Shared.Inheritance">
+            <CellTemplate>
+                @context.Item.InheritanceType.ToText(Localizer)
+            </CellTemplate>
+        </PropertyColumn>
     </Columns>
     <PagerContent>
         <MudDataGridPager T="TItem" />
     </PagerContent>
     <NoRecordsContent>
-        @($"No {GetItemTypeName()} available")
+        @Localizer.Item.NotAvailable(GetItemTypeName())
     </NoRecordsContent>
 </MudDataGrid>

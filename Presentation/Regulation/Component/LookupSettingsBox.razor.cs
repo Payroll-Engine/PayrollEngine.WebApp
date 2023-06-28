@@ -4,168 +4,169 @@ using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
-namespace PayrollEngine.WebApp.Presentation.Regulation.Component
+namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
+
+public partial class LookupSettingsBox : IRegulationInput
 {
-    public partial class LookupSettingsBox : IRegulationInput
+    [Parameter]
+    public RegulationEditContext EditContext { get; set; }
+    [Parameter]
+    public IRegulationItem Item { get; set; }
+    [Parameter]
+    public RegulationField Field { get; set; }
+    [Parameter]
+    public EventCallback<object> ValueChanged { get; set; }
+    [Parameter]
+    public Variant Variant { get; set; }
+    /// <summary>Override field help</summary>
+    [Parameter]
+    public string HelperText { get; set; }
+
+    [Inject]
+    private IUserNotificationService UserNotification { get; set; }
+    [Inject]
+    private IDialogService DialogService { get; set; }
+
+    private bool ClearDisabled() =>
+        Item.IsReadOnlyField(Field) || Value == null ||
+        string.IsNullOrWhiteSpace(Value.LookupName);
+    private bool EditDisabled() =>
+        Item.IsReadOnlyField(Field);
+
+    private string SettingsInfo { get; set; }
+
+    #region Value
+
+    protected LookupSettings Value { get; set; }
+
+    protected LookupSettings FieldValue
     {
-        [Parameter]
-        public RegulationEditContext EditContext { get; set; }
-        [Parameter]
-        public IRegulationItem Item { get; set; }
-        [Parameter]
-        public RegulationField Field { get; set; }
-        [Parameter]
-        public EventCallback<object> ValueChanged { get; set; }
-        [Parameter]
-        public Variant Variant { get; set; }
-        /// <summary>Override field help</summary>
-        [Parameter]
-        public string HelperText { get; set; }
+        get => Item.GetPropertyValue<LookupSettings>(Field.PropertyName);
+        set => Item.SetPropertyValue(Field.PropertyName, value);
+    }
 
-        [Inject]
-        private IUserNotificationService UserNotification { get; set; }
-        [Inject]
-        private IDialogService DialogService { get; set; }
+    private async Task ValueChangedAsync(LookupSettings value) =>
+        await SetFieldValue(value);
 
-        private bool ClearDisabled() =>
-            Item.IsReadOnlyField(Field) || Value == null ||
-            string.IsNullOrWhiteSpace(Value.LookupName);
-        private bool EditDisabled() =>
-            Item.IsReadOnlyField(Field);
+    private async Task SetFieldValue(LookupSettings value)
+    {
+        FieldValue = value;
+        ApplyFieldValue();
 
-        private string SettingsInfo { get; set; }
+        // notifications
+        UpdateState();
+        await ValueChanged.InvokeAsync(value);
+    }
 
-        #region Value
+    private void ApplyFieldValue()
+    {
+        // value
+        Value = FieldValue;
 
-        protected LookupSettings Value { get; set; }
+        // info
+        UpdateInfo();
+    }
 
-        protected LookupSettings FieldValue
+    protected bool GetBaseValue() =>
+        Item.GetBaseValue<bool>(Field.PropertyName);
+
+    private async Task ClearSettingsAsync()
+    {
+        if (Value == null)
         {
-            get => Item.GetPropertyValue<LookupSettings>(Field.PropertyName);
-            set => Item.SetPropertyValue(Field.PropertyName, value);
+            return;
         }
 
-        private async Task ValueChangedAsync(LookupSettings value) =>
-            await SetFieldValue(value);
-
-        private async Task SetFieldValue(LookupSettings value)
+        // confirmation
+        if (!await DialogService.ShowDeleteMessageBoxAsync(
+                Localizer,
+                Localizer.Item.DeleteTitle(Localizer.CaseField.LookupSettings),
+                Localizer.Item.DeleteQuery(Localizer.CaseField.LookupSettings)))
         {
-            FieldValue = value;
-            ApplyFieldValue();
-
-            // notifications
-            UpdateState();
-            await ValueChanged.InvokeAsync(value);
+            return;
         }
 
-        private void ApplyFieldValue()
-        {
-            // value
-            Value = FieldValue;
+        await SetFieldValue(null);
 
-            // info
-            UpdateInfo();
+        // notifications
+        await ValueChangedAsync(null);
+        UpdateState();
+        await UserNotification.ShowSuccessAsync(Localizer.CaseField.LookupSettingsRemoved);
+    }
+
+    private async Task EditSettingsAsync()
+    {
+        Value ??= new();
+
+        // edit copy
+        var editItem = new LookupSettings(Value);
+
+        // dialog parameters
+        var parameters = new DialogParameters
+        {
+            { nameof(LookupSettingsDialog.Tenant), EditContext.Tenant },
+            { nameof(LookupSettingsDialog.Payroll), EditContext.Payroll },
+            { nameof(LookupSettingsDialog.Settings), editItem },
+            { nameof(LookupSettingsDialog.Language), EditContext.User.Language }
+        };
+
+        // attribute edit dialog
+        var dialog = await (await DialogService.ShowAsync<LookupSettingsDialog>(
+            Localizer.Item.EditTitle(Localizer.CaseField.LookupSettings), parameters)).Result;
+        if (dialog == null || dialog.Canceled)
+        {
+            return;
         }
 
-        protected bool GetBaseValue() =>
-            Item.GetBaseValue<bool>(Field.PropertyName);
+        await SetFieldValue(editItem);
+    }
 
-        private async Task ClearSettingsAsync()
+    #endregion
+
+    #region Lifecycle
+
+    private void UpdateInfo()
+    {
+        var info = Value == null || string.IsNullOrWhiteSpace(Value.LookupName) ?
+            Localizer.Shared.None : $"{Localizer.Lookup.Lookup} {Value.LookupName}";
+        if (Value != null && !string.IsNullOrWhiteSpace(Value.ValueFieldName))
         {
-            if (Value == null)
-            {
-                return;
-            }
-
-            // confirmation
-            if (!await DialogService.ShowDeleteMessageBoxAsync(
-                    "Clear settings",
-                    "Delete lookup settings?"))
-            {
-                return;
-            }
-
-            await SetFieldValue(null);
-
-            // notifications
-            await ValueChangedAsync(null);
-            UpdateState();
-            await UserNotification.ShowSuccessAsync("Lookup settings removed");
+            info += $" - {Localizer.Shared.Value} {Value.ValueFieldName}";
         }
-
-        private async Task EditSettingsAsync()
+        if (Value != null && !string.IsNullOrWhiteSpace(Value.TextFieldName))
         {
-            Value ??= new();
-
-            // edit copy
-            var editItem = new LookupSettings(Value);
-
-            // dialog parameters
-            var parameters = new DialogParameters
-            {
-                { nameof(LookupSettingsDialog.Tenant), EditContext.Tenant },
-                { nameof(LookupSettingsDialog.Payroll), EditContext.Payroll },
-                { nameof(LookupSettingsDialog.Settings), editItem },
-                { nameof(LookupSettingsDialog.Language), EditContext.User.Language }
-            };
-
-            // attribute edit dialog
-            var dialog = await (await DialogService.ShowAsync<LookupSettingsDialog>("Edit lookup settings", parameters)).Result;
-            if (dialog == null || dialog.Canceled)
-            {
-                return;
-            }
-
-            await SetFieldValue(editItem);
+            info += $" - {Localizer.Shared.Text} {Value.TextFieldName}";
         }
+        SettingsInfo = info;
+    }
 
-        #endregion
+    private void UpdateState()
+    {
+        UpdateInfo();
+        StateHasChanged();
+    }
 
-        #region Lifecycle
+    private IRegulationItem lastItem;
 
-        private void UpdateInfo()
-        {
-            var info = Value == null || string.IsNullOrWhiteSpace(Value.LookupName) ?
-                "None" : $"Lookup {Value.LookupName}";
-            if (Value != null && !string.IsNullOrWhiteSpace(Value.ValueFieldName))
-            {
-                info += $" - Value {Value.ValueFieldName}";
-            }
-            if (Value != null && !string.IsNullOrWhiteSpace(Value.TextFieldName))
-            {
-                info += $" - Text {Value.TextFieldName}";
-            }
-            SettingsInfo = info;
-        }
+    protected override async Task OnInitializedAsync()
+    {
+        lastItem = Item;
+        ApplyFieldValue();
+        UpdateState();
+        await base.OnInitializedAsync();
+    }
 
-        private void UpdateState()
-        {
-            UpdateInfo();
-            StateHasChanged();
-        }
-
-        private IRegulationItem lastItem;
-
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
+    {
+        if (lastItem != Item)
         {
             lastItem = Item;
             ApplyFieldValue();
             UpdateState();
-            await base.OnInitializedAsync();
         }
-
-        protected override async Task OnParametersSetAsync()
-        {
-            if (lastItem != Item)
-            {
-                lastItem = Item;
-                ApplyFieldValue();
-                UpdateState();
-            }
-            await base.OnParametersSetAsync();
-        }
-
-        #endregion
-
+        await base.OnParametersSetAsync();
     }
+
+    #endregion
+
 }

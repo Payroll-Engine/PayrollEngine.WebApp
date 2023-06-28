@@ -16,7 +16,7 @@ public partial class ItemEditorPanel
     [Parameter]
     public EventCallback<IRegulationItem> DeleteItem { get; set; }
     [Parameter]
-    public EventCallback<IRegulationItem> OverrideItem { get; set; }
+    public EventCallback<IRegulationItem> DeriveItem { get; set; }
 
     protected bool HasItem => Item != null;
 }

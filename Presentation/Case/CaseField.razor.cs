@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 using CaseFieldSet = PayrollEngine.WebApp.ViewModel.CaseFieldSet;
 using Task = System.Threading.Tasks.Task;
 
@@ -20,6 +21,8 @@ public partial class CaseField
 
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private Localizer Localizer { get; set; }
 
     #region Change history
 

@@ -2,6 +2,7 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 @using Task = System.Threading.Tasks.Task;
 @using PayrollEngine.Client.Service
@@ -10,21 +11,24 @@
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" @bind-Value="Tenant.Identifier"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       ReadOnly="@Tenant.IsExistingObject"
-                                      Label="@(Tenant.IsNewObject ? "Identifier (immutable)" : "Identifier")"
+                                      Label="@(Tenant.IsNewObject ? $"{Localizer.Shared.Identifier} ({Localizer.Shared.Immutable})" : Localizer.Shared.Identifier)"
                                       Validation="@(!string.IsNullOrWhiteSpace(Tenant.Identifier))"
-                                      Required="true" RequiredError="Identifier is required" />
-                        <MudSelect T=" string" @bind-Value="Tenant.Culture" Label="Culture" Clearable="true">
+                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Identifier)" />
+                        <MudSelect T=" string" @bind-Value="Tenant.Culture" Label="@Localizer.Shared.Culture" Clearable="true">
                             @foreach (var cultureName in CultureNames)
                             {
                                 <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudSelect T=" string" @bind-Value="Tenant.Calendar" Label="Calendar" Clearable="true">
+                        <MudSelect T=" string" @bind-Value="Tenant.Calendar"
+                                   Label="@Localizer.Shared.Calendar" 
+                                   Disabled="@(CalendarNames == null || CalendarNames.Count < 1)"
+                                   Clearable="true">
                             @foreach (var calendarName in CalendarNames)
                             {
                                 <MudSelectItem T="string" Value="@calendarName">@calendarName</MudSelectItem>
@@ -33,7 +37,7 @@
                         <ItemBaseFields Item="Tenant" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="Tenant" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -51,12 +55,18 @@
     [Parameter] public Tenant Tenant { get; set; } = new();
 
     [Inject] private ICalendarService CalendarService { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private List<string> CultureNames { get; set; }
     private List<string> CalendarNames { get; set; }
 
     private async Task<List<string>> GetCalendarsAsync()
     {
+        // new tenant: no calendars available
+        if (Tenant == null || Tenant.Id <= 0)
+        {
+            return new();
+        }
         var calendars = await CalendarService.QueryAsync<Calendar>(new(Tenant.Id));
         return calendars.Select(x => x.Name).ToList();
     }

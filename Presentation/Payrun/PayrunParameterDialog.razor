@@ -1,6 +1,7 @@
 ﻿@using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Presentation.Field
+@using PayrollEngine.WebApp.Shared
 
 <MudDialog Style="min-width: 30em;">
     <DialogContent>
@@ -12,8 +13,8 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -24,6 +25,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
     [Parameter] public Language Language { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     void Cancel() => MudDialog.Cancel();
     private async System.Threading.Tasks.Task Submit()

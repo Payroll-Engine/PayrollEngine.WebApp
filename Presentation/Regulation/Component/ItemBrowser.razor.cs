@@ -129,7 +129,7 @@ public partial class ItemBrowser : IDisposable
         return regulationItem;
     }
 
-    public IRegulationItem OverrideItem(IRegulationItem regulationItem)
+    public IRegulationItem DeriveItem(IRegulationItem regulationItem)
     {
         if (regulationItem == null)
         {

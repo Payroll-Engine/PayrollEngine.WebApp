@@ -98,7 +98,7 @@ public partial class PayrunJobs : IPayrunJobOperator
         // validation
         if (!await legalForm.Revalidate())
         {
-            await UserNotification.ShowErrorAsync("Payrun Job validation failed");
+            await UserNotification.ShowErrorAsync(Localizer.PayrunJob.JobValidationFailed);
             return;
         }
 
@@ -119,8 +119,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// </summary>
     protected async Task ReleaseLegalJobAsync()
     {
-        if (LegalJob == null ||
-            LegalJob.JobStatus != PayrunJobStatus.Draft)
+        if (LegalJob == null || LegalJob.JobStatus != PayrunJobStatus.Draft)
         {
             return;
         }
@@ -132,8 +131,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// </summary>
     protected async Task ProcessLegalJobAsync()
     {
-        if (SelectedPayrun == null ||
-            LegalJob.JobStatus != PayrunJobStatus.Release)
+        if (SelectedPayrun == null || LegalJob.JobStatus != PayrunJobStatus.Release)
         {
             return;
         }
@@ -145,8 +143,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// </summary>
     protected async Task CompleteLegalJobAsync()
     {
-        if (LegalJob == null ||
-            LegalJob.JobStatus != PayrunJobStatus.Process)
+        if (LegalJob == null || LegalJob.JobStatus != PayrunJobStatus.Process)
         {
             return;
         }
@@ -158,8 +155,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// </summary>
     protected async Task CancelLegalJobAsync()
     {
-        if (LegalJob == null ||
-            LegalJob.JobStatus != PayrunJobStatus.Process)
+        if (LegalJob == null || LegalJob.JobStatus != PayrunJobStatus.Process)
         {
             return;
         }
@@ -193,10 +189,10 @@ public partial class PayrunJobs : IPayrunJobOperator
 
         // confirmation
         if (!await DialogService.ShowMessageBoxAsync(
-                "Payrun Job Status",
-                new MarkupString($"<br /><b>&#xbb;{jobStatus}&#xab;</b> payrun job {LegalJob.Name}?<br /><br />"),
-                "OK",
-                "Cancel"))
+                Localizer.PayrunJob.PayrunJob,
+                new MarkupString($"<br /><b>&#xbb;{jobStatus}&#xab;</b> {Localizer.PayrunJob.PayrunJob} {LegalJob.Name}?<br /><br />"),
+                Localizer.Dialog.Ok,
+                Localizer.Dialog.Cancel))
         {
             return;
         }
@@ -205,9 +201,8 @@ public partial class PayrunJobs : IPayrunJobOperator
         {
             var jobId = LegalJob.Id;
             // change the payrun job status
-            var defaultReason = $"Change to status {jobStatus}";
             await PayrunJobService.ChangeJobStatusAsync(new(Tenant.Id), jobId,
-                jobStatus, User.Id, defaultReason, true);
+                jobStatus, User.Id, Localizer.PayrunJob.DefaultReason(jobStatus.ToString()), true);
 
             // refresh legal payrun job
             await SetupLegalJobAsync();
@@ -215,13 +210,13 @@ public partial class PayrunJobs : IPayrunJobOperator
             // refresh data
             await RefreshLegalServerDataAsync();
 
-            await UserNotification.ShowSuccessAsync($"Change payrun job status to {jobStatus}");
+            await UserNotification.ShowSuccessAsync(Localizer.PayrunJob.StatusChanged(jobStatus.ToString()));
             StateHasChanged();
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Payrun job status change", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, exception);
         }
     }
 
@@ -273,7 +268,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             Log.Error(exception, exception.GetBaseMessage());
             if (Initialized)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Payrun jobs load", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, exception);
             }
             else
             {
@@ -309,7 +304,7 @@ public partial class PayrunJobs : IPayrunJobOperator
                          string.Equals(x.Value?.ToString(), forecastValue));
                 if (forecastFilter != null)
                 {
-                    await UserNotification.ShowWarningAsync("Forecast payrun jobs not supported");
+                    await UserNotification.ShowWarningAsync(Localizer.Forecast.JobNotSupported);
                     state.FilterDefinitions.Remove(forecastFilter);
                 }
 
@@ -379,7 +374,7 @@ public partial class PayrunJobs : IPayrunJobOperator
         // validation
         if (!await forecastForm.Revalidate())
         {
-            await UserNotification.ShowErrorAsync("Payrun Job validation failed");
+            await UserNotification.ShowErrorAsync(Localizer.PayrunJob.JobValidationFailed);
             return;
         }
 
@@ -401,10 +396,10 @@ public partial class PayrunJobs : IPayrunJobOperator
     {
         // confirmation
         var result = await DialogService.ShowMessageBoxAsync(
-            "Forecast copy",
-            "Replace all forecast values?",
-            "Copy",
-            "Cancel");
+            Localizer.Forecast.Copy,
+            Localizer.Forecast.CopyQuery,
+            Localizer.PayrunJob.Copy,
+            Localizer.Dialog.Cancel);
         if (!result)
         {
             return;
@@ -452,7 +447,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             Log.Error(exception, exception.GetBaseMessage());
             if (Initialized)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Payrun forecast jobs load", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, exception);
             }
             else
             {
@@ -513,17 +508,17 @@ public partial class PayrunJobs : IPayrunJobOperator
     private async Task<bool> StartJobAsync(PayrunJobSetup setup)
     {
         var title = string.IsNullOrWhiteSpace(setup.ForecastName) ?
-            "Payrun job start" : "Forecast payrun job start";
+            Localizer.PayrunJob.StartPayrun : Localizer.Forecast.StartForecastPayrun;
 
         if (!setup.Period.HasValue)
         {
-            await UserNotification.ShowErrorMessageBoxAsync(title, "Missing job period");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, title, Localizer.PayrunJob.MissingJobPeriod);
             Log.Error("Missing job period");
             return false;
         }
         if (string.IsNullOrWhiteSpace(setup.Reason))
         {
-            await UserNotification.ShowErrorMessageBoxAsync(title, "Missing job reason");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, title, Localizer.PayrunJob.MissingJobReason);
             Log.Error("Missing job reason");
             return false;
         }
@@ -567,7 +562,8 @@ public partial class PayrunJobs : IPayrunJobOperator
             { nameof(PayrunJobDialog.Employees), Employees }
         };
         await DialogService.ShowAsync<PayrunJobDialog>(
-            title: payrunJob.JobStatus == PayrunJobStatus.Forecast ? "Forecast Payrun Job" : "Payrun Job",
+            title: payrunJob.JobStatus == PayrunJobStatus.Forecast ?
+                $"{Localizer.Forecast.Forecast} {Localizer.PayrunJob.PayrunJob}" : Localizer.PayrunJob.PayrunJob,
             parameters);
     }
 
@@ -580,7 +576,7 @@ public partial class PayrunJobs : IPayrunJobOperator
         var now = Date.Now;
         var period = new DateTime(now.Year, now.Month, 1).AddMonths(1);
         setup.Period = period;
-        setup.JobName = $"Payrun {Date.GetMonthName(period.Month)} {period.Year}";
+        setup.JobName = $"{Localizer.Payrun.Payrun} {Date.GetMonthName(period.Month)} {period.Year}";
         setup.ForecastName = null;
         setup.SelectedEmployees = null;
 
@@ -658,7 +654,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             Log.Error(exception, exception.GetBaseMessage());
             if (Initialized)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Employees load", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, exception);
             }
             else
             {
@@ -742,7 +738,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             Log.Error(exception, exception.GetBaseMessage());
             if (Initialized)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Payruns setup", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, exception);
             }
             else
             {
@@ -764,7 +760,7 @@ public partial class PayrunJobs : IPayrunJobOperator
         var payrun = Payruns?.FirstOrDefault(x => string.Equals(x.Name, payrunName));
         if (payrun == null)
         {
-            await UserNotification.ShowErrorAsync($"Unknown payrun {payrunName}");
+            await UserNotification.ShowErrorAsync(Localizer.Payrun.UnknownPayrun(payrunName));
             return;
         }
 
@@ -798,7 +794,8 @@ public partial class PayrunJobs : IPayrunJobOperator
         {
             { nameof(PayrunParameterDialog.Parameters), payrunParameters }
         };
-        var result = await (await DialogService.ShowAsync<PayrunParameterDialog>("Payrun Parameters", dialogParameters)).Result;
+        var result = await (await DialogService.ShowAsync<PayrunParameterDialog>(
+            Localizer.PayrunParameter.PayrunParameters, dialogParameters)).Result;
         if (!result.Canceled)
         {
             StateHasChanged();
@@ -850,7 +847,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             Log.Error(exception, exception.GetBaseMessage());
             if (Initialized)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Users load", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, exception);
             }
             else
             {

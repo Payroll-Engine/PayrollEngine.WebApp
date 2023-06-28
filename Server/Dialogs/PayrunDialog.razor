@@ -2,22 +2,23 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
 <MudDialog Class="item-dialog">
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
-                    <MudStack Class="pa-4" Spacing="1">
+                      <MudTabPanel Text="@Localizer.Shared.CommonFields">
+                                        <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" @bind-Value="Payrun.Name"
                                       Disabled="@(PayrollNames == null || PayrollNames.Count < 1)"
                                       ReadOnly="@Payrun.IsExistingObject"
                                       MaxLength="@SystemSpecification.KeyTextLength"
-                                      Label="@(Payrun.IsNewObject ? "Name (immutable)" : "Name")"
+                                      Label="@(Payrun.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                       Validation="@(!string.IsNullOrWhiteSpace(Payrun.Name))"
-                                      Required="true" RequiredError="Name is required" />
-                        <MudSelect T="string" Label="Payroll" @bind-Value="Payrun.PayrollName">
+                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                        <MudSelect T="string" Label="@Localizer.Payroll.Payroll" @bind-Value="Payrun.PayrollName">
                             @foreach (var name in PayrollNames)
                             {
                                 <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
@@ -25,28 +26,28 @@
                         </MudSelect>
                         <LocalizationTextField Item="@Payrun" @bind-Value="Payrun.DefaultReason"
                                                PropertyName="@nameof(Payrun.DefaultReason)"
-                                               Label="Default reason" />
-                        <MudSelect T="RetroTimeType" Label="Retro time type" @bind-Value="Payrun.RetroTimeType">
+                                               Label="@Localizer.Payrun.DefaultReason" />
+                        <MudSelect T="RetroTimeType" Label="@Localizer.Payrun.RetroTimeType" @bind-Value="Payrun.RetroTimeType">
                             <EnumSelectItems T="RetroTimeType" />
                         </MudSelect>
                         <ItemBaseFields Item="Payrun" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Expressions">
+                <MudTabPanel Text="@Localizer.Payrun.Expressions">
                     <MudStack Class="pa-4" Spacing="1">
-                        <MudTextField T="string" Label="Start expression" @bind-Value="Payrun.StartExpression" Lines="3" />
-                        <MudTextField T="string" Label="Employee available expression" @bind-Value="Payrun.EmployeeAvailableExpression" Lines="3" />
-                        <MudTextField T="string" Label="Employee start expression" @bind-Value="Payrun.EmployeeStartExpression" Lines="3" />
-                        <MudTextField T="string" Label="Employee end expression" @bind-Value="Payrun.EmployeeEndExpression" Lines="3" />
-                        <MudTextField T="string" Label="Wage type available expression" @bind-Value="Payrun.WageTypeAvailableExpression" Lines="3" />
-                        <MudTextField T="string" Label="End expression" @bind-Value="Payrun.EndExpression" Lines="3" />
+                        <MudTextField T="string" Label="@Localizer.Payrun.StartExpression" @bind-Value="Payrun.StartExpression" Lines="3" />
+                        <MudTextField T="string" Label="@Localizer.Payrun.EmployeeAvailableExpression" @bind-Value="Payrun.EmployeeAvailableExpression" Lines="3" />
+                        <MudTextField T="string" Label="@Localizer.Payrun.EmployeeStartExpression" @bind-Value="Payrun.EmployeeStartExpression" Lines="3" />
+                        <MudTextField T="string" Label="@Localizer.Payrun.EmployeeEndExpression" @bind-Value="Payrun.EmployeeEndExpression" Lines="3" />
+                        <MudTextField T="string" Label="@Localizer.Payrun.WageTypeAvailableExpression" @bind-Value="Payrun.WageTypeAvailableExpression" Lines="3" />
+                        <MudTextField T="string" Label="@Localizer.Payrun.EndExpression" @bind-Value="Payrun.EndExpression" Lines="3" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Parameters">
+                <MudTabPanel Text="@Localizer.Payrun.Parameters">
                     <MudStack Class="pa-4" Spacing="1">
                         <PayrunParameterGrid Tenant="Tenant" Payrun="Payrun" Style="min-width: fit-content;" />
-                        <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-">
-                            Changes are applied immediately
+                        <MudPaper Typo="Typo.caption" Class="mt-4 pa-4">
+                            @Localizer.Shared.ImmediateChanges
                         </MudPaper>
                     </MudStack>
                 </MudTabPanel>
@@ -63,8 +64,9 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Tenant Tenant { get; set; }
-    [Parameter] public Payrun Payrun { get; set; }
+    [Parameter] public Payrun Payrun { get; set; } = new();
     [Parameter] public List<string> PayrollNames { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     public async Task<bool> ValidateAsync(Payrun payrun) =>
         await form.Revalidate();

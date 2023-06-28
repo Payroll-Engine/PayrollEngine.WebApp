@@ -1,5 +1,9 @@
-﻿<MudSwitch T="bool"
-           Label="@Item.GetItemLabel(Field)"
+﻿@using PayrollEngine.WebApp.Shared
+
+@inject Localizer Localizer;
+
+<MudSwitch T="bool"
+           Label="@Item.GetItemLabel(Field, Localizer)"
            Color="@Color"
            Checked="@Value"
            CheckedChanged="ValueChangedAsync"

@@ -18,6 +18,11 @@ public class RegulationField
     public string Label { get; set; }
 
     /// <summary>
+    /// The field action label
+    /// </summary>
+    public string ActionLabel { get; set; }
+
+    /// <summary>
     /// Indicates a key field
     /// </summary>
     public bool KeyField { get; set; }
@@ -89,10 +94,13 @@ public class RegulationField
             return null;
         }
 
+        // action
         if (PropertyName.EndsWith("Actions"))
         {
             return PropertyName;
         }
+
+        // expression
         if (PropertyName.EndsWith("Expression"))
         {
             return PropertyName.RemoveFromEnd("Expression").EnsureEnd("Actions");
@@ -151,7 +159,7 @@ public class RegulationField
         }
         if (componentType != null && componentType.GetInterface(nameof(IRegulationInput)) == null)
         {
-            throw new ArgumentException($"Component type must be implement interface {nameof(IRegulationInput)}", nameof(componentType));
+            throw new ArgumentException(nameof(componentType));
         }
 
         PropertyName = propertyName;

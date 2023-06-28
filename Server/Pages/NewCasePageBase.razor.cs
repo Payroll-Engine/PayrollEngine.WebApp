@@ -121,7 +121,8 @@ public abstract partial class NewCasePageBase
             var @case = await BuildCaseAsync(CaseName);
             if (@case == null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Case setup error", $"Unknown case {CaseName}");
+                await UserNotification.ShowErrorMessageBoxAsync(
+                    Localizer, "Case setup error", $"Unknown case {CaseName}");
                 return;
             }
 
@@ -135,7 +136,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Case setup error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case setup error", exception);
         }
 
         // result
@@ -175,7 +176,7 @@ public abstract partial class NewCasePageBase
             var @case = Task.Run(() => BuildCaseAsync(caseSet.Name, caseChange)).Result;
             if (@case == null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Case build error", $"Unknown case {CaseName}");
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case build error", $"Unknown case {CaseName}");
                 return;
             }
 
@@ -187,7 +188,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Case build error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case build error", exception);
         }
         finally
         {
@@ -204,7 +205,7 @@ public abstract partial class NewCasePageBase
         var caseSet = RootCase;
         if (caseSet == null)
         {
-            await UserNotification.ShowErrorMessageBoxAsync("Case submit error", "Missing root case to submit");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case submit error", "Missing root case to submit");
             return;
         }
 
@@ -221,7 +222,7 @@ public abstract partial class NewCasePageBase
             var caseChangeSetup = GetCaseChange(caseSet, true);
             if (!caseChangeSetup.CollectCaseValues().Any())
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Case submit error", $"Missing values for case {caseSet.Name}");
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case submit error", $"Missing values for case {caseSet.Name}");
                 return;
             }
 
@@ -230,7 +231,7 @@ public abstract partial class NewCasePageBase
             var issues = caseChange.GetCaseIssues();
             if (issues != null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Case submit error", issues);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case submit error", issues);
                 return;
             }
 
@@ -240,12 +241,12 @@ public abstract partial class NewCasePageBase
             if (caseChange.Values.Any())
             {
                 message = $"Case {caseName} successfully submitted";
-                await UserNotification.ShowMessageBoxAsync("Submit Case", message);
+                await UserNotification.ShowMessageBoxAsync(Localizer, "Submit Case", message);
             }
             else
             {
                 message = $"Ignored unchanged case {caseName}";
-                await UserNotification.ShowMessageBoxAsync("Submit Case", message);
+                await UserNotification.ShowMessageBoxAsync(Localizer, "Submit Case", message);
             }
 
             // log
@@ -261,7 +262,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Submit Case", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Submit Case", exception);
         }
     }
 
@@ -288,7 +289,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Build Case", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Build Case", exception);
             return null;
         }
     }
@@ -450,7 +451,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Lookup error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Lookup error", exception);
         }
     }
 

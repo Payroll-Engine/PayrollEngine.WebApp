@@ -21,7 +21,7 @@ public partial class NationalCases
     // mandatory
     protected override CaseType CaseType => CaseType.National;
     protected override string NewCasePageName => PageUrls.NationalCase;
-    protected override string PageTitle => "National Cases";
+    protected override string PageTitle => Localizer.Case.NationalCases;
     protected override string GridId => GetTenantGridId(GridIdentifiers.NationalCaseChangeValues);
 
     protected override IBackendService<ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery> CaseValueBackendService => CaseValueService;

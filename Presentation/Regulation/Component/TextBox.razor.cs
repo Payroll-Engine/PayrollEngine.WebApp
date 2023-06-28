@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -105,8 +106,6 @@ public partial class TextBox : IRegulationInput
     private Color LocalizationColor =>
         IsLocalizable && Localizations.Any() ? Color.Tertiary : Color.Primary;
 
-    private const string LocalizationHelp = "Localizations";
-
     private async Task OpenLocalizationsAsync()
     {
         if (!IsLocalizable)
@@ -122,7 +121,7 @@ public partial class TextBox : IRegulationInput
             { nameof(LocalizationsDialog.MaxLength), Field.MaxLength }
         };
         var result = await (await DialogService.ShowAsync<LocalizationsDialog>(
-            $"{Field.PropertyName.ToPascalSentence()} localizations", parameters)).Result;
+            Localizer.Item.EditTitle(Localizer.Shared.Localizations), parameters)).Result;
         if (result == null || result.Canceled)
         {
             return;

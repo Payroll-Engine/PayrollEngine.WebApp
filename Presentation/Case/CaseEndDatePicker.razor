@@ -1,4 +1,5 @@
-﻿@inherits PayrollEngine.WebApp.Presentation.Field.DateTimePickerBase
+﻿@using PayrollEngine.WebApp.Shared
+@inherits PayrollEngine.WebApp.Presentation.Field.DateTimePickerBase
 
 <MudDatePicker @ref="@datePicker"
                Date="@Date"
@@ -27,6 +28,7 @@
     [Parameter] public DateTime? MinDate { get; set; }
     [Parameter] public DateTime? MaxDate { get; set; }
     [Parameter] public IMask Mask { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private string Label { get; set; }
     private string Format { get; set; }
@@ -48,7 +50,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Label = Attributes.GetEndLabel(Language) ?? "Start";
+        Label = Attributes.GetEndLabel(Language) ?? Localizer.Shared.End;
         Format = Attributes.GetEndFormat(Language) ??
                      Culture.DateTimeFormat.ShortDatePattern;
         RequiredError = Attributes.GetEndRequired(Language);

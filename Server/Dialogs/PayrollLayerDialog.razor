@@ -2,47 +2,50 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
 <MudDialog Style="min-width: 30em;">
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <MudSelect T="string" @bind-Value="PayrollLayer.RegulationName"
-                                   Label="Regulation"
+                                   Label="@Localizer.Regulation.Regulation"
                                    Disabled="@(RegulationNames == null || RegulationNames.Count < 1)"
-                                   Required="true" RequiredError="Regulation is required">
+                                   Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Regulation.Regulation)">
                             @foreach (var name in RegulationNames)
                             {
                                 <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudTooltip Delay="500" Text="Arrow for the next free level" Placement="Placement.Top">
+                        <MudTooltip Delay="500" Text="@Localizer.PayrollLayer.NextLevelHelp" 
+                                    RootStyle="width: 100%"  Placement="Placement.Top">
                             <MudNumericField T="int" @bind-Value="PayrollLayer.Level"
-                                             Label="Level"
-                                             HelperText="Default level is 1"
+                                             Label="@Localizer.PayrollLayer.Level"
+                                             HelperText="@Localizer.PayrollLayer.DefaultLevel"
                                              Min="1"
                                              Adornment="Adornment.End"
                                              AdornmentIcon="@Icons.Material.Filled.ArrowUpward"
                                              OnAdornmentClick="SetNextFreeLevel"
                                              Validation="@(new Func<int, string>(ValidateLevel))" />
                         </MudTooltip>
-                        <MudTooltip Delay="500" Text="Arrow for the next free priority" Placement="Placement.Top">
+                        <MudTooltip Delay="500" Text="@Localizer.PayrollLayer.NextPriorityHelp" 
+                                    RootStyle="width: 100%" Placement="Placement.Top">
                             <MudNumericField T="int" @bind-Value="PayrollLayer.Priority"
-                                             Label="Priority"
+                                             Label="@Localizer.PayrollLayer.Priority"
                                              Min="1"
                                              Adornment="Adornment.End"
                                              AdornmentIcon="@Icons.Material.Filled.ArrowUpward"
                                              OnAdornmentClick="SetNextFreePriority"
                                              Validation="@(new Func<int, string>(ValidatePriority))"
-                                             Required="true" RequiredError="Priority is required" />
+                                             Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrollLayer.Priority)" />
                         </MudTooltip>
                         <ItemBaseFields Item="PayrollLayer" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="PayrollLayer" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -60,15 +63,16 @@
     [Parameter] public PayrollLayer PayrollLayer { get; set; } = new();
     [Parameter] public List<PayrollLayer> PayrollLayers { get; set; }
     [Parameter] public List<string> RegulationNames { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     public async Task<bool> ValidateAsync(PayrollLayer payrollLayer) =>
         await form.Revalidate();
 
     private string ValidateLevel(int level) =>
-        level <= 0 ? "Level must be 1 or greater" : null;
+        level <= 0 ? Localizer.PayrollLayer.RuleLevelMin : null;
 
     private string ValidatePriority(int priority) =>
-        priority <= 0 ? "Priority must be 1 or greater" : null;
+        priority <= 0 ? Localizer.PayrollLayer.RulePriorityMin : null;
 
     private bool HasLevel => PayrollLayer.Level > 0;
 

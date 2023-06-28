@@ -21,7 +21,7 @@ public partial class GlobalCases
     // mandatory
     protected override CaseType CaseType => CaseType.Global;
     protected override string NewCasePageName => PageUrls.GlobalCase;
-    protected override string PageTitle => "Global Cases";
+    protected override string PageTitle => Localizer.Case.GlobalCases;
     protected override string GridId => GetTenantGridId(GridIdentifiers.GlobalCaseChangeValues);
 
     protected override IBackendService<ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery> CaseValueBackendService => CaseValueService;

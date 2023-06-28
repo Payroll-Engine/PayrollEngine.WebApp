@@ -1,6 +1,8 @@
 ﻿@page "/login"
 
-@inherits PayrollEngine.WebApp.Presentation.PageBase;
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits PageBase;
 
 @if (Session.UserAvailable)
 {
@@ -24,7 +26,7 @@
         </MudText>
         <MudText Typo="Typo.h6"
                  Align="Align.Center">
-            Login
+            @Localizer.Login.Login
         </MudText>
 
         <MudForm>
@@ -33,12 +35,12 @@
             @if (LoginState == UserLoginState.InputUser)
             {
                 <MudTextField T="string" Class="my-4"
-                          Value="@UserIdentifier"
-                          AutoFocus="true"
-                          Label="User"
-                          MaxLength="SystemSpecification.KeyTextLength"
-                          HelperText="Please enter your identification"
-                          ValueChanged="UserSelected" />
+                              Value="@UserIdentifier"
+                              AutoFocus="true"
+                              Label="@Localizer.User.User"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              HelperText="@Localizer.Login.UserHelp"
+                              ValueChanged="UserSelected" />
 
                 @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 {
@@ -52,16 +54,16 @@
             @if (LoginState == UserLoginState.InputTenant)
             {
                 <MudTextField T="string" Class="mt-4"
-                          Label="User"
-                          ReadOnly="true" Disabled="true"
-                          Value="@UserIdentifier" />
+                              Label="@Localizer.User.User"
+                              ReadOnly="true" Disabled="true"
+                              Value="@UserIdentifier" />
 
                 <MudSelect T="string" Class="my-4"
-                       Value="@TenantIdentifier"
-                       ValueChanged="@TenantSelected"
-                       AutoFocus="true"
-                       Label="Tenant"
-                       HelperText="Please select a Tenant">
+                           Value="@TenantIdentifier"
+                           ValueChanged="@TenantSelected"
+                           AutoFocus="true"
+                           Label="@Localizer.Tenant.Tenant"
+                           HelperText="@Localizer.Login.TenantHelp">
                     @foreach (var tenant in GetUserTenants())
                     {
                         <MudSelectItem T="string" Value="@tenant.Identifier">@tenant.Identifier</MudSelectItem>
@@ -80,40 +82,40 @@
             @if (LoginState == UserLoginState.SetupPassword)
             {
                 @* Stage 3.1: No password set for user. Show prompt for new password *@
-                <MudText Typo="Typo.h5">Create new password</MudText>
+                <MudText Typo="Typo.h5">@Localizer.Login.NewPasswordTitle</MudText>
 
                 <MudTextField T="string" Class="mt-4"
-                          Label="User"
-                          ReadOnly="true" Disabled="true"
-                          Value="@UserIdentifier" />
+                              Label="@Localizer.User.User"
+                              ReadOnly="true" Disabled="true"
+                              Value="@UserIdentifier" />
 
                 <MudTextField T="string" Class="mt-4"
-                          Label="Tenant"
-                          ReadOnly="true" Disabled="true"
-                          Value="@TenantIdentifier" />
+                              Label="@Localizer.Tenant.Tenant"
+                              ReadOnly="true" Disabled="true"
+                              Value="@TenantIdentifier" />
 
                 <MudTextField T="string" Class="mt-4"
-                          @bind-Value="@NewPassword"
-                          MaxLength="SystemSpecification.KeyTextLength"
-                          Label="New password"
-                          HelperText="Please enter new password"
-                          InputType="@NewPasswordType"
-                          AutoFocus="true"
-                          Adornment="Adornment.End"
-                          AdornmentIcon="@NewPasswordIcon"
-                          OnAdornmentClick="ToggleNewPasswordVisibility"
-                          AdornmentAriaLabel="Show Password" />
+                @bind-Value="@NewPassword"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              Label="@Localizer.User.NewPassword"
+                              HelperText="@Localizer.User.NewPasswordHelp"
+                              InputType="@NewPasswordType"
+                              AutoFocus="true"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@NewPasswordIcon"
+                              OnAdornmentClick="ToggleNewPasswordVisibility"
+                              AdornmentAriaLabel="@Localizer.User.ShowPassword" />
 
                 <MudTextField T="string" Class="mt-4"
-                          @bind-Value="@NewPasswordConfirmation"
-                          MaxLength="SystemSpecification.KeyTextLength"
-                          Label="Repeat new password"
-                          HelperText="Please repeat new password"
-                          InputType="@PasswordConfirmationType"
-                          Adornment="Adornment.End"
-                          AdornmentIcon="@PasswordConfirmationIcon"
-                          OnAdornmentClick="TogglePasswordConfirmationVisibility"
-                          AdornmentAriaLabel="Show Password" />
+                @bind-Value="@NewPasswordConfirmation"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              Label="@Localizer.User.NewPasswordRepeat"
+                              HelperText="@Localizer.User.NewPasswordRepeatHelp"
+                              InputType="@PasswordConfirmationType"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@PasswordConfirmationIcon"
+                              OnAdornmentClick="TogglePasswordConfirmationVisibility"
+                              AdornmentAriaLabel="@Localizer.User.ShowPassword" />
 
                 <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
                     Password: 1 digit, 1 lowercase, 1 uppercase, 1 special character and minimum 8 characters
@@ -127,10 +129,10 @@
                 }
 
                 <MudButton Color="Color.Primary" Class="my-4"
-                       OnClick="SetPasswordAsync"
-                       Variant="Variant.Outlined"
-                       FullWidth="true">
-                    OK
+                           OnClick="SetPasswordAsync"
+                           Variant="Variant.Outlined"
+                           FullWidth="true">
+                    @Localizer.Dialog.Ok
                 </MudButton>
             }
 
@@ -138,25 +140,25 @@
             @if (LoginState == UserLoginState.InputPassword)
             {
                 <MudTextField T="string" Class="mt-4"
-                          Label="User"
-                          ReadOnly="true" Disabled="true"
-                          Value="@UserIdentifier" />
+                              Label="@Localizer.User.User"
+                              ReadOnly="true" Disabled="true"
+                              Value="@UserIdentifier" />
 
                 <MudTextField T="string" Class="mt-4"
-                          Label="Tenant"
-                          ReadOnly="true" Disabled="true"
-                          Value="@TenantIdentifier" />
+                              Label="@Localizer.Tenant.Tenant"
+                              ReadOnly="true" Disabled="true"
+                              Value="@TenantIdentifier" />
 
                 <MudTextField T="string" Class="mt-4"
-                          @bind-Value="@UserPassword"
-                          MaxLength="SystemSpecification.KeyTextLength"
-                          Label="Password"
-                          InputType="@PasswordType"
-                          AutoFocus="true"
-                          Adornment="Adornment.End"
-                          AdornmentIcon="@PasswordIcon"
-                          OnAdornmentClick="TogglePasswordVisibility"
-                          AdornmentAriaLabel="Show Password" />
+                @bind-Value="@UserPassword"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              Label="@Localizer.Login.Password"
+                              InputType="@PasswordType"
+                              AutoFocus="true"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@PasswordIcon"
+                              OnAdornmentClick="TogglePasswordVisibility"
+                              AdornmentAriaLabel="@Localizer.User.ShowPassword" />
 
                 @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 {
@@ -166,11 +168,11 @@
                 }
 
                 <MudButton Color="Color.Tertiary"
-                       OnClick="LoginAsync"
-                       Class="my-4"
-                       Variant="Variant.Outlined"
-                       FullWidth="true">
-                    Login
+                           OnClick="LoginAsync"
+                           Class="my-4"
+                           Variant="Variant.Outlined"
+                           FullWidth="true">
+                    @Localizer.Login.Login
                 </MudButton>
             }
 

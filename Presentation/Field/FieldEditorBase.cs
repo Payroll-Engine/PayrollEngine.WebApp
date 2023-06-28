@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -13,6 +14,7 @@ public abstract class FieldEditorBase : ComponentBase
     [Parameter] public Variant Variant { get; set; }
     [Parameter] public string HelperText { get; set; }
     [Parameter] public bool Disabled { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     protected bool Error => !Field.IsValidValue();
 
@@ -70,7 +72,7 @@ public abstract class FieldEditorBase : ComponentBase
         // data
         ReadOnly = Field.Attributes.GetValueReadOnly(Language) ?? false;
         ValueRequiredError = Field.Attributes.GetValueRequired(Language) ??
-                             "Value is required";
+                             Localizer.Error.MissingMandatoryValue;
 
         await base.OnInitializedAsync();
     }

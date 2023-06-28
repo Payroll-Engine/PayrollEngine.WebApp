@@ -9,17 +9,17 @@
 }
 @if (!HasTenant)
 {
-    <div>Please select a Tenant</div>
+    <div>@Localizer.App.SelectTenant</div>
     return;
 }
 @if (!HasPayroll)
 {
-    <div>Please select a Payroll</div>
+    <div>@Localizer.App.SelectPayroll</div>
     return;
 }
 @if (!HasEmployee)
 {
-    <div>Please select an Employee</div>
+    <div>@Localizer.App.SelectEmployee</div>
     return;
 }
 

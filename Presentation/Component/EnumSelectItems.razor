@@ -1,0 +1,40 @@
+﻿@using System.Linq
+@using PayrollEngine.WebApp.Shared
+@using SixLabors.ImageSharp.Formats
+
+@typeparam T where T : Enum
+
+@foreach (var value in Values)
+{
+    <MudSelectItem T="T" Value="@value.Item1">@value.Item2</MudSelectItem>
+}
+
+@code
+{
+    [Parameter] public bool Ordered { get; set; } = true;
+    [Inject] private Localizer Localizer { get; set; }
+
+    private List<Tuple<T, string>> Values { get; set; } = new();
+
+    private void SetupValues()
+    {
+        var enumItems = Enum.GetValues(typeof(T)).Cast<T>().ToList();
+        if (Ordered)
+        {
+            enumItems = enumItems.OrderBy(x => x.ToString()).ToList();
+        }
+        List<Tuple<T, string>> values = new();
+        foreach (var item in enumItems)
+        {
+            var text = Localizer != null ? Localizer.FromEnum(item) : item.ToString().ToPascalSentence();
+            values.Add(new(item, text));
+        }
+        Values = values;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetupValues();
+        await base.OnInitializedAsync();
+    }
+}

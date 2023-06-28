@@ -2,13 +2,14 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
+@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
 
 <MudDialog Class="item-dialog">
     <DialogContent>
         <MudForm @ref="form">
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="Common">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
                         <MudTextField T="string" @bind-Value="PayrunParameter.Name"
                                       ReadOnly="@PayrunParameter.IsExistingObject"
@@ -30,7 +31,7 @@
                         <ItemBaseFields Item="PayrunParameter" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
                     <AttributesGrid Item="PayrunParameter" Class="attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>
@@ -46,6 +47,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public PayrunParameter PayrunParameter { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
 
     public async Task<bool> ValidateAsync(PayrunParameter payrunParameter) =>
         await form.Revalidate();

@@ -1,5 +1,6 @@
 ﻿@using PayrollEngine.Client.Service
 @using PayrollEngine.Client.Model
+@using PayrollEngine.WebApp.Shared
 @using PayrollEngine.WebApp.ViewModel
 @using PayrunJob = PayrollEngine.WebApp.ViewModel.PayrunJob
 @using Task = System.Threading.Tasks.Task
@@ -15,34 +16,34 @@
                     @if (!string.IsNullOrWhiteSpace(Setup.ForecastName))
                     {
                         <tr>
-                            <td style="width: 20%">Forecast name</td>
+                            <td style="width: 20%">@Localizer.Forecast.Name</td>
                             <td>@Setup.ForecastName</td>
                         </tr>
                     }
                     <tr>
-                        <td style="width: 20%">Payrun Job</td>
+                        <td style="width: 20%">@Localizer.PayrunJob.PayrunJob</td>
                         <td>@Setup.JobName</td>
                     </tr>
                     <tr>
-                        <td style="width: 20%">User</td>
+                        <td style="width: 20%">@Localizer.User.User</td>
                         <td>@User.FullName</td>
                     </tr>
                     @if (Employees != null && Employees.Any())
                     {
                         <tr>
-                            <td>Employees</td>
-                            <td>@(Employees.Count) Employees</td>
+                            <td>@Localizer.Employee.Employees</td>
+                            <td>@(Employees.Count) @Localizer.Employee.Employees</td>
                         </tr>
                     }
                     @if (Setup.Parameters != null && Setup.Parameters.Any())
                     {
                         <tr>
-                            <td style="width: 40%">Parameters</td>
-                            <td>@(Setup.Parameters.Count) Parameters</td>
+                            <td style="width: 40%">@Localizer.Payrun.Parameters</td>
+                            <td>@(Setup.Parameters.Count) @Localizer.Payrun.Parameters</td>
                         </tr>
                     }
                     <tr>
-                        <td style="width: 40%">Reason</td>
+                        <td style="width: 40%">@Localizer.PayrunJob.JobReason</td>
                         <td>@Setup.Reason</td>
                     </tr>
                 </tbody>
@@ -52,7 +53,7 @@
                 @if (Executing)
                 {
                     <MudText Class="pb-4">
-                        Executing...
+                        @Localizer.PayrunJob.JobExecuting
                     </MudText>
                     <MudProgressLinear Color="Color.Info" Rounded="true"
                                    Class="mud-table-loading-progress"
@@ -61,13 +62,13 @@
                 @if (Failed)
                 {
                     <MudText Class="pb-4" Color="Color.Error">
-                        Payrun execution failure
+                        @Localizer.PayrunJob.JobFailed
                     </MudText>
                 }
                 @if (Completed)
                 {
                     <MudText Class="pb-4" Color="Color.Success">
-                        Payrun job completed successfully
+                        @Localizer.PayrunJob.JobCompleted
                     </MudText>
                 }
             </div>
@@ -78,17 +79,17 @@
             @if (!Completed && !Failed)
             {
                 <MudButton Variant="Variant.Outlined" OnClick="Cancel"
-                       Disabled="@Executing">Cancel</MudButton>
+                           Disabled="@Executing">@Localizer.Dialog.Cancel</MudButton>
                 <MudButton Variant="Variant.Outlined" Color="Color.Tertiary"
-                       Disabled="@Executing" OnClick="Start">Start</MudButton>
+                           Disabled="@Executing" OnClick="Start">@Localizer.PayrunJob.JobStart</MudButton>
             }
             @if (Completed || Failed)
             {
                 <MudButton Variant="Variant.Outlined" Color="Color.Info"
                            StartIcon="@Icons.Material.Filled.NavigateNext"
-                           OnClick="CloseViewResults">Job Results</MudButton>
+                           OnClick="CloseViewResults">@Localizer.PayrunResult.PayrunResults</MudButton>
                 <MudButton Variant="Variant.Outlined" Color="Color.Tertiary"
-                       OnClick="Close">Close</MudButton>
+                           OnClick="Close">@Localizer.Dialog.Close</MudButton>
             }
         </MudStack>
     </DialogActions>
@@ -104,10 +105,9 @@
     [Parameter] public int PayrunId { get; set; }
     [Parameter] public PayrunJobSetup Setup { get; set; }
 
-    [Inject]
-    private IPayrunJobService PayrunJobService { get; set; }
-    [Inject]
-    private IUserNotificationService UserNotification { get; set; }
+    [Inject] private IPayrunJobService PayrunJobService { get; set; }
+    [Inject] private IUserNotificationService UserNotification { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private bool Executing { get; set; }
     private bool Completed { get; set; }
@@ -178,7 +178,7 @@
             var result = await PayrunJobService.StartJobAsync<PayrunJob>(new(Tenant.Id), jobInvocation);
             if (result == null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync("Payrun job start", "Payrun job start failed");
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, Localizer.PayrunJob.JobFailed);
             }
 
             // expected exit

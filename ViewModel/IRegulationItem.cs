@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -19,7 +20,8 @@ public interface IRegulationItem : IViewModel
 
     string Name { get; }
     string Description { get; }
-    string AdditionalInfo { get; }
+
+    public string GetAdditionalInfo(Localizer localizer);
 
     // child object
     IRegulationItem Parent { get; set; }

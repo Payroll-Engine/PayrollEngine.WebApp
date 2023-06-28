@@ -3,6 +3,7 @@
 @using Task = System.Threading.Tasks.Task
 @using Microsoft.AspNetCore.Components.Forms
 @using System.IO
+@using PayrollEngine.WebApp.Shared
 
 @typeparam TDoc where TDoc : CaseDocument, new()
 
@@ -18,13 +19,13 @@
                 <div class="d-flex flex-grow-1 justify-end">
                     <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync" Accept="@Accept">
                         <ButtonTemplate>
-                            <MudTooltip Delay="500" Text="Upload document" Placement="Placement.Top">
+                            <MudTooltip Delay="500" Text="@Localizer.Document.ContentUpload" Placement="Placement.Top">
                                 <MudIconButton for="@context"
-                                           HtmlTag="label"
-                                           Color="Color.Tertiary"
-                                           Variant="Variant.Outlined"
-                                           Icon="@Icons.Material.Filled.Upload"
-                                           Size="Size.Small">
+                                               HtmlTag="label"
+                                               Color="Color.Tertiary"
+                                               Variant="Variant.Outlined"
+                                               Icon="@Icons.Material.Filled.Upload"
+                                               Size="Size.Small">
                                 </MudIconButton>
                             </MudTooltip>
                         </ButtonTemplate>
@@ -40,41 +41,41 @@
                      Groupable="false"
                      ShowColumnOptions="false">
             <Columns>
-                <PropertyColumn Property="x => x.Name" />
-                <PropertyColumn Property="x => x.ContentType" Title="Content type" />
+                <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+                <PropertyColumn Property="x => x.ContentType" Title="@Localizer.Document.ContentType" />
                 <TemplateColumn T="TDoc" CellStyle="text-align: right">
                     <CellTemplate>
                         @if (Editable)
                         {
-                            <MudTooltip Delay="500" Text="@($"Remove {context.Item.Name}")" Placement="Placement.Top">
+                            <MudTooltip Delay="500" Text="@Localizer.Item.RemoveTitle(context.Item.Name)" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => DeleteAsync(context.Item))"
-                                           Color="Color.Secondary"
-                                           Variant="Variant.Outlined"
-                                           Icon="@Icons.Material.Filled.Delete"
-                                           Size="Size.Small" />
+                                               Color="Color.Secondary"
+                                               Variant="Variant.Outlined"
+                                               Icon="@Icons.Material.Filled.Delete"
+                                               Size="Size.Small" />
                             </MudTooltip>
                         }
                         else
                         {
-                            <MudTooltip Delay="500" Text="@($"Download {context.Item.Name}")" Placement="Placement.Top">
-                                <MudIconButton @onclick="@(() => DownloadAsync(context.Item))"
-                                           Color="Color.Primary"
-                                           Variant="Variant.Outlined"
-                                           Icon="@Icons.Material.Filled.Download"
-                                           Size="Size.Small" />
+                            <MudTooltip Delay="500" Text="@Localizer.Document.DownloadTitle(context.Item.Name)" Placement="Placement.Top">
+                                <MudIconButton @onclick="@(() => DownloadAsync(context.Item))" )
+                                               Color="Color.Primary"
+                                               Variant="Variant.Outlined"
+                                               Icon="@Icons.Material.Filled.Download"
+                                               Size="Size.Small" />
                             </MudTooltip>
                         }
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
             <NoRecordsContent>
-                No documents available
+                @Localizer.Document.NotAvailable
             </NoRecordsContent>
         </MudDataGrid>
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -84,8 +85,8 @@
     [Parameter] public ObservedHashSet<TDoc> Documents { get; set; }
     [Parameter] public string Accept { get; set; }
     [Parameter] public bool Editable { get; set; }
-
     [Inject] private IUserNotificationService UserNotification { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(true));
 
@@ -104,7 +105,7 @@
         catch (Exception exception)
         {
             PayrollEngine.Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Case documents error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Document.Documents, exception);
         }
     }
 
@@ -123,12 +124,12 @@
                     Content = Convert.ToBase64String(memoryStream.ToArray())
                 };
             await Documents.AddAsync(document);
-            await UserNotification.ShowSuccessAsync($"Document {file.Name} uploaded");
+            await UserNotification.ShowSuccessAsync(Localizer.Document.ContentUploaded(file.Name));
         }
         catch (Exception exception)
         {
             PayrollEngine.Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync("Case documents error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Document.Documents, exception);
         }
     }
 
@@ -139,7 +140,7 @@
             return;
         }
         await Documents.RemoveAsync(document);
-        await UserNotification.ShowSuccessAsync($"Document {document.Name} removed");
+        await UserNotification.ShowSuccessAsync(Localizer.Document.DocumentRemoved);
         StateHasChanged();
     }
 }
