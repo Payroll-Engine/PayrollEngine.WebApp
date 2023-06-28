@@ -2,9 +2,9 @@
 @using System.Reflection
 @using Date = PayrollEngine.Date
 
-<MudDialog Class="item-dialog">
+<MudDialog Class="item-dialog pa-4">
     <DialogContent>
-        <MudStack Class="pa-4 gap-4">
+        <MudStack Class="pa-4 gap-4 align-center">
             @if (!string.IsNullOrWhiteSpace(AppImage))
             {
                 <img src="@AppImage" style="max-width: 40em" />
@@ -13,9 +13,9 @@
             {
                 <MudText Typo="Typo.h5">@AppTitle</MudText>
             }
-            <MudText Class="align-self-center">@Localizer.App.WebAppVersion - @AppVersion</MudText>
-            <MudText Class="align-self-center">@Localizer.App.BackendVersion - @BackendVersion</MudText>
-            <MudText Class="align-self-center">@Localizer.App.Copyright(CopyRight)</MudText>
+            <MudText>@Localizer.App.WebAppVersion - @AppVersion</MudText>
+            <MudText>@Localizer.App.BackendVersion - @BackendVersion</MudText>
+            <MudText>@Localizer.App.Copyright(CopyRight)</MudText>
         </MudStack>
     </DialogContent>
     <DialogActions>

@@ -90,47 +90,61 @@
                       Content="@Session.User.OpenTaskCount"
                       OnClick="NavigateToTasks"
                       Overlap="true">
-                @{
-                    var style = "min-width: max-content";
-                    var firstName = Session.User.FirstName;
-                    var lastName = Session.User.LastName;
-                    @if (Session.User.Supervisor)
-                    {
-                        style += "font-weight: bold";
-                        firstName = '[' + firstName;
-                        lastName = lastName + ']';
-                    }
-                    <MudInputLabel Class="pr-4" Style="@style">@firstName&nbsp;@lastName</MudInputLabel>
-                }
+                <MudInputLabel Class="pr-4" Style="min-width: max-content">
+                    @Session.User.FirstName&nbsp;@Session.User.FirstName
+                </MudInputLabel>
             </MudBadge>
 
             @* user menu *@
-            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit"
-                     AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
-                <MudMenuItem Icon="@Icons.Material.Filled.ManageAccounts" 
-                             OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
-                @if (IsDarkMode)
-                {
-                    <MudMenuItem Icon="@Icons.Material.Filled.LightMode" OnClick="ToggleThemeAsync">
-                        @Localizer.App.LightMode
+            @{
+                @* user settings *@
+                <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit"
+                         AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+                    @switch (Session.User.UserType)
+                    {
+                        case UserType.Employee:
+                            <MudMenuItem Icon="@Icons.Material.Outlined.AccountBox"
+                                         OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                            break;
+                        case UserType.Supervisor:
+                            <MudMenuItem Icon="@Icons.Material.Outlined.SupervisorAccount"
+                                         OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                            break;
+                        case UserType.Regular:
+                        default:
+                            <MudMenuItem Icon="@Icons.Material.Outlined.AccountCircle"
+                                         OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                            break;
+                    }
+
+                    @* dark mode *@
+                    @if (IsDarkMode)
+                    {
+                        <MudMenuItem Icon="@Icons.Material.Filled.LightMode" OnClick="ToggleThemeAsync">
+                            @Localizer.App.LightMode
+                        </MudMenuItem>
+                    }
+                    else
+                    {
+                        <MudMenuItem Icon="@Icons.Material.Filled.DarkMode" OnClick="ToggleThemeAsync">
+                            @Localizer.App.DarkMode
+                        </MudMenuItem>
+                    }
+                   
+                    @* about *@
+                    <MudMenuItem Icon="@Icons.Material.Filled.Info" OnClick="AboutAsync">
+                        @Localizer.App.About
                     </MudMenuItem>
-                }
-                else
-                {
-                    <MudMenuItem Icon="@Icons.Material.Filled.DarkMode"OnClick="ToggleThemeAsync">
-                        @Localizer.App.DarkMode
-                    </MudMenuItem>
-                }
-                <MudMenuItem Icon="@Icons.Material.Filled.Info"OnClick="AboutAsync">
-                    @Localizer.App.About
-                </MudMenuItem>
-                @if (UserLoginEnabled())
-                {
-                    <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutAsync">
-                        @Localizer.App.Logout
-                    </MudMenuItem>
-                }
-            </MudMenu>
+
+                    @* logout *@
+                    @if (UserLoginEnabled())
+                    {
+                        <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutAsync">
+                            @Localizer.App.Logout
+                        </MudMenuItem>
+                    }
+                </MudMenu>
+            }
         </MudAppBar>
         <MudDrawer @bind-Open="NavigationOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
             <NavMenu />
