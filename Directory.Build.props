@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<Version>0.5.0-pre-230629-2</Version>
+		<Version>0.5.0-pre-230629-3</Version>
 		<FileVersion>0.5.0</FileVersion>
 		<InformationalVersion></InformationalVersion>
 		<Authors>Jani Giannoudis</Authors>
