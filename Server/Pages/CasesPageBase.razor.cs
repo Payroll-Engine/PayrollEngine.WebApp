@@ -247,7 +247,7 @@ public abstract partial class CasesPageBase
         {
             { nameof(CaseUndoDialog.CaseChangeValues), caseChangeValues },
             { nameof(CaseUndoDialog.ValueFormatter), ValueFormatter },
-            { nameof(CaseUndoDialog.Culture) , UserCulture }
+            { nameof(CaseUndoDialog.Culture) , Culture }
         };
         var caseName = caseChangeValues.First().ValidationCaseName;
         var dialog = await (await DialogService.ShowAsync<CaseUndoDialog>(Localizer.CaseChange.UndoQuery(caseName), parameters)).Result;
@@ -529,7 +529,7 @@ public abstract partial class CasesPageBase
                     CaseType, employeeId: employeeId);
 
                 // order
-                cases = cases.OrderBy(x => x.GetLocalizedName(UserCulture)).ToList();
+                cases = cases.OrderBy(x => x.GetLocalizedName(Culture)).ToList();
                 payrollCases.AddRange(cases);
             }
             catch (Exception exception)
@@ -542,7 +542,7 @@ public abstract partial class CasesPageBase
         // available cases (filtering hidden cases)
         PayrollAvailableCases = !payrollCases.Any()
             ? new()
-            : payrollCases.Where(c => !(c.Attributes?.GetHidden(UserCulture) ?? false)).ToList();
+            : payrollCases.Where(c => !(c.Attributes?.GetHidden(Culture) ?? false)).ToList();
     }
 
     /// <summary>
@@ -569,7 +569,7 @@ public abstract partial class CasesPageBase
         // case filter
         if (!string.IsNullOrWhiteSpace(filter))
         {
-            cases = cases.Where(x => x.IsMatching(filter, UserCulture));
+            cases = cases.Where(x => x.IsMatching(filter, Culture));
         }
         AvailableCases = cases.ToList();
     }
@@ -592,7 +592,7 @@ public abstract partial class CasesPageBase
         {
             return;
         }
-        await ApplyFilterAsync(@case.GetLocalizedName(UserCulture));
+        await ApplyFilterAsync(@case.GetLocalizedName(Culture));
     }
 
     private void ResetAvailableCases()

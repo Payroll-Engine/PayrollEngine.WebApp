@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -277,10 +278,29 @@ public partial class ReportDownloadDialog
             return;
         }
 
+        // culture by priority: user > tenant > system (UI)
+        var culture = User.Culture ??
+                      Tenant.Culture ??
+                      CultureInfo.CurrentUICulture.Name;
+
         try
         {
+            // template by culture
             ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
-                new(Tenant.Id, Payroll.Id), new[] { Report.Name }, User.Culture)).FirstOrDefault();
+                new(Tenant.Id, Payroll.Id), new[] { Report.Name }, culture)).FirstOrDefault();
+
+            // fallback template by base culture
+            if (ReportTemplate == null)
+            {
+                var index = culture.IndexOf('-');
+                if (index >= 0)
+                {
+                    var baseCulture = culture.Substring(0, index);
+                    ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
+                        new(Tenant.Id, Payroll.Id), new[] { Report.Name }, baseCulture)).FirstOrDefault();
+                }
+            }
+
         }
         catch (HttpRequestException exception)
         {
@@ -294,6 +314,13 @@ public partial class ReportDownloadDialog
         {
             Log.Error(exception, exception.GetBaseMessage());
             await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report, exception);
+        }
+
+        // template test
+        if (ReportTemplate == null)
+        {
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report, 
+                Localizer.Error.UnknownItem(Localizer.ReportTemplate.ReportTemplate, culture));
         }
     }
 

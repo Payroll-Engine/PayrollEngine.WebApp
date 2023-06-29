@@ -64,12 +64,12 @@
                   Style="max-height: 22em; overflow-y: scroll">
             @foreach (var availableCase in AvailableCases)
             {
-                var caseName = availableCase.GetLocalizedName(UserCulture).TruncateSentence(100);
+                var caseName = availableCase.GetLocalizedName(Culture).TruncateSentence(100);
                 <MudStack Spacing="0" Class="d-flex mud-elevation-4 border-solid border rounded-lg pa-2" Style="width: 17em; height: 8.5em">
 
                     @* case name *@
                     @{
-                        var fullName = availableCase.GetLocalizedName(UserCulture);
+                        var fullName = availableCase.GetLocalizedName(Culture);
                         <MudTooltip Delay="500" Text="@fullName" Placement="Placement.Top">
                             <MudText Typo="Typo.body1" Style="max-height: 4em">@fullName.TruncateSentence(30)</MudText>
                         </MudTooltip>
@@ -77,7 +77,7 @@
 
                     @* case description *@
                     @{
-                        var description = availableCase.GetLocalizedDescription(UserCulture);
+                        var description = availableCase.GetLocalizedDescription(Culture);
                         if (!string.IsNullOrWhiteSpace(description))
                         {
                             <MudTooltip Delay="500" Text="@description" Placement="Placement.Top">
@@ -182,7 +182,7 @@ else
                     var change = context.Grouping.FirstOrDefault();
                     if (change != null)
                     {
-                        var caseName = UserCulture.GetLocalization(change.CaseNameLocalizations, change.CaseName);
+                        var caseName = Culture.GetLocalization(change.CaseNameLocalizations, change.CaseName);
                         <MudTooltip Delay="500" Placement="Placement.Right">
                             <ChildContent>
                                 <span style="display: inline-block;" class="pa-1">

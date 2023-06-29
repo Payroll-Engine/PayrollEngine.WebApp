@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
@@ -43,6 +44,14 @@ public abstract class PageBase : ComponentBase, IDisposable
     // ReSharper disable once InconsistentNaming
     protected RenderTreeBuilder __builder { get; set; }
 
+    /// <summary>
+    /// The working culture by priority: user > tenant > system (UI)
+    /// </summary>
+    protected virtual string Culture =>
+        User.Culture ??
+        Tenant.Culture ??
+        CultureInfo.CurrentUICulture.Name;
+
     #region Working Items
 
     /// <summary>
@@ -63,11 +72,6 @@ public abstract class PageBase : ComponentBase, IDisposable
     ///  Thw working user
     /// </summary>
     protected User User => Session.User;
-
-    /// <summary>
-    /// The users culture
-    /// </summary>
-    protected string UserCulture => User.Culture;
 
     /// <summary>
     /// Check for user feature

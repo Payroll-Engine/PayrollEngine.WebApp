@@ -227,7 +227,7 @@ public partial class Reports : IReportOperator
             { nameof(ReportDownloadDialog.User), User },
             { nameof(ReportDownloadDialog.Payroll), Payroll },
             { nameof(ReportDownloadDialog.Report), report },
-            { nameof(ReportDownloadDialog.Culture), UserCulture },
+            { nameof(ReportDownloadDialog.Culture), Culture },
             { nameof(ReportDownloadDialog.ValueFormatter), ValueFormatter }
         };
         await DialogService.ShowAsync<ReportDownloadDialog>(

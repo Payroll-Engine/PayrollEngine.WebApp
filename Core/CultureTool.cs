@@ -56,7 +56,7 @@ public static class CultureTool
             return culture;
         }
 
-        // matching language
+        // matching culture
         foreach (var key in CultureInfos.Keys)
         {
             if (key.StartsWith(cultureName))

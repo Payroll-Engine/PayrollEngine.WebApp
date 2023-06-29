@@ -557,6 +557,7 @@ public partial class PayrunJobs : IPayrunJobOperator
         // payrun job dialog (read only)
         var parameters = new DialogParameters
         {
+            { nameof(PayrunJobDialog.Tenant), Tenant },
             { nameof(PayrunJobDialog.PayrunJob), payrunJob },
             { nameof(PayrunJobDialog.Users), Users },
             { nameof(PayrunJobDialog.Employees), Employees }
