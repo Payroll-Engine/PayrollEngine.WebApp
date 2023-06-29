@@ -2220,4 +2220,10 @@
   <data name="Enum.WebhookAction.TaskChange" xml:space="preserve">
     <value>Aufgabenwechsel</value>
   </data>
+  <data name="DataGrid.PagerInfoFormat" xml:space="preserve">
+    <value>{first_item}-{last_item} von {all_items}</value>
+  </data>
+  <data name="DataGrid.PagerRowsPerPage" xml:space="preserve">
+    <value>Zeilen pro Seite:</value>
+  </data>
 </root>

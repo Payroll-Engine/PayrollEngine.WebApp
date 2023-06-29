@@ -46,7 +46,8 @@
         <ItemActionsColumn T="RegulationShare" ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="RegulationShare" />
+        <MudDataGridPager T="RegulationShare" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.RegulationShare.NotAvailable

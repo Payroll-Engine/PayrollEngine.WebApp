@@ -61,15 +61,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Action.
-        /// </summary>
-        internal static string Action_Action {
-            get {
-                return ResourceManager.GetString("Action.Action", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Action expression.
         /// </summary>
         internal static string Action_ActionExpression {
@@ -1641,6 +1632,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string DataGrid_Operator {
             get {
                 return ResourceManager.GetString("DataGrid.Operator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {first_item}-{last_item} of {all_items}.
+        /// </summary>
+        internal static string DataGrid_PagerInfoFormat {
+            get {
+                return ResourceManager.GetString("DataGrid.PagerInfoFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rows per page:.
+        /// </summary>
+        internal static string DataGrid_PagerRowsPerPage {
+            get {
+                return ResourceManager.GetString("DataGrid.PagerRowsPerPage", resourceCulture);
             }
         }
         

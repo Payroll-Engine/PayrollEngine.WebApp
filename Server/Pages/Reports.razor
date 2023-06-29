@@ -87,7 +87,8 @@
         <ReportActionsColumn ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="ReportSet" />
+        <MudDataGridPager T="ReportSet" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.Report.NotAvailable

@@ -282,7 +282,8 @@ else
         </TemplateColumn>
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="CaseChangeCaseValue" />
+        <MudDataGridPager T="CaseChangeCaseValue" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.CaseChange.NotAvailable

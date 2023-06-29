@@ -71,7 +71,8 @@
         <ItemActionsColumn T="PayrollLayer" ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="PayrollLayer" />
+        <MudDataGridPager T="PayrollLayer" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.PayrollLayer.NotAvailable

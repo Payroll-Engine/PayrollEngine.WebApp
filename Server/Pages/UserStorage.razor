@@ -45,7 +45,8 @@
         </TemplateColumn>
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="StorageItem" />
+        <MudDataGridPager T="StorageItem" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.Storage.NotAvailable

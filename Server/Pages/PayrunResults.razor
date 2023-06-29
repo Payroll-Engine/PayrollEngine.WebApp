@@ -135,7 +135,8 @@
         <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="PayrollResultValue" />
+        <MudDataGridPager T="PayrollResultValue" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.PayrunResult.NotAvailable

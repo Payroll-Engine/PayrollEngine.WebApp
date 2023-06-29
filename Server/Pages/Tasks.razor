@@ -74,7 +74,8 @@
         <TaskActionsColumn ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="ViewModel.Task" />
+        <MudDataGridPager T="ViewModel.Task" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.Task.NotAvailable

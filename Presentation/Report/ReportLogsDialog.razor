@@ -24,7 +24,8 @@
                 </PropertyColumn>
             </Columns>
             <PagerContent>
-                <MudDataGridPager T="ReportLog" />
+                <MudDataGridPager T="ReportLog" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                                  InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
             </PagerContent>
             <NoRecordsContent>
                 @Localizer.ReportLog.NotAvailable

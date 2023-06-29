@@ -51,7 +51,8 @@
         <ItemActionsColumn T="ViewModel.Regulation" ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="ViewModel.Regulation" />
+        <MudDataGridPager T="ViewModel.Regulation" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.Regulation.NotAvailable

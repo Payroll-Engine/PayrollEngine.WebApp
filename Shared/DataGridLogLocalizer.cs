@@ -52,4 +52,9 @@ public class DataGridLocalizer : LocalizerBase
     public string Ungroup => FromCaller();
     public string Unsort => FromCaller();
     public string Value => FromCaller();
+
+    // data grid pager
+    public string PagerInfoFormat => FromCaller();
+    public string PagerRowsPerPage => FromCaller();
+
 }

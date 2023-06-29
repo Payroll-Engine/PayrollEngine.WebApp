@@ -40,7 +40,7 @@ public static class ServiceRegistration
             {
                 // please start the payroll engine backend server
                 Debug.WriteLine($"!!! {message} !!!");
-                Debugger.Break();
+                  Debugger.Break();
             }
 #endif
 

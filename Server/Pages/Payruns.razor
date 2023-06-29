@@ -46,6 +46,7 @@
         <ItemActionsColumn T="Payrun" ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="Payrun" />
+        <MudDataGridPager T="Payrun" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
 </MudDataGrid>

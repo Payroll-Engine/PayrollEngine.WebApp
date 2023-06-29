@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Action.Action" xml:space="preserve">
-    <value>Action</value>
-  </data>
   <data name="Action.ActionExpression" xml:space="preserve">
     <value>Action expression</value>
   </data>
@@ -2219,5 +2216,11 @@
   </data>
   <data name="Enum.WebhookAction.TaskChange" xml:space="preserve">
     <value>Task change</value>
+  </data>
+  <data name="DataGrid.PagerInfoFormat" xml:space="preserve">
+    <value>{first_item}-{last_item} of {all_items}</value>
+  </data>
+  <data name="DataGrid.PagerRowsPerPage" xml:space="preserve">
+    <value>Rows per page:</value>
   </data>
 </root>

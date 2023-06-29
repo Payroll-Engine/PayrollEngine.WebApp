@@ -310,7 +310,8 @@
                         <PayrunJobActionsColumn ActionOperator="this" />
                     </Columns>
                     <PagerContent>
-                        <MudDataGridPager T="PayrunJob" />
+                        <MudDataGridPager T="PayrunJob" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
                     </PagerContent>
                     <NoRecordsContent>
                         @Localizer.PayrunJob.NotAvailable
@@ -432,7 +433,8 @@
                             <PayrunJobActionsColumn ActionOperator="this" Forecasts="true" />
                         </Columns>
                         <PagerContent>
-                            <MudDataGridPager T="PayrunJob" />
+                            <MudDataGridPager T="PayrunJob" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                                              InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
                         </PagerContent>
                         <NoRecordsContent>
                             @Localizer.Forecast.NotAvailable

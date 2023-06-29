@@ -48,7 +48,8 @@
         <ItemActionsColumn T="Employee" ActionOperator="this" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="Employee" />
+        <MudDataGridPager T="Employee" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.Employee.NotAvailable

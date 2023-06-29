@@ -85,7 +85,8 @@
         </PropertyColumn>
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="TItem" />
+        <MudDataGridPager T="TItem" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
     </PagerContent>
     <NoRecordsContent>
         @Localizer.Item.NotAvailable(GetItemTypeName())
