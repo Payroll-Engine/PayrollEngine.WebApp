@@ -100,14 +100,14 @@
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return "Name is required";
+            return Localizer.Error.FieldRequired(Localizer.Shared.Name);
         }
 
         // existing
         var existing = CaseSlots.FirstOrDefault(x => string.Equals(x.Name, name));
         if (existing != null)
         {
-            return "Name already in use";
+            return Localizer.Error.UniqueConflict(Localizer.Shared.Name);
         }
         return null;
     }

@@ -125,7 +125,10 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         {
             return;
         }
-        if (IsDialogParameter(nameof(Tenant)))
+
+        // ensure tenant parameter
+        var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
+        if (tenant == null)
         {
             parameters.Add(nameof(Tenant), Tenant);
         }

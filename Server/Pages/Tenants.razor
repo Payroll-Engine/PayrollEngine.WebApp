@@ -30,7 +30,11 @@
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Identifier" Title="@Localizer.Shared.Identifier" />
-        <PropertyColumn Property="x => x.Culture" Title="@Localizer.Shared.Culture" />
+        <PropertyColumn Property="x => x.Culture" Title="@Localizer.Shared.Culture">
+            <CellTemplate>
+                @CultureTool.GetDisplayName(context.Item.Culture)
+            </CellTemplate>
+        </PropertyColumn>
         <PropertyColumn Property="x => x.Calendar" Title="@Localizer.Shared.Calendar" />
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>

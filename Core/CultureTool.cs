@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -25,26 +26,24 @@ public static class CultureTool
         }
     }
 
-    public static List<string> GetSpecificCultureNames()
-    {
-        var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-        var cultureNames = cultures.Select(c => c.Name).ToList();
-
-        // countries
-        var countries = cultureNames.GroupBy(x => x.Substring(0, 2));
-        var multiRegionCountries = countries.Where(x => x.Count() > 1)
-            .Select(x => x.Key);
-        cultureNames.AddRange(multiRegionCountries);
-
-        cultureNames.Sort();
-        return cultureNames;
-    }
+    public static List<Tuple<string, string, string>> GetCultureInfos() =>
+        CultureInfo.GetCultures(CultureTypes.SpecificCultures).
+            OrderBy(x => x.DisplayName).
+            Select(x => new Tuple<string, string, string>(x.Name, x.DisplayName, x.EnglishName)).
+            ToList();
 
     public static IEnumerable<string> GetCultureNames() =>
         CultureInfos.Values.Select(x => x.Name);
 
+    public static string GetDisplayName(string cultureName) =>
+        string.IsNullOrWhiteSpace(cultureName) ? null : GetCulture(cultureName)?.DisplayName;
+
     public static string GetIsoCurrencySymbol(string cultureName)
     {
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            throw new ArgumentException(nameof(cultureName));
+        }
         var cultureInfo = GetCulture(cultureName);
         return cultureInfo == null ? null : new RegionInfo(cultureName).ISOCurrencySymbol;
     }
@@ -65,7 +64,7 @@ public static class CultureTool
                 return CultureInfos[key];
             }
         }
-        
+
         return CultureInfo.CurrentCulture;
     }
 }

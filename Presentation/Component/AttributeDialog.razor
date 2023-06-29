@@ -65,7 +65,7 @@
 
         if (Attributes != null && Attributes.ContainsKey(name))
         {
-            return Localizer.Error.NameConflict(Localizer.Shared.Name);
+            return Localizer.Error.UniqueConflict(Localizer.Shared.Name);
         }
         return null;
     }

@@ -3481,7 +3481,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete failed.
+        ///   Looks up a localized string similar to Delete failed..
         /// </summary>
         internal static string Error_DeleteFailed {
             get {
@@ -3490,7 +3490,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Field {0} has no actions.
+        ///   Looks up a localized string similar to Field {0} has no actions..
         /// </summary>
         internal static string Error_EmptyActionField {
             get {
@@ -3499,7 +3499,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Empty collection.
+        ///   Looks up a localized string similar to Empty collection..
         /// </summary>
         internal static string Error_EmptyCollection {
             get {
@@ -3526,7 +3526,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download error.
+        ///   Looks up a localized string similar to Download error..
         /// </summary>
         internal static string Error_FileDownloadError {
             get {
@@ -3535,7 +3535,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File upload error.
+        ///   Looks up a localized string similar to File upload error..
         /// </summary>
         internal static string Error_FileUploadError {
             get {
@@ -3553,7 +3553,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Json format error.
+        ///   Looks up a localized string similar to Json format error..
         /// </summary>
         internal static string Error_JsonFormatError {
             get {
@@ -3571,7 +3571,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value is required.
+        ///   Looks up a localized string similar to Value is required..
         /// </summary>
         internal static string Error_MissingMandatoryValue {
             get {
@@ -3580,11 +3580,11 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} already in use.
+        ///   Looks up a localized string similar to {0} already in use..
         /// </summary>
-        internal static string Error_NameConflict {
+        internal static string Error_UniqueConflict {
             get {
-                return ResourceManager.GetString("Error.NameConflict", resourceCulture);
+                return ResourceManager.GetString("Error.UniqueConflict", resourceCulture);
             }
         }
         

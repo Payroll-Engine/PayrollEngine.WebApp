@@ -24,9 +24,9 @@
                         <MudSelect T=" string" @bind-Value="Division.Culture" Clearable="true"
                                    Label="@Localizer.Shared.Culture"
                                    Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Culture)">
-                            @foreach (var cultureName in CultureNames)
+                            @foreach (var cultureInfo in CultureInfos)
                             {
-                                <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                                <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2</MudSelectItem>
                             }
                         </MudSelect>
                         <MudSelect T=" string" @bind-Value="Division.Calendar"
@@ -62,7 +62,7 @@
     [Inject] private ICalendarService CalendarService { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
-    private List<string> CultureNames { get; set; }
+    private List<Tuple<string, string, string>> CultureInfos { get; set; }
     private List<string> CalendarNames { get; set; }
 
     private async Task<List<string>> GetCalendarsAsync()
@@ -77,7 +77,7 @@
     protected override async Task OnInitializedAsync()
     {
         // cultures
-        CultureNames = CultureTool.GetSpecificCultureNames();
+        CultureInfos = CultureTool.GetCultureInfos();
         // calendars
         CalendarNames = Task.Run(GetCalendarsAsync).Result;
 

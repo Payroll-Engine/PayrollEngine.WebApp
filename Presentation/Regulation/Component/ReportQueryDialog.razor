@@ -41,7 +41,7 @@
 
         if (Queries != null && Queries.ContainsKey(name))
         {
-            return Localizer.Error.NameConflict(name);
+            return Localizer.Error.UniqueConflict(Localizer.Shared.Name);
         }
         return null;
     }

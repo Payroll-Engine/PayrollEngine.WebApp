@@ -613,34 +613,34 @@
     <value>{0} of {1} employees</value>
   </data>
   <data name="Error.DeleteFailed" xml:space="preserve">
-    <value>Delete failed</value>
+    <value>Delete failed.</value>
   </data>
   <data name="Error.EmptyActionField" xml:space="preserve">
-    <value>Field {0} has no actions</value>
+    <value>Field {0} has no actions.</value>
   </data>
   <data name="Error.EmptyCollection" xml:space="preserve">
-    <value>Empty collection</value>
+    <value>Empty collection.</value>
   </data>
   <data name="Error.FieldRequired" xml:space="preserve">
     <value>{0} is required.</value>
   </data>
   <data name="Error.FileDownloadError" xml:space="preserve">
-    <value>Download error</value>
+    <value>Download error.</value>
   </data>
   <data name="Error.FileUploadError" xml:space="preserve">
-    <value>File upload error</value>
+    <value>File upload error.</value>
   </data>
   <data name="Error.ItemUnknown" xml:space="preserve">
     <value>Unknown {0} {1}.</value>
   </data>
   <data name="Error.JsonFormatError" xml:space="preserve">
-    <value>Json format error</value>
+    <value>Json format error.</value>
   </data>
   <data name="Error.MissingEmployee" xml:space="preserve">
     <value>Please ensure an existing employee with identifier {0}.</value>
   </data>
-  <data name="Error.NameConflict" xml:space="preserve">
-    <value>{0} already in use</value>
+  <data name="Error.UniqueConflict" xml:space="preserve">
+    <value>{0} already in use.</value>
   </data>
   <data name="Forecast.Copy" xml:space="preserve">
     <value>Forecast copy</value>
@@ -1600,7 +1600,7 @@
     <value>Error</value>
   </data>
   <data name="Error.MissingMandatoryValue" xml:space="preserve">
-    <value>Value is required</value>
+    <value>Value is required.</value>
   </data>
   <data name="Item.RemoveTitle" xml:space="preserve">
     <value>Remove {0}</value>

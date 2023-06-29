@@ -19,9 +19,9 @@
                     <MudSelect T=" string" @bind-Value="User.Culture" Clearable="true"
                                Label="@Localizer.Shared.Culture"
                                Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Culture)">
-                        @foreach (var cultureName in CultureNames)
+                        @foreach (var cultureInfo in CultureTool.GetCultureInfos())
                         {
-                            <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                            <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2</MudSelectItem>
                         }
                     </MudSelect>
                 </MudStack>
@@ -39,7 +39,6 @@
 
 @code {
     MudForm form;
-    private List<string> CultureNames { get; set; }
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Client.Model.Tenant Tenant { get; set; } = new();
@@ -49,7 +48,6 @@
     [Inject] private IUserNotificationService UserNotification { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
     [Inject] private Localizer Localizer { get; set; }
-
 
     private void Cancel() => MudDialog.Cancel();
 
@@ -82,12 +80,5 @@
             { nameof(UserPasswordDialog.User), User }
         };
         await DialogService.ShowAsync<UserPasswordDialog>(Localizer.User.ChangePasswordTitle, parameters);
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        // cultures
-        CultureNames = CultureTool.GetSpecificCultureNames();
-        await base.OnInitializedAsync();
     }
 }

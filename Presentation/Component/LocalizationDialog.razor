@@ -14,9 +14,9 @@
                     <MudSelect T="string" Label="@Localizer.Shared.Culture" @bind-Value="LocalizationKey"
                                Validation="@(new Func<string, string>(ValidateCulture))"
                                Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Culture)">
-                        @foreach (var cultureName in CultureNames)
+                        @foreach (var cultureInfo in CultureTool.GetCultureInfos())
                         {
-                            <MudSelectItem T="string" Value="@cultureName">@cultureName</MudSelectItem>
+                            <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2 - @cultureInfo.Item3</MudSelectItem>
                         }
                     </MudSelect>
                     <MudTextField T="string" Label="@Localizer.Localization.Localization"
@@ -53,12 +53,12 @@
     {
         if (string.IsNullOrWhiteSpace(culture))
         {
-            return "Culture is required";
+            return Localizer.Error.FieldRequired(Localizer.Shared.Culture);
         }
 
         if (Localizations != null && Localizations.ContainsKey(culture))
         {
-            return "Culture already in use";
+            return Localizer.Error.UniqueConflict(Localizer.Shared.Culture);
         }
         return null;
     }
@@ -72,15 +72,6 @@
             var result = new KeyValuePair<string, string>(LocalizationKey, LocalizationValue);
             MudDialog.Close(DialogResult.Ok(result));
         }
-    }
-
-    private List<string> CultureNames { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        // cultures
-        CultureNames = CultureTool.GetSpecificCultureNames();
-        await base.OnInitializedAsync();
     }
 
     protected override Task OnParametersSetAsync()

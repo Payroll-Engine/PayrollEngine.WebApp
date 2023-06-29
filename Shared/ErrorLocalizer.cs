@@ -23,7 +23,7 @@ public class ErrorLocalizer : LocalizerBase
         string.Format(FromCaller(), fieldName);
     public string UnknownItem(string type, object item) =>
         string.Format(FromCaller(), type, item);
-    public string NameConflict(string name) =>
+    public string UniqueConflict(string name) =>
         string.Format(FromCaller(), name);
     public string EmptyActionField(string name) =>
         string.Format(FromCaller(), name);

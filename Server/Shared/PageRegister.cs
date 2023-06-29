@@ -61,13 +61,13 @@ public class PageRegister
             new(Feature.Regulation, PageUrls.Regulation, Localizer.Regulation.Regulation,  payrollGroup),
 
             // administration
-            new(Feature.Tenants, PageUrls.Tenants, Localizer.Tenant.Tenants, adminGroup),
+            new(Feature.Employees, PageUrls.Employees, Localizer.Employee.Employees, adminGroup),
             new(Feature.Users, PageUrls.Users, Localizer.User.Users, adminGroup),
+            new(Feature.Logs, PageUrls.Logs, Localizer.Log.Logs, adminGroup),
+            new(Feature.Webhooks, PageUrls.Webhooks, Localizer.Webhook.Webhooks, adminGroup),
             new(Feature.Calendars, PageUrls.Calendars, Localizer.Calendar.Calendars, adminGroup),
             new(Feature.Divisions, PageUrls.Divisions, Localizer.Division.Divisions, adminGroup),
-            new(Feature.Employees, PageUrls.Employees, Localizer.Employee.Employees, adminGroup),
-            new(Feature.Webhooks, PageUrls.Webhooks, Localizer.Webhook.Webhooks, adminGroup),
-            new(Feature.Logs, PageUrls.Logs, Localizer.Log.Logs, adminGroup)
+            new(Feature.Tenants, PageUrls.Tenants, Localizer.Tenant.Tenants, adminGroup)
 
             // system
 #if SYSTEM_PAGES

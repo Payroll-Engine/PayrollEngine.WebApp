@@ -346,13 +346,13 @@
     <value>Unbekanntes {0} {1} zum Bearbeiten.</value>
   </data>
   <data name="Error.JsonFormatError" xml:space="preserve">
-    <value>Json Formatfehler</value>
+    <value>Json Formatfehler.</value>
   </data>
   <data name="Error.MissingEmployee" xml:space="preserve">
     <value>Bitte sorgen Sie für einen vorhandenen Mitarbeiter mit der Kennung {0}.</value>
   </data>
-  <data name="Error.NameConflict" xml:space="preserve">
-    <value>{0} wird bereits verwendet</value>
+  <data name="Error.UniqueConflict" xml:space="preserve">
+    <value>{0} wird bereits verwendet.</value>
   </data>
   <data name="Item.Add" xml:space="preserve">
     <value>Hinzufügen</value>
@@ -883,7 +883,7 @@
     <value>Fallplatz Lokalisierungen</value>
   </data>
   <data name="Error.EmptyActionField" xml:space="preserve">
-    <value>Das Feld {0} hat keine Aktionen</value>
+    <value>Das Feld {0} hat keine Aktionen.</value>
   </data>
   <data name="Shared.All" xml:space="preserve">
     <value>Alls</value>
@@ -1108,7 +1108,7 @@
     <value>Ersetzen</value>
   </data>
   <data name="Error.FileUploadError" xml:space="preserve">
-    <value>Upload Fehler</value>
+    <value>Upload Fehler.</value>
   </data>
   <data name="ReportParameter.ParameterType" xml:space="preserve">
     <value>Parametertyp</value>
@@ -1132,13 +1132,13 @@
     <value>Löschen</value>
   </data>
   <data name="Error.DeleteFailed" xml:space="preserve">
-    <value>Löschen ist fehlgeschlagen</value>
+    <value>Löschen ist fehlgeschlagen.</value>
   </data>
   <data name="Error.EmptyCollection" xml:space="preserve">
-    <value>Leere Sammlung</value>
+    <value>Leere Sammlung.</value>
   </data>
   <data name="Error.FileDownloadError" xml:space="preserve">
-    <value>Download Fehler</value>
+    <value>Download Fehler.</value>
   </data>
   <data name="Item.Removed" xml:space="preserve">
     <value>{0} entfernt</value>
@@ -1603,7 +1603,7 @@
     <value>Fehler</value>
   </data>
   <data name="Error.MissingMandatoryValue" xml:space="preserve">
-    <value>Wert ist erforderlich</value>
+    <value>Wert ist erforderlich.</value>
   </data>
   <data name="Item.RemoveTitle" xml:space="preserve">
     <value>{0} entfernen</value>
