@@ -92,9 +92,9 @@ public partial class FileBox : IRegulationInput
 
     #region Value
 
-    protected string Value { get; set; }
+    private string Value { get; set; }
 
-    protected string FieldValue
+    private string FieldValue
     {
         get => Item.GetPropertyValue<string>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);

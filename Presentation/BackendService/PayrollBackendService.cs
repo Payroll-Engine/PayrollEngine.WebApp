@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -10,10 +11,11 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class PayrollBackendService : BackendServiceBase<PayrollService, TenantServiceContext, Payroll, Query>
 {
-    protected IDivisionService DivisionService { get; set; }
+    private IDivisionService DivisionService { get; }
 
-    public PayrollBackendService(UserSession userSession, IConfiguration configuration, IDivisionService divisionService) :
-        base(userSession, configuration)
+    public PayrollBackendService(UserSession userSession, IConfiguration configuration,
+        Localizer localizer, IDivisionService divisionService) :
+        base(userSession, configuration, localizer)
     {
         DivisionService = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
     }
@@ -23,13 +25,13 @@ public class PayrollBackendService : BackendServiceBase<PayrollService, TenantSe
         UserSession.Tenant != null ? new TenantServiceContext(UserSession.Tenant.Id) : null;
 
     /// <summary>Create the backend service</summary>
-    protected override PayrollService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override PayrollService CreateService() =>
         new(HttpClient);
 
     public async Task ApplyDivisionAsync(Payroll payroll) =>
         await ApplyDivisionAsync(new[] { payroll });
 
-    public async Task ApplyDivisionAsync(IEnumerable<Payroll> payrolls)
+    private async Task ApplyDivisionAsync(IEnumerable<Payroll> payrolls)
     {
         foreach (var payroll in payrolls)
         {
@@ -54,9 +56,9 @@ public class PayrollBackendService : BackendServiceBase<PayrollService, TenantSe
         }
     }
 
-    protected override async Task OnItemsReadAsync(List<Payroll> payrolls, IDictionary<string, object> parameters = null)
+    protected override async Task OnItemsReadAsync(List<Payroll> payrolls)
     {
         await ApplyDivisionAsync(payrolls);
-        await base.OnItemsReadAsync(payrolls, parameters);
+        await base.OnItemsReadAsync(payrolls);
     }
 }

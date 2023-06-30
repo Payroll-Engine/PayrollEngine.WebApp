@@ -38,18 +38,6 @@ public partial class EmployeeCases
     protected override IBackendService<ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery> CaseValueBackendService => CaseValueService;
     protected override IBackendService<CaseDocument, Query> CaseDocumentBackendService => CaseDocumentService;
 
-    protected override PayrollCaseChangeQuery NewCaseChangeQuery()
-    {
-        if (Employee == null)
-        {
-            return new();
-        }
-
-        var query = base.NewCaseChangeQuery();
-        query.EmployeeId = Employee.Id;
-        return query;
-    }
-
     private bool IsValidUser()
     {
         if (User.UserType != UserType.Employee)
@@ -62,7 +50,7 @@ public partial class EmployeeCases
                string.Equals(Employee.Identifier, User.Identifier);
     }
 
-    protected MarkupString GetInvalidUserText()
+    private MarkupString GetInvalidUserText()
     {
         var adminEmail = Configuration.GetConfiguration<AppConfiguration>().AdminEmail;
         if (string.IsNullOrEmpty(adminEmail))

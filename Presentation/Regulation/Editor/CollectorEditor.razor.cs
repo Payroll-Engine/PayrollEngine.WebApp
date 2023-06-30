@@ -23,7 +23,7 @@ public partial class CollectorEditor
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected List<RegulationField> Fields { get; private set; }
+    private List<RegulationField> Fields { get; set; }
 
     private void SetupFields()
     {

@@ -11,7 +11,7 @@ public class RegulationWageType : WageType, IRegulationItem, IKeyEquatable<Regul
     {
     }
 
-    public RegulationWageType(RegulationWageType copySource) :
+    private RegulationWageType(RegulationWageType copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
@@ -23,9 +23,6 @@ public class RegulationWageType : WageType, IRegulationItem, IKeyEquatable<Regul
     }
 
     #region Regulation Object
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     /// <inheritdoc />
     public string RegulationName { get; set; }

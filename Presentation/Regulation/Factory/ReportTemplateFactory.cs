@@ -8,9 +8,9 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class ReportTemplateFactory : ChildItemFactory<RegulationReport, RegulationReportTemplate>
 {
-    public IReportService ReportService { get; set; }
-    public IReportTemplateService ReportTemplateService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private IReportService ReportService { get; }
+    private IReportTemplateService ReportTemplateService { get; }
+    private IPayrollService PayrollService { get; }
 
     public ReportTemplateFactory(IReportService caseService, IReportTemplateService caseFieldService,
         IPayrollService payrollService, Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -22,13 +22,13 @@ public class ReportTemplateFactory : ChildItemFactory<RegulationReport, Regulati
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationReportTemplate>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationReportTemplate>> QueryItems(Client.Model.Regulation regulation) =>
         await PayrollService.GetReportTemplatesAsync<RegulationReportTemplate>(new(Tenant.Id, Payroll.Id));
 
     public override async Task<List<RegulationReportTemplate>> QueryPayrollItems() =>
         await PayrollService.GetReportTemplatesAsync<RegulationReportTemplate>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationReportTemplate> reportTemplates,
+    public async Task<bool> SaveItem(ICollection<RegulationReportTemplate> reportTemplates,
         RegulationReportTemplate reportTemplate)
     {
         // regulation
@@ -61,7 +61,7 @@ public class ReportTemplateFactory : ChildItemFactory<RegulationReport, Regulati
         return AddCollectionObject(reportTemplates, reportTemplate);
     }
 
-    public override async Task<RegulationReportTemplate> DeleteItem(ICollection<RegulationReportTemplate> reportTemplates,
+    public async Task<RegulationReportTemplate> DeleteItem(ICollection<RegulationReportTemplate> reportTemplates,
         RegulationReportTemplate reportTemplate)
     {
         // regulation
@@ -86,7 +86,7 @@ public class ReportTemplateFactory : ChildItemFactory<RegulationReport, Regulati
     protected override async Task<List<RegulationReport>> QueryParentObjects(int tenantId, int regulationId) =>
         await ReportService.QueryAsync<RegulationReport>(new(tenantId, regulationId));
 
-    protected override async Task<List<RegulationReportTemplate>> QueryChildObjects(int tenantId, RegulationReport parentObject) =>
-        await ReportTemplateService.QueryAsync<RegulationReportTemplate>(new(tenantId, parentObject.RegulationId, parentObject.Id));
+    protected override async Task<List<RegulationReportTemplate>> QueryChildObjects(int tenantId, int regulationId, RegulationReport parentObject) =>
+        await ReportTemplateService.QueryAsync<RegulationReportTemplate>(new(tenantId, regulationId, parentObject.Id));
 
 }

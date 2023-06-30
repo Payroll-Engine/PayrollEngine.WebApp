@@ -19,22 +19,19 @@ public partial class MultiEnumListBox<T> : IRegulationInput
     public EventCallback<object> ValueChanged { get; set; }
 
     protected List<string> EnumValues { get; set; }
-    protected List<T> Value { get; set; }
+    private List<T> Value { get; set; }
 
-    protected List<T> FieldValue
+    private List<T> FieldValue
     {
         get => Item.GetPropertyValue<List<T>>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
 
-    protected bool IsBaseValue { get; set; }
-
     private IEnumerable<string> SelectedValues { get; set; } = new HashSet<string>();
-    //private T SelectedValue { get; set; }
 
     #region Value
 
-    public string ValuesAsString
+    private string ValuesAsString
     {
         get
         {
@@ -87,7 +84,7 @@ public partial class MultiEnumListBox<T> : IRegulationInput
         SelectedValues = Value?.Select(x => x.ToString()).ToHashSet();
     }
 
-    protected List<T> GetBaseValue() =>
+    private List<T> GetBaseValue() =>
         Item.GetBaseValue<List<T>>(Field.PropertyName);
 
     private List<Tuple<T, string>> GetEnumValues()
@@ -106,21 +103,8 @@ public partial class MultiEnumListBox<T> : IRegulationInput
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = Value;
-
-        // base value
-        var isBaseValue = false;
-        if (Field.HasBaseValues && value != null)
-        {
-            var baseValue = GetBaseValue();
-            isBaseValue = CompareTool.EqualLists(value, baseValue);
-        }
-        IsBaseValue = isBaseValue;
-
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastItem;
 

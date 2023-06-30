@@ -27,6 +27,8 @@
                         </MudSelect>
                         <MudSelect T="CalendarTimeUnit" @bind-Value="Calendar.PeriodTimeUnit"
                                    Label="@Localizer.Calendar.PeriodTimeUnit"
+                                   HelperText="@Localizer.Calendar.PeriodTimeUnitHelp"
+                                   Validation="@(new Func<CalendarTimeUnit, string>(ValidatePeriodUnit))"
                                    Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Calendar.PeriodTimeUnit)">
                             <EnumSelectItems T="CalendarTimeUnit" />
                         </MudSelect>
@@ -40,7 +42,7 @@
                         </MudSelect>
                         <MudNumericField T="decimal?" @bind-Value="Calendar.MonthDayCount"
                                          Label="@Localizer.Calendar.MonthDayCount"
-                                         Clearable="true" />
+                                         Format="0.##" Clearable="true" />
                         <MudSelect T="CalendarWeekRule?" @bind-Value="Calendar.YearWeekRule" Clearable="true"
                                    Label="@Localizer.Calendar.YearWeekRule">
                             <NullableEnumSelectItems T="CalendarWeekRule?" />
@@ -87,6 +89,10 @@
 
     public async Task<bool> ValidateAsync(Calendar division) =>
         await form.Revalidate();
+
+    private string ValidatePeriodUnit(CalendarTimeUnit timeUnit) =>
+        Calendar.CycleTimeUnit.IsValidTimeUnit(timeUnit) ? null :
+            Localizer.Calendar.InvalidPeriodTimeUnit(timeUnit, Calendar.CycleTimeUnit);
 
     private static string GetDayName(DayOfWeek dayOfWeek) =>
         CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int)dayOfWeek];

@@ -414,7 +414,7 @@ public class FileExtensionContentTypeProvider
     /// It is recommended that the IDictionary instance use StringComparer.OrdinalIgnoreCase.
     /// </summary>
     /// <param name="mapping"></param>
-    public FileExtensionContentTypeProvider(IDictionary<string, string> mapping)
+    private FileExtensionContentTypeProvider(IDictionary<string, string> mapping)
     {
         Mappings = mapping ?? throw new ArgumentNullException(nameof(mapping));
     }
@@ -422,7 +422,7 @@ public class FileExtensionContentTypeProvider
     /// <summary>
     /// The cross reference table of file extensions and content-types.
     /// </summary>
-    public IDictionary<string, string> Mappings { get; }
+    private IDictionary<string, string> Mappings { get; }
 
     /// <summary>
     /// Given a file path, determine the MIME type

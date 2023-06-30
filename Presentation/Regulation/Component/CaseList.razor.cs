@@ -29,13 +29,11 @@ public partial class CaseList : IRegulationInput
 
     public bool AllowClear => !Field.KeyField && !Field.Required;
 
-    protected string FieldValue
+    private string FieldValue
     {
         get => Item.GetPropertyValue<string>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
-
-    protected bool IsBaseValue { get; set; }
 
     #region Value
 
@@ -75,7 +73,7 @@ public partial class CaseList : IRegulationInput
         Value = value;
     }
 
-    protected string GetBaseValue() =>
+    private string GetBaseValue() =>
         Item.GetBaseValue<string>(Field.PropertyName);
 
     #endregion
@@ -113,10 +111,6 @@ public partial class CaseList : IRegulationInput
             }
         }
         SelectedCase = selectedCase;
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
-                      Equals(value, GetBaseValue());
 
         StateHasChanged();
     }

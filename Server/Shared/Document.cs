@@ -27,7 +27,7 @@ public class Document : ComponentBase, IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected List<PageInfo> Pages { get; private set; }
+    private List<PageInfo> Pages { get; set; }
 
     private async Task SetTitle(Uri uri)
     {
@@ -35,7 +35,7 @@ public class Document : ComponentBase, IDisposable
         await JsRuntime.InvokeVoidAsync("JsFunctions.setDocumentTitle", GetPageTitle(name, BaseLabel));
     }
 
-    public string GetPageTitle(string uri, string baseLabel)
+    private string GetPageTitle(string uri, string baseLabel)
     {
         if (string.IsNullOrWhiteSpace(uri))
         {
@@ -88,7 +88,7 @@ public class Document : ComponentBase, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (disposing)
         {

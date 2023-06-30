@@ -8,9 +8,9 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class LookupValueFactory : ChildItemFactory<RegulationLookup, RegulationLookupValue>
 {
-    public ILookupService LookupService { get; set; }
-    public ILookupValueService LookupValueService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private ILookupService LookupService { get; }
+    private ILookupValueService LookupValueService { get; }
+    private IPayrollService PayrollService { get; }
 
     public LookupValueFactory(ILookupService caseService, ILookupValueService lookupValueService,
         IPayrollService payrollService,
@@ -23,13 +23,13 @@ public class LookupValueFactory : ChildItemFactory<RegulationLookup, RegulationL
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationLookupValue>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationLookupValue>> QueryItems(Client.Model.Regulation regulation) =>
         await PayrollService.GetLookupValuesAsync<RegulationLookupValue>(new(Tenant.Id, Payroll.Id));
 
     public override async Task<List<RegulationLookupValue>> QueryPayrollItems() =>
         await PayrollService.GetLookupValuesAsync<RegulationLookupValue>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationLookupValue> lookupValues,
+    public async Task<bool> SaveItem(ICollection<RegulationLookupValue> lookupValues,
         RegulationLookupValue lookupValue)
     {
         // regulation
@@ -62,7 +62,7 @@ public class LookupValueFactory : ChildItemFactory<RegulationLookup, RegulationL
         return AddCollectionObject(lookupValues, lookupValue);
     }
 
-    public override async Task<RegulationLookupValue> DeleteItem(ICollection<RegulationLookupValue> lookupValues, RegulationLookupValue lookupValue)
+    public async Task<RegulationLookupValue> DeleteItem(ICollection<RegulationLookupValue> lookupValues, RegulationLookupValue lookupValue)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -86,7 +86,7 @@ public class LookupValueFactory : ChildItemFactory<RegulationLookup, RegulationL
     protected override async Task<List<RegulationLookup>> QueryParentObjects(int tenantId, int regulationId) =>
         await LookupService.QueryAsync<RegulationLookup>(new(tenantId, regulationId));
 
-    protected override async Task<List<RegulationLookupValue>> QueryChildObjects(int tenantId, RegulationLookup parentObject) =>
-        await LookupValueService.QueryAsync<RegulationLookupValue>(new(tenantId, parentObject.RegulationId, parentObject.Id));
+    protected override async Task<List<RegulationLookupValue>> QueryChildObjects(int tenantId, int regulationId, RegulationLookup parentObject) =>
+        await LookupValueService.QueryAsync<RegulationLookupValue>(new(tenantId, regulationId, parentObject.Id));
 
 }

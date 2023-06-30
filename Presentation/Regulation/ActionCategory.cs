@@ -8,15 +8,15 @@ public class ActionCategory
     /// <summary>
     /// Category name
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
     /// Category label
     /// </summary>
-    public string Label { get; set; }
+    public string Label { get; init; }
 
     /// <summary>
     /// Display order
     /// </summary>
-    public int DisplayOrder { get; set; }
+    public int DisplayOrder { get; init; }
 }

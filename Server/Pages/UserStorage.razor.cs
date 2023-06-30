@@ -18,10 +18,10 @@ public class UserStoragePageBase : PageBase
 
     #region Storage Item
 
-    public class StorageItem
+    protected class StorageItem
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public string Key { get; init; }
+        public string Value { get; init; }
         public bool IsChecked { get; set; }
 
         public override string ToString() =>
@@ -117,7 +117,7 @@ public class UserStoragePageBase : PageBase
     /// <summary>
     /// Load storage items
     /// </summary>
-    protected async Task LoadAsync()
+    private async Task LoadAsync()
     {
         try
         {

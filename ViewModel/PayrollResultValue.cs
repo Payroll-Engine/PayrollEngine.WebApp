@@ -29,7 +29,7 @@ public class PayrollResultValue : Client.Model.PayrollResultValue, IEquatable<Pa
     /// Gets or sets the culture information
     /// </summary>
     /// <value>The culture information.</value>
-    public CultureInfo CultureInfo { get; set; }
+    private CultureInfo CultureInfo { get; }
 
     #region Attributes
 

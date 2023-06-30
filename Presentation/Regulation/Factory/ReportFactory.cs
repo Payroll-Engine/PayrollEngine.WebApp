@@ -8,8 +8,8 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class ReportFactory : ItemFactoryBase<RegulationReport>
 {
-    public IReportService ReportService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private IReportService ReportService { get; }
+    private IPayrollService PayrollService { get; }
 
     public ReportFactory(IReportService reportService, IPayrollService payrollService,
         Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -20,13 +20,13 @@ public class ReportFactory : ItemFactoryBase<RegulationReport>
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationReport>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationReport>> QueryItems(Client.Model.Regulation regulation) =>
         await ReportService.QueryAsync<RegulationReport>(new(Tenant.Id, regulation.Id));
 
     public override async Task<List<RegulationReport>> QueryPayrollItems() =>
         await PayrollService.GetReportsAsync<RegulationReport>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationReport> reports,
+    public async Task<bool> SaveItem(ICollection<RegulationReport> reports,
         RegulationReport report)
     {
         // regulation
@@ -52,7 +52,7 @@ public class ReportFactory : ItemFactoryBase<RegulationReport>
         return AddCollectionObject(reports, report);
     }
 
-    public override async Task<RegulationReport> DeleteItem(ICollection<RegulationReport> reports,
+    public async Task<RegulationReport> DeleteItem(ICollection<RegulationReport> reports,
         RegulationReport report)
     {
         // regulation

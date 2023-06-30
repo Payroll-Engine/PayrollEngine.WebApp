@@ -24,12 +24,12 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<ReportQuery> Queries { get; set; } = new();
-    protected MudDataGrid<ReportQuery> Grid { get; set; }
+    private ItemCollection<ReportQuery> Queries { get; set; } = new();
+    private MudDataGrid<ReportQuery> Grid { get; set; }
 
     #region Value
 
-    protected Dictionary<string, string> FieldValue
+    private Dictionary<string, string> FieldValue
     {
         get => Item.GetPropertyValue<Dictionary<string, string>>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
@@ -79,7 +79,7 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
 
     #region Actions
 
-    protected async Task AddQueryAsync()
+    private async Task AddQueryAsync()
     {
         // dialog parameters
         var parameters = new DialogParameters
@@ -107,7 +107,7 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task EditQueryAsync(ReportQuery item)
+    private async Task EditQueryAsync(ReportQuery item)
     {
         if (item == null)
         {
@@ -143,7 +143,7 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task DeleteQueryAsync(ReportQuery item)
+    private async Task DeleteQueryAsync(ReportQuery item)
     {
         if (item == null)
         {

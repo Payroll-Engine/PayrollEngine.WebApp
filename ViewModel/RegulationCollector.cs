@@ -11,7 +11,7 @@ public class RegulationCollector : Collector, IRegulationItem, IKeyEquatable<Reg
     {
     }
 
-    public RegulationCollector(RegulationCollector copySource) :
+    private RegulationCollector(RegulationCollector copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
@@ -23,9 +23,6 @@ public class RegulationCollector : Collector, IRegulationItem, IKeyEquatable<Reg
     }
 
     #region Regulation Object
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     /// <inheritdoc />
     public string RegulationName { get; set; }

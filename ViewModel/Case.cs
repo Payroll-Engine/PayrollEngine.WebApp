@@ -6,26 +6,21 @@ namespace PayrollEngine.WebApp.ViewModel;
 public class Case : Client.Model.Case, IViewModel,
     IViewAttributeObject, IKeyEquatable<Case>
 {
+    // ReSharper disable once MemberCanBeProtected.Global
     public Case()
     {
-        CaseSlotId = GetCaseSlotId();
     }
 
-    public Case(Case copySource) :
+    protected Case(Case copySource) :
         base(copySource)
     {
         CaseSlot = copySource.CaseSlot;
-        CaseSlotId = GetCaseSlotId();
     }
 
     protected Case(Client.Model.Case copySource) :
         base(copySource)
     {
-        CaseSlotId = GetCaseSlotId();
     }
-
-    private string GetCaseSlotId() =>
-        string.IsNullOrWhiteSpace(CaseSlot) ? $"{Id}" : $"{Id}:{CaseSlot}";
 
     public string GetDisplayName(string culture)
     {
@@ -36,11 +31,6 @@ public class Case : Client.Model.Case, IViewModel,
         }
         return displayName;
     }
-
-    /// <summary>
-    /// Gets the case slot unique identifier
-    /// </summary>
-    public string CaseSlotId { get; }
 
     /// <summary>
     /// The case slot

@@ -20,7 +20,7 @@ public class Payrun : Client.Model.Payrun, IViewModel, IKeyEquatable<Payrun>
     }
 
     /// <summary>The division name</summary>
-    public string DivisionName { get; set; }
+    private string DivisionName { get; }
 
     public string GetLocalizedDefaultReason(string culture) =>
         culture.GetLocalization(DefaultReasonLocalizations, DefaultReason);

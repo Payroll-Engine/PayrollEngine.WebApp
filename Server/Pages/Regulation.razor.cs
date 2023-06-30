@@ -17,18 +17,18 @@ public partial class Regulation
     [Inject]
     private IPayrollService PayrollService { get; set; }
 
-    protected ItemBrowser ItemBrowser { get; set; }
-    protected ItemEditorPanel ItemEditorPanel { get; set; }
+    private ItemBrowser ItemBrowser { get; set; }
+    private ItemEditorPanel ItemEditorPanel { get; set; }
 
     public Regulation() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
     {
     }
 
-    protected override async Task OnTenantChangedAsync(Client.Model.Tenant tenant)
+    protected override async Task OnTenantChangedAsync()
     {
         ResetEditContext();
-        await base.OnTenantChangedAsync(tenant);
+        await base.OnTenantChangedAsync();
     }
 
     protected override async Task OnPayrollChangedAsync(Payroll payroll)
@@ -37,7 +37,7 @@ public partial class Regulation
         await base.OnPayrollChangedAsync(payroll);
     }
 
-    protected bool HasRegulations { get; set; }
+    private bool HasRegulations { get; set; }
 
 
     // top regulation
@@ -57,9 +57,9 @@ public partial class Regulation
 
     #region Working Type
 
-    public RegulationItemType WorkingType { get; set; }
+    private RegulationItemType WorkingType { get; set; }
 
-    protected Task SetWorkingType(RegulationItemType itemType)
+    private Task SetWorkingType(RegulationItemType itemType)
     {
         if (WorkingType == itemType)
         {
@@ -134,7 +134,7 @@ public partial class Regulation
 
     #region Working Item
 
-    public IRegulationItem SelectedItem { get; set; }
+    private IRegulationItem SelectedItem { get; set; }
 
     private void ChangeSelectedItem(IRegulationItem item)
     {
@@ -219,7 +219,7 @@ public partial class Regulation
 
     #region Edit Context
 
-    public RegulationEditContext EditContext { get; set; }
+    private RegulationEditContext EditContext { get; set; }
 
     private void ResetEditContext()
     {

@@ -38,7 +38,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     [Parameter]
     public int ItemsPageSize { get; set; } = 20;
     [Parameter]
-    public IItemFactory<TParent> ParentFactory { get; set; } = null;
+    public IItemFactory<TParent> ParentFactory { get; set; }
     [Parameter]
     public RegulationItemType ItemType { get; set; }
     [Parameter]
@@ -57,10 +57,10 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected bool HasParent => ParentFactory != null;
-    protected MudDataGrid<TItem> ItemsGrid { get; set; }
+    private bool HasParent => ParentFactory != null;
+    private MudDataGrid<TItem> ItemsGrid { get; set; }
 
-    protected string GetParentTypeName()
+    private string GetParentTypeName()
     {
         if (!ItemType.HasParentType())
         {
@@ -70,18 +70,18 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
         return Localizer.FromGroupKey(ItemType.ParentType().ToString());
     }
 
-    protected string GetItemTypeName(bool multiple = false)
+    private string GetItemTypeName(bool multiple = false)
     {
         var key = ItemType.ToString();
         return Localizer.FromKey(key, multiple ? $"{key}s" : key);
     }
 
-    protected bool Dense { get; set; }
+    private bool Dense { get; set; }
 
     /// <summary>
     /// Toggle the grid dense state
     /// </summary>
-    protected async Task ToggleGridDenseAsync()
+    private async Task ToggleGridDenseAsync()
     {
         Dense = !Dense;
 
@@ -101,10 +101,10 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
         }
     }
 
-    protected void ExpandItemGroups() =>
+    private void ExpandItemGroups() =>
         ItemsGrid.ExpandAllGroups();
 
-    protected void CollapseItemGroups() =>
+    private void CollapseItemGroups() =>
         ItemsGrid.CollapseAllGroups();
 
     private async Task OnSelectedItemChanged(TItem item) =>
@@ -161,7 +161,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     {
         try
         {
-            await new ExcelDownload().StartAsync(ItemsGrid, Items, JsRuntime);
+            await ExcelDownload.StartAsync(ItemsGrid, Items, JsRuntime);
             await NotificationService.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)
@@ -186,7 +186,6 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
         {
             // object setup
             newObject.RegulationName = regulation.Name;
-            newObject.RegulationId = regulation.Id;
             newObject.Parent = parent;
 
             // notification
@@ -194,10 +193,10 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
         }
     }
 
-    protected async Task SelectedItemChangedAsync(TItem item) =>
+    private async Task SelectedItemChangedAsync(TItem item) =>
         await OnSelectedItemChanged(item);
 
-    protected string RowStyleHandler(TItem item, int _)
+    private string RowStyleHandler(TItem item, int _)
     {
         var selectedItem = ItemsGrid.SelectedItem;
         if (selectedItem != null && item.Id == selectedItem.Id)

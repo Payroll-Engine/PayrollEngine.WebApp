@@ -8,8 +8,8 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class LookupFactory : ItemFactoryBase<RegulationLookup>
 {
-    public ILookupService LookupService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private ILookupService LookupService { get; }
+    private IPayrollService PayrollService { get; }
 
     public LookupFactory(ILookupService lookupService, IPayrollService payrollService,
         Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -20,13 +20,13 @@ public class LookupFactory : ItemFactoryBase<RegulationLookup>
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationLookup>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationLookup>> QueryItems(Client.Model.Regulation regulation) =>
         await LookupService.QueryAsync<RegulationLookup>(new(Tenant.Id, regulation.Id));
 
     public override async Task<List<RegulationLookup>> QueryPayrollItems() =>
         await PayrollService.GetLookupsAsync<RegulationLookup>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationLookup> lookups, RegulationLookup lookup)
+    public async Task<bool> SaveItem(ICollection<RegulationLookup> lookups, RegulationLookup lookup)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -51,7 +51,7 @@ public class LookupFactory : ItemFactoryBase<RegulationLookup>
         return AddCollectionObject(lookups, lookup);
     }
 
-    public override async Task<RegulationLookup> DeleteItem(ICollection<RegulationLookup> lookups,
+    public async Task<RegulationLookup> DeleteItem(ICollection<RegulationLookup> lookups,
         RegulationLookup lookup)
     {
         // regulation

@@ -11,16 +11,17 @@ public class User : Client.Model.User
 {
     public string FullName => $"{FirstName} {LastName}";
 
+    // ReSharper disable once MemberCanBeProtected.Global
     public User()
     {
     }
 
-    public User(User copySource) :
+    protected User(User copySource) :
         base(copySource)
     {
     }
 
-    public User(Client.Model.User copySource) :
+    protected User(Client.Model.User copySource) :
         base(copySource)
     {
     }
@@ -31,7 +32,7 @@ public class User : Client.Model.User
     public bool Employee =>
         UserType == UserType.Employee;
 
-    public bool Supervisor =>
+    private bool Supervisor =>
         UserType == UserType.Supervisor;
 
     #region Tasks
@@ -101,7 +102,7 @@ public class User : Client.Model.User
     //public bool HasAnyFeature(params Feature[] features) =>
     //    features.Any(HasFeature);
 
-    public void AddFeature(Feature feature)
+    private void AddFeature(Feature feature)
     {
         var features = Features;
         if (!features.Contains(feature))

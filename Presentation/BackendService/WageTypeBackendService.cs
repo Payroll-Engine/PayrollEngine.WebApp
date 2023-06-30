@@ -2,14 +2,15 @@
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class WageTypeBackendService : BackendServiceBase<WageTypeService, RegulationServiceContext, RegulationWageType, Query>
 {
-    public WageTypeBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    public WageTypeBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
@@ -24,6 +25,6 @@ public class WageTypeBackendService : BackendServiceBase<WageTypeService, Regula
     }
 
     /// <summary>Create the backend service</summary>
-    protected override WageTypeService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override WageTypeService CreateService() =>
         new(HttpClient);
 }

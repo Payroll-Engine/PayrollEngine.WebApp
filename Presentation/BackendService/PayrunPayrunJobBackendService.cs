@@ -3,14 +3,15 @@ using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class PayrunPayrunJobBackendService : BackendServiceBase<PayrunJobService, PayrollServiceContext, PayrunJob, Query>
 {
-    public PayrunPayrunJobBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    public PayrunPayrunJobBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
@@ -25,10 +26,10 @@ public class PayrunPayrunJobBackendService : BackendServiceBase<PayrunJobService
     }
 
     /// <summary>Create the backend service</summary>
-    protected override PayrunJobService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override PayrunJobService CreateService() =>
         new(HttpClient);
 
-    protected override void SetupReadQuery(PayrollServiceContext context, Query query, IDictionary<string, object> parameters = null)
+    protected override void SetupReadQuery(Query query, IDictionary<string, object> parameters = null)
     {
         if (parameters == null || !parameters.ContainsKey(nameof(PayrunJob.PayrunId)))
         {
@@ -42,6 +43,6 @@ public class PayrunPayrunJobBackendService : BackendServiceBase<PayrunJobService
 
         var filter = new Equals(nameof(PayrunJob.PayrunId), intPayrunId);
         query.Filter = query.HasFilter() ? new Filter(query.Filter).And(filter) : filter;
-        base.SetupReadQuery(context, query, parameters);
+        base.SetupReadQuery(query, parameters);
     }
 }

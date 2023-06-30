@@ -33,7 +33,7 @@ public static class MudDataGridExtensions
         return state;
     }
 
-    public static async Task<bool> SetColumnFilterAsync<T>(this MudDataGrid<T> dataGrid,
+    public static async Task SetColumnFilterAsync<T>(this MudDataGrid<T> dataGrid,
         string columnName, string filterOperator, object value, string title = null)
     {
         if (string.IsNullOrWhiteSpace(columnName))
@@ -51,7 +51,7 @@ public static class MudDataGridExtensions
             x => string.Equals(x.PropertyName, columnName));
         if (column == null)
         {
-            return false;
+            return;
         }
 
         // remove existing column filters
@@ -71,7 +71,6 @@ public static class MudDataGridExtensions
 
         await dataGrid.ClearFiltersAsync();
         await dataGrid.AddFilterAsync(filter);
-        return true;
     }
 
     public static List<string> GetColumnProperties<T>(this MudDataGrid<T> dataGrid)

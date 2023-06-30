@@ -15,22 +15,22 @@ public class ActionProvider
     /// <summary>
     /// The tenant service
     /// </summary>
-    public ITenantService TenantService { get; }
+    private ITenantService TenantService { get; }
 
     /// <summary>
     /// The payroll service
     /// </summary>
-    public IPayrollService PayrollService { get; }
+    private IPayrollService PayrollService { get; }
 
     /// <summary>
     /// The tenant id
     /// </summary>
-    public int TenantId { get; }
+    private int TenantId { get; }
 
     /// <summary>
     /// The payroll id
     /// </summary>
-    public int PayrollId { get; }
+    private int PayrollId { get; }
 
     /// <summary>
     /// Constructor

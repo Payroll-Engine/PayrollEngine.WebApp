@@ -40,7 +40,7 @@ public abstract partial class NewCasePageBase
     /// <summary>
     /// The root case
     /// </summary>
-    protected CaseSet RootCase => Cases?.FirstOrDefault();
+    private CaseSet RootCase => Cases?.FirstOrDefault();
 
     protected NewCasePageBase(WorkingItems workingItems) :
            base(workingItems)
@@ -73,13 +73,13 @@ public abstract partial class NewCasePageBase
     /// <summary>
     /// The change reason
     /// </summary>
-    public string ChangeReason { get; set; }
+    private string ChangeReason { get; set; }
 
     private string forecast;
     /// <summary>
     /// The forecast name
     /// </summary>
-    public string Forecast
+    private string Forecast
     {
         get => forecast;
         set
@@ -97,7 +97,7 @@ public abstract partial class NewCasePageBase
     /// <summary>
     /// The root case collection
     /// </summary>
-    protected ObservedHashSet<CaseSet> Cases
+    private ObservedHashSet<CaseSet> Cases
     {
         get => cases;
         set
@@ -199,7 +199,7 @@ public abstract partial class NewCasePageBase
     /// <summary>
     /// Submit the case to the backend
     /// </summary>
-    protected async Task SubmitCaseAsync()
+    private async Task SubmitCaseAsync()
     {
         // submit case
         var caseSet = RootCase;
@@ -269,7 +269,7 @@ public abstract partial class NewCasePageBase
     /// <summary>
     /// Navigate to the parent page
     /// </summary>
-    protected void NavigateToParent() =>
+    private void NavigateToParent() =>
         NavigateTo(ParentPageName);
 
     /// <summary>
@@ -323,7 +323,7 @@ public abstract partial class NewCasePageBase
             UserId = Session.User.Id,
             Forecast = Forecast,
             Reason = ChangeReason,
-            Case = caseSet.ToCaseChangeSetup(ValueFormatter, submitMode)
+            Case = caseSet.ToCaseChangeSetup(submitMode)
         };
         if (Employee != null)
         {
@@ -479,7 +479,7 @@ public abstract partial class NewCasePageBase
 
     #region Validation
 
-    public bool Valid { get; set; }
+    private bool Valid { get; set; }
 
     private Task UpdateValidationAsync()
     {

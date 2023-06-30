@@ -8,8 +8,8 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class CaseFactory : ItemFactoryBase<RegulationCase>
 {
-    public ICaseService CaseService { get; }
-    public IPayrollService PayrollService { get; }
+    private ICaseService CaseService { get; }
+    private IPayrollService PayrollService { get; }
 
     public CaseFactory(ICaseService caseService, IPayrollService payrollService,
         Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -20,13 +20,13 @@ public class CaseFactory : ItemFactoryBase<RegulationCase>
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationCase>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCase>> QueryItems(Client.Model.Regulation regulation) =>
         await CaseService.QueryAsync<RegulationCase>(new(Tenant.Id, regulation.Id));
 
     public override async Task<List<RegulationCase>> QueryPayrollItems() =>
         await PayrollService.GetCasesAsync<RegulationCase>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationCase> cases, RegulationCase @case)
+    public async Task<bool> SaveItem(ICollection<RegulationCase> cases, RegulationCase @case)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -51,7 +51,7 @@ public class CaseFactory : ItemFactoryBase<RegulationCase>
         return AddCollectionObject(cases, @case);
     }
 
-    public override async Task<RegulationCase> DeleteItem(ICollection<RegulationCase> cases, RegulationCase @case)
+    public async Task<RegulationCase> DeleteItem(ICollection<RegulationCase> cases, RegulationCase @case)
     {
         var regulation = Regulations?.FirstOrDefault();
         if (@case.Id <= 0 || regulation == null)

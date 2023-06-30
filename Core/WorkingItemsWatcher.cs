@@ -12,7 +12,7 @@ public class WorkingItemsWatcher<TService, TServiceContext, TItem, TQuery>
     where TItem : class, IModel, new()
     where TQuery : Query, new()
 {
-    public TService ReadService { get; set; }
+    private TService ReadService { get; }
 
     public WorkingItemsWatcher(TService readService)
     {

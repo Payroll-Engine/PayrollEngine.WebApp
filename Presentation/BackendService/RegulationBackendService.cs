@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class RegulationBackendService : BackendServiceBase<RegulationService, TenantServiceContext, ViewModel.Regulation, Query>
 {
-    public RegulationBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    public RegulationBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
@@ -17,6 +18,6 @@ public class RegulationBackendService : BackendServiceBase<RegulationService, Te
         UserSession.Tenant != null ? new TenantServiceContext(UserSession.Tenant.Id) : null;
 
     /// <summary>Create the backend service</summary>
-    protected override RegulationService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override RegulationService CreateService() =>
         new(HttpClient);
 }

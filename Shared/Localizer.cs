@@ -27,7 +27,6 @@ public class Localizer : LocalizerBase
         Calendar = new(factory);
         Document = new(factory);
         Attribute = new(factory);
-        Cluster = new(factory);
         ClusterSet = new(factory);
 
         Case = new(factory);
@@ -85,7 +84,7 @@ public class Localizer : LocalizerBase
     public CalendarLocalizer Calendar { get; }
     public DocumentLocalizer Document { get; }
     public AttributeLocalizer Attribute { get; }
-    public ClusterLocalizer Cluster { get; }
+    //public ClusterLocalizer Cluster { get; }
     public ClusterSetLocalizer ClusterSet { get; }
 
     public CaseLocalizer Case { get; }

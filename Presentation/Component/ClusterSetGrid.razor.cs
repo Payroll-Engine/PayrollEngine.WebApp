@@ -23,12 +23,12 @@ public partial class ClusterSetGrid : IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<ClusterSet> ClusterSets { get; set; } = new();
-    protected MudDataGrid<ClusterSet> Grid { get; set; }
+    private ItemCollection<ClusterSet> ClusterSets { get; set; } = new();
+    private MudDataGrid<ClusterSet> Grid { get; set; }
 
     #region Actions
 
-    protected async Task AddClusterSetAsync()
+    private async Task AddClusterSetAsync()
     {
         // cluster set create dialog
         var dialog = await (await DialogService.ShowAsync<ClusterSetDialog>(
@@ -50,7 +50,7 @@ public partial class ClusterSetGrid : IDisposable
         ClusterSets.Add(item);
     }
 
-    protected async Task EditClusterSetAsync(ClusterSet clusterSet)
+    private async Task EditClusterSetAsync(ClusterSet clusterSet)
     {
         // existing
         if (!ClusterSets.Contains(clusterSet))
@@ -83,7 +83,7 @@ public partial class ClusterSetGrid : IDisposable
         ClusterSets.Add(editItem);
     }
 
-    protected async Task DeleteClusterSetAsync(ClusterSet clusterSet)
+    private async Task DeleteClusterSetAsync(ClusterSet clusterSet)
     {
         // existing
         if (!ClusterSets.Contains(clusterSet))

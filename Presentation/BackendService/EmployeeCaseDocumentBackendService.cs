@@ -3,13 +3,14 @@ using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class EmployeeCaseDocumentBackendService : BackendServiceBase<EmployeeCaseDocumentService, EmployeeCaseValueServiceContext, CaseDocument, Query>
 {
-    public EmployeeCaseDocumentBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    public EmployeeCaseDocumentBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
@@ -23,6 +24,6 @@ public class EmployeeCaseDocumentBackendService : BackendServiceBase<EmployeeCas
         return new(UserSession.Tenant.Id, UserSession.Employee.Id, caseValueId.Value);
     }
 
-    protected override EmployeeCaseDocumentService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override EmployeeCaseDocumentService CreateService() =>
         new(HttpClient);
 }

@@ -3,13 +3,14 @@ using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class GlobalCaseDocumentBackendService : BackendServiceBase<GlobalCaseDocumentService, CaseValueServiceContext, CaseDocument, Query>
 {
-    public GlobalCaseDocumentBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    public GlobalCaseDocumentBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
@@ -23,6 +24,6 @@ public class GlobalCaseDocumentBackendService : BackendServiceBase<GlobalCaseDoc
         return new(UserSession.Tenant.Id, caseValueId.Value);
     }
 
-    protected override GlobalCaseDocumentService CreateService(IDictionary<string, object> parameters = null) => 
+    protected override GlobalCaseDocumentService CreateService() => 
         new(HttpClient);
 }

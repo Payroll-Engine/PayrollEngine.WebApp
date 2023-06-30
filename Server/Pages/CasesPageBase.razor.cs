@@ -67,10 +67,9 @@ public abstract partial class CasesPageBase
     /// <summary>
     /// Update case values on tenant change
     /// </summary>
-    /// <param name="tenant">The new tenant</param>
-    protected override async Task OnTenantChangedAsync(Tenant tenant)
+    protected override async Task OnTenantChangedAsync()
     {
-        await base.OnTenantChangedAsync(tenant);
+        await base.OnTenantChangedAsync();
         await ChangePayrollAsync(null, null);
     }
 
@@ -98,7 +97,7 @@ public abstract partial class CasesPageBase
 
     #region Grid
 
-    protected MudDataGrid<CaseChangeCaseValue> CaseValuesGrid { get; set; }
+    private MudDataGrid<CaseChangeCaseValue> CaseValuesGrid { get; set; }
 
     /// <summary>
     /// Expand state at start
@@ -109,18 +108,18 @@ public abstract partial class CasesPageBase
     /// Dense mode
     /// <remarks>Based on the grid groups, dense is activated by default</remarks>
     /// </summary>
-    protected bool Dense { get; set; } = true;
+    private bool Dense { get; set; } = true;
 
     /// <summary>
     /// The grid column configuration
     /// </summary>
-    protected List<GridColumnConfiguration> ColumnConfiguration =>
+    private List<GridColumnConfiguration> ColumnConfiguration =>
         GetColumnConfiguration(GridId);
 
     /// <summary>
     /// Toggle the grid dense state
     /// </summary>
-    protected async Task ToggleGridDenseAsync()
+    private async Task ToggleGridDenseAsync()
     {
         Dense = !Dense;
 
@@ -147,7 +146,7 @@ public abstract partial class CasesPageBase
     /// <summary>
     /// The working case values
     /// </summary>
-    protected List<CaseChangeCaseValue> CaseValues { get; private set; } = new();
+    private List<CaseChangeCaseValue> CaseValues { get; set; } = new();
 
     /// <summary>
     /// Check if grid has any filter
@@ -158,25 +157,25 @@ public abstract partial class CasesPageBase
     /// <summary>
     /// Case grouping function
     /// </summary>
-    protected Func<CaseChangeCaseValue, object> CaseGroupBy { get; set; } =
+    private Func<CaseChangeCaseValue, object> CaseGroupBy { get; } =
         x => x.CaseChangeId;
 
     /// <summary>
     /// Case sorting function
     /// </summary>
-    protected Func<CaseChangeCaseValue, object> CaseSortBy { get; set; } =
+    private Func<CaseChangeCaseValue, object> CaseSortBy { get; } =
         x => x.CaseChangeId;
 
     /// <summary>
     /// Expand all case changes
     /// </summary>
-    protected void ExpandItemGroups() =>
+    private void ExpandItemGroups() =>
         CaseValuesGrid?.ExpandAllGroups();
 
     /// <summary>
     /// Collapse all case changes
     /// </summary>
-    protected void CollapseItemGroups() =>
+    private void CollapseItemGroups() =>
         CaseValuesGrid?.CollapseAllGroups();
 
     /// <summary>
@@ -188,7 +187,7 @@ public abstract partial class CasesPageBase
     /// <summary>
     /// Reset all grid filters
     /// </summary>
-    protected async Task ResetFilterAsync() =>
+    private async Task ResetFilterAsync() =>
         await CaseValuesGrid.ClearFiltersAsync();
 
     /// <summary>
@@ -233,7 +232,7 @@ public abstract partial class CasesPageBase
     /// Cancel the case
     /// </summary>
     /// <param name="caseChange">The case change</param>
-    protected async Task CancelCaseChangeAsync(CaseChangeCaseValue caseChange)
+    private async Task CancelCaseChangeAsync(CaseChangeCaseValue caseChange)
     {
         var caseChangeValues = CaseValues.Where(x => x.Id == caseChange.Id).ToList();
         if (!caseChangeValues.Any())
@@ -291,7 +290,7 @@ public abstract partial class CasesPageBase
     /// Show the case field documents
     /// </summary>
     /// <param name="caseChange">The case change</param>
-    protected async Task ShowDocumentsAsync(CaseChangeCaseValue caseChange)
+    private async Task ShowDocumentsAsync(CaseChangeCaseValue caseChange)
     {
         // documents
         var documents = await GetCaseDocumentsAsync(caseChange);
@@ -336,25 +335,6 @@ public abstract partial class CasesPageBase
         return null;
     }
 
-    /// <summary>
-    /// Create new case change query
-    /// </summary>
-    /// <returns></returns>
-    protected virtual PayrollCaseChangeQuery NewCaseChangeQuery()
-    {
-        var query = new PayrollCaseChangeQuery
-        {
-            CaseType = CaseType,
-            UserId = Session.User.Id,
-            Culture = Session.User.Culture
-        };
-        if (HasPayroll)
-        {
-            query.DivisionId = Payroll.DivisionId;
-        }
-        return query;
-    }
-
     #endregion
 
     #region Clusters
@@ -364,22 +344,22 @@ public abstract partial class CasesPageBase
     /// <summary>
     /// The payroll clusters
     /// </summary>
-    public List<string> PayrollClusters { get; set; }
+    private List<string> PayrollClusters { get; set; }
 
     /// <summary>
     /// The filtered/working clusters
     /// </summary>
-    public List<string> Clusters { get; set; }
+    private List<string> Clusters { get; set; }
 
     /// <summary>
     /// Test for filtered/working clusters
     /// </summary>
-    public bool HasClusters => Clusters != null && Clusters.Any();
+    private bool HasClusters => Clusters != null && Clusters.Any();
 
     /// <summary>
     /// The selected cluster
     /// </summary>
-    public MudChip SelectedCluster { get; set; }
+    private MudChip SelectedCluster { get; set; }
 
     /// <summary>
     /// Setup payroll clusters
@@ -450,28 +430,28 @@ public abstract partial class CasesPageBase
     /// <summary>
     /// The available case filter
     /// </summary>
-    protected string AvailableCaseFilter { get; set; }
+    private string AvailableCaseFilter { get; set; }
 
     /// <summary>
     /// All available payroll cases
     /// </summary>
-    protected List<Case> PayrollAvailableCases { get; private set; }
+    private List<Case> PayrollAvailableCases { get; set; }
 
     /// <summary>
     /// Test for available payroll cases
     /// </summary>
-    protected bool HasPayrollAvailableCases =>
+    private bool HasPayrollAvailableCases =>
         PayrollAvailableCases != null && PayrollAvailableCases.Any();
 
     /// <summary>
     /// The filtered/working available cases
     /// </summary>
-    protected List<Case> AvailableCases { get; private set; }
+    private List<Case> AvailableCases { get; set; }
 
     /// <summary>
     /// Test for filtered/working available cases
     /// </summary>
-    protected bool HasAvailableCases =>
+    private bool HasAvailableCases =>
         AvailableCases != null && AvailableCases.Any();
 
     /// <summary>
@@ -577,7 +557,7 @@ public abstract partial class CasesPageBase
     private IEnumerable<Case> GetPayrollAvailableCases(string cluster) =>
         PayrollAvailableCases.Where(x => x.Clusters != null && x.Clusters.Contains(cluster));
 
-    protected void StartCase(Case @case)
+    private void StartCase(Case @case)
     {
         if (@case == null || !AvailableCases.Contains(@case))
         {
@@ -586,7 +566,7 @@ public abstract partial class CasesPageBase
         NavigateTo($"{NewCasePageName}/{@case.Name}");
     }
 
-    protected async Task SearchCaseAsync(Case @case)
+    private async Task SearchCaseAsync(Case @case)
     {
         if (@case == null)
         {

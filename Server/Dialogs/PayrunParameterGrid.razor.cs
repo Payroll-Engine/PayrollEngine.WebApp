@@ -31,12 +31,12 @@ public partial class PayrunParameterGrid : IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<PayrunParameter> PayrunParameters { get; set; } = new();
-    protected MudDataGrid<PayrunParameter> Grid { get; set; }
+    private ItemCollection<PayrunParameter> PayrunParameters { get; set; } = new();
+    private MudDataGrid<PayrunParameter> Grid { get; set; }
 
     #region Actions
 
-    protected async Task AddPayrunParameterAsync()
+    private async Task AddPayrunParameterAsync()
     {
         // payrun parameter create dialog
         var dialog = await (await DialogService.ShowAsync<PayrunParameterDialog>(
@@ -69,7 +69,7 @@ public partial class PayrunParameterGrid : IDisposable
         }
     }
 
-    protected async Task EditPayrunParameterAsync(PayrunParameter payrunParameter)
+    private async Task EditPayrunParameterAsync(PayrunParameter payrunParameter)
     {
         // existing
         if (!PayrunParameters.Contains(payrunParameter))
@@ -109,7 +109,7 @@ public partial class PayrunParameterGrid : IDisposable
         }
     }
 
-    protected async Task DeletePayrunParameterAsync(PayrunParameter payrunParameter)
+    private async Task DeletePayrunParameterAsync(PayrunParameter payrunParameter)
     {
         // existing
         if (!PayrunParameters.Contains(payrunParameter))

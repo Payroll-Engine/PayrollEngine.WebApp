@@ -4,15 +4,15 @@ namespace PayrollEngine.WebApp.ViewModel;
 
 public static class CaseSetExtension
 {
-    public static CaseSetup ToCaseChangeSetup(this CaseSet caseSet, IValueFormatter valueFormatter, bool submitMode)
+    public static CaseSetup ToCaseChangeSetup(this CaseSet caseSet, bool submitMode)
     {
         var caseSetup = new CaseSetup();
-        CollectCaseSetup(caseSet, caseSetup, valueFormatter, submitMode);
+        CollectCaseSetup(caseSet, caseSetup, submitMode);
         return caseSetup;
     }
 
     // recursive case value collector
-    private static void CollectCaseSetup(CaseSet caseSet, CaseSetup caseSetup, IValueFormatter valueFormatter, bool submitMode)
+    private static void CollectCaseSetup(CaseSet caseSet, CaseSetup caseSetup, bool submitMode)
     {
         if (caseSet == null)
         {
@@ -28,7 +28,7 @@ public static class CaseSetExtension
             caseSetup.Values = new();
             foreach (var field in caseSet.Fields)
             {
-                var caseValue = new CaseValueSetup(caseSet.Name, field, valueFormatter);
+                var caseValue = new CaseValueSetup(caseSet.Name, field);
 
                 // ensure backend UTC times
                 if (caseValue.Start.HasValue)
@@ -78,7 +78,7 @@ public static class CaseSetExtension
             {
                 var relatedCaseSetup = new CaseSetup();
                 caseSetup.RelatedCases.Add(relatedCaseSetup);
-                CollectCaseSetup(relatedCase, relatedCaseSetup, valueFormatter, submitMode);
+                CollectCaseSetup(relatedCase, relatedCaseSetup, submitMode);
             }
         }
     }

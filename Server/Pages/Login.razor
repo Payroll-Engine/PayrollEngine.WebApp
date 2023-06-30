@@ -10,20 +10,30 @@
     return;
 }
 
+@* missing backend *@
 @if (Initialized && !BackendAvailable)
 {
-    <div>The payroll backend service is not available</div>
+    <div>@Localizer.Login.MissingBackendService</div>
     return;
 }
-
 
 <div class="d-flex justify-center flex-grow-1">
     <MudPaper Class="pa-4" Style="min-width: 30em; max-width: 50em; margin-top: 5em">
 
-        <MudText Typo="Typo.h4"
-                 Align="Align.Center">
-            @GetApplicationTitle()
+        @* app icon or text *@
+        <MudText Typo="Typo.h5" Style="min-width: 8em; width: max-content;">
+            @if (!string.IsNullOrWhiteSpace(AppImage))
+            {
+                <img src="@AppImage" style="max-width: 15em" />
+            }
+            else
+            {
+                @AppTitle
+            }
         </MudText>
+
+
+        @* login title *@
         <MudText Typo="Typo.h6"
                  Align="Align.Center">
             @Localizer.Login.Login
@@ -118,7 +128,7 @@
                               AdornmentAriaLabel="@Localizer.User.ShowPassword" />
 
                 <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
-                    Password: 1 digit, 1 lowercase, 1 uppercase, 1 special character and minimum 8 characters
+                    @Localizer.Login.PasswordInfo
                 </MudPaper>
 
                 @if (!string.IsNullOrWhiteSpace(ErrorMessage))

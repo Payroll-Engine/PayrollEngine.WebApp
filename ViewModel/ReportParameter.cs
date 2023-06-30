@@ -7,11 +7,12 @@ namespace PayrollEngine.WebApp.ViewModel;
 
 public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEquatable<ReportParameter>, IFieldObject
 {
+    // ReSharper disable once MemberCanBeProtected.Global
     public ReportParameter()
     {
     }
 
-    public ReportParameter(ReportParameter copySource) :
+    protected ReportParameter(ReportParameter copySource) :
         base(copySource)
     {
     }

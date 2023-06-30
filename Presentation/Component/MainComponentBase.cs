@@ -18,15 +18,13 @@ public abstract class MainComponentBase : LayoutComponentBase, IDisposable
 
     protected WorkingItems WorkingItems => Session.WorkingItems;
 
-    protected bool IsInitialized { get; private set; }
-
-    public bool HasFeature(Feature feature) =>
+    protected bool HasFeature(Feature feature) =>
         Session.UserFeature(feature);
 
 
     #region Working Items
 
-    protected virtual async Task WorkingItemsChanged(WorkingItems workingItems)
+    private async Task WorkingItemsChanged()
     {
         await InvokeStateHasChangedAsync();
     }
@@ -38,7 +36,7 @@ public abstract class MainComponentBase : LayoutComponentBase, IDisposable
     public void NavigateHome(bool forceLoad = false) =>
         NavigateTo("/", forceLoad);
 
-    public void NavigateTo(string uri, bool forceLoad = false) =>
+    protected void NavigateTo(string uri, bool forceLoad = false) =>
         NavigationManager.NavigateTo(uri, forceLoad);
 
     #endregion
@@ -70,13 +68,10 @@ public abstract class MainComponentBase : LayoutComponentBase, IDisposable
         await base.OnInitializedAsync();
 
         // register state change handler
-        Session.WorkingItemsChanged += async (_, e) =>
+        Session.WorkingItemsChanged += async (_, _) =>
         {
-            await WorkingItemsChanged(e);
+            await WorkingItemsChanged();
         };
-
-        // initialization state
-        IsInitialized = true;
     }
 
     // see https://stackoverflow.com/questions/56477829/how-to-fix-the-current-thread-is-not-associated-with-the-renderers-synchroniza
@@ -92,14 +87,14 @@ public abstract class MainComponentBase : LayoutComponentBase, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (disposing)
         {
             // un-register state change handler
-            Session.WorkingItemsChanged -= async (_, e) =>
+            Session.WorkingItemsChanged -= async (_, _) =>
             {
-                await WorkingItemsChanged(e);
+                await WorkingItemsChanged();
             };
         }
     }

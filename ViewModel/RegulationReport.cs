@@ -10,7 +10,7 @@ public class RegulationReport : ReportSet, IRegulationItem, IKeyEquatable<Regula
     {
     }
 
-    public RegulationReport(RegulationReport copySource) :
+    private RegulationReport(RegulationReport copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);

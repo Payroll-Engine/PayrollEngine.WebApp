@@ -25,17 +25,17 @@ public static class Date
     /// <summary>
     /// Gets a time instant that is set to the current day
     /// </summary>
-    public static readonly DateTime Today = DateTime.UtcNow.Date;
+    private static readonly DateTime Today = DateTime.UtcNow.Date;
 
     /// <summary>
     /// Gets a time instant that is set to the next day
     /// </summary>
-    public static readonly DateTime Tomorrow = Today.AddDays(1);
+    private static readonly DateTime Tomorrow = Today.AddDays(1);
 
     /// <summary>
     /// Gets a time instant that is set to the previous day
     /// </summary>
-    public static readonly DateTime Yesterday = Today.AddDays(-1);
+    private static readonly DateTime Yesterday = Today.AddDays(-1);
 
     /// <summary>
     /// Get the previous tick
@@ -58,7 +58,7 @@ public static class Date
     /// </summary>
     /// <param name="moment">The moment to test</param>
     /// <returns>True in case the moment is date</returns>
-    public static bool IsMidnight(DateTime moment) =>
+    private static bool IsMidnight(DateTime moment) =>
         // https://stackoverflow.com/questions/681435/what-is-the-best-way-to-determine-if-a-system-datetime-is-midnight
         moment.TimeOfDay.Ticks == 0;
 
@@ -69,27 +69,27 @@ public static class Date
     /// <summary>
     /// First month in year
     /// </summary>
-    public static readonly int FirstMonthOfCalendarYear = 1;
+    private static readonly int FirstMonthOfCalendarYear = 1;
 
     /// <summary>
     /// First day in month
     /// </summary>
-    public static readonly int FirstDayOfMonth = 1;
+    private static readonly int FirstDayOfMonth = 1;
 
     /// <summary>
     /// Number of months in a year
     /// </summary>
-    public static readonly int MonthsInYear = 12;
+    private static readonly int MonthsInYear = 12;
 
     /// <summary>
     /// Last month in year
     /// </summary>
-    public static readonly int LastMonthOfCalendarYear = MonthsInYear;
+    private static readonly int LastMonthOfCalendarYear = MonthsInYear;
 
     /// <summary>
     /// Number of days in a week
     /// </summary>
-    public static readonly int DaysInWeek = 7;
+    private static readonly int DaysInWeek = 7;
 
     /// <summary>
     /// Minimum calendar date
@@ -110,13 +110,13 @@ public static class Date
     ///         <paramref name="month" /> is less than 1 or greater than 12
     /// -or-
     /// <paramref name="year" /> is less than 1 or greater than 9999.</exception>
-    public static int DaysInMonth(int year, int month) =>
+    private static int DaysInMonth(int year, int month) =>
         DateTime.DaysInMonth(year, month);
 
     /// <summary>Returns the number of days in the specified month and year</summary>
     /// <param name="date">The date</param>
     /// <returns>The number of days in for the specified <paramref name="date" /></returns>
-    public static int DaysInMonth(DateTime date) =>
+    private static int DaysInMonth(DateTime date) =>
         DateTime.DaysInMonth(date.Year, date.Month);
 
     #endregion
@@ -200,7 +200,7 @@ public static class Date
     /// <param name="month">The month</param>
     /// <param name="culture">The culture</param>
     /// <returns>Name of the month</returns>
-    public static string GetMonthName(int month, CultureInfo culture) =>
+    private static string GetMonthName(int month, CultureInfo culture) =>
         culture.DateTimeFormat.GetMonthName(month);
 
     /// <summary>
@@ -252,7 +252,7 @@ public static class Date
     /// Return the first moment of the day
     /// </summary>
     /// <param name="moment">Moment within the day</param>
-    /// <returns><seealso cref="System.DateTime"/> from the first moment in a day</returns>
+    /// <returns><seealso cref="DateTime"/> from the first moment in a day</returns>
     public static DateTime FirstMomentOfDay(DateTime moment) =>
         moment.Date;
 
@@ -268,8 +268,8 @@ public static class Date
     /// Return the last moment of the day
     /// </summary>
     /// <param name="moment">Moment within the day</param>
-    /// <returns><seealso cref="System.DateTime"/> from the latest moment in a day</returns>
-    public static DateTime LastMomentOfDay(DateTime moment) =>
+    /// <returns><seealso cref="DateTime"/> from the latest moment in a day</returns>
+    private static DateTime LastMomentOfDay(DateTime moment) =>
         moment.Date.AddTicks(TimeSpan.TicksPerDay).PreviousTick();
 
     /// <summary>
@@ -278,7 +278,7 @@ public static class Date
     /// </summary>
     /// <param name="moment">Moment to test</param>
     /// <returns>True on the last moment of the day</returns>
-    public static bool IsLastMomentOfDay(DateTime moment) =>
+    private static bool IsLastMomentOfDay(DateTime moment) =>
         Equals(LastMomentOfDay(moment), moment);
 
     #endregion

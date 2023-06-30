@@ -8,8 +8,8 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class ScriptFactory : ItemFactoryBase<RegulationScript>
 {
-    public IScriptService ScriptService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private IScriptService ScriptService { get; }
+    private IPayrollService PayrollService { get; }
 
     public ScriptFactory(IScriptService scriptService, IPayrollService payrollService,
         Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -20,13 +20,13 @@ public class ScriptFactory : ItemFactoryBase<RegulationScript>
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationScript>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationScript>> QueryItems(Client.Model.Regulation regulation) =>
         await ScriptService.QueryAsync<RegulationScript>(new(Tenant.Id, regulation.Id));
 
     public override async Task<List<RegulationScript>> QueryPayrollItems() =>
         await PayrollService.GetScriptsAsync<RegulationScript>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationScript> scripts, RegulationScript script)
+    public async Task<bool> SaveItem(ICollection<RegulationScript> scripts, RegulationScript script)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -51,7 +51,7 @@ public class ScriptFactory : ItemFactoryBase<RegulationScript>
         return AddCollectionObject(scripts, script);
     }
 
-    public override async Task<RegulationScript> DeleteItem(ICollection<RegulationScript> scripts, RegulationScript script)
+    public async Task<RegulationScript> DeleteItem(ICollection<RegulationScript> scripts, RegulationScript script)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();

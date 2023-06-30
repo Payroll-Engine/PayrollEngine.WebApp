@@ -11,7 +11,7 @@ public class RegulationReportParameter : ReportParameter, IRegulationItem, IKeyE
     {
     }
 
-    public RegulationReportParameter(RegulationReportParameter copySource) :
+    private RegulationReportParameter(RegulationReportParameter copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
@@ -26,9 +26,6 @@ public class RegulationReportParameter : ReportParameter, IRegulationItem, IKeyE
     
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     /// <inheritdoc />
     public string RegulationName { get; set; }

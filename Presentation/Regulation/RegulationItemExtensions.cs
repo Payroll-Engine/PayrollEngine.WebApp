@@ -45,7 +45,7 @@ public static class RegulationItemExtensions
     /// </summary>
     /// <param name="item">The regulation item</param>
     /// <param name="fieldName">The field name</param>
-    public static List<RegulationItemValue> GetInheritanceValues(this IRegulationItem item,
+    private static List<RegulationItemValue> GetInheritanceValues(this IRegulationItem item,
         string fieldName)
     {
         if (string.IsNullOrWhiteSpace(fieldName))

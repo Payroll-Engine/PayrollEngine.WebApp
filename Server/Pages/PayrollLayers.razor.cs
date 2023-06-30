@@ -11,7 +11,6 @@ using PayrollEngine.WebApp.Server.Shared;
 using Payroll = PayrollEngine.Client.Model.Payroll;
 using Task = System.Threading.Tasks.Task;
 using PayrollLayer = PayrollEngine.WebApp.ViewModel.PayrollLayer;
-using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
@@ -66,7 +65,7 @@ public partial class PayrollLayers
         return await base.SetupDialogParametersAsync(parameters, operation);
     }
 
-    protected string ValidateLayerOrder(PayrollLayer payrollLayer)
+    private string ValidateLayerOrder(PayrollLayer payrollLayer)
     {
         // regulation
         if (string.IsNullOrWhiteSpace(payrollLayer.RegulationName))
@@ -138,9 +137,9 @@ public partial class PayrollLayers
         Items.AddRange(items);
     }
 
-    protected override async Task OnTenantChangedAsync(Tenant tenant)
+    protected override async Task OnTenantChangedAsync()
     {
-        await base.OnTenantChangedAsync(tenant);
+        await base.OnTenantChangedAsync();
         await SetupRegulationsAsync();
     }
 

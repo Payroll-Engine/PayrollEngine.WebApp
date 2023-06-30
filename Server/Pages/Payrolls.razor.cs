@@ -27,10 +27,10 @@ public partial class Payrolls
     {
     }
 
-    protected override async Task<bool> OnItemCommit(Payroll payroll, ItemOperation operation)
+    protected override async Task<bool> OnItemCommit(Payroll payroll)
     {
         await PayrollBackendService.ApplyDivisionAsync(payroll);
-        return await base.OnItemCommit(payroll, operation);
+        return await base.OnItemCommit(payroll);
     }
 
     protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)

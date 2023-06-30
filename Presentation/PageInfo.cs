@@ -16,7 +16,7 @@ public class PageInfo
     {
     }
 
-    public PageInfo(Feature feature, string pageLink, string pageName, string title,
+    private PageInfo(Feature feature, string pageLink, string pageName, string title,
         PageGroupInfo pageGroup = null)
     {
         if (string.IsNullOrWhiteSpace(pageLink))

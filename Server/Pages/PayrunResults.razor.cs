@@ -45,10 +45,10 @@ public partial class PayrunResults
     }
 
     /// <inheritdoc />
-    protected override async Task OnTenantChangedAsync(Client.Model.Tenant tenant)
+    protected override async Task OnTenantChangedAsync()
     {
         await SetupPage();
-        await base.OnTenantChangedAsync(tenant);
+        await base.OnTenantChangedAsync();
     }
 
     /// <inheritdoc />
@@ -70,17 +70,17 @@ public partial class PayrunResults
     /// <summary>
     /// The payruns of the working payroll
     /// </summary>
-    protected List<Payrun> Payruns { get; set; }
+    private List<Payrun> Payruns { get; set; }
 
     /// <summary>
     /// True if payroll contains payruns
     /// </summary>
-    protected bool HasPayruns => Payruns != null && Payruns.Any();
+    private bool HasPayruns => Payruns != null && Payruns.Any();
 
     /// <summary>
     /// Selected payrun
     /// </summary>
-    protected Payrun SelectedPayrun { get; set; }
+    private Payrun SelectedPayrun { get; set; }
 
     /// <summary>
     /// Selected payrun by name
@@ -197,19 +197,19 @@ public partial class PayrunResults
     /// <summary>
     /// The grid column configuration
     /// </summary>
-    protected List<GridColumnConfiguration> ColumnConfiguration =>
+    private List<GridColumnConfiguration> ColumnConfiguration =>
         GetColumnConfiguration(GetTenantGridId(GridIdentifiers.PayrunResults));
 
     /// <summary>
     /// Dense mode
     /// <remarks>Based on the grid groups, dense is activated by default</remarks>
     /// </summary>
-    protected bool Dense { get; set; } = true;
+    private bool Dense { get; set; } = true;
 
     /// <summary>
     /// Toggle the grid dense state
     /// </summary>
-    protected async Task ToggleGridDenseAsync()
+    private async Task ToggleGridDenseAsync()
     {
         Dense = !Dense;
 
@@ -220,14 +220,14 @@ public partial class PayrunResults
     /// <summary>
     /// Reset all grid filters
     /// </summary>
-    protected async Task ResetFilterAsync() =>
+    private async Task ResetFilterAsync() =>
         await ResultsGrid.ClearFiltersAsync();
 
     /// <summary>
     /// Download excel file from unfiltered grid data
     /// <remarks>Copy from <see cref="ItemPageBase{TItem,TQuery}.ExcelDownloadAsync"/> </remarks>
     /// </summary>
-    protected async Task ExcelDownloadAsync()
+    private async Task ExcelDownloadAsync()
     {
         // server request
         var maxExport = Configuration.GetConfiguration<AppConfiguration>().ExcelExportMaxRecords;
@@ -299,7 +299,7 @@ public partial class PayrunResults
     /// </summary>
     /// <param name="state">The data grid state</param>
     /// <returns>Collection of items</returns>
-    protected async Task<GridData<PayrollResultValue>> GetServerDataAsync(GridState<PayrollResultValue> state)
+    private async Task<GridData<PayrollResultValue>> GetServerDataAsync(GridState<PayrollResultValue> state)
     {
         try
         {
@@ -325,7 +325,7 @@ public partial class PayrunResults
     /// Refresh the forecast payrun jobs
     /// </summary>
     /// <returns></returns>
-    protected async Task RefreshServerDataAsync()
+    private async Task RefreshServerDataAsync()
     {
         if (ResultsGrid == null)
         {
@@ -341,7 +341,7 @@ public partial class PayrunResults
     /// <summary>
     /// Setup page data after a tenant or payroll change
     /// </summary>
-    protected async Task SetupPage()
+    private async Task SetupPage()
     {
         if (!HasPayroll)
         {

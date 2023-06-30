@@ -18,16 +18,13 @@ public partial class EnumListBox<T> : IRegulationInput
     [Parameter]
     public EventCallback<object> ValueChanged { get; set; }
 
-    protected List<string> EnumValues { get; set; }
-    protected T Value { get; set; }
+    private T Value { get; set; }
 
-    protected object FieldValue
+    private object FieldValue
     {
         get => Item.GetPropertyValue(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
-
-    protected bool IsBaseValue { get; set; }
 
     #region Value
 
@@ -61,10 +58,6 @@ public partial class EnumListBox<T> : IRegulationInput
 
     private void ApplyFieldValue()
     {
-        // enum values
-        var enumType = GetEnumType();
-        EnumValues = enumType != null ? new List<string>(GetEnumValues().Select(X => X.Item2)) : new();
-
         // value
         var value = FieldValue;
         // base value
@@ -125,7 +118,7 @@ public partial class EnumListBox<T> : IRegulationInput
         return null;
     }
 
-    protected object GetBaseValue() =>
+    private object GetBaseValue() =>
         Item.GetBaseValue<object>(Field.PropertyName);
 
     private List<Tuple<T, string>> GetEnumValues()
@@ -144,22 +137,8 @@ public partial class EnumListBox<T> : IRegulationInput
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = Value;
-
-        // base value
-        var isBaseValue = false;
-        if (Field.HasBaseValues && value != null)
-        {
-            var baseValue = GetBaseValue();
-            var enumValue = ParseEnumValue(value);
-            isBaseValue = Equals(enumValue, baseValue);
-        }
-        IsBaseValue = isBaseValue;
-
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastItem;
 

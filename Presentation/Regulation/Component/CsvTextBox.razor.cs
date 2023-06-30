@@ -18,13 +18,11 @@ public partial class CsvTextBox : IRegulationInput
     [Parameter]
     public EventCallback<object> ValueChanged { get; set; }
 
-    protected bool IsBaseValue { get; set; }
-
     #region Value
 
-    protected string Value { get; set; }
+    private string Value { get; set; }
 
-    protected List<string> FieldValue
+    private List<string> FieldValue
     {
         get => Item.GetPropertyValue<List<string>>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
@@ -92,23 +90,15 @@ public partial class CsvTextBox : IRegulationInput
         Value = ListToString(value);
     }
 
-    protected List<string> GetBaseValue() =>
+    private List<string> GetBaseValue() =>
         Item.GetBaseValue<List<string>>(Field.PropertyName);
 
     #endregion
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = StringToList(Value);
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
-                      CompareTool.EqualDistinctLists(value, GetBaseValue());
-
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastItem;
 

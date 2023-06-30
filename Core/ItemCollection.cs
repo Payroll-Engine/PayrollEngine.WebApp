@@ -64,7 +64,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     #region Public Properties
 
     private EqualityComparer<T> comparer;
-    public EqualityComparer<T> Comparer =>
+    private EqualityComparer<T> Comparer =>
         comparer ??= EqualityComparer<T>.Default;
 
     //private set => comparer = value;
@@ -74,7 +74,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// This might indeed consume background performance, but in the other hand,
     /// it will pay off in UI performance as less required UI updates are required.
     /// </summary>
-    public bool AllowDuplicates { get; set; } = true;
+    private bool AllowDuplicates { get; } = true;
 
     #endregion Public Properties
 
@@ -101,7 +101,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// The collection itself cannot be null, but it can contain elements that are null, if type T is a reference type.</param>                
     /// <exception cref="ArgumentNullException"><paramref name="items"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is not in the collection range.</exception>
-    public void InsertRange(int index, IEnumerable<T> items)
+    private void InsertRange(int index, IEnumerable<T> items)
     {
         if (items == null)
         {
@@ -258,7 +258,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is out of range.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="count"/> is out of range.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="match"/> is null.</exception>
-    public int RemoveAll(int index, int count, Predicate<T> match)
+    private int RemoveAll(int index, int count, Predicate<T> match)
     {
         if (index < 0)
         {
@@ -342,7 +342,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// <param name="index">The zero-based starting index of the range of elements to remove.</param>
     /// <param name="count">The number of elements to remove.</param>
     /// <exception cref="ArgumentOutOfRangeException">The specified range is exceeding the collection.</exception>
-    public void RemoveRange(int index, int count)
+    private void RemoveRange(int index, int count)
     {
         if (index < 0)
         {
@@ -405,7 +405,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is out of range.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="count"/> is out of range.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="insertItems"/> is null.</exception>
-    public void ReplaceRange(int index, int count, IEnumerable<T> insertItems)
+    private void ReplaceRange(int index, int count, IEnumerable<T> insertItems)
     {
         if (index < 0)
         {
@@ -614,7 +614,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
         base.OnCollectionChanged(args);
     }
 
-    protected virtual IDisposable DeferEvents() => new DeferredEventsCollection(this);
+    private IDisposable DeferEvents() => new DeferredEventsCollection(this);
 
     #endregion Protected Methods
 

@@ -14,10 +14,6 @@ public class UserNotificationBase : ComponentBase, IUserNotificationService
     private IDialogService DialogService { get; set; }
 
     /// <inheritdoc />
-    IUserNotificationService IUserNotificationService.Handler
-        => throw new NotSupportedException();
-
-    /// <inheritdoc />
     void IUserNotificationService.Initialize(IUserNotificationService handler) =>
         throw new NotSupportedException();
 
@@ -80,7 +76,7 @@ public class UserNotificationBase : ComponentBase, IUserNotificationService
         await DialogService.ShowErrorMessageBoxAsync(localizer, title, exception);
     }
 
-    public Task ShowToastAsync(string message, Severity severity)
+    private Task ShowToastAsync(string message, Severity severity)
     {
         Snackbar.Add(message, severity);
         return Task.CompletedTask;

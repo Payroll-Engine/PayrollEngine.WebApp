@@ -34,11 +34,9 @@ public partial class TextBox : IRegulationInput
 
     #region Value
 
-    protected string Value { get; set; }
+    private string Value { get; set; }
 
-    protected bool IsBaseValue { get; set; }
-
-    protected string FieldValue
+    private string FieldValue
     {
         get => Item.GetPropertyValue<string>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
@@ -88,7 +86,7 @@ public partial class TextBox : IRegulationInput
         Value = value;
     }
 
-    protected string GetBaseValue() =>
+    private string GetBaseValue() =>
         Item.GetBaseValue<string>(Field.PropertyName);
 
     #endregion
@@ -177,16 +175,8 @@ public partial class TextBox : IRegulationInput
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = Value;
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && !string.IsNullOrWhiteSpace(value) &&
-                      string.Equals(value, GetBaseValue());
-
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastItem;
 

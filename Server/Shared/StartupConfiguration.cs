@@ -1,7 +1,8 @@
-﻿
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace PayrollEngine.WebApp.Server.Shared;
 
 /// <summary>The web app startup configuration</summary>
+// ReSharper disable once ClassNeverInstantiated.Global
 public class StartupConfiguration
 {
     /// <summary>Start tenant identifier</summary>

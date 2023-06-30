@@ -14,7 +14,8 @@ public class EmployeeLocalizer : LocalizerBase
     public string NotAvailable => FromCaller();
     public string FirstName => FromCaller();
     public string LastName => FromCaller();
-
+    public string CultureHelp => FromCaller();
+    public string CalendarHelp => FromCaller();
     public string MissingEmployees => FromCaller();
     public string OneEmployee => FromCaller();
 

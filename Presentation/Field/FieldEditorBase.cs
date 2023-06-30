@@ -18,12 +18,12 @@ public abstract class FieldEditorBase : ComponentBase
 
     protected bool Error => !Field.IsValidValue();
 
-    protected virtual string ValueHelp { get; set; }
-    protected virtual string ValueAdornmentText { get; set; }
-    protected virtual Adornment ValueAdornment { get; set; }
+    protected string ValueHelp { get; private set; }
+    protected string ValueAdornmentText { get; private set; }
+    protected Adornment ValueAdornment { get; private set; }
     protected virtual string ValueLabel { get; set; }
-    protected virtual string ValueRequiredError { get; set; }
-    protected virtual bool ReadOnly { get; set; }
+    protected string ValueRequiredError { get; private set; }
+    protected bool ReadOnly { get; private set; }
 
     /// <summary>
     /// The default MudCheckBox raises a required error on false value
@@ -33,7 +33,7 @@ public abstract class FieldEditorBase : ComponentBase
 
     // culture
     private CultureInfo culture;
-    protected virtual CultureInfo CultureInfo
+    protected CultureInfo CultureInfo
     {
         get
         {

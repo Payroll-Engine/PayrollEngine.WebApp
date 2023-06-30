@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -8,22 +9,22 @@ namespace PayrollEngine.WebApp.Server.Shared;
 
 public class UserPasswordService : IUserPasswordService
 {
-    public IUserService UserService { get; set; }
+    private IUserService UserService { get; }
 
     public UserPasswordService(IUserService userService)
     {
         UserService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
-    public Match ValidatePassword(string test)
+    public bool IsValidPassword(string test) =>
+        ValidatePassword(test).Success;
+
+    private static Match ValidatePassword(string test)
     {
         var expression = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
         var match = Regex.Match(test, expression);
         return match;
     }
-
-    public bool IsValidPassword(string test) =>
-        ValidatePassword(test).Success;
 
     public async Task<bool> TestPasswordAsync(int tenantId, int userId, string password)
     {
@@ -37,7 +38,7 @@ public class UserPasswordService : IUserPasswordService
         }
         catch (HttpRequestException httpException)
         {
-            test = !httpException.IsBadRequest();
+            test = !IsBadRequest(httpException);
         }
         catch (Exception exception)
         {
@@ -47,6 +48,9 @@ public class UserPasswordService : IUserPasswordService
 
         return test;
     }
+
+    private static bool IsBadRequest(HttpRequestException exception) => 
+        exception.Message.StartsWith(((int)HttpStatusCode.BadRequest).ToString());
 
     public async Task<bool> ChangePasswordAsync(int tenantId, int userId, string password)
     {

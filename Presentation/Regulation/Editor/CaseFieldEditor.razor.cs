@@ -18,11 +18,11 @@ public partial class CaseFieldEditor
 
     [Inject] private Localizer Localizer { get; set; }
 
-    protected RegulationCaseField CaseField => Item as RegulationCaseField;
+    private RegulationCaseField CaseField => Item as RegulationCaseField;
 
     protected int CaseId => CaseField.Parent.Id;
 
-    protected List<RegulationField> Fields { get; private set; }
+    private List<RegulationField> Fields { get; set; }
 
     private void SetupFields()
     {

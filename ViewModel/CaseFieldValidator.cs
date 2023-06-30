@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
-public class CaseFieldValidator : ICaseFieldValidator
+public class CaseFieldValidator
 {
     private const string MissingValue = "Missing value";
     private const string MissingStart = "Missing start date";
     private const string MissingEnd = "Missing end date";
     private const string MissingAttachment = "Missing attachment";
 
-    public CaseFieldSet CaseField { get; }
+    private CaseFieldSet CaseField { get; }
 
     public CaseFieldValidator(CaseFieldSet caseField)
     {

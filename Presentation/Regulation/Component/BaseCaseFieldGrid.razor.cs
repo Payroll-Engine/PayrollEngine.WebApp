@@ -29,15 +29,15 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<CaseFieldReference> References { get; set; } = new();
+    private ItemCollection<CaseFieldReference> References { get; set; } = new();
 
-    protected List<CaseFieldReference> FieldValue
+    private List<CaseFieldReference> FieldValue
     {
         get => Item.GetPropertyValue<List<CaseFieldReference>>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
 
-    protected MudDataGrid<CaseFieldReference> Grid { get; set; }
+    private MudDataGrid<CaseFieldReference> Grid { get; set; }
 
     protected string FieldLabel => nameof(ViewModel.Case.BaseCaseFields).ToPascalSentence();
 
@@ -72,7 +72,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
 
     #region Actions
 
-    protected async Task CreateReferenceAsync()
+    private async Task CreateReferenceAsync()
     {
         // dialog parameters
         var parameters = new DialogParameters
@@ -100,7 +100,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task UpdateReferenceAsync(CaseFieldReference reference)
+    private async Task UpdateReferenceAsync(CaseFieldReference reference)
     {
         if (reference == null)
         {
@@ -137,7 +137,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task DeleteReferenceAsync(CaseFieldReference reference)
+    private async Task DeleteReferenceAsync(CaseFieldReference reference)
     {
         if (reference == null)
         {
@@ -166,7 +166,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
 
     // load on demand
     private List<CaseField> baseCaseFields;
-    protected List<CaseField> BaseCaseFields =>
+    private List<CaseField> BaseCaseFields =>
         baseCaseFields ??= Task.Run(() => PayrollService.GetCaseFieldsAsync<CaseField>(
             new(EditContext.Tenant.Id, EditContext.Payroll.Id))).Result.OrderBy(x => x.Name).ToList();
 

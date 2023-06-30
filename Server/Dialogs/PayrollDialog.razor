@@ -30,10 +30,6 @@
                         <LocalizationTextField Item="@Payroll" @bind-Value="Payroll.Description"
                                                PropertyName="@nameof(Payroll.Description)"
                                                Label="@Localizer.Shared.Description" />
-                        <MudSelect T="Country" @bind-Value="Payroll.CountryType" Clearable="true"
-                                   Label="@Localizer.Payroll.Country">
-                            <EnumSelectItems T="Country" />
-                        </MudSelect>
                         <ItemBaseFields Item="Payroll" />
                     </MudStack>
                 </MudTabPanel>

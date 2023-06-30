@@ -15,13 +15,13 @@ public partial class NumericTextBox<T> : ComponentBase, IRegulationInput
     [Parameter]
     public EventCallback<object> ValueChanged { get; set; }
 
-    protected bool IsBaseValue { get; set; }
+   // protected bool IsBaseValue { get; set; }
 
     #region Value
 
-    protected T Value { get; set; }
+    private T Value { get; set; }
 
-    protected T FieldValue
+    private T FieldValue
     {
         get => Item.GetPropertyValue<T>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
@@ -56,22 +56,15 @@ public partial class NumericTextBox<T> : ComponentBase, IRegulationInput
         Value = value;
     }
 
-    protected T GetBaseValue() =>
+    private T GetBaseValue() =>
         Item.GetBaseValue<T>(Field.PropertyName);
 
     #endregion
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = Value;
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && Equals(value, GetBaseValue());
-
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastItem;
 

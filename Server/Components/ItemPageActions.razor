@@ -13,7 +13,7 @@
                            Size="Size.Small" />
         </MudTooltip>
         <MudTooltip Delay="500" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
-            <MudIconButton @onclick="@(() => PageActions.ExcelDownloadAsync(Title))"
+            <MudIconButton @onclick="@(() => PageActions.ExcelDownloadAsync())"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Custom.FileFormats.FileExcel"
                            Class="ml-2"

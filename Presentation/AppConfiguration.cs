@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace PayrollEngine.WebApp.Presentation;
 

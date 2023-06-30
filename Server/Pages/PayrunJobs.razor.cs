@@ -42,12 +42,12 @@ public partial class PayrunJobs : IPayrunJobOperator
     }
 
     /// <inheritdoc />
-    protected override async Task OnTenantChangedAsync(Client.Model.Tenant tenant)
+    protected override async Task OnTenantChangedAsync()
     {
         // update users on tenant change
         await SetupUsersAsync();
         await SetupPage();
-        await base.OnTenantChangedAsync(tenant);
+        await base.OnTenantChangedAsync();
         StateHasChanged();
     }
 
@@ -67,28 +67,28 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// The working legal payrun job
     /// </summary>
-    protected PayrunJob LegalJob { get; set; }
+    private PayrunJob LegalJob { get; set; }
 
     /// <summary>
     /// The legal payrun job setup
     /// </summary>
-    protected PayrunJobSetup LegalSetup { get; } = new();
+    private PayrunJobSetup LegalSetup { get; } = new();
 
     /// <summary>
     /// True if legal payrun job is available
     /// </summary>
-    protected bool HasLegalJob => LegalJob != null;
+    private bool HasLegalJob => LegalJob != null;
 
     /// <summary>
     /// The grid column configuration
     /// </summary>
-    protected List<GridColumnConfiguration> LegalColumnConfiguration =>
+    private List<GridColumnConfiguration> LegalColumnConfiguration =>
         GetColumnConfiguration(GetTenantGridId(GridIdentifiers.PayrunLegalJobs));
 
     /// <summary>
     /// Start a legal payrun job
     /// </summary>
-    protected async Task StartLegalJobAsync()
+    private async Task StartLegalJobAsync()
     {
         if (LegalJob != null)
         {
@@ -117,7 +117,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Release a legal payrun job
     /// </summary>
-    protected async Task ReleaseLegalJobAsync()
+    private async Task ReleaseLegalJobAsync()
     {
         if (LegalJob == null || LegalJob.JobStatus != PayrunJobStatus.Draft)
         {
@@ -129,7 +129,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Process a legal payrun job
     /// </summary>
-    protected async Task ProcessLegalJobAsync()
+    private async Task ProcessLegalJobAsync()
     {
         if (SelectedPayrun == null || LegalJob.JobStatus != PayrunJobStatus.Release)
         {
@@ -141,7 +141,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Complete a legal payrun job
     /// </summary>
-    protected async Task CompleteLegalJobAsync()
+    private async Task CompleteLegalJobAsync()
     {
         if (LegalJob == null || LegalJob.JobStatus != PayrunJobStatus.Process)
         {
@@ -153,7 +153,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Cancel a legal payrun job
     /// </summary>
-    protected async Task CancelLegalJobAsync()
+    private async Task CancelLegalJobAsync()
     {
         if (LegalJob == null || LegalJob.JobStatus != PayrunJobStatus.Process)
         {
@@ -165,7 +165,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Abort a legal payrun job
     /// </summary>
-    protected async Task AbortLegalJobAsync()
+    private async Task AbortLegalJobAsync()
     {
         if (LegalJob == null ||
             (LegalJob.JobStatus != PayrunJobStatus.Draft &&
@@ -282,7 +282,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// </summary>
     /// <param name="state">The data grid state</param>
     /// <returns>Collection of items</returns>
-    protected async Task<GridData<PayrunJob>> GetLegalServerDataAsync(GridState<PayrunJob> state)
+    private async Task<GridData<PayrunJob>> GetLegalServerDataAsync(GridState<PayrunJob> state)
     {
         try
         {
@@ -334,7 +334,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Refresh legal payrun job
     /// </summary>
-    protected async Task RefreshLegalServerDataAsync()
+    private async Task RefreshLegalServerDataAsync()
     {
         if (LegalJobsGrid == null)
         {
@@ -353,18 +353,18 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// The forecast payrun job setup
     /// </summary>
-    protected PayrunJobSetup ForecastSetup { get; } = new();
+    private PayrunJobSetup ForecastSetup { get; } = new();
 
     /// <summary>
     /// The grid column configuration
     /// </summary>
-    protected List<GridColumnConfiguration> ForecastColumnConfiguration =>
+    private List<GridColumnConfiguration> ForecastColumnConfiguration =>
         GetColumnConfiguration(GetTenantGridId(GridIdentifiers.PayrunForecastJobs));
 
     /// <summary>
     /// Start a forecast payrun job
     /// </summary>
-    protected async Task StartForecastJobAsync()
+    private async Task StartForecastJobAsync()
     {
         if (string.IsNullOrWhiteSpace(ForecastSetup.Reason))
         {
@@ -461,7 +461,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// </summary>
     /// <param name="state">The data grid state</param>
     /// <returns>Collection of items</returns>
-    protected async Task<GridData<PayrunJob>> GetForecastServerDataAsync(GridState<PayrunJob> state)
+    private async Task<GridData<PayrunJob>> GetForecastServerDataAsync(GridState<PayrunJob> state)
     {
         try
         {
@@ -487,7 +487,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// Refresh the forecast payrun jobs
     /// </summary>
     /// <returns></returns>
-    protected async Task RefreshForecastServerDataAsync()
+    private async Task RefreshForecastServerDataAsync()
     {
         if (ForecastJobsGrid == null)
         {
@@ -632,7 +632,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// All employees from the payroll division
     /// </summary>
-    protected List<Employee> Employees { get; set; }
+    private List<Employee> Employees { get; set; }
 
     /// <summary>
     /// Setup payroll employees
@@ -671,17 +671,17 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// The payruns of the working payroll
     /// </summary>
-    protected List<Payrun> Payruns { get; set; }
+    private List<Payrun> Payruns { get; set; }
 
     /// <summary>
     /// True if payroll contains payruns
     /// </summary>
-    protected bool HasPayruns => Payruns != null && Payruns.Any();
+    private bool HasPayruns => Payruns != null && Payruns.Any();
 
     /// <summary>
     /// Selected payrun
     /// </summary>
-    protected Payrun SelectedPayrun { get; set; }
+    private Payrun SelectedPayrun { get; set; }
 
     /// <summary>
     /// Selected payrun by name
@@ -810,14 +810,14 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// The users of the working tenant
     /// </summary>
-    protected List<User> Users { get; set; }
+    private List<User> Users { get; set; }
 
     /// <summary>
     /// Get user full name
     /// </summary>
     /// <param name="userId">The user id</param>
     /// <returns>The user name</returns>
-    protected string GetUserName(int? userId)
+    private string GetUserName(int? userId)
     {
         if (!userId.HasValue)
         {
@@ -864,7 +864,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Setup legal and forecast job setup after a payrun change
     /// </summary>
-    protected async Task SetupPayrunJobsAsync()
+    private async Task SetupPayrunJobsAsync()
     {
         if (!HasPayroll)
         {
@@ -877,7 +877,7 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// <summary>
     /// Setup page data after a tenant or payroll change
     /// </summary>
-    protected async Task SetupPage()
+    private async Task SetupPage()
     {
         if (!HasPayroll)
         {

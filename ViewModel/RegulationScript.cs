@@ -12,7 +12,7 @@ public class RegulationScript : Script, IRegulationItem, IKeyEquatable<Regulatio
     {
     }
 
-    public RegulationScript(RegulationScript copySource) :
+    private RegulationScript(RegulationScript copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
@@ -24,9 +24,6 @@ public class RegulationScript : Script, IRegulationItem, IKeyEquatable<Regulatio
     }
 
     #region Regulation Object
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     /// <inheritdoc />
     public string RegulationName { get; set; }

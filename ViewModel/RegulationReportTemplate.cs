@@ -11,7 +11,7 @@ public class RegulationReportTemplate : ReportTemplate, IRegulationItem, IEquata
     {
     }
 
-    public RegulationReportTemplate(RegulationReportTemplate copySource) :
+    private RegulationReportTemplate(RegulationReportTemplate copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
@@ -26,9 +26,6 @@ public class RegulationReportTemplate : ReportTemplate, IRegulationItem, IEquata
 
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     /// <inheritdoc />
     public string RegulationName { get; set; }

@@ -24,16 +24,14 @@ public partial class CollectorMultiSelect : IRegulationInput
     [Inject]
     private IPayrollService PayrollService { get; set; }
 
-    protected List<RegulationCollector> Collectors { get; set; }
-    protected List<string> Value { get; set; }
+    private List<RegulationCollector> Collectors { get; set; }
+    private List<string> Value { get; set; }
 
-    protected List<string> FieldValue
+    private List<string> FieldValue
     {
         get => Item.GetPropertyValue<List<string>>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
-
-    protected bool IsBaseValue { get; set; }
 
     public string CollectorsAsString
     {
@@ -103,7 +101,7 @@ public partial class CollectorMultiSelect : IRegulationInput
         SelectedCollectors = Value;
     }
 
-    protected List<string> GetBaseValue() =>
+    private List<string> GetBaseValue() =>
         Item.GetBaseValue<List<string>>(Field.PropertyName);
 
     #endregion
@@ -123,16 +121,8 @@ public partial class CollectorMultiSelect : IRegulationInput
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = Value;
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
-                      CompareTool.EqualDistinctLists(value, GetBaseValue());
-
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastObject;
 

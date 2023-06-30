@@ -3,24 +3,25 @@ using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class CaseChangeValueBackendService : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery>
+public abstract class CaseChangeValueBackendServiceBase : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery>
 {
-    public CaseChangeValueBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    protected CaseChangeValueBackendServiceBase(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
-    protected override bool CanRead(IDictionary<string, object> parameters = null)
+    protected override bool CanRead()
     {
-        return base.CanRead(parameters) && UserSession.Payroll != null;
+        return base.CanRead() && UserSession.Payroll != null;
     }
 
     /// <summary>The current request context</summary>
-    protected override void SetupReadQuery(PayrollServiceContext context, PayrollCaseChangeQuery query, IDictionary<string, object> parameters = null)
+    protected override void SetupReadQuery( PayrollCaseChangeQuery query, IDictionary<string, object> parameters = null)
     {
         query.UserId = UserSession.User.Id;
         query.Culture = UserSession.User.Culture;
@@ -46,10 +47,10 @@ public class CaseChangeValueBackendService : BackendServiceBase<PayrollCaseChang
     }
 
     /// <summary>Create the backend service</summary>
-    protected override PayrollCaseChangeValueService CreateService(IDictionary<string, object> parameters = null) => 
+    protected override PayrollCaseChangeValueService CreateService() => 
         new(HttpClient);
 
     /// <summary>Localize slots</summary>
-    protected override void ProcessReceivedItems(ViewModel.CaseChangeCaseValue[] resultItems, IDictionary<string, object> parameters = null) =>
+    protected override void ProcessReceivedItems(ViewModel.CaseChangeCaseValue[] resultItems) =>
         resultItems.LocalizeSlot(UserSession.User.Culture);
 }

@@ -12,7 +12,7 @@ public class Program
         CreateHostBuilder(args).Build().Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args)
+    private static IHostBuilder CreateHostBuilder(string[] args)
     {
         var builder = Host.CreateDefaultBuilder(args)
             .UseSerilog((hostingContext, loggerConfiguration) =>

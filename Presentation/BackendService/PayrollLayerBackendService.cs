@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class PayrollLayerBackendService : BackendServiceBase<PayrollLayerService, PayrollServiceContext, PayrollLayer, Query>
 {
-    protected IPayrollService PayrollService { get; set; }
-
     public PayrollLayerBackendService(UserSession userSession, IConfiguration configuration,
-        IPayrollService payrollService) :
-        base(userSession, configuration)
+        Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
-        PayrollService = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
     }
 
     /// <summary>The current request context</summary>
@@ -29,6 +26,6 @@ public class PayrollLayerBackendService : BackendServiceBase<PayrollLayerService
     }
 
     /// <summary>Create the backend service</summary>
-    protected override PayrollLayerService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override PayrollLayerService CreateService() =>
         new(HttpClient);
 }

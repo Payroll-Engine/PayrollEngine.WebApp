@@ -7,9 +7,9 @@ namespace PayrollEngine.WebApp.Presentation.Regulation;
 
 public class RegulationItemValue
 {
-    public IRegulationItem Item { get; set; }
-    public object Value { get; set; }
-    public string ValueFormat { get; set; }
+    private IRegulationItem Item { get; }
+    private object Value { get; }
+    private string ValueFormat { get; }
 
     public RegulationItemValue()
     {

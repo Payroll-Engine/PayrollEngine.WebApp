@@ -50,18 +50,25 @@ public static class CultureTool
 
     public static CultureInfo GetCulture(string cultureName)
     {
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            return CultureInfo.CurrentCulture;
+        }
+
         // matching culture
         if (CultureInfos.TryGetValue(cultureName, out var culture))
         {
             return culture;
         }
 
-        // matching culture
-        foreach (var key in CultureInfos.Keys)
+        // base culture
+        var index = cultureName.IndexOf('-');
+        if (index > 0)
         {
-            if (key.StartsWith(cultureName))
+            var baseCultureName = cultureName.Substring(0, index);
+            if (CultureInfos.TryGetValue(baseCultureName, out var baseCulture))
             {
-                return CultureInfos[key];
+                return baseCulture;
             }
         }
 

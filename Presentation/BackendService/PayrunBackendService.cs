@@ -4,17 +4,18 @@ using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class PayrunBackendService : BackendServiceBase<PayrunService, TenantServiceContext, ViewModel.Payrun, Query>
 {
-    public IPayrollService PayrollService { get; }
+    private IPayrollService PayrollService { get; }
 
     public PayrunBackendService(UserSession userSession, IConfiguration configuration,
-        IPayrollService payrollService) :
-        base(userSession, configuration)
+        Localizer localizer, IPayrollService payrollService) :
+        base(userSession, configuration, localizer)
     {
         PayrollService = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
     }
@@ -24,13 +25,13 @@ public class PayrunBackendService : BackendServiceBase<PayrunService, TenantServ
         UserSession.Tenant != null ? new TenantServiceContext(UserSession.Tenant.Id) : null;
 
     /// <summary>Create the backend service</summary>
-    protected override PayrunService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override PayrunService CreateService() =>
         new(HttpClient);
 
     public async Task ApplyPayrollAsync(ViewModel.Payrun payrun) =>
         await ApplyPayrollAsync(new[] { payrun });
 
-    public async Task ApplyPayrollAsync(IEnumerable<ViewModel.Payrun> payruns)
+    private async Task ApplyPayrollAsync(IEnumerable<ViewModel.Payrun> payruns)
     {
         foreach (var payrun in payruns)
         {
@@ -55,9 +56,9 @@ public class PayrunBackendService : BackendServiceBase<PayrunService, TenantServ
         }
     }
 
-    protected override async Task OnItemsReadAsync(List<ViewModel.Payrun> payruns, IDictionary<string, object> parameters = null)
+    protected override async Task OnItemsReadAsync(List<ViewModel.Payrun> payruns)
     {
         await ApplyPayrollAsync(payruns);
-        await base.OnItemsReadAsync(payruns, parameters);
+        await base.OnItemsReadAsync(payruns);
     }
 }

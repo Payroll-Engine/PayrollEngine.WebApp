@@ -20,8 +20,8 @@ public partial class NavMenu : IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected List<PageGroupInfo> PageGroups { get; private set; }
-    protected List<PageInfo> Pages { get; private set; }
+    private List<PageGroupInfo> PageGroups { get; set; }
+    private List<PageInfo> Pages { get; set; }
 
     private Task UserChangedEvent(object sender, User user)
     {
@@ -84,7 +84,7 @@ public partial class NavMenu : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (disposing)
         {

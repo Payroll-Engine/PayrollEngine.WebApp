@@ -32,32 +32,32 @@ public partial class ItemEditor
     private IRegulationItem EditItem { get; set; }
     private MudForm form;
     private IRegulationItem lastItem;
-    protected bool HasItem => Item != null;
-    protected bool HasBaseItem => Item != null && Item.BaseItem != null;
+    private bool HasItem => Item != null;
+    private bool HasBaseItem => Item != null && Item.BaseItem != null;
 
-    protected bool HasId => Item.Id > 0;
-    protected bool IsUnchanged { get; set; }
-    protected bool IsChanged => !IsUnchanged;
+    private bool HasId => Item.Id > 0;
+    private bool IsUnchanged { get; set; }
+    private bool IsChanged => !IsUnchanged;
     protected bool IsUnsaved => HasId && IsChanged;
 
-    protected string ItemTypeName =>
+    private string ItemTypeName =>
         Localizer.FromGroupKey(EditItem.ItemType.ToString());
 
-    protected string ItemTitle =>
+    private string ItemTitle =>
         IsChanged ? $"{EditItem.InheritanceKey} *" : EditItem.InheritanceKey;
 
-    protected string ToUiDate(DateTime dateTime) =>
+    private string ToUiDate(DateTime dateTime) =>
         dateTime == DateTime.MinValue ? "*" : dateTime.ToCompactString();
 
     #region Fields
 
-    protected bool HasAttributeField =>
+    private bool HasAttributeField =>
         AttributeField != null;
 
-    protected RegulationField AttributeField =>
+    private RegulationField AttributeField =>
         Fields.FirstOrDefault(x => x.IsAttributeField);
 
-    protected List<RegulationField> GetCommonFields()
+    private List<RegulationField> GetCommonFields()
     {
         var fields = new List<RegulationField>();
         fields.AddRange(Fields.Where(x => x.KeyField));
@@ -88,32 +88,32 @@ public partial class ItemEditor
         return groupFields;
     }
 
-    protected string ParentTypeName =>
+    private string ParentTypeName =>
         EditItem.Parent != null ? Localizer.FromGroupKey(EditItem.Parent?.ItemType.ToString()) : null;
 
-    protected List<RegulationField> GetActionFields() =>
+    private List<RegulationField> GetActionFields() =>
         Fields.Where(x => x.IsAction).ToList();
 
-    protected List<RegulationField> GetExpressionFields() =>
+    private List<RegulationField> GetExpressionFields() =>
         Fields.Where(x => x.Expression).ToList();
 
     #endregion
 
     #region Actions
 
-    protected bool CanDelete() =>
+    private bool CanDelete() =>
         HasId && (EditItem.IsNew() || EditItem.IsDerived());
 
     protected bool CanCancel() =>
         HasId && (EditItem.IsNew() || EditItem.IsDerived());
 
-    protected bool CanSave() =>
+    private bool CanSave() =>
         EditItem.IsNew() || EditItem.IsDerived();
 
-    protected bool CanDerive() =>
+    private bool CanDerive() =>
         EditItem.IsBase();
 
-    protected async Task OnSaveItemAsync()
+    private async Task OnSaveItemAsync()
     {
         // validation
         if (!await form.Revalidate())
@@ -131,7 +131,7 @@ public partial class ItemEditor
         InitState();
     }
 
-    protected async Task OnDeleteItemAsync()
+    private async Task OnDeleteItemAsync()
     {
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
@@ -144,7 +144,7 @@ public partial class ItemEditor
         await DeleteItem.InvokeAsync(Item);
     }
 
-    protected async Task OnDeriveItemAsync()
+    private async Task OnDeriveItemAsync()
     {
         if (!Item.IsBase())
         {
@@ -169,7 +169,7 @@ public partial class ItemEditor
         return baseRegulations;
     }
 
-    protected Dictionary<string, object> GetComponentParameters(RegulationField field)
+    private Dictionary<string, object> GetComponentParameters(RegulationField field)
     {
         return new()
         {

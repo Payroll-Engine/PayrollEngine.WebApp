@@ -25,12 +25,12 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<DataRelation> DataRelations { get; set; } = new();
-    protected MudDataGrid<DataRelation> Grid { get; set; }
+    private ItemCollection<DataRelation> DataRelations { get; set; } = new();
+    private MudDataGrid<DataRelation> Grid { get; set; }
 
     #region Value
 
-    protected List<DataRelation> FieldValue
+    private List<DataRelation> FieldValue
     {
         get => Item.GetPropertyValue<List<DataRelation>>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
@@ -76,7 +76,7 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
 
     #region Actions
 
-    protected async Task AddDataRelationAsync()
+    private async Task AddDataRelationAsync()
     {
         // data relation create dialog
         var dialog = await (await DialogService.ShowAsync<DataRelationDialog>(
@@ -98,7 +98,7 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task EditDataRelationAsync(DataRelation item)
+    private async Task EditDataRelationAsync(DataRelation item)
     {
         if (item == null)
         {
@@ -134,7 +134,7 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task DeleteDataRelationAsync(DataRelation item)
+    private async Task DeleteDataRelationAsync(DataRelation item)
     {
         if (item == null)
         {

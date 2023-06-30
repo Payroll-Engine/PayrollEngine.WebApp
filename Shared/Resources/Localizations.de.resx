@@ -166,7 +166,7 @@
     <value>Kalender</value>
   </data>
   <data name="Calendar.CycleTimeUnit" xml:space="preserve">
-    <value>Zeiteinheit Zyklus</value>
+    <value>Zyklus Zeiteinheit</value>
   </data>
   <data name="Calendar.FirstDayOfWeek" xml:space="preserve">
     <value>Erster Tag der Woche</value>
@@ -181,7 +181,7 @@
     <value>Keine Kalender verfügbar</value>
   </data>
   <data name="Calendar.PeriodTimeUnit" xml:space="preserve">
-    <value>Zeiteinheit Periode</value>
+    <value>Periode Zeiteinheit</value>
   </data>
   <data name="Calendar.TimeMap" xml:space="preserve">
     <value>Zeitzuordnung</value>
@@ -1170,12 +1170,6 @@
   <data name="CaseValue.CaseValues" xml:space="preserve">
     <value>Fallwerte</value>
   </data>
-  <data name="Cluster.Cluster" xml:space="preserve">
-    <value>Cluster</value>
-  </data>
-  <data name="Cluster.Clusters" xml:space="preserve">
-    <value>Cluster</value>
-  </data>
   <data name="PayorllLayer.Level" xml:space="preserve">
     <value>Level</value>
   </data>
@@ -1184,9 +1178,6 @@
   </data>
   <data name="Payroll.CollectorRetro" xml:space="preserve">
     <value>Kollektor Retro</value>
-  </data>
-  <data name="Payroll.Country" xml:space="preserve">
-    <value>Land</value>
   </data>
   <data name="Payroll.WageTypePeriod" xml:space="preserve">
     <value>Lohnart Periode</value>
@@ -2225,5 +2216,53 @@
   </data>
   <data name="DataGrid.PagerRowsPerPage" xml:space="preserve">
     <value>Zeilen pro Seite:</value>
+  </data>
+  <data name="Calendar.InvalidPeriodTimeUnit" xml:space="preserve">
+    <value>Perioden von '{0}' passen nicht in den Zyklus '{1}'</value>
+  </data>
+  <data name="Calendar.PeriodTimeUnitHelp" xml:space="preserve">
+    <value>Periode Zeiteinheit muss in die Zyklus Zeiteinheit passen</value>
+  </data>
+  <data name="Division.CalendarHelp" xml:space="preserve">
+    <value>Fall undefiniert gilt der Kalender des Mandanten</value>
+  </data>
+  <data name="Division.CultureHelp" xml:space="preserve">
+    <value>Fall undefiniert gilt die Kultur des Mandanten</value>
+  </data>
+  <data name="Employee.CalendarHelp" xml:space="preserve">
+    <value>Fall undefiniert gilt der Kalender des Bereiches</value>
+  </data>
+  <data name="Employee.CultureHelp" xml:space="preserve">
+    <value>Fall undefiniert gilt die Kultur des Bereiches</value>
+  </data>
+  <data name="Login.InvalidPassword" xml:space="preserve">
+    <value>Ungültiges Passwort</value>
+  </data>
+  <data name="Login.InvalidPasswordConfirmation" xml:space="preserve">
+    <value>Ungültige Passwortbestätigung</value>
+  </data>
+  <data name="Login.MissingBackendService" xml:space="preserve">
+    <value>Der Lohndienst ist nicht verfügbar</value>
+  </data>
+  <data name="Login.PasswordChangeError" xml:space="preserve">
+    <value>Fehler beim Passwortwechsel</value>
+  </data>
+  <data name="Login.TenantReadError" xml:space="preserve">
+    <value>Die Mandantenauswahl steht derzeit nicht zur Verfügung</value>
+  </data>
+  <data name="Login.UnknownTenant" xml:space="preserve">
+    <value>Unbekannter Mandant {0}</value>
+  </data>
+  <data name="Login.UnknownUser" xml:space="preserve">
+    <value>Unbekannter Benutzer {0}</value>
+  </data>
+  <data name="Login.UserReadError" xml:space="preserve">
+    <value>Die Benutzerauswahl steht derzeit nicht zur Verfügung</value>
+  </data>
+  <data name="Tenant.CalendarHelp" xml:space="preserve">
+    <value>Fall undefiniert gilt der Standardkalender</value>
+  </data>
+  <data name="Tenant.CultureHelp" xml:space="preserve">
+    <value>Fall undefiniert gilt die Systemkultur</value>
   </data>
 </root>

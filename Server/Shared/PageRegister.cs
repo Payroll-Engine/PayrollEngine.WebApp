@@ -9,7 +9,7 @@ namespace PayrollEngine.WebApp.Server.Shared;
 
 public class PageRegister
 {
-    public Localizer Localizer { get; set; }
+    private Localizer Localizer { get; }
     public PageRegister(Localizer localizer)
     {
         Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));

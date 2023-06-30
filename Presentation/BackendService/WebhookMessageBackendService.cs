@@ -2,14 +2,15 @@
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class WebhookMessageBackendService : BackendServiceBase<WebhookMessageService, WebhookServiceContext, WebhookMessage, Query>
 {
-    public WebhookMessageBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    public WebhookMessageBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
@@ -29,6 +30,6 @@ public class WebhookMessageBackendService : BackendServiceBase<WebhookMessageSer
     }
 
     /// <summary>Create the backend service</summary>
-    protected override WebhookMessageService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override WebhookMessageService CreateService() =>
         new(HttpClient);
 }

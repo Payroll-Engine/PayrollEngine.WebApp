@@ -16,10 +16,11 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     // Json ignore required to suppress recursive render errors
     [JsonIgnore]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public object Input { get; set; }
 
     [JsonIgnore]
-    public ICaseValueProvider CaseValueProvider { get; }
+    private ICaseValueProvider CaseValueProvider { get; }
 
     [JsonIgnore]
     public IValueFormatter ValueFormatter { get; }
@@ -99,7 +100,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     public MarkupString GetDescriptionMarkup() =>
         new(Description);
 
-    public bool HasStart { get; set; }
+    private bool HasStart { get; set; }
 
     private DateTime? start;
     public new DateTime? Start
@@ -121,7 +122,8 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         }
     }
 
-    public bool StartAvailable() => TimeType.HasStart();
+    public bool StartAvailable() => 
+        TimeType.HasStart();
 
     public bool StartMissing()
     {
@@ -140,7 +142,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         return HasValue;
     }
 
-    public bool HasEnd { get; set; }
+    private bool HasEnd { get; set; }
 
     private DateTime? end;
     public new DateTime? End
@@ -232,7 +234,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     /// <summary>Gets or sets the has value</summary>
     [JsonIgnore]
-    public new bool HasValue { get; set; }
+    public new bool HasValue { get; private set; }
 
     public bool ValueTypeAvailable() =>
         ValueType != ValueType.None;
@@ -427,7 +429,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     #region Documents
 
-    public AttachmentType AttachmentType { get; set; }
+    public AttachmentType AttachmentType { get; }
 
     public ObservedHashSet<CaseDocument> Documents { get; } = new();
 
@@ -458,7 +460,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         AppendFilter(query, nameof(CaseValue.CaseFieldName), Name);
         AppendFilter(query, nameof(CaseValue.CaseSlot), CaseSlot);
         var values = await CaseValueProvider.GetCaseValuesAsync(query);
-        return values.Select(x => new CaseValueSetup(x, ValueFormatter)).ToList();
+        return values.Select(x => new CaseValueSetup(x)).ToList();
     }
 
     /// <summary>
@@ -491,7 +493,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     #region Validation
 
-    public CaseObjectValidity Validity { get; set; } = new();
+    public CaseObjectValidity Validity { get; private set; } = new();
 
     /// <summary>
     /// Updates the validation status

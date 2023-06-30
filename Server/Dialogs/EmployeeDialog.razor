@@ -37,14 +37,18 @@
                                 <MudSelectItem T="string" Value="@division.Name">@division.Name</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudSelect T=" string" @bind-Value="Employee.Culture" Label="@Localizer.Shared.Culture" Clearable="true">
+                        <MudSelect T=" string" @bind-Value="Employee.Culture" 
+                                   Label="@Localizer.Shared.Culture"
+                                   HelperText="@Localizer.Employee.CultureHelp"
+                                   Clearable="true">
                             @foreach (var cultureInfo in CultureInfos)
                             {
                                 <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2</MudSelectItem>
                             }
                         </MudSelect>
                         <MudSelect T=" string" @bind-Value="Employee.Calendar" 
-                                   Label="@Localizer.Shared.Calendar" 
+                                   Label="@Localizer.Shared.Calendar"
+                                   HelperText="@Localizer.Employee.CalendarHelp"
                                    Disabled="@(CalendarNames == null || CalendarNames.Count < 1)"
                                    Clearable="true">
                             @foreach (var calendarName in CalendarNames)

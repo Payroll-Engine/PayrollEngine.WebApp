@@ -8,8 +8,8 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class CollectorFactory : ItemFactoryBase<RegulationCollector>
 {
-    public ICollectorService CollectorService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private ICollectorService CollectorService { get; }
+    private IPayrollService PayrollService { get; }
 
     public CollectorFactory(ICollectorService collectorService, IPayrollService payrollService,
         Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -20,13 +20,13 @@ public class CollectorFactory : ItemFactoryBase<RegulationCollector>
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationCollector>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCollector>> QueryItems(Client.Model.Regulation regulation) =>
         await CollectorService.QueryAsync<RegulationCollector>(new(Tenant.Id, regulation.Id));
 
     public override async Task<List<RegulationCollector>> QueryPayrollItems() =>
         await PayrollService.GetCollectorsAsync<RegulationCollector>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationCollector> collectors, RegulationCollector collector)
+    public async Task<bool> SaveItem(ICollection<RegulationCollector> collectors, RegulationCollector collector)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -51,7 +51,7 @@ public class CollectorFactory : ItemFactoryBase<RegulationCollector>
         return AddCollectionObject(collectors, collector);
     }
 
-    public override async Task<RegulationCollector> DeleteItem(ICollection<RegulationCollector> collectors, RegulationCollector collector)
+    public async Task<RegulationCollector> DeleteItem(ICollection<RegulationCollector> collectors, RegulationCollector collector)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();

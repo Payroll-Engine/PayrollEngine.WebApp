@@ -20,22 +20,21 @@ public partial class Switch : IRegulationInput
 
     #region Value
 
-    protected bool Value { get; set; }
+    private bool Value { get; set; }
 
-    protected bool FieldValue
+    private bool FieldValue
     {
         get => Item.GetPropertyValue<bool>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
 
-    protected bool IsBaseValue { get; set; }
-
     // ReSharper disable once UnusedMember.Local
     private async Task ValueChangedAsync(bool value) =>
         await SetFieldValue(value);
 
+    // do not remove this dead method
     // method exists only prevent a ReSharper for the CheckedChanged event
-    public async Task ValueChangedAsync(bool? value)
+    private async Task ValueChangedAsync(bool? value)
     {
         if (value.HasValue)
         {
@@ -59,21 +58,12 @@ public partial class Switch : IRegulationInput
         Value = FieldValue;
     }
 
-    protected bool GetBaseValue() =>
-        Item.GetBaseValue<bool>(Field.PropertyName);
-
     #endregion
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = Value;
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && Equals(value, GetBaseValue());
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastItem;
 

@@ -16,14 +16,14 @@ namespace PayrollEngine.WebApp.Server.Shared;
 /// <summary>Bootstrap the user session</summary>
 public class UserSessionBootstrap
 {
-    public IHostApplicationLifetime ApplicationLifetime { get; }
-    public IConfiguration Configuration { get; }
-    public UserSession UserSession { get; }
-    public IUserService UserService { get; }
-    public ITaskService TaskService { get; }
-    public ITenantService TenantService { get; }
-    public IEmployeeService EmployeeService { get; }
-    public IPayrollService PayrollService { get; }
+    private IHostApplicationLifetime ApplicationLifetime { get; }
+    private IConfiguration Configuration { get; }
+    private UserSession UserSession { get; }
+    private IUserService UserService { get; }
+    private ITaskService TaskService { get; }
+    private ITenantService TenantService { get; }
+    private IEmployeeService EmployeeService { get; }
+    private IPayrollService PayrollService { get; }
 
     public UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
         IConfiguration configuration,

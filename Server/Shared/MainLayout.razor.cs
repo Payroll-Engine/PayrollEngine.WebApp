@@ -34,19 +34,18 @@ public abstract class MainLayoutBase : MainComponentBase
     /// <summary>
     /// Application image
     /// </summary>
-    protected string AppImage { get; private set; }
+    private string AppImage { get; set; }
 
     /// <summary>
     /// Application image dark mode
     /// </summary>
-    protected string AppImageDarkMode { get; private set; }
+    private string AppImageDarkMode { get; set; }
 
     /// <summary>
     /// Current application image
     /// </summary>
     protected string CurrentAppImage =>
         IsDarkMode ? AppImageDarkMode : AppImage;
-
 
     protected bool NavigationOpen { get; set; } = true;
 
@@ -55,7 +54,7 @@ public abstract class MainLayoutBase : MainComponentBase
     /// <summary>
     /// Tenant change state
     /// </summary>
-    public bool TenantChangeEnabled =>
+    protected bool TenantChangeEnabled =>
         WorkingItems.TenantChange() && Session.Tenants.Count > 1;
 
     protected async Task WorkingTenantChangedAsync(Tenant tenant)
@@ -75,7 +74,7 @@ public abstract class MainLayoutBase : MainComponentBase
     /// <summary>
     /// Payroll change state
     /// </summary>
-    public bool PayrollChangeEnabled =>
+    protected bool PayrollChangeEnabled =>
         Session.Tenant != null && WorkingItems.PayrollChange() && Session.Payrolls.Count > 1;
 
     protected async Task WorkingPayrollChangedAsync(ClientModel.Payroll payroll)
@@ -110,7 +109,7 @@ public abstract class MainLayoutBase : MainComponentBase
     /// <summary>
     /// Employee change state
     /// </summary>
-    public bool EmployeeChangeEnabled =>
+    protected bool EmployeeChangeEnabled =>
         Session.Tenant != null && WorkingItems.EmployeeChange() && Session.Employees.Count > 1;
 
     protected async Task WorkingEmployeeChangedAsync(Employee workingEmployee)
@@ -191,7 +190,7 @@ public abstract class MainLayoutBase : MainComponentBase
         await LocalStorage.SetItemAsBooleanAsync("DarkTheme", IsDarkMode);
     }
 
-    protected bool StartupDarkMode()
+    private bool GetStartupDarkMode()
     {
         var startupConfiguration = Configuration.GetConfiguration<StartupConfiguration>();
         return startupConfiguration != null && startupConfiguration.DarkMode;
@@ -260,7 +259,7 @@ public abstract class MainLayoutBase : MainComponentBase
         await DialogService.ShowAsync<AboutDialog>(null, parameters);
     }
 
-    protected MudTheme AppTheme { get; set; }
+    protected MudTheme AppTheme { get; private set; }
     protected override async Task OnInitializedAsync()
     {
         // application
@@ -271,7 +270,7 @@ public abstract class MainLayoutBase : MainComponentBase
 
         // theme
         AppTheme = ThemeService.Theme;
-        IsDarkMode = StartupDarkMode();
+        IsDarkMode = GetStartupDarkMode();
         await SetupThemeAsync();
         // global service
         ThemeService.IsDarkMode = IsDarkMode;

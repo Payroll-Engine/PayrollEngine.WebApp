@@ -12,4 +12,6 @@ public class DivisionLocalizer : LocalizerBase
     public string Division => FromCaller();
     public string Divisions => FromCaller();
     public string NotAvailable => FromCaller();
+    public string CultureHelp => FromCaller();
+    public string CalendarHelp => FromCaller();
 }

@@ -15,6 +15,7 @@ public static class InputAttributesExtensions
     public static bool? GetShowDescription(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetBooleanAttributeValue(InputAttributes.ShowDescription, culture);
 
+    // TODO sort order attribute usage?
     public static int? GetSortOrder(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetIntegerAttributeValue(InputAttributes.SortOrder, culture);
 
@@ -260,7 +261,7 @@ public static class InputAttributesExtensions
 
     #region Date
 
-    public static DateTime? GetDateExpressionAttributeValue(this IDictionary<string, object> attributes,
+    private static DateTime? GetDateExpressionAttributeValue(this IDictionary<string, object> attributes,
         string name, string culture = null)
     {
         var expression = attributes.GetStringAttributeValue(name, culture);

@@ -24,7 +24,7 @@
 {
     private List<Tuple<T, string>> Values { get; set; } = new();
 
-    protected bool ValuesDisabled =>
+    private bool ValuesDisabled =>
         Disabled || !Values.Any();
 
     private T Value

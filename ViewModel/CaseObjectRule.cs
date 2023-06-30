@@ -2,8 +2,8 @@
 
 public class CaseObjectRule
 {
-    public string Name { get; set; }
-    public string RuleText { get; set; }
+    public string Name { get; }
+    public string RuleText { get; }
 
     public CaseObjectRule(string name, string ruleText)
     {

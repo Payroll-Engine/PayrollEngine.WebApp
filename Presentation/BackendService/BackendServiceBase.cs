@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
@@ -16,19 +17,19 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     where TQuery : Query, new()
 {
     private readonly QueryBuilder<TQuery, TItem> queryBuilder = new();
-    public UserSession UserSession { get; set; }
-    public IConfiguration Configuration { get; }
-    public TService Service { get; private set; }
+    protected UserSession UserSession { get; }
+    private Localizer Localizer { get; }
+    private TService Service { get; set; }
 
     /// <summary>The http client</summary>
     protected PayrollHttpClient HttpClient { get; }
 
     private readonly string ItemTypeName = typeof(TItem).Name.ToPascalSentence();
 
-    protected BackendServiceBase(UserSession userSession, IConfiguration configuration)
+    protected BackendServiceBase(UserSession userSession, IConfiguration configuration, Localizer localizer)
     {
         UserSession = userSession ?? throw new ArgumentNullException(nameof(userSession));
-        Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
         // http connection
         var httpConfiguration = configuration.GetConfiguration<PayrollHttpConfiguration>();
@@ -52,18 +53,17 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     protected abstract TServiceContext CreateServiceContext(IDictionary<string, object> parameters = null);
 
     /// <summary>Create the api service</summary>
-    protected abstract TService CreateService(IDictionary<string, object> parameters = null);
+    protected abstract TService CreateService();
 
     /// <summary>Test for valid read state</summary>
-    protected virtual bool CanRead(IDictionary<string, object> parameters = null) => true;
+    protected virtual bool CanRead() => true;
 
     /// <summary>Setup the api service query</summary>
-    protected virtual void SetupReadQuery(TServiceContext context, TQuery query,
-        IDictionary<string, object> parameters = null)
+    protected virtual void SetupReadQuery(TQuery query, IDictionary<string, object> parameters = null)
     {
     }
 
-    protected virtual void ProcessReceivedItems(TItem[] resultItems, IDictionary<string, object> parameters = null)
+    protected virtual void ProcessReceivedItems(TItem[] resultItems)
     {
     }
 
@@ -89,14 +89,14 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     {
         query ??= new();
 
-        Service = CreateService(parameters);
+        Service = CreateService();
         if (Service == null)
         {
             throw new PayrollException("Missing payroll service");
         }
 
         // test for available read state
-        if (!CanRead(parameters))
+        if (!CanRead())
         {
             return new();
         }
@@ -112,7 +112,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
                 // request without context not possible
                 return new();
             }
-            SetupReadQuery(context, query, parameters);
+            SetupReadQuery(query, parameters);
 
             Log.Trace($"Query to {typeof(TService).Name}: {query}");
             var result = await Service.QueryResultAsync<TItem>(context, query);
@@ -132,7 +132,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             }
 
             // give option to setup result item before any other operation
-            ProcessReceivedItems(result.Items, parameters);
+            ProcessReceivedItems(result.Items);
 
             Log.Trace($"response from {typeof(TService).Name}: {result.Items.Length} of {result.Count}");
 
@@ -140,14 +140,14 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             gridData.Items = itemsList;
 
             // derived notification
-            await OnItemsReadAsync(itemsList, parameters);
+            await OnItemsReadAsync(itemsList);
 
             return gridData;
         }
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} query error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(Localizer, $"{ItemTypeName} query error", exception);
             return new();
         }
     }
@@ -173,12 +173,12 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} read error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(Localizer, $"{ItemTypeName} read error", exception);
             return null;
         }
     }
 
-    protected virtual Task OnItemsReadAsync(List<TItem> payrunJobs, IDictionary<string, object> parameters = null) =>
+    protected virtual Task OnItemsReadAsync(List<TItem> payrunJobs) =>
         Task.CompletedTask;
 
     #endregion
@@ -201,7 +201,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} create error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(Localizer, $"{ItemTypeName} create error", exception);
             return null;
         }
     }
@@ -232,7 +232,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} update error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(Localizer, $"{ItemTypeName} update error", exception);
             return null;
         }
     }
@@ -263,7 +263,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         catch (Exception exception)
         {
             Log.Error(exception.GetBaseMessage(), exception);
-            await UserSession.UserNotification.ShowErrorMessageBoxAsync(UserSession.Localizer, $"{ItemTypeName} delete error", exception);
+            await UserSession.UserNotification.ShowErrorMessageBoxAsync(Localizer, $"{ItemTypeName} delete error", exception);
             return false;
         }
     }

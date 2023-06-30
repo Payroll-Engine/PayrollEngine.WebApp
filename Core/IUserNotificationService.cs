@@ -8,11 +8,6 @@ namespace PayrollEngine.WebApp;
 public interface IUserNotificationService
 {
     /// <summary>
-    /// The notification handler
-    /// </summary>
-    IUserNotificationService Handler { get; }
-
-    /// <summary>
     /// Initialize the notification handler
     /// </summary>
     /// <param name="handler">The notification handler</param>

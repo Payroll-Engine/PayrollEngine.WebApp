@@ -31,7 +31,6 @@
         </PropertyColumn>
         <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.DivisionName" Title="@Localizer.Division.Division" />
-        <PropertyColumn Property="x => x.CountryType" Title="@Localizer.Payroll.Country" />
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)

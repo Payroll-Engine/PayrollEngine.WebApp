@@ -37,9 +37,9 @@ public partial class LookupSettingsBox : IRegulationInput
 
     #region Value
 
-    protected LookupSettings Value { get; set; }
+    private LookupSettings Value { get; set; }
 
-    protected LookupSettings FieldValue
+    private LookupSettings FieldValue
     {
         get => Item.GetPropertyValue<LookupSettings>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);

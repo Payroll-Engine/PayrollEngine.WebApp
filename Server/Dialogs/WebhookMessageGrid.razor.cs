@@ -31,12 +31,12 @@ public partial class WebhookMessageGrid : IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<WebhookMessage> WebhookMessages { get; set; } = new();
-    protected MudDataGrid<WebhookMessage> Grid { get; set; }
+    private ItemCollection<WebhookMessage> WebhookMessages { get; set; } = new();
+    private MudDataGrid<WebhookMessage> Grid { get; set; }
 
     #region Actions
 
-    protected async Task AddWebhookMessageAsync()
+    private async Task AddWebhookMessageAsync()
     {
         // webhook message create dialog
         var dialog = await (await DialogService.ShowAsync<WebhookMessageDialog>(
@@ -70,7 +70,7 @@ public partial class WebhookMessageGrid : IDisposable
         }
     }
 
-    protected async Task EditWebhookMessageAsync(WebhookMessage webhookMessage)
+    private async Task EditWebhookMessageAsync(WebhookMessage webhookMessage)
     {
         // existing
         if (!WebhookMessages.Contains(webhookMessage))
@@ -111,7 +111,7 @@ public partial class WebhookMessageGrid : IDisposable
         }
     }
 
-    protected async Task DeleteWebhookMessageAsync(WebhookMessage webhookMessage)
+    private async Task DeleteWebhookMessageAsync(WebhookMessage webhookMessage)
     {
         // existing
         if (!WebhookMessages.Contains(webhookMessage))

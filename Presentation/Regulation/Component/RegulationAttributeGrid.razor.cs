@@ -26,8 +26,8 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<AttributeItem> Attributes { get; set; } = new();
-    protected MudDataGrid<AttributeItem> Grid { get; set; }
+    private ItemCollection<AttributeItem> Attributes { get; set; } = new();
+    private MudDataGrid<AttributeItem> Grid { get; set; }
 
     private string LocalizedItemName => Localizer.FromGroupKey(Item.ItemType.ToString());
     private string LocalizedItemFullName =>
@@ -36,7 +36,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
 
     #region Value
 
-    protected Dictionary<string, object> FieldValue
+    private Dictionary<string, object> FieldValue
     {
         get => Item.GetPropertyValue<Dictionary<string, object>>(AttributesFieldName);
         set => Item.SetPropertyValue(AttributesFieldName, value);
@@ -87,7 +87,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
 
     #region Actions
 
-    protected async Task AddAttributeAsync()
+    private async Task AddAttributeAsync()
     {
         // dialog parameters
         var parameters = new DialogParameters
@@ -115,7 +115,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task EditAttributeAsync(AttributeItem item)
+    private async Task EditAttributeAsync(AttributeItem item)
     {
         if (item == null)
         {
@@ -152,7 +152,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task DeleteAttributeAsync(AttributeItem item)
+    private async Task DeleteAttributeAsync(AttributeItem item)
     {
         if (item == null)
         {

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
-using PayrollEngine.WebApp.Shared;
 using Task = System.Threading.Tasks.Task;
 using Division = PayrollEngine.WebApp.ViewModel.Division;
 using Employee = PayrollEngine.WebApp.ViewModel.Employee;
@@ -23,8 +22,6 @@ public class UserSession : IDisposable
 
     [Inject]
     private ITaskService TaskService { get; set; }
-    [Inject]
-    public Localizer Localizer { get; set; }
 
     /// <summary>
     /// The value formatter 
@@ -39,15 +36,13 @@ public class UserSession : IDisposable
     /// <summary>
     /// Auto select children
     /// </summary>
-    public bool AutoSelectMode { get; set; } = true;
+    private bool AutoSelectMode { get; } = true;
 
     public UserSession(ITenantService tenantService, IDivisionService divisionService,
         IPayrollService payrollService, IEmployeeService employeeService, IUserService userService)
     {
         TenantService = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
         DivisionService = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
-        PayrollService = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
-        EmployeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
         UserService = userService ?? throw new ArgumentNullException(nameof(userService));
 
         tenantWatcher = new(tenantService);
@@ -60,7 +55,7 @@ public class UserSession : IDisposable
 
     public User User { get; private set; }
     public bool UserAvailable => User != null;
-    public IUserService UserService { get; }
+    private IUserService UserService { get; }
     public AsyncEvent<User> UserChanged { get; set; }
 
     public async Task LoginAsync(Tenant userTenant, User user)
@@ -83,7 +78,7 @@ public class UserSession : IDisposable
         // user change
         User = user;
         await SetupUserTasks(user);
-        UpdateUserState();
+        UpdateUserState(userTenant, user);
 
         // event
         await (UserChanged?.InvokeAsync(this, user) ?? Task.CompletedTask);
@@ -93,20 +88,26 @@ public class UserSession : IDisposable
     }
 
     /// <summary>
-    /// Update the use culture and value formatter
+    /// Update the current user state, including culture and value formatter
     /// </summary>
-    public void UpdateUserState()
+    public void UpdateUserState() =>
+        UpdateUserState(Tenant, User);
+
+    /// <summary>
+    /// Update the user culture
+    /// </summary>
+    private void UpdateUserState(Tenant userTenant, User user)
     {
-        if (User == null)
+        if (user == null || userTenant == null)
         {
             return;
         }
 
         // culture with fallback
-        var cultureName = User.Culture;
+        var cultureName = user.Culture;
         if (string.IsNullOrWhiteSpace(cultureName))
         {
-            cultureName = Tenant.Culture;
+            cultureName = userTenant.Culture;
         }
         if (string.IsNullOrWhiteSpace(cultureName))
         {
@@ -180,7 +181,7 @@ public class UserSession : IDisposable
     #region Tenant
 
     private Tenant tenant;
-    public ITenantService TenantService { get; }
+    private ITenantService TenantService { get; }
     public Tenant Tenant => tenant;
     public ItemCollection<Tenant> Tenants { get; } = new();
 
@@ -316,7 +317,7 @@ public class UserSession : IDisposable
 
     #region Division
 
-    public IDivisionService DivisionService { get; }
+    private IDivisionService DivisionService { get; }
     public ItemCollection<Division> Divisions { get; } = new();
 
     private async Task SetupDivisionsAsync()
@@ -346,7 +347,6 @@ public class UserSession : IDisposable
 
     #region Payroll
 
-    public IPayrollService PayrollService { get; }
     private Payroll payroll;
     public ItemCollection<Payroll> Payrolls { get; } = new();
     public Payroll Payroll => payroll;
@@ -471,7 +471,6 @@ public class UserSession : IDisposable
     private Employee employee;
 
     public Employee Employee => employee;
-    public IEmployeeService EmployeeService { get; }
     public ItemCollection<Employee> Employees { get; } = new();
     public AsyncEvent<Employee> EmployeeChanged { get; set; }
 

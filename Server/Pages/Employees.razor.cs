@@ -27,9 +27,9 @@ public partial class Employees
     {
     }
 
-    protected override async Task<bool> OnItemCommit(Employee employee, ItemOperation operation)
+    protected override async Task<bool> OnItemCommit(Employee employee)
     {
-        return await base.OnItemCommit(employee, operation);
+        return await base.OnItemCommit(employee);
     }
 
     protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)

@@ -21,7 +21,7 @@ public class PayrunJob : Client.Model.PayrunJob, IViewModel,
     }
 
     /// <summary>The division name</summary>
-    public string DivisionName { get; set; }
+    private string DivisionName { get; }
 
     #region Attributes
 

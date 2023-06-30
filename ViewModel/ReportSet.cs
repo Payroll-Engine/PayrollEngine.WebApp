@@ -5,6 +5,7 @@ namespace PayrollEngine.WebApp.ViewModel;
 public class ReportSet : Client.Model.ReportSet, IViewModel,
     IViewAttributeObject, IKeyEquatable<ReportSet>
 {
+    // ReSharper disable once MemberCanBeProtected.Global
     public ReportSet()
     {
     }
@@ -37,7 +38,7 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
     }
 
     /// <summary>The report parameters</summary>
-    public new ObservedHashSet<ReportParameter> Parameters { get; set; }
+    public new ObservedHashSet<ReportParameter> Parameters { get; }
 
     /// <summary>The report templates</summary>
     public new ObservedHashSet<ReportTemplate> Templates { get; set; }

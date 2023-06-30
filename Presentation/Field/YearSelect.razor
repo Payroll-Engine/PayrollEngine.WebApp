@@ -33,7 +33,7 @@
     protected override string ValueLabel { get; set; }
     private List<int> Years { get; } = new();
 
-    protected bool ValuesDisabled =>
+    private bool ValuesDisabled =>
         Disabled || !Years.Any();
 
     protected override async Task OnInitializedAsync()

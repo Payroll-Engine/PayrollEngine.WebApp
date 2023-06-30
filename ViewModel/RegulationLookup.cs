@@ -10,7 +10,7 @@ public class RegulationLookup : Lookup, IRegulationItem, IKeyEquatable<Regulatio
     {
     }
 
-    public RegulationLookup(RegulationLookup copySource) :
+    private RegulationLookup(RegulationLookup copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
@@ -22,9 +22,6 @@ public class RegulationLookup : Lookup, IRegulationItem, IKeyEquatable<Regulatio
     }
 
     #region Regulation Object
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     /// <inheritdoc />
     public string RegulationName { get; set; }

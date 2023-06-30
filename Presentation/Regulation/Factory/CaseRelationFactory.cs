@@ -8,8 +8,8 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class CaseRelationFactory : ItemFactoryBase<RegulationCaseRelation>
 {
-    public ICaseRelationService CaseRelationService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private ICaseRelationService CaseRelationService { get; }
+    private IPayrollService PayrollService { get; }
 
     public CaseRelationFactory(ICaseRelationService caseRelationService, IPayrollService payrollService,
         Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -20,13 +20,13 @@ public class CaseRelationFactory : ItemFactoryBase<RegulationCaseRelation>
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationCaseRelation>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCaseRelation>> QueryItems(Client.Model.Regulation regulation) =>
         await CaseRelationService.QueryAsync<RegulationCaseRelation>(new(Tenant.Id, regulation.Id));
 
     public override async Task<List<RegulationCaseRelation>> QueryPayrollItems() =>
         await PayrollService.GetCaseRelationsAsync<RegulationCaseRelation>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationCaseRelation> caseRelations, RegulationCaseRelation caseRelation)
+    public async Task<bool> SaveItem(ICollection<RegulationCaseRelation> caseRelations, RegulationCaseRelation caseRelation)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -51,7 +51,7 @@ public class CaseRelationFactory : ItemFactoryBase<RegulationCaseRelation>
         return AddCollectionObject(caseRelations, caseRelation);
     }
 
-    public override async Task<RegulationCaseRelation> DeleteItem(ICollection<RegulationCaseRelation> caseRelations,
+    public async Task<RegulationCaseRelation> DeleteItem(ICollection<RegulationCaseRelation> caseRelations,
         RegulationCaseRelation caseRelation)
     {
         // regulation

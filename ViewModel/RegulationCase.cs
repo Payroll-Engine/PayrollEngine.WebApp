@@ -11,7 +11,7 @@ public class RegulationCase : Case, IRegulationItem, IKeyEquatable<RegulationCas
     {
     }
 
-    public RegulationCase(RegulationCase copySource) :
+    private RegulationCase(RegulationCase copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
@@ -23,9 +23,6 @@ public class RegulationCase : Case, IRegulationItem, IKeyEquatable<RegulationCas
     }
 
     #region Regulation Object
-
-    /// <inheritdoc />
-    public int RegulationId { get; set; }
 
     /// <inheritdoc />
     public string RegulationName { get; set; }

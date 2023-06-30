@@ -26,4 +26,9 @@ public class CalendarLocalizer : LocalizerBase
     public string MonthDayCount => FromCaller();
     public string YearWeekRule => FromCaller();
     public string FirstDayOfWeek => FromCaller();
+
+    public string PeriodTimeUnitHelp => FromCaller();
+
+    public string InvalidPeriodTimeUnit(CalendarTimeUnit cycle, CalendarTimeUnit period) =>
+        string.Format(FromCaller(), FromEnum(cycle), FromEnum(period));
 }

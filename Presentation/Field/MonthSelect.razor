@@ -26,7 +26,7 @@
     protected override string ValueLabel { get; set; }
     private List<Tuple<int, string>> Months { get; } = new();
 
-    protected bool ValuesDisabled =>
+    private bool ValuesDisabled =>
         Disabled || !Months.Any();
 
     protected override async Task OnInitializedAsync()

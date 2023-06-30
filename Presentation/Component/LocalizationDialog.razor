@@ -16,7 +16,7 @@
                                Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Culture)">
                         @foreach (var cultureInfo in CultureTool.GetCultureInfos())
                         {
-                            <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2 - @cultureInfo.Item3</MudSelectItem>
+                            <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2 - @cultureInfo.Item1</MudSelectItem>
                         }
                     </MudSelect>
                     <MudTextField T="string" Label="@Localizer.Localization.Localization"

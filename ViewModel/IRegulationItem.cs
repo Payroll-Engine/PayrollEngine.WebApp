@@ -5,7 +5,6 @@ namespace PayrollEngine.WebApp.ViewModel;
 
 public interface IRegulationItem : IViewModel
 {
-    int RegulationId { get; set; }
     string RegulationName { get; set; }
 
     IRegulationItem BaseItem { get; set; }

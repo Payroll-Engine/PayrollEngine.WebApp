@@ -27,11 +27,11 @@ public partial class Reports : IReportOperator
     private IJSRuntime JsRuntime { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnTenantChangedAsync(Client.Model.Tenant tenant)
+    protected override async Task OnTenantChangedAsync()
     {
         await SetupReportsAsync();
         SetupAvailableReports();
-        await base.OnTenantChangedAsync(tenant);
+        await base.OnTenantChangedAsync();
     }
 
     /// <inheritdoc />
@@ -49,7 +49,7 @@ public partial class Reports : IReportOperator
     /// <summary>
     /// The grid column configuration
     /// </summary>
-    protected List<GridColumnConfiguration> ColumnConfiguration =>
+    private List<GridColumnConfiguration> ColumnConfiguration =>
         GetColumnConfiguration(GetTenantGridId(GridIdentifiers.Reports));
 
     #endregion
@@ -61,17 +61,17 @@ public partial class Reports : IReportOperator
     /// <summary>
     /// The filtered/working clusters
     /// </summary>
-    public List<string> Clusters { get; set; }
+    private List<string> Clusters { get; set; }
 
     /// <summary>
     /// Test for filtered/working clusters
     /// </summary>
-    public bool HasClusters => Clusters != null && Clusters.Any();
+    private bool HasClusters => Clusters != null && Clusters.Any();
 
     /// <summary>
     /// The selected cluster
     /// </summary>
-    public MudChip SelectedCluster { get; set; }
+    private MudChip SelectedCluster { get; set; }
 
     /// <summary>
     /// Setup filtered/working clusters
@@ -126,8 +126,8 @@ public partial class Reports : IReportOperator
 
     #region Report
 
-    protected List<ReportSet> AllReports { get; set; } = new();
-    protected List<ReportSet> AvailableReports { get; set; } = new();
+    private List<ReportSet> AllReports { get; set; } = new();
+    private List<ReportSet> AvailableReports { get; set; } = new();
 
     private async Task SetupReportsAsync()
     {
@@ -178,14 +178,14 @@ public partial class Reports : IReportOperator
     /// <summary>
     /// Reset all grid filters
     /// </summary>
-    protected async Task ResetFilterAsync() =>
+    private async Task ResetFilterAsync() =>
         await ReportsGrid.ClearFiltersAsync();
 
     /// <summary>
     /// Download excel file from unfiltered grid data
     /// <remarks>Copy from <see cref="ItemPageBase{TItem,TQuery}.ExcelDownloadAsync"/> </remarks>
     /// </summary>
-    protected async Task ExcelDownloadAsync()
+    private async Task ExcelDownloadAsync()
     {
         // retrieve all items, without any filter and sort
         if (!AvailableReports.Any())
@@ -197,7 +197,7 @@ public partial class Reports : IReportOperator
 
         try
         {
-            await new ExcelDownload().StartAsync(ReportsGrid, AvailableReports, JsRuntime);
+            await ExcelDownload.StartAsync(ReportsGrid, AvailableReports, JsRuntime);
             await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)

@@ -1,12 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace PayrollEngine.WebApp;
 
 public interface IUserPasswordService
 {
-    Match ValidatePassword(string test);
-
     bool IsValidPassword(string test);
 
     /// <summary>

@@ -13,7 +13,6 @@ public class PayrollLocalizer : LocalizerBase
     public string Payrolls => FromCaller();
     public string NotAvailable => FromCaller();
 
-    public string Country => FromCaller();
     public string WageTypePeriod => FromCaller();
     public string WageTypeRetro => FromCaller();
     public string CollectorRetro => FromCaller();

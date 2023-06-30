@@ -61,6 +61,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        internal static string Action_Action {
+            get {
+                return ResourceManager.GetString("Action.Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action expression.
         /// </summary>
         internal static string Action_ActionExpression {
@@ -421,6 +430,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Periods of &apos;{0}&apos; do not fit into the cycle &apos;{1}&apos;.
+        /// </summary>
+        internal static string Calendar_InvalidPeriodTimeUnit {
+            get {
+                return ResourceManager.GetString("Calendar.InvalidPeriodTimeUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Month.
         /// </summary>
         internal static string Calendar_Month {
@@ -453,6 +471,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Calendar_PeriodTimeUnit {
             get {
                 return ResourceManager.GetString("Calendar.PeriodTimeUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period time unit must fit into the cycle time unit.
+        /// </summary>
+        internal static string Calendar_PeriodTimeUnitHelp {
+            get {
+                return ResourceManager.GetString("Calendar.PeriodTimeUnitHelp", resourceCulture);
             }
         }
         
@@ -1240,25 +1267,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cluster.
-        /// </summary>
-        internal static string Cluster_Cluster {
-            get {
-                return ResourceManager.GetString("Cluster.Cluster", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clusters.
-        /// </summary>
-        internal static string Cluster_Clusters {
-            get {
-                return ResourceManager.GetString("Cluster.Clusters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ClusterSet.
+        ///   Looks up a localized string similar to Cluster set.
         /// </summary>
         internal static string ClusterSet_ClusterSet {
             get {
@@ -1843,6 +1852,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fallback is the tenant calendar.
+        /// </summary>
+        internal static string Division_CalendarHelp {
+            get {
+                return ResourceManager.GetString("Division.CalendarHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fallback is the tenant culture.
+        /// </summary>
+        internal static string Division_CultureHelp {
+            get {
+                return ResourceManager.GetString("Division.CultureHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Division.
         /// </summary>
         internal static string Division_Division {
@@ -2010,6 +2037,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Employee_AllEmployees {
             get {
                 return ResourceManager.GetString("Employee.AllEmployees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fallback is the division calendar.
+        /// </summary>
+        internal static string Employee_CalendarHelp {
+            get {
+                return ResourceManager.GetString("Employee.CalendarHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fallback is the division culture.
+        /// </summary>
+        internal static string Employee_CultureHelp {
+            get {
+                return ResourceManager.GetString("Employee.CultureHelp", resourceCulture);
             }
         }
         
@@ -4039,11 +4084,38 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid password.
+        /// </summary>
+        internal static string Login_InvalidPassword {
+            get {
+                return ResourceManager.GetString("Login.InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid password confirmation.
+        /// </summary>
+        internal static string Login_InvalidPasswordConfirmation {
+            get {
+                return ResourceManager.GetString("Login.InvalidPasswordConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string Login_Login {
             get {
                 return ResourceManager.GetString("Login.Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The payroll service is not available.
+        /// </summary>
+        internal static string Login_MissingBackendService {
+            get {
+                return ResourceManager.GetString("Login.MissingBackendService", resourceCulture);
             }
         }
         
@@ -4066,6 +4138,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password change error.
+        /// </summary>
+        internal static string Login_PasswordChangeError {
+            get {
+                return ResourceManager.GetString("Login.PasswordChangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password: 1 digit, 1 lowercase, 1 uppercase, 1 special character and minimum 8 characters.
         /// </summary>
         internal static string Login_PasswordInfo {
@@ -4084,11 +4165,38 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The tenant selection is currently not available.
+        /// </summary>
+        internal static string Login_TenantReadError {
+            get {
+                return ResourceManager.GetString("Login.TenantReadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown user {0}.
+        /// </summary>
+        internal static string Login_UnknownUser {
+            get {
+                return ResourceManager.GetString("Login.UnknownUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter your identification.
         /// </summary>
         internal static string Login_UserHelp {
             get {
                 return ResourceManager.GetString("Login.UserHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user selection is currently not available.
+        /// </summary>
+        internal static string Login_UserReadError {
+            get {
+                return ResourceManager.GetString("Login.UserReadError", resourceCulture);
             }
         }
         
@@ -4197,15 +4305,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Payroll_CollectorRetro {
             get {
                 return ResourceManager.GetString("Payroll.CollectorRetro", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Country.
-        /// </summary>
-        internal static string Payroll_Country {
-            get {
-                return ResourceManager.GetString("Payroll.Country", resourceCulture);
             }
         }
         
@@ -6015,6 +6114,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Task_Tasks {
             get {
                 return ResourceManager.GetString("Task.Tasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fallback is the default calendar.
+        /// </summary>
+        internal static string Tenant_CalendarHelp {
+            get {
+                return ResourceManager.GetString("Tenant.CalendarHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fallback is the system culture.
+        /// </summary>
+        internal static string Tenant_CultureHelp {
+            get {
+                return ResourceManager.GetString("Tenant.CultureHelp", resourceCulture);
             }
         }
         

@@ -19,7 +19,7 @@ public abstract class ChildItemFactory<TParent, TObject> : ItemFactoryBase<TObje
     }
 
     protected abstract Task<List<TParent>> QueryParentObjects(int tenantId, int regulationId);
-    protected abstract Task<List<TObject>> QueryChildObjects(int tenantId, TParent parentObject);
+    protected abstract Task<List<TObject>> QueryChildObjects(int tenantId, int regulationId, TParent parentObject);
 
     /// <summary>
     /// Apply regulation
@@ -53,7 +53,13 @@ public abstract class ChildItemFactory<TParent, TObject> : ItemFactoryBase<TObje
         {
             foreach (var parent in parentObject.Item2)
             {
-                var child = await QueryChildObjects(Tenant.Id, parent);
+                var regulation = parentItems.FirstOrDefault(x => x.Item2.Contains(parent))?.Item1;
+                if (regulation == null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                var child = await QueryChildObjects(Tenant.Id, regulation.Id, parent);
                 foreach (var obj in child)
                 {
                     obj.Parent = parent;
@@ -100,7 +106,6 @@ public abstract class ChildItemFactory<TParent, TObject> : ItemFactoryBase<TObje
                         if (baseItem != null)
                         {
                             // base item
-                            baseItem.RegulationId = baseRegulation.Id;
                             baseItem.RegulationName = baseRegulation.Name;
                             // current item
                             currentItem.BaseItem = baseItem;

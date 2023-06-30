@@ -8,9 +8,9 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class CaseFieldFactory : ChildItemFactory<RegulationCase, RegulationCaseField>
 {
-    public ICaseService CaseService { get; set; }
-    public ICaseFieldService CaseFieldService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private ICaseService CaseService { get; }
+    private ICaseFieldService CaseFieldService { get; }
+    private IPayrollService PayrollService { get; }
 
     public CaseFieldFactory(ICaseService caseService, ICaseFieldService caseFieldService,
         IPayrollService payrollService, Client.Model.Tenant tenant, Client.Model.Payroll payroll,
@@ -22,13 +22,13 @@ public class CaseFieldFactory : ChildItemFactory<RegulationCase, RegulationCaseF
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationCaseField>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCaseField>> QueryItems(Client.Model.Regulation regulation) =>
         await PayrollService.GetCaseFieldsAsync<RegulationCaseField>(new(Tenant.Id, Payroll.Id));
 
     public override async Task<List<RegulationCaseField>> QueryPayrollItems() =>
         await PayrollService.GetCaseFieldsAsync<RegulationCaseField>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationCaseField> caseFields, RegulationCaseField caseField)
+    public async Task<bool> SaveItem(ICollection<RegulationCaseField> caseFields, RegulationCaseField caseField)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -60,7 +60,7 @@ public class CaseFieldFactory : ChildItemFactory<RegulationCase, RegulationCaseF
         return AddCollectionObject(caseFields, caseField);
     }
 
-    public override async Task<RegulationCaseField> DeleteItem(ICollection<RegulationCaseField> caseFields, RegulationCaseField caseField)
+    public async Task<RegulationCaseField> DeleteItem(ICollection<RegulationCaseField> caseFields, RegulationCaseField caseField)
     {
         // regulation
         var regulation = Regulations?.FirstOrDefault();
@@ -88,7 +88,8 @@ public class CaseFieldFactory : ChildItemFactory<RegulationCase, RegulationCaseF
     protected override async Task<List<RegulationCase>> QueryParentObjects(int tenantId, int regulationId) =>
         await CaseService.QueryAsync<RegulationCase>(new(tenantId, regulationId));
 
-    protected override async Task<List<RegulationCaseField>> QueryChildObjects(int tenantId, RegulationCase parentObject) =>
-        await CaseFieldService.QueryAsync<RegulationCaseField>(new(tenantId, parentObject.RegulationId, parentObject.Id));
-
+    protected override async Task<List<RegulationCaseField>> QueryChildObjects(int tenantId, int regulationId, RegulationCase parentObject)
+    {
+        return await CaseFieldService.QueryAsync<RegulationCaseField>(new(tenantId, regulationId, parentObject.Id));
+    }
 }

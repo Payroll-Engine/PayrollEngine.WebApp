@@ -50,11 +50,11 @@ public class CaseSet : Case, IDisposable
     /// <summary>
     /// The case fields
     /// </summary>
-    private ObservedHashSet<CaseFieldSet> fields;
+    private readonly ObservedHashSet<CaseFieldSet> fields;
     public ObservedHashSet<CaseFieldSet> Fields
     {
         get => fields;
-        set
+        private init
         {
             DisconnectFields();
             fields = value;
@@ -223,6 +223,7 @@ public class CaseSet : Case, IDisposable
     /// <summary>
     /// Gets or sets a value indicating whether this <see cref="CaseSet"/> is selected
     /// </summary>
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public bool Selected { get; set; }
 
     /// <summary>
@@ -233,7 +234,7 @@ public class CaseSet : Case, IDisposable
     /// <summary>
     /// Gets or sets a value indicating whether the case fields are valid
     /// </summary>
-    public CaseObjectValidity Validity { get; set; }
+    public CaseObjectValidity Validity { get; private  set; }
 
     /// <summary>
     /// Updates the validation status

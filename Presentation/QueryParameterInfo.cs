@@ -4,9 +4,9 @@ namespace PayrollEngine.WebApp.Presentation;
 
 public class QueryParameterInfo
 {
-    public List<string> Keys { get; set; }
-    public string Template { get; set; }
-    public bool OptionalValue { get; set; }
+    public List<string> Keys { get; }
+    public string Template { get; }
+    public bool OptionalValue { get; }
 
     public QueryParameterInfo()
     {

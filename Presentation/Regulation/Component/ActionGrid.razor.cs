@@ -26,18 +26,15 @@ public partial class ActionGrid : IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected MudDataGrid<ActionItem> Grid { get; set; }
-    protected bool IsBaseValue { get; set; }
-    protected ItemCollection<ActionItem> Actions { get; set; }
-
-    //protected string ActionFieldLabel => Field.GetActionFieldName(Localizer);
+    private MudDataGrid<ActionItem> Grid { get; set; }
+    private ItemCollection<ActionItem> Actions { get; set; }
 
     #region Action Commands
 
-    protected bool CanMoveActionUp(ActionItem item) =>
+    private bool CanMoveActionUp(ActionItem item) =>
         Actions.IndexOf(item) > 0;
 
-    protected bool CanMoveActionDown(ActionItem item) =>
+    private bool CanMoveActionDown(ActionItem item) =>
         Actions.IndexOf(item) < Actions.Count - 1;
 
     private async Task MoveActionUpAsync(ActionItem item)
@@ -209,7 +206,7 @@ public partial class ActionGrid : IDisposable
 
     private string ActionFieldName => Field.GetActionFieldName();
 
-    protected List<string> FieldValue
+    private List<string> FieldValue
     {
         get => Item.GetPropertyValue<List<string>>(ActionFieldName);
         set => Item.SetPropertyValue(ActionFieldName, value);
@@ -267,23 +264,15 @@ public partial class ActionGrid : IDisposable
         Actions = newValue;
     }
 
-    protected List<string> GetBaseValue() =>
+    private List<string> GetBaseValue() =>
         Item.GetBaseValue<List<string>>(Field.PropertyName);
 
     #endregion
 
     #region Lifecycle
 
-    private void UpdateState()
-    {
-        var value = Actions;
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
-                      CompareTool.EqualLists(value, GetBaseValue());
-
+    private void UpdateState() =>
         StateHasChanged();
-    }
 
     private IRegulationItem lastObject;
 

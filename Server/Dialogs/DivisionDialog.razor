@@ -23,6 +23,7 @@
                                                Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
                         <MudSelect T=" string" @bind-Value="Division.Culture" Clearable="true"
                                    Label="@Localizer.Shared.Culture"
+                                   HelperText="@Localizer.Division.CultureHelp"
                                    Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Culture)">
                             @foreach (var cultureInfo in CultureInfos)
                             {
@@ -31,6 +32,7 @@
                         </MudSelect>
                         <MudSelect T=" string" @bind-Value="Division.Calendar"
                                    Label="@Localizer.Shared.Calendar"
+                                   HelperText="@Localizer.Division.CalendarHelp"
                                    Disabled="@(CalendarNames == null || CalendarNames.Count < 1)"
                                    Clearable="true">
                             @foreach (var calendarName in CalendarNames)

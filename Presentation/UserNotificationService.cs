@@ -8,7 +8,7 @@ namespace PayrollEngine.WebApp.Presentation;
 public class UserNotificationService : IUserNotificationService
 {
     private IUserNotificationService handler;
-    public IUserNotificationService Handler
+    private IUserNotificationService Handler
     {
         get
         {

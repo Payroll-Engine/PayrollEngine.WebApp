@@ -34,10 +34,10 @@ public partial class Tasks : ITaskOperator<ViewModel.Task>
 
     #region Item
 
-    protected override async Task<bool> OnItemCommit(ViewModel.Task payroll, ItemOperation operation)
+    protected override async Task<bool> OnItemCommit(ViewModel.Task payroll)
     {
         SetupTask(payroll);
-        return await base.OnItemCommit(payroll, operation);
+        return await base.OnItemCommit(payroll);
     }
 
     private void SetupTask(ViewModel.Task task)
@@ -99,7 +99,7 @@ public partial class Tasks : ITaskOperator<ViewModel.Task>
 
     #region Filter
 
-    protected bool CompletedTasks { get; set; }
+    private bool CompletedTasks { get; set; }
     private FilterDefinition<ViewModel.Task> completedFilter;
 
     private async Task ToggleTasksFilterAsync()

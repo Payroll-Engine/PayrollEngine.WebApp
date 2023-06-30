@@ -11,9 +11,9 @@ using Microsoft.JSInterop;
 
 namespace PayrollEngine.WebApp.Presentation;
 
-public class ExcelDownload
+public static class ExcelDownload
 {
-    public async Task StartAsync<TItem>(MudDataGrid<TItem> grid, IList<TItem> items, IJSRuntime jsRuntime,
+    public static async Task StartAsync<TItem>(MudDataGrid<TItem> grid, IList<TItem> items, IJSRuntime jsRuntime,
         string name = null)
     {
         // column properties

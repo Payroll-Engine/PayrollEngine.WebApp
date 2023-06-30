@@ -20,19 +20,17 @@ public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
     [Inject] private IPayrollService PayrollService { get; set; }
     [Inject] private IUserNotificationService UserNotification { get; set; }
 
-    protected List<CaseSlot> CaseSlots { get; set; } = new();
-    protected CaseSlot SelectedCaseSlot { get; set; }
+    protected List<CaseSlot> CaseSlots { get; private set; } = new();
+    protected CaseSlot SelectedCaseSlot { get; private set; }
     private string Value { get; set; }
 
     public bool AllowClear => !Field.KeyField && !Field.Required;
 
-    protected string FieldValue
+    private string FieldValue
     {
         get => Item.GetPropertyValue<string>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
-
-    protected bool IsBaseValue { get; set; }
 
     #region Value
 
@@ -74,7 +72,7 @@ public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
         Value = value;
     }
 
-    protected string GetBaseValue() =>
+    private string GetBaseValue() =>
         Item.GetBaseValue<string>(Field.PropertyName);
 
     #endregion
@@ -128,10 +126,6 @@ public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
         }
 
         SelectedCaseSlot = selectedCaseSlot;
-
-        // base value
-        IsBaseValue = Field.HasBaseValues && value != null && value.Any() &&
-                      Equals(value, GetBaseValue());
 
         StateHasChanged();
     }

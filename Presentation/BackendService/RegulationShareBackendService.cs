@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -11,12 +12,13 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class RegulationShareBackendService : BackendServiceBase<RegulationShareService, RootServiceContext, RegulationShare, Query>
 {
-    public ITenantService TenantService { get; set; }
-    public IRegulationService RegulationService { get; set; }
-    public IDivisionService DivisionService { get; set; }
-    public RegulationShareBackendService(ITenantService tenantService, IRegulationService regulationService,
-        IDivisionService divisionService, UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    private ITenantService TenantService { get; }
+    private IRegulationService RegulationService { get; }
+    private IDivisionService DivisionService { get; }
+
+    public RegulationShareBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer,
+        ITenantService tenantService, IRegulationService regulationService, IDivisionService divisionService) :
+        base(userSession, configuration, localizer)
     {
         TenantService = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
         RegulationService = regulationService ?? throw new ArgumentNullException(nameof(regulationService));
@@ -28,14 +30,14 @@ public class RegulationShareBackendService : BackendServiceBase<RegulationShareS
         new();
 
     /// <summary>Create the backend service</summary>
-    protected override RegulationShareService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override RegulationShareService CreateService() =>
         new(HttpClient);
 
 
     public async Task ApplyShareAsync(RegulationShare share, IDictionary<string, object> parameters = null) =>
         await ApplyShareAsync(new[] { share }, parameters);
 
-    public async Task ApplyShareAsync(IEnumerable<RegulationShare> shares, IDictionary<string, object> parameters = null)
+    private async Task ApplyShareAsync(IEnumerable<RegulationShare> shares, IDictionary<string, object> parameters = null)
     {
         // culture
         string culture = null;
@@ -88,9 +90,9 @@ public class RegulationShareBackendService : BackendServiceBase<RegulationShareS
         }
     }
 
-    protected override async Task OnItemsReadAsync(List<RegulationShare> shares, IDictionary<string, object> parameters = null)
+    protected override async Task OnItemsReadAsync(List<RegulationShare> shares)
     {
         await ApplyShareAsync(shares);
-        await base.OnItemsReadAsync(shares, parameters);
+        await base.OnItemsReadAsync(shares);
     }
 }

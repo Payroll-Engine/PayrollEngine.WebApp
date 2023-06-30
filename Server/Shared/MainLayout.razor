@@ -19,6 +19,7 @@
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
                            OnClick="NavigationToggleAsync" Title="@Localizer.App.ToggleSidebar" />
 
+            @* app icon or text *@
             @{
                 var appImage = CurrentAppImage;
                 if (!string.IsNullOrWhiteSpace(appImage))
@@ -32,6 +33,7 @@
                     </MudText>
                 }
             }
+
             @if (Session.AnyUserFeature())
             {
                 <MudGrid>

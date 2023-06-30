@@ -13,17 +13,17 @@ public abstract class ItemFactoryBase<TObject> : IItemFactory<TObject>
     /// <summary>
     /// The tenant
     /// </summary>
-    public Client.Model.Tenant Tenant { get; }
+    protected Client.Model.Tenant Tenant { get; }
 
     /// <summary>
     /// The payroll
     /// </summary>
-    public Client.Model.Payroll Payroll { get; }
+    protected Client.Model.Payroll Payroll { get; }
 
     /// <summary>
     /// The regulations
     /// </summary>
-    public List<Client.Model.Regulation> Regulations { get; }
+    protected List<Client.Model.Regulation> Regulations { get; }
 
     protected ItemFactoryBase(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
         List<Client.Model.Regulation> regulations)
@@ -33,17 +33,14 @@ public abstract class ItemFactoryBase<TObject> : IItemFactory<TObject>
         Regulations = regulations ?? throw new ArgumentNullException(nameof(regulations));
     }
 
-    public abstract Task<List<TObject>> QueryItems(Client.Model.Regulation regulation);
+    protected abstract Task<List<TObject>> QueryItems(Client.Model.Regulation regulation);
     public abstract Task<List<TObject>> QueryPayrollItems();
-    public virtual async Task<List<TObject>> LoadPayrollItems()
+    public async Task<List<TObject>> LoadPayrollItems()
     {
         var items = await QueryPayrollItems();
         await ApplyRegulationsAsync(items);
         return items;
     }
-
-    public abstract Task<bool> SaveItem(ICollection<TObject> list, TObject obj);
-    public abstract Task<TObject> DeleteItem(ICollection<TObject> list, TObject obj);
 
     protected virtual async Task ApplyRegulationsAsync(List<TObject> items)
     {
@@ -102,7 +99,6 @@ public abstract class ItemFactoryBase<TObject> : IItemFactory<TObject>
                     if (baseObject != null)
                     {
                         var baseRegulation = regulationObjects[index].Item1;
-                        baseObject.RegulationId = baseRegulation.Id;
                         baseObject.RegulationName = baseRegulation.Name;
 
                         currentItem.BaseItem = baseObject;
@@ -134,7 +130,6 @@ public abstract class ItemFactoryBase<TObject> : IItemFactory<TObject>
 
     protected void SetRegulation(Client.Model.Regulation regulation, IRegulationItem item, RegulationInheritanceType inheritanceType)
     {
-        item.RegulationId = regulation.Id;
         item.RegulationName = regulation.Name;
         item.InheritanceType = inheritanceType;
     }

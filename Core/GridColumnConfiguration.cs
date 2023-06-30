@@ -1,5 +1,8 @@
-﻿namespace PayrollEngine.WebApp;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+namespace PayrollEngine.WebApp;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class GridColumnConfiguration
 {
     /// <summary>
@@ -48,7 +51,7 @@ public class GridColumnConfiguration
 
     // column name
     public string ColumnName =>
-        IsValid ? Attribute.ToPropertyName() : null;
+        IsValid ? ToPropertyName(Attribute) : null;
 
     // column header
     public string ColumnHeader
@@ -62,4 +65,18 @@ public class GridColumnConfiguration
             return !string.IsNullOrWhiteSpace(Header) ? Header : Attribute.FirstCharacterToUpper();
         }
     }
+
+    private static string ToPropertyName(string propertyName)
+    {
+        if (string.IsNullOrWhiteSpace(propertyName))
+        {
+            return null;
+        }
+        return propertyName
+            .Replace('.', '_')
+            .Replace(':', '_')
+            .Replace('$', '_')
+            .Replace('?', '_');
+    }
+
 }

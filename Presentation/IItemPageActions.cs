@@ -12,5 +12,5 @@ public interface IItemPageActions
     /// <summary>
     /// Download excel file from unfiltered grid data
     /// </summary>
-    Task ExcelDownloadAsync(string name);
+    Task ExcelDownloadAsync();
 }

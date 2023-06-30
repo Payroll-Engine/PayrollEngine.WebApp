@@ -30,12 +30,28 @@ public partial class Login
     [Inject]
     private IUserPasswordService UserPasswordService { get; set; }
     [Inject]
+    private IThemeService ThemeService { get; set; }
+    [Inject]
     private IConfiguration Configuration { get; set; }
 
     public Login() :
         base(WorkingItems.None)
     {
     }
+
+    #region Title
+
+    /// <summary>
+    /// Application title
+    /// </summary>
+    private string AppTitle { get; set; }
+
+    /// <summary>
+    /// Application image
+    /// </summary>
+    private string AppImage { get; set; }
+
+    #endregion
 
     #region Input Fields
 
@@ -237,7 +253,7 @@ public partial class Login
         var existingUser = GetExistingUser(identifier);
         if (existingUser == null)
         {
-            SetErrorMessage($"Unknown user {identifier}");
+            SetErrorMessage(Localizer.Login.UnknownUser(identifier));
             return;
         }
 
@@ -299,7 +315,7 @@ public partial class Login
             }
             else
             {
-                SetErrorMessage($"user {user} does not exist, please enter new user");
+                SetErrorMessage(Localizer.Login.UnknownUser(user));
             }
 
             // fallback: set identifier to first user if matching with tenant didn't work
@@ -321,8 +337,8 @@ public partial class Login
             }
             catch (Exception exception)
             {
-                Log.Critical($"User service not available, error: {exception}");
-                SetErrorMessage("Can't retrieve users, service not available");
+                Log.Critical($"User service error: {exception}");
+                SetErrorMessage(Localizer.Login.UserReadError);
                 return false;
             }
 
@@ -403,8 +419,8 @@ public partial class Login
         }
         catch (Exception exception)
         {
-            Log.Critical($"Tenant service not available, error: {exception}");
-            SetErrorMessage("Can't retrieve tenants, service not available");
+            Log.Critical($"Tenant service error: {exception}");
+            SetErrorMessage(Localizer.Login.TenantReadError);
             return false;
         }
         return true;
@@ -430,14 +446,14 @@ public partial class Login
         // valid format
         if (!UserPasswordService.IsValidPassword(NewPassword))
         {
-            SetErrorMessage("Invalid password");
+            SetErrorMessage(Localizer.Login.InvalidPassword);
             return;
         }
 
         // valid confirmation
         if (!string.Equals(NewPassword, NewPasswordConfirmation))
         {
-            SetErrorMessage("Invalid password confirmation");
+            SetErrorMessage(Localizer.Login.InvalidPasswordConfirmation);
             return;
         }
 
@@ -445,14 +461,14 @@ public partial class Login
         {
             if (!await UserPasswordService.ChangePasswordAsync(SelectedTenant.Id, SelectedUser.Id, NewPassword))
             {
-                SetErrorMessage("Password change error");
+                SetErrorMessage(Localizer.Login.PasswordChangeError);
                 return;
             }
         }
         catch (Exception exception)
         {
             Log.Critical($"Connection to backend failed during password set, error: {exception}");
-            SetErrorMessage(exception.GetApiErrorMessage());
+            SetErrorMessage(Localizer.Login.PasswordChangeError);
             return;
         }
 
@@ -482,7 +498,7 @@ public partial class Login
 
         if (!await UserPasswordService.TestPasswordAsync(SelectedTenant.Id, SelectedUser.Id, UserPassword))
         {
-            SetErrorMessage("Invalid password");
+            SetErrorMessage(Localizer.Login.InvalidPassword);
             return;
         }
 
@@ -522,13 +538,14 @@ public partial class Login
     private void GoToRedirectSite() =>
         NavigationManager.NavigateTo(RedirectPage, true);
 
-    private string GetApplicationTitle() =>
-        Configuration.GetConfiguration<AppConfiguration>().AppTitle ??
-        SystemSpecification.ApplicationName;
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        // application
+        var appConfiguration = Configuration.GetConfiguration<AppConfiguration>();
+        AppTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
+        AppImage = ThemeService.IsDarkMode ? appConfiguration.AppImageDarkMode : appConfiguration.AppImage;
 
         // check for connection 
         var httpClient = new PayrollHttpClient(Configuration.GetConfiguration<PayrollHttpConfiguration>());
@@ -564,12 +581,6 @@ public partial class Login
         {
             RedirectPage = redirectTo;
         }
-
-        //// initialize focus
-        //if (UserField != null)
-        //{
-        //    await UserField.FocusAsync();
-        //}
 
         Initialized = true;
     }

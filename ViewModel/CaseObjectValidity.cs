@@ -31,7 +31,7 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
     public void AddRule(string caseObjectName, string ruleText) =>
         AddRule(new(caseObjectName, ruleText));
 
-    public void AddRule(CaseObjectRule rule)
+    private void AddRule(CaseObjectRule rule)
     {
         rules.Add(rule);
     }

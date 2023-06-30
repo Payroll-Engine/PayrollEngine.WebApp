@@ -2,7 +2,7 @@
 
 public static class InputAttributes
 {
-    public static readonly string Prefix = "input.";
+    private static readonly string Prefix = "input.";
 
     // general
     public static readonly string Hidden = $"{Prefix}hidden";

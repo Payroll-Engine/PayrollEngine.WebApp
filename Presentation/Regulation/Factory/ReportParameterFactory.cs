@@ -8,9 +8,9 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 public class ReportParameterFactory : ChildItemFactory<RegulationReport, RegulationReportParameter>
 {
-    public IReportService ReportService { get; set; }
-    public IReportParameterService ReportParameterService { get; set; }
-    public IPayrollService PayrollService { get; set; }
+    private IReportService ReportService { get; }
+    private IReportParameterService ReportParameterService { get; }
+    private IPayrollService PayrollService { get; }
 
     public ReportParameterFactory(IReportService caseService, IReportParameterService reportParameterService,
         IPayrollService payrollService,
@@ -23,13 +23,13 @@ public class ReportParameterFactory : ChildItemFactory<RegulationReport, Regulat
         PayrollService = payrollService;
     }
 
-    public override async Task<List<RegulationReportParameter>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationReportParameter>> QueryItems(Client.Model.Regulation regulation) =>
         await PayrollService.GetReportParametersAsync<RegulationReportParameter>(new(Tenant.Id, Payroll.Id));
 
     public override async Task<List<RegulationReportParameter>> QueryPayrollItems() =>
         await PayrollService.GetReportParametersAsync<RegulationReportParameter>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<bool> SaveItem(ICollection<RegulationReportParameter> reportParameters,
+    public async Task<bool> SaveItem(ICollection<RegulationReportParameter> reportParameters,
         RegulationReportParameter reportParameter)
     {
         var regulation = Regulations?.FirstOrDefault();
@@ -61,7 +61,7 @@ public class ReportParameterFactory : ChildItemFactory<RegulationReport, Regulat
         return AddCollectionObject(reportParameters, reportParameter);
     }
 
-    public override async Task<RegulationReportParameter> DeleteItem(ICollection<RegulationReportParameter> reportParameters,
+    public async Task<RegulationReportParameter> DeleteItem(ICollection<RegulationReportParameter> reportParameters,
         RegulationReportParameter reportParameter)
     {
         // regulation
@@ -86,7 +86,7 @@ public class ReportParameterFactory : ChildItemFactory<RegulationReport, Regulat
     protected override async Task<List<RegulationReport>> QueryParentObjects(int tenantId, int regulationId) =>
         await ReportService.QueryAsync<RegulationReport>(new(tenantId, regulationId));
 
-    protected override async Task<List<RegulationReportParameter>> QueryChildObjects(int tenantId, RegulationReport parentObject) =>
-        await ReportParameterService.QueryAsync<RegulationReportParameter>(new(tenantId, parentObject.RegulationId, parentObject.Id));
+    protected override async Task<List<RegulationReportParameter>> QueryChildObjects(int tenantId, int regulationId, RegulationReport parentObject) =>
+        await ReportParameterService.QueryAsync<RegulationReportParameter>(new(tenantId, regulationId, parentObject.Id));
 
 }

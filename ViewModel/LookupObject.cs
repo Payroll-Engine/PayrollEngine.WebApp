@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json;
@@ -11,19 +10,18 @@ namespace PayrollEngine.WebApp.ViewModel;
 public class LookupObject
 {
     private readonly Dictionary<string, JsonElement> values = new();
-    public IReadOnlyCollection<string> Properties { get; }
-
-    public IValueFormatter ValueFormatter { get; set; }
     public decimal? RangeValue { get; }
-    public string ValuePropertyName { get; }
-    public string TextPropertyName { get; }
 
-    private object lookupValue;
+    private IValueFormatter ValueFormatter { get; }
+    private string ValuePropertyName { get; }
+    private string TextPropertyName { get; }
+
+    private readonly object lookupValue;
 
     public object Value
     {
         get => lookupValue;
-        set
+        private init
         {
             if (value is string stringValue)
             {
@@ -36,7 +34,7 @@ public class LookupObject
         }
     }
 
-    public string Text { get; set; }
+    public string Text { get; }
 
     public LookupObject()
     {
@@ -58,7 +56,6 @@ public class LookupObject
         {
             throw new ArgumentException("Object without properties is not supported", nameof(element));
         }
-        Properties = new ReadOnlyCollection<string>(properties);
 
         // range
         RangeValue = rangeValue;

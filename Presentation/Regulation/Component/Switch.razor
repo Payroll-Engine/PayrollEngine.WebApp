@@ -6,7 +6,7 @@
            Label="@Item.GetItemLabel(Field, Localizer)"
            Color="@Color"
            Checked="@Value"
-           CheckedChanged="ValueChangedAsync"
+           CheckedChanged="@ValueChangedAsync"
            ReadOnly="@Item.IsReadOnlyField(Field)"
            Required="@Field.Required"
            RequiredError="@Field.RequiredError" />

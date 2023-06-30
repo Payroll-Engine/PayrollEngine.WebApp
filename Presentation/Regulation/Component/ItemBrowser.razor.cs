@@ -152,7 +152,6 @@ public partial class ItemBrowser : IDisposable
             newObject.BaseItem = regulationItem;
             // regulation
             newObject.RegulationName = regulation.Name;
-            newObject.RegulationId = regulation.Id;
 
             // change working object to the new override object
             return newObject;

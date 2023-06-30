@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class ReportBackendService : BackendServiceBase<ReportService, RegulationServiceContext, ViewModel.Report, Query>
 {
-    public ReportBackendService(UserSession userSession, IConfiguration configuration) :
-        base(userSession, configuration)
+    public ReportBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
+        base(userSession, configuration, localizer)
     {
     }
 
@@ -23,6 +24,6 @@ public class ReportBackendService : BackendServiceBase<ReportService, Regulation
     }
 
     /// <summary>Create the backend service</summary>
-    protected override ReportService CreateService(IDictionary<string, object> parameters = null) =>
+    protected override ReportService CreateService() =>
         new(HttpClient);
 }

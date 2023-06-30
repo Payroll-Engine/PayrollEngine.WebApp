@@ -27,12 +27,12 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<CaseSlot> CaseSlots { get; } = new();
-    protected MudDataGrid<CaseSlot> Grid { get; set; }
+    private ItemCollection<CaseSlot> CaseSlots { get; } = new();
+    private MudDataGrid<CaseSlot> Grid { get; set; }
 
     #region Value
 
-    protected List<CaseSlot> FieldValue
+    private List<CaseSlot> FieldValue
     {
         get => Item.GetPropertyValue<List<CaseSlot>>(Field.PropertyName);
         set => Item.SetPropertyValue(Field.PropertyName, value);
@@ -64,7 +64,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
     #region Actions
 
-    protected async Task AddCaseSlotAsync()
+    private async Task AddCaseSlotAsync()
     {
         // dialog parameters
         var parameters = new DialogParameters
@@ -91,7 +91,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task EditCaseSlotAsync(CaseSlot item)
+    private async Task EditCaseSlotAsync(CaseSlot item)
     {
         if (item == null)
         {
@@ -129,7 +129,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    protected async Task DeleteCaseSlotAsync(CaseSlot item)
+    private async Task DeleteCaseSlotAsync(CaseSlot item)
     {
         if (item == null)
         {

@@ -10,47 +10,47 @@ public class RegulationField
     /// <summary>
     /// THe property name
     /// </summary>
-    public string PropertyName { get; set; }
+    public string PropertyName { get; }
 
     /// <summary>
     /// The field label
     /// </summary>
-    public string Label { get; set; }
+    public string Label { get; init; }
 
     /// <summary>
     /// The field action label
     /// </summary>
-    public string ActionLabel { get; set; }
+    public string ActionLabel { get; init; }
 
     /// <summary>
     /// Indicates a key field
     /// </summary>
-    public bool KeyField { get; set; }
+    public bool KeyField { get; init; }
 
     /// <summary>
     /// Indicates a read only field
     /// </summary>
-    public bool ReadOnly { get; set; }
+    public bool ReadOnly { get; init; }
 
     /// <summary>
     /// Base value is fixed
     /// </summary>
-    public bool FixedBaseValue { get; set; }
+    public bool FixedBaseValue { get; init; }
 
     /// <summary>
     /// Indicates a required field
     /// </summary>
-    public bool Required { get; set; }
+    public bool Required { get; init; }
 
     /// <summary>
     /// The required error message
     /// </summary>
-    public string RequiredError { get; set; }
+    public string RequiredError { get; init; }
 
     /// <summary>
     /// Custom field group
     /// </summary>
-    public string Group { get; set; }
+    public string Group { get; init; }
 
     /// <summary>
     /// The help message
@@ -72,12 +72,12 @@ public class RegulationField
     /// <summary>
     /// Indicates an expression field
     /// </summary>
-    public bool Expression { get; set; }
+    public bool Expression { get; init; }
 
     /// <summary>
     /// The function action type
     /// </summary>
-    public FunctionType Action { get; set; }
+    public FunctionType Action { get; init; }
 
     /// <summary>
     /// True for action field
@@ -112,22 +112,23 @@ public class RegulationField
     /// <summary>
     /// The number of edit lines (default is 1)
     /// </summary>
-    public int Lines { get; set; } = 1;
+    public int Lines { get; init; } = 1;
 
     /// <summary>
     /// The value maximum length (default is 524288)
     /// </summary>
-    public int MaxLength { get; set; } = 524288;
+    public int MaxLength { get; init; } = 524288;
 
     /// <summary>
     /// The value format
     /// </summary>
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public string Format { get; set; }
 
     /// <summary>
     /// The UI component type
     /// </summary>
-    public Type ComponentType { get; set; }
+    public Type ComponentType { get; }
     public bool IsAttributeField =>
         string.Equals(PropertyName, nameof(IAttributeObject.Attributes));
 

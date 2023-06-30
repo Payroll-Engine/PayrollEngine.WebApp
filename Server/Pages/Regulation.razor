@@ -148,13 +148,13 @@
 
 <div class="d-flex flex-grow-1 gap-4">
     <MudContainer Fixed="true" Class="pa-0 py-4">
-        <ItemBrowser @ref="ItemBrowser" EditContext="EditContext"
+        <ItemBrowser @ref="@ItemBrowser" EditContext="EditContext"
                      ItemType="@WorkingType" SelectedItem="@SelectedItem"
                      SelectedItemChanged="ChangeSelectedItem">
         </ItemBrowser>
     </MudContainer>
     <MudContainer Fixed="true" Class="pa-0 py-4">
-        <ItemEditorPanel @ref="ItemEditorPanel" EditContext="EditContext"
+        <ItemEditorPanel @ref="@ItemEditorPanel" EditContext="EditContext"
                          ItemType="@WorkingType" Item="@SelectedItem"
                          SaveItem="SaveItem"
                          DeleteItem="DeleteItem"

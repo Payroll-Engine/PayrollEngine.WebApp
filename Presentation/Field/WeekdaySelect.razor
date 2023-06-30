@@ -25,7 +25,7 @@
     protected override string ValueLabel { get; set; }
     private List<Tuple<int, string>> Weekdays { get; } = new();
 
-    protected bool ValuesDisabled =>
+    private bool ValuesDisabled =>
         Disabled || !Weekdays.Any();
 
     private void SetupWeekdays()

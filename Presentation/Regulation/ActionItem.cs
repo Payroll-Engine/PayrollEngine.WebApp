@@ -8,7 +8,7 @@ public class ActionItem
     /// <summary>
     /// The action index
     /// </summary>
-    public int Index { get; set; }
+    public int Index { get; }
 
     /// <summary>
     /// The action expression

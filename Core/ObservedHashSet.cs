@@ -32,7 +32,7 @@ public class ObservedHashSet<T> : HashSet<T>
         }
     }
 
-    public async Task<bool> RemoveAsync(T item)
+    public async Task RemoveAsync(T item)
     {
         if (item == null)
         {
@@ -43,7 +43,6 @@ public class ObservedHashSet<T> : HashSet<T>
         {
             await OnRemovedAsync(item);
         }
-        return removed;
     }
 
     public async Task RemoveAllAsync(Predicate<T> match)
@@ -63,9 +62,9 @@ public class ObservedHashSet<T> : HashSet<T>
         }
     }
 
-    protected virtual async Task OnAddedAsync(T item) =>
+    private async Task OnAddedAsync(T item) =>
         await (Added?.InvokeAsync(this, item) ?? Task.CompletedTask);
 
-    protected virtual async Task OnRemovedAsync(T item) =>
+    private async Task OnRemovedAsync(T item) =>
         await (Removed?.InvokeAsync(this, item) ?? Task.CompletedTask);
 }

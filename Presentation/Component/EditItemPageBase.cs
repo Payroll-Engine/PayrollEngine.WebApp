@@ -30,26 +30,26 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
 
     public virtual async Task AddItemAsync()
     {
-        // dialog options
-        var options = new DialogOptions();
-        if (!await SetupDialogOptionsAsync(options, ItemOperation.Create))
-        {
-            return;
-        }
-
         // dialog parameters
         var parameters = new DialogParameters();
         if (!await SetupDialogParametersAsync(parameters, ItemOperation.Create))
         {
             return;
         }
+       
+        
+        // ensure tenant parameter
         if (AddItemTenantParameter && IsDialogParameter(nameof(Tenant)))
         {
-            parameters.Add(nameof(Tenant), Tenant);
+            var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
+            if (tenant == null)
+            {
+                parameters.Add(nameof(Tenant), Tenant);
+            }
         }
 
         // dialog
-        var dialog = await (await DialogService.ShowAsync<TDialog>(Localizer.Item.AddTitle(ItemTypeUiName), parameters, options)).Result;
+        var dialog = await (await DialogService.ShowAsync<TDialog>(Localizer.Item.AddTitle(ItemTypeUiName), parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -57,7 +57,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
 
         // validation
         var item = dialog.Data as TItem;
-        if (item == null || !await OnItemCommit(item, ItemOperation.Create))
+        if (item == null || !await OnItemCommit(item))
         {
             return;
         }
@@ -81,7 +81,6 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             Items.Add(createdItem);
 
             // notification
-            await OnItemCompleteAsync(createdItem, ItemOperation.Create);
             await UserNotification.ShowInformationAsync(Localizer.Item.Added(ItemTypeUiName));
         }
         catch (Exception exception)
@@ -109,13 +108,6 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             return;
         }
 
-        // dialog options
-        var options = new DialogOptions();
-        if (!await SetupDialogOptionsAsync(options, ItemOperation.Edit))
-        {
-            return;
-        }
-
         // dialog parameters
         var parameters = new DialogParameters {
         {
@@ -127,15 +119,18 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         }
 
         // ensure tenant parameter
-        var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
-        if (tenant == null)
+        if (IsDialogParameter(nameof(Tenant)))
         {
-            parameters.Add(nameof(Tenant), Tenant);
+            var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
+            if (tenant == null)
+            {
+                parameters.Add(nameof(Tenant), Tenant);
+            }
         }
 
         // dialog
         var title = Localizer.Item.EditTitle(ItemTypeUiName);
-        var dialog = await (await DialogService.ShowAsync<TDialog>(title, parameters, options)).Result;
+        var dialog = await (await DialogService.ShowAsync<TDialog>(title, parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
@@ -143,7 +138,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
 
         // validation
         var updatedItem = dialog.Data as TItem;
-        if (updatedItem == null || !await OnItemCommit(updatedItem, ItemOperation.Edit))
+        if (updatedItem == null || !await OnItemCommit(updatedItem))
         {
             return;
         }
@@ -154,7 +149,6 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             await BackendService.UpdateAsync(updatedItem);
 
             // notification
-            await OnItemCompleteAsync(updatedItem, ItemOperation.Edit);
             await UserNotification.ShowInformationAsync(Localizer.Item.Updated(ItemTypeUiName));
         }
         catch (Exception exception)
@@ -195,7 +189,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         }
 
         // validation
-        if (!await OnItemCommit(deleteItem, ItemOperation.Delete))
+        if (!await OnItemCommit(deleteItem))
         {
             return;
         }
@@ -212,7 +206,6 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             Items.Remove(item);
 
             // notification
-            await OnItemCompleteAsync(item, ItemOperation.Delete);
             await UserNotification.ShowInformationAsync(Localizer.Item.Deleted(ItemTypeUiName));
         }
         catch (Exception exception)
@@ -225,24 +218,11 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         await RefreshServerDataAsync();
     }
 
-    protected virtual Task<bool> SetupDialogOptionsAsync(DialogOptions options, ItemOperation operation) =>
-        Task.FromResult(true);
-
     protected virtual Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation) =>
         Task.FromResult(true);
 
-    protected virtual Task<bool> OnItemCommit(TItem payroll, ItemOperation operation) =>
+    protected virtual Task<bool> OnItemCommit(TItem item) =>
         Task.FromResult(true);
-
-    protected virtual Task OnItemChanged(TItem item)
-    {
-        return Task.CompletedTask;
-    }
-
-    protected virtual Task OnItemCompleteAsync(TItem item, ItemOperation operation)
-    {
-        return Task.CompletedTask;
-    }
 
     #endregion
 }

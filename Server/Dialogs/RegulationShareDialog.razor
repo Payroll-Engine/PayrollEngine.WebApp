@@ -212,7 +212,7 @@
         }
     }
 
-    protected async Task SetupShareAsync()
+    private async Task SetupShareAsync()
     {
         // tenants
         Tenants = await TenantService.QueryAsync<Tenant>(new(), new()

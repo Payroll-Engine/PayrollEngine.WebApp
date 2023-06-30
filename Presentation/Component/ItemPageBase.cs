@@ -92,18 +92,12 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
     /// <param name="state">The data grid state</param>
     /// <param name="parameters">The data request parameters</param>
     /// <returns>Collection of items</returns>
-    protected virtual async Task<GridData<TItem>> GetServerDataAsync(GridState<TItem> state,
+    private async Task<GridData<TItem>> GetServerDataAsync(GridState<TItem> state,
         Dictionary<string, object> parameters)
     {
         try
         {
             // server request parameters
-            parameters ??= new();
-            if (!await PrepareServerDataRequestAsync(state, parameters))
-            {
-                return new();
-            }
-
             return await BackendService.QueryAsync(state, this, parameters);
         }
         catch (Exception exception)
@@ -114,16 +108,6 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
     }
 
     /// <summary>
-    /// Setup the server request
-    /// </summary>
-    /// <param name="state">The data grid state</param>
-    /// <param name="parameters">The data request parameters</param>
-    /// <returns>True for a valid request, otherwise the request will be return an empty collection</returns>
-    protected virtual Task<bool> PrepareServerDataRequestAsync(
-        GridState<TItem> state, IDictionary<string, object> parameters) =>
-        Task.FromResult(true);
-
-    /// <summary>
     /// Reset all grid filters
     /// </summary>
     public virtual async Task ResetFilterAsync() =>
@@ -132,7 +116,7 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
     /// <summary>
     /// Download excel file from unfiltered grid data
     /// </summary>
-    public virtual async Task ExcelDownloadAsync(string name)
+    public virtual async Task ExcelDownloadAsync()
     {
         // server request
         var maxExport = Configuration.GetConfiguration<AppConfiguration>().ExcelExportMaxRecords;
@@ -151,7 +135,7 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
 
         try
         {
-            await new ExcelDownload().StartAsync(ItemsGrid, items, JsRuntime);
+            await ExcelDownload.StartAsync(ItemsGrid, items, JsRuntime);
             await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)
@@ -161,7 +145,7 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
         }
     }
 
-    protected virtual async Task<TItem> GetItemAsync(int itemId)
+    protected async Task<TItem> GetItemAsync(int itemId)
     {
         var item = Items.FirstOrDefault(x => x.Id == itemId);
         if (item != null)
@@ -186,7 +170,7 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
 
     #region Working Items
 
-    protected override async Task OnTenantChangedAsync(Tenant tenant)
+    protected override async Task OnTenantChangedAsync()
     {
         if (WorkingItems.TenantAvailable())
         {
@@ -195,7 +179,7 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
             await RefreshServerDataAsync();
         }
 
-        await base.OnTenantChangedAsync(tenant);
+        await base.OnTenantChangedAsync();
     }
 
     protected override async Task OnEmployeeChangedAsync(Employee employee)

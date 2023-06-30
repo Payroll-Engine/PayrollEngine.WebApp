@@ -6,9 +6,9 @@ namespace PayrollEngine.WebApp.Shared;
 
 public abstract class LocalizerBase
 {
-    public IStringLocalizerFactory Factory { get; }
+    private IStringLocalizerFactory Factory { get; }
     public IStringLocalizer Localizer { get; }
-    public string GroupName { get; }
+    private string GroupName { get; }
 
     private const string ResourceName = "Localizations";
 
@@ -68,7 +68,7 @@ public abstract class LocalizerBase
     /// Resource name: MyProperty.MyText
     /// </summary>
     /// <param name="caller">The caller method name</param>
-    public string FromCaller([CallerMemberName] string caller = null) =>
+    protected string FromCaller([CallerMemberName] string caller = null) =>
         FromKey(caller);
 
     /// <summary>
@@ -92,6 +92,7 @@ public abstract class LocalizerBase
         // missing translation: return the enum value
         if (string.IsNullOrEmpty(translation) || translation.StartsWith(group))
         {
+            Log.Warning($"Missing translation for enum type {type} with value {value}");
             return value.ToString().ToPascalSentence();
         }
         return translation;

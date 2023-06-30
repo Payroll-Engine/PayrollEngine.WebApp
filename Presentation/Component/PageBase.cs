@@ -47,7 +47,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// The working culture by priority: user > tenant > system (UI)
     /// </summary>
-    protected virtual string Culture =>
+    protected string Culture =>
         User.Culture ??
         Tenant.Culture ??
         CultureInfo.CurrentUICulture.Name;
@@ -59,7 +59,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// </summary>
     protected virtual WorkingItems WorkingItems { get; }
 
-    protected virtual bool WorkingItemsFulfilled(int? tenantId, int? payrollId, int? employeeId) =>
+    protected bool WorkingItemsFulfilled(int? tenantId, int? payrollId, int? employeeId) =>
         (!WorkingItems.TenantView() && !WorkingItems.TenantChange() || tenantId.HasValue) &&
         (!WorkingItems.PayrollView() && !WorkingItems.PayrollChange() || payrollId.HasValue) &&
         (!WorkingItems.EmployeeView() && !WorkingItems.EmployeeChange() || employeeId.HasValue);
@@ -98,13 +98,12 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// True if tenant is missing
     /// </summary>
-    protected virtual bool IsTenantMissing => !HasTenant;
+    protected bool IsTenantMissing => !HasTenant;
 
     /// <summary>
     /// Handler fot tenant change
     /// </summary>
-    /// <param name="tenant">The new tenant</param>
-    protected virtual async Task OnTenantChangedAsync(Tenant tenant)
+    protected virtual async Task OnTenantChangedAsync()
     {
         if (WorkingItems.TenantAvailable())
         {
@@ -145,7 +144,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// </summary>
     /// <param name="gridId">The grid id</param>
     /// <returns>The base grid id</returns>
-    protected string GetBaseGridId(string gridId)
+    private string GetBaseGridId(string gridId)
     {
         var token = $"{GetTenantGridId()}_";
         if (!gridId.StartsWith(token))
@@ -177,7 +176,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// True if payroll is missing
     /// </summary>
-    protected virtual bool IsPayrollMissing =>
+    protected bool IsPayrollMissing =>
         WorkingItems.PayrollChange() && !HasPayroll;
 
     /// <summary>
@@ -209,7 +208,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// True if employee id missing
     /// </summary>
-    protected virtual bool IsEmployeeMissing =>
+    protected bool IsEmployeeMissing =>
         WorkingItems.EmployeeChange() && !HasEmployee;
 
     /// <summary>
@@ -275,10 +274,14 @@ public abstract class PageBase : ComponentBase, IDisposable
             throw new ArgumentException(nameof(gridId));
         }
 
-        var attributeName = GetCustomColumnSettingName(GetBaseGridId(gridId));
+        if (Tenant == null || Tenant.Attributes == null)
+        {
+            return;
+        }
 
         // custom columns stored in tenant
-        if (Tenant.Attributes == null || !Tenant.Attributes.ContainsKey(attributeName))
+        var attributeName = GetCustomColumnSettingName(GetBaseGridId(gridId));
+        if (!Tenant.Attributes.ContainsKey(attributeName))
         {
             return;
         }
@@ -383,7 +386,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     #region Lifecycle
 
     private async Task TenantChangedEvent(object sender, Tenant tenant) =>
-        await OnTenantChangedAsync(tenant);
+        await OnTenantChangedAsync();
 
     private async Task PayrollChangedEvent(object sender, Payroll payroll) =>
         await OnPayrollChangedAsync(payroll);
@@ -393,7 +396,7 @@ public abstract class PageBase : ComponentBase, IDisposable
 
     // see https://stackoverflow.com/questions/56477829/how-to-fix-the-current-thread-is-not-associated-with-the-renderers-synchroniza
     // answer: https://stackoverflow.com/a/60353701
-    protected async Task StateHasChangedAsync()
+    private async Task StateHasChangedAsync()
     {
         await InvokeAsync(StateHasChanged);
     }

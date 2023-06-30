@@ -23,8 +23,8 @@ public partial class AttributesGrid : IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    protected ItemCollection<AttributeItem> Attributes { get; set; } = new();
-    protected MudDataGrid<AttributeItem> Grid { get; set; }
+    private ItemCollection<AttributeItem> Attributes { get; set; } = new();
+    private MudDataGrid<AttributeItem> Grid { get; set; }
 
     private void SetupAttributes()
     {
@@ -47,7 +47,7 @@ public partial class AttributesGrid : IDisposable
     private string LocalizedItemFullName =>
         $"{LocalizedItemName} {Localizer.Attribute.Attribute}";
 
-    protected async Task AddAttributeAsync()
+    private async Task AddAttributeAsync()
     {
         // dialog parameters
         var parameters = new DialogParameters
@@ -75,7 +75,7 @@ public partial class AttributesGrid : IDisposable
         Attributes.Add(item);
     }
 
-    protected async Task EditAttributeAsync(AttributeItem item)
+    private async Task EditAttributeAsync(AttributeItem item)
     {
         if (item == null)
         {
@@ -107,7 +107,7 @@ public partial class AttributesGrid : IDisposable
         Item.Attributes[item.Name] = item.Value;
     }
 
-    protected async Task DeleteAttributeAsync(AttributeItem item)
+    private async Task DeleteAttributeAsync(AttributeItem item)
     {
         if (item == null)
         {

@@ -12,4 +12,6 @@ public class TenantLocalizer : LocalizerBase
     public string Tenant => FromCaller();
     public string Tenants => FromCaller();
     public string NotAvailable => FromCaller();
+    public string CultureHelp => FromCaller();
+    public string CalendarHelp => FromCaller();
 }
