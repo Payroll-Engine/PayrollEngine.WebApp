@@ -2262,4 +2262,10 @@
   <data name="Tenant.CultureHelp" xml:space="preserve">
     <value>Fallback is the system culture</value>
   </data>
+  <data name="CaseField.CultureHelp" xml:space="preserve">
+    <value>RFC 4646 language code: en-US, de-DE...</value>
+  </data>
+  <data name="WageType.CalendarHelp" xml:space="preserve">
+    <value>Wage type calendar</value>
+  </data>
 </root>

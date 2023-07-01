@@ -2,7 +2,7 @@
 
 <MudDatePicker @bind-Date="@Field.ValueAsDateTime"
                DateFormat="@DateFormat"
-               Culture="@CultureInfo"
+               Culture="@EditCulture"
                MinDate="@MinValue"
                MaxDate="@MaxValue"
                Editable="true"
@@ -25,7 +25,7 @@
     protected override async Task OnInitializedAsync()
     {
         DateFormat = Field.Attributes.GetFormat(Culture) ??
-                     CultureInfo.DateTimeFormat.ShortDatePattern;
+                     EditCulture.DateTimeFormat.ShortDatePattern;
         MinValue = Field.Attributes.GetMinDateTimeValue(Culture);
         MaxValue = Field.Attributes.GetMaxDateTimeValue(Culture);
 

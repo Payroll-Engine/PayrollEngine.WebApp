@@ -2,8 +2,8 @@
 
 <MudNumericField T="int?"
                  @bind-Value="@Field.ValueAsInteger"
+                 Culture="@EditCulture"
                  Format="@Format"
-                 Culture="@CultureInfo"
                  Min="@MinValue"
                  Max="@MaxValue"
                  Step="@StepSize"

@@ -12,7 +12,7 @@ public class CaseFieldLocalizer : LocalizerBase
     public string CaseField => FromCaller();
     public string CaseFields => FromCaller();
 
-
+    public string CultureHelp => FromCaller();
     public string CancellationMode => FromCaller();
     public string TimeType => FromCaller();
     public string TimeUnit => FromCaller();
@@ -27,10 +27,8 @@ public class CaseFieldLocalizer : LocalizerBase
     public string ValueMandatory => FromCaller();
     public string LookupSettings => FromCaller();
     public string LookupSettingsRemoved => FromCaller();
-
     public string BuildActions => FromCaller();
     public string ValidateActions => FromCaller();
-
     public string TimeGroup => FromCaller();
     public string FieldDocuments => FromCaller();
 }

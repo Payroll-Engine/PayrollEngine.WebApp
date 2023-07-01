@@ -37,7 +37,6 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             return;
         }
        
-        
         // ensure tenant parameter
         if (AddItemTenantParameter && IsDialogParameter(nameof(Tenant)))
         {
@@ -45,6 +44,16 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             if (tenant == null)
             {
                 parameters.Add(nameof(Tenant), Tenant);
+            }
+        }
+
+        // ensure culture parameter
+        if (IsDialogParameter(nameof(Tenant.Culture)))
+        {
+            var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
+            if (culture == null)
+            {
+                parameters.Add(nameof(Tenant.Culture), PageCulture);
             }
         }
 
@@ -125,6 +134,16 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             if (tenant == null)
             {
                 parameters.Add(nameof(Tenant), Tenant);
+            }
+        }
+        
+        // ensure culture parameter
+        if (IsDialogParameter(nameof(Tenant.Culture)))
+        {
+            var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
+            if (culture == null)
+            {
+                parameters.Add(nameof(Tenant.Culture), PageCulture);
             }
         }
 

@@ -32,21 +32,23 @@ public abstract class FieldEditorBase : ComponentBase
         !Field.HasValue && Field.ValueMandatory;
 
     // culture
-    private CultureInfo culture;
-    protected CultureInfo CultureInfo
-    {
-        get
-        {
-            if (culture == null)
-            {
-                var customCulture = Field.Attributes.GetCulture(Culture);
-                culture = string.IsNullOrWhiteSpace(customCulture) ?
-                    Field.ValueFormatter.Culture :
-                    CultureTool.GetCulture(customCulture);
-            }
-            return culture;
-        }
-    }
+    private CultureInfo editCulture;
+    protected CultureInfo EditCulture => 
+        editCulture ??= CultureTool.GetCulture(GetEditCulture());
+
+    /// <summary>
+    /// Get culture by priority: Field Attribute > Field > Page/Parameter
+    /// </summary>
+    /// <returns></returns>
+    private string GetEditCulture() =>
+        // priority 1: field attribute culture
+        Field.Attributes.GetCulture(Culture) ??
+        // priority 2: field culture
+        Field.Culture ??
+        // priority 3: page/parameter culture
+        Culture ??
+        // priority 4: system culture
+        CultureInfo.CurrentCulture.Name;
 
     protected override async Task OnInitializedAsync()
     {

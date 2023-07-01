@@ -2265,4 +2265,10 @@
   <data name="Tenant.CultureHelp" xml:space="preserve">
     <value>Fall undefiniert gilt die Systemkultur</value>
   </data>
+  <data name="CaseField.CultureHelp" xml:space="preserve">
+    <value>RFC 4646 Sprachcode: en-US, de-DE...</value>
+  </data>
+  <data name="WageType.CalendarHelp" xml:space="preserve">
+    <value>Lohnart Kalender</value>
+  </data>
 </root>

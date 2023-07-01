@@ -3,6 +3,7 @@
 
 <MudSelect T="int?"
 @bind-Value="Field.ValueAsInteger"
+           Culture="@EditCulture"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
@@ -30,7 +31,7 @@
 
     private void SetupWeekdays()
     {
-        var culture = CultureInfo;
+        var culture = EditCulture;
         // day names
         var dayNames = culture.DateTimeFormat.DayNames.ToList();
 

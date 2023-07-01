@@ -131,6 +131,9 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
         }
     }
 
+    [JsonIgnore]
+    public string Culture => null;
+
     public string GetLocalizedName(string culture) =>
         culture.GetLocalization(NameLocalizations, Name);
 

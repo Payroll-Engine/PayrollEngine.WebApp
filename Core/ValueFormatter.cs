@@ -5,7 +5,7 @@ namespace PayrollEngine.WebApp;
 
 public class ValueFormatter : IValueFormatter
 {
-    public CultureInfo Culture { get; }
+    private CultureInfo Culture { get; }
 
     public ValueFormatter(CultureInfo culture)
     {

@@ -1,6 +1,5 @@
 ﻿@using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Shared
-@using System.Globalization
 
 <MudDialog Style="min-width: 30em;">
     <DialogContent>
@@ -28,7 +27,7 @@
                                             SelectedEmployees="@PayrunJob.Employees?.Select(x => x.EmployeeId).ToList()" />
                         @if (PayrunJob.Attributes != null && PayrunJob.Attributes.Any())
                         {
-                            <PayrunParameterInfo Class="pt-4" Culture="@GetCulture()"
+                            <PayrunParameterInfo Class="pt-4" Culture="@Culture"
                                                  ParameterAttributes="PayrunJob.Attributes" />
                         }
                     </MudStack>
@@ -150,16 +149,13 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Tenant Tenant { get; set; }
+    [Parameter] public string Culture { get; set; }
     [Parameter] public PayrunJob PayrunJob { get; set; }
     [Parameter] public List<PayrollEngine.WebApp.User> Users { get; set; } = new();
     [Parameter] public List<Employee> Employees { get; set; } = new();
     [Inject] private Localizer Localizer { get; set; }
 
     private void Close() => MudDialog.Close(DialogResult.Ok(true));
-
-    // culture by priority: user > tenant > system (UI)
-    private string GetCulture() => Tenant.Culture ??
-                                   CultureInfo.CurrentUICulture.Name;
 
     protected string GetUserName(int? userId)
     {

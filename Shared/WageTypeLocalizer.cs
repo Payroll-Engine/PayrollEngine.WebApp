@@ -11,9 +11,9 @@ public class WageTypeLocalizer : LocalizerBase
 
     public string WageType => FromCaller();
     public string WageTypes => FromCaller();
-
     public string WageTypeNumber => FromCaller();
     public string CollectorGroups => FromCaller();
     public string ValueExpression => FromCaller();
     public string ResultExpression => FromCaller();
+    public string CalendarHelp => FromCaller();
 }

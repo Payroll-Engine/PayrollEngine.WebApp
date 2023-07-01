@@ -961,6 +961,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RFC 4646 language code: en-US, de-DE....
+        /// </summary>
+        internal static string CaseField_CultureHelp {
+            get {
+                return ResourceManager.GetString("CaseField.CultureHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default end.
         /// </summary>
         internal static string CaseField_DefaultEnd {
@@ -6312,6 +6321,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string User_UserType {
             get {
                 return ResourceManager.GetString("User.UserType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wage type calendar.
+        /// </summary>
+        internal static string WageType_CalendarHelp {
+            get {
+                return ResourceManager.GetString("WageType.CalendarHelp", resourceCulture);
             }
         }
         

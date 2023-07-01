@@ -44,7 +44,7 @@
             @foreach (var payrun in Payruns)
             {
                 <MudSelectItem T="string" Value="payrun.Name">
-                    @Culture.GetLocalization(payrun.NameLocalizations, payrun.Name)
+                    @PageCulture.GetLocalization(payrun.NameLocalizations, payrun.Name)
                 </MudSelectItem>
             }
         </MudSelect>
@@ -129,7 +129,7 @@
                                 {
                                     @if (HasLegalJob)
                                     {
-                                        <PayrunParameterInfo Culture="@Culture" Parameters="@LegalSetup.Parameters" />
+                                        <PayrunParameterInfo Culture="@PageCulture" Parameters="@LegalSetup.Parameters" />
                                     }
                                     else
                                     {

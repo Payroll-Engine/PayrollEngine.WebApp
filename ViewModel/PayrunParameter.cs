@@ -38,6 +38,9 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
         !Mandatory || (Mandatory && HasValue);
 
     [JsonIgnore]
+    public string Culture => null;
+
+    [JsonIgnore]
     public bool HasValue => !string.IsNullOrWhiteSpace(Value);
 
     /// <inheritdoc />

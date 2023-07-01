@@ -3,16 +3,22 @@
 
 @foreach (var month in Months)
 {
-       <MudSelectItem T="Month?" Value="@month.Item1">@month.Item2</MudSelectItem>
+    <MudSelectItem T="Month?" Value="@month.Item1">@month.Item2</MudSelectItem>
 }
 
 @code
 {
+    [Parameter] public string Culture { get; set; }
     private List<Tuple<Month?, string>> Months { get; set; } = new();
 
     private void SetupMonths()
     {
-        var monthNames = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.
+        // culture: fallback to system culture
+        var cultureName = Culture ?? CultureInfo.CurrentCulture.Name;
+        var culture = CultureTool.GetCulture(cultureName);
+
+        // months
+        var monthNames = culture.DateTimeFormat.MonthNames.
             Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
         var i = 1;
         foreach (var monthName in monthNames)

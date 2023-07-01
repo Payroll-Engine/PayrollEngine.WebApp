@@ -60,7 +60,8 @@ public partial class WageTypeEditor
             },
             new(nameof(RegulationWageType.Calendar), typeof(TextBox))
             {
-                Label = Localizer.Calendar.Calendar
+                Label = Localizer.Calendar.Calendar,
+                Help = Localizer.WageType.CalendarHelp
             },
             new(nameof(RegulationWageType.OverrideType), typeof(EnumListBox<OverrideType>))
             {

@@ -18,28 +18,28 @@
 }
 
 <div class="d-flex justify-center flex-grow-1">
-    <MudPaper Class="pa-4" Style="min-width: 30em; max-width: 50em; margin-top: 5em">
+    <MudPaper Class="pa-4" Style="min-width: 30em; max-width: 50em; margin-top: 5em; text-align: center">
 
         @* app icon or text *@
-        <MudText Typo="Typo.h5" Style="min-width: 8em; width: max-content;">
-            @if (!string.IsNullOrWhiteSpace(AppImage))
-            {
-                <img src="@AppImage" style="max-width: 15em" />
-            }
-            else
-            {
+        @if (!string.IsNullOrWhiteSpace(AppImage))
+        {
+            <img src="@AppImage" style="max-width: 25em" class="py-2" />
+        }
+        else
+        {
+            <MudText Typo="Typo.h4" Align="Align.Center" Class="py-2"
+                     Style="min-width: 8em; width: max-content; width: 100%">
                 @AppTitle
-            }
-        </MudText>
-
+            </MudText>
+        }
 
         @* login title *@
-        <MudText Typo="Typo.h6"
+        <MudText Typo="Typo.h5"
                  Align="Align.Center">
             @Localizer.Login.Login
         </MudText>
 
-        <MudForm>
+        <MudForm Style="zoom: 1.3">
 
             @* Stage 1: User not selected, display text input for user selection *@
             @if (LoginState == UserLoginState.InputUser)

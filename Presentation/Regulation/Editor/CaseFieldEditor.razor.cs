@@ -41,6 +41,11 @@ public partial class CaseFieldEditor
             {
                 Label = Localizer.Shared.Description
             },
+            new(nameof(RegulationCaseField.Culture), typeof(TextBox))
+            {
+                Label = Localizer.Shared.Culture,
+                Help = Localizer.CaseField.CultureHelp
+            },
             new(nameof(RegulationCaseField.CancellationMode), typeof(EnumListBox<CaseFieldCancellationMode>))
             {
                 Label = Localizer.CaseField.CancellationMode

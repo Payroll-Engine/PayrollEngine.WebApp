@@ -12,6 +12,7 @@ using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 using CaseSet = PayrollEngine.WebApp.ViewModel.CaseSet;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
@@ -35,6 +36,8 @@ public abstract partial class NewCasePageBase
     [Inject]
     private IPayrollService PayrollService { get; set; }
     [Inject]
+    private IDivisionService DivisionService { get; set; }
+    [Inject]
     private IConfiguration Configuration { get; set; }
 
     /// <summary>
@@ -46,6 +49,47 @@ public abstract partial class NewCasePageBase
            base(workingItems)
     {
     }
+
+    /// <summary>
+    /// The culture by priority: employee > division > tenant > system (UI)
+    /// </summary>
+    private string caseCulture;
+    private string CaseCulture
+    {
+        get
+        {
+            if (caseCulture != null)
+            {
+                return caseCulture;
+            }
+
+            // priority 1: employee culture
+            if (Employee != null && !string.IsNullOrWhiteSpace(Employee.Culture))
+            {
+                caseCulture = Employee.Culture;
+            }
+
+            // priority 2: division culture
+            if (caseCulture == null && Payroll != null && Payroll.DivisionId > 0)
+            {
+                var division = Task.Run(() => DivisionService.GetAsync<ViewModel.Division>(new(Tenant.Id), Payroll.DivisionId)).Result;
+                if (division != null && !string.IsNullOrWhiteSpace(division.Culture))
+                {
+                    caseCulture = division.Culture;
+                }
+            }
+
+            // priority 3: tenant culture
+            if (caseCulture == null && !string.IsNullOrWhiteSpace(Tenant.Culture))
+            {
+                caseCulture = Tenant.Culture;
+            }
+
+            // priority 4: system culture
+            return caseCulture ??= CultureInfo.CurrentCulture.Name;
+        }
+    }
+
 
     #region Base type
 

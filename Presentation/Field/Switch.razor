@@ -2,8 +2,8 @@
 
 <MudSwitch T="bool?"
            @bind-Checked="@Field.ValueAsBoolean"
+           Culture="@EditCulture"
            Color="Color.Primary"
-           Culture="@CultureInfo"
            Label="@ValueLabel"
            Error="@Error"
            Disabled="@Disabled"

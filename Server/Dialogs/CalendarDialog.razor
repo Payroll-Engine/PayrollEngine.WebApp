@@ -38,7 +38,7 @@
                         </MudSelect>
                         <MudSelect T="Month?" @bind-Value="Calendar.FirstMonthOfYear" Clearable="true"
                                    Label="@Localizer.Calendar.FirstMonthOfYear">
-                            <NullableMonthSelectItems />
+                            <NullableMonthSelectItems Culture="@Culture" />
                         </MudSelect>
                         <MudNumericField T="decimal?" @bind-Value="Calendar.MonthDayCount"
                                          Label="@Localizer.Calendar.MonthDayCount"
@@ -49,7 +49,7 @@
                         </MudSelect>
                         <MudSelect T="PayrollEngine.DayOfWeek?" @bind-Value="Calendar.FirstDayOfWeek" Clearable="true"
                                    Label="@Localizer.Calendar.FirstDayOfWeek">
-                            <NullableWeekdaySelectItems />
+                            <NullableWeekdaySelectItems Culture="@Culture" />
                         </MudSelect>
                         <MudSelect T="CalendarWeekMode" @bind-Value="Calendar.WeekMode"
                                    Label="@Localizer.Calendar.WeekMode">
@@ -84,6 +84,7 @@
     MudForm form;
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string Culture { get; set; }
     [Parameter] public Calendar Calendar { get; set; } = new();
     [Inject] private Localizer Localizer { get; set; }
 
@@ -94,6 +95,9 @@
         Calendar.CycleTimeUnit.IsValidTimeUnit(timeUnit) ? null :
             Localizer.Calendar.InvalidPeriodTimeUnit(timeUnit, Calendar.CycleTimeUnit);
 
-    private static string GetDayName(DayOfWeek dayOfWeek) =>
-        CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int)dayOfWeek];
+    private string GetDayName(DayOfWeek dayOfWeek)
+    {
+        var culture = Culture ?? CultureInfo.CurrentCulture.Name;
+        return CultureTool.GetCulture(culture).DateTimeFormat.DayNames[(int)dayOfWeek];
+    }
 }

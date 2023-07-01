@@ -55,7 +55,7 @@ public class RegulationField
     /// <summary>
     /// The help message
     /// </summary>
-    private string help;
+    private readonly string help;
     public string Help
     {
         get
@@ -66,7 +66,7 @@ public class RegulationField
             }
             return Expression && !IsAction ? "C# Expression" : null;
         }
-        set => help = value;
+        init => help = value;
     }
 
     /// <summary>

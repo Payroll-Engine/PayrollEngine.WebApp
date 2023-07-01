@@ -7,11 +7,16 @@
 
 @code
 {
+    [Parameter] public string Culture { get; set; }
+
     private List<Tuple<int, string>> Weekdays { get; } = new();
 
     private void SetupWeekdays()
     {
-        var culture = CultureInfo.CurrentCulture;
+        // culture: fallback to system culture
+        var cultureName = Culture ?? CultureInfo.CurrentCulture.Name;
+        var culture = CultureTool.GetCulture(cultureName);
+
         // day names
         var dayNames = culture.DateTimeFormat.DayNames.ToList();
 

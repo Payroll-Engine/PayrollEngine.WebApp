@@ -51,6 +51,22 @@ public class UserSession : IDisposable
         employeeWatcher = new(employeeService);
     }
 
+    #region Culture
+
+    public string GetSessionCulture() =>
+        GetSessionCulture(Tenant, User);
+
+    // culture by priority: User > Tenant > System
+    public string GetSessionCulture(Tenant testTenant, User user) =>
+        // priority 1: user culture
+        user?.Culture ??
+        // priority 2: tenant culture
+        testTenant.Culture ??
+        // priority 3: system culture
+        CultureInfo.CurrentCulture.Name;
+
+    #endregion
+
     #region User
 
     public User User { get; private set; }
@@ -103,12 +119,15 @@ public class UserSession : IDisposable
             return;
         }
 
-        // culture with fallback
+        // culture by priority
+        // priority 1: user culture
         var cultureName = user.Culture;
+        // priority 2: tenant culture
         if (string.IsNullOrWhiteSpace(cultureName))
         {
             cultureName = userTenant.Culture;
         }
+        // priority 3: system culture
         if (string.IsNullOrWhiteSpace(cultureName))
         {
             cultureName = CultureInfo.CurrentCulture.Name;

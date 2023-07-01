@@ -224,10 +224,10 @@ public partial class Reports : IReportOperator
         var parameters = new DialogParameters
         {
             { nameof(ReportDownloadDialog.Tenant), Tenant },
+            { nameof(ReportDownloadDialog.Culture), PageCulture },
             { nameof(ReportDownloadDialog.User), User },
             { nameof(ReportDownloadDialog.Payroll), Payroll },
             { nameof(ReportDownloadDialog.Report), report },
-            { nameof(ReportDownloadDialog.Culture), Culture },
             { nameof(ReportDownloadDialog.ValueFormatter), ValueFormatter }
         };
         await DialogService.ShowAsync<ReportDownloadDialog>(

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace PayrollEngine.WebApp;
 
@@ -8,11 +7,6 @@ namespace PayrollEngine.WebApp;
 /// </summary>
 public interface IValueFormatter
 {
-    /// <summary>
-    /// The value culture
-    /// </summary>
-    public CultureInfo Culture { get; }
-
     /// <summary>
     /// Convert a json string value to string
     /// </summary>

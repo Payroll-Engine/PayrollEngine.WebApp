@@ -11,6 +11,11 @@ public interface IFieldObject : IVariantValue, IAttributeObject
     string Name { get; }
 
     /// <summary>
+    /// Field culture
+    /// </summary>
+    string Culture { get; }
+
+    /// <summary>
     /// Get the localized name
     /// </summary>
     /// <param name="culture">The culture</param>

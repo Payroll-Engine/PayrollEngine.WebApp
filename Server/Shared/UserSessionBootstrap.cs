@@ -127,9 +127,10 @@ public class UserSessionBootstrap
                     await SetupUserTasksAsync(tenant, user);
                 }
 
-                // user culture
-                var culture = CultureTool.GetCulture(user.Culture);
-                // set new value formatter
+                // culture by priority: User > Tenant > System
+                var cultureName = UserSession.GetSessionCulture(tenant, user);
+                var culture = CultureTool.GetCulture(cultureName);
+                // value formatter with culture
                 UserSession.ValueFormatter = new ValueFormatter(culture);
 
                 // user login
