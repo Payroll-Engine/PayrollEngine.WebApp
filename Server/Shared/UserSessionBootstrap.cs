@@ -70,11 +70,10 @@ public class UserSessionBootstrap
             // optional startup configuration
             var startupConfiguration = Configuration.GetConfiguration<StartupConfiguration>();
 
-
-            // features
+            // default features
             if (appConfiguration.DefaultFeatures != null)
             {
-                UserSession.DefaultFeatures = appConfiguration.DefaultFeatures.Select(Enum.Parse<Feature>).ToList();
+                UserSession.SetDefaultFeatures(appConfiguration.DefaultFeatures.Select(Enum.Parse<Feature>));
             }
 
             if (startupConfiguration.AutoLogin)
@@ -126,12 +125,6 @@ public class UserSessionBootstrap
                     }
                     await SetupUserTasksAsync(tenant, user);
                 }
-
-                // culture by priority: User > Tenant > System
-                var cultureName = UserSession.GetSessionCulture(tenant, user);
-                var culture = CultureTool.GetCulture(cultureName);
-                // value formatter with culture
-                UserSession.ValueFormatter = new ValueFormatter(culture);
 
                 // user login
                 await UserSession.LoginAsync(tenant, user);

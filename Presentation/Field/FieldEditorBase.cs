@@ -37,7 +37,8 @@ public abstract class FieldEditorBase : ComponentBase
         editCulture ??= CultureTool.GetCulture(GetEditCulture());
 
     /// <summary>
-    /// Get culture by priority: Field Attribute > Field > Page/Parameter
+    /// Edit culture
+    /// <remarks>[culture by priority]: user > system</remarks>
     /// </summary>
     /// <returns></returns>
     private string GetEditCulture() =>

@@ -26,17 +26,17 @@ public class UserSession : IDisposable
     /// <summary>
     /// The value formatter 
     /// </summary>
-    public IValueFormatter ValueFormatter { get; set; }
+    public IValueFormatter ValueFormatter { get; private set; }
 
     /// <summary>
     /// Default features if no features are present
     /// </summary>
-    public List<Feature> DefaultFeatures { get; set; }
+    private List<Feature> DefaultFeatures { get; set; }
 
     /// <summary>
     /// Auto select children
     /// </summary>
-    private bool AutoSelectMode { get; } = true;
+    private bool AutoSelectMode => true;
 
     public UserSession(ITenantService tenantService, IDivisionService divisionService,
         IPayrollService payrollService, IEmployeeService employeeService, IUserService userService)
@@ -51,19 +51,14 @@ public class UserSession : IDisposable
         employeeWatcher = new(employeeService);
     }
 
-    #region Culture
+    #region Features
 
-    public string GetSessionCulture() =>
-        GetSessionCulture(Tenant, User);
-
-    // culture by priority: User > Tenant > System
-    public string GetSessionCulture(Tenant testTenant, User user) =>
-        // priority 1: user culture
-        user?.Culture ??
-        // priority 2: tenant culture
-        testTenant.Culture ??
-        // priority 3: system culture
-        CultureInfo.CurrentCulture.Name;
+    /// <summary>
+    /// Set the default user features
+    /// </summary>
+    /// <param name="defaultFeatures">The default features</param>
+    public void SetDefaultFeatures(IEnumerable<Feature> defaultFeatures) =>
+        DefaultFeatures = defaultFeatures.ToList();
 
     #endregion
 
@@ -94,7 +89,7 @@ public class UserSession : IDisposable
         // user change
         User = user;
         await SetupUserTasks(user);
-        UpdateUserState(userTenant, user);
+        UpdateUserState(user);
 
         // event
         await (UserChanged?.InvokeAsync(this, user) ?? Task.CompletedTask);
@@ -107,31 +102,25 @@ public class UserSession : IDisposable
     /// Update the current user state, including culture and value formatter
     /// </summary>
     public void UpdateUserState() =>
-        UpdateUserState(Tenant, User);
+        UpdateUserState(User);
 
     /// <summary>
     /// Update the user culture
     /// </summary>
-    private void UpdateUserState(Tenant userTenant, User user)
+    private void UpdateUserState(User user)
     {
-        if (user == null || userTenant == null)
+        if (user == null)
         {
             return;
         }
 
-        // culture by priority
-        // priority 1: user culture
-        var cultureName = user.Culture;
-        // priority 2: tenant culture
-        if (string.IsNullOrWhiteSpace(cultureName))
-        {
-            cultureName = userTenant.Culture;
-        }
-        // priority 3: system culture
-        if (string.IsNullOrWhiteSpace(cultureName))
-        {
-            cultureName = CultureInfo.CurrentCulture.Name;
-        }
+        // [culture by priority]: user > system
+        var cultureName =
+            // priority 1: user culture
+            user.Culture ??
+            // priority 3: system culture
+            CultureInfo.CurrentCulture.Name;
+
         var culture = CultureTool.GetCulture(cultureName);
         CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;

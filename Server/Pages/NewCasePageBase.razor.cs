@@ -50,10 +50,11 @@ public abstract partial class NewCasePageBase
     {
     }
 
-    /// <summary>
-    /// The culture by priority: employee > division > tenant > system (UI)
-    /// </summary>
     private string caseCulture;
+    /// <summary>
+    /// Case culture
+    /// <remarks>[culture by priority]: employee > division > tenant > system</remarks>
+    /// </summary>
     private string CaseCulture
     {
         get

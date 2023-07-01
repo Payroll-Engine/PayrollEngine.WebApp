@@ -45,14 +45,13 @@ public abstract class PageBase : ComponentBase, IDisposable
     protected RenderTreeBuilder __builder { get; set; }
 
     /// <summary>
-    /// The culture by priority: user > tenant > system (UI)
+    /// Page culture
+    /// <remarks>[culture by priority]: user > system</remarks>
     /// </summary>
     protected string PageCulture =>
         // priority 1: user culture
         User.Culture ??
-        // priority 2: tenant culture
-        Tenant.Culture ??
-        // priority 3: system culture
+        // priority 2: system culture
         CultureInfo.CurrentCulture.Name;
 
     #region Working Items
