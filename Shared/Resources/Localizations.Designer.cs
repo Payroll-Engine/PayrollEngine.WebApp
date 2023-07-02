@@ -250,15 +250,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter reset.
-        /// </summary>
-        internal static string App_FilterReset {
-            get {
-                return ResourceManager.GetString("App.FilterReset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Light mode.
         /// </summary>
         internal static string App_LightMode {
@@ -313,7 +304,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select a Payrun.
+        ///   Looks up a localized string similar to Please select a payrun.
         /// </summary>
         internal static string App_SelectPayrun {
             get {
@@ -484,7 +475,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CalendarTimeMap.
+        ///   Looks up a localized string similar to Calendar time map.
         /// </summary>
         internal static string Calendar_TimeMap {
             get {
@@ -664,15 +655,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clusters.
-        /// </summary>
-        internal static string Case_Clusters {
-            get {
-                return ResourceManager.GetString("Case.Clusters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Company cases.
         /// </summary>
         internal static string Case_CompanyCases {
@@ -727,16 +709,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Override type.
-        /// </summary>
-        internal static string Case_OverrideType {
-            get {
-                return ResourceManager.GetString("Case.OverrideType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search Case {0}.
+        ///   Looks up a localized string similar to Search case {0}.
         /// </summary>
         internal static string Case_SearchCase {
             get {
@@ -1159,7 +1132,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Source case  name.
+        ///   Looks up a localized string similar to Source case name.
         /// </summary>
         internal static string CaseRelation_SourceCaseName {
             get {
@@ -1168,7 +1141,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Source case  slot.
+        ///   Looks up a localized string similar to Source case slot.
         /// </summary>
         internal static string CaseRelation_SourceCaseSlot {
             get {
@@ -1420,15 +1393,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        internal static string DataGrid_Cancel {
-            get {
-                return ResourceManager.GetString("DataGrid.Cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         internal static string DataGrid_Clear {
@@ -1438,7 +1402,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collapse All Groups.
+        ///   Looks up a localized string similar to Collapse all groups.
         /// </summary>
         internal static string DataGrid_CollapseAllGroups {
             get {
@@ -1672,7 +1636,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refresh Data.
+        ///   Looks up a localized string similar to Refresh data.
         /// </summary>
         internal static string DataGrid_RefreshData {
             get {
@@ -1681,16 +1645,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        internal static string DataGrid_Save {
-            get {
-                return ResourceManager.GetString("DataGrid.Save", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show All.
+        ///   Looks up a localized string similar to Show all.
         /// </summary>
         internal static string DataGrid_ShowAll {
             get {
@@ -1789,15 +1744,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value.
-        /// </summary>
-        internal static string DataGrid_Value {
-            get {
-                return ResourceManager.GetString("DataGrid.Value", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Create {0}.
         /// </summary>
         internal static string Dialog_AddTitle {
@@ -1852,6 +1798,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string Dialog_Save {
+            get {
+                return ResourceManager.GetString("Dialog.Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         internal static string Dialog_Submit {
@@ -1861,7 +1816,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fallback is the tenant calendar.
+        ///   Looks up a localized string similar to Override the tenant calendar.
         /// </summary>
         internal static string Division_CalendarHelp {
             get {
@@ -1870,7 +1825,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fallback is the tenant culture.
+        ///   Looks up a localized string similar to Override the tenant culture.
         /// </summary>
         internal static string Division_CultureHelp {
             get {
@@ -2050,7 +2005,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fallback is the division calendar.
+        ///   Looks up a localized string similar to Override the division calendar.
         /// </summary>
         internal static string Employee_CalendarHelp {
             get {
@@ -2059,7 +2014,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fallback is the division culture.
+        ///   Looks up a localized string similar to Override the division culture.
         /// </summary>
         internal static string Employee_CultureHelp {
             get {
@@ -2194,7 +2149,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calendar Month.
+        ///   Looks up a localized string similar to Calendar month.
         /// </summary>
         internal static string Enum_CalendarTimeUnit_CalendarMonth {
             get {
@@ -3571,15 +3526,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is required..
-        /// </summary>
-        internal static string Error_FieldRequired {
-            get {
-                return ResourceManager.GetString("Error.FieldRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Download error..
         /// </summary>
         internal static string Error_FileDownloadError {
@@ -3634,6 +3580,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is required..
+        /// </summary>
+        internal static string Error_RequiredField {
+            get {
+                return ResourceManager.GetString("Error.RequiredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} already in use..
         /// </summary>
         internal static string Error_UniqueConflict {
@@ -3661,7 +3616,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy Job to Forecast.
+        ///   Looks up a localized string similar to Copy job to forecast.
         /// </summary>
         internal static string Forecast_CopyToForecast {
             get {
@@ -4030,15 +3985,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error.
-        /// </summary>
-        internal static string Log_Error {
-            get {
-                return ResourceManager.GetString("Log.Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Level.
         /// </summary>
         internal static string Log_Level {
@@ -4291,24 +4237,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Level.
-        /// </summary>
-        internal static string PayorllLayer_Level {
-            get {
-                return ResourceManager.GetString("PayorllLayer.Level", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cluster sets.
-        /// </summary>
-        internal static string Payroll_ClusterSets {
-            get {
-                return ResourceManager.GetString("Payroll.ClusterSets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Collector retro.
         /// </summary>
         internal static string Payroll_CollectorRetro {
@@ -4381,7 +4309,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No regulations available. Please add a regulation to the payroll..
+        ///   Looks up a localized string similar to No regulations available, please add a regulation to the payroll..
         /// </summary>
         internal static string PayrollLayer_InvalidPayrollRegulation {
             get {
@@ -4606,33 +4534,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Abort.
-        /// </summary>
-        internal static string PayrunJob_Abort {
-            get {
-                return ResourceManager.GetString("PayrunJob.Abort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        internal static string PayrunJob_Cancel {
-            get {
-                return ResourceManager.GetString("PayrunJob.Cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Complete.
-        /// </summary>
-        internal static string PayrunJob_Complete {
-            get {
-                return ResourceManager.GetString("PayrunJob.Complete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         internal static string PayrunJob_Copy {
@@ -4647,15 +4548,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string PayrunJob_DefaultReason {
             get {
                 return ResourceManager.GetString("PayrunJob.DefaultReason", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Draft.
-        /// </summary>
-        internal static string PayrunJob_Draft {
-            get {
-                return ResourceManager.GetString("PayrunJob.Draft", resourceCulture);
             }
         }
         
@@ -4831,25 +4723,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Process.
-        /// </summary>
-        internal static string PayrunJob_Process {
-            get {
-                return ResourceManager.GetString("PayrunJob.Process", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Release.
-        /// </summary>
-        internal static string PayrunJob_Release {
-            get {
-                return ResourceManager.GetString("PayrunJob.Release", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show Job Details.
+        ///   Looks up a localized string similar to Show job details.
         /// </summary>
         internal static string PayrunJob_ShowJobDetails {
             get {
@@ -4876,7 +4750,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Parameters.
+        ///   Looks up a localized string similar to {0} parameters.
         /// </summary>
         internal static string PayrunParameter_CountParameters {
             get {
@@ -4971,15 +4845,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string PayrunResult_ResultKind {
             get {
                 return ResourceManager.GetString("PayrunResult.ResultKind", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Value.
-        /// </summary>
-        internal static string PayrunResult_ResultValue {
-            get {
-                return ResourceManager.GetString("PayrunResult.ResultValue", resourceCulture);
             }
         }
         
@@ -5272,7 +5137,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No relation available.
+        ///   Looks up a localized string similar to No relations available.
         /// </summary>
         internal static string Report_RelationNotAvailable {
             get {
@@ -5398,7 +5263,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No report log available.
+        ///   Looks up a localized string similar to No report logs available.
         /// </summary>
         internal static string ReportLog_NotAvailable {
             get {
@@ -5461,7 +5326,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No report query available.
+        ///   Looks up a localized string similar to No report queries available.
         /// </summary>
         internal static string ReportQuery_NotAvailable {
             get {
@@ -5493,15 +5358,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string ReportTemplate_Content {
             get {
                 return ResourceManager.GetString("ReportTemplate.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Content type.
-        /// </summary>
-        internal static string ReportTemplate_ContentType {
-            get {
-                return ResourceManager.GetString("ReportTemplate.ContentType", resourceCulture);
             }
         }
         
@@ -5592,15 +5448,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Shared_All {
             get {
                 return ResourceManager.GetString("Shared.All", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attributes.
-        /// </summary>
-        internal static string Shared_AttributeFields {
-            get {
-                return ResourceManager.GetString("Shared.AttributeFields", resourceCulture);
             }
         }
         
@@ -5785,15 +5632,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Localizations.
-        /// </summary>
-        internal static string Shared_Localizations {
-            get {
-                return ResourceManager.GetString("Shared.Localizations", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Mandatory.
         /// </summary>
         internal static string Shared_Mandatory {
@@ -5898,15 +5736,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Shared_Owner {
             get {
                 return ResourceManager.GetString("Shared.Owner", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} is required.
-        /// </summary>
-        internal static string Shared_RequiredField {
-            get {
-                return ResourceManager.GetString("Shared.RequiredField", resourceCulture);
             }
         }
         
@@ -6127,7 +5956,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fallback is the default calendar.
+        ///   Looks up a localized string similar to Override the default calendar.
         /// </summary>
         internal static string Tenant_CalendarHelp {
             get {
@@ -6136,7 +5965,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fallback is the system culture.
+        ///   Looks up a localized string similar to Override the system culture.
         /// </summary>
         internal static string Tenant_CultureHelp {
             get {

@@ -9,11 +9,11 @@
                 <MudTextField T="string" @bind-Value="CaseSlot.Name"
                               Label="@Localizer.Shared.Name"
                               Validation="@(new Func<string, string>(ValidateName))"
-                              Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)"
+                              Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)"
                               Adornment="Adornment.End"
                               AdornmentIcon="@Icons.Material.Filled.Language"
                               AdornmentColor="@LocalizationColor"
-                              AdornmentAriaLabel="@Localizer.Shared.Localizations"
+                              AdornmentAriaLabel="@Localizer.Localization.Localizations"
                               OnAdornmentClick="OpenLocalizationsAsync" />
             </MudForm>
         </MudPaper>
@@ -100,7 +100,7 @@
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return Localizer.Error.FieldRequired(Localizer.Shared.Name);
+            return Localizer.Error.RequiredField(Localizer.Shared.Name);
         }
 
         // existing

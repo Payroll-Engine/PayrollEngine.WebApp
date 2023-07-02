@@ -20,11 +20,11 @@
                                                ReadOnly="@Division.IsExistingObject"
                                                Label="@(Division.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Division.Name))"
-                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                         <MudSelect T=" string" @bind-Value="Division.Culture" Clearable="true"
                                    Label="@Localizer.Shared.Culture"
                                    HelperText="@Localizer.Division.CultureHelp"
-                                   Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Culture)">
+                                   Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Culture)">
                             @foreach (var cultureInfo in CultureInfos)
                             {
                                 <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2</MudSelectItem>

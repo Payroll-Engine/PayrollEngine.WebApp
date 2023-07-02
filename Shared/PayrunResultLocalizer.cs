@@ -16,5 +16,4 @@ public class PayrunResultLocalizer : LocalizerBase
     public string Period => FromCaller();
     public string ResultKind => FromCaller();
     public string KindName => FromCaller();
-    public string ResultValue => FromCaller();
 }

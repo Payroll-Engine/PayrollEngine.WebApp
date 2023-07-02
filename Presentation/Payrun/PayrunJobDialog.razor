@@ -37,7 +37,7 @@
                           Style="min-width: 15em; max-width: 25em">
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.h6" Color="@(PayrunJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
-                            @Localizer.PayrunJob.Draft
+                            @Localizer.FromEnum(PayrunJobStatus.Draft)
                         </MudText>
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.Created</MudText>
@@ -53,7 +53,7 @@
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6"
                                      Color="@(PayrunJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
-                                @Localizer.PayrunJob.Release
+                                @Localizer.FromEnum(PayrunJobStatus.Release)
                             </MudText>
                             <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                             <MudText Class="pr-4">@PayrunJob.Released</MudText>
@@ -70,7 +70,7 @@
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6"
                                      Color="@(PayrunJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
-                                @Localizer.PayrunJob.Process
+                                @Localizer.FromEnum(PayrunJobStatus.Process)
                             </MudText>
                             <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                             <MudText Class="pr-4">@PayrunJob.Processed</MudText>
@@ -87,7 +87,7 @@
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6"
                                      Color="@(PayrunJob.JobStatus == PayrunJobStatus.Complete ? Color.Tertiary : Color.Default)">
-                                @Localizer.PayrunJob.Complete
+                                @Localizer.FromEnum(PayrunJobStatus.Complete)
                             </MudText>
                             <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
                             <MudText Class="pr-4">@PayrunJob.Finished</MudText>

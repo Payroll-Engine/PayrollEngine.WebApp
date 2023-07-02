@@ -8,7 +8,7 @@
                 <MudStack Spacing="1">
                     <MudTextField T="string" @bind-Value="ClusterSet.Name"
                                   Label="@Localizer.Shared.Name"
-                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                     <MudTextField T="string" @bind-Value="ClusterSet.IncludeClustersAsString"
                                   Label="@Localizer.ClusterSet.IncludeClusters"
                                   HelperText="@Localizer.Shared.CommaSeparatedList" />

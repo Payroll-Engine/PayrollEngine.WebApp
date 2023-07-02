@@ -87,7 +87,7 @@
                                               ReadOnly="@HasLegalJob"
                                               Margin="Margin.Dense"
                                               Required="@(!HasLegalJob)"
-                                              RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobName)" />
+                                              RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobName)" />
 
                                 @* period *@
                                 <MudDatePicker @bind-Date="@LegalSetup.Period"
@@ -96,7 +96,7 @@
                                                OpenTo="OpenTo.Month"
                                                Margin="Margin.Dense"
                                                Required="@(!HasLegalJob)"
-                                               RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobPeriod)"
+                                               RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobPeriod)"
                                                Editable="true" />
 
                                 @* employees *@
@@ -148,7 +148,7 @@
                                               ReadOnly="@HasLegalJob"
                                               Margin="Margin.Dense"
                                               Required="@(!HasLegalJob)"
-                                              RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobReason)"
+                                              RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobReason)"
                                               Lines="3"
                                               Variant="Variant.Outlined" />
                                 @if (!HasLegalJob)
@@ -171,7 +171,7 @@
                                   Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6" Color="@(LegalJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
-                                    @Localizer.PayrunJob.Draft
+                                    @Localizer.FromEnum(PayrunJobStatus.Draft)
                                 </MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Created</MudText>
@@ -184,13 +184,13 @@
                                                    Style="Width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Error">
-                                            @Localizer.PayrunJob.Abort
+                                            @Localizer.FromEnum(PayrunJobStatus.Abort)
                                         </MudButton>
                                         <MudButton OnClick="ReleaseLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            @Localizer.PayrunJob.Release
+                                            @Localizer.FromEnum(PayrunJobStatus.Release)
                                         </MudButton>
                                     </div>
                                 }
@@ -205,7 +205,7 @@
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
                                          Color="@(LegalJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
-                                    @Localizer.PayrunJob.Release
+                                    @Localizer.FromEnum(PayrunJobStatus.Release)
                                 </MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Released</MudText>
@@ -215,13 +215,13 @@
                                 {
                                     <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
                                         <MudButton OnClick="AbortLegalJobAsync" Style="Width: max-content" Variant="Variant.Outlined" Color="Color.Error">
-                                            @Localizer.PayrunJob.Abort
+                                            @Localizer.FromEnum(PayrunJobStatus.Abort)
                                         </MudButton>
                                         <MudButton OnClick="ProcessLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            @Localizer.PayrunJob.Process
+                                            @Localizer.FromEnum(PayrunJobStatus.Process)
                                         </MudButton>
                                     </div>
                                 }
@@ -236,7 +236,7 @@
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
                                          Color="@(LegalJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
-                                    @Localizer.PayrunJob.Process
+                                    @Localizer.FromEnum(PayrunJobStatus.Process)
                                 </MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Processed</MudText>
@@ -249,13 +249,13 @@
                                                    Style="Width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Error">
-                                            @Localizer.PayrunJob.Cancel
+                                            @Localizer.FromEnum(PayrunJobStatus.Cancel)
                                         </MudButton>
                                         <MudButton OnClick="CompleteLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            @Localizer.PayrunJob.Complete
+                                            @Localizer.FromEnum(PayrunJobStatus.Complete)
                                         </MudButton>
                                     </div>
                                 }
@@ -336,7 +336,7 @@
                                                   MaxLength="SystemSpecification.KeyTextLength"
                                                   Margin="Margin.Dense"
                                                   Required="true"
-                                                  RequiredError="@Localizer.Error.FieldRequired(Localizer.Forecast.Name)" />
+                                                  RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.Name)" />
 
                                     @* job name *@
                                     <MudTextField T="string"
@@ -345,7 +345,7 @@
                                                   MaxLength="SystemSpecification.KeyTextLength"
                                                   Margin="Margin.Dense"
                                                   Required="true"
-                                                  RequiredError="@Localizer.Error.FieldRequired(Localizer.Forecast.JobName)" />
+                                                  RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobName)" />
 
                                     @* period *@
                                     <MudDatePicker @bind-Date="@ForecastSetup.Period"
@@ -353,7 +353,7 @@
                                                    OpenTo="OpenTo.Month"
                                                    Margin="Margin.Dense"
                                                    Required="true"
-                                                   RequiredError="@Localizer.Error.FieldRequired(Localizer.Forecast.JobPeriod)"
+                                                   RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobPeriod)"
                                                    Editable="true" />
 
                                     @* employees *@
@@ -388,7 +388,7 @@
                                     @bind-Value="ForecastSetup.Reason"
                                                   Label="@Localizer.PayrunJob.JobReason"
                                                   Margin="Margin.Dense"
-                                                  RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrunJob.JobReason)"
+                                                  RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobReason)"
                                                   Lines="3"
                                                   Variant="Variant.Outlined" />
                                     <MudButton Style="width: max-content; align-self: end;"

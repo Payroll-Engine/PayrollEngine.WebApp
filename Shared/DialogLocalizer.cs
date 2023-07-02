@@ -13,5 +13,6 @@ public class DialogLocalizer : LocalizerBase
     public string Cancel => FromCaller();
     public string Submit => FromCaller();
     public string Delete => FromCaller();
+    public string Save => FromCaller();
     public string Close => FromCaller();
 }

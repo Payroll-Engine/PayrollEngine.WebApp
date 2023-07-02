@@ -17,7 +17,7 @@
                                                ReadOnly="@Regulation.IsExistingObject"
                                                Label="@(Regulation.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Regulation.Name))"
-                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                         <LocalizationTextField Item="@Regulation" @bind-Value="Regulation.Description"
                                                PropertyName="@nameof(Regulation.Description)"
                                                Label="@Localizer.Shared.Description" />

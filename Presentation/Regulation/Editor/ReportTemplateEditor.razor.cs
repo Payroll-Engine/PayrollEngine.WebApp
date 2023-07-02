@@ -35,7 +35,7 @@ public partial class ReportTemplateEditor
                 Label = Localizer.Shared.Name,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationReportTemplate.Culture), typeof(TextBox))
@@ -46,7 +46,7 @@ public partial class ReportTemplateEditor
             {
                 Label = Localizer.ReportTemplate.Content,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.ReportTemplate.Content)
+                RequiredError = Localizer.Error.RequiredField(Localizer.ReportTemplate.Content)
             },
             new(nameof(RegulationReportTemplate.ContentType), typeof(TextBox))
             {

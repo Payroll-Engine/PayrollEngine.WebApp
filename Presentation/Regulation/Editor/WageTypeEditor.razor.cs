@@ -35,14 +35,14 @@ public partial class WageTypeEditor
                 Format = SystemSpecification.DecimalFormat,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.WageType.WageTypeNumber),
+                RequiredError = Localizer.Error.RequiredField(Localizer.WageType.WageTypeNumber),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationWageType.Name), typeof(TextBox))
             {
                 Label = Localizer.Shared.Name,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name)
             },
             new(nameof(RegulationWageType.Description), typeof(TextBox))
             {
@@ -56,7 +56,7 @@ public partial class WageTypeEditor
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.ValueType)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.ValueType)
             },
             new(nameof(RegulationWageType.Calendar), typeof(TextBox))
             {

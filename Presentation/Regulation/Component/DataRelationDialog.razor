@@ -8,19 +8,19 @@
                 <MudStack Spacing="1">
                     <MudTextField T="string" @bind-Value="DataRelation.Name"
                                   Label="@Localizer.Shared.Name"
-                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ParentTable"
                                   Label="@Localizer.Report.RelationParentTable"
-                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationParentTable)" />
+                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Report.RelationParentTable)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ParentColumn"
                                   Label="@Localizer.Report.RelationParentColumn"
-                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationParentColumn)" />
+                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Report.RelationParentColumn)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ChildTable"
                                   Label="@Localizer.Report.RelationChildTable"
-                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationChildTable)" />
+                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Report.RelationChildTable)" />
                     <MudTextField T="string" @bind-Value="DataRelation.ChildColumn"
                                   Label="@Localizer.Report.RelationChildColumn"
-                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Report.RelationChildColumn)" />
+                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Report.RelationChildColumn)" />
                 </MudStack>
             </MudForm>
         </MudPaper>

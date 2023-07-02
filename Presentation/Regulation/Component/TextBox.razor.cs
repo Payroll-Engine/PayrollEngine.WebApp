@@ -119,7 +119,7 @@ public partial class TextBox : IRegulationInput
             { nameof(LocalizationsDialog.MaxLength), Field.MaxLength }
         };
         var result = await (await DialogService.ShowAsync<LocalizationsDialog>(
-            Localizer.Item.EditTitle(Localizer.Shared.Localizations), parameters)).Result;
+            Localizer.Item.EditTitle(Localizer.Localization.Localizations), parameters)).Result;
         if (result == null || result.Canceled)
         {
             return;

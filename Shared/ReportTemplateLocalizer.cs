@@ -14,7 +14,6 @@ public class ReportTemplateLocalizer : LocalizerBase
     public string NotAvailable => FromCaller();
 
     public string Content => FromCaller();
-    public string ContentType => FromCaller();
     public string Schema => FromCaller();
     public string Resource => FromCaller();
 }

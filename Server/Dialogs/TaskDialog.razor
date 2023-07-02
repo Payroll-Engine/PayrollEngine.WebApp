@@ -17,17 +17,17 @@
                                                ReadOnly="@Task.IsExistingObject"
                                                Label="@(Task.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Task.Name))"
-                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                         <MudTextField T="string" @bind-Value="Task.Instruction"
                                       Label="@Localizer.Task.Instruction"
                                       Lines="4"
                                       Validation="@(!string.IsNullOrWhiteSpace(Task.Instruction))"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Task.Instruction)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Task.Instruction)" />
                         <MudDatePicker @bind-Date="Task.Scheduled"
                                        Label="@Localizer.Task.ScheduledDate"
                                        Validation="@Task.IsScheduled"
                                        Editable="true"
-                                       Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Task.ScheduledDate)" />
+                                       Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Task.ScheduledDate)" />
                         <MudDatePicker @bind-Date="Task.Completed"
                                        Label="@Localizer.Task.CompletedDate"
                                        Editable="true" />

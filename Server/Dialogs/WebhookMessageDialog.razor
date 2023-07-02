@@ -15,18 +15,18 @@
                                       ReadOnly="@WebhookMessage.IsExistingObject"
                                       Label="@(WebhookMessage.IsNewObject ? $"{Localizer.Webhook.Action} ({Localizer.Shared.Immutable})" : Localizer.Webhook.Action)"
                                       Validation="@(!string.IsNullOrWhiteSpace(WebhookMessage.ActionName))"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Webhook.Action)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Webhook.Action)" />
                         <MudTextField T="string" @bind-Value="WebhookMessage.ReceiverAddress"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       ReadOnly="@WebhookMessage.IsExistingObject"
                                       Label="@(WebhookMessage.IsNewObject ? $"{Localizer.Webhook.ReceiverAddress} ({Localizer.Shared.Immutable})" : Localizer.Webhook.ReceiverAddress)"
                                       Validation="@(!string.IsNullOrWhiteSpace(WebhookMessage.ReceiverAddress))"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Webhook.ReceiverAddress)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Webhook.ReceiverAddress)" />
                         <MudDatePicker @bind-Date="WebhookMessage.RequestDate"
                                        ReadOnly="@WebhookMessage.IsExistingObject"
                                        Label="@(WebhookMessage.IsNewObject ? $"{Localizer.WebhookMessage.RequestDate} ({Localizer.Shared.Immutable})" : Localizer.WebhookMessage.RequestDate)"
                                        Editable="true"
-                                       Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.WebhookMessage.RequestDate)" />
+                                       Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.WebhookMessage.RequestDate)" />
                         <MudTextField T="string" @bind-Value="WebhookMessage.RequestMessage"
                                       ReadOnly="@WebhookMessage.IsExistingObject"
                                       Label="@(WebhookMessage.IsNewObject ? $"{Localizer.WebhookMessage.RequestMessage} ({Localizer.Shared.Immutable})" : Localizer.WebhookMessage.RequestMessage)" />

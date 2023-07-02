@@ -26,14 +26,7 @@ public class PayrunJobLocalizer : LocalizerBase
 
     public string StartPayrun => FromCaller();
     public string ShowJobDetails => FromCaller();
-
     public string New => FromCaller();
-    public string Draft => FromCaller();
-    public string Release => FromCaller();
-    public string Process => FromCaller();
-    public string Cancel => FromCaller();
-    public string Abort => FromCaller();
-    public string Complete => FromCaller();
 
     public string JobDate => FromCaller();
     public string JobValidationFailed => FromCaller();

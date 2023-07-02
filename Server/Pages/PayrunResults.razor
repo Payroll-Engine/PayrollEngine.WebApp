@@ -80,7 +80,7 @@
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="@Localizer.App.FilterReset" Placement="Placement.Top">
+        <MudTooltip Delay="500" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
                            Color="Color.Primary" Variant="Variant.Outlined"
                            Icon="@Icons.Material.Filled.FilterAltOff"
@@ -130,7 +130,7 @@
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.KindName" Title="@Localizer.PayrunResult.KindName" />
-        <PropertyColumn Property="x => x.ResultValue" Title="@Localizer.PayrunResult.ResultValue" />
+        <PropertyColumn Property="x => x.ResultValue" Title="@Localizer.Shared.Value" />
         <PropertyColumn Property="x => x.ResultNumericValue" Title="@Localizer.Shared.NumericValue" Format="0.##" />
         <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration" />
     </Columns>

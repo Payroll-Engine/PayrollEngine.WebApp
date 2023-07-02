@@ -15,7 +15,6 @@ public class LogLocalizer : LocalizerBase
 
     public string Level => FromCaller();
     public string Message => FromCaller();
-    public string Error => FromCaller();
     public string Comment => FromCaller();
     public string OwnerType => FromCaller();
 }

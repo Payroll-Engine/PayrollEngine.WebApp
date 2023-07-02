@@ -19,17 +19,17 @@
                                                ReadOnly="@Calendar.IsExistingObject"
                                                Label="@(Calendar.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Calendar.Name))"
-                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                         <MudSelect T="CalendarTimeUnit" @bind-Value="Calendar.CycleTimeUnit"
                                    Label="@Localizer.Calendar.CycleTimeUnit"
-                                   Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Calendar.CycleTimeUnit)">
+                                   Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Calendar.CycleTimeUnit)">
                             <EnumSelectItems T="CalendarTimeUnit" />
                         </MudSelect>
                         <MudSelect T="CalendarTimeUnit" @bind-Value="Calendar.PeriodTimeUnit"
                                    Label="@Localizer.Calendar.PeriodTimeUnit"
                                    HelperText="@Localizer.Calendar.PeriodTimeUnitHelp"
                                    Validation="@(new Func<CalendarTimeUnit, string>(ValidatePeriodUnit))"
-                                   Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Calendar.PeriodTimeUnit)">
+                                   Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Calendar.PeriodTimeUnit)">
                             <EnumSelectItems T="CalendarTimeUnit" />
                         </MudSelect>
                         <MudSelect T="CalendarTimeMap" @bind-Value="Calendar.TimeMap" Clearable="true"

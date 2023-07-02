@@ -34,7 +34,7 @@ public partial class CaseFieldEditor
                 KeyField = true,
                 Required = true,
                 Label = Localizer.Shared.Name,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationCaseField.Description), typeof(TextBox))
@@ -75,7 +75,7 @@ public partial class CaseFieldEditor
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.CaseField.TimeType)
+                RequiredError = Localizer.Error.RequiredField(Localizer.CaseField.TimeType)
             },
             new(nameof(RegulationCaseField.TimeUnit), typeof(EnumListBox<CaseFieldTimeUnit>))
             {
@@ -84,7 +84,7 @@ public partial class CaseFieldEditor
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.CaseField.TimeUnit)
+                RequiredError = Localizer.Error.RequiredField(Localizer.CaseField.TimeUnit)
             },
             new(nameof(RegulationCaseField.StartDateType), typeof(EnumListBox<CaseFieldDateType>))
             {
@@ -120,7 +120,7 @@ public partial class CaseFieldEditor
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.ValueType)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.ValueType)
             },
             new(nameof(RegulationCaseField.ValueScope), typeof(EnumListBox<ValueScope>))
             {
@@ -129,7 +129,7 @@ public partial class CaseFieldEditor
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.CaseField.ValueScope)
+                RequiredError = Localizer.Error.RequiredField(Localizer.CaseField.ValueScope)
             },
             new(nameof(RegulationCaseField.ValueCreationMode), typeof(EnumListBox<CaseValueCreationMode>))
             {

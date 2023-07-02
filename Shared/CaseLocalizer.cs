@@ -15,9 +15,7 @@ public class CaseLocalizer : LocalizerBase
 
     public string CaseType => FromCaller();
     public string DefaultReason => FromCaller();
-    public string Clusters => FromCaller();
     public string CancellationType => FromCaller();
-    public string OverrideType => FromCaller();
     public string BaseCase => FromCaller();
     public string BaseCaseField => FromCaller();
     public string BaseCaseFields => FromCaller();

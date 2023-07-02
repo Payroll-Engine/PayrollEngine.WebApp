@@ -17,7 +17,7 @@
                                                ReadOnly="@Payroll.IsExistingObject"
                                                Label="@(Payroll.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Payroll.Name))"
-                                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                         <MudSelect T="string" @bind-Value="Payroll.DivisionName"
                                    Disabled="@(DivisionNames == null || DivisionNames.Count < 1)"
                                    ReadOnly="@Payroll.IsExistingObject"
@@ -45,7 +45,7 @@
                         <MudTextField T="string" Label="@Localizer.Payroll.WageTypePeriod" @bind-Value="Payroll.ClusterSetWageTypePeriod" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="@Localizer.Payroll.ClusterSets">
+                <MudTabPanel Text="@Localizer.ClusterSet.ClusterSets">
                     <ClusterSetGrid Payroll="Payroll" Class="attributes-grid pa-2" />
                 </MudTabPanel>
                 <MudTabPanel Text="@Localizer.Attribute.Attributes">

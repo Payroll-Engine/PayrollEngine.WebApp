@@ -34,7 +34,7 @@ public partial class ScriptEditor
                 Label = Localizer.Shared.Name,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationScript.Value), typeof(TextBox))
@@ -43,7 +43,7 @@ public partial class ScriptEditor
                 Expression = true,
                 Lines = 25,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Script.Script)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Script.Script)
             },
             new(nameof(RegulationScript.FunctionTypes), typeof(MultiEnumListBox<FunctionType>))
             {

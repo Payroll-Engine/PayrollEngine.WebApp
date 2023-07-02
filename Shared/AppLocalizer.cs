@@ -26,7 +26,6 @@ public class AppLocalizer : LocalizerBase
     public string About => FromCaller();
     public string Logout => FromCaller();
 
-    public string FilterReset => FromCaller();
     public string CompactView => FromCaller();
     public string ExpandGroups => FromCaller();
     public string CollapseGroups => FromCaller();

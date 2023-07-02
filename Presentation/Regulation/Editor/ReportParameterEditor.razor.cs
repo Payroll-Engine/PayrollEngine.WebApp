@@ -34,7 +34,7 @@ public partial class ReportParameterEditor
                 Label = Localizer.Shared.Name,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationReportParameter.Description), typeof(TextBox))
@@ -51,7 +51,7 @@ public partial class ReportParameterEditor
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.ValueType)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.ValueType)
             },
             new(nameof(RegulationReportParameter.ParameterType), typeof(EnumListBox<ReportParameterType>))
             {

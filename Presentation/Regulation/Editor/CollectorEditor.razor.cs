@@ -34,7 +34,7 @@ public partial class CollectorEditor
                 Label = Localizer.Shared.Name,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationCollector.CollectType), typeof(EnumListBox<CollectType>))

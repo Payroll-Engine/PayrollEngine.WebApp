@@ -17,7 +17,7 @@
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="@(Payrun.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                       Validation="@(!string.IsNullOrWhiteSpace(Payrun.Name))"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Name)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                         <MudSelect T="string" Label="@Localizer.Payroll.Payroll" @bind-Value="Payrun.PayrollName">
                             @foreach (var name in PayrollNames)
                             {

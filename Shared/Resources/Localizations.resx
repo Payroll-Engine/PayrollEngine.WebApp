@@ -174,9 +174,6 @@
   <data name="App.ExpandGroups" xml:space="preserve">
     <value>Expand groups</value>
   </data>
-  <data name="App.FilterReset" xml:space="preserve">
-    <value>Filter reset</value>
-  </data>
   <data name="App.LightMode" xml:space="preserve">
     <value>Light mode</value>
   </data>
@@ -196,7 +193,7 @@
     <value>Please select a payroll with a payrun</value>
   </data>
   <data name="App.SelectPayrun" xml:space="preserve">
-    <value>Please select a Payrun</value>
+    <value>Please select a payrun</value>
   </data>
   <data name="App.SelectTenant" xml:space="preserve">
     <value>Please select a tenant</value>
@@ -241,7 +238,7 @@
     <value>Period time unit</value>
   </data>
   <data name="Calendar.TimeMap" xml:space="preserve">
-    <value>CalendarTimeMap</value>
+    <value>Calendar time map</value>
   </data>
   <data name="Calendar.WeekMode" xml:space="preserve">
     <value>Week mode</value>
@@ -291,9 +288,6 @@
   <data name="Case.ChangeHistory" xml:space="preserve">
     <value>Change history</value>
   </data>
-  <data name="Case.Clusters" xml:space="preserve">
-    <value>Clusters</value>
-  </data>
   <data name="Case.CompanyCases" xml:space="preserve">
     <value>Company cases</value>
   </data>
@@ -312,11 +306,8 @@
   <data name="Case.NotAvailable" xml:space="preserve">
     <value>No cases available</value>
   </data>
-  <data name="Case.OverrideType" xml:space="preserve">
-    <value>Override type</value>
-  </data>
   <data name="Case.SearchCase" xml:space="preserve">
-    <value>Search Case {0}</value>
+    <value>Search case {0}</value>
   </data>
   <data name="Case.Slots" xml:space="preserve">
     <value>Slots</value>
@@ -442,10 +433,10 @@
     <value>Relation</value>
   </data>
   <data name="CaseRelation.SourceCaseName" xml:space="preserve">
-    <value>Source case  name</value>
+    <value>Source case name</value>
   </data>
   <data name="CaseRelation.SourceCaseSlot" xml:space="preserve">
-    <value>Source case  slot</value>
+    <value>Source case slot</value>
   </data>
   <data name="CaseRelation.TargetCaseName" xml:space="preserve">
     <value>Target case  name</value>
@@ -615,7 +606,7 @@
   <data name="Error.EmptyCollection" xml:space="preserve">
     <value>Empty collection.</value>
   </data>
-  <data name="Error.FieldRequired" xml:space="preserve">
+  <data name="Error.RequiredField" xml:space="preserve">
     <value>{0} is required.</value>
   </data>
   <data name="Error.FileDownloadError" xml:space="preserve">
@@ -643,7 +634,7 @@
     <value>Replace all forecast values?</value>
   </data>
   <data name="Forecast.CopyToForecast" xml:space="preserve">
-    <value>Copy Job to Forecast</value>
+    <value>Copy job to forecast</value>
   </data>
   <data name="Forecast.Forecast" xml:space="preserve">
     <value>Forecast</value>
@@ -762,9 +753,6 @@
   <data name="Log.Comment" xml:space="preserve">
     <value>Comment</value>
   </data>
-  <data name="Log.Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
   <data name="Log.Level" xml:space="preserve">
     <value>Level</value>
   </data>
@@ -828,12 +816,6 @@
   <data name="LookupValue.RangeValue" xml:space="preserve">
     <value>Range value</value>
   </data>
-  <data name="PayorllLayer.Level" xml:space="preserve">
-    <value>Level</value>
-  </data>
-  <data name="Payroll.ClusterSets" xml:space="preserve">
-    <value>Cluster sets</value>
-  </data>
   <data name="Payroll.CollectorRetro" xml:space="preserve">
     <value>Collector retro</value>
   </data>
@@ -859,7 +841,7 @@
     <value>Invalid base regulation</value>
   </data>
   <data name="PayrollLayer.InvalidPayrollRegulation" xml:space="preserve">
-    <value>No regulations available. Please add a regulation to the payroll.</value>
+    <value>No regulations available, please add a regulation to the payroll.</value>
   </data>
   <data name="PayrollLayer.Level" xml:space="preserve">
     <value>Level</value>
@@ -933,23 +915,11 @@
   <data name="Payrun.WageTypeAvailableExpression" xml:space="preserve">
     <value>Wage type available expression</value>
   </data>
-  <data name="PayrunJob.Abort" xml:space="preserve">
-    <value>Abort</value>
-  </data>
-  <data name="PayrunJob.Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="PayrunJob.Complete" xml:space="preserve">
-    <value>Complete</value>
-  </data>
   <data name="PayrunJob.Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="PayrunJob.DefaultReason" xml:space="preserve">
     <value>Change to status {0}</value>
-  </data>
-  <data name="PayrunJob.Draft" xml:space="preserve">
-    <value>Draft</value>
   </data>
   <data name="PayrunJob.JobCompleted" xml:space="preserve">
     <value>Payrun job completed successfully</value>
@@ -1008,14 +978,8 @@
   <data name="PayrunJob.PayrunJobs" xml:space="preserve">
     <value>Payrun jobs</value>
   </data>
-  <data name="PayrunJob.Process" xml:space="preserve">
-    <value>Process</value>
-  </data>
-  <data name="PayrunJob.Release" xml:space="preserve">
-    <value>Release</value>
-  </data>
   <data name="PayrunJob.ShowJobDetails" xml:space="preserve">
-    <value>Show Job Details</value>
+    <value>Show job details</value>
   </data>
   <data name="PayrunJob.StartPayrun" xml:space="preserve">
     <value>Start payrun</value>
@@ -1024,7 +988,7 @@
     <value>Changed payrun job status to {0}</value>
   </data>
   <data name="PayrunParameter.CountParameters" xml:space="preserve">
-    <value>{0} Parameters</value>
+    <value>{0} parameters</value>
   </data>
   <data name="PayrunParameter.NoParameters" xml:space="preserve">
     <value>No parameters</value>
@@ -1058,9 +1022,6 @@
   </data>
   <data name="Shared.NumericValue" xml:space="preserve">
     <value># Value</value>
-  </data>
-  <data name="PayrunResult.ResultValue" xml:space="preserve">
-    <value>Value</value>
   </data>
   <data name="Regulation.InheritanceBase" xml:space="preserve">
     <value>Base</value>
@@ -1153,7 +1114,7 @@
     <value>Child table</value>
   </data>
   <data name="Report.RelationNotAvailable" xml:space="preserve">
-    <value>No relation available</value>
+    <value>No relations available</value>
   </data>
   <data name="Report.RelationParentColumn" xml:space="preserve">
     <value>Parent column</value>
@@ -1189,7 +1150,7 @@
     <value>Message</value>
   </data>
   <data name="ReportLog.NotAvailable" xml:space="preserve">
-    <value>No report log available</value>
+    <value>No report logs available</value>
   </data>
   <data name="ReportLog.ReportDate" xml:space="preserve">
     <value>Report date</value>
@@ -1210,7 +1171,7 @@
     <value>Report parameters</value>
   </data>
   <data name="ReportQuery.NotAvailable" xml:space="preserve">
-    <value>No report query available</value>
+    <value>No report queries available</value>
   </data>
   <data name="ReportQuery.ReportQuery" xml:space="preserve">
     <value>Report query</value>
@@ -1220,9 +1181,6 @@
   </data>
   <data name="ReportTemplate.Content" xml:space="preserve">
     <value>Content</value>
-  </data>
-  <data name="ReportTemplate.ContentType" xml:space="preserve">
-    <value>Content type</value>
   </data>
   <data name="ReportTemplate.ReportTemplate" xml:space="preserve">
     <value>Report template</value>
@@ -1256,9 +1214,6 @@
   </data>
   <data name="Shared.All" xml:space="preserve">
     <value>All</value>
-  </data>
-  <data name="Shared.AttributeFields" xml:space="preserve">
-    <value>Attributes</value>
   </data>
   <data name="Shared.Calendar" xml:space="preserve">
     <value>Calendar</value>
@@ -1317,9 +1272,6 @@
   <data name="Shared.Language" xml:space="preserve">
     <value>Language</value>
   </data>
-  <data name="Shared.Localizations" xml:space="preserve">
-    <value>Localizations</value>
-  </data>
   <data name="Shared.Mandatory" xml:space="preserve">
     <value>Mandatory</value>
   </data>
@@ -1352,9 +1304,6 @@
   </data>
   <data name="Shared.Owner" xml:space="preserve">
     <value>Owner</value>
-  </data>
-  <data name="Shared.RequiredField" xml:space="preserve">
-    <value>{0} is required</value>
   </data>
   <data name="Shared.SelectAll" xml:space="preserve">
     <value>Select all</value>
@@ -1630,7 +1579,7 @@
     <value>Bi-Week</value>
   </data>
   <data name="Enum.CalendarTimeUnit.CalendarMonth" xml:space="preserve">
-    <value>Calendar Month</value>
+    <value>Calendar month</value>
   </data>
   <data name="Enum.CalendarTimeUnit.LunisolarMonth" xml:space="preserve">
     <value>Lunisolar Month</value>
@@ -1734,14 +1683,11 @@
   <data name="DataGrid.Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
-  <data name="DataGrid.Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
   <data name="DataGrid.Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
   <data name="DataGrid.CollapseAllGroups" xml:space="preserve">
-    <value>Collapse All Groups</value>
+    <value>Collapse all groups</value>
   </data>
   <data name="DataGrid.Column" xml:space="preserve">
     <value>Column</value>
@@ -1813,13 +1759,13 @@
     <value>Operator</value>
   </data>
   <data name="DataGrid.RefreshData" xml:space="preserve">
-    <value>Refresh Data</value>
+    <value>Refresh data</value>
   </data>
-  <data name="DataGrid.Save" xml:space="preserve">
+  <data name="Dialog.Save" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="DataGrid.ShowAll" xml:space="preserve">
-    <value>Show All</value>
+    <value>Show all</value>
   </data>
   <data name="DataGrid.StartsWith" xml:space="preserve">
     <value>starts with</value>
@@ -1850,9 +1796,6 @@
   </data>
   <data name="DataGrid.Unsort" xml:space="preserve">
     <value>Unsort</value>
-  </data>
-  <data name="DataGrid.Value" xml:space="preserve">
-    <value>Value</value>
   </data>
   <data name="Enum.FunctionType.All" xml:space="preserve">
     <value>All</value>
@@ -2224,16 +2167,16 @@
     <value>Action</value>
   </data>
   <data name="Division.CalendarHelp" xml:space="preserve">
-    <value>Fallback is the tenant calendar</value>
+    <value>Override the tenant calendar</value>
   </data>
   <data name="Division.CultureHelp" xml:space="preserve">
-    <value>Fallback is the tenant culture</value>
+    <value>Override the tenant culture</value>
   </data>
   <data name="Employee.CalendarHelp" xml:space="preserve">
-    <value>Fallback is the division calendar</value>
+    <value>Override the division calendar</value>
   </data>
   <data name="Employee.CultureHelp" xml:space="preserve">
-    <value>Fallback is the division culture</value>
+    <value>Override the division culture</value>
   </data>
   <data name="Login.InvalidPassword" xml:space="preserve">
     <value>Invalid password</value>
@@ -2257,10 +2200,10 @@
     <value>The user selection is currently not available</value>
   </data>
   <data name="Tenant.CalendarHelp" xml:space="preserve">
-    <value>Fallback is the default calendar</value>
+    <value>Override the default calendar</value>
   </data>
   <data name="Tenant.CultureHelp" xml:space="preserve">
-    <value>Fallback is the system culture</value>
+    <value>Override the system culture</value>
   </data>
   <data name="CaseField.CultureHelp" xml:space="preserve">
     <value>RFC 4646 language code: en-US, de-DE...</value>

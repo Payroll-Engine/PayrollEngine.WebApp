@@ -36,7 +36,7 @@ public class UserSession : IDisposable
     /// <summary>
     /// Auto select children
     /// </summary>
-    private bool AutoSelectMode => true;
+    private static bool AutoSelectMode => true;
 
     public UserSession(ITenantService tenantService, IDivisionService divisionService,
         IPayrollService payrollService, IEmployeeService employeeService, IUserService userService)

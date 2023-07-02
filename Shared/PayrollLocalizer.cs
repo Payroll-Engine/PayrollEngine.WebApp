@@ -16,5 +16,4 @@ public class PayrollLocalizer : LocalizerBase
     public string WageTypePeriod => FromCaller();
     public string WageTypeRetro => FromCaller();
     public string CollectorRetro => FromCaller();
-    public string ClusterSets => FromCaller();
 }

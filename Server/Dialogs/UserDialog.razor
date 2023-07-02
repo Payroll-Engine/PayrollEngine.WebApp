@@ -16,15 +16,15 @@
                                       ReadOnly="@User.IsExistingObject"
                                       Label="@(User.IsNewObject ? $"{Localizer.Shared.Identifier} ({Localizer.Shared.Immutable})" : Localizer.Shared.Identifier)"
                                       Validation="@(!string.IsNullOrWhiteSpace(User.Identifier))"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Identifier)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Identifier)" />
                         <MudTextField T="string" @bind-Value="User.FirstName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="@Localizer.User.FirstName"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.User.FirstName)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.User.FirstName)" />
                         <MudTextField T="string" @bind-Value="User.LastName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="@Localizer.User.LastName"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.User.LastName)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.User.LastName)" />
                         <MudSelect T=" string" @bind-Value="User.Culture" Clearable="true"
                                    Label="@Localizer.Shared.Culture">
                             @foreach (var cultureInfo in CultureTool.GetCultureInfos())

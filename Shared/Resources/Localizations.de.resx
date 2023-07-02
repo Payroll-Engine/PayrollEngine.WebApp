@@ -216,9 +216,6 @@
   <data name="Case.CaseType" xml:space="preserve">
     <value>Falltyp</value>
   </data>
-  <data name="Case.Clusters" xml:space="preserve">
-    <value>Clusters</value>
-  </data>
   <data name="Case.CompanyCases" xml:space="preserve">
     <value>Unternehmensfälle</value>
   </data>
@@ -233,9 +230,6 @@
   </data>
   <data name="Case.NationalCases" xml:space="preserve">
     <value>Nationale Fälle</value>
-  </data>
-  <data name="Case.OverrideType" xml:space="preserve">
-    <value>Überlagerungstyp</value>
   </data>
   <data name="Case.Slots" xml:space="preserve">
     <value>Slots</value>
@@ -339,7 +333,7 @@
   <data name="Employee.NotAvailable" xml:space="preserve">
     <value>Keine Mitarbeiter verfügbar</value>
   </data>
-  <data name="Error.FieldRequired" xml:space="preserve">
+  <data name="Error.RequiredField" xml:space="preserve">
     <value>{0} is erforderlich.</value>
   </data>
   <data name="Error.ItemUnknown" xml:space="preserve">
@@ -437,9 +431,6 @@
   </data>
   <data name="Log.Comment" xml:space="preserve">
     <value>Kommentar</value>
-  </data>
-  <data name="Log.Error" xml:space="preserve">
-    <value>Fehler</value>
   </data>
   <data name="Log.Level" xml:space="preserve">
     <value>Stufe</value>
@@ -614,9 +605,6 @@
   </data>
   <data name="Script.Scripts" xml:space="preserve">
     <value>Skripts</value>
-  </data>
-  <data name="Shared.AttributeFields" xml:space="preserve">
-    <value>Attribute</value>
   </data>
   <data name="Shared.Calendar" xml:space="preserve">
     <value>Kalender</value>
@@ -888,17 +876,11 @@
   <data name="Shared.All" xml:space="preserve">
     <value>Alls</value>
   </data>
-  <data name="Shared.Localizations" xml:space="preserve">
-    <value>Lokalisierungen</value>
-  </data>
   <data name="Shared.None" xml:space="preserve">
     <value>Keine</value>
   </data>
   <data name="Shared.Order" xml:space="preserve">
     <value>Reihenfolge</value>
-  </data>
-  <data name="Shared.RequiredField" xml:space="preserve">
-    <value>{0} is erforderlich</value>
   </data>
   <data name="CaseField.BuildActions" xml:space="preserve">
     <value>Erstellungs-Aktionen</value>
@@ -1116,9 +1098,6 @@
   <data name="ReportTemplate.Content" xml:space="preserve">
     <value>Inhalt</value>
   </data>
-  <data name="ReportTemplate.ContentType" xml:space="preserve">
-    <value>Inhaltstyp</value>
-  </data>
   <data name="ReportTemplate.Resource" xml:space="preserve">
     <value>Ressource</value>
   </data>
@@ -1169,12 +1148,6 @@
   </data>
   <data name="CaseValue.CaseValues" xml:space="preserve">
     <value>Fallwerte</value>
-  </data>
-  <data name="PayorllLayer.Level" xml:space="preserve">
-    <value>Level</value>
-  </data>
-  <data name="Payroll.ClusterSets" xml:space="preserve">
-    <value>Cluster Sets</value>
   </data>
   <data name="Payroll.CollectorRetro" xml:space="preserve">
     <value>Kollektor Retro</value>
@@ -1284,18 +1257,6 @@
   <data name="Employee.SelectedEmployees" xml:space="preserve">
     <value>{0} von {1} Mitarbeiter</value>
   </data>
-  <data name="PayrunJob.Abort" xml:space="preserve">
-    <value>Abbruch</value>
-  </data>
-  <data name="PayrunJob.Cancel" xml:space="preserve">
-    <value>Storno</value>
-  </data>
-  <data name="PayrunJob.Complete" xml:space="preserve">
-    <value>Komplett</value>
-  </data>
-  <data name="PayrunJob.Draft" xml:space="preserve">
-    <value>Entwurf</value>
-  </data>
   <data name="Forecast.Forecast" xml:space="preserve">
     <value>Prognose</value>
   </data>
@@ -1335,12 +1296,6 @@
   <data name="PayrunJob.Legal" xml:space="preserve">
     <value>Legal</value>
   </data>
-  <data name="PayrunJob.Process" xml:space="preserve">
-    <value>Verarbeitung</value>
-  </data>
-  <data name="PayrunJob.Release" xml:space="preserve">
-    <value>Freigabe</value>
-  </data>
   <data name="Forecast.StartForecastPayrun" xml:space="preserve">
     <value>Start Prognose Lohnlauf</value>
   </data>
@@ -1352,9 +1307,6 @@
   </data>
   <data name="PayrunParameter.NoParameters" xml:space="preserve">
     <value>Keine Parameter</value>
-  </data>
-  <data name="App.FilterReset" xml:space="preserve">
-    <value>Filter zurücksetzen</value>
   </data>
   <data name="Dialog.Close" xml:space="preserve">
     <value>Schliessen</value>
@@ -1419,9 +1371,6 @@
   <data name="Shared.NumericValue" xml:space="preserve">
     <value># Wert</value>
   </data>
-  <data name="PayrunResult.ResultValue" xml:space="preserve">
-    <value>Wert</value>
-  </data>
   <data name="PayrunJob.JobCompleted" xml:space="preserve">
     <value>Lohnlaufjob erfolgreich ausgeführt</value>
   </data>
@@ -1471,10 +1420,10 @@
     <value>Coypright {0}</value>
   </data>
   <data name="App.DarkMode" xml:space="preserve">
-    <value>Heller Modus</value>
+    <value>Dunkler Modus</value>
   </data>
   <data name="App.LightMode" xml:space="preserve">
-    <value>Dunkler Modus</value>
+    <value>Heller Modus</value>
   </data>
   <data name="App.Logout" xml:space="preserve">
     <value>Logout</value>
@@ -1737,9 +1686,6 @@
   <data name="DataGrid.Apply" xml:space="preserve">
     <value>Anwenden</value>
   </data>
-  <data name="DataGrid.Cancel" xml:space="preserve">
-    <value>Abbrechen</value>
-  </data>
   <data name="DataGrid.Clear" xml:space="preserve">
     <value>Läschen</value>
   </data>
@@ -1818,7 +1764,7 @@
   <data name="DataGrid.RefreshData" xml:space="preserve">
     <value>Daten aktualisieren</value>
   </data>
-  <data name="DataGrid.Save" xml:space="preserve">
+  <data name="Dialog.Save" xml:space="preserve">
     <value>Speichern</value>
   </data>
   <data name="DataGrid.ShowAll" xml:space="preserve">
@@ -1853,9 +1799,6 @@
   </data>
   <data name="DataGrid.Unsort" xml:space="preserve">
     <value>Unsortieren</value>
-  </data>
-  <data name="DataGrid.Value" xml:space="preserve">
-    <value>Wert</value>
   </data>
   <data name="Enum.FunctionType.All" xml:space="preserve">
     <value>Alle</value>
@@ -2224,16 +2167,16 @@
     <value>Periode Zeiteinheit muss in die Zyklus Zeiteinheit passen</value>
   </data>
   <data name="Division.CalendarHelp" xml:space="preserve">
-    <value>Fall undefiniert gilt der Kalender des Mandanten</value>
+    <value>Mandantenkalender überschreiben</value>
   </data>
   <data name="Division.CultureHelp" xml:space="preserve">
-    <value>Fall undefiniert gilt die Kultur des Mandanten</value>
+    <value>Mandantenkultur überschreiben</value>
   </data>
   <data name="Employee.CalendarHelp" xml:space="preserve">
-    <value>Fall undefiniert gilt der Kalender des Bereiches</value>
+    <value>Bereichskalender überschreiben</value>
   </data>
   <data name="Employee.CultureHelp" xml:space="preserve">
-    <value>Fall undefiniert gilt die Kultur des Bereiches</value>
+    <value>Bereichskultur überschreiben</value>
   </data>
   <data name="Login.InvalidPassword" xml:space="preserve">
     <value>Ungültiges Passwort</value>
@@ -2250,9 +2193,6 @@
   <data name="Login.TenantReadError" xml:space="preserve">
     <value>Die Mandantenauswahl steht derzeit nicht zur Verfügung</value>
   </data>
-  <data name="Login.UnknownTenant" xml:space="preserve">
-    <value>Unbekannter Mandant {0}</value>
-  </data>
   <data name="Login.UnknownUser" xml:space="preserve">
     <value>Unbekannter Benutzer {0}</value>
   </data>
@@ -2260,10 +2200,10 @@
     <value>Die Benutzerauswahl steht derzeit nicht zur Verfügung</value>
   </data>
   <data name="Tenant.CalendarHelp" xml:space="preserve">
-    <value>Fall undefiniert gilt der Standardkalender</value>
+    <value>Systemkalender überschreiben</value>
   </data>
   <data name="Tenant.CultureHelp" xml:space="preserve">
-    <value>Fall undefiniert gilt die Systemkultur</value>
+    <value>Systemkultur überschreiben</value>
   </data>
   <data name="CaseField.CultureHelp" xml:space="preserve">
     <value>RFC 4646 Sprachcode: en-US, de-DE...</value>

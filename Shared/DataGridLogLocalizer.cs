@@ -4,9 +4,14 @@ namespace PayrollEngine.WebApp.Shared;
 
 public class DataGridLocalizer : LocalizerBase
 {
+    private readonly SharedLocalizer sharedLocalizer;
+    private readonly DialogLocalizer dialogLocalizer;
+
     public DataGridLocalizer(IStringLocalizerFactory factory) :
         base(factory)
     {
+        sharedLocalizer = new(factory);
+        dialogLocalizer = new(factory);
     }
 
     public string SymbolNotEquals => FromCaller();
@@ -18,7 +23,7 @@ public class DataGridLocalizer : LocalizerBase
 
     public string AddFilter => FromCaller();
     public string Apply => FromCaller();
-    public string Cancel => FromCaller();
+    public string Cancel => dialogLocalizer.Cancel;
     public string Clear => FromCaller();
     public string CollapseAllGroups => FromCaller();
     public string Column => FromCaller();
@@ -45,13 +50,13 @@ public class DataGridLocalizer : LocalizerBase
     public string NotEquals => FromCaller();
     public string Operator => FromCaller();
     public string RefreshData => FromCaller();
-    public string Save => FromCaller();
+    public string Save =>  dialogLocalizer.Save;
     public string ShowAll => FromCaller();
     public string StartsWith => FromCaller();
     public string True => FromCaller();
     public string Ungroup => FromCaller();
     public string Unsort => FromCaller();
-    public string Value => FromCaller();
+    public string Value => sharedLocalizer.Value;
 
     // data grid pager
     public string PagerInfoFormat => FromCaller();

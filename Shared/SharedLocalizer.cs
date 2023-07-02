@@ -20,7 +20,6 @@ public class SharedLocalizer : LocalizerBase
     public string SelectAll => FromCaller();
     public string None => FromCaller();
     public string NotAvailable => FromCaller();
-    public string Localizations => FromCaller();
     public string Owner => FromCaller();
     public string Order => FromCaller();
     public string Tags => FromCaller();
@@ -47,7 +46,6 @@ public class SharedLocalizer : LocalizerBase
     public string Inheritance => FromCaller();
     public string Culture => FromCaller();
     public string Calendar => FromCaller();
-   // public string Language => FromCaller();
 
     public string FeaturesAdmin => FromCaller();
     public string FeaturesSystem => FromCaller();
@@ -60,7 +58,4 @@ public class SharedLocalizer : LocalizerBase
 
     public string ImmediateChanges => FromCaller();
     public string JsonReformat => FromCaller();
-
-    public string RequiredField(string name) =>
-        string.Format(FromCaller(), name);
 }

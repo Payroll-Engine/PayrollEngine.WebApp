@@ -34,7 +34,7 @@ public partial class CaseRelationEditor
                 Label = Localizer.CaseRelation.SourceCaseName,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.CaseRelation.SourceCaseName),
+                RequiredError = Localizer.Error.RequiredField(Localizer.CaseRelation.SourceCaseName),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationCaseRelation.SourceCaseSlot), typeof(CaseRelationSourceSlotList))
@@ -48,7 +48,7 @@ public partial class CaseRelationEditor
                 Label = Localizer.CaseRelation.TargetCaseName,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.CaseRelation.TargetCaseName),
+                RequiredError = Localizer.Error.RequiredField(Localizer.CaseRelation.TargetCaseName),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationCaseRelation.TargetCaseSlot), typeof(CaseRelationTargetSlotList))

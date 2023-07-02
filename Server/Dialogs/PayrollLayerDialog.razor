@@ -14,7 +14,7 @@
                         <MudSelect T="string" @bind-Value="PayrollLayer.RegulationName"
                                    Label="@Localizer.Regulation.Regulation"
                                    Disabled="@(RegulationNames == null || RegulationNames.Count < 1)"
-                                   Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Regulation.Regulation)">
+                                   Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Regulation.Regulation)">
                             @foreach (var name in RegulationNames)
                             {
                                 <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
@@ -40,7 +40,7 @@
                                              AdornmentIcon="@Icons.Material.Filled.ArrowUpward"
                                              OnAdornmentClick="SetNextFreePriority"
                                              Validation="@(new Func<int, string>(ValidatePriority))"
-                                             Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.PayrollLayer.Priority)" />
+                                             Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.PayrollLayer.Priority)" />
                         </MudTooltip>
                         <ItemBaseFields Item="PayrollLayer" />
                     </MudStack>

@@ -35,7 +35,7 @@ public partial class CaseEditor
                 KeyField = true,
                 Required = true,
                 Label = Localizer.Shared.Name,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Name),
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationCase.Description), typeof(TextBox))
@@ -52,7 +52,7 @@ public partial class CaseEditor
             },
             new(nameof(RegulationCase.Clusters), typeof(CsvTextBox))
             {
-                Label = Localizer.Case.Clusters
+                Label = Localizer.Shared.Clusters
             },
             new(nameof(RegulationCase.CaseType), typeof(EnumListBox<CaseType>))
             {
@@ -60,7 +60,7 @@ public partial class CaseEditor
                 FixedBaseValue = true,
                 ReadOnly = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Case.CaseType)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Case.CaseType)
             },
             new(nameof(RegulationCase.CancellationType), typeof(EnumListBox<CaseCancellationType>))
             {
@@ -70,7 +70,7 @@ public partial class CaseEditor
             // derived
             new(nameof(RegulationCase.OverrideType), typeof(EnumListBox<OverrideType>))
             {
-                Label = Localizer.Case.OverrideType,
+                Label = Localizer.Shared.OverrideType,
                 Group = Localizer.Regulation.InheritanceDerived
             },
             new(nameof(RegulationCase.BaseCase), typeof(CaseList))

@@ -18,7 +18,7 @@
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="@(Employee.IsNewObject ? $"{Localizer.Shared.Identifier} ({Localizer.Shared.Immutable})" : Localizer.Shared.Identifier)"
                                       Validation="@(!string.IsNullOrWhiteSpace(Employee.Identifier))"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Identifier)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Identifier)" />
                         <MudTextField T="string" @bind-Value="Employee.FirstName"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       Label="@Localizer.Employee.FirstName" />

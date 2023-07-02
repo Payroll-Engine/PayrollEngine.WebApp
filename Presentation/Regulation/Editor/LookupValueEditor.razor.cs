@@ -34,13 +34,13 @@ public partial class LookupValueEditor
                 Label = Localizer.Shared.Key,
                 KeyField = true,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Key)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Key)
             },
             new(nameof(RegulationLookupValue.Value), typeof(TextBox))
             {
                 Label = Localizer.Shared.Value,
                 Required = true,
-                RequiredError = Localizer.Shared.RequiredField(Localizer.Shared.Value)
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Value)
             },
             new(nameof(RegulationLookupValue.RangeValue), typeof(NumericTextBox<decimal>))
             {

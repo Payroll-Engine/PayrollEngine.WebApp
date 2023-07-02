@@ -19,7 +19,7 @@ public class ErrorLocalizer : LocalizerBase
 
     public string MissingEmployee(string identifier) =>
         string.Format(FromCaller(), identifier);
-    public string FieldRequired(string fieldName) =>
+    public string RequiredField(string fieldName) =>
         string.Format(FromCaller(), fieldName);
     public string UnknownItem(string type, object item) =>
         string.Format(FromCaller(), type, item);

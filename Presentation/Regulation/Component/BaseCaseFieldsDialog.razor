@@ -7,14 +7,14 @@
             <MudStack Spacing="1">
                 <MudSelect T="string" Label="@Localizer.CaseField.CaseField" @bind-Value="Reference.Name"
                            Disabled="@(BaseCaseFields == null || BaseCaseFields.Count < 1)"
-                           Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.CaseField.CaseField)">
+                           Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.CaseField.CaseField)">
                     @foreach (var caseField in BaseCaseFields)
                     {
                         <MudSelectItem T="string" Value="@caseField.Name">@caseField.Name</MudSelectItem>
                     }
                 </MudSelect>
                 <MudNumericField T="int?" Label="@Localizer.Shared.Order" @bind-Value="Reference.Order"
-                                 Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Order)" />
+                                 Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Order)" />
             </MudStack>
         </MudForm>
     </DialogContent>

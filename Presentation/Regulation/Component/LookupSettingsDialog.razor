@@ -14,7 +14,7 @@
                     <MudSelect T="string" Label="@Localizer.Lookup.LookupName"
                     @bind-Value="Settings.LookupName"
                                Disabled="@(Lookups == null || Lookups.Count < 1)"
-                               Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Lookup.LookupName)">
+                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Lookup.LookupName)">
                         @foreach (var lookup in Lookups)
                         {
                             <MudSelectItem T="string" Value="@lookup.Name">
@@ -24,7 +24,7 @@
                     </MudSelect>
                     <MudTextField T="string" @bind-Value="Settings.ValueFieldName"
                                   Label="@Localizer.Lookup.ValueFieldName"
-                                  Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Lookup.ValueFieldName)" />
+                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Lookup.ValueFieldName)" />
                     <MudTextField T="string" @bind-Value="Settings.TextFieldName"
                                   Label="@Localizer.Lookup.TextFieldName" />
                 </MudStack>

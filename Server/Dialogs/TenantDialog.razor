@@ -18,7 +18,7 @@
                                       ReadOnly="@Tenant.IsExistingObject"
                                       Label="@(Tenant.IsNewObject ? $"{Localizer.Shared.Identifier} ({Localizer.Shared.Immutable})" : Localizer.Shared.Identifier)"
                                       Validation="@(!string.IsNullOrWhiteSpace(Tenant.Identifier))"
-                                      Required="true" RequiredError="@Localizer.Error.FieldRequired(Localizer.Shared.Identifier)" />
+                                      Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Identifier)" />
                         <MudSelect T=" string" @bind-Value="Tenant.Culture" 
                                    Label="@Localizer.Shared.Culture"
                                    HelperText="@Localizer.Tenant.CultureHelp"
