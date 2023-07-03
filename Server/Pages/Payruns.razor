@@ -30,7 +30,7 @@
         <PropertyColumn Property="x => x.DefaultReason" Title="@Localizer.Payrun.DefaultReason" />
         <PropertyColumn Property="x => x.RetroTimeType" Title="@Localizer.Payrun.RetroTimeType">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.RetroTimeType)
+                @Localizer.Enum(context.Item.RetroTimeType)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">

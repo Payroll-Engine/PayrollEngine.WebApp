@@ -9,7 +9,7 @@ public class AttributeLocalizer : LocalizerBase
     {
     }
 
-    public string Attribute => FromCaller();
-    public string Attributes => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Attribute => PropertyValue();
+    public string Attributes => PropertyValue();
+    public string NotAvailable => PropertyValue();
 }

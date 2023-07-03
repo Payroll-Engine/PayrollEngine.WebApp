@@ -9,7 +9,7 @@ public class CaseValueLocalizer : LocalizerBase
     {
     }
 
-    public string CaseValue => FromCaller();
-    public string CaseValues => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string CaseValue => PropertyValue();
+    public string CaseValues => PropertyValue();
+    public string NotAvailable => PropertyValue();
 }

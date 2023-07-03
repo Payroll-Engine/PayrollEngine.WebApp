@@ -41,7 +41,7 @@ public partial class ItemEditor
     protected bool IsUnsaved => HasId && IsChanged;
 
     private string ItemTypeName =>
-        Localizer.FromGroupKey(EditItem.ItemType.ToString());
+        Localizer.GroupKey(EditItem.ItemType.ToString());
 
     private string ItemTitle =>
         IsChanged ? $"{EditItem.InheritanceKey} *" : EditItem.InheritanceKey;
@@ -89,7 +89,7 @@ public partial class ItemEditor
     }
 
     private string ParentTypeName =>
-        EditItem.Parent != null ? Localizer.FromGroupKey(EditItem.Parent?.ItemType.ToString()) : null;
+        EditItem.Parent != null ? Localizer.GroupKey(EditItem.Parent?.ItemType.ToString()) : null;
 
     private List<RegulationField> GetActionFields() =>
         Fields.Where(x => x.IsAction).ToList();

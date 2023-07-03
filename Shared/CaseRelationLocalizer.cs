@@ -9,18 +9,18 @@ public class CaseRelationLocalizer : LocalizerBase
     {
     }
 
-    public string Relation => FromCaller();
-    public string CaseRelation => FromCaller();
-    public string CaseRelations => FromCaller();
+    public string Relation => PropertyValue();
+    public string CaseRelation => PropertyValue();
+    public string CaseRelations => PropertyValue();
 
-    public string SourceCaseName => FromCaller();
-    public string SourceCaseSlot => FromCaller();
-    public string TargetCaseName => FromCaller();
-    public string TargetCaseSlot => FromCaller();
+    public string SourceCaseName => PropertyValue();
+    public string SourceCaseSlot => PropertyValue();
+    public string TargetCaseName => PropertyValue();
+    public string TargetCaseSlot => PropertyValue();
 
-    public string BuildExpression => FromCaller();
-    public string ValidateExpression => FromCaller();
+    public string BuildExpression => PropertyValue();
+    public string ValidateExpression => PropertyValue();
 
-    public string BuildActions => FromCaller();
-    public string ValidateActions => FromCaller();
+    public string BuildActions => PropertyValue();
+    public string ValidateActions => PropertyValue();
 }

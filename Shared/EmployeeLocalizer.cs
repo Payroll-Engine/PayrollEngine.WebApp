@@ -9,18 +9,18 @@ public class EmployeeLocalizer : LocalizerBase
     {
     }
 
-    public string Employee => FromCaller();
-    public string Employees => FromCaller();
-    public string NotAvailable => FromCaller();
-    public string FirstName => FromCaller();
-    public string LastName => FromCaller();
-    public string CultureHelp => FromCaller();
-    public string CalendarHelp => FromCaller();
-    public string MissingEmployees => FromCaller();
-    public string OneEmployee => FromCaller();
+    public string Employee => PropertyValue();
+    public string Employees => PropertyValue();
+    public string NotAvailable => PropertyValue();
+    public string FirstName => PropertyValue();
+    public string LastName => PropertyValue();
+    public string CultureHelp => PropertyValue();
+    public string CalendarHelp => PropertyValue();
+    public string MissingEmployees => PropertyValue();
+    public string OneEmployee => PropertyValue();
 
     public string AllEmployees(int count) =>
-        string.Format(FromCaller(), count);
+        FormatValue(PropertyValue(), nameof(count), count);
     public string SelectedEmployees(int selected, int total) =>
-        string.Format(FromCaller(), selected, total);
+        FormatValue(PropertyValue(), nameof(selected), selected, nameof(total), total);
 }

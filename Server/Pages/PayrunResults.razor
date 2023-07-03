@@ -114,7 +114,7 @@
         <PropertyColumn Property="x => x.JobName" Title="@Localizer.PayrunJob.JobName" />
         <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.JobStatus)
+                @Localizer.Enum(context.Item.JobStatus)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.EmployeeIdentifier" Title="@Localizer.Employee.Employee" />
@@ -126,7 +126,7 @@
         </PropertyColumn>
         <PropertyColumn Property="x => x.ResultKind" Title="@Localizer.PayrunResult.ResultKind">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.ResultKind)
+                @Localizer.Enum(context.Item.ResultKind)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.KindName" Title="@Localizer.PayrunResult.KindName" />

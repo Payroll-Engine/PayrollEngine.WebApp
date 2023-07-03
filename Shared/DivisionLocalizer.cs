@@ -9,9 +9,9 @@ public class DivisionLocalizer : LocalizerBase
     {
     }
 
-    public string Division => FromCaller();
-    public string Divisions => FromCaller();
-    public string NotAvailable => FromCaller();
-    public string CultureHelp => FromCaller();
-    public string CalendarHelp => FromCaller();
+    public string Division => PropertyValue();
+    public string Divisions => PropertyValue();
+    public string NotAvailable => PropertyValue();
+    public string CultureHelp => PropertyValue();
+    public string CalendarHelp => PropertyValue();
 }

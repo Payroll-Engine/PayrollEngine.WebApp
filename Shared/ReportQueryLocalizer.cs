@@ -9,7 +9,7 @@ public class ReportQueryLocalizer : LocalizerBase
     {
     }
 
-    public string ReportQuery => FromCaller();
-    public string ReportQueries => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string ReportQuery => PropertyValue();
+    public string ReportQueries => PropertyValue();
+    public string NotAvailable => PropertyValue();
 }

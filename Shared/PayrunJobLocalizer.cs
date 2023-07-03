@@ -9,38 +9,38 @@ public class PayrunJobLocalizer : LocalizerBase
     {
     }
 
-    public string PayrunJob => FromCaller();
-    public string PayrunJobs => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string PayrunJob => PropertyValue();
+    public string PayrunJobs => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string JobResults => FromCaller();
-    public string Legal => FromCaller();
+    public string JobResults => PropertyValue();
+    public string Legal => PropertyValue();
 
-    public string Copy => FromCaller();
+    public string Copy => PropertyValue();
 
-    public string JobName => FromCaller();
-    public string JobStatus => FromCaller();
-    public string JobReason => FromCaller();
-    public string JobPeriod => FromCaller();
-    public string JobHistory => FromCaller();
+    public string JobName => PropertyValue();
+    public string JobStatus => PropertyValue();
+    public string JobReason => PropertyValue();
+    public string JobPeriod => PropertyValue();
+    public string JobHistory => PropertyValue();
 
-    public string StartPayrun => FromCaller();
-    public string ShowJobDetails => FromCaller();
-    public string New => FromCaller();
+    public string StartPayrun => PropertyValue();
+    public string ShowJobDetails => PropertyValue();
+    public string New => PropertyValue();
 
-    public string JobDate => FromCaller();
-    public string JobValidationFailed => FromCaller();
+    public string JobDate => PropertyValue();
+    public string JobValidationFailed => PropertyValue();
 
-    public string MissingJobPeriod => FromCaller();
-    public string MissingJobReason => FromCaller();
+    public string MissingJobPeriod => PropertyValue();
+    public string MissingJobReason => PropertyValue();
 
-    public string JobStart => FromCaller();
-    public string JobExecuting => FromCaller();
-    public string JobFailed => FromCaller();
-    public string JobCompleted => FromCaller();
+    public string JobStart => PropertyValue();
+    public string JobExecuting => PropertyValue();
+    public string JobFailed => PropertyValue();
+    public string JobCompleted => PropertyValue();
 
-    public string DefaultReason(string status) =>
-        string.Format(FromCaller(), status);
-    public string StatusChanged(string status) =>
-        string.Format(FromCaller(), status);
+    public string DefaultReason(PayrunJobStatus status) =>
+        FormatValue(PropertyValue(), nameof(status), Enum(status));
+    public string StatusChanged(PayrunJobStatus status) =>
+        FormatValue(PropertyValue(), nameof(status), Enum(status));
 }

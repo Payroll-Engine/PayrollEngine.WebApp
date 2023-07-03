@@ -26,7 +26,7 @@
         <PropertyColumn Property="x => x.ReceiverAddress" Title="@Localizer.Webhook.ReceiverAddress" />
         <PropertyColumn Property="x => x.Action" Title="@Localizer.Webhook.Action">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.Action)
+                @Localizer.Enum(context.Item.Action)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated" InitialDirection="SortDirection.Descending">

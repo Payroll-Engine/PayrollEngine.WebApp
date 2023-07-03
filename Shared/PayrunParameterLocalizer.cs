@@ -9,11 +9,11 @@ public class PayrunParameterLocalizer : LocalizerBase
     {
     }
 
-    public string PayrunParameter => FromCaller();
-    public string PayrunParameters => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string PayrunParameter => PropertyValue();
+    public string PayrunParameters => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string NoParameters => FromCaller();
+    public string NoParameters => PropertyValue();
     public string CountParameters(int count) =>
-        string.Format(FromCaller(), count);
+        FormatValue(PropertyValue(), nameof(count), count);
 }

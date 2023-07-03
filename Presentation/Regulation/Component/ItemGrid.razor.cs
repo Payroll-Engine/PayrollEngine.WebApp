@@ -67,13 +67,13 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
             return null;
         }
 
-        return Localizer.FromGroupKey(ItemType.ParentType().ToString());
+        return Localizer.GroupKey(ItemType.ParentType().ToString());
     }
 
     private string GetItemTypeName(bool multiple = false)
     {
         var key = ItemType.ToString();
-        return Localizer.FromKey(key, multiple ? $"{key}s" : key);
+        return Localizer.Key(key, multiple ? $"{key}s" : key);
     }
 
     private bool Dense { get; set; }

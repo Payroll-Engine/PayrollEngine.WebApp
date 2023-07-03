@@ -9,27 +9,27 @@ public class CalendarLocalizer : LocalizerBase
     {
     }
 
-    public string Calendar => FromCaller();
-    public string Calendars => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Calendar => PropertyValue();
+    public string Calendars => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string CycleTimeUnit => FromCaller();
-    public string PeriodTimeUnit => FromCaller();
-    public string TimeMap => FromCaller();
-    public string WeekMode => FromCaller();
+    public string CycleTimeUnit => PropertyValue();
+    public string PeriodTimeUnit => PropertyValue();
+    public string TimeMap => PropertyValue();
+    public string WeekMode => PropertyValue();
 
-    public string Year => FromCaller();
-    public string Month => FromCaller();
-    public string Day => FromCaller();
+    public string Year => PropertyValue();
+    public string Month => PropertyValue();
+    public string Day => PropertyValue();
 
-    public string FirstMonthOfYear => FromCaller();
-    public string PeriodDayCount => FromCaller();
-    public string YearWeekRule => FromCaller();
-    public string FirstDayOfWeek => FromCaller();
+    public string FirstMonthOfYear => PropertyValue();
+    public string PeriodDayCount => PropertyValue();
+    public string YearWeekRule => PropertyValue();
+    public string FirstDayOfWeek => PropertyValue();
 
-    public string PeriodTimeUnitHelp => FromCaller();
-    public string PeriodDayCountHelp => FromCaller();
+    public string PeriodTimeUnitHelp => PropertyValue();
+    public string PeriodDayCountHelp => PropertyValue();
 
     public string InvalidPeriodTimeUnit(CalendarTimeUnit cycle, CalendarTimeUnit period) =>
-        string.Format(FromCaller(), FromEnum(cycle), FromEnum(period));
+        FormatValue(PropertyValue(), nameof(cycle), Enum(cycle), nameof(period), Enum(period));
 }

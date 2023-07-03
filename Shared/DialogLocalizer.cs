@@ -9,10 +9,10 @@ public class DialogLocalizer : LocalizerBase
     {
     }
 
-    public string Ok => FromCaller();
-    public string Cancel => FromCaller();
-    public string Submit => FromCaller();
-    public string Delete => FromCaller();
-    public string Save => FromCaller();
-    public string Close => FromCaller();
+    public string Ok => PropertyValue();
+    public string Cancel => PropertyValue();
+    public string Submit => PropertyValue();
+    public string Delete => PropertyValue();
+    public string Save => PropertyValue();
+    public string Close => PropertyValue();
 }

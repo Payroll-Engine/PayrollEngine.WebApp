@@ -9,40 +9,40 @@ public class ReportLocalizer : LocalizerBase
     {
     }
 
-    public string Report => FromCaller();
-    public string Reports => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Report => PropertyValue();
+    public string Reports => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Category => FromCaller();
-    public string AttributeMode => FromCaller();
-    public string Relation => FromCaller();
-    public string RelationNotAvailable => FromCaller();
-    public string Relations => FromCaller();
-    public string BuildExpression => FromCaller();
-    public string StartExpression => FromCaller();
-    public string EndExpression => FromCaller();
+    public string Category => PropertyValue();
+    public string AttributeMode => PropertyValue();
+    public string Relation => PropertyValue();
+    public string RelationNotAvailable => PropertyValue();
+    public string Relations => PropertyValue();
+    public string BuildExpression => PropertyValue();
+    public string StartExpression => PropertyValue();
+    public string EndExpression => PropertyValue();
 
-    public string EmptyReport => FromCaller();
+    public string EmptyReport => PropertyValue();
 
-    public string PreparingDownload => FromCaller();
-    public string ReportDownload => FromCaller();
-    public string ExecutionError => FromCaller();
+    public string PreparingDownload => PropertyValue();
+    public string ReportDownload => PropertyValue();
+    public string ExecutionError => PropertyValue();
 
-    public string Xml => FromCaller();
-    public string XmlRaw => FromCaller();
-    public string Excel => FromCaller();
-    public string Word => FromCaller();
-    public string Pdf => FromCaller();
+    public string Xml => PropertyValue();
+    public string XmlRaw => PropertyValue();
+    public string Excel => PropertyValue();
+    public string Word => PropertyValue();
+    public string Pdf => PropertyValue();
 
-    public string RelationParentTable => FromCaller();
-    public string RelationParentColumn => FromCaller();
-    public string RelationChildTable => FromCaller();
-    public string RelationChildColumn => FromCaller();
+    public string RelationParentTable => PropertyValue();
+    public string RelationParentColumn => PropertyValue();
+    public string RelationChildTable => PropertyValue();
+    public string RelationChildColumn => PropertyValue();
 
     public string TemplateNotAvailable(string report, string culture) =>
-        string.Format(FromCaller(), report, culture);
+        FormatValue(PropertyValue(), nameof(report), report, nameof(culture), culture);
     public string XmlValidationError(string report) =>
-        string.Format(FromCaller(), report);
+        FormatValue(PropertyValue(), nameof(report), report);
     public string EmptyXmlRaw(string report) =>
-        string.Format(FromCaller(), report);
+        FormatValue(PropertyValue(), nameof(report), report);
 }

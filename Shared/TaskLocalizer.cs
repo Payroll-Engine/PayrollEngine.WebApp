@@ -9,16 +9,16 @@ public class TaskLocalizer : LocalizerBase
     {
     }
 
-    public string Task => FromCaller();
-    public string Tasks => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Task => PropertyValue();
+    public string Tasks => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Complete => FromCaller();
-    public string CompleteToggle => FromCaller();
-    public string CompleteToggleHelp => FromCaller();
+    public string Complete => PropertyValue();
+    public string CompleteToggle => PropertyValue();
+    public string CompleteToggleHelp => PropertyValue();
 
-    public string Category => FromCaller();
-    public string Instruction => FromCaller();
-    public string ScheduledDate => FromCaller();
-    public string CompletedDate => FromCaller();
+    public string Category => PropertyValue();
+    public string Instruction => PropertyValue();
+    public string ScheduledDate => PropertyValue();
+    public string CompletedDate => PropertyValue();
 }

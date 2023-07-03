@@ -9,13 +9,13 @@ public class RegulationShareLocalizer : LocalizerBase
     {
     }
 
-    public string RegulationShare => FromCaller();
-    public string RegulationShares => FromCaller();
-    public string NotAvailable => FromCaller();
-    public string MissingShares => FromCaller();
+    public string RegulationShare => PropertyValue();
+    public string RegulationShares => PropertyValue();
+    public string NotAvailable => PropertyValue();
+    public string MissingShares => PropertyValue();
 
-    public string ProviderTenant => FromCaller();
-    public string ProviderRegulation => FromCaller();
-    public string ConsumerTenant => FromCaller();
-    public string ConsumerDivision => FromCaller();
+    public string ProviderTenant => PropertyValue();
+    public string ProviderRegulation => PropertyValue();
+    public string ConsumerTenant => PropertyValue();
+    public string ConsumerDivision => PropertyValue();
 }

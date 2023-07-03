@@ -9,18 +9,18 @@ public class ActionLocalizer : LocalizerBase
     {
     }
 
-    public string Action => FromCaller();
-    public string Actions => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Action => PropertyValue();
+    public string Actions => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string MoveUp => FromCaller();
-    public string MoveDown => FromCaller();
+    public string MoveUp => PropertyValue();
+    public string MoveDown => PropertyValue();
 
-    public string ActionExpression => FromCaller();
-    public string Parameters => FromCaller();
-    public string Issues => FromCaller();
-    public string Source => FromCaller();
-    public string Namespace => FromCaller();
-    public string Categories => FromCaller();
-    public string AppendAction => FromCaller();
+    public string ActionExpression => PropertyValue();
+    public string Parameters => PropertyValue();
+    public string Issues => PropertyValue();
+    public string Source => PropertyValue();
+    public string Namespace => PropertyValue();
+    public string Categories => PropertyValue();
+    public string AppendAction => PropertyValue();
 }

@@ -9,8 +9,8 @@ public class CaseSlotLocalizer : LocalizerBase
     {
     }
 
-    public string CaseSlot => FromCaller();
-    public string CaseSlots => FromCaller();
-    public string NotAvailable => FromCaller();
-    public string Localizations => FromCaller();
+    public string CaseSlot => PropertyValue();
+    public string CaseSlots => PropertyValue();
+    public string NotAvailable => PropertyValue();
+    public string Localizations => PropertyValue();
 }

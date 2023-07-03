@@ -26,28 +26,28 @@
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.Status)
+                @Localizer.Enum(context.Item.Status)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.CycleTimeUnit" Title="@Localizer.Calendar.CycleTimeUnit">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.CycleTimeUnit)
+                @Localizer.Enum(context.Item.CycleTimeUnit)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.PeriodTimeUnit" Title="@Localizer.Calendar.PeriodTimeUnit">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.PeriodTimeUnit)
+                @Localizer.Enum(context.Item.PeriodTimeUnit)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.TimeMap" Title="@Localizer.Calendar.TimeMap">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.TimeMap)
+                @Localizer.Enum(context.Item.TimeMap)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.WeekMode" Title="@Localizer.Calendar.WeekMode">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.WeekMode)
+                @Localizer.Enum(context.Item.WeekMode)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">

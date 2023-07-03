@@ -9,21 +9,21 @@ public class ForecastLocalizer : LocalizerBase
     {
     }
 
-    public string Forecast => FromCaller();
-    public string Forecasts => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Forecast => PropertyValue();
+    public string Forecasts => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Name => FromCaller();
-    public string PayrunJob => FromCaller();
-    public string JobName => FromCaller();
-    public string JobPeriod => FromCaller();
-    public string JobHistory => FromCaller();
+    public string Name => PropertyValue();
+    public string PayrunJob => PropertyValue();
+    public string JobName => PropertyValue();
+    public string JobPeriod => PropertyValue();
+    public string JobHistory => PropertyValue();
 
-    public string StartForecastPayrun => FromCaller();
+    public string StartForecastPayrun => PropertyValue();
 
-    public string CopyToForecast => FromCaller();
-    public string Copy => FromCaller();
-    public string CopyQuery => FromCaller();
+    public string CopyToForecast => PropertyValue();
+    public string Copy => PropertyValue();
+    public string CopyQuery => PropertyValue();
 
-    public string JobNotSupported => FromCaller();
+    public string JobNotSupported => PropertyValue();
 }

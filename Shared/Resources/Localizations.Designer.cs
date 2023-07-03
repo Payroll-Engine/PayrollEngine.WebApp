@@ -223,7 +223,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copyright {0}.
+        ///   Looks up a localized string similar to Copyright {owner}.
         /// </summary>
         internal static string App_Copyright {
             get {
@@ -421,7 +421,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Periods of &apos;{0}&apos; do not fit into the cycle &apos;{1}&apos;.
+        ///   Looks up a localized string similar to Periods of &apos;{cycle}&apos; do not fit into the cycle &apos;{period}&apos;.
         /// </summary>
         internal static string Calendar_InvalidPeriodTimeUnit {
             get {
@@ -718,7 +718,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search case {0}.
+        ///   Looks up a localized string similar to Search case {case}.
         /// </summary>
         internal static string Case_SearchCase {
             get {
@@ -745,7 +745,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start case {0}.
+        ///   Looks up a localized string similar to Start case {case}.
         /// </summary>
         internal static string Case_StartCase {
             get {
@@ -808,7 +808,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Case change {0}.
+        ///   Looks up a localized string similar to Case change {group}.
         /// </summary>
         internal static string CaseChange_CaseChangeGroup {
             get {
@@ -862,7 +862,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo • {0}.
+        ///   Looks up a localized string similar to Undo • {date}.
         /// </summary>
         internal static string CaseChange_UndoCancelGroup {
             get {
@@ -880,7 +880,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo error for case {0}.
+        ///   Looks up a localized string similar to Undo error for case {case}.
         /// </summary>
         internal static string CaseChange_UndoError {
             get {
@@ -889,7 +889,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo case {0}?.
+        ///   Looks up a localized string similar to Undo case {case}?.
         /// </summary>
         internal static string CaseChange_UndoQuery {
             get {
@@ -898,7 +898,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undo successful for case {0}.
+        ///   Looks up a localized string similar to Undo successful for case {case}.
         /// </summary>
         internal static string CaseChange_UndoSuccess {
             get {
@@ -1888,7 +1888,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete content (length {0})?.
+        ///   Looks up a localized string similar to Delete content (length {bytes})?.
         /// </summary>
         internal static string Document_ClearContentQuery {
             get {
@@ -1915,7 +1915,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Document {0} unchanged.
+        ///   Looks up a localized string similar to Document {document} unchanged.
         /// </summary>
         internal static string Document_ContentUnchanged {
             get {
@@ -1933,7 +1933,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Content {0} uploaded.
+        ///   Looks up a localized string similar to Content {document} uploaded.
         /// </summary>
         internal static string Document_ContentUploaded {
             get {
@@ -1969,7 +1969,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download {0}.
+        ///   Looks up a localized string similar to Download {document}.
         /// </summary>
         internal static string Document_DownloadTitle {
             get {
@@ -1978,7 +1978,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Size {0}.
+        ///   Looks up a localized string similar to Size {bytes}.
         /// </summary>
         internal static string Document_FileSize {
             get {
@@ -2005,7 +2005,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All {0} employees.
+        ///   Looks up a localized string similar to All {count} employees.
         /// </summary>
         internal static string Employee_AllEmployees {
             get {
@@ -2086,7 +2086,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of {1} employees.
+        ///   Looks up a localized string similar to {selected} of {total} employees.
         /// </summary>
         internal static string Employee_SelectedEmployees {
             get {
@@ -3508,7 +3508,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Field {0} has no actions..
+        ///   Looks up a localized string similar to Field {field} has no actions..
         /// </summary>
         internal static string Error_EmptyActionField {
             get {
@@ -3553,7 +3553,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown {0} {1}..
+        ///   Looks up a localized string similar to Unknown {type} {item}..
         /// </summary>
         internal static string Error_ItemUnknown {
             get {
@@ -3571,7 +3571,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please ensure an existing employee with identifier {0}..
+        ///   Looks up a localized string similar to Please ensure an existing employee with identifier {identifier}..
         /// </summary>
         internal static string Error_MissingEmployee {
             get {
@@ -3589,7 +3589,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is required..
+        ///   Looks up a localized string similar to {field} is required..
         /// </summary>
         internal static string Error_RequiredField {
             get {
@@ -3598,7 +3598,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} already in use..
+        ///   Looks up a localized string similar to {key} already in use..
         /// </summary>
         internal static string Error_UniqueConflict {
             get {
@@ -3724,7 +3724,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} successfully added.
+        ///   Looks up a localized string similar to {item} successfully added.
         /// </summary>
         internal static string Item_Added {
             get {
@@ -3733,7 +3733,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add new {0}.
+        ///   Looks up a localized string similar to Add new {item}.
         /// </summary>
         internal static string Item_AddHelp {
             get {
@@ -3742,7 +3742,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add {0}.
+        ///   Looks up a localized string similar to Add {item}.
         /// </summary>
         internal static string Item_AddTitle {
             get {
@@ -3778,7 +3778,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} successfully deleted.
+        ///   Looks up a localized string similar to {item} successfully deleted.
         /// </summary>
         internal static string Item_Deleted {
             get {
@@ -3787,7 +3787,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete {0}.
+        ///   Looks up a localized string similar to Delete {item}.
         /// </summary>
         internal static string Item_DeleteHelp {
             get {
@@ -3796,7 +3796,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete {0}?.
+        ///   Looks up a localized string similar to Delete {item}?.
         /// </summary>
         internal static string Item_DeleteQuery {
             get {
@@ -3805,7 +3805,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete {0}.
+        ///   Looks up a localized string similar to Delete {item}.
         /// </summary>
         internal static string Item_DeleteTitle {
             get {
@@ -3814,7 +3814,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Derive {0}.
+        ///   Looks up a localized string similar to Derive {item}.
         /// </summary>
         internal static string Item_DeriveHelp {
             get {
@@ -3832,7 +3832,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit {0}.
+        ///   Looks up a localized string similar to Edit {item}.
         /// </summary>
         internal static string Item_EditHelp {
             get {
@@ -3841,7 +3841,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit {0}.
+        ///   Looks up a localized string similar to Edit {item}.
         /// </summary>
         internal static string Item_EditTitle {
             get {
@@ -3859,7 +3859,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No {0} available.
+        ///   Looks up a localized string similar to No {item} available.
         /// </summary>
         internal static string Item_NotAvailable {
             get {
@@ -3895,7 +3895,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removed {0}.
+        ///   Looks up a localized string similar to Removed {item}.
         /// </summary>
         internal static string Item_Removed {
             get {
@@ -3904,7 +3904,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove {0}.
+        ///   Looks up a localized string similar to Remove {item}.
         /// </summary>
         internal static string Item_RemoveTitle {
             get {
@@ -3913,7 +3913,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save {0}.
+        ///   Looks up a localized string similar to Save {item}.
         /// </summary>
         internal static string Item_SaveHelp {
             get {
@@ -3922,7 +3922,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select {0}.
+        ///   Looks up a localized string similar to Select {item}.
         /// </summary>
         internal static string Item_SelectParent {
             get {
@@ -3931,7 +3931,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} successfully updated.
+        ///   Looks up a localized string similar to {item} successfully updated.
         /// </summary>
         internal static string Item_Updated {
             get {
@@ -3940,7 +3940,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} localizations.
+        ///   Looks up a localized string similar to {localization} localizations.
         /// </summary>
         internal static string Localization_DialogTitle {
             get {
@@ -4138,7 +4138,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown user {0}.
+        ///   Looks up a localized string similar to Unknown user {user}.
         /// </summary>
         internal static string Login_UnknownUser {
             get {
@@ -4336,7 +4336,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing base regulation {0}.
+        ///   Looks up a localized string similar to Missing base regulation {regulation}.
         /// </summary>
         internal static string PayrollLayer_MissingBaseRegulation {
             get {
@@ -4345,7 +4345,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing regulation {0}.
+        ///   Looks up a localized string similar to Missing regulation {regulation}.
         /// </summary>
         internal static string PayrollLayer_MissingRegulation {
             get {
@@ -4525,7 +4525,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown payrun {0}.
+        ///   Looks up a localized string similar to Unknown payrun {payrun}.
         /// </summary>
         internal static string Payrun_UnknownPayrun {
             get {
@@ -4552,7 +4552,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change to status {0}.
+        ///   Looks up a localized string similar to Change to status {status}.
         /// </summary>
         internal static string PayrunJob_DefaultReason {
             get {
@@ -4750,7 +4750,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changed payrun job status to {0}.
+        ///   Looks up a localized string similar to Changed payrun job status to {status}.
         /// </summary>
         internal static string PayrunJob_StatusChanged {
             get {
@@ -4759,7 +4759,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} parameters.
+        ///   Looks up a localized string similar to {count} parameters.
         /// </summary>
         internal static string PayrunParameter_CountParameters {
             get {
@@ -5056,7 +5056,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Empty XML raw report {0}.
+        ///   Looks up a localized string similar to Empty XML raw report {report}.
         /// </summary>
         internal static string Report_EmptyXmlRaw {
             get {
@@ -5218,7 +5218,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Report {0} not available in {1}.
+        ///   Looks up a localized string similar to Report {report} not available in {culture}.
         /// </summary>
         internal static string Report_TemplateNotAvailable {
             get {
@@ -5254,7 +5254,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid XML report {0}, please check the XSD schema.
+        ///   Looks up a localized string similar to Invalid XML report {report}, please check the XSD schema.
         /// </summary>
         internal static string Report_XmlValidationError {
             get {
@@ -5407,7 +5407,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} functions.
+        ///   Looks up a localized string similar to {count} functions.
         /// </summary>
         internal static string Script_FunctionCount {
             get {
@@ -5830,7 +5830,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove all {0} storage items?.
+        ///   Looks up a localized string similar to Remove all {count} storage items?.
         /// </summary>
         internal static string Storage_ClearQuery {
             get {

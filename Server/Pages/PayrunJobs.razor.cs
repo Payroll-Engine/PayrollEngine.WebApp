@@ -202,7 +202,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             var jobId = LegalJob.Id;
             // change the payrun job status
             await PayrunJobService.ChangeJobStatusAsync(new(Tenant.Id), jobId,
-                jobStatus, User.Id, Localizer.PayrunJob.DefaultReason(jobStatus.ToString()), true);
+                jobStatus, User.Id, Localizer.PayrunJob.DefaultReason(jobStatus), true);
 
             // refresh legal payrun job
             await SetupLegalJobAsync();
@@ -210,7 +210,7 @@ public partial class PayrunJobs : IPayrunJobOperator
             // refresh data
             await RefreshLegalServerDataAsync();
 
-            await UserNotification.ShowSuccessAsync(Localizer.PayrunJob.StatusChanged(jobStatus.ToString()));
+            await UserNotification.ShowSuccessAsync(Localizer.PayrunJob.StatusChanged(jobStatus));
             StateHasChanged();
         }
         catch (Exception exception)

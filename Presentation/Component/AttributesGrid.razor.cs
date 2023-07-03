@@ -43,7 +43,7 @@ public partial class AttributesGrid : IDisposable
         }
     }
 
-    private string LocalizedItemName => Localizer.FromKey(Item.GetType().Name);
+    private string LocalizedItemName => Localizer.Key(Item.GetType().Name);
     private string LocalizedItemFullName =>
         $"{LocalizedItemName} {Localizer.Attribute.Attribute}";
 

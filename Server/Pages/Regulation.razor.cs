@@ -90,7 +90,7 @@ public partial class Regulation
     }
 
     private string GetItemsLabel(RegulationItemType itemType) =>
-        Localizer.FromGroupKey(itemType.ToString());
+        Localizer.GroupKey(itemType.ToString());
 
     // case
     private Variant CaseVariant =>
@@ -213,7 +213,7 @@ public partial class Regulation
     }
 
     private string GetItemLocalizedName(IRegulationItem regulationItem) =>
-        Localizer.FromGroupKey(regulationItem.ItemType.ToString());
+        Localizer.GroupKey(regulationItem.ItemType.ToString());
 
     #endregion
 

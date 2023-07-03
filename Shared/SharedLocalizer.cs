@@ -10,52 +10,52 @@ public class SharedLocalizer : LocalizerBase
     }
 
     // object
-    public string ObjectId => FromCaller();
-    public string ObjectStatus => FromCaller();
-    public string ObjectCreated => FromCaller();
-    public string ObjectUpdated => FromCaller();
-    public string Immutable => FromCaller();
+    public string ObjectId => PropertyValue();
+    public string ObjectStatus => PropertyValue();
+    public string ObjectCreated => PropertyValue();
+    public string ObjectUpdated => PropertyValue();
+    public string Immutable => PropertyValue();
 
-    public string All => FromCaller();
-    public string SelectAll => FromCaller();
-    public string None => FromCaller();
-    public string NotAvailable => FromCaller();
-    public string Owner => FromCaller();
-    public string Order => FromCaller();
-    public string Tags => FromCaller();
-    public string CommaSeparatedList => FromCaller();
-    public string Mandatory => FromCaller();
-    public string OverrideType => FromCaller();
-    public string Clusters => FromCaller();
+    public string All => PropertyValue();
+    public string SelectAll => PropertyValue();
+    public string None => PropertyValue();
+    public string NotAvailable => PropertyValue();
+    public string Owner => PropertyValue();
+    public string Order => PropertyValue();
+    public string Tags => PropertyValue();
+    public string CommaSeparatedList => PropertyValue();
+    public string Mandatory => PropertyValue();
+    public string OverrideType => PropertyValue();
+    public string Clusters => PropertyValue();
 
-    public string Key => FromCaller();
-    public string Field => FromCaller();
-    public string Start => FromCaller();
-    public string End => FromCaller();
-    public string Value => FromCaller();
-    public string NumericValue => FromCaller();
-    public string Text => FromCaller();
-    public string Type => FromCaller();
-    public string ValueType => FromCaller();
-    public string Search => FromCaller();
+    public new string Key => PropertyValue();
+    public string Field => PropertyValue();
+    public string Start => PropertyValue();
+    public string End => PropertyValue();
+    public string Value => PropertyValue();
+    public string NumericValue => PropertyValue();
+    public string Text => PropertyValue();
+    public string Type => PropertyValue();
+    public string ValueType => PropertyValue();
+    public string Search => PropertyValue();
 
     // common
-    public string Identifier => FromCaller();
-    public string Name => FromCaller();
-    public string Description => FromCaller();
-    public string Inheritance => FromCaller();
-    public string Culture => FromCaller();
-    public string Calendar => FromCaller();
+    public string Identifier => PropertyValue();
+    public string Name => PropertyValue();
+    public string Description => PropertyValue();
+    public string Inheritance => PropertyValue();
+    public string Culture => PropertyValue();
+    public string Calendar => PropertyValue();
 
-    public string FeaturesAdmin => FromCaller();
-    public string FeaturesSystem => FromCaller();
-    public string CommonFields => FromCaller();
+    public string FeaturesAdmin => PropertyValue();
+    public string FeaturesSystem => PropertyValue();
+    public string CommonFields => PropertyValue();
 
     // data
-    public string FilterReset => FromCaller();
-    public string ExcelDownload => FromCaller();
-    public string DownloadCompleted => FromCaller();
+    public string FilterReset => PropertyValue();
+    public string ExcelDownload => PropertyValue();
+    public string DownloadCompleted => PropertyValue();
 
-    public string ImmediateChanges => FromCaller();
-    public string JsonReformat => FromCaller();
+    public string ImmediateChanges => PropertyValue();
+    public string JsonReformat => PropertyValue();
 }

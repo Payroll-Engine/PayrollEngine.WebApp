@@ -9,56 +9,56 @@ public class ItemLocalizer : LocalizerBase
     {
     }
 
-    public string CSharpExpression => FromCaller();
-    public string BaseField => FromCaller();
-    public string InitOnlyField => FromCaller();
-    public string ReadOnlyField => FromCaller();
+    public string CSharpExpression => PropertyValue();
+    public string BaseField => PropertyValue();
+    public string InitOnlyField => PropertyValue();
+    public string ReadOnlyField => PropertyValue();
 
     // add/create
-    public string Add => FromCaller();
+    public string Add => PropertyValue();
     public string Added(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string AddTitle(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string AddHelp(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
 
     public string NotAvailable(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string SelectParent(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
 
     // edit/updated
-    public string Edit => FromCaller();
+    public string Edit => PropertyValue();
     public string EditTitle(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string Updated(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string EditHelp(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
 
     // delete
-    public string Delete => FromCaller();
+    public string Delete => PropertyValue();
     public string Deleted(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string DeleteQuery(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string DeleteTitle(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string DeleteHelp(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
 
     // remove
-    public string Remove => FromCaller();
+    public string Remove => PropertyValue();
     public string RemoveTitle(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string Removed(string item) =>
-        string.Format(FromCaller(), item);
-    public string RemoveAll => FromCaller();
+        FormatValue(PropertyValue(), nameof(item), item);
+    public string RemoveAll => PropertyValue();
 
     // save
     public string SaveHelp(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
     public string DeriveHelp(string item) =>
-        string.Format(FromCaller(), item);
+        FormatValue(PropertyValue(), nameof(item), item);
 }

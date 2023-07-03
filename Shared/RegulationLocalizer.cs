@@ -9,16 +9,16 @@ public class RegulationLocalizer : LocalizerBase
     {
     }
 
-    public string Regulation => FromCaller();
-    public string Regulations => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Regulation => PropertyValue();
+    public string Regulations => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Missing => FromCaller();
-    public string ValidFrom => FromCaller();
-    public string Version => FromCaller();
-    public string SharedRegulation => FromCaller();
+    public string Missing => PropertyValue();
+    public string ValidFrom => PropertyValue();
+    public string Version => PropertyValue();
+    public string SharedRegulation => PropertyValue();
 
-    public string InheritanceNew => FromCaller();
-    public string InheritanceDerived => FromCaller();
-    public string InheritanceBase => FromCaller();
+    public string InheritanceNew => PropertyValue();
+    public string InheritanceDerived => PropertyValue();
+    public string InheritanceBase => PropertyValue();
 }

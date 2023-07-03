@@ -9,23 +9,23 @@ public class UserLocalizer : LocalizerBase
     {
     }
 
-    public string User => FromCaller();
-    public string Users => FromCaller();
-    public string FirstName => FromCaller();
-    public string LastName => FromCaller();
-    public string UserType => FromCaller();
-    public string Features => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string User => PropertyValue();
+    public string Users => PropertyValue();
+    public string FirstName => PropertyValue();
+    public string LastName => PropertyValue();
+    public string UserType => PropertyValue();
+    public string Features => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string UserSettings => FromCaller();
+    public string UserSettings => PropertyValue();
 
-    public string ChangePasswordTitle => FromCaller();
-    public string ChangePasswordButton => FromCaller();
-    public string ShowPassword => FromCaller();
-    public string ExistingPassword => FromCaller();
-    public string ExistingPasswordHelp => FromCaller();
-    public string NewPassword => FromCaller();
-    public string NewPasswordHelp => FromCaller();
-    public string NewPasswordRepeat => FromCaller();
-    public string NewPasswordRepeatHelp => FromCaller();
+    public string ChangePasswordTitle => PropertyValue();
+    public string ChangePasswordButton => PropertyValue();
+    public string ShowPassword => PropertyValue();
+    public string ExistingPassword => PropertyValue();
+    public string ExistingPasswordHelp => PropertyValue();
+    public string NewPassword => PropertyValue();
+    public string NewPasswordHelp => PropertyValue();
+    public string NewPasswordRepeat => PropertyValue();
+    public string NewPasswordRepeatHelp => PropertyValue();
 }

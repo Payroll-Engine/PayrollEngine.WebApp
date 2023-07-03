@@ -73,7 +73,7 @@ namespace PayrollEngine.WebApp.Presentation
                 }
 
                 var localizerKey = LocalizationMap[key];
-                var value = Localizer.DataGrid.FromKey(localizerKey);
+                var value = Localizer.DataGrid.Key(localizerKey);
                 return new(key, value);
             }
         }

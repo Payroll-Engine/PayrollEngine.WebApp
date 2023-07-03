@@ -9,13 +9,13 @@ public class StorageLocalizer : LocalizerBase
     {
     }
 
-    public string Storage => FromCaller();
-    public string StorageItem => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Storage => PropertyValue();
+    public string StorageItem => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string ClearStorage => FromCaller();
-    public string Cleared => FromCaller();
+    public string ClearStorage => PropertyValue();
+    public string Cleared => PropertyValue();
 
     public string ClearQuery(int count) =>
-        string.Format(FromCaller(), count);
+        FormatValue(PropertyValue(), nameof(count), count);
 }

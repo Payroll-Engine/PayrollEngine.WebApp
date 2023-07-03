@@ -171,7 +171,7 @@
                                   Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6" Color="@(LegalJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
-                                    @Localizer.FromEnum(PayrunJobStatus.Draft)
+                                    @Localizer.Enum(PayrunJobStatus.Draft)
                                 </MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Created</MudText>
@@ -184,13 +184,13 @@
                                                    Style="Width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Error">
-                                            @Localizer.FromEnum(PayrunJobStatus.Abort)
+                                            @Localizer.Enum(PayrunJobStatus.Abort)
                                         </MudButton>
                                         <MudButton OnClick="ReleaseLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            @Localizer.FromEnum(PayrunJobStatus.Release)
+                                            @Localizer.Enum(PayrunJobStatus.Release)
                                         </MudButton>
                                     </div>
                                 }
@@ -205,7 +205,7 @@
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
                                          Color="@(LegalJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
-                                    @Localizer.FromEnum(PayrunJobStatus.Release)
+                                    @Localizer.Enum(PayrunJobStatus.Release)
                                 </MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Released</MudText>
@@ -215,13 +215,13 @@
                                 {
                                     <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
                                         <MudButton OnClick="AbortLegalJobAsync" Style="Width: max-content" Variant="Variant.Outlined" Color="Color.Error">
-                                            @Localizer.FromEnum(PayrunJobStatus.Abort)
+                                            @Localizer.Enum(PayrunJobStatus.Abort)
                                         </MudButton>
                                         <MudButton OnClick="ProcessLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            @Localizer.FromEnum(PayrunJobStatus.Process)
+                                            @Localizer.Enum(PayrunJobStatus.Process)
                                         </MudButton>
                                     </div>
                                 }
@@ -236,7 +236,7 @@
                             <MudStack Spacing="0" Style="height: 100%">
                                 <MudText Typo="Typo.h6"
                                          Color="@(LegalJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
-                                    @Localizer.FromEnum(PayrunJobStatus.Process)
+                                    @Localizer.Enum(PayrunJobStatus.Process)
                                 </MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Processed</MudText>
@@ -249,13 +249,13 @@
                                                    Style="Width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Error">
-                                            @Localizer.FromEnum(PayrunJobStatus.Cancel)
+                                            @Localizer.Enum(PayrunJobStatus.Cancel)
                                         </MudButton>
                                         <MudButton OnClick="CompleteLegalJobAsync"
                                                    Style="width: max-content"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Tertiary">
-                                            @Localizer.FromEnum(PayrunJobStatus.Complete)
+                                            @Localizer.Enum(PayrunJobStatus.Complete)
                                         </MudButton>
                                     </div>
                                 }
@@ -269,7 +269,7 @@
                         <MudPaper Class="pa-4" Elevation="4"
                                   Style="max-width: 15em; max-width: 25em">
                             <MudStack Spacing="0" Style="height: 100%">
-                                <MudText Typo="Typo.h6" Color="Color.Error">@Localizer.FromEnum(LegalJob.JobStatus)</MudText>
+                                <MudText Typo="Typo.h6" Color="Color.Error">@Localizer.Enum(LegalJob.JobStatus)</MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
                                 <MudText Class="pr-4">@LegalJob.Finished</MudText>
                                 <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
@@ -292,7 +292,7 @@
                         <PropertyColumn Property="x => x.Name" Title="@Localizer.PayrunJob.JobName" />
                         <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
                             <CellTemplate>
-                                @Localizer.FromEnum(context.Item.JobStatus)
+                                @Localizer.Enum(context.Item.JobStatus)
                             </CellTemplate>
                         </PropertyColumn>
                         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
@@ -415,7 +415,7 @@
                             <PropertyColumn Property="x => x.Forecast" Title="@Localizer.Forecast.Name" />
                             <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
                                 <CellTemplate>
-                                    @Localizer.FromEnum(context.Item.JobStatus)
+                                    @Localizer.Enum(context.Item.JobStatus)
                                 </CellTemplate>
                             </PropertyColumn>
                             <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">

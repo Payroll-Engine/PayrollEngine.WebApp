@@ -39,7 +39,7 @@
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
             <CellTemplate>
-                @Localizer.FromEnum(context.Item.Status)
+                @Localizer.Enum(context.Item.Status)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Level" Title="@Localizer.PayrollLayer.Level"

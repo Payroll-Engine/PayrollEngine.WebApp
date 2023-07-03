@@ -9,11 +9,11 @@ public class WageTypeLocalizer : LocalizerBase
     {
     }
 
-    public string WageType => FromCaller();
-    public string WageTypes => FromCaller();
-    public string WageTypeNumber => FromCaller();
-    public string CollectorGroups => FromCaller();
-    public string ValueExpression => FromCaller();
-    public string ResultExpression => FromCaller();
-    public string CalendarHelp => FromCaller();
+    public string WageType => PropertyValue();
+    public string WageTypes => PropertyValue();
+    public string WageTypeNumber => PropertyValue();
+    public string CollectorGroups => PropertyValue();
+    public string ValueExpression => PropertyValue();
+    public string ResultExpression => PropertyValue();
+    public string CalendarHelp => PropertyValue();
 }

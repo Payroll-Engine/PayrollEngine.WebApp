@@ -9,11 +9,11 @@ public class LookupLocalizer : LocalizerBase
     {
     }
 
-    public string Lookup => FromCaller();
-    public string Lookups => FromCaller();
+    public string Lookup => PropertyValue();
+    public string Lookups => PropertyValue();
 
-    public string LookupName => FromCaller();
-    public string ValueFieldName => FromCaller();
-    public string TextFieldName => FromCaller();
-    public string RangeSize => FromCaller();
+    public string LookupName => PropertyValue();
+    public string ValueFieldName => PropertyValue();
+    public string TextFieldName => PropertyValue();
+    public string RangeSize => PropertyValue();
 }

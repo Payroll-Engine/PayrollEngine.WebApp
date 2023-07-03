@@ -9,9 +9,9 @@ public class ReportParameterLocalizer : LocalizerBase
     {
     }
 
-    public string ReportParameter => FromCaller();
-    public string ReportParameters => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string ReportParameter => PropertyValue();
+    public string ReportParameters => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string ParameterType => FromCaller();
+    public string ParameterType => PropertyValue();
 }

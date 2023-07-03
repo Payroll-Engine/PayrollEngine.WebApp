@@ -9,40 +9,40 @@ public class CaseLocalizer : LocalizerBase
     {
     }
 
-    public string Case => FromCaller();
-    public string Cases => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Case => PropertyValue();
+    public string Cases => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string CaseType => FromCaller();
-    public string DefaultReason => FromCaller();
-    public string CancellationType => FromCaller();
-    public string BaseCase => FromCaller();
-    public string BaseCaseField => FromCaller();
-    public string BaseCaseFields => FromCaller();
-    public string Slots => FromCaller();
+    public string CaseType => PropertyValue();
+    public string DefaultReason => PropertyValue();
+    public string CancellationType => PropertyValue();
+    public string BaseCase => PropertyValue();
+    public string BaseCaseField => PropertyValue();
+    public string BaseCaseFields => PropertyValue();
+    public string Slots => PropertyValue();
 
-    public string AvailableExpression => FromCaller();
-    public string BuildExpression => FromCaller();
-    public string ValidateExpression => FromCaller();
-    public string AvailableActions => FromCaller();
-    public string BuildActions => FromCaller();
-    public string ValidateActions => FromCaller();
+    public string AvailableExpression => PropertyValue();
+    public string BuildExpression => PropertyValue();
+    public string ValidateExpression => PropertyValue();
+    public string AvailableActions => PropertyValue();
+    public string BuildActions => PropertyValue();
+    public string ValidateActions => PropertyValue();
 
-    public string GlobalCases => FromCaller();
-    public string NationalCases => FromCaller();
-    public string CompanyCases => FromCaller();
-    public string EmployeeCases => FromCaller();
+    public string GlobalCases => PropertyValue();
+    public string NationalCases => PropertyValue();
+    public string CompanyCases => PropertyValue();
+    public string EmployeeCases => PropertyValue();
 
-    public string UndoCase => FromCaller();
-    public string ChangeHistory => FromCaller();
-    public string AvailableCases => FromCaller();
+    public string UndoCase => PropertyValue();
+    public string ChangeHistory => PropertyValue();
+    public string AvailableCases => PropertyValue();
 
-    public string SelectCase => FromCaller();
-    public string CaseWithoutFields => FromCaller();
-    public string Validation => FromCaller();
+    public string SelectCase => PropertyValue();
+    public string CaseWithoutFields => PropertyValue();
+    public string Validation => PropertyValue();
 
-    public string StartCase(string caseName) =>
-        string.Format(FromCaller(), caseName);
-    public string SearchCase(string caseName) =>
-        string.Format(FromCaller(), caseName);
+    public string StartCase(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
+    public string SearchCase(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
 }

@@ -29,7 +29,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
     private ItemCollection<AttributeItem> Attributes { get; set; } = new();
     private MudDataGrid<AttributeItem> Grid { get; set; }
 
-    private string LocalizedItemName => Localizer.FromGroupKey(Item.ItemType.ToString());
+    private string LocalizedItemName => Localizer.GroupKey(Item.ItemType.ToString());
     private string LocalizedItemFullName =>
         $"{LocalizedItemName} {Localizer.Attribute.Attribute}";
     private static string AttributesFieldName => nameof(IAttributeObject.Attributes);

@@ -9,8 +9,8 @@ public class LookupValueLocalizer : LocalizerBase
     {
     }
 
-    public string LookupValue => FromCaller();
-    public string LookupValues => FromCaller();
+    public string LookupValue => PropertyValue();
+    public string LookupValues => PropertyValue();
 
-    public string RangeValue => FromCaller();
+    public string RangeValue => PropertyValue();
 }

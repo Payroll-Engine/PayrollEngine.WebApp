@@ -9,10 +9,10 @@ public class WebhookLocalizer : LocalizerBase
     {
     }
 
-    public string Webhook => FromCaller();
-    public string Webhooks => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Webhook => PropertyValue();
+    public string Webhooks => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string ReceiverAddress => FromCaller();
-    public string Action => FromCaller();
+    public string ReceiverAddress => PropertyValue();
+    public string Action => PropertyValue();
 }

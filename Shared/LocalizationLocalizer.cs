@@ -9,12 +9,12 @@ public class LocalizationLocalizer : LocalizerBase
     {
     }
 
-    public string Localization => FromCaller();
-    public string Localizations => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Localization => PropertyValue();
+    public string Localizations => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string LocalizationBase => FromCaller();
+    public string LocalizationBase => PropertyValue();
 
-    public string DialogTitle(string item) =>
-        string.Format(FromCaller(), item);
+    public string DialogTitle(string localization) =>
+        FormatValue(PropertyValue(), nameof(localization), localization);
 }

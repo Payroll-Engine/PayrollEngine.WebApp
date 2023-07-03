@@ -9,11 +9,11 @@ public class ReportTemplateLocalizer : LocalizerBase
     {
     }
 
-    public string ReportTemplate => FromCaller();
-    public string ReportTemplates => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string ReportTemplate => PropertyValue();
+    public string ReportTemplates => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Content => FromCaller();
-    public string Schema => FromCaller();
-    public string Resource => FromCaller();
+    public string Content => PropertyValue();
+    public string Schema => PropertyValue();
+    public string Resource => PropertyValue();
 }

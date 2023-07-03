@@ -9,22 +9,23 @@ public class ErrorLocalizer : LocalizerBase
     {
     }
 
-    public string Error => FromCaller();
-    public string DeleteFailed => FromCaller();
-    public string FileDownloadError => FromCaller();
-    public string FileUploadError => FromCaller();
-    public string EmptyCollection => FromCaller();
-    public string MissingMandatoryValue => FromCaller();
-    public string JsonFormatError => FromCaller();
+    public string Error => PropertyValue();
+    public string DeleteFailed => PropertyValue();
+    public string FileDownloadError => PropertyValue();
+    public string FileUploadError => PropertyValue();
+    public string EmptyCollection => PropertyValue();
+    public string MissingMandatoryValue => PropertyValue();
+    public string JsonFormatError => PropertyValue();
 
     public string MissingEmployee(string identifier) =>
-        string.Format(FromCaller(), identifier);
-    public string RequiredField(string fieldName) =>
-        string.Format(FromCaller(), fieldName);
+        FormatValue(PropertyValue(), nameof(identifier), identifier);
+    public string RequiredField(string field) =>
+        FormatValue(PropertyValue(), nameof(field), field);
+
     public string UnknownItem(string type, object item) =>
-        string.Format(FromCaller(), type, item);
-    public string UniqueConflict(string name) =>
-        string.Format(FromCaller(), name);
-    public string EmptyActionField(string name) =>
-        string.Format(FromCaller(), name);
+        FormatValue(PropertyValue(), nameof(type), type, nameof(item), item);
+    public string UniqueConflict(string key) =>
+        FormatValue(PropertyValue(), nameof(key), key);
+    public string EmptyActionField(string field) =>
+        FormatValue(PropertyValue(), nameof(field), field);
 }

@@ -9,11 +9,11 @@ public class PayrunResultLocalizer : LocalizerBase
     {
     }
 
-    public string PayrunResult => FromCaller();
-    public string PayrunResults => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string PayrunResult => PropertyValue();
+    public string PayrunResults => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Period => FromCaller();
-    public string ResultKind => FromCaller();
-    public string KindName => FromCaller();
+    public string Period => PropertyValue();
+    public string ResultKind => PropertyValue();
+    public string KindName => PropertyValue();
 }

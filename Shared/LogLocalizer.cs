@@ -9,12 +9,12 @@ public class LogLocalizer : LocalizerBase
     {
     }
 
-    public string Log => FromCaller();
-    public string Logs => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Log => PropertyValue();
+    public string Logs => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Level => FromCaller();
-    public string Message => FromCaller();
-    public string Comment => FromCaller();
-    public string OwnerType => FromCaller();
+    public string Level => PropertyValue();
+    public string Message => PropertyValue();
+    public string Comment => PropertyValue();
+    public string OwnerType => PropertyValue();
 }

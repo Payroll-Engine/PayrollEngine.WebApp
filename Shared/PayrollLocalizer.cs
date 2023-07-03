@@ -9,11 +9,11 @@ public class PayrollLocalizer : LocalizerBase
     {
     }
 
-    public string Payroll => FromCaller();
-    public string Payrolls => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Payroll => PropertyValue();
+    public string Payrolls => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string WageTypePeriod => FromCaller();
-    public string WageTypeRetro => FromCaller();
-    public string CollectorRetro => FromCaller();
+    public string WageTypePeriod => PropertyValue();
+    public string WageTypeRetro => PropertyValue();
+    public string CollectorRetro => PropertyValue();
 }

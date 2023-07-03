@@ -9,9 +9,9 @@ public class TenantLocalizer : LocalizerBase
     {
     }
 
-    public string Tenant => FromCaller();
-    public string Tenants => FromCaller();
-    public string NotAvailable => FromCaller();
-    public string CultureHelp => FromCaller();
-    public string CalendarHelp => FromCaller();
+    public string Tenant => PropertyValue();
+    public string Tenants => PropertyValue();
+    public string NotAvailable => PropertyValue();
+    public string CultureHelp => PropertyValue();
+    public string CalendarHelp => PropertyValue();
 }

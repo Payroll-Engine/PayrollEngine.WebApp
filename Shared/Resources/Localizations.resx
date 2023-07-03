@@ -166,7 +166,7 @@
     <value>Compact view</value>
   </data>
   <data name="App.Copyright" xml:space="preserve">
-    <value>Copyright {0}</value>
+    <value>Copyright {owner}</value>
   </data>
   <data name="App.DarkMode" xml:space="preserve">
     <value>Dark mode</value>
@@ -307,13 +307,13 @@
     <value>No cases available</value>
   </data>
   <data name="Case.SearchCase" xml:space="preserve">
-    <value>Search case {0}</value>
+    <value>Search case {case}</value>
   </data>
   <data name="Case.Slots" xml:space="preserve">
     <value>Slots</value>
   </data>
   <data name="Case.StartCase" xml:space="preserve">
-    <value>Start case {0}</value>
+    <value>Start case {case}</value>
   </data>
   <data name="Case.UndoCase" xml:space="preserve">
     <value>Case with undo</value>
@@ -346,19 +346,19 @@
     <value>Undo</value>
   </data>
   <data name="CaseChange.UndoCancelGroup" xml:space="preserve">
-    <value>Undo • {0}</value>
+    <value>Undo • {date}</value>
   </data>
   <data name="CaseChange.UndoCaseChange" xml:space="preserve">
     <value>Undo case</value>
   </data>
   <data name="CaseChange.UndoError" xml:space="preserve">
-    <value>Undo error for case {0}</value>
+    <value>Undo error for case {case}</value>
   </data>
   <data name="CaseChange.UndoQuery" xml:space="preserve">
-    <value>Undo case {0}?</value>
+    <value>Undo case {case}?</value>
   </data>
   <data name="CaseChange.UndoSuccess" xml:space="preserve">
-    <value>Undo successful for case {0}</value>
+    <value>Undo successful for case {case}</value>
   </data>
   <data name="CaseField.BuildActions" xml:space="preserve">
     <value>Build actions</value>
@@ -541,19 +541,19 @@
     <value>Clear content</value>
   </data>
   <data name="Document.ClearContentQuery" xml:space="preserve">
-    <value>Delete content (length {0})?</value>
+    <value>Delete content (length {bytes})?</value>
   </data>
   <data name="Document.ContentReplaceQuery" xml:space="preserve">
     <value>Replace content?</value>
   </data>
   <data name="Document.ContentUnchanged" xml:space="preserve">
-    <value>Document {0} unchanged</value>
+    <value>Document {document} unchanged</value>
   </data>
   <data name="Document.ContentUpload" xml:space="preserve">
     <value>Content upload</value>
   </data>
   <data name="Document.ContentUploaded" xml:space="preserve">
-    <value>Content {0} uploaded</value>
+    <value>Content {document} uploaded</value>
   </data>
   <data name="Document.Document" xml:space="preserve">
     <value>Document</value>
@@ -565,7 +565,7 @@
     <value>Documents</value>
   </data>
   <data name="Document.FileSize" xml:space="preserve">
-    <value>Size {0}</value>
+    <value>Size {bytes}</value>
   </data>
   <data name="Document.NotAvailable" xml:space="preserve">
     <value>No documents available</value>
@@ -574,7 +574,7 @@
     <value>Replace</value>
   </data>
   <data name="Employee.AllEmployees" xml:space="preserve">
-    <value>All {0} employees</value>
+    <value>All {count} employees</value>
   </data>
   <data name="Employee.Employee" xml:space="preserve">
     <value>Employee</value>
@@ -595,19 +595,19 @@
     <value>1 employee</value>
   </data>
   <data name="Employee.SelectedEmployees" xml:space="preserve">
-    <value>{0} of {1} employees</value>
+    <value>{selected} of {total} employees</value>
   </data>
   <data name="Error.DeleteFailed" xml:space="preserve">
     <value>Delete failed.</value>
   </data>
   <data name="Error.EmptyActionField" xml:space="preserve">
-    <value>Field {0} has no actions.</value>
+    <value>Field {field} has no actions.</value>
   </data>
   <data name="Error.EmptyCollection" xml:space="preserve">
     <value>Empty collection.</value>
   </data>
   <data name="Error.RequiredField" xml:space="preserve">
-    <value>{0} is required.</value>
+    <value>{field} is required.</value>
   </data>
   <data name="Error.FileDownloadError" xml:space="preserve">
     <value>Download error.</value>
@@ -616,16 +616,16 @@
     <value>File upload error.</value>
   </data>
   <data name="Error.ItemUnknown" xml:space="preserve">
-    <value>Unknown {0} {1}.</value>
+    <value>Unknown {type} {item}.</value>
   </data>
   <data name="Error.JsonFormatError" xml:space="preserve">
     <value>Json format error.</value>
   </data>
   <data name="Error.MissingEmployee" xml:space="preserve">
-    <value>Please ensure an existing employee with identifier {0}.</value>
+    <value>Please ensure an existing employee with identifier {identifier}.</value>
   </data>
   <data name="Error.UniqueConflict" xml:space="preserve">
-    <value>{0} already in use.</value>
+    <value>{key} already in use.</value>
   </data>
   <data name="Forecast.Copy" xml:space="preserve">
     <value>Forecast copy</value>
@@ -667,13 +667,13 @@
     <value>Add</value>
   </data>
   <data name="Item.Added" xml:space="preserve">
-    <value>{0} successfully added</value>
+    <value>{item} successfully added</value>
   </data>
   <data name="Item.AddHelp" xml:space="preserve">
-    <value>Add new {0}</value>
+    <value>Add new {item}</value>
   </data>
   <data name="Item.AddTitle" xml:space="preserve">
-    <value>Add {0}</value>
+    <value>Add {item}</value>
   </data>
   <data name="Item.BaseField" xml:space="preserve">
     <value>base</value>
@@ -685,34 +685,34 @@
     <value>Delete</value>
   </data>
   <data name="Item.Deleted" xml:space="preserve">
-    <value>{0} successfully deleted</value>
+    <value>{item} successfully deleted</value>
   </data>
   <data name="Item.DeleteHelp" xml:space="preserve">
-    <value>Delete {0}</value>
+    <value>Delete {item}</value>
   </data>
   <data name="Item.DeleteQuery" xml:space="preserve">
-    <value>Delete {0}?</value>
+    <value>Delete {item}?</value>
   </data>
   <data name="Item.DeleteTitle" xml:space="preserve">
-    <value>Delete {0}</value>
+    <value>Delete {item}</value>
   </data>
   <data name="Item.DeriveHelp" xml:space="preserve">
-    <value>Derive {0}</value>
+    <value>Derive {item}</value>
   </data>
   <data name="Item.Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="Item.EditHelp" xml:space="preserve">
-    <value>Edit {0}</value>
+    <value>Edit {item}</value>
   </data>
   <data name="Item.EditTitle" xml:space="preserve">
-    <value>Edit {0}</value>
+    <value>Edit {item}</value>
   </data>
   <data name="Item.InitOnlyField" xml:space="preserve">
     <value>init-only</value>
   </data>
   <data name="Item.NotAvailable" xml:space="preserve">
-    <value>No {0} available</value>
+    <value>No {item} available</value>
   </data>
   <data name="Item.ReadOnlyField" xml:space="preserve">
     <value>read-only</value>
@@ -724,19 +724,19 @@
     <value>Remove all</value>
   </data>
   <data name="Item.Removed" xml:space="preserve">
-    <value>Removed {0}</value>
+    <value>Removed {item}</value>
   </data>
   <data name="Item.SaveHelp" xml:space="preserve">
-    <value>Save {0}</value>
+    <value>Save {item}</value>
   </data>
   <data name="Item.SelectParent" xml:space="preserve">
-    <value>Select {0}</value>
+    <value>Select {item}</value>
   </data>
   <data name="Item.Updated" xml:space="preserve">
-    <value>{0} successfully updated</value>
+    <value>{item} successfully updated</value>
   </data>
   <data name="Localization.DialogTitle" xml:space="preserve">
-    <value>{0} localizations</value>
+    <value>{localization} localizations</value>
   </data>
   <data name="Localization.Localization" xml:space="preserve">
     <value>Localization</value>
@@ -847,10 +847,10 @@
     <value>Level</value>
   </data>
   <data name="PayrollLayer.MissingBaseRegulation" xml:space="preserve">
-    <value>Missing base regulation {0}</value>
+    <value>Missing base regulation {regulation}</value>
   </data>
   <data name="PayrollLayer.MissingRegulation" xml:space="preserve">
-    <value>Missing regulation {0}</value>
+    <value>Missing regulation {regulation}</value>
   </data>
   <data name="PayrollLayer.NextLevelHelp" xml:space="preserve">
     <value>Set the next free level</value>
@@ -910,7 +910,7 @@
     <value>Start expression</value>
   </data>
   <data name="Payrun.UnknownPayrun" xml:space="preserve">
-    <value>Unknown payrun {0}</value>
+    <value>Unknown payrun {payrun}</value>
   </data>
   <data name="Payrun.WageTypeAvailableExpression" xml:space="preserve">
     <value>Wage type available expression</value>
@@ -919,7 +919,7 @@
     <value>Copy</value>
   </data>
   <data name="PayrunJob.DefaultReason" xml:space="preserve">
-    <value>Change to status {0}</value>
+    <value>Change to status {status}</value>
   </data>
   <data name="PayrunJob.JobCompleted" xml:space="preserve">
     <value>Payrun job completed successfully</value>
@@ -985,10 +985,10 @@
     <value>Start payrun</value>
   </data>
   <data name="PayrunJob.StatusChanged" xml:space="preserve">
-    <value>Changed payrun job status to {0}</value>
+    <value>Changed payrun job status to {status}</value>
   </data>
   <data name="PayrunParameter.CountParameters" xml:space="preserve">
-    <value>{0} parameters</value>
+    <value>{count} parameters</value>
   </data>
   <data name="PayrunParameter.NoParameters" xml:space="preserve">
     <value>No parameters</value>
@@ -1198,7 +1198,7 @@
     <value>Function types</value>
   </data>
   <data name="Script.FunctionCount" xml:space="preserve">
-    <value>{0} functions</value>
+    <value>{count} functions</value>
   </data>
   <data name="Script.Script" xml:space="preserve">
     <value>Script</value>
@@ -1327,7 +1327,7 @@
     <value>Storage cleared</value>
   </data>
   <data name="Storage.ClearQuery" xml:space="preserve">
-    <value>Remove all {0} storage items?</value>
+    <value>Remove all {count} storage items?</value>
   </data>
   <data name="Storage.ClearStorage" xml:space="preserve">
     <value>Clear storage</value>
@@ -1516,7 +1516,7 @@
     <value>Validation</value>
   </data>
   <data name="CaseChange.CaseChangeGroup" xml:space="preserve">
-    <value>Case change {0}</value>
+    <value>Case change {group}</value>
   </data>
   <data name="CaseField.FieldDocuments" xml:space="preserve">
     <value>Field documents</value>
@@ -1534,7 +1534,7 @@
     <value>Content type</value>
   </data>
   <data name="Document.DownloadTitle" xml:space="preserve">
-    <value>Download {0}</value>
+    <value>Download {document}</value>
   </data>
   <data name="Error.Error" xml:space="preserve">
     <value>Error</value>
@@ -1543,7 +1543,7 @@
     <value>Value is required.</value>
   </data>
   <data name="Item.RemoveTitle" xml:space="preserve">
-    <value>Remove {0}</value>
+    <value>Remove {item}</value>
   </data>
   <data name="Shared.CommaSeparatedList" xml:space="preserve">
     <value>Comma separated list</value>
@@ -1618,13 +1618,13 @@
     <value>Report without data</value>
   </data>
   <data name="Report.EmptyXmlRaw" xml:space="preserve">
-    <value>Empty XML raw report {0}</value>
+    <value>Empty XML raw report {report}</value>
   </data>
   <data name="Report.TemplateNotAvailable" xml:space="preserve">
-    <value>Report {0} not available in {1}</value>
+    <value>Report {report} not available in {culture}</value>
   </data>
   <data name="Report.XmlValidationError" xml:space="preserve">
-    <value>Invalid XML report {0}, please check the XSD schema</value>
+    <value>Invalid XML report {report}, please check the XSD schema</value>
   </data>
   <data name="Enum.PayrunJobStatus.Abort" xml:space="preserve">
     <value>Abort</value>
@@ -2158,7 +2158,7 @@
     <value>Rows per page:</value>
   </data>
   <data name="Calendar.InvalidPeriodTimeUnit" xml:space="preserve">
-    <value>Periods of '{0}' do not fit into the cycle '{1}'</value>
+    <value>Periods of '{cycle}' do not fit into the cycle '{period}'</value>
   </data>
   <data name="Calendar.PeriodTimeUnitHelp" xml:space="preserve">
     <value>Period time unit must fit into the cycle time unit</value>
@@ -2194,7 +2194,7 @@
     <value>The tenant selection is currently not available</value>
   </data>
   <data name="Login.UnknownUser" xml:space="preserve">
-    <value>Unknown user {0}</value>
+    <value>Unknown user {user}</value>
   </data>
   <data name="Login.UserReadError" xml:space="preserve">
     <value>The user selection is currently not available</value>

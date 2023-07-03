@@ -9,19 +9,19 @@ public class LoginLocalizer : LocalizerBase
     {
     }
 
-    public string Login => FromCaller();
-    public string MissingBackendService => FromCaller();
-    public string NewPasswordTitle => FromCaller();
-    public string Password => FromCaller();
-    public string PasswordInfo => FromCaller();
-    public string InvalidPassword => FromCaller();
-    public string InvalidPasswordConfirmation => FromCaller();
-    public string PasswordChangeError => FromCaller();
-    public string TenantHelp => FromCaller();
-    public string UserHelp => FromCaller();
-    public string TenantReadError=> FromCaller();
-    public string UserReadError=> FromCaller();
+    public string Login => PropertyValue();
+    public string MissingBackendService => PropertyValue();
+    public string NewPasswordTitle => PropertyValue();
+    public string Password => PropertyValue();
+    public string PasswordInfo => PropertyValue();
+    public string InvalidPassword => PropertyValue();
+    public string InvalidPasswordConfirmation => PropertyValue();
+    public string PasswordChangeError => PropertyValue();
+    public string TenantHelp => PropertyValue();
+    public string UserHelp => PropertyValue();
+    public string TenantReadError=> PropertyValue();
+    public string UserReadError=> PropertyValue();
 
-    public string UnknownUser(string identifier) =>
-        string.Format(FromCaller(), identifier);
+    public string UnknownUser(string user) =>
+        FormatValue(PropertyValue(), nameof(user), user);
 }

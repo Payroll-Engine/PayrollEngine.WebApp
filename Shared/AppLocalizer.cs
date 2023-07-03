@@ -9,30 +9,29 @@ public class AppLocalizer : LocalizerBase
     {
     }
 
-    public string SelectTenant => FromCaller();
-    public string SelectPayroll => FromCaller();
-    public string SelectPayrollWithPayrun => FromCaller();
-    public string SelectEmployee => FromCaller();
-    public string SelectPayrun => FromCaller();
+    public string SelectTenant => PropertyValue();
+    public string SelectPayroll => PropertyValue();
+    public string SelectPayrollWithPayrun => PropertyValue();
+    public string SelectEmployee => PropertyValue();
+    public string SelectPayrun => PropertyValue();
 
-    public string AccessDenied => FromCaller();
-    public string MissingFeatures => FromCaller();
-    public string AdminContact => FromCaller();
+    public string AccessDenied => PropertyValue();
+    public string MissingFeatures => PropertyValue();
+    public string AdminContact => PropertyValue();
 
-    public string ToggleSidebar => FromCaller();
-    public string LightMode => FromCaller();
-    public string DarkMode => FromCaller();
+    public string ToggleSidebar => PropertyValue();
+    public string LightMode => PropertyValue();
+    public string DarkMode => PropertyValue();
 
-    public string About => FromCaller();
-    public string Logout => FromCaller();
+    public string About => PropertyValue();
+    public string Logout => PropertyValue();
 
-    public string CompactView => FromCaller();
-    public string ExpandGroups => FromCaller();
-    public string CollapseGroups => FromCaller();
+    public string CompactView => PropertyValue();
+    public string ExpandGroups => PropertyValue();
+    public string CollapseGroups => PropertyValue();
 
-    public string WebAppVersion => FromCaller();
-    public string BackendVersion => FromCaller();
+    public string WebAppVersion => PropertyValue();
+    public string BackendVersion => PropertyValue();
 
-    public string Copyright(string owner) =>
-        string.Format(FromCaller(), owner);
+    public string Copyright(string owner) => FormatValue(PropertyValue(), nameof(owner), owner);
 }

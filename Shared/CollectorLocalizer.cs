@@ -9,14 +9,14 @@ public class CollectorLocalizer : LocalizerBase
     {
     }
 
-    public string Collector => FromCaller();
-    public string Collectors => FromCaller();
+    public string Collector => PropertyValue();
+    public string Collectors => PropertyValue();
 
-    public string CollectType => FromCaller();
-    public string Threshold => FromCaller();
-    public string StartExpression => FromCaller();
-    public string ApplyExpression => FromCaller();
-    public string EndExpression => FromCaller();
-    public string MinResult => FromCaller();
-    public string MaxResult => FromCaller();
+    public string CollectType => PropertyValue();
+    public string Threshold => PropertyValue();
+    public string StartExpression => PropertyValue();
+    public string ApplyExpression => PropertyValue();
+    public string EndExpression => PropertyValue();
+    public string MinResult => PropertyValue();
+    public string MaxResult => PropertyValue();
 }

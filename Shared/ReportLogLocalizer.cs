@@ -9,10 +9,10 @@ public class ReportLogLocalizer : LocalizerBase
     {
     }
 
-    public string ReportLog => FromCaller();
-    public string ReportLogs => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string ReportLog => PropertyValue();
+    public string ReportLogs => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Message => FromCaller();
-    public string ReportDate => FromCaller();
+    public string Message => PropertyValue();
+    public string ReportDate => PropertyValue();
 }

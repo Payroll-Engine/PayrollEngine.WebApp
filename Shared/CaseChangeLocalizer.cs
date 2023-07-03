@@ -9,23 +9,22 @@ public class CaseChangeLocalizer : LocalizerBase
     {
     }
 
-    public string CaseChange => FromCaller();
-    public string CaseChanges => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string CaseChange => PropertyValue();
+    public string CaseChanges => PropertyValue();
+    public string NotAvailable => PropertyValue();
+    public string Undo => PropertyValue();
+    public string Reason => PropertyValue();
+    public string UndoCaseChange => PropertyValue();
+    public string EmptyCaseChange => PropertyValue();
 
-    public string Undo => FromCaller();
-    public string Reason => FromCaller();
-    public string UndoCaseChange => FromCaller();
-    public string EmptyCaseChange => FromCaller();
-
-    public string UndoError(string caseName) =>
-        string.Format(FromCaller(), caseName);
-    public string UndoSuccess(string caseName) =>
-        string.Format(FromCaller(), caseName);
-    public string UndoQuery(string caseName) =>
-        string.Format(FromCaller(), caseName);
-    public string CaseChangeGroup(object text) =>
-        string.Format(FromCaller(), text);
-    public string UndoCancelGroup(string cancelDate) =>
-        string.Format(FromCaller(), cancelDate);
+    public string UndoError(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
+    public string UndoSuccess(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
+    public string UndoQuery(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
+    public string CaseChangeGroup(object group) =>
+        FormatValue(PropertyValue(), nameof(group), group);
+    public string UndoCancelGroup(string date) =>
+        FormatValue(PropertyValue(), nameof(date), date);
 }

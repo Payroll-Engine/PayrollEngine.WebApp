@@ -9,24 +9,24 @@ public class PayrollLayerLocalizer : LocalizerBase
     {
     }
 
-    public string PayrollLayer => FromCaller();
-    public string PayrollLayers => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string PayrollLayer => PropertyValue();
+    public string PayrollLayers => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Level => FromCaller();
-    public string Priority => FromCaller();
-    public string DefaultLevel => FromCaller();
+    public string Level => PropertyValue();
+    public string Priority => PropertyValue();
+    public string DefaultLevel => PropertyValue();
 
-    public string NextLevelHelp => FromCaller();
-    public string NextPriorityHelp => FromCaller();
+    public string NextLevelHelp => PropertyValue();
+    public string NextPriorityHelp => PropertyValue();
 
-    public string RuleLevelMin => FromCaller();
-    public string RulePriorityMin => FromCaller();
-    public string InvalidPayrollRegulation => FromCaller();
-    public string InvalidBaseRegulation => FromCaller();
+    public string RuleLevelMin => PropertyValue();
+    public string RulePriorityMin => PropertyValue();
+    public string InvalidPayrollRegulation => PropertyValue();
+    public string InvalidBaseRegulation => PropertyValue();
 
-    public string MissingRegulation(string name) =>
-        string.Format(FromCaller(), name);
-    public string MissingBaseRegulation(string name) =>
-        string.Format(FromCaller(), name);
+    public string MissingRegulation(string regulation) =>
+        FormatValue(PropertyValue(), nameof(regulation), regulation);
+    public string MissingBaseRegulation(string regulation) =>
+        FormatValue(PropertyValue(), nameof(regulation), regulation);
 }

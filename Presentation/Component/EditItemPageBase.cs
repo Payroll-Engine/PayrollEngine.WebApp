@@ -24,7 +24,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         typeof(TItem).Name;
 
     protected string ItemTypeUiName =>
-        Localizer.FromGroupKey(ItemTypeName);
+        Localizer.GroupKey(ItemTypeName);
 
     protected virtual bool AddItemTenantParameter => true;
 

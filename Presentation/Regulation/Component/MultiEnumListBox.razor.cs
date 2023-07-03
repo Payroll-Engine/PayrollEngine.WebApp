@@ -93,7 +93,7 @@ public partial class MultiEnumListBox<T> : IRegulationInput
         List<Tuple<T, string>> values = new();
         foreach (var item in enumItems)
         {
-            var text = Localizer != null ? Localizer.FromEnum(item) : item.ToString().ToPascalSentence();
+            var text = Localizer != null ? Localizer.Enum(item) : item.ToString().ToPascalSentence();
             values.Add(new(item, text));
         }
         return values;

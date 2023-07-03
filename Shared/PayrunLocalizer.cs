@@ -9,23 +9,23 @@ public class PayrunLocalizer : LocalizerBase
     {
     }
 
-    public string Payrun => FromCaller();
-    public string Payruns => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string Payrun => PropertyValue();
+    public string Payruns => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string Parameters => FromCaller();
-    public string Expressions => FromCaller();
+    public string Parameters => PropertyValue();
+    public string Expressions => PropertyValue();
 
-    public string DefaultReason => FromCaller();
-    public string RetroTimeType => FromCaller();
+    public string DefaultReason => PropertyValue();
+    public string RetroTimeType => PropertyValue();
 
-    public string StartExpression => FromCaller();
-    public string EmployeeAvailableExpression => FromCaller();
-    public string EmployeeStartExpression => FromCaller();
-    public string EmployeeEndExpression => FromCaller();
-    public string WageTypeAvailableExpression => FromCaller();
-    public string EndExpression => FromCaller();
+    public string StartExpression => PropertyValue();
+    public string EmployeeAvailableExpression => PropertyValue();
+    public string EmployeeStartExpression => PropertyValue();
+    public string EmployeeEndExpression => PropertyValue();
+    public string WageTypeAvailableExpression => PropertyValue();
+    public string EndExpression => PropertyValue();
 
-    public string UnknownPayrun(string name) =>
-        string.Format(FromCaller(), name);
+    public string UnknownPayrun(string payrun) =>
+        FormatValue(PropertyValue(), nameof(payrun), payrun);
 }

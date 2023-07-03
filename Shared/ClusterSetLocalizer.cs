@@ -9,10 +9,10 @@ public class ClusterSetLocalizer : LocalizerBase
     {
     }
 
-    public string ClusterSet => FromCaller();
-    public string ClusterSets => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string ClusterSet => PropertyValue();
+    public string ClusterSets => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string IncludeClusters => FromCaller();
-    public string ExcludeClusters => FromCaller();
+    public string IncludeClusters => PropertyValue();
+    public string ExcludeClusters => PropertyValue();
 }

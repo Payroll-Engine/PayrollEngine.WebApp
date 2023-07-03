@@ -9,14 +9,14 @@ public class WebhookMessageLocalizer : LocalizerBase
     {
     }
 
-    public string WebhookMessage => FromCaller();
-    public string WebhookMessages => FromCaller();
-    public string NotAvailable => FromCaller();
+    public string WebhookMessage => PropertyValue();
+    public string WebhookMessages => PropertyValue();
+    public string NotAvailable => PropertyValue();
 
-    public string RequestDate => FromCaller();
-    public string RequestMessage => FromCaller();
-    public string RequestOperation => FromCaller();
-    public string ResponseDate => FromCaller();
-    public string ResponseStatus => FromCaller();
-    public string ResponseMessage => FromCaller();
+    public string RequestDate => PropertyValue();
+    public string RequestMessage => PropertyValue();
+    public string RequestOperation => PropertyValue();
+    public string ResponseDate => PropertyValue();
+    public string ResponseStatus => PropertyValue();
+    public string ResponseMessage => PropertyValue();
 }

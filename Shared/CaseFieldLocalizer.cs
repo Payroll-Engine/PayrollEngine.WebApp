@@ -9,26 +9,26 @@ public class CaseFieldLocalizer : LocalizerBase
     {
     }
 
-    public string CaseField => FromCaller();
-    public string CaseFields => FromCaller();
+    public string CaseField => PropertyValue();
+    public string CaseFields => PropertyValue();
 
-    public string CultureHelp => FromCaller();
-    public string CancellationMode => FromCaller();
-    public string TimeType => FromCaller();
-    public string TimeUnit => FromCaller();
-    public string StartDateType => FromCaller();
-    public string DefaultStart => FromCaller();
-    public string EndDateType => FromCaller();
-    public string DefaultEnd => FromCaller();
-    public string EndMandatory => FromCaller();
-    public string ValueScope => FromCaller();
-    public string ValueCreationMode => FromCaller();
-    public string DefaultValue => FromCaller();
-    public string ValueMandatory => FromCaller();
-    public string LookupSettings => FromCaller();
-    public string LookupSettingsRemoved => FromCaller();
-    public string BuildActions => FromCaller();
-    public string ValidateActions => FromCaller();
-    public string TimeGroup => FromCaller();
-    public string FieldDocuments => FromCaller();
+    public string CultureHelp => PropertyValue();
+    public string CancellationMode => PropertyValue();
+    public string TimeType => PropertyValue();
+    public string TimeUnit => PropertyValue();
+    public string StartDateType => PropertyValue();
+    public string DefaultStart => PropertyValue();
+    public string EndDateType => PropertyValue();
+    public string DefaultEnd => PropertyValue();
+    public string EndMandatory => PropertyValue();
+    public string ValueScope => PropertyValue();
+    public string ValueCreationMode => PropertyValue();
+    public string DefaultValue => PropertyValue();
+    public string ValueMandatory => PropertyValue();
+    public string LookupSettings => PropertyValue();
+    public string LookupSettingsRemoved => PropertyValue();
+    public string BuildActions => PropertyValue();
+    public string ValidateActions => PropertyValue();
+    public string TimeGroup => PropertyValue();
+    public string FieldDocuments => PropertyValue();
 }

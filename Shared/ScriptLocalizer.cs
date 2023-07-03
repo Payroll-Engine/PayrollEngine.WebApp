@@ -9,12 +9,12 @@ public class ScriptLocalizer : LocalizerBase
     {
     }
 
-    public string Script => FromCaller();
-    public string Scripts => FromCaller();
+    public string Script => PropertyValue();
+    public string Scripts => PropertyValue();
 
-    public string FunctionTypes => FromCaller();
-    public string SingleFunction => FromCaller();
+    public string FunctionTypes => PropertyValue();
+    public string SingleFunction => PropertyValue();
 
     public string FunctionCount(int count) =>
-        string.Format(FromCaller(), count);
+        FormatValue(PropertyValue(), nameof(count), count);
 }
