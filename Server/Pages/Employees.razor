@@ -24,6 +24,10 @@
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <FilterTemplate>
+                <EnumFilter TItem="Employee" TEnum="ObjectStatus" Column="@nameof(Employee.Status)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.Status)
             </CellTemplate>

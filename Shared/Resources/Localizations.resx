@@ -1678,7 +1678,7 @@
     <value>Supervisor</value>
   </data>
   <data name="DataGrid.AddFilter" xml:space="preserve">
-    <value>Add Filter</value>
+    <value>Add filter</value>
   </data>
   <data name="DataGrid.Apply" xml:space="preserve">
     <value>Apply</value>
@@ -1705,7 +1705,7 @@
     <value>equals</value>
   </data>
   <data name="DataGrid.ExpandAllGroups" xml:space="preserve">
-    <value>Expand All Groups</value>
+    <value>Expand all groups</value>
   </data>
   <data name="DataGrid.False" xml:space="preserve">
     <value>false</value>

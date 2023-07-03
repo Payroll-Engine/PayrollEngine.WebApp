@@ -2,14 +2,14 @@
 
 @foreach (var weekday in Weekdays)
 {
-    <MudSelectItem T="PayrollEngine.DayOfWeek?" Value="@((PayrollEngine.DayOfWeek?)weekday.Item1)">@weekday.Item2</MudSelectItem>
+    <MudSelectItem T="PayrollEngine.DayOfWeek?" Value="@weekday.Value">@weekday.Label</MudSelectItem>
 }
 
 @code
 {
     [Parameter] public string Culture { get; set; }
 
-    private List<Tuple<int, string>> Weekdays { get; } = new();
+    private List<LabeledValue<PayrollEngine.DayOfWeek?>> Weekdays { get; } = new();
 
     private void SetupWeekdays()
     {
@@ -41,7 +41,7 @@
         // apply days
         for (var i = 0; i < dayNames.Count; i++)
         {
-            Weekdays.Add(new(i, dayNames[i]));
+            Weekdays.Add(new() { Value = (PayrollEngine.DayOfWeek?)i, Label = dayNames[i] });
         }
     }
 

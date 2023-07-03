@@ -1,0 +1,7 @@
+﻿@typeparam T where T : struct, Enum
+@inherits EnumItemsBase<T>
+
+@foreach (var value in Values)
+{
+    <MudListItem Value="@value.Value">@value.Label</MudListItem>
+}

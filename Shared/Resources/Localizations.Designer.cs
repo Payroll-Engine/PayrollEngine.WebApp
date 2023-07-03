@@ -1384,7 +1384,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Filter.
+        ///   Looks up a localized string similar to Add filter.
         /// </summary>
         internal static string DataGrid_AddFilter {
             get {
@@ -1465,7 +1465,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expand All Groups.
+        ///   Looks up a localized string similar to Expand all groups.
         /// </summary>
         internal static string DataGrid_ExpandAllGroups {
             get {

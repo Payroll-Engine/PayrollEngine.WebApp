@@ -1,4 +1,5 @@
-﻿@using PayrollEngine.WebApp.ViewModel
+﻿@using PayrollEngine.WebApp.Presentation.Component
+@using PayrollEngine.WebApp.ViewModel
 
 @typeparam TParent
 @typeparam TItem
@@ -79,6 +80,10 @@
         }
         <PropertyColumn Property="x => x.RegulationName" Title="@Localizer.Regulation.Regulation" />
         <PropertyColumn Property="x => x.InheritanceType" Title="@Localizer.Shared.Inheritance">
+            <FilterTemplate>
+                <EnumFilter TItem="TItem" TEnum="RegulationInheritanceType" Column="@nameof(IRegulationItem.InheritanceType)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @context.Item.InheritanceType.ToText(Localizer)
             </CellTemplate>

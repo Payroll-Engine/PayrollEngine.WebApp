@@ -25,27 +25,47 @@
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <FilterTemplate>
+                <EnumFilter TItem="Calendar" TEnum="ObjectStatus" Column="@nameof(Calendar.Status)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.Status)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.CycleTimeUnit" Title="@Localizer.Calendar.CycleTimeUnit">
+            <FilterTemplate>
+                <EnumFilter TItem="Calendar" TEnum="CalendarTimeUnit" Column="@nameof(Calendar.CycleTimeUnit)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.CycleTimeUnit)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.PeriodTimeUnit" Title="@Localizer.Calendar.PeriodTimeUnit">
+            <FilterTemplate>
+                <EnumFilter TItem="Calendar" TEnum="CalendarTimeUnit" Column="@nameof(Calendar.PeriodTimeUnit)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.PeriodTimeUnit)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.TimeMap" Title="@Localizer.Calendar.TimeMap">
+            <FilterTemplate>
+                <EnumFilter TItem="Calendar" TEnum="CalendarTimeMap" Column="@nameof(Calendar.TimeMap)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.TimeMap)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.WeekMode" Title="@Localizer.Calendar.WeekMode">
+            <FilterTemplate>
+                <EnumFilter TItem="Calendar" TEnum="CalendarWeekMode" Column="@nameof(Calendar.WeekMode)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.WeekMode)
             </CellTemplate>

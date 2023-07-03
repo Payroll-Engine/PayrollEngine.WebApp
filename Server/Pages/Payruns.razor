@@ -29,6 +29,10 @@
                         Filterable="false" ShowFilterIcon="false" />
         <PropertyColumn Property="x => x.DefaultReason" Title="@Localizer.Payrun.DefaultReason" />
         <PropertyColumn Property="x => x.RetroTimeType" Title="@Localizer.Payrun.RetroTimeType">
+            <FilterTemplate>
+                <EnumFilter TItem="Payrun" TEnum="RetroTimeType" Column="@nameof(Payrun.RetroTimeType)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.RetroTimeType)
             </CellTemplate>

@@ -113,6 +113,10 @@
         <PropertyColumn Property="x => x.PeriodStart" Title="@Localizer.PayrunResult.Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending" />
         <PropertyColumn Property="x => x.JobName" Title="@Localizer.PayrunJob.JobName" />
         <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
+            <FilterTemplate>
+                <EnumFilter TItem="PayrollResultValue" TEnum="PayrunJobStatus" Column="@nameof(PayrollResultValue.JobStatus)"
+                            Context="@context" DataGrid="@ResultsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.JobStatus)
             </CellTemplate>
@@ -125,6 +129,10 @@
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.ResultKind" Title="@Localizer.PayrunResult.ResultKind">
+            <FilterTemplate>
+                <EnumFilter TItem="PayrollResultValue" TEnum="ResultKind" Column="@nameof(PayrollResultValue.ResultKind)"
+                            Context="@context" DataGrid="@ResultsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.ResultKind)
             </CellTemplate>

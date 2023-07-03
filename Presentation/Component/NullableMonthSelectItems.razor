@@ -3,13 +3,13 @@
 
 @foreach (var month in Months)
 {
-    <MudSelectItem T="Month?" Value="@month.Item1">@month.Item2</MudSelectItem>
+    <MudSelectItem T="Month?" Value="@month.Value">@month.Label</MudSelectItem>
 }
 
 @code
 {
     [Parameter] public string Culture { get; set; }
-    private List<Tuple<Month?, string>> Months { get; set; } = new();
+    private List<LabeledValue<Month?>> Months { get; set; } = new();
 
     private void SetupMonths()
     {
@@ -23,7 +23,7 @@
         var i = 1;
         foreach (var monthName in monthNames)
         {
-            Months.Add(new((Month?)i, monthName));
+            Months.Add(new() { Value = (Month?)i, Label = monthName });
             i++;
         }
     }

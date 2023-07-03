@@ -25,6 +25,10 @@
         <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.ReceiverAddress" Title="@Localizer.Webhook.ReceiverAddress" />
         <PropertyColumn Property="x => x.Action" Title="@Localizer.Webhook.Action">
+            <FilterTemplate>
+                <EnumFilter TItem="Webhook" TEnum="WebhookAction" Column="@nameof(Webhook.Action)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.Action)
             </CellTemplate>

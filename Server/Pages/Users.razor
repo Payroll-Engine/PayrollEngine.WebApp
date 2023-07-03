@@ -25,6 +25,10 @@
     <Columns>
         <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <FilterTemplate>
+                <EnumFilter TItem="User" TEnum="ObjectStatus" Column="@nameof(User.Status)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.Status)
             </CellTemplate>
@@ -38,6 +42,10 @@
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.UserType" Title="@Localizer.User.UserType">
+            <FilterTemplate>
+                <EnumFilter TItem="User" TEnum="UserType" Column="@nameof(User.UserType)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
             <CellTemplate>
                 @Localizer.Enum(context.Item.UserType)
             </CellTemplate>

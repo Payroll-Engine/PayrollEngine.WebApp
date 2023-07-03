@@ -1,0 +1,18 @@
+﻿@inherits EnumFilterBase<TItem, TEnum>
+
+@typeparam TItem
+@typeparam TEnum where TEnum : struct, Enum
+
+<MudIconButton OnClick="@OpenFilter" Icon="@FilterIcon" Size="@Size.Small" />
+<MudIconButton OnClick="@ClearFilter" Icon="@Icons.Material.Filled.FilterAltOff" Size="@Size.Small" />
+<MudOverlay Visible="@FilterOpen" OnClick="@CloseFilter" />
+<MudPopover Open="@FilterOpen" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter"
+            Style="max-width: 20em">
+    <MudStack Spacing="0">
+        <MudList Style="overflow-y: auto; max-height: 40em"
+                 SelectedItemChanged="@(x => SelectFilter(x.Value))"
+                 Clickable="true">
+            <EnumListItems T="TEnum" />
+        </MudList>
+    </MudStack>
+</MudPopover>
