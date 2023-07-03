@@ -439,20 +439,29 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Month day count.
-        /// </summary>
-        internal static string Calendar_MonthDayCount {
-            get {
-                return ResourceManager.GetString("Calendar.MonthDayCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No calendars available.
         /// </summary>
         internal static string Calendar_NotAvailable {
             get {
                 return ResourceManager.GetString("Calendar.NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period day count.
+        /// </summary>
+        internal static string Calendar_PeriodDayCount {
+            get {
+                return ResourceManager.GetString("Calendar.PeriodDayCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Override the effective period day count.
+        /// </summary>
+        internal static string Calendar_PeriodDayCountHelp {
+            get {
+                return ResourceManager.GetString("Calendar.PeriodDayCountHelp", resourceCulture);
             }
         }
         

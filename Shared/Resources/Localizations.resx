@@ -228,8 +228,8 @@
   <data name="Calendar.FirstMonthOfYear" xml:space="preserve">
     <value>First month of year</value>
   </data>
-  <data name="Calendar.MonthDayCount" xml:space="preserve">
-    <value>Month day count</value>
+  <data name="Calendar.PeriodDayCount" xml:space="preserve">
+    <value>Period day count</value>
   </data>
   <data name="Calendar.NotAvailable" xml:space="preserve">
     <value>No calendars available</value>
@@ -2210,5 +2210,8 @@
   </data>
   <data name="WageType.CalendarHelp" xml:space="preserve">
     <value>Wage type calendar</value>
+  </data>
+  <data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
+    <value>Override the effective period day count</value>
   </data>
 </root>

@@ -23,11 +23,12 @@ public class CalendarLocalizer : LocalizerBase
     public string Day => FromCaller();
 
     public string FirstMonthOfYear => FromCaller();
-    public string MonthDayCount => FromCaller();
+    public string PeriodDayCount => FromCaller();
     public string YearWeekRule => FromCaller();
     public string FirstDayOfWeek => FromCaller();
 
     public string PeriodTimeUnitHelp => FromCaller();
+    public string PeriodDayCountHelp => FromCaller();
 
     public string InvalidPeriodTimeUnit(CalendarTimeUnit cycle, CalendarTimeUnit period) =>
         string.Format(FromCaller(), FromEnum(cycle), FromEnum(period));

@@ -40,8 +40,9 @@
                                    Label="@Localizer.Calendar.FirstMonthOfYear">
                             <NullableMonthSelectItems Culture="@Culture" />
                         </MudSelect>
-                        <MudNumericField T="decimal?" @bind-Value="Calendar.MonthDayCount"
-                                         Label="@Localizer.Calendar.MonthDayCount"
+                        <MudNumericField T="decimal?" @bind-Value="Calendar.PeriodDayCount"
+                                         Label="@Localizer.Calendar.PeriodDayCount"
+                                         HelperText="@Localizer.Calendar.PeriodDayCountHelp"
                                          Format="0.##" Clearable="true" />
                         <MudSelect T="CalendarWeekRule?" @bind-Value="Calendar.YearWeekRule" Clearable="true"
                                    Label="@Localizer.Calendar.YearWeekRule">

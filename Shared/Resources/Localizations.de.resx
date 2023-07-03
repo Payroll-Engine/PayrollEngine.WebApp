@@ -174,8 +174,8 @@
   <data name="Calendar.FirstMonthOfYear" xml:space="preserve">
     <value>Erster Monat im Jahr</value>
   </data>
-  <data name="Calendar.MonthDayCount" xml:space="preserve">
-    <value>Tage im Monat</value>
+  <data name="Calendar.PeriodDayCount" xml:space="preserve">
+    <value>Tage in der Periode</value>
   </data>
   <data name="Calendar.NotAvailable" xml:space="preserve">
     <value>Keine Kalender verfügbar</value>
@@ -2210,5 +2210,8 @@
   </data>
   <data name="WageType.CalendarHelp" xml:space="preserve">
     <value>Lohnart Kalender</value>
+  </data>
+  <data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
+    <value>Effektive Anzahl der Periodentage übersteuern</value>
   </data>
 </root>
