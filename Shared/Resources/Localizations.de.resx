@@ -2161,7 +2161,7 @@
     <value>Zeilen pro Seite:</value>
   </data>
   <data name="Calendar.InvalidPeriodTimeUnit" xml:space="preserve">
-    <value>Perioden von '{cycle}' passen nicht in den Zyklus '{period}'</value>
+    <value>Perioden von '{period}' passen nicht in den Zyklus '{cycle}'</value>
   </data>
   <data name="Calendar.PeriodTimeUnitHelp" xml:space="preserve">
     <value>Periode Zeiteinheit muss in die Zyklus Zeiteinheit passen</value>
@@ -2213,5 +2213,8 @@
   </data>
   <data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
     <value>Effektive Anzahl der Periodentage übersteuern</value>
+  </data>
+  <data name="Calendar.PeriodCycleHelp" xml:space="preserve">
+    <value>{count} Perioden von '{period}' im Zyklus '{cycle}'</value>
   </data>
 </root>

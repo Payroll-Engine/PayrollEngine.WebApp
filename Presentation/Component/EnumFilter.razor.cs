@@ -45,7 +45,7 @@ public class EnumFilterBase<T, TEnum> : ComponentBase
         }
 
         // update state
-        FilterIcon = selection ? Icons.Material.Outlined.FilterAlt : Icons.Material.Filled.FilterAlt;
+        FilterIcon = selection ? Icons.Material.Filled.FilterAlt : Icons.Material.Outlined.FilterAlt;
         FilterOpen = false;
     }
 

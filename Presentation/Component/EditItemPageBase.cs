@@ -152,6 +152,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         var dialog = await (await DialogService.ShowAsync<TDialog>(title, parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
+            await RefreshServerDataAsync();
             return;
         }
 

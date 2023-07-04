@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Localization;
 
@@ -79,10 +78,7 @@ public abstract class LocalizerBase
     /// <param name="parameterName">The parameter name</param>
     /// <param name="parameterValue">The parameter value</param>
     protected string FormatValue(string format, string parameterName, object parameterValue) =>
-        FormatValue(format, new() {
-        {
-            parameterName, parameterValue
-        } });
+        format.Replace($"{{{parameterName}}}", parameterValue?.ToString());
 
     /// <summary>
     /// Format translation value with two parameter
@@ -93,29 +89,10 @@ public abstract class LocalizerBase
     /// <param name="secondParameterName">The second parameter name</param>
     /// <param name="secondParameterValue">The second parameter value</param>
     protected string FormatValue(string format, string firstParameterName, object firstParameterValue,
-        string secondParameterName, object secondParameterValue) =>
-        FormatValue(format, new()
-        {
-            { firstParameterName, firstParameterValue },
-            { secondParameterName, secondParameterValue }
-        });
-
-    /// <summary>
-    /// Format translation value with parameters
-    /// </summary>
-    /// <param name="format">The value to format</param>
-    /// <param name="parameters">The localization parameters</param>
-    private string FormatValue(string format, Dictionary<string, object> parameters)
+        string secondParameterName, object secondParameterValue)
     {
-        if (parameters == null)
-        {
-            throw new ArgumentNullException(nameof(parameters));
-        }
-        foreach (var argument in parameters)
-        {
-            format = format.Replace($"{{{argument.Key}}}", argument.Value.ToString());
-        }
-        return format;
+        format = FormatValue(format, firstParameterName, firstParameterValue);
+        return FormatValue(format, secondParameterName, secondParameterValue);
     }
 
     /// <summary>

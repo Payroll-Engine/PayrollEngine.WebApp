@@ -421,7 +421,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Periods of &apos;{cycle}&apos; do not fit into the cycle &apos;{period}&apos;.
+        ///   Looks up a localized string similar to Periods of &apos;{period}&apos; do not fit into the cycle &apos;{cycle}&apos;.
         /// </summary>
         internal static string Calendar_InvalidPeriodTimeUnit {
             get {
@@ -444,6 +444,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Calendar_NotAvailable {
             get {
                 return ResourceManager.GetString("Calendar.NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {count} periods of &apos;{period}&apos; in the cycle &apos;{cycle}&apos;.
+        /// </summary>
+        internal static string Calendar_PeriodCycleHelp {
+            get {
+                return ResourceManager.GetString("Calendar.PeriodCycleHelp", resourceCulture);
             }
         }
         

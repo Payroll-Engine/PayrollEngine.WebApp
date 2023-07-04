@@ -131,7 +131,6 @@ public partial class Regulation
 
     #endregion
 
-
     #region Working Item
 
     private IRegulationItem SelectedItem { get; set; }

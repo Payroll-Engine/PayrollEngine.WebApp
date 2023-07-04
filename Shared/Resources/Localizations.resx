@@ -2158,7 +2158,7 @@
     <value>Rows per page:</value>
   </data>
   <data name="Calendar.InvalidPeriodTimeUnit" xml:space="preserve">
-    <value>Periods of '{cycle}' do not fit into the cycle '{period}'</value>
+    <value>Periods of '{period}' do not fit into the cycle '{cycle}'</value>
   </data>
   <data name="Calendar.PeriodTimeUnitHelp" xml:space="preserve">
     <value>Period time unit must fit into the cycle time unit</value>
@@ -2213,5 +2213,8 @@
   </data>
   <data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
     <value>Override the effective period day count</value>
+  </data>
+  <data name="Calendar.PeriodCycleHelp" xml:space="preserve">
+    <value>{count} periods of '{period}' in the cycle '{cycle}'</value>
   </data>
 </root>

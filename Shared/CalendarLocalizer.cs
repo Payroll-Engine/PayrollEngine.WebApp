@@ -32,4 +32,13 @@ public class CalendarLocalizer : LocalizerBase
 
     public string InvalidPeriodTimeUnit(CalendarTimeUnit cycle, CalendarTimeUnit period) =>
         FormatValue(PropertyValue(), nameof(cycle), Enum(cycle), nameof(period), Enum(period));
+
+    public string PeriodCycleHelp(CalendarTimeUnit cycle, CalendarTimeUnit period)
+    {
+        var value = PropertyValue();
+        var count = cycle.PeriodCount(period);
+        value = FormatValue(value, nameof(cycle), Enum(cycle));
+        value = FormatValue(value, nameof(period), Enum(period));
+        return FormatValue(value, nameof(count), count);
+    }
 }

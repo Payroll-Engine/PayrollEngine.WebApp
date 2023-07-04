@@ -32,6 +32,18 @@
                                    Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Calendar.PeriodTimeUnit)">
                             <EnumSelectItems T="CalendarTimeUnit" />
                         </MudSelect>
+                        @if (!Calendar.CycleTimeUnit.IsValidTimeUnit(Calendar.PeriodTimeUnit))
+                        {
+                            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-error">
+                                @Localizer.Calendar.InvalidPeriodTimeUnit(Calendar.CycleTimeUnit, Calendar.PeriodTimeUnit)
+                            </MudPaper>
+                        }
+                        else if (Calendar.CycleTimeUnit != Calendar.PeriodTimeUnit)
+                        {
+                            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
+                                @Localizer.Calendar.PeriodCycleHelp(Calendar.CycleTimeUnit, Calendar.PeriodTimeUnit)
+                            </MudPaper>
+                        }
                         <MudSelect T="CalendarTimeMap" @bind-Value="Calendar.TimeMap" Clearable="true"
                                    Label="@Localizer.Calendar.TimeMap">
                             <EnumSelectItems T="CalendarTimeMap" />
@@ -44,6 +56,10 @@
                                          Label="@Localizer.Calendar.PeriodDayCount"
                                          HelperText="@Localizer.Calendar.PeriodDayCountHelp"
                                          Format="0.##" Clearable="true" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="@Localizer.Enum(CalendarTimeUnit.Week)">
+                    <MudStack Class="pa-4" Spacing="1">
                         <MudSelect T="CalendarWeekRule?" @bind-Value="Calendar.YearWeekRule" Clearable="true"
                                    Label="@Localizer.Calendar.YearWeekRule">
                             <NullableEnumSelectItems T="CalendarWeekRule?" />
