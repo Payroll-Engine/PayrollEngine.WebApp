@@ -244,7 +244,7 @@
     <value>Falländerungen</value>
   </data>
   <data name="CaseChange.NotAvailable" xml:space="preserve">
-    <value>Keine Falländerung verfügbar</value>
+    <value>Keine Falländerungen verfügbar</value>
   </data>
   <data name="CaseField.CaseField" xml:space="preserve">
     <value>Fallfeld</value>
