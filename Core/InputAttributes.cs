@@ -7,7 +7,6 @@ public static class InputAttributes
     // general
     public static readonly string Hidden = $"{Prefix}hidden";
     public static readonly string ShowDescription = $"{Prefix}showDescription";
-    public static readonly string SortOrder = $"{Prefix}sortOrder";
 
     // start
     public static readonly string StartLabel = $"{Prefix}startLabel";

@@ -11,9 +11,9 @@ public class LookupFactory : ItemFactoryBase<RegulationLookup>
     private ILookupService LookupService { get; }
     private IPayrollService PayrollService { get; }
 
-    public LookupFactory(ILookupService lookupService, IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public LookupFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        ILookupService lookupService) :
         base(tenant, payroll, regulations)
     {
         LookupService = lookupService;

@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.QueryExpression;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -26,13 +27,13 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     public IValueFormatter ValueFormatter { get; }
 
     public CaseFieldSet(Client.Model.CaseFieldSet copySource, ICaseValueProvider caseValueProvider,
-        IValueFormatter valueFormatter) :
+        IValueFormatter valueFormatter, Localizer localizer) :
         base(copySource)
     {
         CaseValueProvider = caseValueProvider ?? throw new ArgumentNullException(nameof(caseValueProvider));
         ValueFormatter = valueFormatter ?? throw new ArgumentNullException(nameof(valueFormatter));
 
-        Validator = new(this);
+        Validator = new(this, localizer);
 
         // view
         DisplayName = string.IsNullOrWhiteSpace(copySource.DisplayName) ? copySource.Name : copySource.DisplayName;

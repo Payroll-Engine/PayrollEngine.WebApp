@@ -19,8 +19,11 @@ public abstract class DateTimePickerBase : ComponentBase, IAttributeObject
     protected abstract DatePickerType DatePickerType { get; }
     protected abstract DateTimeType DateTimeType { get; }
 
+    protected bool HasValueHelp =>
+        !string.IsNullOrWhiteSpace(Attributes.GetValueHelp(Culture));
+
     // culture
     private CultureInfo culture;
-    protected CultureInfo CultureInfo => 
+    protected CultureInfo CultureInfo =>
         culture ??= CultureTool.GetCulture(Culture);
 }

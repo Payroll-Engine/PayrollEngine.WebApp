@@ -54,13 +54,6 @@ public static class MudDataGridExtensions
             return;
         }
 
-        // remove existing column filters
-        //var existingFilters = dataGrid.FilterDefinitions.Where(x => string.Equals(x.Column?.PropertyName, columnName));
-        //foreach (var existingFilter in existingFilters)
-        //{
-        //    dataGrid.FilterDefinitions.Remove(existingFilter);
-        //}
-
         FilterDefinition<T> filter = new()
         {
             Column = column,

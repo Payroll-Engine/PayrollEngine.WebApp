@@ -12,10 +12,9 @@ public class LookupValueFactory : ChildItemFactory<RegulationLookup, RegulationL
     private ILookupValueService LookupValueService { get; }
     private IPayrollService PayrollService { get; }
 
-    public LookupValueFactory(ILookupService caseService, ILookupValueService lookupValueService,
-        IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public LookupValueFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        ILookupService caseService, ILookupValueService lookupValueService) :
         base(tenant, payroll, regulations)
     {
         LookupService = caseService;

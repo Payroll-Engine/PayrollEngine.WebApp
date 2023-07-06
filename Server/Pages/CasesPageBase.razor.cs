@@ -503,7 +503,6 @@ public abstract partial class CasesPageBase
         {
             try
             {
-                //var valueFormatter = ValueFormatter;
                 var cases = await PayrollService.GetAvailableCasesAsync<Case>(
                     new(Tenant.Id, payrollId.Value), User.Id,
                     CaseType, employeeId: employeeId);
@@ -601,7 +600,7 @@ public abstract partial class CasesPageBase
         await base.OnInitializedAsync();
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (StartExpandGroups)
         {
@@ -609,7 +608,7 @@ public abstract partial class CasesPageBase
             StateHasChanged();
             StartExpandGroups = false;
         }
-        return base.OnAfterRenderAsync(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     #endregion

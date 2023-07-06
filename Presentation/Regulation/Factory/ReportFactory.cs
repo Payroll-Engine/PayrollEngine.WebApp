@@ -11,9 +11,9 @@ public class ReportFactory : ItemFactoryBase<RegulationReport>
     private IReportService ReportService { get; }
     private IPayrollService PayrollService { get; }
 
-    public ReportFactory(IReportService reportService, IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public ReportFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        IReportService reportService) :
         base(tenant, payroll, regulations)
     {
         ReportService = reportService;

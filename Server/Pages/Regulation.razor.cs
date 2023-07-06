@@ -247,10 +247,10 @@ public partial class Regulation
 
     #endregion
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         SetupEditContext(Payroll);
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 
 }

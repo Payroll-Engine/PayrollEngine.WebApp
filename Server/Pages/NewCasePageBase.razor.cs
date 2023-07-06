@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Globalization;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using MudBlazor;
@@ -12,7 +13,6 @@ using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 using CaseSet = PayrollEngine.WebApp.ViewModel.CaseSet;
-using System.Globalization;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
@@ -49,6 +49,10 @@ public abstract partial class NewCasePageBase
            base(workingItems)
     {
     }
+
+    private string DefaultDialogTitle => Localizer.Item.AddTitle(CaseName);
+
+    #region Culture
 
     private string caseCulture;
     /// <summary>
@@ -91,6 +95,7 @@ public abstract partial class NewCasePageBase
         }
     }
 
+    #endregion
 
     #region Base type
 
@@ -167,12 +172,12 @@ public abstract partial class NewCasePageBase
             if (@case == null)
             {
                 await UserNotification.ShowErrorMessageBoxAsync(
-                    Localizer, "Case setup error", $"Unknown case {CaseName}");
+                    Localizer, DefaultDialogTitle, Localizer.Error.UnknownItem(Localizer.Case.Case, CaseName));
                 return;
             }
 
             // convert to view model
-            var caseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter);
+            var caseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, Localizer);
             // Lookups are initially set without taking in consideration possible cases that are only shown in certain conditions
             // Those new lookups are loaded in Update Case method
             await SetupLookupsAsync(caseSet);
@@ -181,7 +186,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case setup error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
         }
 
         // result
@@ -221,19 +226,20 @@ public abstract partial class NewCasePageBase
             var @case = Task.Run(() => BuildCaseAsync(caseSet.Name, caseChange)).Result;
             if (@case == null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case build error", $"Unknown case {CaseName}");
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle,
+                    Localizer.Case.MissingCase(CaseName));
                 return;
             }
 
             // Updating cases may add more cases to existing list, therefore update of lookups is needed
-            var changeCaseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter);
+            var changeCaseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, Localizer);
             await CaseMerger.MergeAsync(changeCaseSet, caseSet);
             await SetupLookupsAsync(caseSet);
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case build error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
         }
         finally
         {
@@ -250,14 +256,15 @@ public abstract partial class NewCasePageBase
         var caseSet = RootCase;
         if (caseSet == null)
         {
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case submit error", "Missing root case to submit");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase,
+                Localizer.Case.MissingCase(CaseName));
             return;
         }
 
         // case validation
         if (!await fieldForm.Revalidate() || !await changeForm.Revalidate())
         {
-            await UserNotification.ShowErrorAsync("Case validation failed");
+            await UserNotification.ShowErrorAsync(Localizer.Case.ValidationFailed);
             return;
         }
 
@@ -267,7 +274,8 @@ public abstract partial class NewCasePageBase
             var caseChangeSetup = GetCaseChange(caseSet, true);
             if (!caseChangeSetup.CollectCaseValues().Any())
             {
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case submit error", $"Missing values for case {caseSet.Name}");
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase,
+                    Localizer.Case.MissingCase(caseSet.Name));
                 return;
             }
 
@@ -276,7 +284,7 @@ public abstract partial class NewCasePageBase
             var issues = caseChange.GetCaseIssues();
             if (issues != null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Case submit error", issues);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase, issues);
                 return;
             }
 
@@ -285,13 +293,14 @@ public abstract partial class NewCasePageBase
             var caseName = User.Culture.GetLocalization(caseSet.NameLocalizations, caseSet.Name);
             if (caseChange.Values.Any())
             {
-                message = $"Case {caseName} successfully submitted";
-                await UserNotification.ShowMessageBoxAsync(Localizer, "Submit Case", message);
+                message = Localizer.Case.CaseAdded(caseName);
+                await UserNotification.ShowMessageBoxAsync(Localizer, Localizer.Case.SubmitCase,
+                    Localizer.Case.CaseAdded(caseName));
             }
             else
             {
-                message = $"Ignored unchanged case {caseName}";
-                await UserNotification.ShowMessageBoxAsync(Localizer, "Submit Case", message);
+                message = Localizer.Case.CaseIgnored(caseName);
+                await UserNotification.ShowMessageBoxAsync(Localizer, Localizer.Case.SubmitCase, message);
             }
 
             // log
@@ -307,7 +316,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Submit Case", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase, exception);
         }
     }
 
@@ -334,7 +343,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Build Case", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
             return null;
         }
     }
@@ -496,7 +505,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Lookup error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
         }
     }
 

@@ -60,7 +60,7 @@ public class EnumFilterBase<T, TEnum> : ComponentBase
         FilterIcon = Icons.Material.Outlined.FilterAlt;
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
@@ -78,6 +78,6 @@ public class EnumFilterBase<T, TEnum> : ComponentBase
                 };
             }
         }
-        return base.OnAfterRenderAsync(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

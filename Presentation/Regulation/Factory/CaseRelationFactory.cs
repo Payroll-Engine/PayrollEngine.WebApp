@@ -11,9 +11,9 @@ public class CaseRelationFactory : ItemFactoryBase<RegulationCaseRelation>
     private ICaseRelationService CaseRelationService { get; }
     private IPayrollService PayrollService { get; }
 
-    public CaseRelationFactory(ICaseRelationService caseRelationService, IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public CaseRelationFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        ICaseRelationService caseRelationService) :
         base(tenant, payroll, regulations)
     {
         CaseRelationService = caseRelationService;

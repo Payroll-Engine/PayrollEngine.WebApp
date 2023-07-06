@@ -11,9 +11,9 @@ public class CollectorFactory : ItemFactoryBase<RegulationCollector>
     private ICollectorService CollectorService { get; }
     private IPayrollService PayrollService { get; }
 
-    public CollectorFactory(ICollectorService collectorService, IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public CollectorFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        ICollectorService collectorService) :
         base(tenant, payroll, regulations)
     {
         CollectorService = collectorService;

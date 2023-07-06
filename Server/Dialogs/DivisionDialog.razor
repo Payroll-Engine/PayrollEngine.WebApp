@@ -23,8 +23,7 @@
                                                Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
                         <MudSelect T=" string" @bind-Value="Division.Culture" Clearable="true"
                                    Label="@Localizer.Shared.Culture"
-                                   HelperText="@Localizer.Division.CultureHelp"
-                                   Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Culture)">
+                                   HelperText="@Localizer.Division.CultureHelp">
                             @foreach (var cultureInfo in CultureInfos)
                             {
                                 <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2</MudSelectItem>

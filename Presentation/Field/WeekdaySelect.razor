@@ -23,7 +23,6 @@
 {
     [Inject] private Localizer Localizer { get; set; }
 
-    protected override string ValueLabel { get; set; }
     private List<Tuple<int, string>> Weekdays { get; } = new();
 
     private bool ValuesDisabled =>
@@ -63,7 +62,7 @@
     protected override async Task OnInitializedAsync()
     {
         // label
-        ValueLabel = Field.Attributes.GetValueLabel(Culture) ?? Localizer.Calendar.Day;
+        SetValueLabel(Field.Attributes.GetValueLabel(Culture) ?? Localizer.Calendar.Day);
         // weekday names
         SetupWeekdays();
 

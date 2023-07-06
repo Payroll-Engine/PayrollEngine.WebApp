@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Linq;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
 public class CaseFieldValidator
 {
-    private const string MissingValue = "Missing value";
-    private const string MissingStart = "Missing start date";
-    private const string MissingEnd = "Missing end date";
-    private const string MissingAttachment = "Missing attachment";
-
     private CaseFieldSet CaseField { get; }
+    private Localizer Localizer { get; }
 
-    public CaseFieldValidator(CaseFieldSet caseField)
+    public CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
     {
         CaseField = caseField ?? throw new ArgumentNullException(nameof(caseField));
+        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
     }
-
 
     /// <summary>
     /// Validate case field
@@ -38,7 +35,7 @@ public class CaseFieldValidator
         {
             if (CaseField.ValueMandatory && !hasValue)
             {
-                validity.AddRule(CaseField.Name, MissingValue);
+                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingValue);
             }
             return validity;
         }
@@ -53,19 +50,19 @@ public class CaseFieldValidator
             // start
             if (!hasStart)
             {
-                validity.AddRule(CaseField.Name, MissingStart);
+                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingStart);
                 return validity;
             }
             // end
             if (CaseField.EndMandatory && !hasEnd)
             {
-                validity.AddRule(CaseField.Name, MissingEnd);
+                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingEnd);
                 return validity;
             }
             // value
             if (!hasValue)
             {
-                validity.AddRule(CaseField.Name, MissingValue);
+                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingValue);
                 return validity;
             }
         }
@@ -75,28 +72,28 @@ public class CaseFieldValidator
             // start
             if (!hasStart && (hasEnd || hasValue))
             {
-                validity.AddRule(CaseField.Name, MissingStart);
+                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingStart);
                 return validity;
             }
             // end
             if (CaseField.EndMandatory && hasStart && !hasEnd)
             {
-                validity.AddRule(CaseField.Name, MissingEnd);
+                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingEnd);
                 return validity;
             }
             // value
             if (hasStart && !hasValue)
             {
-                validity.AddRule(CaseField.Name, MissingValue);
+                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingValue);
                 return validity;
             }
         }
 
         // attachment validation
-        if (CaseField.AttachmentType == AttachmentType.Mandatory && 
+        if (CaseField.AttachmentType == AttachmentType.Mandatory &&
             (CaseField.Documents == null || !CaseField.Documents.Any()))
         {
-            validity.AddRule(CaseField.Name, MissingAttachment);
+            validity.AddRule(CaseField.Name, Localizer.CaseField.MissingAttachment);
         }
 
         return validity;
@@ -198,18 +195,9 @@ public class CaseFieldValidator
             return true;
         }
 
-        var hasStart = CaseField.Start.HasValue;
-        // mandatory field with start and value
-        if (CaseField.ValueMandatory)
+        // mandatory field value
+        if (CaseField.ValueMandatory && !hasValue)
         {
-            if (!hasValue)
-            {
-                return false;
-            }
-        }
-        else if (hasStart && !hasValue)
-        {
-            // optional field value
             return false;
         }
 

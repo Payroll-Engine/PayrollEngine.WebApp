@@ -54,8 +54,13 @@
         Format = Attributes.GetEndFormat(Culture) ??
                      CultureInfo.DateTimeFormat.ShortDatePattern;
         RequiredError = Attributes.GetEndRequired(Culture);
-        Help = Attributes.GetEndHelp(Culture);
         ReadOnly = Attributes.GetEndReadOnly(Culture) ?? false;
+        Help = Attributes.GetEndHelp(Culture);
+        // keep the edit row layout in sync with the value edit
+        if (HasValueHelp && string.IsNullOrWhiteSpace(Help))
+        {
+            Help = Localizer.Shared.End;
+        }
 
         await base.OnInitializedAsync();
     }

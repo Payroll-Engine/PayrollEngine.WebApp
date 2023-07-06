@@ -119,16 +119,21 @@
     protected override DateTimeType DateTimeType =>
         Attributes.GetEndPickerType(Culture) ?? DateTimeType.DatePicker;
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         DateLabel = Attributes.GetEndLabel(Culture) ?? Localizer.Shared.End;
         DateFormat = Attributes.GetEndFormat(Culture) ??
                      CultureInfo.DateTimeFormat.ShortDatePattern;
         TimeFormat = CultureInfo.DateTimeFormat.ShortTimePattern;
         RequiredError = Attributes.GetEndRequired(Culture);
-        Help = Attributes.GetEndHelp(Culture);
         ReadOnly = Attributes.GetEndReadOnly(Culture) ?? false;
+        Help = Attributes.GetEndHelp(Culture);
+        // keep the edit row layout in sync with the value edit
+        if (HasValueHelp && string.IsNullOrWhiteSpace(Help))
+        {
+            Help = Localizer.Shared.End;
+        }
 
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 }

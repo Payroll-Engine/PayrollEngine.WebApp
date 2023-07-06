@@ -55,6 +55,49 @@ public partial class ItemBrowser : IDisposable
 
     #region Regulation Items
 
+    // browsers
+    private CaseBrowser CaseBrowser { get; set; }
+    private CaseFieldBrowser CaseFieldBrowser { get; set; }
+    private CaseRelationBrowser CaseRelationBrowser { get; set; }
+    private CollectorBrowser CollectorBrowser { get; set; }
+    private WageTypeBrowser WageTypeBrowser { get; set; }
+    private ReportBrowser ReportBrowser { get; set; }
+    private ReportParameterBrowser ReportParameterBrowser { get; set; }
+    private ReportTemplateBrowser ReportTemplateBrowser { get; set; }
+    private LookupBrowser LookupBrowser { get; set; }
+    private LookupValueBrowser LookupValueBrowser { get; set; }
+    private ScriptBrowser ScriptBrowser { get; set; }
+
+    private ItemBrowserBase GetItemBrowser(RegulationItemType itemType)
+    {
+        switch (itemType)
+        {
+            case RegulationItemType.Case:
+                return CaseBrowser;
+            case RegulationItemType.CaseField:
+                return CaseFieldBrowser;
+            case RegulationItemType.CaseRelation:
+                return CaseBrowser;
+            case RegulationItemType.Collector:
+                return CaseBrowser;
+            case RegulationItemType.WageType:
+                return CaseBrowser;
+            case RegulationItemType.Report:
+                return CaseBrowser;
+            case RegulationItemType.ReportParameter:
+                return CaseBrowser;
+            case RegulationItemType.ReportTemplate:
+                return CaseBrowser;
+            case RegulationItemType.Lookup:
+                return CaseBrowser;
+            case RegulationItemType.LookupValue:
+                return CaseBrowser;
+            case RegulationItemType.Script:
+                return CaseBrowser;
+        }
+        return null;
+    }
+
     public async System.Threading.Tasks.Task<bool> SaveItem(IRegulationItem regulationItem)
     {
         if (regulationItem == null)
@@ -62,32 +105,15 @@ public partial class ItemBrowser : IDisposable
             throw new ArgumentNullException(nameof(regulationItem));
         }
 
-        switch (regulationItem.ItemType)
+        // item browser
+        var itemBrowser = GetItemBrowser(regulationItem.ItemType);
+        if (itemBrowser == null)
         {
-            case RegulationItemType.Case:
-                return await SaveCase(regulationItem as RegulationCase);
-            case RegulationItemType.CaseField:
-                return await SaveCaseField(regulationItem as RegulationCaseField);
-            case RegulationItemType.CaseRelation:
-                return await SaveCaseRelation(regulationItem as RegulationCaseRelation);
-            case RegulationItemType.Collector:
-                return await SaveCollector(regulationItem as RegulationCollector);
-            case RegulationItemType.WageType:
-                return await SaveWageType(regulationItem as RegulationWageType);
-            case RegulationItemType.Report:
-                return await SaveReport(regulationItem as RegulationReport);
-            case RegulationItemType.ReportParameter:
-                return await SaveReportParameter(regulationItem as RegulationReportParameter);
-            case RegulationItemType.ReportTemplate:
-                return await SaveReportTemplate(regulationItem as RegulationReportTemplate);
-            case RegulationItemType.Lookup:
-                return await SaveLookup(regulationItem as RegulationLookup);
-            case RegulationItemType.LookupValue:
-                return await SaveLookupValue(regulationItem as RegulationLookupValue);
-            case RegulationItemType.Script:
-                return await SaveScript(regulationItem as RegulationScript);
+            throw new ArgumentNullException(nameof(regulationItem));
         }
-        return false;
+
+        // save item
+        return await itemBrowser.SaveAsync(regulationItem);
     }
 
     /// <summary>Delete a regulation item</summary>
@@ -101,32 +127,15 @@ public partial class ItemBrowser : IDisposable
             throw new ArgumentNullException(nameof(regulationItem));
         }
 
-        switch (regulationItem.ItemType)
+        // item browser
+        var itemBrowser = GetItemBrowser(regulationItem.ItemType);
+        if (itemBrowser == null)
         {
-            case RegulationItemType.Case:
-                return await DeleteCase(regulationItem as RegulationCase);
-            case RegulationItemType.CaseField:
-                return await DeleteCaseField(regulationItem as RegulationCaseField);
-            case RegulationItemType.CaseRelation:
-                return await DeleteCaseRelation(regulationItem as RegulationCaseRelation);
-            case RegulationItemType.Collector:
-                return await DeleteCollector(regulationItem as RegulationCollector);
-            case RegulationItemType.WageType:
-                return await DeleteWageType(regulationItem as RegulationWageType);
-            case RegulationItemType.Report:
-                return await DeleteReport(regulationItem as RegulationReport);
-            case RegulationItemType.ReportParameter:
-                return await DeleteReportParameter(regulationItem as RegulationReportParameter);
-            case RegulationItemType.ReportTemplate:
-                return await DeleteReportTemplate(regulationItem as RegulationReportTemplate);
-            case RegulationItemType.Lookup:
-                return await DeleteLookup(regulationItem as RegulationLookup);
-            case RegulationItemType.LookupValue:
-                return await DeleteLookupValue(regulationItem as RegulationLookupValue);
-            case RegulationItemType.Script:
-                return await DeleteScript(regulationItem as RegulationScript);
+            throw new ArgumentNullException(nameof(regulationItem));
         }
-        return regulationItem;
+
+        // save item
+        return await itemBrowser.DeleteAsync(regulationItem);
     }
 
     public IRegulationItem DeriveItem(IRegulationItem regulationItem)
@@ -160,215 +169,28 @@ public partial class ItemBrowser : IDisposable
         return null;
     }
 
-    #endregion
-
-    #region Case
-
-    private ItemCollection<RegulationCase> cases;
-    protected ItemCollection<RegulationCase> Cases => cases ??= LoadCases();
-
-    private CaseFactory caseFactory;
-    protected CaseFactory CaseFactory => caseFactory ??=
-        new(CaseService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationCase> LoadCases() =>
-        new(Task.Run(CaseFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveCase(RegulationCase @case) =>
-        await CaseFactory.SaveItem(cases, @case);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteCase(RegulationCase @case) =>
-        await CaseFactory.DeleteItem(cases, @case);
-
-    #endregion
-
-    #region Case Field
-
-    private ItemCollection<RegulationCaseField> caseFields;
-    protected ItemCollection<RegulationCaseField> CaseFields => caseFields ??= LoadCaseFields();
-    private CaseFieldFactory caseFieldFactory;
-    protected CaseFieldFactory CaseFieldFactory => caseFieldFactory ??=
-        new(CaseService, CaseFieldService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationCaseField> LoadCaseFields() =>
-        new(Task.Run(CaseFieldFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveCaseField(RegulationCaseField caseField) =>
-        await CaseFieldFactory.SaveItem(caseFields, caseField);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteCaseField(RegulationCaseField caseField) =>
-        await CaseFieldFactory.DeleteItem(caseFields, caseField);
-
-    #endregion
-
-    #region Case Relation
-
-    private ItemCollection<RegulationCaseRelation> caseRelations;
-    protected ItemCollection<RegulationCaseRelation> CaseRelations => caseRelations ??= LoadCaseRelations();
-    private CaseRelationFactory caseRelationFactory;
-    protected CaseRelationFactory CaseRelationFactory => caseRelationFactory ??=
-        new(CaseRelationService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationCaseRelation> LoadCaseRelations() =>
-        new(Task.Run(CaseRelationFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveCaseRelation(RegulationCaseRelation caseRelation) =>
-        await CaseRelationFactory.SaveItem(caseRelations, caseRelation);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteCaseRelation(RegulationCaseRelation caseRelation) =>
-        await CaseRelationFactory.DeleteItem(caseRelations, caseRelation);
-
-    #endregion
-
-    #region Collector
-
-    private ItemCollection<RegulationCollector> collectors;
-    protected ItemCollection<RegulationCollector> Collectors => collectors ??= LoadCollectors();
-    private CollectorFactory collectorFactory;
-    protected CollectorFactory CollectorFactory => collectorFactory ??=
-        new(CollectorService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationCollector> LoadCollectors() =>
-        new(Task.Run(CollectorFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveCollector(RegulationCollector collector) =>
-        await CollectorFactory.SaveItem(collectors, collector);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteCollector(RegulationCollector collector) =>
-        await CollectorFactory.DeleteItem(collectors, collector);
-
-    #endregion
-
-    #region Wage Type
-
-    private ItemCollection<RegulationWageType> wageTypes;
-    protected ItemCollection<RegulationWageType> WageTypes => wageTypes ??= LoadWageTypes();
-    private WageTypeFactory wageTypeFactory;
-    protected WageTypeFactory WageTypeFactory => wageTypeFactory ??=
-        new(WageTypeService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationWageType> LoadWageTypes() =>
-        new(Task.Run(WageTypeFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveWageType(RegulationWageType wageType) =>
-        await WageTypeFactory.SaveItem(wageTypes, wageType);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteWageType(RegulationWageType wageType) =>
-        await WageTypeFactory.DeleteItem(wageTypes, wageType);
-
-    #endregion
-
-    #region Report
-
-    private ItemCollection<RegulationReport> reports;
-    protected ItemCollection<RegulationReport> Reports => reports ??= LoadReports();
-    private ReportFactory reportFactory;
-    protected ReportFactory ReportFactory => reportFactory ??=
-        new(ReportService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationReport> LoadReports() =>
-        new(Task.Run(ReportFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveReport(RegulationReport report) =>
-        await ReportFactory.SaveItem(reports, report);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteReport(RegulationReport report) =>
-        await ReportFactory.DeleteItem(reports, report);
-
-    #endregion
-
-    #region Report Parameter
-
-    private ItemCollection<RegulationReportParameter> reportParameters;
-    protected ItemCollection<RegulationReportParameter> ReportParameters => reportParameters ??= LoadReportParameters();
-    private ReportParameterFactory reportParameterFactory;
-    protected ReportParameterFactory ReportParameterFactory => reportParameterFactory ??=
-        new(ReportService, ReportParameterService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationReportParameter> LoadReportParameters() =>
-        new(Task.Run(ReportParameterFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveReportParameter(RegulationReportParameter reportParameter) =>
-        await ReportParameterFactory.SaveItem(reportParameters, reportParameter);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteReportParameter(RegulationReportParameter reportParameter) =>
-        await ReportParameterFactory.DeleteItem(reportParameters, reportParameter);
-
-    #endregion
-
-    #region Report Template
-
-    private ItemCollection<RegulationReportTemplate> reportTemplates;
-    protected ItemCollection<RegulationReportTemplate> ReportTemplates => reportTemplates ??= LoadReportTemplates();
-    private ReportTemplateFactory reportTemplateFactory;
-    protected ReportTemplateFactory ReportTemplateFactory => reportTemplateFactory ??=
-        new(ReportService, ReportTemplateService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationReportTemplate> LoadReportTemplates() =>
-        new(Task.Run(ReportTemplateFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveReportTemplate(RegulationReportTemplate reportTemplate) =>
-        await ReportTemplateFactory.SaveItem(reportTemplates, reportTemplate);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteReportTemplate(RegulationReportTemplate reportTemplate) =>
-        await ReportTemplateFactory.DeleteItem(reportTemplates, reportTemplate);
-
-    #endregion
-
-    #region Lookup
-
-    private ItemCollection<RegulationLookup> lookups;
-    protected ItemCollection<RegulationLookup> Lookups => lookups ??= LoadLookups();
-    private LookupFactory lookupFactory;
-    protected LookupFactory LookupFactory => lookupFactory ??=
-        new(LookupService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationLookup> LoadLookups() =>
-        new(Task.Run(LookupFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveLookup(RegulationLookup lookup) =>
-        await LookupFactory.SaveItem(lookups, lookup);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteLookup(RegulationLookup lookup) =>
-        await LookupFactory.DeleteItem(lookups, lookup);
-
-    #endregion
-
-    #region Lookup Value
-
-    private ItemCollection<RegulationLookupValue> lookupValues;
-    protected ItemCollection<RegulationLookupValue> LookupValues => lookupValues ??= LoadLookupValues();
-    private LookupValueFactory lookupValueFactory;
-    protected LookupValueFactory LookupValueFactory => lookupValueFactory ??=
-        new(LookupService, LookupValueService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationLookupValue> LoadLookupValues() =>
-        new(Task.Run(LookupValueFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveLookupValue(RegulationLookupValue lookupValue) =>
-        await LookupValueFactory.SaveItem(lookupValues, lookupValue);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteLookupValue(RegulationLookupValue lookupValue) =>
-        await LookupValueFactory.DeleteItem(lookupValues, lookupValue);
-
-    #endregion
-
-    #region Script
-
-    private ItemCollection<RegulationScript> scripts;
-    protected ItemCollection<RegulationScript> Scripts => scripts ??= LoadScripts();
-    private ScriptFactory scriptFactory;
-    protected ScriptFactory ScriptFactory => scriptFactory ??=
-        new(ScriptService, PayrollService, Tenant, Payroll, Regulations);
-
-    private ItemCollection<RegulationScript> LoadScripts() =>
-        new(Task.Run(ScriptFactory.LoadPayrollItems).Result);
-
-    private async System.Threading.Tasks.Task<bool> SaveScript(RegulationScript script) =>
-        await ScriptFactory.SaveItem(scripts, script);
-
-    private async System.Threading.Tasks.Task<IRegulationItem> DeleteScript(RegulationScript script) =>
-        await ScriptFactory.DeleteItem(scripts, script);
+    private void SetupItemBrowsers()
+    {
+        CaseBrowser = new(Tenant, Payroll, Regulations, PayrollService, CaseService);
+        CaseFieldBrowser = new(Tenant, Payroll, Regulations, PayrollService, CaseService, CaseFieldService);
+        CaseRelationBrowser = new(Tenant, Payroll, Regulations, PayrollService, CaseRelationService);
+        CollectorBrowser = new(Tenant, Payroll, Regulations, PayrollService, CollectorService);
+        WageTypeBrowser = new(Tenant, Payroll, Regulations, PayrollService, WageTypeService);
+        ReportBrowser = new(Tenant, Payroll, Regulations, PayrollService, ReportService);
+        ReportParameterBrowser = new(Tenant, Payroll, Regulations, PayrollService, ReportService, ReportParameterService);
+        ReportTemplateBrowser = new(Tenant, Payroll, Regulations, PayrollService, ReportService, ReportTemplateService);
+        LookupBrowser = new(Tenant, Payroll, Regulations, PayrollService, LookupService);
+        LookupValueBrowser = new(Tenant, Payroll, Regulations, PayrollService, LookupService, LookupValueService);
+        ScriptBrowser = new(Tenant, Payroll, Regulations, PayrollService, ScriptService);
+    }
+
+    private void ResetItemBrowsers()
+    {
+        foreach (var itemType in Enum.GetValues(typeof(RegulationItemType)))
+        {
+            GetItemBrowser((RegulationItemType)itemType)?.Reset();
+        }
+    }
 
     #endregion
 
@@ -390,6 +212,7 @@ public partial class ItemBrowser : IDisposable
     protected override async Task OnInitializedAsync()
     {
         lastEditContext = EditContext;
+        SetupItemBrowsers();
         await base.OnInitializedAsync();
     }
 
@@ -399,73 +222,25 @@ public partial class ItemBrowser : IDisposable
         if (lastEditContext != EditContext)
         {
             lastEditContext = EditContext;
-            ClearAllObjects();
+            ResetItemBrowsers();
         }
 
         // regulations
         if (!CompareTool.EqualLists(regulations, Regulations))
         {
             regulations = Regulations;
-            ClearAllObjects();
+            ResetItemBrowsers();
         }
 
         await base.OnParametersSetAsync();
     }
 
-    private void ClearAllObjects()
-    {
-        // case and case relation
-        cases = null;
-        caseFactory = null;
-
-        caseFields = null;
-        caseFactory = null;
-
-        caseRelations = null;
-        caseRelationFactory = null;
-
-        // collector and wage type
-        collectors = null;
-        collectorFactory = null;
-
-        wageTypes = null;
-        wageTypeFactory = null;
-
-        // report
-        reports = null;
-        reportFactory = null;
-
-        reportParameters = null;
-        reportParameterFactory = null;
-
-        reportTemplates = null;
-        reportTemplateFactory = null;
-
-        // lookup
-        lookups = null;
-        lookupFactory = null;
-
-        lookupValues = null;
-        lookupValueFactory = null;
-
-        // script
-        scripts = null;
-        scriptFactory = null;
-    }
-
     public void Dispose()
     {
-        cases?.Dispose();
-        caseFields?.Dispose();
-        caseRelations?.Dispose();
-        collectors?.Dispose();
-        wageTypes?.Dispose();
-        reports?.Dispose();
-        reportParameters?.Dispose();
-        reportTemplates?.Dispose();
-        lookups?.Dispose();
-        lookupValues?.Dispose();
-        scripts?.Dispose();
+        foreach (var itemType in Enum.GetValues(typeof(RegulationItemType)))
+        {
+            GetItemBrowser((RegulationItemType)itemType)?.Dispose();
+        }
     }
 
     #endregion

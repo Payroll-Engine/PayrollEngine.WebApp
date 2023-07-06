@@ -36,7 +36,7 @@
 
     private void Close() => MudDialog.Close(DialogResult.Ok(true));
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         // assembly
         var assembly = GetType().Assembly;
@@ -56,6 +56,6 @@
         }
         CopyRight = copyRight;
 
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 }

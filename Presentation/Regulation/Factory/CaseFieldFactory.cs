@@ -12,9 +12,9 @@ public class CaseFieldFactory : ChildItemFactory<RegulationCase, RegulationCaseF
     private ICaseFieldService CaseFieldService { get; }
     private IPayrollService PayrollService { get; }
 
-    public CaseFieldFactory(ICaseService caseService, ICaseFieldService caseFieldService,
-        IPayrollService payrollService, Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public CaseFieldFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        ICaseService caseService, ICaseFieldService caseFieldService) :
         base(tenant, payroll, regulations)
     {
         CaseService = caseService;

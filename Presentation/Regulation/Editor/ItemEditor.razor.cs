@@ -190,20 +190,20 @@ public partial class ItemEditor
     private void UpdateState() =>
         IsUnchanged = EditItem.Equals(Item);
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         InitState();
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
         // object change
         if (lastItem != Item)
         {
             InitState();
         }
-        return base.OnParametersSetAsync();
+        await base.OnParametersSetAsync();
     }
 
     #endregion

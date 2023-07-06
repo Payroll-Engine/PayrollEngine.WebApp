@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
 public class CaseSet : Case, IDisposable
 {
     public CaseSet(Client.Model.CaseSet copySource, ICaseValueProvider caseValueProvider,
-        IValueFormatter valueFormatter) :
+        IValueFormatter valueFormatter, Localizer localizer) :
         base(copySource)
     {
         // fields
@@ -20,7 +21,7 @@ public class CaseSet : Case, IDisposable
                 // ignore inactive case fields
                 if (field.Status == ObjectStatus.Active)
                 {
-                    sourceFields.AddAsync(new(field, caseValueProvider, valueFormatter)).Wait();
+                    sourceFields.AddAsync(new(field, caseValueProvider, valueFormatter, localizer)).Wait();
                 }
             }
             Fields = sourceFields;
@@ -35,7 +36,7 @@ public class CaseSet : Case, IDisposable
                 // ignore inactive related cases
                 if (relatedCase.Status == ObjectStatus.Active)
                 {
-                    sourceRelatedCases.AddAsync(new(relatedCase, caseValueProvider, valueFormatter)).Wait();
+                    sourceRelatedCases.AddAsync(new(relatedCase, caseValueProvider, valueFormatter, localizer)).Wait();
                 }
             }
 

@@ -12,10 +12,9 @@ public class ReportParameterFactory : ChildItemFactory<RegulationReport, Regulat
     private IReportParameterService ReportParameterService { get; }
     private IPayrollService PayrollService { get; }
 
-    public ReportParameterFactory(IReportService caseService, IReportParameterService reportParameterService,
-        IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public ReportParameterFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        IReportService caseService, IReportParameterService reportParameterService) :
         base(tenant, payroll, regulations)
     {
         ReportService = caseService;

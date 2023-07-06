@@ -11,9 +11,9 @@ public class ScriptFactory : ItemFactoryBase<RegulationScript>
     private IScriptService ScriptService { get; }
     private IPayrollService PayrollService { get; }
 
-    public ScriptFactory(IScriptService scriptService, IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public ScriptFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService
+        , IScriptService scriptService) :
         base(tenant, payroll, regulations)
     {
         ScriptService = scriptService;

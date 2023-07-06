@@ -663,8 +663,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
             return;
         }
 
-        OnCollectionChanged(
-            new(
+        OnCollectionChanged(new(
                 NotifyCollectionChangedAction.Replace,
                 new List<T>(newCluster),
                 new List<T>(oldCluster),

@@ -53,9 +53,9 @@ public partial class ScriptEditor
         Fields = fields;
     }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         SetupFields();
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 }

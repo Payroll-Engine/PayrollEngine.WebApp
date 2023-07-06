@@ -114,6 +114,7 @@
     private bool Failed { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
+
     private void CloseViewResults()
     {
         if (Completed)
@@ -123,6 +124,7 @@
         }
         MudDialog.Close(DialogResult.Cancel());
     }
+
     private void Close()
     {
         if (Completed)

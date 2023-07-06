@@ -74,10 +74,10 @@
         }
     }
 
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
         LocalizationKey = Localization.Key;
         LocalizationValue = Localization.Value;
-        return base.OnParametersSetAsync();
+        await base.OnParametersSetAsync();
     }
 }

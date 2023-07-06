@@ -55,9 +55,9 @@ public partial class LookupEditor
         Fields = fields;
     }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         SetupFields();
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 }

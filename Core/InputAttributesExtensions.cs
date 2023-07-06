@@ -15,10 +15,6 @@ public static class InputAttributesExtensions
     public static bool? GetShowDescription(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetBooleanAttributeValue(InputAttributes.ShowDescription, culture);
 
-    // TODO sort order attribute usage?
-    public static int? GetSortOrder(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetIntegerAttributeValue(InputAttributes.SortOrder, culture);
-
     #endregion
 
     #region Start

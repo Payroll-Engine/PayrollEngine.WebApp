@@ -11,9 +11,9 @@ public class WageTypeFactory : ItemFactoryBase<RegulationWageType>
     private IWageTypeService WageTypeService { get; }
     private IPayrollService PayrollService { get; }
 
-    public WageTypeFactory(IWageTypeService wageTypeService, IPayrollService payrollService,
-        Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
+    public WageTypeFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
+        IWageTypeService wageTypeService) :
         base(tenant, payroll, regulations)
     {
         WageTypeService = wageTypeService;

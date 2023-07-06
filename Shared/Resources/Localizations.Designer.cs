@@ -637,6 +637,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Case {case} successfully submitted.
+        /// </summary>
+        internal static string Case_CaseAdded {
+            get {
+                return ResourceManager.GetString("Case.CaseAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data change, the case {case} was ignored.
+        /// </summary>
+        internal static string Case_CaseIgnored {
+            get {
+                return ResourceManager.GetString("Case.CaseIgnored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cases.
         /// </summary>
         internal static string Case_Cases {
@@ -709,6 +727,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The case {name} cannot be executed.
+        /// </summary>
+        internal static string Case_MissingCase {
+            get {
+                return ResourceManager.GetString("Case.MissingCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to National cases.
         /// </summary>
         internal static string Case_NationalCases {
@@ -763,6 +790,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submit case.
+        /// </summary>
+        internal static string Case_SubmitCase {
+            get {
+                return ResourceManager.GetString("Case.SubmitCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Case with undo.
         /// </summary>
         internal static string Case_UndoCase {
@@ -804,6 +840,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Case_Validation {
             get {
                 return ResourceManager.GetString("Case.Validation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data validation failed.
+        /// </summary>
+        internal static string Case_ValidationFailed {
+            get {
+                return ResourceManager.GetString("Case.ValidationFailed", resourceCulture);
             }
         }
         
@@ -1029,6 +1074,42 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string CaseField_LookupSettingsRemoved {
             get {
                 return ResourceManager.GetString("CaseField.LookupSettingsRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing attachment.
+        /// </summary>
+        internal static string CaseField_MissingAttachment {
+            get {
+                return ResourceManager.GetString("CaseField.MissingAttachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing end date.
+        /// </summary>
+        internal static string CaseField_MissingEndDate {
+            get {
+                return ResourceManager.GetString("CaseField.MissingEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing start date.
+        /// </summary>
+        internal static string CaseField_MissingStartDate {
+            get {
+                return ResourceManager.GetString("CaseField.MissingStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing value.
+        /// </summary>
+        internal static string CaseField_MissingValue {
+            get {
+                return ResourceManager.GetString("CaseField.MissingValue", resourceCulture);
             }
         }
         

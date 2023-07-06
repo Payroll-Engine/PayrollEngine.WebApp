@@ -1516,7 +1516,7 @@
     <value>Bitte einen Fall wählen</value>
   </data>
   <data name="Case.Validation" xml:space="preserve">
-    <value>Überprüfung</value>
+    <value>Validierung</value>
   </data>
   <data name="CaseChange.CaseChangeGroup" xml:space="preserve">
     <value>Falländerung {group}</value>
@@ -1717,7 +1717,7 @@
     <value>Filter</value>
   </data>
   <data name="DataGrid.FilterValue" xml:space="preserve">
-    <value>Filterwert</value>
+    <value>Filter</value>
   </data>
   <data name="DataGrid.Group" xml:space="preserve">
     <value>Gruppe</value>
@@ -2216,5 +2216,32 @@
   </data>
   <data name="Calendar.PeriodCycleHelp" xml:space="preserve">
     <value>{count} Perioden von '{period}' im Zyklus '{cycle}'</value>
+  </data>
+  <data name="Case.CaseAdded" xml:space="preserve">
+    <value>Fall {case} erflogreich übermittelt</value>
+  </data>
+  <data name="Case.CaseIgnored" xml:space="preserve">
+    <value>Keine Datenänderung, der Fall {case} wurde ignoriert</value>
+  </data>
+  <data name="Case.MissingCase" xml:space="preserve">
+    <value>Der Fall {name} kann nicht ausgeführt werden</value>
+  </data>
+  <data name="Case.SubmitCase" xml:space="preserve">
+    <value>Fall übermitteln</value>
+  </data>
+  <data name="Case.ValidationFailed" xml:space="preserve">
+    <value>Datenvalidierung ist fehlgeschlagen</value>
+  </data>
+  <data name="CaseField.MissingAttachment" xml:space="preserve">
+    <value>Fehlender Anhang</value>
+  </data>
+  <data name="CaseField.MissingEndDate" xml:space="preserve">
+    <value>Fehlendes Enddatum</value>
+  </data>
+  <data name="CaseField.MissingStartDate" xml:space="preserve">
+    <value>Fehlendes Startdatum</value>
+  </data>
+  <data name="CaseField.MissingValue" xml:space="preserve">
+    <value>Fehlender Wert</value>
   </data>
 </root>

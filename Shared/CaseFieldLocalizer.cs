@@ -31,4 +31,9 @@ public class CaseFieldLocalizer : LocalizerBase
     public string ValidateActions => PropertyValue();
     public string TimeGroup => PropertyValue();
     public string FieldDocuments => PropertyValue();
+    public string MissingValue => PropertyValue();
+    public string MissingStart => PropertyValue();
+    public string MissingEnd => PropertyValue();
+    public string MissingAttachment => PropertyValue();
+
 }

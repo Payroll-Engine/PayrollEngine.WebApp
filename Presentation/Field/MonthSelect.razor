@@ -23,7 +23,6 @@
 {
     [Inject] private Localizer Localizer { get; set; }
 
-    protected override string ValueLabel { get; set; }
     private List<Tuple<int, string>> Months { get; } = new();
 
     private bool ValuesDisabled =>
@@ -32,7 +31,7 @@
     protected override async Task OnInitializedAsync()
     {
         // label
-        ValueLabel = Field.Attributes.GetValueLabel(Culture) ?? Localizer.Calendar.Month;
+        SetValueLabel(Field.Attributes.GetValueLabel(Culture) ?? Localizer.Calendar.Month);
 
         // month names
         var monthNames = EditCulture.DateTimeFormat.MonthNames.

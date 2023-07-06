@@ -21,9 +21,18 @@ public abstract class FieldEditorBase : ComponentBase
     protected string ValueHelp { get; private set; }
     protected string ValueAdornmentText { get; private set; }
     protected Adornment ValueAdornment { get; private set; }
-    protected virtual string ValueLabel { get; set; }
+    protected string ValueLabel { get; private set; }
     protected string ValueRequiredError { get; private set; }
     protected bool ReadOnly { get; private set; }
+
+    protected void SetValueLabel(string label)
+    {
+        if (string.IsNullOrWhiteSpace(label))
+        {
+            return;
+        }
+        ValueLabel = label;
+    }
 
     /// <summary>
     /// The default MudCheckBox raises a required error on false value
@@ -54,11 +63,12 @@ public abstract class FieldEditorBase : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         // label
-        ValueLabel = Field.Attributes.GetValueLabel(Culture);
-        if (string.IsNullOrWhiteSpace(ValueLabel))
+        var label = Field.Attributes.GetValueLabel(Culture);
+        if (string.IsNullOrWhiteSpace(label))
         {
-            ValueLabel = Field.GetLocalizedName(Culture);
+            label = Field.GetLocalizedName(Culture);
         }
+        SetValueLabel(label);
 
         // help
         ValueHelp = Field.Attributes.GetValueHelp(Culture);

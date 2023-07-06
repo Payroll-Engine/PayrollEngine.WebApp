@@ -6,81 +6,81 @@
     @switch (ItemType)
     {
         case RegulationItemType.Case:
-            <ItemGrid TParent="RegulationCase" TItem="RegulationCase" Items="Cases"
+            <ItemGrid TParent="RegulationCase" TItem="RegulationCase" Items="@CaseBrowser.Cases"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.Case"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Case.CaseType"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 
         case RegulationItemType.CaseField:
-            <ItemGrid TParent="RegulationCase" TItem="RegulationCaseField" Items="CaseFields"
+            <ItemGrid TParent="RegulationCase" TItem="RegulationCaseField" Items="@CaseFieldBrowser.CaseFields"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.CaseField"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Shared.ValueType"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem"
-                      ParentKeyHeader="Case" ParentFactory="CaseFactory" />
+                      ParentKeyHeader="Case" ParentFactory="@CaseBrowser.CaseFactory" />
             break;
 
         case RegulationItemType.CaseRelation:
-            <ItemGrid TParent="RegulationCaseRelation" TItem="RegulationCaseRelation" Items="CaseRelations"
+            <ItemGrid TParent="RegulationCaseRelation" TItem="RegulationCaseRelation" Items="@CaseRelationBrowser.CaseRelations"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.CaseRelation"
                       KeyHeader="@Localizer.CaseRelation.Relation" ShowAdditionalInfo="false"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 
         case RegulationItemType.Collector:
-            <ItemGrid TParent="RegulationCollector" TItem="RegulationCollector" Items="Collectors"
+            <ItemGrid TParent="RegulationCollector" TItem="RegulationCollector" Items="@CollectorBrowser.Collectors"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.Collector"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Collector.CollectType"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 
         case RegulationItemType.WageType:
-            <ItemGrid TParent="RegulationWageType" TItem="RegulationWageType" Items="WageTypes"
+            <ItemGrid TParent="RegulationWageType" TItem="RegulationWageType" Items="@WageTypeBrowser.WageTypes"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.WageType"
                       KeyHeader="@Localizer.WageType.WageTypeNumber" AdditionalInfoHeader="@Localizer.Shared.Name"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 
         case RegulationItemType.Report:
-            <ItemGrid TParent="RegulationReport" TItem="RegulationReport" Items="Reports"
+            <ItemGrid TParent="RegulationReport" TItem="RegulationReport" Items="@ReportBrowser.Reports"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.Report"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Report.Category"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 
         case RegulationItemType.ReportParameter:
-            <ItemGrid TParent="RegulationReport" TItem="RegulationReportParameter" Items="ReportParameters"
+            <ItemGrid TParent="RegulationReport" TItem="RegulationReportParameter" Items="@ReportParameterBrowser.ReportParameters"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.ReportParameter"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Shared.ValueType"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem"
-                      ParentKeyHeader="@Localizer.Report.Report" ParentFactory="ReportFactory" />
+                      ParentKeyHeader="@Localizer.Report.Report" ParentFactory="@ReportBrowser.ReportFactory" />
             break;
 
         case RegulationItemType.ReportTemplate:
-            <ItemGrid TParent="RegulationReport" TItem="RegulationReportTemplate" Items="ReportTemplates"
+            <ItemGrid TParent="RegulationReport" TItem="RegulationReportTemplate" Items="@ReportTemplateBrowser.ReportTemplates"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.ReportTemplate"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Shared.Culture"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem"
-                      ParentKeyHeader="@Localizer.Report.Report" ParentFactory="ReportFactory" />
+                      ParentKeyHeader="@Localizer.Report.Report" ParentFactory="@ReportBrowser.ReportFactory" />
             break;
 
         case RegulationItemType.Lookup:
-            <ItemGrid TParent="RegulationLookup" TItem="RegulationLookup" Items="Lookups"
+            <ItemGrid TParent="RegulationLookup" TItem="RegulationLookup" Items="@LookupBrowser.Lookups"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.Lookup"
                       KeyHeader="@Localizer.Shared.Name" ShowAdditionalInfo="false"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 
         case RegulationItemType.LookupValue:
-            <ItemGrid TParent="RegulationLookup" TItem="RegulationLookupValue" Items="LookupValues"
+            <ItemGrid TParent="RegulationLookup" TItem="RegulationLookupValue" Items="@LookupValueBrowser.LookupValues"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.LookupValue"
                       KeyHeader="@Localizer.Shared.Key" AdditionalInfoHeader="@Localizer.LookupValue.RangeValue"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem"
-                      ParentKeyHeader="@Localizer.Lookup.Lookup" ParentFactory="LookupFactory" />
+                      ParentKeyHeader="@Localizer.Lookup.Lookup" ParentFactory="@LookupBrowser.LookupFactory" />
             break;
 
         case RegulationItemType.Script:
-            <ItemGrid TParent="RegulationScript" TItem="RegulationScript" Items="Scripts"
+            <ItemGrid TParent="RegulationScript" TItem="RegulationScript" Items="@ScriptBrowser.Scripts"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.Script"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Script.FunctionTypes"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />

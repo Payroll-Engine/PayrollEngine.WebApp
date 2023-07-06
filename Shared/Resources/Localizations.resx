@@ -2217,4 +2217,31 @@
   <data name="Calendar.PeriodCycleHelp" xml:space="preserve">
     <value>{count} periods of '{period}' in the cycle '{cycle}'</value>
   </data>
+  <data name="Case.CaseAdded" xml:space="preserve">
+    <value>Case {case} successfully submitted</value>
+  </data>
+  <data name="Case.CaseIgnored" xml:space="preserve">
+    <value>No data change, the case {case} was ignored</value>
+  </data>
+  <data name="Case.MissingCase" xml:space="preserve">
+    <value>The case {name} cannot be executed</value>
+  </data>
+  <data name="Case.SubmitCase" xml:space="preserve">
+    <value>Submit case</value>
+  </data>
+  <data name="Case.ValidationFailed" xml:space="preserve">
+    <value>Data validation failed</value>
+  </data>
+  <data name="CaseField.MissingAttachment" xml:space="preserve">
+    <value>Missing attachment</value>
+  </data>
+  <data name="CaseField.MissingEndDate" xml:space="preserve">
+    <value>Missing end date</value>
+  </data>
+  <data name="CaseField.MissingStartDate" xml:space="preserve">
+    <value>Missing start date</value>
+  </data>
+  <data name="CaseField.MissingValue" xml:space="preserve">
+    <value>Missing value</value>
+  </data>
 </root>

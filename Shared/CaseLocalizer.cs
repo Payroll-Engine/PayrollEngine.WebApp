@@ -40,9 +40,18 @@ public class CaseLocalizer : LocalizerBase
     public string SelectCase => PropertyValue();
     public string CaseWithoutFields => PropertyValue();
     public string Validation => PropertyValue();
+    public string ValidationFailed => PropertyValue();
+
+    public string SubmitCase => PropertyValue();
 
     public string StartCase(string @case) =>
         FormatValue(PropertyValue(), nameof(@case), @case);
     public string SearchCase(string @case) =>
         FormatValue(PropertyValue(), nameof(@case), @case);
+    public string CaseAdded(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
+    public string CaseIgnored(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
+    public string MissingCase(string name) =>
+        FormatValue(PropertyValue(), nameof(name), name);
 }
