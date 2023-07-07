@@ -6,12 +6,13 @@
 
 @inherits PageBase
 
+@* missing feature *@
 @if (!HasFeature(Feature.Reports))
 {
     NavigateHome();
     return;
 }
-
+@* missing payroll *@
 @if (!HasPayroll)
 {
     <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.Report.Reports</MudText>

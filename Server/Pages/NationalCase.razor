@@ -2,16 +2,19 @@
 @page "/nationalcase/{caseName}"
 @inherits NewCasePageBase;
 
+@* missing feature *@
 @if (!HasFeature(Feature.NationalCases))
 {
     NavigateHome();
     return;
 }
+@* missing tenant *@
 @if (!HasTenant)
 {
     <div>@Localizer.App.SelectTenant</div>
     return;
 }
+@* missing payroll *@
 @if (!HasPayroll)
 {
     <div>@Localizer.App.SelectPayroll</div>

@@ -7,6 +7,7 @@
 
 @inherits PageBase
 
+@* missing feature *@
 @if (!HasFeature(Feature.Payruns))
 {
     NavigateHome();
@@ -14,12 +15,13 @@
 }
 
 <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">@Localizer.PayrunJob.PayrunJobs</MudText>
-
+@* missing payroll *@
 @if (!HasPayroll)
 {
     <div>@Localizer.App.SelectPayroll</div>
     return;
 }
+@* missing payruns *@
 @if (!HasPayruns)
 {
     <div>@Localizer.App.SelectPayrollWithPayrun</div>
@@ -329,15 +331,34 @@
                                 <MudStack>
                                     <MudText Typo="Typo.h6">@Localizer.Forecast.PayrunJob</MudText>
 
-                                    @* forecast name *@
-                                    <MudTextField T="string"
-                                    @bind-Value="ForecastSetup.ForecastName"
-                                                  Label="@Localizer.Forecast.Name"
-                                                  MaxLength="SystemSpecification.KeyTextLength"
-                                                  Margin="Margin.Dense"
-                                                  Required="true"
-                                                  RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.Name)" />
-
+                                    <MudStack Spacing="0">
+                                        @* forecast name *@
+                                        <MudTextField T="string"
+                                                      @bind-Value="ForecastSetup.ForecastName"
+                                                      Label="@Localizer.Forecast.Name"
+                                                      MaxLength="SystemSpecification.KeyTextLength"
+                                                      Margin="Margin.Dense"
+                                                      Required="true"
+                                                      RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.Name)"
+                                                      Adornment="@(HasForecastHistory ? Adornment.End : Adornment.None)"
+                                                      AdornmentIcon="@Icons.Material.Filled.History"
+                                                      OnAdornmentClick="OpenForecastSelection"></MudTextField>
+                                        @* forecast history *@
+                                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection" />
+                                        <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
+                                                    Style="max-width: 20em">
+                                            <MudStack Spacing="0">
+                                                <MudList Style="overflow-y: auto; max-height: 40em"
+                                                         SelectedItemChanged="@(x => SelectForecast(x.Value))"
+                                                         Clickable="true">
+                                                    @foreach (var history in ForecastHistory)
+                                                    {
+                                                        <MudListItem Value="@history">@history</MudListItem>
+                                                    }
+                                                </MudList>
+                                            </MudStack>
+                                        </MudPopover>
+                                    </MudStack>
                                     @* job name *@
                                     <MudTextField T="string"
                                     @bind-Value="ForecastSetup.JobName"

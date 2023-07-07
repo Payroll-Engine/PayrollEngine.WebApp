@@ -6,18 +6,20 @@
 
 @inherits EditItemPageBase<PayrollLayer, Query, Dialogs.PayrollLayerDialog>
 
+@* missing feature *@
 @if (!HasFeature(Feature.PayrollLayers))
 {
     NavigateHome();
     return;
 }
-
+@* missing tenant *@
 @if (!HasTenant)
 {
     <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.PayrollLayer.PayrollLayers</MudText>
     <div>@Localizer.App.SelectTenant</div>
     return;
 }
+@* missing payroll *@
 @if (!HasPayroll)
 {
     <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.PayrollLayer.PayrollLayers</MudText>

@@ -35,6 +35,8 @@ public partial class PayrunJobs : IPayrunJobOperator
     private IEmployeeService EmployeeService { get; set; }
     [Inject]
     private IUserService UserService { get; set; }
+    [Inject]
+    private IForecastHistoryService ForecastHistoryService { get; set; }
 
     public PayrunJobs() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
@@ -860,6 +862,36 @@ public partial class PayrunJobs : IPayrunJobOperator
 
     #endregion
 
+    #region Forecast History
+
+    private bool HasForecastHistory => ForecastHistory.Any();
+    private List<string> ForecastHistory { get; } = new();
+    private bool ForecastSelection { get; set; }
+
+    private void OpenForecastSelection() =>
+        ForecastSelection = true;
+
+    private void CloseForecastSelection() =>
+        ForecastSelection = false;
+
+    private void SelectForecast(object value)
+    {
+        var selected = value as string;
+        if (!string.IsNullOrWhiteSpace(selected))
+        {
+            ForecastSetup.ForecastName = selected;
+        }
+        CloseForecastSelection();
+    }
+
+    private async Task SetupForecastHistoryAsync()
+    {
+        var forecasts = await ForecastHistoryService.GetHistoryAsync();
+        ForecastHistory.AddRange(forecasts);
+    }
+
+    #endregion
+
     #region Lifecycle
 
     /// <summary>
@@ -894,6 +926,10 @@ public partial class PayrunJobs : IPayrunJobOperator
     {
         await SetupUsersAsync();
         await SetupPage();
+        if (HasFeature(Feature.Forecasts))
+        {
+            await Task.Run(SetupForecastHistoryAsync);
+        }
         await base.OnInitializedAsync();
         Initialized = true;
     }

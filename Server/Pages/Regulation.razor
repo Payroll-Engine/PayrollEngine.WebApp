@@ -5,6 +5,7 @@
 
 @inherits PageBase
 
+@* missing feature *@
 @if (!HasFeature(Feature.Regulation))
 {
     NavigateHome();
@@ -13,16 +14,19 @@
 
 <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.Regulation.Regulation @TopRegulationName</MudText>
 
+@* missing tenant *@
 @if (!HasTenant)
 {
     <div>@Localizer.App.SelectTenant</div>
     return;
 }
+@* missing payroll *@
 @if (!HasPayroll)
 {
     <div>@Localizer.App.SelectPayroll</div>
     return;
 }
+@* missing regulations *@
 @if (!HasRegulations)
 {
     <div>@Localizer.Regulation.Missing</div>

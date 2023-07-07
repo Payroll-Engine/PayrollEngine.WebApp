@@ -2,12 +2,20 @@
 @using PayrollEngine.WebApp.Presentation.Case
 @inherits PageBase
 
+@* case not available *@
+@if (!CaseAvailable)
+{
+    <div>@Localizer.Case.MissingCase(CaseName)</div>
+    return;
+}
+@* empty case *@
 @if (!Cases.Any())
 {
     <div>@Localizer.Case.SelectCase</div>
     return;
 }
 
+@* case edit *@
 <div class="d-flex flex-grow-1 gap-4 mt-4">
     @* case edit tree *@
     <MudForm @ref="@fieldForm">
@@ -62,9 +70,8 @@
                 @* case inputs *@
                 <div>
                     <MudText Typo="Typo.h5">@Localizer.Case.Case</MudText>
-                    <MudTextField T="string"
+                    <MudTextField T="string" @bind-Value="@ChangeReason"
                                   Label="@Localizer.CaseChange.Reason"
-                    @bind-Value="@ChangeReason"
                                   Required="true"
                                   Margin="@(Dense ? Margin.Dense : Margin.Normal)"
                                   Lines="3"
@@ -74,12 +81,29 @@
                     @* forecast change *@
                     @if (HasFeature(Feature.Forecasts))
                     {
-                        <MudTextField T="string"
+                        <MudTextField T="string" @bind-Value="@Forecast"
                                       Label="@Localizer.Forecast.Name"
-                        @bind-Value="@Forecast"
                                       MaxLength="SystemSpecification.KeyTextLength"
                                       Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                      Adornment="@(HasForecastHistory ? Adornment.End : Adornment.None)"
+                                      AdornmentIcon="@Icons.Material.Filled.History"
+                                      OnAdornmentClick="OpenForecastSelection"
                                       Class="pt-4" />
+                        @* forecast history *@
+                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection" />
+                        <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
+                                    Style="max-width: 20em">
+                            <MudStack Spacing="0">
+                                <MudList Style="overflow-y: auto; max-height: 40em"
+                                         SelectedItemChanged="@(x => SelectForecast(x.Value))"
+                                         Clickable="true">
+                                    @foreach (var history in ForecastHistory)
+                                    {
+                                        <MudListItem Value="@history">@history</MudListItem>
+                                    }
+                                </MudList>
+                            </MudStack>
+                        </MudPopover>
                     }
                 </div>
 
@@ -87,7 +111,7 @@
                 @if (!Valid)
                 {
                     <div>
-                        <MudText Typo="Typo.h6" >@Localizer.Case.Validation</MudText>
+                        <MudText Typo="Typo.h6">@Localizer.Case.Validation</MudText>
                         <MudSimpleTable Dense="@Dense" Outlined="false" Elevation="0"
                                         Bordered="false" Striped="false">
                             <tbody>

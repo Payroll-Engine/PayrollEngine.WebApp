@@ -5,16 +5,19 @@
 
 <MudText Typo="Typo.h5" Class="my-4 pb-1 pt-2">@PageTitle</MudText>
 
+@* missing tenant *@
 @if (IsTenantMissing)
 {
     <div>@Localizer.App.SelectTenant</div>
     return;
 }
+@* missing payroll *@
 @if (IsPayrollMissing)
 {
     <div>@Localizer.App.SelectPayroll</div>
     return;
 }
+@* missing employee *@
 @if (IsEmployeeMissing)
 {
     <div>@Localizer.App.SelectEmployee</div>

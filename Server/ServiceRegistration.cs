@@ -202,5 +202,8 @@ public static class ServiceRegistration
         // user
         services.AddScoped<IUserNotificationService, UserNotificationService>();
         services.AddScoped<IUserPasswordService, UserPasswordService>();
+
+        // forecast
+        services.AddScoped<IForecastHistoryService, ForecastHistoryService>();
     }
 }

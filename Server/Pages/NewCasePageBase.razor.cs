@@ -38,6 +38,8 @@ public abstract partial class NewCasePageBase
     [Inject]
     private IDivisionService DivisionService { get; set; }
     [Inject]
+    private IForecastHistoryService ForecastHistoryService { get; set; }
+    [Inject]
     private IConfiguration Configuration { get; set; }
 
     /// <summary>
@@ -97,7 +99,7 @@ public abstract partial class NewCasePageBase
 
     #endregion
 
-    #region Base type
+    #region Derived type
 
     /// <summary>Gets the type of the case</summary>
     /// <value>The type of the case.</value>
@@ -109,21 +111,23 @@ public abstract partial class NewCasePageBase
     /// <value>The name of the parent page</value>
     protected abstract string ParentPageName { get; }
 
-
     /// <summary>
-    /// Creates a new case value provider
+    /// Gets the case value provider
     /// </summary>
-    /// <returns>ICaseValueProvider</returns>
     protected abstract ICaseValueProvider CaseValueProvider { get; }
 
     #endregion
 
-    #region Change
+    #region Change and Forecast
 
     /// <summary>
     /// The change reason
     /// </summary>
     private string ChangeReason { get; set; }
+
+    private bool HasForecastHistory => ForecastHistory.Any();
+    private List<string> ForecastHistory { get; } = new();
+    private bool ForecastSelection { get; set; }
 
     private string forecast;
     /// <summary>
@@ -137,6 +141,28 @@ public abstract partial class NewCasePageBase
             forecast = value;
             UpdateValidationAsync();
         }
+    }
+
+    private void OpenForecastSelection() =>
+        ForecastSelection = true;
+
+    private void CloseForecastSelection() =>
+        ForecastSelection = false;
+
+    private void SelectForecast(object value)
+    {
+        var selected = value as string;
+        if (!string.IsNullOrWhiteSpace(selected))
+        {
+            Forecast = selected;
+        }
+        CloseForecastSelection();
+    }
+
+    private async Task SetupForecastHistoryAsync()
+    {
+        var forecasts = await ForecastHistoryService.GetHistoryAsync();
+        ForecastHistory.AddRange(forecasts);
     }
 
     #endregion
@@ -158,6 +184,33 @@ public abstract partial class NewCasePageBase
         }
     }
 
+    private bool CaseAvailable { get; set; }
+
+    /// <summary>
+    /// Test for available case
+    /// </summary>
+    /// <returns>The case set</returns>
+    private async Task SetupAvailableCaseAsync()
+    {
+        if (string.IsNullOrWhiteSpace(CaseName))
+        {
+            return;
+        }
+        try
+        {
+            var availableCases = await PayrollService.GetAvailableCasesAsync<Client.Model.CaseSet>(
+                new(Tenant.Id, Payroll.Id), User.Id,
+                CaseType, caseNames: new[] { CaseName }, culture: User.Culture);
+            CaseAvailable = availableCases.Any();
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await ShowErrorMessageBoxAsync(exception);
+        }
+    }
+
+
     /// <summary>
     /// Setup the case including related cases
     /// </summary>
@@ -171,8 +224,7 @@ public abstract partial class NewCasePageBase
             var @case = await BuildCaseAsync(CaseName);
             if (@case == null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync(
-                    Localizer, DefaultDialogTitle, Localizer.Error.UnknownItem(Localizer.Case.Case, CaseName));
+                await ShowErrorMessageBoxAsync(DefaultDialogTitle, Localizer.Error.UnknownItem(Localizer.Case.Case, CaseName));
                 return;
             }
 
@@ -186,7 +238,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
+            await ShowErrorMessageBoxAsync(exception);
         }
 
         // result
@@ -226,8 +278,7 @@ public abstract partial class NewCasePageBase
             var @case = Task.Run(() => BuildCaseAsync(caseSet.Name, caseChange)).Result;
             if (@case == null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle,
-                    Localizer.Case.MissingCase(CaseName));
+                await ShowErrorMessageBoxAsync(Localizer.Case.MissingCase(CaseName));
                 return;
             }
 
@@ -239,7 +290,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
+            await ShowErrorMessageBoxAsync(exception);
         }
         finally
         {
@@ -256,15 +307,14 @@ public abstract partial class NewCasePageBase
         var caseSet = RootCase;
         if (caseSet == null)
         {
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase,
-                Localizer.Case.MissingCase(CaseName));
+            await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase, Localizer.Case.MissingCase(CaseName));
             return;
         }
 
         // case validation
         if (!await fieldForm.Revalidate() || !await changeForm.Revalidate())
         {
-            await UserNotification.ShowErrorAsync(Localizer.Case.ValidationFailed);
+            await ShowErrorMessageBoxAsync(Localizer.Case.ValidationFailed);
             return;
         }
 
@@ -274,7 +324,7 @@ public abstract partial class NewCasePageBase
             var caseChangeSetup = GetCaseChange(caseSet, true);
             if (!caseChangeSetup.CollectCaseValues().Any())
             {
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase,
+                await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase,
                     Localizer.Case.MissingCase(caseSet.Name));
                 return;
             }
@@ -284,8 +334,14 @@ public abstract partial class NewCasePageBase
             var issues = caseChange.GetCaseIssues();
             if (issues != null)
             {
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase, issues);
+                await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase, issues);
                 return;
+            }
+
+            // forecast history
+            if (HasFeature(Feature.Forecasts) && !string.IsNullOrWhiteSpace(caseChange.Forecast))
+            {
+                await ForecastHistoryService.AddHistoryAsync(caseChange.Forecast);
             }
 
             // user notification
@@ -316,7 +372,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.SubmitCase, exception);
+            await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase, exception);
         }
     }
 
@@ -343,7 +399,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
+            await ShowErrorMessageBoxAsync(exception);
             return null;
         }
     }
@@ -505,7 +561,7 @@ public abstract partial class NewCasePageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, DefaultDialogTitle, exception);
+            await ShowErrorMessageBoxAsync(exception);
         }
     }
 
@@ -555,12 +611,41 @@ public abstract partial class NewCasePageBase
 
     #endregion
 
+    #region Error
+
+    private async Task ShowErrorMessageBoxAsync(string message) =>
+        await ShowErrorMessageBoxAsync(DefaultDialogTitle, message);
+
+    private async Task ShowErrorMessageBoxAsync(string dialogTitle, string message) =>
+        await UserNotification.ShowErrorMessageBoxAsync(Localizer, dialogTitle, message);
+
+    private async Task ShowErrorMessageBoxAsync(Exception exception) =>
+        await ShowErrorMessageBoxAsync(DefaultDialogTitle, exception);
+
+    private async Task ShowErrorMessageBoxAsync(string dialogTitle, Exception exception) =>
+        await UserNotification.ShowErrorMessageBoxAsync(Localizer, dialogTitle, exception);
+
+    #endregion
+
     #region Lifecycle
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        // test available case
+        await SetupAvailableCaseAsync();
+        if (!CaseAvailable)
+        {
+            return;
+        }
+
+        // setup case
         await SetupCaseAsync();
+        if (HasFeature(Feature.Forecasts))
+        {
+            await Task.Run(SetupForecastHistoryAsync);
+        }
         await UpdateValidationAsync();
     }
 
@@ -587,4 +672,5 @@ public abstract partial class NewCasePageBase
     }
 
     #endregion
+
 }

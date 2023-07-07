@@ -20,18 +20,17 @@ public class EnumFilterBase<T, TEnum> : ComponentBase
     protected bool FilterOpen { get; private set; }
 
     private FilterDefinition<T> filterDefinition;
+
+    #region Selection
+
     private TEnum selectedValue;
     private bool selection;
 
-    protected void OpenFilter()
-    {
+    protected void OpenFilter() =>
         FilterOpen = true;
-    }
 
-    protected void CloseFilter()
-    {
+    protected void CloseFilter() =>
         FilterOpen = false;
-    }
 
     protected async Task SelectFilter(object value)
     {
@@ -59,6 +58,8 @@ public class EnumFilterBase<T, TEnum> : ComponentBase
         filterDefinition.Value = null;
         FilterIcon = Icons.Material.Outlined.FilterAlt;
     }
+
+    #endregion
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

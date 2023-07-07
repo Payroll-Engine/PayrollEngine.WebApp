@@ -7,6 +7,7 @@
 
 @inherits PageBase
 
+@* missing feature *@
 @if (!HasFeature(Feature.PayrunResults))
 {
     NavigateHome();
@@ -15,16 +16,19 @@
 
 <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">@Localizer.PayrunResult.PayrunResults</MudText>
 
+@* missing payroll *@
 @if (!HasPayroll)
 {
     <div>@Localizer.App.SelectPayroll</div>
     return;
 }
+@* missing employee *@
 @if (!HasEmployee)
 {
     <div>@Localizer.App.SelectEmployee</div>
     return;
 }
+@* missing payruns *@
 @if (!HasPayruns)
 {
     <div>@Localizer.App.SelectPayrollWithPayrun</div>
