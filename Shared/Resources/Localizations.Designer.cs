@@ -1089,18 +1089,18 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Missing end date.
         /// </summary>
-        internal static string CaseField_MissingEndDate {
+        internal static string CaseField_MissingEnd {
             get {
-                return ResourceManager.GetString("CaseField.MissingEndDate", resourceCulture);
+                return ResourceManager.GetString("CaseField.MissingEnd", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Missing start date.
         /// </summary>
-        internal static string CaseField_MissingStartDate {
+        internal static string CaseField_MissingStart {
             get {
-                return ResourceManager.GetString("CaseField.MissingStartDate", resourceCulture);
+                return ResourceManager.GetString("CaseField.MissingStart", resourceCulture);
             }
         }
         

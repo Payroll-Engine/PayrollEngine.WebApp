@@ -129,19 +129,10 @@ public abstract partial class NewCasePageBase
     private List<string> ForecastHistory { get; } = new();
     private bool ForecastSelection { get; set; }
 
-    private string forecast;
     /// <summary>
     /// The forecast name
     /// </summary>
-    private string Forecast
-    {
-        get => forecast;
-        set
-        {
-            forecast = value;
-            UpdateValidationAsync();
-        }
-    }
+    private string Forecast { get; set; }
 
     private void OpenForecastSelection() =>
         ForecastSelection = true;
@@ -199,8 +190,12 @@ public abstract partial class NewCasePageBase
         try
         {
             var availableCases = await PayrollService.GetAvailableCasesAsync<Client.Model.CaseSet>(
-                new(Tenant.Id, Payroll.Id), User.Id,
-                CaseType, caseNames: new[] { CaseName }, culture: User.Culture);
+                context: new(Tenant.Id, Payroll.Id),
+                userId: User.Id,
+                caseType: CaseType,
+                employeeId: Employee?.Id,
+                caseNames: new[] { CaseName },
+                culture: User.Culture);
             CaseAvailable = availableCases.Any();
         }
         catch (Exception exception)
@@ -303,6 +298,13 @@ public abstract partial class NewCasePageBase
     /// </summary>
     private async Task SubmitCaseAsync()
     {
+        // form validation
+        await changeForm.Validate();
+        if (!changeForm.IsValid)
+        {
+            return;
+        }
+
         // submit case
         var caseSet = RootCase;
         if (caseSet == null)
@@ -392,8 +394,12 @@ public abstract partial class NewCasePageBase
     {
         try
         {
-            return await PayrollService.BuildCaseAsync<Client.Model.CaseSet>(new(Tenant.Id, Payroll.Id),
-                derivedCaseName, User.Id, employeeId: Employee?.Id, culture: User.Culture,
+            return await PayrollService.BuildCaseAsync<Client.Model.CaseSet>(
+                context: new(Tenant.Id, Payroll.Id),
+                caseName: derivedCaseName,
+                userId: User.Id,
+                employeeId: Employee?.Id,
+                culture: User.Culture,
                 caseChangeSetup: caseChangeSetup);
         }
         catch (Exception exception)
@@ -422,7 +428,9 @@ public abstract partial class NewCasePageBase
                 throw new InvalidOperationException();
             }
         }
-        return await PayrollService.AddCaseAsync<CaseChangeSetup, ViewModel.CaseChange>(new(Tenant.Id, Payroll.Id), caseChangeSetup);
+        return await PayrollService.AddCaseAsync<CaseChangeSetup, ViewModel.CaseChange>(
+            context: new(Tenant.Id, Payroll.Id),
+            caseChangeSetup: caseChangeSetup);
     }
 
     private CaseChangeSetup GetCaseChange(CaseSet caseSet, bool submitMode)
@@ -483,7 +491,6 @@ public abstract partial class NewCasePageBase
     private async Task CaseFieldChangedHandlerAsync(object sender, CaseSet relatedCaseSet)
     {
         await UpdateCaseAsync(relatedCaseSet);
-        // await SetupCaseLookups();
         await UpdateValidationAsync();
         StateHasChanged();
     }
@@ -514,8 +521,9 @@ public abstract partial class NewCasePageBase
 
                     // retrieve lookup data
                     LookupData lookupData = (await PayrollService.GetLookupDataAsync<LookupData>(
-                        new(Tenant.Id, Payroll.Id),
-                        lookupNames: new[] { lookupName }, culture: Session.User.Culture)).FirstOrDefault();
+                        context: new(Tenant.Id, Payroll.Id),
+                        lookupNames: new[] { lookupName },
+                        culture: Session.User.Culture)).FirstOrDefault();
                     if (lookupData?.Values != null && lookupData.Values.Any())
                     {
                         var valueFieldName = lookupField.LookupSettings.ValueFieldName;
@@ -593,8 +601,9 @@ public abstract partial class NewCasePageBase
 
     private Task UpdateValidationAsync()
     {
-        var valid = true;
-        if (Cases != null)
+        // change reason and case
+        var valid = Cases != null;
+        if (valid)
         {
             foreach (var @case in Cases)
             {

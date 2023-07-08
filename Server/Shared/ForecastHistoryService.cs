@@ -8,7 +8,7 @@ namespace PayrollEngine.WebApp.Server.Shared;
 
 public class ForecastHistoryService : IForecastHistoryService
 {
-    private const int historySize = 10;
+    private const int historySize = 20;
     private ILocalStorageService LocalStorage { get; }
 
     public ForecastHistoryService(ILocalStorageService localStorage)

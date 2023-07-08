@@ -1258,7 +1258,7 @@
     <value>{selected} von {total} Mitarbeiter</value>
   </data>
   <data name="Forecast.Forecast" xml:space="preserve">
-    <value>Prognose</value>
+    <value>Forecast</value>
   </data>
   <data name="Forecast.JobHistory" xml:space="preserve">
     <value>Forecast Lohnlaufhistorie</value>
@@ -1333,7 +1333,7 @@
     <value>Forecast Lohnlaufjobs werden nicht unterstützt</value>
   </data>
   <data name="Forecast.PayrunJob" xml:space="preserve">
-    <value>Prognose Lohnlaufjob</value>
+    <value>Forecast Lohnlaufjob</value>
   </data>
   <data name="PayrunJob.JobExecuting" xml:space="preserve">
     <value>Verarbeiten...</value>
@@ -2235,10 +2235,10 @@
   <data name="CaseField.MissingAttachment" xml:space="preserve">
     <value>Fehlender Anhang</value>
   </data>
-  <data name="CaseField.MissingEndDate" xml:space="preserve">
+  <data name="CaseField.MissingEnd" xml:space="preserve">
     <value>Fehlendes Enddatum</value>
   </data>
-  <data name="CaseField.MissingStartDate" xml:space="preserve">
+  <data name="CaseField.MissingStart" xml:space="preserve">
     <value>Fehlendes Startdatum</value>
   </data>
   <data name="CaseField.MissingValue" xml:space="preserve">

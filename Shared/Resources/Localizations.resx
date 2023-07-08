@@ -2235,10 +2235,10 @@
   <data name="CaseField.MissingAttachment" xml:space="preserve">
     <value>Missing attachment</value>
   </data>
-  <data name="CaseField.MissingEndDate" xml:space="preserve">
+  <data name="CaseField.MissingEnd" xml:space="preserve">
     <value>Missing end date</value>
   </data>
-  <data name="CaseField.MissingStartDate" xml:space="preserve">
+  <data name="CaseField.MissingStart" xml:space="preserve">
     <value>Missing start date</value>
   </data>
   <data name="CaseField.MissingValue" xml:space="preserve">
