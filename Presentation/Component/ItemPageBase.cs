@@ -31,6 +31,7 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
     protected abstract string GridId { get; }
     protected abstract IBackendService<TItem, TQuery> BackendService { get; }
     protected abstract ItemCollection<TItem> Items { get; }
+    protected abstract string GetLocalizedItemName(bool plural);
 
     protected MudDataGrid<TItem> ItemsGrid { get; set; }
 
@@ -135,7 +136,7 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
 
         try
         {
-            await ExcelDownload.StartAsync(ItemsGrid, items, JsRuntime);
+            await ExcelDownload.StartAsync(ItemsGrid, items, JsRuntime, GetLocalizedItemName(true));
             await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)

@@ -13,6 +13,8 @@ public partial class Users
     protected override string GridId => GetTenantGridId(GridIdentifiers.Users);
     protected override IBackendService<ViewModel.User, Query> BackendService => UserBackendService;
     protected override ItemCollection<ViewModel.User> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.User.Users : Localizer.User.User;
 
     public Users() :
         base(WorkingItems.TenantChange)

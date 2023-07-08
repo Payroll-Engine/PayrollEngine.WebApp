@@ -10,7 +10,6 @@ public class ErrorLocalizer : LocalizerBase
     }
 
     public string Error => PropertyValue();
-    public string DeleteFailed => PropertyValue();
     public string FileDownloadError => PropertyValue();
     public string FileUploadError => PropertyValue();
     public string EmptyCollection => PropertyValue();
@@ -21,6 +20,15 @@ public class ErrorLocalizer : LocalizerBase
         FormatValue(PropertyValue(), nameof(identifier), identifier);
     public string RequiredField(string field) =>
         FormatValue(PropertyValue(), nameof(field), field);
+
+    public string ItemRead(string type) =>
+        FormatValue(PropertyValue(), nameof(type), type);
+    public string ItemCreate(string type) =>
+        FormatValue(PropertyValue(), nameof(type), type);
+    public string ItemUpdate(string type) =>
+        FormatValue(PropertyValue(), nameof(type), type);
+    public string ItemDelete(string type) =>
+        FormatValue(PropertyValue(), nameof(type), type);
 
     public string UnknownItem(string type, object item) =>
         FormatValue(PropertyValue(), nameof(type), type, nameof(item), item);

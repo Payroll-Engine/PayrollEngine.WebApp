@@ -145,9 +145,14 @@ public partial class Regulation
 
     private async Task SaveItem(object item)
     {
+        if (item is not IRegulationItem regulationItem)
+        {
+            return;
+        }
+
         try
         {
-            if (item is IRegulationItem regulationItem && await ItemBrowser.SaveItem(regulationItem))
+            if (await ItemBrowser.SaveItem(regulationItem))
             {
                 ChangeSelectedItem(regulationItem);
                 await UserNotification.ShowSuccessAsync($"{GetItemLocalizedName(regulationItem)} saved");
@@ -156,58 +161,62 @@ public partial class Regulation
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Save Error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemUpdate(regulationItem.ItemName), exception);
         }
     }
 
     private async Task DeriveItem(object item)
     {
+        if (item is not IRegulationItem regulationItem)
+        {
+            return;
+        }
+
         try
         {
-            if (item is IRegulationItem regulationItem)
+            var overrideObject = ItemBrowser.DeriveItem(regulationItem);
+            if (overrideObject != null)
             {
-                var overrideObject = ItemBrowser.DeriveItem(regulationItem);
-                if (overrideObject != null)
-                {
-                    ChangeSelectedItem(overrideObject);
-                    await UserNotification.ShowInformationAsync($"{GetItemLocalizedName(regulationItem)} created");
-                }
+                ChangeSelectedItem(overrideObject);
+                await UserNotification.ShowInformationAsync($"{GetItemLocalizedName(regulationItem)} created");
             }
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Override Error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemCreate(regulationItem.ItemName), exception);
         }
     }
 
     private async Task DeleteItem(object item)
     {
+        if (item is not IRegulationItem regulationItem)
+        {
+            return;
+        }
+
         try
         {
-            if (item is IRegulationItem regulationItem)
+            var deleteObject = await ItemBrowser.DeleteItem(regulationItem);
+            if (deleteObject == null)
             {
-                var deleteObject = await ItemBrowser.DeleteItem(regulationItem);
-                if (deleteObject == null)
+                await UserNotification.ShowErrorAsync(Localizer.Error.ItemDelete(regulationItem.ItemName));
+            }
+            else
+            {
+                // deleted object has no base objects, clear the selection
+                if (deleteObject.Id == regulationItem.Id)
                 {
-                    await UserNotification.ShowErrorAsync(Localizer.Error.DeleteFailed);
+                    deleteObject = null;
                 }
-                else
-                {
-                    // deleted object has no base objects, clear the selection
-                    if (deleteObject.Id == regulationItem.Id)
-                    {
-                        deleteObject = null;
-                    }
-                    ChangeSelectedItem(deleteObject);
-                    await UserNotification.ShowInformationAsync(Localizer.Item.Deleted(GetItemLocalizedName(regulationItem)));
-                }
+                ChangeSelectedItem(deleteObject);
+                await UserNotification.ShowInformationAsync(Localizer.Item.Deleted(GetItemLocalizedName(regulationItem)));
             }
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.DeleteFailed, exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemDelete(regulationItem.ItemName), exception);
         }
     }
 

@@ -17,6 +17,8 @@ public partial class Webhooks
     protected override string GridId => GetTenantGridId(GridIdentifiers.Webhooks);
     protected override IBackendService<Webhook, Query> BackendService => WebhookBackendService;
     protected override ItemCollection<Webhook> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Webhook.Webhooks : Localizer.Webhook.Webhook;
 
     public Webhooks() :
         base(WorkingItems.TenantChange)

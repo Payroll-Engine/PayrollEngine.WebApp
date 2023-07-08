@@ -12,6 +12,8 @@ using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.Case;
 using Blazored.LocalStorage;
 using Case = PayrollEngine.WebApp.ViewModel.Case;
+using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
@@ -21,7 +23,11 @@ public abstract partial class CasesPageBase
     [Inject]
     private IPayrollService PayrollService { get; set; }
     [Inject]
+    private IConfiguration Configuration { get; set; }
+    [Inject]
     private ILocalStorageService LocalStorage { get; set; }
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; }
 
     protected CasesPageBase(WorkingItems workingItems) :
         base(workingItems)
@@ -207,6 +213,65 @@ public abstract partial class CasesPageBase
             caseName);
     }
 
+
+    /// <summary>
+    /// Download excel file from unfiltered grid data
+    /// </summary>
+    private async Task ExcelDownloadAsync()
+    {
+        // server request
+        var maxExport = Configuration.GetConfiguration<AppConfiguration>().ExcelExportMaxRecords;
+        var state = CaseValuesGrid.BuildExportState(pageSize: maxExport);
+
+        // retrieve all items, without any filter and sort
+        var data = await GetServerDataAsync(state);
+        var items = data.Items.ToList();
+        if (!items.Any())
+        {
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, PageTitle, Localizer.Error.EmptyCollection);
+            return;
+        }
+
+        try
+        {
+            await ExcelDownload.StartAsync(CaseValuesGrid, items, JsRuntime, PageTitle);
+            await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, PageTitle, exception);
+        }
+    }
+
+    /// <summary>
+    /// Get case change value server data, handler for data grids
+    /// </summary>
+    /// <param name="state">The data grid state</param>
+    /// <returns>Collection of items</returns>
+    private async Task<GridData<CaseChangeCaseValue>> GetServerDataAsync(GridState<CaseChangeCaseValue> state)
+    {
+        try
+        {
+            var values = await CaseValueBackendService.QueryAsync();
+            CaseValues = values.Items.ToList();
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, PageTitle, exception);
+        }
+        try
+        {
+            return await CaseValueBackendService.QueryAsync(state);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            return new();
+        }
+    }
+
     /// <summary>
     /// Retrieve the case values
     /// </summary>
@@ -220,7 +285,7 @@ public abstract partial class CasesPageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, PageTitle, exception);
         }
     }
 
@@ -237,7 +302,7 @@ public abstract partial class CasesPageBase
         var caseChangeValues = CaseValues.Where(x => x.Id == caseChange.Id).ToList();
         if (!caseChangeValues.Any())
         {
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, Localizer.CaseChange.EmptyCaseChange);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, PageTitle, Localizer.CaseChange.EmptyCaseChange);
             return;
         }
 
@@ -330,7 +395,7 @@ public abstract partial class CasesPageBase
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, PageTitle, exception);
         }
         return null;
     }
@@ -514,7 +579,7 @@ public abstract partial class CasesPageBase
             catch (Exception exception)
             {
                 Log.Error(exception, exception.GetBaseMessage());
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Case.Cases, exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, PageTitle, exception);
             }
         }
 

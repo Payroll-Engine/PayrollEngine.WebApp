@@ -160,6 +160,13 @@ else
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
+        <MudTooltip Delay="500" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+            <MudIconButton @onclick="@ExcelDownloadAsync"
+                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Icon="@Icons.Custom.FileFormats.FileExcel"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
     </div>
 </div>
 

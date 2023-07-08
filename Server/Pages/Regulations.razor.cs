@@ -13,6 +13,8 @@ public partial class Regulations
     protected override string GridId => GetTenantGridId(GridIdentifiers.Regulations);
     protected override IBackendService<ViewModel.Regulation, Query> BackendService => RegulationBackendService;
     protected override ItemCollection<ViewModel.Regulation> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Regulation.Regulations : Localizer.Regulation.Regulation;
 
     public Regulations() :
         base(WorkingItems.TenantChange)

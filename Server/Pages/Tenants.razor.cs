@@ -15,6 +15,8 @@ public partial class Tenants
     protected override IBackendService<Tenant, Query> BackendService => TenantBackendService;
     protected override ItemCollection<Tenant> Items => Session.Tenants;
     protected override bool AddItemTenantParameter => false;
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Tenant.Tenants : Localizer.Tenant.Tenant;
 
     public Tenants() :
         base(WorkingItems.None)

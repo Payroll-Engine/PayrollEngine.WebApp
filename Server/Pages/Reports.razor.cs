@@ -197,7 +197,7 @@ public partial class Reports : IReportOperator
 
         try
         {
-            await ExcelDownload.StartAsync(ReportsGrid, AvailableReports, JsRuntime);
+            await ExcelDownload.StartAsync(ReportsGrid, AvailableReports, JsRuntime, Localizer.Report.Reports);
             await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)

@@ -525,9 +525,6 @@
   <data name="Dialog.Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="Dialog.Submit" xml:space="preserve">
-    <value>Submit</value>
-  </data>
   <data name="Division.Division" xml:space="preserve">
     <value>Division</value>
   </data>
@@ -596,9 +593,6 @@
   </data>
   <data name="Employee.SelectedEmployees" xml:space="preserve">
     <value>{selected} of {total} employees</value>
-  </data>
-  <data name="Error.DeleteFailed" xml:space="preserve">
-    <value>Delete failed.</value>
   </data>
   <data name="Error.EmptyActionField" xml:space="preserve">
     <value>Field {field} has no actions.</value>
@@ -2243,5 +2237,20 @@
   </data>
   <data name="CaseField.MissingValue" xml:space="preserve">
     <value>Missing value</value>
+  </data>
+  <data name="Case.SubmitForecastCase" xml:space="preserve">
+    <value>Submit forecast case</value>
+  </data>
+  <data name="Error.ItemCreate" xml:space="preserve">
+    <value>{type} create error.</value>
+  </data>
+  <data name="Error.ItemDelete" xml:space="preserve">
+    <value>{type} delete error.</value>
+  </data>
+  <data name="Error.ItemRead" xml:space="preserve">
+    <value>{type} read error.</value>
+  </data>
+  <data name="Error.ItemUpdate" xml:space="preserve">
+    <value>{type} update error.</value>
   </data>
 </root>

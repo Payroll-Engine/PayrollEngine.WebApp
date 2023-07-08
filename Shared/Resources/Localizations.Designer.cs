@@ -799,6 +799,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submit forecast case.
+        /// </summary>
+        internal static string Case_SubmitForecastCase {
+            get {
+                return ResourceManager.GetString("Case.SubmitForecastCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Case with undo.
         /// </summary>
         internal static string Case_UndoCase {
@@ -1902,15 +1911,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Dialog_Save {
             get {
                 return ResourceManager.GetString("Dialog.Save", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Submit.
-        /// </summary>
-        internal static string Dialog_Submit {
-            get {
-                return ResourceManager.GetString("Dialog.Submit", resourceCulture);
             }
         }
         
@@ -3589,15 +3589,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete failed..
-        /// </summary>
-        internal static string Error_DeleteFailed {
-            get {
-                return ResourceManager.GetString("Error.DeleteFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Field {field} has no actions..
         /// </summary>
         internal static string Error_EmptyActionField {
@@ -3643,11 +3634,47 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {type} create error..
+        /// </summary>
+        internal static string Error_ItemCreate {
+            get {
+                return ResourceManager.GetString("Error.ItemCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {type} delete error..
+        /// </summary>
+        internal static string Error_ItemDelete {
+            get {
+                return ResourceManager.GetString("Error.ItemDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {type} read error..
+        /// </summary>
+        internal static string Error_ItemRead {
+            get {
+                return ResourceManager.GetString("Error.ItemRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown {type} {item}..
         /// </summary>
         internal static string Error_ItemUnknown {
             get {
                 return ResourceManager.GetString("Error.ItemUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {type} update error..
+        /// </summary>
+        internal static string Error_ItemUpdate {
+            get {
+                return ResourceManager.GetString("Error.ItemUpdate", resourceCulture);
             }
         }
         

@@ -13,6 +13,8 @@ public partial class Logs
     protected override string GridId => GetTenantGridId(GridIdentifiers.Logs);
     protected override IBackendService<ViewModel.Log, Query> BackendService => LogBackendService;
     protected override ItemCollection<ViewModel.Log> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Log.Logs : Localizer.Log.Log;
 
     public Logs() :
         base(WorkingItems.TenantChange)

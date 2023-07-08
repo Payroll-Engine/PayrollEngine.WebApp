@@ -21,6 +21,8 @@ public partial class Employees
     protected override string GridId => GetTenantGridId(GridIdentifiers.Employees);
     protected override IBackendService<Employee, DivisionQuery> BackendService => EmployeeBackendService;
     protected override ItemCollection<Employee> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Employee.Employees : Localizer.Employee.Employee;
 
     public Employees() :
         base(WorkingItems.TenantChange)

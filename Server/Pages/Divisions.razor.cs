@@ -14,6 +14,8 @@ public partial class Divisions
     protected override string GridId => GetTenantGridId(GridIdentifiers.Divisions);
     protected override IBackendService<Division, Query> BackendService => DivisionBackendService;
     protected override ItemCollection<Division> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Division.Divisions : Localizer.Division.Division;
 
     public Divisions() :
         base(WorkingItems.TenantChange)

@@ -14,6 +14,8 @@ public partial class Calendars
     protected override string GridId => GetTenantGridId(GridIdentifiers.Calendars);
     protected override IBackendService<Calendar, Query> BackendService => CalendarBackendService;
     protected override ItemCollection<Calendar> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Calendar.Calendars : Localizer.Calendar.Calendar;
 
     public Calendars() :
         base(WorkingItems.TenantChange)

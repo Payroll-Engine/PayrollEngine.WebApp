@@ -24,7 +24,7 @@ public static class ExcelDownload
         }
 
         // convert items to data set
-        name ??= typeof(TItem).Name.EnsureEnd("s");
+        name ??= typeof(TItem).Name;
         var dataSet = new System.Data.DataSet(name);
         var dataTable = items.ToSystemDataTable(name, includeRows: true, properties: properties);
         dataSet.Tables.Add(dataTable);

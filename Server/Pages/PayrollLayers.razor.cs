@@ -25,6 +25,8 @@ public partial class PayrollLayers
     protected override string GridId => GetTenantGridId(GridIdentifiers.PayrollLayers);
     protected override IBackendService<PayrollLayer, Query> BackendService => PayrollLayerBackendService;
     protected override ItemCollection<PayrollLayer> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.PayrollLayer.PayrollLayers : Localizer.PayrollLayer.PayrollLayer;
 
     public PayrollLayers() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)

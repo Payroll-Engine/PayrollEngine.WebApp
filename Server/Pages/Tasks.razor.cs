@@ -26,6 +26,8 @@ public partial class Tasks : ITaskOperator<ViewModel.Task>
     protected override string GridId => GetTenantGridId(GridIdentifiers.Tasks);
     protected override IBackendService<ViewModel.Task, Query> BackendService => TaskBackendService;
     protected override ItemCollection<ViewModel.Task> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Task.Tasks : Localizer.Task.Task;
 
     public Tasks() :
         base(WorkingItems.TenantChange)

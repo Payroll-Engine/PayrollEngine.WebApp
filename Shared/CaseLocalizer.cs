@@ -43,6 +43,7 @@ public class CaseLocalizer : LocalizerBase
     public string ValidationFailed => PropertyValue();
 
     public string SubmitCase => PropertyValue();
+    public string SubmitForecastCase => PropertyValue();
 
     public string StartCase(string @case) =>
         FormatValue(PropertyValue(), nameof(@case), @case);

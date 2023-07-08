@@ -69,14 +69,12 @@
 
                 @* case inputs *@
                 <div>
-                    <MudText Typo="Typo.h5">@Localizer.Case.Case</MudText>
                     <MudTextField T="string" @bind-Value="@ChangeReason"
                                   Label="@Localizer.CaseChange.Reason"
                                   Required="true"
                                   Margin="@(Dense ? Margin.Dense : Margin.Normal)"
                                   Lines="3"
-                                  Variant="Variant.Outlined"
-                                  Class="pt-4" />
+                                  Variant="Variant.Outlined" />
 
                     @* forecast change *@
                     @if (HasFeature(Feature.Forecasts))
@@ -144,7 +142,14 @@
                                    Color="Color.Tertiary"
                                    Disabled="@(!Valid)"
                                    OnClick="SubmitCaseAsync">
-                            @Localizer.Dialog.Submit
+                            @if (string.IsNullOrWhiteSpace(Forecast))
+                            {
+                                @Localizer.Case.SubmitCase
+                            }
+                            else
+                            {
+                                @Localizer.Case.SubmitForecastCase
+                            }
                         </MudButton>
                     </div>
                 </div>

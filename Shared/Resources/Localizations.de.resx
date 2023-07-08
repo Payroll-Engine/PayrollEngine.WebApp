@@ -294,9 +294,6 @@
   <data name="Dialog.Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="Dialog.Submit" xml:space="preserve">
-    <value>Übermitteln</value>
-  </data>
   <data name="Division.Division" xml:space="preserve">
     <value>Bereich</value>
   </data>
@@ -1109,9 +1106,6 @@
   </data>
   <data name="Dialog.Delete" xml:space="preserve">
     <value>Löschen</value>
-  </data>
-  <data name="Error.DeleteFailed" xml:space="preserve">
-    <value>Löschen ist fehlgeschlagen.</value>
   </data>
   <data name="Error.EmptyCollection" xml:space="preserve">
     <value>Leere Sammlung.</value>
@@ -2243,5 +2237,20 @@
   </data>
   <data name="CaseField.MissingValue" xml:space="preserve">
     <value>Fehlender Wert</value>
+  </data>
+  <data name="Case.SubmitForecastCase" xml:space="preserve">
+    <value>Forecast Fall übermitteln</value>
+  </data>
+  <data name="Error.ItemCreate" xml:space="preserve">
+    <value>Fehler in der Erstellung von {type}.</value>
+  </data>
+  <data name="Error.ItemDelete" xml:space="preserve">
+    <value>Fehler beim Löschen von {type}.</value>
+  </data>
+  <data name="Error.ItemRead" xml:space="preserve">
+    <value>Fehler beim Lesen von {type}.</value>
+  </data>
+  <data name="Error.ItemUpdate" xml:space="preserve">
+    <value>Fehler beim Aktualisieren von {type}.</value>
   </data>
 </root>

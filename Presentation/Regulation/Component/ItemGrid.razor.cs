@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
-using NPOI.XSSF.UserModel;
-using PayrollEngine.Data;
-using PayrollEngine.Document;
-using PayrollEngine.IO;
 using PayrollEngine.WebApp.Presentation.Regulation.Factory;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
@@ -161,7 +156,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     {
         try
         {
-            await ExcelDownload.StartAsync(ItemsGrid, Items, JsRuntime);
+            await ExcelDownload.StartAsync(ItemsGrid, Items, JsRuntime, ItemType.LocalizedName(Localizer));
             await NotificationService.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)

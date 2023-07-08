@@ -22,6 +22,8 @@ public partial class Payruns
     protected override string GridId => GetTenantGridId(GridIdentifiers.Payruns);
     protected override IBackendService<Payrun, Query> BackendService => PayrunBackendService;
     protected override ItemCollection<Payrun> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.Payrun.Payruns : Localizer.Payrun.Payrun;
 
     public Payruns() :
         base(WorkingItems.TenantChange)

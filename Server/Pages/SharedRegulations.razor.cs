@@ -16,6 +16,8 @@ public partial class SharedRegulations
     protected override string GridId => GetTenantGridId(GridIdentifiers.Payrolls);
     protected override IBackendService<RegulationShare, Query> BackendService => RegulationShareBackendService;
     protected override ItemCollection<RegulationShare> Items { get; } = new();
+    protected override string GetLocalizedItemName(bool plural) => 
+        plural ? Localizer.RegulationShare.RegulationShares : Localizer.RegulationShare.RegulationShare;
 
     public SharedRegulations() :
         base(WorkingItems.None)

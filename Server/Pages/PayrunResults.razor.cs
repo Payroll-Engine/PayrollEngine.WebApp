@@ -1,21 +1,16 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Blazored.LocalStorage;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
-using NPOI.XSSF.UserModel;
 using MudBlazor;
-using PayrollEngine.IO;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.WebApp.ViewModel;
 using PayrollEngine.WebApp.Presentation.BackendService;
 using PayrollEngine.WebApp.Server.Shared;
-using PayrollEngine.Data;
-using PayrollEngine.Document;
 using Task = System.Threading.Tasks.Task;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.WebApp.Presentation;
@@ -138,7 +133,7 @@ public partial class PayrunResults
             Log.Error(exception, exception.GetBaseMessage());
             if (Initialized)
             {
-                await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Payruns setup", exception);
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunResult.PayrunResults, exception);
             }
             else
             {
@@ -238,43 +233,19 @@ public partial class PayrunResults
         var items = data.Items.ToList();
         if (!items.Any())
         {
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Excel Download", "Empty collection");
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunResult.PayrunResults, Localizer.Error.EmptyCollection);
             return;
         }
 
         try
         {
-            // column properties
-            var properties = ResultsGrid.GetColumnProperties();
-            if (!properties.Any())
-            {
-                return;
-            }
-
-            // convert items to data set
-            var name = "PayrunResults";
-            var dataSet = new System.Data.DataSet(name);
-            var dataTable = items.ToSystemDataTable(name, includeRows: true, properties: properties);
-            dataSet.Tables.Add(dataTable);
-
-            // xlsx workbook
-            using var workbook = new XSSFWorkbook();
-            // import 
-            workbook.Import(dataSet);
-
-            // result
-            using var resultStream = new MemoryStream();
-            workbook.Write(resultStream, true);
-            resultStream.Seek(0, SeekOrigin.Begin);
-
-            var download = $"{name}_{FileTool.CurrentTimeStamp()}{FileExtensions.ExcelDocument}";
-            await JsRuntime.SaveAs(download, resultStream.ToArray());
-            await UserNotification.ShowSuccessAsync("Download completed");
+            await ExcelDownload.StartAsync(ResultsGrid, items, JsRuntime, Localizer.PayrunResult.PayrunResults);
+            await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, "Excel download error", exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunResult.PayrunResults, exception);
         }
     }
 
