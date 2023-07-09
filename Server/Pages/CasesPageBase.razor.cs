@@ -570,7 +570,10 @@ public abstract partial class CasesPageBase
             {
                 var cases = await PayrollService.GetAvailableCasesAsync<Case>(
                     new(Tenant.Id, payrollId.Value), User.Id,
-                    CaseType, employeeId: employeeId);
+                    caseType: CaseType, 
+                    employeeId: employeeId,
+                    // only visible cases
+                    hidden: false);
 
                 // order
                 cases = cases.OrderBy(x => x.GetLocalizedName(PageCulture)).ToList();

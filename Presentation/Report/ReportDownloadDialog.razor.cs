@@ -281,7 +281,9 @@ public partial class ReportDownloadDialog
         {
             // template by culture
             ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
-                new(Tenant.Id, Payroll.Id), new[] { Report.Name }, Culture)).FirstOrDefault();
+                new(Tenant.Id, Payroll.Id),
+                reportNames: new[] { Report.Name },
+                culture: Culture)).FirstOrDefault();
 
             // fallback template by base culture
             if (ReportTemplate == null)
@@ -291,7 +293,9 @@ public partial class ReportDownloadDialog
                 {
                     var baseCulture = Culture.Substring(0, index);
                     ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
-                        new(Tenant.Id, Payroll.Id), new[] { Report.Name }, baseCulture)).FirstOrDefault();
+                        new(Tenant.Id, Payroll.Id),
+                        reportNames: new[] { Report.Name },
+                        culture: baseCulture)).FirstOrDefault();
                 }
             }
 

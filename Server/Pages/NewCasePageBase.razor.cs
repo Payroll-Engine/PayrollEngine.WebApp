@@ -195,7 +195,9 @@ public abstract partial class NewCasePageBase
                 caseType: CaseType,
                 employeeId: Employee?.Id,
                 caseNames: new[] { CaseName },
-                culture: User.Culture);
+                culture: User.Culture,
+                // only visible cases
+                hidden: false);
             CaseAvailable = availableCases.Any();
         }
         catch (Exception exception)
