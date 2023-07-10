@@ -12,7 +12,8 @@ public class CollectorLocalizer : LocalizerBase
     public string Collector => PropertyValue();
     public string Collectors => PropertyValue();
 
-    public string CollectType => PropertyValue();
+    public string CollectMode => PropertyValue();
+    public string Negated => PropertyValue();
     public string Threshold => PropertyValue();
     public string StartExpression => PropertyValue();
     public string ApplyExpression => PropertyValue();

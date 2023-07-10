@@ -957,8 +957,8 @@
   <data name="Collector.ApplyExpression" xml:space="preserve">
     <value>Anwendungs-Ausdruck</value>
   </data>
-  <data name="Collector.CollectType" xml:space="preserve">
-    <value>Kollektortyp</value>
+  <data name="Collector.CollectMode" xml:space="preserve">
+    <value>Kollektmodus</value>
   </data>
   <data name="Collector.EndExpression" xml:space="preserve">
     <value>Ende-Ausdruck</value>
@@ -2016,19 +2016,19 @@
   <data name="Enum.CaseValueCreationMode.OnChanges" xml:space="preserve">
     <value>Bei Wechsel</value>
   </data>
-  <data name="Enum.CollectType.Average" xml:space="preserve">
+  <data name="Enum.CollectMode.Average" xml:space="preserve">
     <value>Durschnittt</value>
   </data>
-  <data name="Enum.CollectType.Count" xml:space="preserve">
+  <data name="Enum.CollectMode.Count" xml:space="preserve">
     <value>Anzahl</value>
   </data>
-  <data name="Enum.CollectType.Maximum" xml:space="preserve">
+  <data name="Enum.CollectMode.Maximum" xml:space="preserve">
     <value>Maximum</value>
   </data>
-  <data name="Enum.CollectType.Minimum" xml:space="preserve">
+  <data name="Enum.CollectMode.Minimum" xml:space="preserve">
     <value>Minimum</value>
   </data>
-  <data name="Enum.CollectType.Summary" xml:space="preserve">
+  <data name="Enum.CollectMode.Summary" xml:space="preserve">
     <value>Summe</value>
   </data>
   <data name="Enum.OverrideType.Active" xml:space="preserve">
@@ -2238,10 +2238,16 @@
   <data name="CaseField.MissingValue" xml:space="preserve">
     <value>Fehlender Wert</value>
   </data>
+  <data name="Case.Hidden" xml:space="preserve">
+    <value>Verborgen</value>
+  </data>
   <data name="Case.SubmitForecastCase" xml:space="preserve">
     <value>Forecast Fall übermitteln</value>
   </data>
-  <data name="Enum.CollectType.Range" xml:space="preserve">
+  <data name="Collector.Negated" xml:space="preserve">
+    <value>Negierter Wert</value>
+  </data>
+  <data name="Enum.CollectMode.Range" xml:space="preserve">
     <value>Bereich</value>
   </data>
   <data name="Error.ItemCreate" xml:space="preserve">

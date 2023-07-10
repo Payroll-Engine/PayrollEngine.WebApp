@@ -66,6 +66,10 @@ public partial class CaseEditor
             {
                 Label = Localizer.Case.CancellationType
             },
+            new(nameof(RegulationCase.Hidden), typeof(Switch))
+            {
+                Label = Localizer.Case.Hidden
+            },
 
             // derived
             new(nameof(RegulationCase.OverrideType), typeof(EnumListBox<OverrideType>))

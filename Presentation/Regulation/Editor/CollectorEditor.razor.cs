@@ -37,12 +37,16 @@ public partial class CollectorEditor
                 RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Name),
                 MaxLength = SystemSpecification.KeyTextLength
             },
-            new(nameof(RegulationCollector.CollectType), typeof(EnumListBox<CollectType>))
+            new(nameof(RegulationCollector.CollectMode), typeof(EnumListBox<CollectMode>))
             {
-                Label = Localizer.Collector.CollectType,
+                Label = Localizer.Collector.CollectMode,
                 FixedBaseValue = true,
                 Required = true,
                 RequiredError = "Collect type is required"
+            },
+            new(nameof(RegulationCollector.Negated), typeof(Switch))
+            {
+                Label = Localizer.Collector.Negated
             },
             new(nameof(RegulationCollector.OverrideType), typeof(EnumListBox<OverrideType>))
             {

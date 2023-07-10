@@ -40,7 +40,7 @@ public class RegulationCollector : Collector, IRegulationItem, IKeyEquatable<Reg
     /// <inheritdoc />
     [JsonIgnore]
     public string InheritanceKey => Name;
-    
+
     /// <inheritdoc />
     [JsonIgnore]
     public string ParentInheritanceKey => null;
@@ -50,8 +50,11 @@ public class RegulationCollector : Collector, IRegulationItem, IKeyEquatable<Reg
     public string Description => null;
 
     /// <inheritdoc />
-    public string GetAdditionalInfo(Localizer localizer) => 
-        Enum.GetName(typeof(CollectType), CollectType);
+    public string GetAdditionalInfo(Localizer localizer)
+    {
+        var negated = Negated ? " (-)" : string.Empty;
+        return Enum.GetName(typeof(CollectMode), CollectMode) + negated;
+    }
 
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }
@@ -59,7 +62,7 @@ public class RegulationCollector : Collector, IRegulationItem, IKeyEquatable<Reg
     /// <inheritdoc />
     public IRegulationItem Clone() =>
         new RegulationCollector(this);
-    
+
     /// <inheritdoc />
     public void ApplyInheritanceKeyTo(IRegulationItem target)
     {

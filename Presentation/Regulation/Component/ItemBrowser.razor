@@ -30,7 +30,7 @@
         case RegulationItemType.Collector:
             <ItemGrid TParent="RegulationCollector" TItem="RegulationCollector" Items="@CollectorBrowser.Collectors"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.Collector"
-                      KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Collector.CollectType"
+                      KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Collector.CollectMode"
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 

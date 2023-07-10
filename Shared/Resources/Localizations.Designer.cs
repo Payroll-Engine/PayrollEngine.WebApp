@@ -727,6 +727,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hidden.
+        /// </summary>
+        internal static string Case_Hidden {
+            get {
+                return ResourceManager.GetString("Case.Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The case {name} cannot be executed.
         /// </summary>
         internal static string Case_MissingCase {
@@ -1411,6 +1420,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collect mode.
+        /// </summary>
+        internal static string Collector_CollectMode {
+            get {
+                return ResourceManager.GetString("Collector.CollectMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collector.
         /// </summary>
         internal static string Collector_Collector {
@@ -1425,15 +1443,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Collector_Collectors {
             get {
                 return ResourceManager.GetString("Collector.Collectors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Collect type.
-        /// </summary>
-        internal static string Collector_CollectType {
-            get {
-                return ResourceManager.GetString("Collector.CollectType", resourceCulture);
             }
         }
         
@@ -1461,6 +1470,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Collector_MinResult {
             get {
                 return ResourceManager.GetString("Collector.MinResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negated value.
+        /// </summary>
+        internal static string Collector_Negated {
+            get {
+                return ResourceManager.GetString("Collector.Negated", resourceCulture);
             }
         }
         
@@ -2772,54 +2790,54 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Average.
         /// </summary>
-        internal static string Enum_CollectType_Average {
+        internal static string Enum_CollectMode_Average {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Average", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectMode.Average", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Count.
         /// </summary>
-        internal static string Enum_CollectType_Count {
+        internal static string Enum_CollectMode_Count {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Count", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectMode.Count", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Maximum.
         /// </summary>
-        internal static string Enum_CollectType_Maximum {
+        internal static string Enum_CollectMode_Maximum {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Maximum", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectMode.Maximum", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Minimum.
         /// </summary>
-        internal static string Enum_CollectType_Minimum {
+        internal static string Enum_CollectMode_Minimum {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Minimum", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectMode.Minimum", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Range.
         /// </summary>
-        internal static string Enum_CollectType_Range {
+        internal static string Enum_CollectMode_Range {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Range", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectMode.Range", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Summary.
         /// </summary>
-        internal static string Enum_CollectType_Summary {
+        internal static string Enum_CollectMode_Summary {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Summary", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectMode.Summary", resourceCulture);
             }
         }
         

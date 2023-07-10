@@ -489,8 +489,8 @@
   <data name="Collector.Collectors" xml:space="preserve">
     <value>Collectors</value>
   </data>
-  <data name="Collector.CollectType" xml:space="preserve">
-    <value>Collect type</value>
+  <data name="Collector.CollectMode" xml:space="preserve">
+    <value>Collect mode</value>
   </data>
   <data name="Collector.EndExpression" xml:space="preserve">
     <value>End expression</value>
@@ -2013,19 +2013,19 @@
   <data name="Enum.CaseValueCreationMode.OnChanges" xml:space="preserve">
     <value>On changes</value>
   </data>
-  <data name="Enum.CollectType.Average" xml:space="preserve">
+  <data name="Enum.CollectMode.Average" xml:space="preserve">
     <value>Average</value>
   </data>
-  <data name="Enum.CollectType.Count" xml:space="preserve">
+  <data name="Enum.CollectMode.Count" xml:space="preserve">
     <value>Count</value>
   </data>
-  <data name="Enum.CollectType.Maximum" xml:space="preserve">
+  <data name="Enum.CollectMode.Maximum" xml:space="preserve">
     <value>Maximum</value>
   </data>
-  <data name="Enum.CollectType.Minimum" xml:space="preserve">
+  <data name="Enum.CollectMode.Minimum" xml:space="preserve">
     <value>Minimum</value>
   </data>
-  <data name="Enum.CollectType.Summary" xml:space="preserve">
+  <data name="Enum.CollectMode.Summary" xml:space="preserve">
     <value>Summary</value>
   </data>
   <data name="Enum.OverrideType.Active" xml:space="preserve">
@@ -2238,10 +2238,16 @@
   <data name="CaseField.MissingValue" xml:space="preserve">
     <value>Missing value</value>
   </data>
+  <data name="Case.Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
   <data name="Case.SubmitForecastCase" xml:space="preserve">
     <value>Submit forecast case</value>
   </data>
-  <data name="Enum.CollectType.Range" xml:space="preserve">
+  <data name="Collector.Negated" xml:space="preserve">
+    <value>Negated value</value>
+  </data>
+  <data name="Enum.CollectMode.Range" xml:space="preserve">
     <value>Range</value>
   </data>
   <data name="Error.ItemCreate" xml:space="preserve">
