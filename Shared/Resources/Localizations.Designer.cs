@@ -2790,27 +2790,36 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Maximum.
         /// </summary>
-        internal static string Enum_CollectType_Max {
+        internal static string Enum_CollectType_Maximum {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Max", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectType.Maximum", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Minimum.
         /// </summary>
-        internal static string Enum_CollectType_Min {
+        internal static string Enum_CollectType_Minimum {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Min", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectType.Minimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Range.
+        /// </summary>
+        internal static string Enum_CollectType_Range {
+            get {
+                return ResourceManager.GetString("Enum.CollectType.Range", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Summary.
         /// </summary>
-        internal static string Enum_CollectType_Sum {
+        internal static string Enum_CollectType_Summary {
             get {
-                return ResourceManager.GetString("Enum.CollectType.Sum", resourceCulture);
+                return ResourceManager.GetString("Enum.CollectType.Summary", resourceCulture);
             }
         }
         

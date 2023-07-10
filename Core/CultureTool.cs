@@ -26,10 +26,14 @@ public static class CultureTool
         }
     }
 
-    public static List<Tuple<string, string, string>> GetCultureInfos() =>
+    public static List<CultureDescription> GetCultureDescriptions() =>
         CultureInfo.GetCultures(CultureTypes.SpecificCultures).
             OrderBy(x => x.DisplayName).
-            Select(x => new Tuple<string, string, string>(x.Name, x.DisplayName, x.EnglishName)).
+            Select(x => new CultureDescription
+            {
+                Name = x.Name,
+                DisplayName = x.DisplayName
+            }).
             ToList();
 
     public static IEnumerable<string> GetCultureNames() =>

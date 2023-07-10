@@ -27,9 +27,9 @@
                                       Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.User.LastName)" />
                         <MudSelect T=" string" @bind-Value="User.Culture" Clearable="true"
                                    Label="@Localizer.Shared.Culture">
-                            @foreach (var cultureInfo in CultureTool.GetCultureInfos())
+                            @foreach (var cultureData in CultureTool.GetCultureDescriptions())
                             {
-                                <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2</MudSelectItem>
+                                <MudSelectItem T="string" Value="@cultureData.Name">@cultureData</MudSelectItem>
                             }
                         </MudSelect>
                         <MudTooltip Delay="500" Placement="Placement.Top" Text="@SelectedFeature" RootStyle="width: 100%">

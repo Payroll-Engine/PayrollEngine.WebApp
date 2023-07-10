@@ -2022,13 +2022,13 @@
   <data name="Enum.CollectType.Count" xml:space="preserve">
     <value>Anzahl</value>
   </data>
-  <data name="Enum.CollectType.Max" xml:space="preserve">
+  <data name="Enum.CollectType.Maximum" xml:space="preserve">
     <value>Maximum</value>
   </data>
-  <data name="Enum.CollectType.Min" xml:space="preserve">
+  <data name="Enum.CollectType.Minimum" xml:space="preserve">
     <value>Minimum</value>
   </data>
-  <data name="Enum.CollectType.Sum" xml:space="preserve">
+  <data name="Enum.CollectType.Summary" xml:space="preserve">
     <value>Summe</value>
   </data>
   <data name="Enum.OverrideType.Active" xml:space="preserve">
@@ -2240,6 +2240,9 @@
   </data>
   <data name="Case.SubmitForecastCase" xml:space="preserve">
     <value>Forecast Fall übermitteln</value>
+  </data>
+  <data name="Enum.CollectType.Range" xml:space="preserve">
+    <value>Bereich</value>
   </data>
   <data name="Error.ItemCreate" xml:space="preserve">
     <value>Fehler in der Erstellung von {type}.</value>

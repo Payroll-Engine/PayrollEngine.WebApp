@@ -14,9 +14,9 @@
                     <MudSelect T="string" Label="@Localizer.Shared.Culture" @bind-Value="LocalizationKey"
                                Validation="@(new Func<string, string>(ValidateCulture))"
                                Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Culture)">
-                        @foreach (var cultureInfo in CultureTool.GetCultureInfos())
+                        @foreach (var description in CultureTool.GetCultureDescriptions())
                         {
-                            <MudSelectItem T="string" Value="@cultureInfo.Item1">@cultureInfo.Item2 - @cultureInfo.Item1</MudSelectItem>
+                            <MudSelectItem T="string" Value="@description.Name">@description</MudSelectItem>
                         }
                     </MudSelect>
                     <MudTextField T="string" Label="@Localizer.Localization.Localization"
