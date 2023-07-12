@@ -1,4 +1,5 @@
 ﻿@using PayrollEngine.WebApp.Presentation.Component
+@using PayrollEngine.WebApp.Server.Shared
 @using PayrollEngine.WebApp.ViewModel
 
 @inherits PageBase
@@ -69,14 +70,25 @@
             {
                 var caseName = availableCase.GetLocalizedName(PageCulture).TruncateSentence(100);
                 <MudStack Spacing="0" Class="d-flex mud-elevation-4 border-solid border rounded-lg pa-2" Style="width: 17em; height: 8.5em">
+                    
+                    <MudStack Row="true" Spacing="0" Class="d-flex">
+                        @* case name *@
+                        @{
+                            var fullName = availableCase.GetLocalizedName(PageCulture);
+                            <MudTooltip Delay="500" Text="@fullName" Placement="Placement.Top" RootStyle="width: 100%">
+                                <MudText Typo="Typo.body1" Style="max-height: 4em" Class="flex-grow-1">@fullName.TruncateSentence(30)</MudText>
+                            </MudTooltip>
+                        }
 
-                    @* case name *@
-                    @{
-                        var fullName = availableCase.GetLocalizedName(PageCulture);
-                        <MudTooltip Delay="500" Text="@fullName" Placement="Placement.Top">
-                            <MudText Typo="Typo.body1" Style="max-height: 4em">@fullName.TruncateSentence(30)</MudText>
-                        </MudTooltip>
-                    }
+                        @* case icon *@
+                        @{
+                            var icon = IconTool.GetCaseIcon(availableCase, PageCulture);
+                            if (!string.IsNullOrWhiteSpace(icon))
+                            {
+                                <MudIcon Icon="@icon" Color="Color.Surface" />
+                            }
+                        }
+                    </MudStack>
 
                     @* case description *@
                     @{
@@ -89,10 +101,11 @@
                         }
                     }
 
-                    @* case undo *@
+                    @* case actions *@
                     <MudStack Row="true" Spacing="0" Class="flex align-end" Style="height: 100%">
                         @if (availableCase.CancellationType == CaseCancellationType.Case)
                         {
+                            @* case undo *@
                             <MudTooltip Delay="500" Text="@Localizer.Case.UndoCase" Placement="Placement.Top">
                                 <MudAvatar Color="Color.Info" Variant="Variant.Outlined" Size="Size.Small">
                                     <MudIcon Icon="@Icons.Material.Filled.Undo" Size="Size.Small" Color="Color.Info" />
@@ -101,6 +114,7 @@
                         }
                         <MudStack Row="true" Spacing="0" Class="flex flex-grow-1 justify-end">
                             <MudTooltip Delay="500" Text="@Localizer.Case.SearchCase(caseName)" Placement="Placement.Top">
+                                @* case search *@
                                 <MudIconButton @onclick="@(() => SearchCaseAsync(availableCase))"
                                                Color="Color.Primary"
                                                Variant="Variant.Outlined"
@@ -109,6 +123,7 @@
                                                Icon="@Icons.Material.Filled.Search" Size="Size.Small" />
                             </MudTooltip>
                             <MudTooltip Delay="500" Text="@Localizer.Case.StartCase(caseName)" Placement="Placement.Top">
+                                @* case start *@
                                 <MudIconButton @onclick="@(() => StartCase(availableCase))"
                                                Color="Color.Tertiary"
                                                Variant="Variant.Outlined"

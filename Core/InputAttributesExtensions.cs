@@ -7,7 +7,14 @@ namespace PayrollEngine.WebApp;
 public static class InputAttributesExtensions
 {
 
-    #region General
+    #region Case General
+
+    public static string GetIcon(this Dictionary<string, object> attributes, string culture = null) =>
+        attributes.GetStringAttributeValue(InputAttributes.Icon, culture);
+
+    #endregion
+
+    #region Case Field General
 
     public static bool? GetHidden(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetBooleanAttributeValue(InputAttributes.Hidden, culture);
@@ -17,7 +24,7 @@ public static class InputAttributesExtensions
 
     #endregion
 
-    #region Start
+    #region Case Field Start
 
     public static bool? GetStartReadOnly(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetBooleanAttributeValue(InputAttributes.StartPickerOpen, culture);
@@ -52,7 +59,7 @@ public static class InputAttributesExtensions
 
     #endregion
 
-    #region End
+    #region Case Field End
 
     public static bool? GetEndReadOnly(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetBooleanAttributeValue(InputAttributes.EndPickerOpen, culture);
@@ -87,7 +94,7 @@ public static class InputAttributesExtensions
 
     #endregion
 
-    #region Value
+    #region Case Field Value
 
     public static string GetValueLabel(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetStringAttributeValue(InputAttributes.ValueLabel, culture);
@@ -97,7 +104,7 @@ public static class InputAttributesExtensions
 
     public static string GetValueHelp(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetStringAttributeValue(InputAttributes.ValueHelp, culture);
-    
+
     public static string GetValueMask(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetStringAttributeValue(InputAttributes.ValueMask, culture);
 
@@ -153,7 +160,7 @@ public static class InputAttributesExtensions
 
     #endregion
 
-    #region Attachments
+    #region Case Field Attachments
 
     public static AttachmentType? GetAttachment(this Dictionary<string, object> attributes, string culture = null) =>
         attributes.GetEnumAttributeValue<AttachmentType>(InputAttributes.Attachment, culture);

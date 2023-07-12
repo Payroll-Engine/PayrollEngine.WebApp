@@ -4,11 +4,14 @@ public static class InputAttributes
 {
     private static readonly string Prefix = "input.";
 
-    // general
+    // case general
+    internal static readonly string Icon = $"{Prefix}icon";
+
+    // case field general
     public static readonly string Hidden = $"{Prefix}hidden";
     public static readonly string ShowDescription = $"{Prefix}showDescription";
 
-    // start
+    // case field start
     public static readonly string StartLabel = $"{Prefix}startLabel";
     public static readonly string StartHelp = $"{Prefix}startHelp";
     public static readonly string StartRequired = $"{Prefix}startRequired";
@@ -17,7 +20,7 @@ public static class InputAttributes
     public static readonly string StartPickerOpen = $"{Prefix}startPickerOpen";
     public static readonly string StartPickerType = $"{Prefix}startPickerType";
 
-    // end
+    // case field end
     public static readonly string EndLabel = $"{Prefix}endLabel";
     public static readonly string EndHelp = $"{Prefix}endHelp";
     public static readonly string EndRequired = $"{Prefix}endRequired";
@@ -26,7 +29,7 @@ public static class InputAttributes
     public static readonly string EndPickerOpen = $"{Prefix}endPickerOpen";
     public static readonly string EndPickerType = $"{Prefix}endPickerType";
 
-    // value
+    // case field value
     public static readonly string ValueLabel = $"{Prefix}valueLabel";
     public static readonly string ValueAdornment = $"{Prefix}valueAdornment";
     public static readonly string ValueHelp = $"{Prefix}valueHelp";
@@ -44,7 +47,7 @@ public static class InputAttributes
     public static readonly string Check = $"{Prefix}check";
     // // no value picker type: the case field value-type pre defines the picker type
 
-    // attachments
+    // case field attachments
     public static readonly string Attachment = $"{Prefix}attachment";
     public static readonly string AttachmentExtensions = $"{Prefix}attachmentExtensions";
 
