@@ -1,5 +1,6 @@
 ﻿@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Presentation.Case
+@using PayrollEngine.WebApp.Server.Shared
 @inherits PageBase
 
 @* case not available *@
@@ -27,10 +28,21 @@
                         <MudTreeViewItem Style="@style" @bind-Expanded="@context.IsExpanded"
                                          Items="@context.RelatedCases">
                             <Content>
-                                <MudPaper Class="pa-2" Elevation="4">
-                                    <MudText Typo="Typo.h5">
-                                        @context.GetLocalizedName(PageCulture)
-                                    </MudText>
+                                <MudPaper Class="pa-4" Elevation="4">
+                                    <MudStack Row="true" Spacing="0" Class="d-flex">
+                                        @* case name *@
+                                        <MudText Typo="Typo.h5" Class="flex-grow-1">
+                                            @context.GetLocalizedName(PageCulture)
+                                        </MudText>
+                                        @* case icon *@
+                                        @{
+                                            var icon = IconTool.GetCaseIcon(context, PageCulture);
+                                            if (!string.IsNullOrWhiteSpace(icon))
+                                            {
+                                                <MudIcon Size="Size.Large" Icon="@icon" Color="Color.Surface" />
+                                            }
+                                        }
+                                    </MudStack>
                                     @if (context.HasAnyField)
                                     {
                                         // set very first case field focus to true
@@ -46,7 +58,7 @@
                                             <CaseField Culture="@CaseCulture"
                                                        Field="@caseField"
                                                        Dense="@Dense"
-                                                       Variant="Variant.Text" />
+                                                       Variant="Variant.Text"/>
                                         }
                                     }
                                     else

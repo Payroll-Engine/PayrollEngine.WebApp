@@ -62,7 +62,7 @@ public partial class ReportDownloadDialog
         !string.IsNullOrWhiteSpace(ReportDescription);
 
     private bool HasParameters =>
-        Report.Parameters != null && Report.Parameters.Any();
+        Report.ViewParameters != null && Report.ViewParameters.Any();
 
     private bool SupportedDocumentType(DocumentType documentType) =>
         DataMerge.IsMergeable(documentType);
@@ -83,7 +83,7 @@ public partial class ReportDownloadDialog
     private async Task StartAsync(DocumentType documentType)
     {
         // form validation
-        if (!await form.Revalidate())
+        if (form != null && !await form.Revalidate())
         {
             return;
         }
@@ -233,9 +233,9 @@ public partial class ReportDownloadDialog
             UserId = User.Id,
             Culture = User.Culture
         };
-        if (reportSet.Parameters != null)
+        if (reportSet.ViewParameters != null)
         {
-            reportRequest.Parameters = reportSet.Parameters.ToDictionary(p => p.Name, p => p.Value);
+            reportRequest.Parameters = reportSet.ViewParameters.ToDictionary(p => p.Name, p => p.Value);
         }
 
         // update report
@@ -324,7 +324,7 @@ public partial class ReportDownloadDialog
 
     private void ApplySystemParameters(ReportSet reportSet)
     {
-        foreach (var parameter in reportSet.Parameters)
+        foreach (var parameter in reportSet.ViewParameters)
         {
             switch (parameter.ParameterType)
             {
@@ -334,7 +334,7 @@ public partial class ReportDownloadDialog
                     break;
                 case ReportParameterType.Today:
                     parameter.ValueAsDateTime = DateTime.Today;
-                    break;
+                    break; 
                 // tenant
                 case ReportParameterType.TenantId:
                     parameter.ValueAsInteger = Tenant.Id;
@@ -375,7 +375,7 @@ public partial class ReportDownloadDialog
             return;
         }
 
-        foreach (var parameter in report.Parameters)
+        foreach (var parameter in report.ViewParameters)
         {
             // value formatter
             parameter.ValueFormatter = ValueFormatter;
@@ -391,7 +391,7 @@ public partial class ReportDownloadDialog
             return;
         }
 
-        foreach (var parameter in report.Parameters)
+        foreach (var parameter in report.ViewParameters)
         {
             // value formatter
             parameter.ValueFormatter = null;

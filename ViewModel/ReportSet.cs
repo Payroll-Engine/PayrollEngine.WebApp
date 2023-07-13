@@ -13,35 +13,64 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
     public ReportSet(ReportSet copySource) :
         base(copySource)
     {
-        Parameters = new();
-        if (copySource.Parameters != null)
-        {
-            Parameters.AddRangeAsync(copySource.Parameters).Wait();
-        }
     }
 
     public ReportSet(Report copySource) :
         base(copySource)
     {
-        Parameters = new();
     }
 
     public ReportSet(Client.Model.ReportSet copySource) :
         base(copySource)
     {
-        Parameters = new();
-        if (copySource.Parameters != null)
-        {
-            copySource.Parameters.ForEach(p =>
-                Parameters.AddAsync(new(p)).Wait());
-        }
     }
 
     /// <summary>The report parameters</summary>
-    public new ObservedHashSet<ReportParameter> Parameters { get; }
+    private ObservedHashSet<ReportParameter> viewParameters;
+
+    public ObservedHashSet<ReportParameter> ViewParameters
+    {
+        get
+        {
+            if (viewParameters != null)
+            {
+                return viewParameters;
+            }
+            viewParameters = new();
+            if (Parameters == null)
+            {
+                return viewParameters;
+            }
+            foreach (var parameter in Parameters)
+            {
+                viewParameters.Add(new(parameter));
+            }
+            return viewParameters;
+        }
+    }
 
     /// <summary>The report templates</summary>
-    public new ObservedHashSet<ReportTemplate> Templates { get; set; }
+    private ObservedHashSet<ReportTemplate> viewTemplates;
+    public ObservedHashSet<ReportTemplate> ViewTemplates
+    {
+        get
+        {
+            if (viewTemplates != null)
+            {
+                return viewTemplates;
+            }
+            viewTemplates = new();
+            if (Templates == null)
+            {
+                return viewTemplates;
+            }
+            foreach (var template in Templates)
+            {
+                viewTemplates.Add(new(template));
+            }
+            return viewTemplates;
+        }
+    }
 
     #region Attributes
 
