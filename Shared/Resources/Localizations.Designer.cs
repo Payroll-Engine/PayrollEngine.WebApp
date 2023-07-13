@@ -727,15 +727,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hidden.
-        /// </summary>
-        internal static string Case_Hidden {
-            get {
-                return ResourceManager.GetString("Case.Hidden", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The case {name} cannot be executed.
         /// </summary>
         internal static string Case_MissingCase {
@@ -5245,6 +5236,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameters.
+        /// </summary>
+        internal static string Report_Parameters {
+            get {
+                return ResourceManager.GetString("Report.Parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pdf.
         /// </summary>
         internal static string Report_Pdf {
@@ -5718,6 +5718,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Shared_FilterReset {
             get {
                 return ResourceManager.GetString("Shared.FilterReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hidden.
+        /// </summary>
+        internal static string Shared_Hidden {
+            get {
+                return ResourceManager.GetString("Shared.Hidden", resourceCulture);
             }
         }
         

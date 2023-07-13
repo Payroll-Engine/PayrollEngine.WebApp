@@ -68,7 +68,7 @@ public partial class CaseEditor
             },
             new(nameof(RegulationCase.Hidden), typeof(Switch))
             {
-                Label = Localizer.Case.Hidden
+                Label = Localizer.Shared.Hidden
             },
 
             // derived

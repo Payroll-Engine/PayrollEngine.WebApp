@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -61,8 +62,9 @@ public partial class ReportDownloadDialog
     private bool HasDescription =>
         !string.IsNullOrWhiteSpace(ReportDescription);
 
-    private bool HasParameters =>
-        Report.ViewParameters != null && Report.ViewParameters.Any();
+    private bool HasVisibleParameters() =>
+        Report.ViewParameters == null ||
+        Report.ViewParameters.Count(x => x.Attributes?.GetHidden(Culture) ?? false) != Report.ViewParameters.Count;
 
     private bool SupportedDocumentType(DocumentType documentType) =>
         DataMerge.IsMergeable(documentType);
@@ -102,7 +104,7 @@ public partial class ReportDownloadDialog
             StateHasChanged();
 
             // generate parameter dictionary
-            var parameters = Report.Parameters.ToDictionary(p => p.Name, p => p.Value);
+            var parameters = Report.ViewParameters.ToDictionary(p => p.Name, p => p.Value);
 
             var response = await ReportService.ExecuteReportAsync(
                 new(Tenant.Id, Report.RegulationId), Report.Id,
@@ -142,18 +144,20 @@ public partial class ReportDownloadDialog
                     $"{Report.Name}_{FileTool.CurrentTimeStamp()}{documentType.GetFileExtension()}";
                 var reportName = Report.GetLocalizedName(Culture);
 
+                var mergeParameters = new Dictionary<string,object>(parameters.Select(x => new KeyValuePair<string, object>(x.Key, x.Value)));
+
                 // document stream
                 MemoryStream documentStream = null;
                 switch (documentType)
                 {
                     case DocumentType.Excel:
-                        documentStream = DataMerge.ExcelMerge(dataSet, documentMetadata);
+                        documentStream = DataMerge.ExcelMerge(dataSet, documentMetadata, mergeParameters);
                         break;
                     case DocumentType.Word:
                     case DocumentType.Pdf:
                         documentStream = DataMerge.Merge(
                             new MemoryStream(Convert.FromBase64String(ReportTemplate.Content)),
-                            dataSet, documentType, documentMetadata);
+                            dataSet, documentType, documentMetadata, mergeParameters);
                         break;
                     case DocumentType.Xml:
                         var transformedXml = XmlUtil.TransformXmlFromXsl(dataSet, ReportTemplate.Content);
@@ -317,7 +321,7 @@ public partial class ReportDownloadDialog
         // template test
         if (ReportTemplate == null)
         {
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report, 
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
                 Localizer.Error.UnknownItem(Localizer.ReportTemplate.ReportTemplate, Culture));
         }
     }
@@ -334,26 +338,6 @@ public partial class ReportDownloadDialog
                     break;
                 case ReportParameterType.Today:
                     parameter.ValueAsDateTime = DateTime.Today;
-                    break; 
-                // tenant
-                case ReportParameterType.TenantId:
-                    parameter.ValueAsInteger = Tenant.Id;
-                    break;
-                // user
-                case ReportParameterType.UserId:
-                    parameter.ValueAsInteger = User.Id;
-                    break;
-                // regulation
-                case ReportParameterType.RegulationId:
-                    parameter.ValueAsInteger = reportSet.RegulationId;
-                    break;
-                // payroll
-                case ReportParameterType.PayrollId:
-                    parameter.ValueAsInteger = Payroll.Id;
-                    break;
-                // report
-                case ReportParameterType.ReportId:
-                    parameter.ValueAsInteger = reportSet.Id;
                     break;
             }
         }
@@ -407,6 +391,9 @@ public partial class ReportDownloadDialog
         ApplySystemParameters(Report);
         await SetupReportTemplateAsync();
         await base.OnInitializedAsync();
+        
         Initialized = true;
+        // build initial report parameters
+        await UpdateReportAsync(Report);
     }
 }

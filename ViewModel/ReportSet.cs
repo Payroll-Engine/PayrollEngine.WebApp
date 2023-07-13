@@ -1,4 +1,5 @@
-﻿using PayrollEngine.Client.Model;
+﻿using System.Linq;
+using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -41,7 +42,8 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
             {
                 return viewParameters;
             }
-            foreach (var parameter in Parameters)
+            // select visible parameters
+            foreach (var parameter in Parameters.Where(x => !x.Hidden))
             {
                 viewParameters.Add(new(parameter));
             }

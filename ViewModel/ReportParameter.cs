@@ -41,8 +41,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     [JsonIgnore]
     bool IFieldObject.ValueMandatory => Mandatory;
 
-    bool IFieldObject.IsValidValue() =>
-        !Mandatory || (Mandatory && HasValue);
+    bool IFieldObject.IsValidValue() => true;
 
     [JsonIgnore]
     public bool HasValue => !string.IsNullOrWhiteSpace(Value);
@@ -69,7 +68,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
         get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToInteger(Value);
         set
         {
-            if (value != (ValueAsInteger))
+            if (value != ValueAsInteger)
             {
                 Value = ValueConvert.ToJson(value);
                 OnReportParameterChanged();
@@ -84,7 +83,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
         get => !string.IsNullOrWhiteSpace(Value) && ValueConvert.ToBoolean(Value);
         set
         {
-            if (value != (ValueAsBoolean))
+            if (value != ValueAsBoolean)
             {
                 Value = ValueConvert.ToJson(value);
                 OnReportParameterChanged();
@@ -99,7 +98,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
         get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDecimal(Value);
         set
         {
-            if (value != (ValueAsDecimal))
+            if (value != ValueAsDecimal)
             {
                 Value = ValueConvert.ToJson(value);
                 OnReportParameterChanged();
@@ -123,7 +122,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
                (string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDateTime(Value));
         set
         {
-            if (value != (ValueAsDateTime))
+            if (value != ValueAsDateTime)
             {
                 Value = ValueConvert.ToJson(value);
                 OnReportParameterChanged();

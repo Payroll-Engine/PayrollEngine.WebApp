@@ -6,27 +6,21 @@
 
         @* report name and description *@
         <MudPaper Elevation="4" Class="pa-4">
-            <table>
-                <tr>
-                    <td class="pr-2" style="text-align: right"><MudInputLabel>@Localizer.Report.Report</MudInputLabel></td>
-                    <td><MudText Typo="Typo.h6">@ReportName</MudText></td>
-                </tr>
-                @if (HasDescription)
-                {
-                    <tr>
-                        <td class="pr-2" style="text-align: right"><MudInputLabel>@Localizer.Shared.Description</MudInputLabel></td>
-                        <td>@ReportDescription</td>
-                    </tr>
-                }
-            </table>
+            <MudText Typo="Typo.h5">@Localizer.Report.Report @ReportName</MudText>
+            @if (HasDescription)
+            {
+                <MudText Typo="Typo.h6">@ReportDescription</MudText>
+            }
         </MudPaper>
 
         @* report parameters *@
-        @if (HasParameters)
+        @if (HasVisibleParameters())
         {
             <MudPaper Elevation="4" Class="pa-4 mt-8 mb-4">
+                <MudText Typo="Typo.h5">@Localizer.Report.Parameters</MudText>
                 <MudForm @ref="form">
-                    <FieldEditorStack Fields="@Report.ViewParameters" Culture="@Culture"
+                    <FieldEditorStack Fields="@Report.ViewParameters" Culture="@Culture" Spacing="4"
+
                                       Disabled="@Started" />
                 </MudForm>
             </MudPaper>
@@ -59,26 +53,20 @@
             @if (!Completed && !Failed)
             {
                 @* XML *@
-                var xmlRaw = true;
-                @if (SupportedDocumentType(DocumentType.Xml))
-                {
-                    <MudButton Variant="Variant.Outlined"
-                               Color="Color.Tertiary"
-                               Disabled="@Started"
-                               OnClick="@(() => StartAsync(DocumentType.Xml))">
-                        @Localizer.Report.Xml
-                    </MudButton>
-                    xmlRaw = SupportedDocumentType(DocumentType.XmlRaw);
-                }
-                if (xmlRaw)
-                {
-                    <MudButton Variant="Variant.Outlined"
-                               Color="Color.Tertiary"
-                               Disabled="@Started"
-                               OnClick="@(() => StartAsync(DocumentType.XmlRaw))">
-                        @Localizer.Report.XmlRaw
-                    </MudButton>
-                }
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Tertiary"
+                           Disabled="@Started"
+                           OnClick="@(() => StartAsync(DocumentType.Xml))">
+                    @Localizer.Report.Xml
+                </MudButton>
+
+                @* XML Raw *@
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Tertiary"
+                           Disabled="@Started"
+                           OnClick="@(() => StartAsync(DocumentType.XmlRaw))">
+                    @Localizer.Report.XmlRaw
+                </MudButton>
 
                 @* Excel *@
                 @if (SupportedDocumentType(DocumentType.Excel))

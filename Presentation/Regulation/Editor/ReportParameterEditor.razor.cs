@@ -41,6 +41,16 @@ public partial class ReportParameterEditor
             {
                 Label = Localizer.Shared.Description
             },
+
+            new(nameof(RegulationReportParameter.Mandatory), typeof(Switch))
+            {
+                Label = Localizer.Shared.Mandatory
+            },
+            new(nameof(RegulationReportParameter.Hidden), typeof(Switch))
+            {
+                Label = Localizer.Shared.Hidden
+            },
+
             new(nameof(RegulationReportParameter.Value), typeof(TextBox))
             {
                 Label = Localizer.Shared.Value
@@ -61,6 +71,7 @@ public partial class ReportParameterEditor
             {
                 Label = Localizer.Shared.OverrideType
             },
+
             new(nameof(RegulationReportParameter.Attributes), null)
         };
         Fields = fields;

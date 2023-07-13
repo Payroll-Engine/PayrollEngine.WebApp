@@ -20,6 +20,7 @@ public class SharedLocalizer : LocalizerBase
     public string SelectAll => PropertyValue();
     public string None => PropertyValue();
     public string NotAvailable => PropertyValue();
+    public string Hidden => PropertyValue();
     public string Owner => PropertyValue();
     public string Order => PropertyValue();
     public string Tags => PropertyValue();

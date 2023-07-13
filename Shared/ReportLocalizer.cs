@@ -13,6 +13,7 @@ public class ReportLocalizer : LocalizerBase
     public string Reports => PropertyValue();
     public string NotAvailable => PropertyValue();
 
+    public string Parameters => PropertyValue();
     public string Category => PropertyValue();
     public string AttributeMode => PropertyValue();
     public string Relation => PropertyValue();

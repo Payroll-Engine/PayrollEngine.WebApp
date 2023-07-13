@@ -16,7 +16,6 @@ public class CaseLocalizer : LocalizerBase
     public string CaseType => PropertyValue();
     public string DefaultReason => PropertyValue();
     public string CancellationType => PropertyValue();
-    public string Hidden => PropertyValue();
     public string BaseCase => PropertyValue();
     public string BaseCaseField => PropertyValue();
     public string BaseCaseFields => PropertyValue();

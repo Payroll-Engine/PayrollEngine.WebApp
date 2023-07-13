@@ -2238,7 +2238,7 @@
   <data name="CaseField.MissingValue" xml:space="preserve">
     <value>Missing value</value>
   </data>
-  <data name="Case.Hidden" xml:space="preserve">
+  <data name="Shared.Hidden" xml:space="preserve">
     <value>Hidden</value>
   </data>
   <data name="Case.SubmitForecastCase" xml:space="preserve">
@@ -2261,5 +2261,8 @@
   </data>
   <data name="Error.ItemUpdate" xml:space="preserve">
     <value>{type} update error.</value>
+  </data>
+  <data name="Report.Parameters" xml:space="preserve">
+    <value>Parameters</value>
   </data>
 </root>
