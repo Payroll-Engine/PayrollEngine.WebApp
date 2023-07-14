@@ -67,8 +67,6 @@ public class UserSessionBootstrap
             {
                 throw new PayrollException("Missing application configuration");
             }
-            // optional startup configuration
-            var startupConfiguration = Configuration.GetConfiguration<StartupConfiguration>();
 
             // default features
             if (appConfiguration.DefaultFeatures != null)
@@ -76,7 +74,9 @@ public class UserSessionBootstrap
                 UserSession.SetDefaultFeatures(appConfiguration.DefaultFeatures.Select(Enum.Parse<Feature>));
             }
 
-            if (startupConfiguration.AutoLogin)
+            // optional startup configuration
+            var startupConfiguration = Configuration.GetConfiguration<StartupConfiguration>();
+            if (startupConfiguration != null && startupConfiguration.AutoLogin)
             {
                 // startup objects
                 User user = null;

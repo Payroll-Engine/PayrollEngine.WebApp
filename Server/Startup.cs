@@ -82,7 +82,7 @@ public class Startup
     {
         // logging
         loggerFactory.AddProvider(new SerilogLoggerProvider());
-        appLifetime.UseLog(environment);
+        appLifetime.UseLog(appBuilder, environment);
 
         if (environment.IsDevelopment())
         {
