@@ -12,7 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-pre-230713-6" />
+		<PackageReference Include="PayrollEngine.Client.Core" Version="0.5.0-230715" />
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.8" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
 		<PackageReference Include="Microsoft.JSInterop" Version="7.0.8" />
