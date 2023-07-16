@@ -21,7 +21,7 @@ public static class ServiceRegistration
     public static void AddAppServices(this IServiceCollection services, IConfiguration configuration)
     {
         // http configuration
-        var httpConfiguration = configuration.GetConfiguration<PayrollHttpConfiguration>();
+        var httpConfiguration = configuration.GetHttpConfiguration();
         if (httpConfiguration == null)
         {
             throw new PayrollException("Missing http configuration");
@@ -40,7 +40,7 @@ public static class ServiceRegistration
             {
                 // please start the payroll engine backend server
                 Debug.WriteLine($"!!! {message} !!!");
-                  Debugger.Break();
+                Debugger.Break();
             }
 #endif
 

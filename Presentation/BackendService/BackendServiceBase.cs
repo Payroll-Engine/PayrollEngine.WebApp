@@ -31,12 +31,14 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         UserSession = userSession ?? throw new ArgumentNullException(nameof(userSession));
         Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
-        // http connection
-        var httpConfiguration = configuration.GetConfiguration<PayrollHttpConfiguration>();
+        // http configuration
+        var httpConfiguration = configuration.GetHttpConfiguration();
         if (httpConfiguration == null)
         {
             throw new PayrollException("Missing payroll http configuration");
         }
+
+        // http connection
         HttpClient = new(httpConfiguration);
     }
 
