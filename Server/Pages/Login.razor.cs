@@ -547,8 +547,16 @@ public partial class Login
         AppTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
         AppImage = ThemeService.IsDarkMode ? appConfiguration.AppImageDarkMode : appConfiguration.AppImage;
 
+        // backend http configuration
+        var configuration = Configuration.GetHttpConfiguration();
+        if (string.IsNullOrWhiteSpace(configuration.BaseUrl) || configuration.Port == 0)
+        {
+            Log.Critical("Invalid backend connection configuration");
+            return;
+        }
+
         // check for connection 
-        var httpClient = new PayrollHttpClient(Configuration.GetConfiguration<PayrollHttpConfiguration>());
+        var httpClient = new PayrollHttpClient(configuration);
         if (!await httpClient.IsConnectionAvailableAsync())
         {
             Log.Critical($"Connection not available: {httpClient.Address}");
