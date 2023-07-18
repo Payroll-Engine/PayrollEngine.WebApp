@@ -32,7 +32,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
         // http configuration
-        var httpConfiguration = configuration.GetHttpConfiguration();
+        var httpConfiguration = Task.Run(configuration.GetHttpConfigurationAsync).Result;
         if (httpConfiguration == null)
         {
             throw new PayrollException("Missing payroll http configuration");

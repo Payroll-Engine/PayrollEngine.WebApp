@@ -548,7 +548,7 @@ public partial class Login
         AppImage = ThemeService.IsDarkMode ? appConfiguration.AppImageDarkMode : appConfiguration.AppImage;
 
         // backend http configuration
-        var configuration = Configuration.GetHttpConfiguration();
+        var configuration = Task.Run(Configuration.GetHttpConfigurationAsync).Result;
         if (string.IsNullOrWhiteSpace(configuration.BaseUrl) || configuration.Port == 0)
         {
             Log.Critical("Invalid backend connection configuration");

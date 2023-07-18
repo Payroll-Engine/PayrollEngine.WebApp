@@ -21,7 +21,7 @@ public static class ServiceRegistration
     public static void AddAppServices(this IServiceCollection services, IConfiguration configuration)
     {
         // http configuration
-        var httpConfiguration = configuration.GetHttpConfiguration();
+        var httpConfiguration = Task.Run(configuration.GetHttpConfigurationAsync).Result;
         if (httpConfiguration == null)
         {
             throw new PayrollException("Missing http configuration");

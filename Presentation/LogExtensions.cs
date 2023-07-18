@@ -16,7 +16,7 @@ public static class LogExtensions
         // started
         appLifetime.ApplicationStarted.Register(() =>
         {
-            Log.Information($"{environment.ApplicationName} started on port {GetApplicationPort(appBuilder)}.");
+            Log.Information($"{environment.ApplicationName} started on the URL {GetApplicationAddress(appBuilder)}.");
             if (Log.IsEnabled(SystemInfoLogEventLevel))
             {
                 Log.Write(SystemInfoLogEventLevel, $"Current culture: {CultureInfo.CurrentCulture}");
@@ -35,10 +35,10 @@ public static class LogExtensions
         });
     }
 
-    private static int? GetApplicationPort(IApplicationBuilder appBuilder)
+    private static string GetApplicationAddress(IApplicationBuilder appBuilder)
     {
         var serverAddressesFeature = appBuilder.ServerFeatures.Get<IServerAddressesFeature>();
         var address = serverAddressesFeature.Addresses.First().RemoveFromEnd("/");
-        return int.Parse(address.Split(':').Last());
+        return address;
     }
 }
