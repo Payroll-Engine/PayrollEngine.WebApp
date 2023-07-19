@@ -52,17 +52,17 @@ public class UserPasswordService : IUserPasswordService
     private static bool IsBadRequest(HttpRequestException exception) => 
         exception.Message.StartsWith(((int)HttpStatusCode.BadRequest).ToString());
 
-    public async Task<bool> ChangePasswordAsync(int tenantId, int userId, string password)
+    public async Task<bool> ChangePasswordAsync(int tenantId, int userId, PasswordChangeRequest changeRequest)
     {
         // valid format
-        if (!IsValidPassword(password))
+        if (!string.IsNullOrWhiteSpace(changeRequest.NewPassword) && !IsValidPassword(changeRequest.NewPassword))
         {
             return false;
         }
 
         try
         {
-            await UserService.UpdatePasswordAsync(new(tenantId), userId, password);
+            await UserService.UpdatePasswordAsync(new(tenantId), userId, changeRequest);
             return true;
         }
         catch (Exception exception)

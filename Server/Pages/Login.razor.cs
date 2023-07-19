@@ -431,10 +431,10 @@ public partial class Login
     #region Password change
 
     /// <summary>
-    /// Set new password and save to database
+    /// Set initial password
     /// </summary>
     /// <returns>Success message and use login form again</returns>
-    private async Task SetPasswordAsync()
+    private async Task SetInitialPasswordAsync()
     {
         if (LoginState != UserLoginState.SetupPassword)
         {
@@ -459,7 +459,8 @@ public partial class Login
 
         try
         {
-            if (!await UserPasswordService.ChangePasswordAsync(SelectedTenant.Id, SelectedUser.Id, NewPassword))
+            if (!await UserPasswordService.ChangePasswordAsync(SelectedTenant.Id, SelectedUser.Id,
+                    new() { NewPassword = NewPassword }))
             {
                 SetErrorMessage(Localizer.Login.PasswordChangeError);
                 return;

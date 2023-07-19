@@ -2265,4 +2265,7 @@
   <data name="Report.Parameters" xml:space="preserve">
     <value>Parameters</value>
   </data>
+  <data name="User.PasswordChanged" xml:space="preserve">
+    <value>Password successfully changed</value>
+  </data>
 </root>

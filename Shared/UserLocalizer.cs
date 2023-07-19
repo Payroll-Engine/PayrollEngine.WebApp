@@ -28,4 +28,5 @@ public class UserLocalizer : LocalizerBase
     public string NewPasswordHelp => PropertyValue();
     public string NewPasswordRepeat => PropertyValue();
     public string NewPasswordRepeatHelp => PropertyValue();
+    public string PasswordChanged => PropertyValue();
 }

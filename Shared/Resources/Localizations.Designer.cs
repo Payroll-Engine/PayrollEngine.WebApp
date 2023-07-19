@@ -6271,6 +6271,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password successfully changed.
+        /// </summary>
+        internal static string User_PasswordChanged {
+            get {
+                return ResourceManager.GetString("User.PasswordChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show password.
         /// </summary>
         internal static string User_ShowPassword {

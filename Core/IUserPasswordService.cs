@@ -16,5 +16,5 @@ public interface IUserPasswordService
     /// Update the user password
     /// </summary>
     /// <returns>Returns true if password was changed</returns>
-    Task<bool> ChangePasswordAsync(int tenantId, int userId, string password);
+    Task<bool> ChangePasswordAsync(int tenantId, int userId, PasswordChangeRequest changeRequest);
 }
