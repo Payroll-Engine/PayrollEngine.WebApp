@@ -1,7 +1,4 @@
-﻿#if DEBUG
-#define SUPERVISOR_ALL_FEATURES
-#endif
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,12 +25,6 @@ public class User : Client.Model.User
 
     public bool HasPassword =>
         !string.IsNullOrWhiteSpace(Password);
-
-    public bool Employee =>
-        UserType == UserType.Employee;
-
-    private bool Supervisor =>
-        UserType == UserType.Supervisor;
 
     #region Tasks
 
@@ -65,42 +56,38 @@ public class User : Client.Model.User
         set => Features = StringToFeatures(value);
     }
 
-    public bool HasAnyFeature()
-    {
-#if SUPERVISOR_ALL_FEATURES
-        return Features.Any() || Supervisor;
-#else
-        return Features.Any();
-#endif
-    }
+    public bool HasAnyFeature() =>
+        UserType switch
+        {
+            UserType.Administrator =>
+                // user admin feature
+                true,
+            UserType.Supervisor =>
+                // all features
+                true,
+            _ =>
+                // feature list
+                Features.Any()
+        };
 
     /// <summary>
     /// Test for available feature
     /// </summary>
     /// <remarks>Enable all features for new users (debug only)</remarks>
     /// <param name="feature">The feature to test</param>
-    public bool HasFeature(Feature feature)
-    {
-        // available
-        var available = Features.Contains(feature);
-
-#if SUPERVISOR_ALL_FEATURES
-        if (!available && Supervisor)
+    public bool HasFeature(Feature feature) =>
+        UserType switch
         {
-            return true;
-        }
-#endif
-
-        // user setup für the supervisor
-        if (!available && feature == Feature.Users && Supervisor)
-        {
-            return true;
-        }
-        return available;
-    }
-
-    //public bool HasAnyFeature(params Feature[] features) =>
-    //    features.Any(HasFeature);
+            UserType.Administrator => 
+                // user admin feature
+                feature == Feature.Users,
+            UserType.Supervisor => 
+                // all features
+                true,
+            _ =>
+                // test in feature list
+                Features.Contains(feature)
+        };
 
     private void AddFeature(Feature feature)
     {

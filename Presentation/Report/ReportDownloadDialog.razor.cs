@@ -326,7 +326,7 @@ public partial class ReportDownloadDialog
         }
     }
 
-    private void ApplySystemParameters(ReportSet reportSet)
+    private static void ApplySystemParameters(ReportSet reportSet)
     {
         foreach (var parameter in reportSet.ViewParameters)
         {

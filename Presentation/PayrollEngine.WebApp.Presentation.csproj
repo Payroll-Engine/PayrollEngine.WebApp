@@ -10,9 +10,9 @@
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-230719-2" />
-		<PackageReference Include="MudBlazor" Version="6.6.0" />
-		<PackageReference Include="NPOI" Version="2.6.0" />
+		<PackageReference Include="PayrollEngine.Document" Version="0.5.0-230719-4" />
+		<PackageReference Include="MudBlazor" Version="6.7.0" />
+		<PackageReference Include="NPOI" Version="2.6.1" />
 	</ItemGroup>
 
 	<ItemGroup>

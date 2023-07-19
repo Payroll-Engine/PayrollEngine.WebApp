@@ -14,9 +14,6 @@ public class StartupConfiguration
     // <summary>Clear local blazor storage</summary>
     public bool ClearStorage { get; set; }
 
-    // <summary>Dark mode</summary>
-    public bool DarkMode { get; set; }
-
     // <summary>Automatic user login</summary>
     public bool AutoLogin { get; set; }
 }

@@ -3364,6 +3364,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Administrator.
+        /// </summary>
+        internal static string Enum_UserType_Administrator {
+            get {
+                return ResourceManager.GetString("Enum.UserType.Administrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee.
         /// </summary>
         internal static string Enum_UserType_Employee {

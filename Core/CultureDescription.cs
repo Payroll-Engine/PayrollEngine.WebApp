@@ -1,12 +1,11 @@
 ﻿
-namespace PayrollEngine.WebApp
-{
-    public class CultureDescription
-    {
-        public string Name { get; init; }
-        public string DisplayName { get; init; }
+namespace PayrollEngine.WebApp;
 
-        public override string ToString() =>
-            $"{DisplayName} [{Name}]";
-    }
+public class CultureDescription
+{
+    public string Name { get; init; }
+    public string DisplayName { get; init; }
+
+    public override string ToString() =>
+        $"{DisplayName} [{Name}]";
 }

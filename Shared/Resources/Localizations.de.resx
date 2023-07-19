@@ -2265,6 +2265,9 @@
   <data name="Report.Parameters" xml:space="preserve">
     <value>Parameter</value>
   </data>
+  <data name="Enum.UserType.Administrator" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
   <data name="User.PasswordChanged" xml:space="preserve">
     <value>Passworr erfolgreich geänderrt</value>
   </data>

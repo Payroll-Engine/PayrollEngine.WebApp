@@ -108,8 +108,12 @@
                             <MudMenuItem Icon="@Icons.Material.Outlined.AccountBox"
                                          OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                             break;
-                        case UserType.Supervisor:
+                        case UserType.Administrator:
                             <MudMenuItem Icon="@Icons.Material.Outlined.SupervisorAccount"
+                                         OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                            break;
+                        case UserType.Supervisor:
+                            <MudMenuItem Icon="@Icons.Material.Outlined.SupervisedUserCircle"
                                          OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                             break;
                         case UserType.Regular:

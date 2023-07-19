@@ -1,26 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 
-namespace PayrollEngine.WebApp.Shared
+namespace PayrollEngine.WebApp.Shared;
+
+public static class SharedCultures
 {
-    public static class SharedCultures
+    private static string[] SupportedCultures => new[]
     {
-        private static string[] SupportedCultures => new[]
-        {
-            "en",
-            "de"
-        };
+        "en",
+        "de"
+    };
 
-        public static string DefaultCulture => "en-US";
+    public static string DefaultCulture => "en-US";
 
-        public static List<CultureInfo> GetCultures()
+    public static List<CultureInfo> GetCultures()
+    {
+        var cultures = new List<CultureInfo>();
+        foreach (var culture in SupportedCultures)
         {
-            var cultures = new List<CultureInfo>();
-            foreach (var culture in SupportedCultures)
-            {
-                cultures.Add(new(culture));
-            }
-            return cultures;
+            cultures.Add(new(culture));
         }
+        return cultures;
     }
 }

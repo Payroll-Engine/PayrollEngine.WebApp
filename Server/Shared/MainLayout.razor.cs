@@ -190,12 +190,6 @@ public abstract class MainLayoutBase : MainComponentBase
         await LocalStorage.SetItemAsBooleanAsync("DarkTheme", IsDarkMode);
     }
 
-    private bool GetStartupDarkMode()
-    {
-        var startupConfiguration = Configuration.GetConfiguration<StartupConfiguration>();
-        return startupConfiguration != null && startupConfiguration.DarkMode;
-    }
-
     private async Task SetupThemeAsync()
     {
         bool? darkModeSetting = null;
@@ -270,7 +264,7 @@ public abstract class MainLayoutBase : MainComponentBase
 
         // theme
         AppTheme = ThemeService.Theme;
-        IsDarkMode = GetStartupDarkMode();
+        IsDarkMode = Platform.GetDarkMode();
         await SetupThemeAsync();
         // global service
         ThemeService.IsDarkMode = IsDarkMode;
