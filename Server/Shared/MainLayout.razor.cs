@@ -10,6 +10,7 @@ using PayrollEngine.WebApp.Server.Dialogs;
 using PayrollEngine.WebApp.Shared;
 using Task = System.Threading.Tasks.Task;
 using PayrollEngine.WebApp.Presentation.Component;
+using PayrollEngine.Client;
 
 namespace PayrollEngine.WebApp.Server.Shared;
 
@@ -25,6 +26,8 @@ public abstract class MainLayoutBase : MainComponentBase
     private ILocalStorageService LocalStorage { get; set; }
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private PayrollHttpClient PayrollHttpClient { get; set; }
 
     /// <summary>
     /// Application title
@@ -59,11 +62,16 @@ public abstract class MainLayoutBase : MainComponentBase
 
     protected async Task WorkingTenantChangedAsync(Tenant tenant)
     {
+        // update authorization
+        UpdateAuthorization(tenant?.Identifier);
         if (tenant == null)
         {
             return;
         }
+
+        // update session
         await Session.ChangeTenantAsync(tenant);
+        // notification
         await InvokeStateHasChangedAsync();
     }
 
@@ -253,6 +261,20 @@ public abstract class MainLayoutBase : MainComponentBase
         await DialogService.ShowAsync<AboutDialog>(null, parameters);
     }
 
+    private void UpdateAuthorization(string tenantIdentifier)
+    {
+        if (string.IsNullOrWhiteSpace(tenantIdentifier))
+        {
+            // remove
+            PayrollHttpClient.RemoveTenantAuthorization();
+        }
+        else
+        {
+            // set
+            PayrollHttpClient.SetTenantAuthorization(tenantIdentifier);
+        }
+    }
+
     protected MudTheme AppTheme { get; private set; }
     protected override async Task OnInitializedAsync()
     {
@@ -261,6 +283,9 @@ public abstract class MainLayoutBase : MainComponentBase
         AppTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
         AppImage = appConfiguration.AppImage;
         AppImageDarkMode = appConfiguration.AppImageDarkMode;
+
+        // authorization
+        UpdateAuthorization(Session.Tenant?.Identifier);
 
         // theme
         AppTheme = ThemeService.Theme;

@@ -40,6 +40,9 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
         // http connection
         HttpClient = new(httpConfiguration);
+
+        // tenant authorization
+        HttpClient.SetTenantAuthorization(userSession.Tenant.Identifier);
     }
 
     /// <inheritdoc />
