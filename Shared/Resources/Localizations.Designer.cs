@@ -3382,20 +3382,20 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Regular.
-        /// </summary>
-        internal static string Enum_UserType_Regular {
-            get {
-                return ResourceManager.GetString("Enum.UserType.Regular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Supervisor.
         /// </summary>
         internal static string Enum_UserType_Supervisor {
             get {
                 return ResourceManager.GetString("Enum.UserType.Supervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        internal static string Enum_UserType_User {
+            get {
+                return ResourceManager.GetString("Enum.UserType.User", resourceCulture);
             }
         }
         

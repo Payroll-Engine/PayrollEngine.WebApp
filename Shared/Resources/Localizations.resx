@@ -1665,8 +1665,8 @@
   <data name="Enum.UserType.Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
-  <data name="Enum.UserType.Regular" xml:space="preserve">
-    <value>Regular</value>
+  <data name="Enum.UserType.User" xml:space="preserve">
+    <value>User</value>
   </data>
   <data name="Enum.UserType.Supervisor" xml:space="preserve">
     <value>Supervisor</value>

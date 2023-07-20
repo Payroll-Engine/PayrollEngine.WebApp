@@ -1668,8 +1668,8 @@
   <data name="Enum.UserType.Employee" xml:space="preserve">
     <value>Mitarbeiter</value>
   </data>
-  <data name="Enum.UserType.Regular" xml:space="preserve">
-    <value>Regulär</value>
+  <data name="Enum.UserType.User" xml:space="preserve">
+    <value>Benutzer</value>
   </data>
   <data name="Enum.UserType.Supervisor" xml:space="preserve">
     <value>Supervisor</value>
