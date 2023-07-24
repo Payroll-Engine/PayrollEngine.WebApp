@@ -295,13 +295,13 @@
     <value>Ok</value>
   </data>
   <data name="Division.Division" xml:space="preserve">
-    <value>Bereich</value>
+    <value>Unternehmensbereich</value>
   </data>
   <data name="Division.Divisions" xml:space="preserve">
-    <value>Bereiche</value>
+    <value>Unternehmensbereiche</value>
   </data>
   <data name="Division.NotAvailable" xml:space="preserve">
-    <value>Keine Bereiche verfügbar</value>
+    <value>Keine Unternehmensbereiche verfügbar</value>
   </data>
   <data name="Shared.SelectAll" xml:space="preserve">
     <value>Alle auswählen</value>
@@ -538,25 +538,25 @@
     <value>Neu</value>
   </data>
   <data name="Regulation.NotAvailable" xml:space="preserve">
-    <value>Keine Regulierungen verfügbar</value>
+    <value>Keine Regelwerke verfügbar</value>
   </data>
   <data name="Regulation.Regulation" xml:space="preserve">
-    <value>Regulierung</value>
+    <value>Regelwerk</value>
   </data>
   <data name="Regulation.Regulations" xml:space="preserve">
-    <value>Regulierungen</value>
+    <value>Regelwerke</value>
   </data>
   <data name="RegulationShare.MissingShares" xml:space="preserve">
-    <value>Bitte einen Mandaten mit Regulierungsfreigaben auswählen</value>
+    <value>Bitte einen Mandaten mit Regelwerksfreigaben auswählen</value>
   </data>
   <data name="RegulationShare.NotAvailable" xml:space="preserve">
-    <value>Keine Regulierungsfreigaben verfügbar</value>
+    <value>Keine Regelwerksfreigaben verfügbar</value>
   </data>
   <data name="RegulationShare.RegulationShare" xml:space="preserve">
-    <value>Regulierungsfreigabe</value>
+    <value>Regelwerksfreigabe</value>
   </data>
   <data name="RegulationShare.RegulationShares" xml:space="preserve">
-    <value>Regulierungsfreigaben</value>
+    <value>Regelwerksfreigabes</value>
   </data>
   <data name="Report.NotAvailable" xml:space="preserve">
     <value>Keine Reports verfügbar</value>
@@ -814,7 +814,7 @@
     <value>Webhook Meldungen</value>
   </data>
   <data name="Regulation.Missing" xml:space="preserve">
-    <value>Die Regulierung muss zuvor ertstellt werden</value>
+    <value>Das Regelwerk muss zuvor ertstellt werden</value>
   </data>
   <data name="Action.ActionExpression" xml:space="preserve">
     <value>Aktion Ausdruck</value>
@@ -1156,19 +1156,19 @@
     <value>Default Level ist 1</value>
   </data>
   <data name="PayrollLayer.InvalidBaseRegulation" xml:space="preserve">
-    <value>Ungültige Basisregulierung</value>
+    <value>Ungültige Basis-Regelwerk</value>
   </data>
   <data name="PayrollLayer.InvalidPayrollRegulation" xml:space="preserve">
-    <value>Keine Regulierungen verfügbar. Bitte fügen Sie der Payroll eine Regulierung zu.</value>
+    <value>Keine Regelwerke verfügbar. Bitte fügen Sie der Payroll ein Regelwerk zu.</value>
   </data>
   <data name="PayrollLayer.Level" xml:space="preserve">
     <value>Level</value>
   </data>
   <data name="PayrollLayer.MissingBaseRegulation" xml:space="preserve">
-    <value>Fehlende Basisregulierung {regulation}</value>
+    <value>Fehlendes Basis-Regelwerk {regulation}</value>
   </data>
   <data name="PayrollLayer.MissingRegulation" xml:space="preserve">
-    <value>Fehleden Regulierung {regulation}</value>
+    <value>Fehledes Regelwerk {regulation}</value>
   </data>
   <data name="PayrollLayer.NextLevelHelp" xml:space="preserve">
     <value>Den nächsten freien Level setzen</value>
@@ -1216,7 +1216,7 @@
     <value>Lohnart-Verfügbarkeit Ausdruck</value>
   </data>
   <data name="Regulation.SharedRegulation" xml:space="preserve">
-    <value>Geteilte Regulierung</value>
+    <value>Geteiltes Regelwerk</value>
   </data>
   <data name="Regulation.ValidFrom" xml:space="preserve">
     <value>Gültig ab</value>
@@ -1225,16 +1225,16 @@
     <value>Version</value>
   </data>
   <data name="RegulationShare.ConsumerDivision" xml:space="preserve">
-    <value>Verbraucherbereich</value>
+    <value>Anwender-Unternehmensbereich</value>
   </data>
   <data name="RegulationShare.ConsumerTenant" xml:space="preserve">
-    <value>Verbrauchermandant</value>
+    <value>Anwender-Mandant</value>
   </data>
   <data name="RegulationShare.ProviderRegulation" xml:space="preserve">
-    <value>Providerregulierung</value>
+    <value>Anbieter-Regelwerk</value>
   </data>
   <data name="RegulationShare.ProviderTenant" xml:space="preserve">
-    <value>Providernmandant</value>
+    <value>Anbieter-Mandant</value>
   </data>
   <data name="Shared.Owner" xml:space="preserve">
     <value>Besitzer</value>
@@ -2056,7 +2056,7 @@
     <value>Lohlauf Id</value>
   </data>
   <data name="Enum.ReportParameterType.RegulationId" xml:space="preserve">
-    <value>Regulierung Id</value>
+    <value>Regelwerk Id</value>
   </data>
   <data name="Enum.ReportParameterType.ReportId" xml:space="preserve">
     <value>Report Id</value>
@@ -2161,10 +2161,10 @@
     <value>Periode Zeiteinheit muss in die Zyklus Zeiteinheit passen</value>
   </data>
   <data name="Division.CalendarHelp" xml:space="preserve">
-    <value>Mandantenkalender überschreiben</value>
+    <value>Unternehmensbereich-Kalender überschreiben</value>
   </data>
   <data name="Division.CultureHelp" xml:space="preserve">
-    <value>Mandantenkultur überschreiben</value>
+    <value>Unternehmensbereich-Kultur überschreiben</value>
   </data>
   <data name="Employee.CalendarHelp" xml:space="preserve">
     <value>Bereichskalender überschreiben</value>
