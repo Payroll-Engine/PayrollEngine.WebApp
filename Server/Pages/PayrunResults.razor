@@ -113,7 +113,6 @@
              ShowColumnOptions="false"
              SortMode="SortMode.Multiple">
     <Columns>
-        @* TODO payroll result period predefined filters (days, weeks, months) *@
         <PropertyColumn Property="x => x.PeriodStart" Title="@Localizer.PayrunResult.Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending" />
         <PropertyColumn Property="x => x.JobName" Title="@Localizer.PayrunJob.JobName" />
         <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
