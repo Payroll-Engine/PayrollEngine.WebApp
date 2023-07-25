@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
@@ -25,11 +26,8 @@ public class AppConfiguration
     /// <summary>Log the case changes (default: false)</summary>
     public bool LogCaseChanges { get; set; }
 
-    /// <summary>Session timeout in minutes (default: 10)</summary>
-    public int SessionTimeout { get; set; } = DefaultSessionTimeout;
-
-    /// <summary>The default session timeout inm minutes</summary>
-    public static readonly int DefaultSessionTimeout = 10;
+    /// <summary>Session timeout in minutes (default: 10 minutes)</summary>
+    public TimeSpan SessionTimeout { get; set; } = TimeSpan.FromMinutes(10);
 
     /// <summary>Maximum excel export count (default: 10'000)</summary>
     public int ExcelExportMaxRecords { get; set; } = 10000;

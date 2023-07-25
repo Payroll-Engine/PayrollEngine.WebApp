@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
@@ -42,11 +41,10 @@ public class Startup
         services.AddHttpContextAccessor();
         services.AddDistributedMemoryCache();
 
-        var timeout = appConfiguration?.SessionTimeout > 0 ? appConfiguration.SessionTimeout : AppConfiguration.DefaultSessionTimeout;
         services.AddSession(options =>
         {
             // Set a short timeout for easy testing
-            options.IdleTimeout = TimeSpan.FromMinutes(timeout);
+            options.IdleTimeout = appConfiguration.SessionTimeout;
             options.Cookie.HttpOnly = true;
             // Make the session cookie essential
             options.Cookie.IsEssential = true;
