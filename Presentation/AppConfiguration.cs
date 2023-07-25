@@ -7,9 +7,6 @@ namespace PayrollEngine.WebApp.Presentation;
 /// <summary>The app configuration</summary>
 public class AppConfiguration
 {
-    /// <summary>Culture (default: os working culture)</summary>
-    public string Culture { get; set; }
-
     /// <summary>The application tile</summary>
     public string AppTitle { get; set; }
 

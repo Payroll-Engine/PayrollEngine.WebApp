@@ -99,11 +99,11 @@ public class Startup
         appBuilder.UseHttpsRedirection();
         appBuilder.UseStaticFiles();
 
-        // set culture
-        var appConfiguration = Configuration.GetConfiguration<AppConfiguration>();
-        if (appConfiguration != null)
+        // set start culture
+        var startupConfiguration = Configuration.GetConfiguration<StartupConfiguration>();
+        if (startupConfiguration != null)
         {
-            appBuilder.RegisterCulture(appConfiguration.Culture);
+            appBuilder.RegisterCulture(startupConfiguration.StartupCulture);
         }
 
         appBuilder.UseRouting();

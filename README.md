@@ -53,7 +53,18 @@ Beim erstmaligen anmelden muss der User ein Passwort welches folgende Regeln ein
 - 1 uppercase character
 - 1 special character
 
-## Server Configuration
+## Application Settings
+The server configuration `Server\appsetings.json` contains the following settings:
+| Setting      | Description            | Default |
+|:--|:--|:--|
+| `StartupCulture` | The web app process culture (string) | System culture |
+| `LogHttpRequests` | Log http request to the log file (bool) | `false` |
+| `InitializeScriptCompiler` | Initialize the script compiler to reduce first execution time (bool) | `false` |
+| `DbTransactionTimeout` | Database transaction timeout (timespan) | 10 minutes |
+| `DbCommandTimeout` | Database command timeout (seconds) | 2 minutes |
+| `WebhookTimeout` | Webhook timeout (timespan) | 1 minute |
+| `Serilog` | Serilog settings | file and console log with [Serilog](https://serilog.net/) |
+
 Die Applikations-Konfiguration *Server\appsetings.json* beinhaltet folgende Einstellungen:
 - Culture
 - Default features for new users

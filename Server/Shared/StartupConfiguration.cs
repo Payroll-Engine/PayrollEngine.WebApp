@@ -5,6 +5,9 @@ namespace PayrollEngine.WebApp.Server.Shared;
 // ReSharper disable once ClassNeverInstantiated.Global
 public class StartupConfiguration
 {
+    /// <summary>Culture (default: os working culture)</summary>
+    public string StartupCulture { get; set; }
+
     /// <summary>Start tenant identifier</summary>
     public string StartupTenant { get; set; }
 
