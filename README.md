@@ -219,3 +219,8 @@ All other characters: Literals. All non-masked elements (literals) will appear a
 - minus 4 years: `offset:-4y`
 
 > `TimeSpan` documentation: https://docs.microsoft.com/en-us/dotnet/api/system.timespan
+
+## Third party components
+- UI with [MudBlazor](https://github.com/MudBlazor/MudBlazor/) - licence `MIT`
+- Storage with [LocalStorage](https://github.com/Blazored/LocalStorage/) - licence `MIT`
+- Logging with [Serilog](https://github.com/serilog/serilog/) - licence `Apache 2.0`
