@@ -52,7 +52,7 @@ When logging in for the first time, the user must choose a password that complie
 - 1 upper case character
 - 1 special character
 
-## Application Settings
+## Application Configuration
 The server configuration file `Server\appsetings.json` contains the following settings:
 
 **Startup Configuration**
@@ -88,6 +88,9 @@ The server configuration file `Server\appsetings.json` contains the following se
 File and console logging with [Serilog](https://serilog.net/).
 
 > It is recommended that you save the application settings within your local [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets).
+
+## Application Logs
+Under Windows, the web application server stores its logs in the system folder `%ProgramData%\WebApp\logs`.
 
 ## Input Attributes
 The case input attributes can be used to control the behaviour of user input.
