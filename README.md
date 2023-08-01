@@ -1,4 +1,4 @@
-<h1>Payroll Engine Web Application</h1>
+# Payroll Engine Web Application
 
 The Web Application provides full access to the Payroll Engine. For a better understanding of the working concepts, it is recommended to read the [Payroll Engine Whitepaper](https://github.com/Payroll-Engine/PayrollEngine/blob/main/Documents/PayrolEnginelWhitepaper.pdf).
 
