@@ -98,6 +98,7 @@ Under Windows, the web application server stores its logs in the system folder `
 
 ## Input Attributes
 The case input attributes can be used to control the behaviour of user input.
+
 👉 Input Attributes [Reference](Input-Attributes.md).
 
 ## Third party components
