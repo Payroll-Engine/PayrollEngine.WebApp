@@ -34,12 +34,12 @@ public partial class Employees
         return await base.OnItemCommit(employee);
     }
 
-    protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)
+    protected override async Task<bool> SetupDialogParametersAsync<T>(DialogParameters parameters, ItemOperation operation, T item)
     {
         // parameter divisions
         var result = await DivisionService.QueryAsync();
         parameters.Add(nameof(EmployeeDialog.Divisions), result.Items.ToList());
 
-        return await base.SetupDialogParametersAsync(parameters, operation);
+        return await base.SetupDialogParametersAsync(parameters, operation, item);
     }
 }

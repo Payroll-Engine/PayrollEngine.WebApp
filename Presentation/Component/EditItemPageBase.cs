@@ -32,41 +32,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
     {
         // dialog parameters
         var parameters = new DialogParameters();
-        if (!await SetupDialogParametersAsync(parameters, ItemOperation.Create))
-        {
-            return;
-        }
-       
-        // ensure tenant parameter
-        if (AddItemTenantParameter && IsDialogParameter(nameof(Tenant)))
-        {
-            var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
-            if (tenant == null)
-            {
-                parameters.Add(nameof(Tenant), Tenant);
-            }
-        }
-
-        // ensure culture parameter
-        if (IsDialogParameter(nameof(Tenant.Culture)))
-        {
-            var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
-            if (culture == null)
-            {
-                parameters.Add(nameof(Tenant.Culture), PageCulture);
-            }
-        }
-
-        // dialog
-        var dialog = await (await DialogService.ShowAsync<TDialog>(Localizer.Item.AddTitle(ItemTypeUiName), parameters)).Result;
-        if (dialog == null || dialog.Canceled)
-        {
-            return;
-        }
-
-        // validation
-        var item = dialog.Data as TItem;
-        if (item == null || !await OnItemCommit(item))
+        if (!await SetupDialogParametersAsync<TItem>(parameters, ItemOperation.Create, null))
         {
             return;
         }
@@ -74,6 +40,41 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         // create
         try
         {
+
+            // ensure tenant parameter
+            if (AddItemTenantParameter && IsDialogParameter(nameof(Tenant)))
+            {
+                var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
+                if (tenant == null)
+                {
+                    parameters.Add(nameof(Tenant), Tenant);
+                }
+            }
+
+            // ensure culture parameter
+            if (IsDialogParameter(nameof(Tenant.Culture)))
+            {
+                var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
+                if (culture == null)
+                {
+                    parameters.Add(nameof(Tenant.Culture), PageCulture);
+                }
+            }
+
+            // dialog
+            var dialog = await (await DialogService.ShowAsync<TDialog>(Localizer.Item.AddTitle(ItemTypeUiName), parameters)).Result;
+            if (dialog == null || dialog.Canceled)
+            {
+                return;
+            }
+
+            // validation
+            var item = dialog.Data as TItem;
+            if (item == null || !await OnItemCommit(item))
+            {
+                return;
+            }
+
             item = await BackendService.CreateAsync(item);
             if (item == null || item.Id == 0)
             {
@@ -109,63 +110,65 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
             throw new ArgumentNullException(nameof(item));
         }
 
-        // existing
-        var existing = await GetItemAsync(item.Id);
-        if (existing == null)
-        {
-            await UserNotification.ShowErrorAsync(Localizer.Error.UnknownItem(ItemTypeUiName, item));
-            return;
-        }
-
-        // dialog parameters
-        var parameters = new DialogParameters {
-        {
-            ItemTypeName, item
-        } };
-        if (!await SetupDialogParametersAsync(parameters, ItemOperation.Edit))
-        {
-            return;
-        }
-
-        // ensure tenant parameter
-        if (IsDialogParameter(nameof(Tenant)))
-        {
-            var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
-            if (tenant == null)
-            {
-                parameters.Add(nameof(Tenant), Tenant);
-            }
-        }
-        
-        // ensure culture parameter
-        if (IsDialogParameter(nameof(Tenant.Culture)))
-        {
-            var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
-            if (culture == null)
-            {
-                parameters.Add(nameof(Tenant.Culture), PageCulture);
-            }
-        }
-
-        // dialog
-        var title = Localizer.Item.EditTitle(ItemTypeUiName);
-        var dialog = await (await DialogService.ShowAsync<TDialog>(title, parameters)).Result;
-        if (dialog == null || dialog.Canceled)
-        {
-            await RefreshServerDataAsync();
-            return;
-        }
-
-        // validation
-        var updatedItem = dialog.Data as TItem;
-        if (updatedItem == null || !await OnItemCommit(updatedItem))
-        {
-            return;
-        }
-
         // update
         try
         {
+
+            // existing
+            var existing = await GetItemAsync(item.Id);
+            if (existing == null)
+            {
+                await UserNotification.ShowErrorAsync(Localizer.Error.UnknownItem(ItemTypeUiName, item));
+                return;
+            }
+
+            // dialog parameters
+            var parameters = new DialogParameters {
+            {
+                ItemTypeName, item
+            } };
+            if (!await SetupDialogParametersAsync(parameters, ItemOperation.Edit, item))
+            {
+                return;
+            }
+
+            // ensure tenant parameter
+            if (IsDialogParameter(nameof(Tenant)))
+            {
+                var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
+                if (tenant == null)
+                {
+                    parameters.Add(nameof(Tenant), Tenant);
+                }
+            }
+
+            // ensure culture parameter
+            if (IsDialogParameter(nameof(Tenant.Culture)))
+            {
+                var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
+                if (culture == null)
+                {
+                    parameters.Add(nameof(Tenant.Culture), PageCulture);
+                }
+            }
+
+            // dialog
+            var title = Localizer.Item.EditTitle(ItemTypeUiName);
+
+            var dialog =  await (await DialogService.ShowAsync<TDialog>(title, parameters)).Result;
+            if (dialog == null || dialog.Canceled)
+            {
+                await RefreshServerDataAsync();
+                return;
+            }
+
+            // validation
+            var updatedItem = dialog.Data as TItem;
+            if (updatedItem == null || !await OnItemCommit(updatedItem))
+            {
+                return;
+            }
+
             await BackendService.UpdateAsync(updatedItem);
 
             // notification
@@ -184,7 +187,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
     private static bool IsDialogParameter(string name) =>
         typeof(TDialog).GetProperty(name) != null;
 
-    public async Task DeleteItemAsync(TItem item)
+    public virtual async Task DeleteItemAsync(TItem item)
     {
         if (item == null)
         {
@@ -238,9 +241,22 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
         await RefreshServerDataAsync();
     }
 
-    protected virtual Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation) =>
+    /// <summary>
+    /// Setup the dialog parameters
+    /// </summary>
+    /// <param name="parameters">The parameter collection</param>
+    /// <param name="operation">The item operation</param>
+    /// <param name="item">The edit item</param>
+    /// <returns>True for valid dialog parameters</returns>
+    protected virtual Task<bool> SetupDialogParametersAsync<T>(DialogParameters parameters, 
+        ItemOperation operation, T item) =>
         Task.FromResult(true);
 
+    /// <summary>
+    /// Validate the Item before commit
+    /// </summary>
+    /// <param name="item">The item to validate</param>
+    /// <returns>True for a valid item</returns>
     protected virtual Task<bool> OnItemCommit(TItem item) =>
         Task.FromResult(true);
 

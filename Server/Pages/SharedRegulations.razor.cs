@@ -16,7 +16,7 @@ public partial class SharedRegulations
     protected override string GridId => GetTenantGridId(GridIdentifiers.Payrolls);
     protected override IBackendService<RegulationShare, Query> BackendService => RegulationShareBackendService;
     protected override ItemCollection<RegulationShare> Items { get; } = new();
-    protected override string GetLocalizedItemName(bool plural) => 
+    protected override string GetLocalizedItemName(bool plural) =>
         plural ? Localizer.RegulationShare.RegulationShares : Localizer.RegulationShare.RegulationShare;
 
     public SharedRegulations() :
@@ -24,10 +24,10 @@ public partial class SharedRegulations
     {
     }
 
-    protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)
+    protected override async Task<bool> SetupDialogParametersAsync<T>(DialogParameters parameters, ItemOperation operation, T item)
     {
         // culture
         parameters.Add("Culture", PageCulture);
-        return await base.SetupDialogParametersAsync(parameters, operation);
+        return await base.SetupDialogParametersAsync(parameters, operation, item);
     }
 }

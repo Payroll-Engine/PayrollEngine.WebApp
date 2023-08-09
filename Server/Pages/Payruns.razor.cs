@@ -36,13 +36,13 @@ public partial class Payruns
         return await base.OnItemCommit(payroll);
     }
 
-    protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)
+    protected override async Task<bool> SetupDialogParametersAsync<T>(DialogParameters parameters, ItemOperation operation, T item)
     {
         // parameter payroll names
         var result = await PayrollService.QueryAsync<Payroll>(new(Tenant.Id));
         parameters.Add(nameof(PayrunDialog.Tenant), Tenant);
         parameters.Add(nameof(PayrunDialog.PayrollNames), result.Select(x => x.Name).ToList());
 
-        return await base.SetupDialogParametersAsync(parameters, operation);
+       return await base.SetupDialogParametersAsync(parameters, operation, item);
     }
 }

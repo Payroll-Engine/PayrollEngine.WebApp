@@ -33,7 +33,7 @@ public partial class PayrollLayers
     {
     }
 
-    protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation)
+    protected override async Task<bool> SetupDialogParametersAsync<T>(DialogParameters parameters, ItemOperation operation, T item)
     {
         // regulation names
         var regulationNames = Regulations.Select(x => x.Name).ToList();
@@ -64,7 +64,7 @@ public partial class PayrollLayers
         // payroll layers
         parameters.Add(nameof(PayrollLayerDialog.PayrollLayers), Items.ToList());
 
-        return await base.SetupDialogParametersAsync(parameters, operation);
+        return await base.SetupDialogParametersAsync(parameters, operation, item);
     }
 
     private string ValidateLayerOrder(PayrollLayer payrollLayer)
