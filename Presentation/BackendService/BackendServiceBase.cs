@@ -40,7 +40,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
         // http connection
         HttpClient = new(httpConfiguration);
-        UpdateHttpSession();
+        UpdateAuthorization();
     }
 
     /// <inheritdoc />
@@ -91,7 +91,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     public virtual async Task<GridData<TItem>> QueryAsync(TQuery query = null, IDictionary<string, object> parameters = null)
     {
         query ??= new();
-        UpdateHttpSession();
+        UpdateAuthorization();
 
         Service = CreateService();
         if (Service == null)
@@ -194,7 +194,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     {
         try
         {
-            UpdateHttpSession();
+            UpdateAuthorization();
 
             var createService = Service as ICreateService<TItem, TServiceContext, TQuery>;
             if (createService == null)
@@ -226,7 +226,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
                 return null;
             }
 
-            UpdateHttpSession();
+            UpdateAuthorization();
 
             var crudService = Service as ICrudService<TItem, TServiceContext, TQuery>;
             if (crudService == null)
@@ -259,7 +259,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
                 return false;
             }
 
-            UpdateHttpSession();
+            UpdateAuthorization();
 
             var createService = Service as ICreateService<TItem, TServiceContext, TQuery>;
             if (createService == null)
@@ -280,7 +280,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
     #endregion
 
-    private void UpdateHttpSession() =>
+    private void UpdateAuthorization() =>
         HttpClient.SetTenantAuthorization(UserSession.Tenant.Identifier);
 
     public virtual void Dispose()
