@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
 using PayrollEngine.WebApp.Shared;
@@ -13,9 +14,9 @@ public class PayrollBackendService : BackendServiceBase<PayrollService, TenantSe
 {
     private IDivisionService DivisionService { get; }
 
-    public PayrollBackendService(UserSession userSession, IConfiguration configuration,
-        Localizer localizer, IDivisionService divisionService) :
-        base(userSession, configuration, localizer)
+    public PayrollBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer, IDivisionService divisionService) :
+        base(userSession, httpClientHandler, configuration, localizer)
     {
         DivisionService = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
     }

@@ -11,6 +11,7 @@ using PayrollEngine.WebApp.Server.Shared;
 using MudBlazor;
 using PayrollEngine.WebApp.Presentation;
 using Task = System.Threading.Tasks.Task;
+using System.Net.Http;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
@@ -25,6 +26,8 @@ public partial class Login
         InputPassword
     }
 
+    [Inject]
+    private HttpClientHandler HttpClientHandler { get; set; }
     [Inject]
     private IUserService UserService { get; set; }
     [Inject]
@@ -557,7 +560,7 @@ public partial class Login
         }
 
         // check for connection 
-        var httpClient = new PayrollHttpClient(configuration);
+        var httpClient = new PayrollHttpClient(HttpClientHandler, configuration);
         if (!await httpClient.IsConnectionAvailableAsync())
         {
             Log.Critical($"Connection not available: {httpClient.Address}");

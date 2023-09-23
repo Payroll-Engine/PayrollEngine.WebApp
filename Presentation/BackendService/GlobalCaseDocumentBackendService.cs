@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -9,8 +10,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class GlobalCaseDocumentBackendService : BackendServiceBase<GlobalCaseDocumentService, CaseValueServiceContext, CaseDocument, Query>
 {
-    public GlobalCaseDocumentBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
-        base(userSession, configuration, localizer)
+    public GlobalCaseDocumentBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer) :
+        base(userSession, httpClientHandler, configuration, localizer)
     {
     }
 

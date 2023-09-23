@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
 using PayrollEngine.WebApp.Shared;
@@ -8,8 +9,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class CalendarBackendService : BackendServiceBase<CalendarService, TenantServiceContext, ViewModel.Calendar, Query>
 {
-    public CalendarBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer) :
-        base(userSession, configuration, localizer)
+    public CalendarBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer) :
+        base(userSession, httpClientHandler, configuration, localizer)
     {
     }
 

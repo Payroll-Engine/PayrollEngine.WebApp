@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -10,8 +11,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public abstract class CaseChangeValueBackendServiceBase : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery>
 {
-    protected CaseChangeValueBackendServiceBase(UserSession userSession, IConfiguration configuration, Localizer localizer) :
-        base(userSession, configuration, localizer)
+    protected CaseChangeValueBackendServiceBase(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer) :
+        base(userSession, httpClientHandler, configuration, localizer)
     {
     }
 

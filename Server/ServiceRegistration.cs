@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
@@ -18,18 +19,23 @@ namespace PayrollEngine.WebApp.Server;
 
 public static class ServiceRegistration
 {
-    public static void AddAppServices(this IServiceCollection services, IConfiguration configuration)
+    public static async Task AddAppServicesAsync(this IServiceCollection services, IConfiguration configuration)
     {
-        // http configuration
-        var httpConfiguration = Task.Run(configuration.GetHttpConfigurationAsync).Result;
-        if (httpConfiguration == null)
+        // http client handler
+        // TODO http client handler by configuration
+        var httpClientHandler = await Task.FromResult(new HttpClientHandler
         {
-            throw new PayrollException("Missing http configuration");
-        }
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+        });
+        services.AddSingleton(httpClientHandler);
+
+        // http client configuration
+        var httpClientConfiguration = await GetHttpClientConfigurationAsync(configuration);
+        services.AddSingleton(httpClientConfiguration);
 
         // http connection
-        var httpClient = new PayrollHttpClient(httpConfiguration);
-        if (!httpClient.IsConnectionAvailable())
+        var httpClient = new PayrollHttpClient(httpClientHandler, httpClientConfiguration);
+        if (!await httpClient.IsConnectionAvailableAsync())
         {
             var message = $"Payroll Engine connection failed: {httpClient.Address}";
             Log.Critical(message);
@@ -58,8 +64,7 @@ public static class ServiceRegistration
         });
 
         // tenants check
-        var tenantCount = Task.Run(() =>
-            new TenantService(httpClient).QueryCountAsync(new())).Result;
+        var tenantCount = await new TenantService(httpClient).QueryCountAsync(new());
         if (tenantCount < 1)
         {
             var error = $"No tenants available in payroll service: {httpClient.Address}";
@@ -205,5 +210,15 @@ public static class ServiceRegistration
 
         // forecast
         services.AddScoped<IForecastHistoryService, ForecastHistoryService>();
+    }
+
+    private static async Task<PayrollHttpConfiguration> GetHttpClientConfigurationAsync(IConfiguration configuration)
+    {
+        var httpConfiguration = await configuration.GetHttpConfigurationAsync();
+        if (httpConfiguration == null)
+        {
+            throw new PayrollException("Missing http configuration");
+        }
+        return httpConfiguration;
     }
 }

@@ -10,7 +10,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-		<PackageReference Include="PayrollEngine.Document" Version="0.6.0-beta.8" />
+		<PackageReference Include="PayrollEngine.Document" Version="0.6.0-beta.9" />
 		<PackageReference Include="MudBlazor" Version="6.7.0" />
 		<PackageReference Include="NPOI" Version="2.6.1" />
 	</ItemGroup>
@@ -18,12 +18,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Shared\PayrollEngine.WebApp.Shared.csproj" />
 		<ProjectReference Include="..\ViewModel\PayrollEngine.WebApp.ViewModel.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="Microsoft.Extensions.Hosting.Abstractions">
-			<HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.5\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>

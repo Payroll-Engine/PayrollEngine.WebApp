@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
@@ -26,20 +26,22 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
     private readonly string ItemTypeName = typeof(TItem).Name.ToPascalSentence();
 
-    protected BackendServiceBase(UserSession userSession, IConfiguration configuration, Localizer localizer)
+    protected BackendServiceBase(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
     {
         UserSession = userSession ?? throw new ArgumentNullException(nameof(userSession));
-        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
-
-        // http configuration
-        var httpConfiguration = Task.Run(configuration.GetHttpConfigurationAsync).Result;
-        if (httpConfiguration == null)
+        if (httpClientHandler == null)
         {
-            throw new PayrollException("Missing payroll http configuration");
+            throw new ArgumentNullException(nameof(httpClientHandler));
+        }
+        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
+        if (configuration == null)
+        {
+            throw new ArgumentNullException(nameof(configuration));
         }
 
         // http connection
-        HttpClient = new(httpConfiguration);
+        HttpClient = new(httpClientHandler, configuration);
         UpdateAuthorization();
     }
 

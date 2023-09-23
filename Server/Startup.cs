@@ -28,14 +28,13 @@ public class Startup
 
     private IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+    // ConfigureServices() must be sync
     public void ConfigureServices(IServiceCollection services)
     {
         var appConfiguration = Configuration.GetConfiguration<AppConfiguration>();
 
         // app services
-        services.AddAppServices(Configuration);
+        services.AddAppServicesAsync(Configuration).Wait();
 
         // server
         services.AddHttpContextAccessor();

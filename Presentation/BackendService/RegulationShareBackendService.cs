@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
 using PayrollEngine.WebApp.Shared;
@@ -16,9 +17,10 @@ public class RegulationShareBackendService : BackendServiceBase<RegulationShareS
     private IRegulationService RegulationService { get; }
     private IDivisionService DivisionService { get; }
 
-    public RegulationShareBackendService(UserSession userSession, IConfiguration configuration, Localizer localizer,
+    public RegulationShareBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer,
         ITenantService tenantService, IRegulationService regulationService, IDivisionService divisionService) :
-        base(userSession, configuration, localizer)
+        base(userSession, httpClientHandler, configuration, localizer)
     {
         TenantService = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
         RegulationService = regulationService ?? throw new ArgumentNullException(nameof(regulationService));

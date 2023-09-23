@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -13,9 +14,9 @@ public class PayrunBackendService : BackendServiceBase<PayrunService, TenantServ
 {
     private IPayrollService PayrollService { get; }
 
-    public PayrunBackendService(UserSession userSession, IConfiguration configuration,
-        Localizer localizer, IPayrollService payrollService) :
-        base(userSession, configuration, localizer)
+    public PayrunBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer, IPayrollService payrollService) :
+        base(userSession, httpClientHandler, configuration, localizer)
     {
         PayrollService = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
     }
