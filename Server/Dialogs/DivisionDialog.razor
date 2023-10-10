@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Division>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -71,7 +71,7 @@
         return calendars.Select(x => x.Name).ToList();
     }
 
-    public async Task<bool> ValidateAsync(Division division) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 
     protected override async Task OnInitializedAsync()

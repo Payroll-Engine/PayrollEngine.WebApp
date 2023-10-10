@@ -1,5 +1,6 @@
 ﻿@using CaseChangeCaseValue = PayrollEngine.WebApp.ViewModel.CaseChangeCaseValue
 @using PayrollEngine.WebApp.Shared
+@using System.Globalization
 
 <MudDialog style="min-width: 40em">
     <DialogContent>
@@ -33,8 +34,8 @@
                     @foreach (var caseValue in CaseChangeValues)
                     {
                         <tr>
-                            <td style="width: 30%">@Culture.GetLocalization(caseValue.CaseFieldNameLocalizations, caseValue.CaseFieldName)</td>
-                            <td>@ValueFormatter.ToString(caseValue.Value, caseValue.ValueType)</td>
+                            <td style="width: 30%">@Culture.Name.GetLocalization(caseValue.CaseFieldNameLocalizations, caseValue.CaseFieldName)</td>
+                            <td>@ValueFormatter.ToString(caseValue.Value, caseValue.ValueType, Culture)</td>
                         </tr>
                     }
                 </tbody>
@@ -57,7 +58,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public List<CaseChangeCaseValue> CaseChangeValues { get; set; } = new();
     [Parameter] public IValueFormatter ValueFormatter { get; set; }
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();

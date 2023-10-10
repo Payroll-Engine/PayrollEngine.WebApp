@@ -1,5 +1,6 @@
 ﻿@using Date = PayrollEngine.Date
 @using PayrollEngine.WebApp.Shared
+@using System.Globalization
 @inherits FieldEditorBase;
 
 @if (!Years.Any())
@@ -9,7 +10,7 @@
 
 <MudSelect T="int?"
            @bind-Value="Field.ValueAsInteger"
-           Culture="@EditCulture"
+           Culture="@Culture"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
@@ -50,7 +51,7 @@
         }
         else
         {
-            minYear = Field.Attributes?.GetMinIntegerValue((Culture)) ??
+            minYear = Field.Attributes?.GetMinIntegerValue(Culture) ??
                       currentYear - 25;
         }
         int maxYear;

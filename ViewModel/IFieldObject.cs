@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
@@ -20,14 +21,14 @@ public interface IFieldObject : IVariantValue, IAttributeObject
     /// </summary>
     /// <param name="culture">The culture</param>
     /// <returns>The culture name</returns>
-    string GetLocalizedName(string culture);
+    string GetLocalizedName(CultureInfo culture);
 
     /// <summary>
     /// Get the localized description
     /// </summary>
     /// <param name="culture">The culture</param>
     /// <returns>The culture description</returns>
-    string GetLocalizedDescription(string culture);
+    string GetLocalizedDescription(CultureInfo culture);
 
     /// <summary>
     /// The value formatter

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 
@@ -6,13 +7,13 @@ namespace PayrollEngine.WebApp.ViewModel;
 
 public static class FieldObjectExtensions
 {
-    public static MarkupString GetValueMarkup(this IFieldObject fieldObject)
+    public static MarkupString GetValueMarkup(this IFieldObject fieldObject, CultureInfo culture)
     {
         // string
         if (fieldObject.ValueType == ValueType.String)
         {
             // masked text
-            var mask = fieldObject.Attributes.GetValueMask();
+            var mask = fieldObject.Attributes.GetValueMask(culture);
             if (!string.IsNullOrWhiteSpace(mask))
             {
                 MaskedTextProvider maskProvider = new(mask);
@@ -21,11 +22,11 @@ public static class FieldObjectExtensions
             }
 
             // multi line text
-            var lineCount = fieldObject.Attributes.GetLineCount();
+            var lineCount = fieldObject.Attributes.GetLineCount(culture);
             if (lineCount > 1)
             {
                 return new(fieldObject.ValueFormatter
-                    .ToString(fieldObject.Value, fieldObject.ValueType).Replace("\n", "<br />"));
+                    .ToString(fieldObject.Value, fieldObject.ValueType, culture).Replace("\n", "<br />"));
             }
 
             // lookup display text
@@ -53,12 +54,12 @@ public static class FieldObjectExtensions
             var valueAsDecimal = fieldObject.ValueAsDecimal;
             if (valueAsDecimal.HasValue)
             {
-                return new(fieldObject.ValueFormatter.ToString(fieldObject.Value, fieldObject.ValueType));
+                return new(fieldObject.ValueFormatter.ToString(fieldObject.Value, fieldObject.ValueType, culture));
             }
         }
 
         // other values
-        return new(fieldObject.ValueFormatter.ToString(fieldObject.Value, fieldObject.ValueType));
+        return new(fieldObject.ValueFormatter.ToString(fieldObject.Value, fieldObject.ValueType, culture));
     }
 
 }

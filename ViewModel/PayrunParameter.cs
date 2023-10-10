@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
 
@@ -18,6 +19,9 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     }
 
     #region Field Object and Variant Value
+
+    [JsonIgnore]
+    public CultureInfo TenantCulture { get; set; }
 
     [JsonIgnore]
     public IValueFormatter ValueFormatter { get; set; }
@@ -47,7 +51,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public string ValueAsString
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToString(Value);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToString(Value, TenantCulture);
         set => Value = ValueConvert.ToJson(value);
     }
 
@@ -55,7 +59,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public int? ValueAsInteger
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToInteger(Value);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToInteger(Value, TenantCulture);
         set => Value = ValueConvert.ToJson(value);
     }
 
@@ -63,7 +67,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public bool? ValueAsBoolean
     {
-        get => !string.IsNullOrWhiteSpace(Value) && ValueConvert.ToBoolean(Value);
+        get => !string.IsNullOrWhiteSpace(Value) && ValueConvert.ToBoolean(Value, TenantCulture);
         set => Value = ValueConvert.ToJson(value);
     }
 
@@ -71,7 +75,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public decimal? ValueAsDecimal
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDecimal(Value);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDecimal(Value, TenantCulture);
         set => Value = ValueConvert.ToJson(value);
 
     }
@@ -88,16 +92,16 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public DateTime? ValueAsDateTime
     {
-        get => Date.Parse(Value) ??
-               (string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDateTime(Value));
+        get => Date.Parse(Value, TenantCulture) ??
+               (string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDateTime(Value, TenantCulture));
         set => Value = ValueConvert.ToJson(value);
     }
 
-    public string GetLocalizedName(string culture) =>
-        culture.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(CultureInfo culture) =>
+        culture.Name.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(string culture) =>
-        culture.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(CultureInfo culture) =>
+        culture.Name.GetLocalization(DescriptionLocalizations, Description);
 
     #endregion
 

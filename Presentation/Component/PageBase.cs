@@ -48,11 +48,19 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// Page culture
     /// <remarks>[culture by priority]: user > system</remarks>
     /// </summary>
-    protected string PageCulture =>
-        // priority 1: user culture
-        User.Culture ??
-        // priority 2: system culture
-        CultureInfo.CurrentCulture.Name;
+    protected CultureInfo PageCulture
+    {
+        get
+        {
+            // priority 1: user culture
+            if (!string.IsNullOrWhiteSpace(User.Culture))
+            {
+                return new(User.Culture);
+            }
+            // priority 2: system culture
+            return CultureInfo.CurrentCulture;
+        }
+    }
 
     #region Working Items
 
@@ -91,6 +99,23 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// The working tenant
     /// </summary>
     protected Tenant Tenant => Session.Tenant;
+
+    /// <summary>
+    /// The working tenant
+    /// </summary>
+    protected CultureInfo TenantCulture
+    {
+        get
+        {
+            var culture = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.InvariantCulture;
+            if (!string.IsNullOrWhiteSpace(Tenant?.Culture) &&
+                !string.Equals(culture.Name, Tenant.Culture))
+            {
+                culture = new CultureInfo(Tenant.Culture);
+            }
+            return culture;
+        }
+    }
 
     /// <summary>
     /// True if tenant is available

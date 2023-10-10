@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -24,13 +25,17 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     private ICaseValueProvider CaseValueProvider { get; }
 
     [JsonIgnore]
+    private CultureInfo TenantCulture { get; }
+
+    [JsonIgnore]
     public IValueFormatter ValueFormatter { get; }
 
     public CaseFieldSet(Client.Model.CaseFieldSet copySource, ICaseValueProvider caseValueProvider,
-        IValueFormatter valueFormatter, Localizer localizer) :
+        IValueFormatter valueFormatter, CultureInfo tenantCulture, Localizer localizer) :
         base(copySource)
     {
         CaseValueProvider = caseValueProvider ?? throw new ArgumentNullException(nameof(caseValueProvider));
+        TenantCulture = tenantCulture ?? throw new ArgumentNullException(nameof(tenantCulture));
         ValueFormatter = valueFormatter ?? throw new ArgumentNullException(nameof(valueFormatter));
 
         Validator = new(this, localizer);
@@ -76,7 +81,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         Documents.Removed += DocumentsHandlerAsync;
 
         // set attachment type
-        AttachmentType = Attributes.GetAttachment() ?? AttachmentType.None;
+        AttachmentType = Attributes.GetAttachment(TenantCulture) ?? AttachmentType.None;
 
         // status
         UpdateValidation();
@@ -87,11 +92,11 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     public bool IsValidValue() => Validator.ValidateValue();
 
-    public string GetLocalizedName(string culture) =>
-        culture.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(CultureInfo culture) =>
+        culture.Name.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(string culture) =>
-        culture.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(CultureInfo culture) =>
+        culture.Name.GetLocalization(DescriptionLocalizations, Description);
 
     #region Case Value
 
@@ -123,7 +128,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         }
     }
 
-    public bool StartAvailable() => 
+    public bool StartAvailable() =>
         TimeType.HasStart();
 
     public bool StartMissing()
@@ -185,7 +190,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         if (ValueType == ValueType.String)
         {
             // masked text
-            var mask = Attributes.GetValueMask();
+            var mask = Attributes.GetValueMask(TenantCulture);
             if (!string.IsNullOrWhiteSpace(mask))
             {
                 MaskedTextProvider maskProvider = new(mask);
@@ -194,10 +199,10 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             }
 
             // multi line text
-            var lineCount = Attributes.GetLineCount();
+            var lineCount = Attributes.GetLineCount(TenantCulture);
             if (lineCount > 1)
             {
-                return new(ValueFormatter.ToString(Value, ValueType).Replace("\n", "<br />"));
+                return new(ValueFormatter.ToString(Value, ValueType, TenantCulture).Replace("\n", "<br />"));
             }
 
             // lookup display text
@@ -225,12 +230,12 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             var valueAsDecimal = ValueAsDecimal;
             if (valueAsDecimal.HasValue)
             {
-                return new(ValueFormatter.ToString(Value, ValueType));
+                return new(ValueFormatter.ToString(Value, ValueType, TenantCulture));
             }
         }
 
         // other values
-        return new(ValueFormatter.ToString(Value, ValueType));
+        return new(ValueFormatter.ToString(Value, ValueType, TenantCulture));
     }
 
     /// <summary>Gets or sets the has value</summary>
@@ -312,23 +317,23 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         {
             if (ValueType.IsString())
             {
-                ValueAsString = ValueConvert.ToString(value);
+                ValueAsString = ValueConvert.ToString(value, TenantCulture);
             }
             if (ValueType.IsDateTime())
             {
-                ValueAsDateTime = Date.Parse(value) ?? ValueConvert.ToDateTime(value);
+                ValueAsDateTime = Date.Parse(value, TenantCulture) ?? ValueConvert.ToDateTime(value, TenantCulture);
             }
             if (ValueType.IsInteger())
             {
-                ValueAsInteger = ValueConvert.ToInteger(value);
+                ValueAsInteger = ValueConvert.ToInteger(value, TenantCulture);
             }
             if (ValueType.IsDecimal())
             {
-                ValueAsDecimal = ValueConvert.ToDecimal(value);
+                ValueAsDecimal = ValueConvert.ToDecimal(value, TenantCulture);
             }
             if (ValueType.IsBoolean())
             {
-                ValueAsBoolean = ValueConvert.ToBoolean(value);
+                ValueAsBoolean = ValueConvert.ToBoolean(value, TenantCulture);
             }
         }
     }
@@ -520,8 +525,8 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         return expression;
     }
 
-    private static DateTime? ParseDateExpression(string expression) =>
-        Date.Parse(expression);
+    private DateTime? ParseDateExpression(string expression) =>
+        Date.Parse(expression, TenantCulture);
 
     public bool EqualKey(CaseFieldSet compare) =>
         base.EqualKey(compare);

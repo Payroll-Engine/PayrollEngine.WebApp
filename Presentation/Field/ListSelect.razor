@@ -4,7 +4,7 @@
 
 <MudSelect T="T"
            @bind-Value="Value"
-           Culture="@EditCulture"
+           Culture="@Culture"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
@@ -85,7 +85,7 @@
     private void SetupList()
     {
         // no list
-        if (!Field.Attributes.HasList())
+        if (!Field.Attributes.HasList(Culture))
         {
             return;
         }

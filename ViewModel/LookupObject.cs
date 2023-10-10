@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 
@@ -12,6 +13,7 @@ public class LookupObject
     private readonly Dictionary<string, JsonElement> values = new();
     public decimal? RangeValue { get; }
 
+    private CultureInfo TenantCulture { get; }
     private IValueFormatter ValueFormatter { get; }
     private string ValuePropertyName { get; }
     private string TextPropertyName { get; }
@@ -25,7 +27,7 @@ public class LookupObject
         {
             if (value is string stringValue)
             {
-                lookupValue = ValueConvert.ToValue(stringValue, ValueType.String);
+                lookupValue = ValueConvert.ToValue(stringValue, ValueType.String, TenantCulture);
             }
             else
             {
@@ -41,8 +43,9 @@ public class LookupObject
     }
 
     public LookupObject(JsonElement element, IValueFormatter valueFormatter, ValueType valueType,
-        decimal? rangeValue, string valuePropertyName = null, string textPropertyName = null)
+        CultureInfo tenantCulture, decimal? rangeValue, string valuePropertyName = null, string textPropertyName = null)
     {
+        TenantCulture = tenantCulture ?? throw new ArgumentNullException(nameof(tenantCulture));
         ValueFormatter = valueFormatter ?? throw new ArgumentNullException(nameof(valueFormatter));
 
         // properties
@@ -77,7 +80,7 @@ public class LookupObject
 
         Text = string.IsNullOrWhiteSpace(textPropertyName) ?
             // no text property: value as text
-            ValueFormatter.ToString(Value, valueType) :
+            ValueFormatter.ToString(Value, valueType, tenantCulture) :
             // text property
             values[TextPropertyName].GetString();
     }

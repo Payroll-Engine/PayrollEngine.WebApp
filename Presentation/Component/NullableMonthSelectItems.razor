@@ -8,13 +8,13 @@
 
 @code
 {
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     private List<LabeledValue<Month?>> Months { get; set; } = new();
 
     private void SetupMonths()
     {
         // culture: fallback to system culture
-        var cultureName = Culture ?? CultureInfo.CurrentCulture.Name;
+        var cultureName = Culture?.Name ?? CultureInfo.CurrentCulture.Name;
         var culture = CultureTool.GetCulture(cultureName);
 
         // months

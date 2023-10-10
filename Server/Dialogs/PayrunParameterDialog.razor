@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<PayrunParameter>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -49,6 +49,6 @@
     [Parameter] public PayrunParameter PayrunParameter { get; set; } = new();
     [Inject] private Localizer Localizer { get; set; }
 
-    public async Task<bool> ValidateAsync(PayrunParameter payrunParameter) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 }

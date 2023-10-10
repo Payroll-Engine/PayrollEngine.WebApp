@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Regulation>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -53,6 +53,6 @@
     [Parameter] public Regulation Regulation { get; set; } = new();
     [Inject] private Localizer Localizer { get; set; }
 
-    public async Task<bool> ValidateAsync(Regulation regulation) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 }

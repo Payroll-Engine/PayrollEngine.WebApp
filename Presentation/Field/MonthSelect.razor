@@ -3,7 +3,7 @@
 
 <MudSelect T="int?"
 @bind-Value="Field.ValueAsInteger"
-           Culture="@EditCulture"
+           Culture="@Culture"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
@@ -34,7 +34,7 @@
         SetValueLabel(Field.Attributes.GetValueLabel(Culture) ?? Localizer.Calendar.Month);
 
         // month names
-        var monthNames = EditCulture.DateTimeFormat.MonthNames.
+        var monthNames = Culture.DateTimeFormat.MonthNames.
             Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
         for (var i = 0; i < monthNames.Count; i++)
         {

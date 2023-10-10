@@ -56,12 +56,12 @@ public abstract partial class NewCasePageBase
 
     #region Culture
 
-    private string caseCulture;
+    private CultureInfo caseCulture;
     /// <summary>
     /// Case culture
     /// <remarks>[culture by priority]: employee > division > tenant > system</remarks>
     /// </summary>
-    private string CaseCulture
+    private CultureInfo CaseCulture
     {
         get
         {
@@ -73,7 +73,7 @@ public abstract partial class NewCasePageBase
             // priority 1: employee culture
             if (Employee != null && !string.IsNullOrWhiteSpace(Employee.Culture))
             {
-                caseCulture = Employee.Culture;
+                caseCulture = new(Employee.Culture);
             }
 
             // priority 2: division culture
@@ -82,18 +82,18 @@ public abstract partial class NewCasePageBase
                 var division = Task.Run(() => DivisionService.GetAsync<ViewModel.Division>(new(Tenant.Id), Payroll.DivisionId)).Result;
                 if (division != null && !string.IsNullOrWhiteSpace(division.Culture))
                 {
-                    caseCulture = division.Culture;
+                    caseCulture = new(division.Culture);
                 }
             }
 
             // priority 3: tenant culture
             if (caseCulture == null && !string.IsNullOrWhiteSpace(Tenant.Culture))
             {
-                caseCulture = Tenant.Culture;
+                caseCulture = new(Tenant.Culture);
             }
 
             // priority 4: system culture
-            return caseCulture ??= CultureInfo.CurrentCulture.Name;
+            return caseCulture ??= CultureInfo.CurrentCulture;
         }
     }
 
@@ -226,7 +226,7 @@ public abstract partial class NewCasePageBase
             }
 
             // convert to view model
-            var caseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, Localizer);
+            var caseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
             // Lookups are initially set without taking in consideration possible cases that are only shown in certain conditions
             // Those new lookups are loaded in Update Case method
             await SetupLookupsAsync(caseSet);
@@ -280,7 +280,7 @@ public abstract partial class NewCasePageBase
             }
 
             // Updating cases may add more cases to existing list, therefore update of lookups is needed
-            var changeCaseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, Localizer);
+            var changeCaseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
             await CaseMerger.MergeAsync(changeCaseSet, caseSet);
             await SetupLookupsAsync(caseSet);
         }
@@ -537,7 +537,7 @@ public abstract partial class NewCasePageBase
                         {
                             var jsonElement = JsonSerializer.Deserialize<JsonElement>(lookupValue.Value);
                             lookupValues.Add(new(jsonElement, ValueFormatter, lookupField.ValueType,
-                                lookupValue.RangeValue, valueFieldName, textFieldName));
+                                TenantCulture, lookupValue.RangeValue, valueFieldName, textFieldName));
                         }
 
                         // apply lookup to the case field

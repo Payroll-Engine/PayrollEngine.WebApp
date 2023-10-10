@@ -57,7 +57,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
                 var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
                 if (culture == null)
                 {
-                    parameters.Add(nameof(Tenant.Culture), PageCulture);
+                    parameters.Add(nameof(Tenant.Culture), TenantCulture);
                 }
             }
 
@@ -148,7 +148,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TI
                 var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
                 if (culture == null)
                 {
-                    parameters.Add(nameof(Tenant.Culture), PageCulture);
+                    parameters.Add(nameof(Tenant.Culture), TenantCulture);
                 }
             }
 

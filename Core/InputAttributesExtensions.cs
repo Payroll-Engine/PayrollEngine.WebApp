@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json;
 
 namespace PayrollEngine.WebApp;
@@ -9,35 +10,35 @@ public static class InputAttributesExtensions
 
     #region Case General
 
-    public static string GetIcon(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.Icon, culture);
+    public static string GetIcon(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.Icon, culture.Name);
 
     #endregion
 
     #region Case Field General
 
-    public static bool? GetHidden(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.Hidden, culture);
+    public static bool? GetHidden(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.Hidden, culture.Name);
 
-    public static bool? GetShowDescription(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.ShowDescription, culture);
+    public static bool? GetShowDescription(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.ShowDescription, culture.Name);
 
     #endregion
 
     #region Case Field Start
 
-    public static bool? GetStartReadOnly(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.StartPickerOpen, culture);
+    public static bool? GetStartReadOnly(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.StartPickerOpen, culture.Name);
 
-    public static DatePickerType? GetStartPickerOpen(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.StartPickerOpen, culture);
+    public static DatePickerType? GetStartPickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.StartPickerOpen, culture.Name);
 
-    public static DateTimeType? GetStartPickerType(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetEnumAttributeValue<DateTimeType>(InputAttributes.StartPickerType, culture);
+    public static DateTimeType? GetStartPickerType(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<DateTimeType>(InputAttributes.StartPickerType, culture.Name);
 
-    public static string GetStartFormat(this Dictionary<string, object> attributes, string culture = null)
+    public static string GetStartFormat(this Dictionary<string, object> attributes, CultureInfo culture)
     {
-        if (!attributes.TryGetAttributeValue<object>(InputAttributes.StartFormat, out var value, culture))
+        if (!attributes.TryGetAttributeValue<object>(InputAttributes.StartFormat, out var value, culture.Name))
         {
             return null;
         }
@@ -48,31 +49,31 @@ public static class InputAttributesExtensions
         return value as string;
     }
 
-    public static string GetStartLabel(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.StartLabel, culture);
+    public static string GetStartLabel(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.StartLabel, culture.Name);
 
-    public static string GetStartHelp(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.StartHelp, culture);
+    public static string GetStartHelp(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.StartHelp, culture.Name);
 
-    public static string GetStartRequired(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.StartRequired, culture);
+    public static string GetStartRequired(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.StartRequired, culture.Name);
 
     #endregion
 
     #region Case Field End
 
-    public static bool? GetEndReadOnly(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.EndPickerOpen, culture);
+    public static bool? GetEndReadOnly(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.EndPickerOpen, culture.Name);
 
-    public static DatePickerType? GetEndPickerOpen(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.EndPickerOpen, culture);
+    public static DatePickerType? GetEndPickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.EndPickerOpen, culture.Name);
 
-    public static DateTimeType? GetEndPickerType(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetEnumAttributeValue<DateTimeType>(InputAttributes.EndPickerType, culture);
+    public static DateTimeType? GetEndPickerType(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<DateTimeType>(InputAttributes.EndPickerType, culture.Name);
 
-    public static string GetEndFormat(this Dictionary<string, object> attributes, string culture = null)
+    public static string GetEndFormat(this Dictionary<string, object> attributes, CultureInfo culture)
     {
-        if (!attributes.TryGetAttributeValue<object>(InputAttributes.EndFormat, out var value, culture))
+        if (!attributes.TryGetAttributeValue<object>(InputAttributes.EndFormat, out var value, culture.Name))
         {
             return null;
         }
@@ -83,78 +84,78 @@ public static class InputAttributesExtensions
         return value as string;
     }
 
-    public static string GetEndLabel(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.EndLabel, culture);
+    public static string GetEndLabel(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.EndLabel, culture.Name);
 
-    public static string GetEndHelp(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.EndHelp, culture);
+    public static string GetEndHelp(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.EndHelp, culture.Name);
 
-    public static string GetEndRequired(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.EndRequired, culture);
+    public static string GetEndRequired(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.EndRequired, culture.Name);
 
     #endregion
 
     #region Case Field Value
 
-    public static string GetValueLabel(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.ValueLabel, culture);
+    public static string GetValueLabel(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.ValueLabel, culture.Name);
 
-    public static string GetValueAdornment(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.ValueAdornment, culture);
+    public static string GetValueAdornment(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.ValueAdornment, culture.Name);
 
-    public static string GetValueHelp(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.ValueHelp, culture);
+    public static string GetValueHelp(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.ValueHelp, culture.Name);
 
-    public static string GetValueMask(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.ValueMask, culture);
+    public static string GetValueMask(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.ValueMask, culture.Name);
 
-    public static string GetValueRequired(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.ValueRequired, culture);
+    public static string GetValueRequired(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.ValueRequired, culture.Name);
 
-    public static bool? GetValueReadOnly(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.ValueReadOnly, culture);
+    public static bool? GetValueReadOnly(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.ValueReadOnly, culture.Name);
 
-    public static DatePickerType? GetValuePickerOpen(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.ValuePickerOpen, culture);
+    public static DatePickerType? GetValuePickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.ValuePickerOpen, culture.Name);
 
-    public static string GetCulture(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.Culture, culture);
+    public static string GetCulture(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.Culture, culture.Name);
 
-    public static int? GetMinIntegerValue(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetIntegerAttributeValue(InputAttributes.MinValue, culture);
+    public static int? GetMinIntegerValue(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetIntegerAttributeValue(InputAttributes.MinValue, culture.Name);
 
-    public static int? GetMaxIntegerValue(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetIntegerAttributeValue(InputAttributes.MaxValue, culture);
+    public static int? GetMaxIntegerValue(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetIntegerAttributeValue(InputAttributes.MaxValue, culture.Name);
 
-    public static decimal? GetMinDecimalValue(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetDecimalAttributeValue(InputAttributes.MinValue, culture);
+    public static decimal? GetMinDecimalValue(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetDecimalAttributeValue(InputAttributes.MinValue, culture.Name);
 
-    public static decimal? GetMaxDecimalValue(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetDecimalAttributeValue(InputAttributes.MaxValue, culture);
+    public static decimal? GetMaxDecimalValue(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetDecimalAttributeValue(InputAttributes.MaxValue, culture.Name);
 
-    public static DateTime? GetMinDateTimeValue(this Dictionary<string, object> attributes, string culture = null) =>
+    public static DateTime? GetMinDateTimeValue(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetDateExpressionAttributeValue(InputAttributes.MinValue, culture);
 
-    public static DateTime? GetMaxDateTimeValue(this Dictionary<string, object> attributes, string culture = null) =>
+    public static DateTime? GetMaxDateTimeValue(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetDateExpressionAttributeValue(InputAttributes.MaxValue, culture);
 
-    public static int? GetIntegerStepSize(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetIntegerAttributeValue(InputAttributes.StepSize, culture);
+    public static int? GetIntegerStepSize(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetIntegerAttributeValue(InputAttributes.StepSize, culture.Name);
 
-    public static decimal? GetDecimalStepSize(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetDecimalAttributeValue(InputAttributes.StepSize, culture);
+    public static decimal? GetDecimalStepSize(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetDecimalAttributeValue(InputAttributes.StepSize, culture.Name);
 
-    public static string GetFormat(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.Format, culture);
+    public static string GetFormat(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.Format, culture.Name);
 
-    public static int? GetLineCount(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetIntegerAttributeValue(InputAttributes.LineCount, culture);
+    public static int? GetLineCount(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetIntegerAttributeValue(InputAttributes.LineCount, culture.Name);
 
-    public static int? GetMaxLength(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetIntegerAttributeValue(InputAttributes.MaxLength, culture);
+    public static int? GetMaxLength(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetIntegerAttributeValue(InputAttributes.MaxLength, culture.Name);
 
-    public static bool? GetCheck(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.Check, culture);
+    public static bool? GetCheck(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.Check, culture.Name);
 
     // no value picker type: the case field value-type pre defines the picker type
 
@@ -162,37 +163,37 @@ public static class InputAttributesExtensions
 
     #region Case Field Attachments
 
-    public static AttachmentType? GetAttachment(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetEnumAttributeValue<AttachmentType>(InputAttributes.Attachment, culture);
+    public static AttachmentType? GetAttachment(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<AttachmentType>(InputAttributes.Attachment, culture.Name);
 
-    public static string GetAttachmentExtensions(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.GetStringAttributeValue(InputAttributes.AttachmentExtensions, culture);
+    public static string GetAttachmentExtensions(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.AttachmentExtensions, culture.Name);
 
     #endregion
 
     #region List
 
-    public static bool HasList(this Dictionary<string, object> attributes, string culture = null) =>
-        attributes.HasAttribute(InputAttributes.List, culture);
+    public static bool HasList(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.HasAttribute(InputAttributes.List, culture.Name);
 
-    public static List<object> GetList(this Dictionary<string, object> attributes, string culture = null) =>
+    public static List<object> GetList(this Dictionary<string, object> attributes, CultureInfo culture) =>
         GetListAttributeValue(attributes, InputAttributes.List, culture);
 
-    public static List<T> GetList<T>(this Dictionary<string, object> attributes, string culture = null) =>
+    public static List<T> GetList<T>(this Dictionary<string, object> attributes, CultureInfo culture) =>
         GetListAttributeValue<T>(attributes, InputAttributes.List, culture);
 
-    public static List<object> GetListValues(this Dictionary<string, object> attributes, string culture = null) =>
+    public static List<object> GetListValues(this Dictionary<string, object> attributes, CultureInfo culture) =>
         GetListAttributeValue(attributes, InputAttributes.ListValues, culture);
 
-    public static List<T> GetListValues<T>(this Dictionary<string, object> attributes, string culture = null) =>
+    public static List<T> GetListValues<T>(this Dictionary<string, object> attributes, CultureInfo culture) =>
         GetListAttributeValue<T>(attributes, InputAttributes.ListValues, culture);
 
-    //public static bool HasListSelection(this Dictionary<string, object> attributes, string culture = null) =>
+    //public static bool HasListSelection(this Dictionary<string, object> attributes, CultureInfo culture) =>
     //    attributes.HasAttribute(InputAttributes.ListSelection, culture);
 
-    public static T GetListSelection<T>(this Dictionary<string, object> attributes, string culture = null)
+    public static T GetListSelection<T>(this Dictionary<string, object> attributes, CultureInfo culture)
     {
-        if (attributes.TryGetAttributeValue<object>(InputAttributes.ListSelection, out var selection, culture))
+        if (attributes.TryGetAttributeValue<object>(InputAttributes.ListSelection, out var selection, culture.Name))
         {
             try
             {
@@ -208,7 +209,7 @@ public static class InputAttributesExtensions
     }
 
     private static List<T> GetListAttributeValue<T>(this Dictionary<string, object> attributes, string attribute,
-        string culture = null)
+        CultureInfo culture)
     {
         var typeList = new List<T>();
         var objectList = GetListAttributeValue(attributes, attribute, culture);
@@ -230,9 +231,9 @@ public static class InputAttributesExtensions
         return typeList;
     }
 
-    private static List<object> GetListAttributeValue(this Dictionary<string, object> attributes, string attribute, string culture = null)
+    private static List<object> GetListAttributeValue(this Dictionary<string, object> attributes, string attribute, CultureInfo culture)
     {
-        var value = attributes.GetStringAttributeValue(attribute, culture);
+        var value = attributes.GetStringAttributeValue(attribute, culture.Name);
         if (string.IsNullOrWhiteSpace(value))
         {
             return null;
@@ -265,10 +266,10 @@ public static class InputAttributesExtensions
     #region Date
 
     private static DateTime? GetDateExpressionAttributeValue(this IDictionary<string, object> attributes,
-        string name, string culture = null)
+        string name, CultureInfo culture)
     {
-        var expression = attributes.GetStringAttributeValue(name, culture);
-        return string.IsNullOrWhiteSpace(expression) ? null : Date.Parse(expression);
+        var expression = attributes.GetStringAttributeValue(name, culture.Name);
+        return string.IsNullOrWhiteSpace(expression) ? null : Date.Parse(expression, culture);
     }
 
     #endregion

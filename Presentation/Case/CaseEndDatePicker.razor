@@ -52,7 +52,7 @@
     {
         Label = Attributes.GetEndLabel(Culture) ?? Localizer.Shared.End;
         Format = Attributes.GetEndFormat(Culture) ??
-                     CultureInfo.DateTimeFormat.ShortDatePattern;
+                     Culture.DateTimeFormat.ShortDatePattern;
         RequiredError = Attributes.GetEndRequired(Culture);
         ReadOnly = Attributes.GetEndReadOnly(Culture) ?? false;
         Help = Attributes.GetEndHelp(Culture);

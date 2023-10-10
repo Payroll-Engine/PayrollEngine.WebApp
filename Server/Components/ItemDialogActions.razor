@@ -11,8 +11,8 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public T Item { get; set; }
-    [Parameter] public IItemValidator<T> FormValidator { get; set; }
-    [Parameter] public IItemValidator<T> ItemValidator { get; set; }
+    [Parameter] public IItemValidator FormValidator { get; set; }
+    [Parameter] public IItemValidator ItemValidator { get; set; }
 
     [Inject] private Localizer Localizer { get; set; }
 
@@ -21,13 +21,13 @@
     private async System.Threading.Tasks.Task Submit()
     {
         // form validator
-        if (FormValidator != null && !await FormValidator.ValidateAsync(Item))
+        if (FormValidator != null && !await FormValidator.ValidateAsync())
         {
             return;
         }
 
         // model validator
-        if (ItemValidator != null && !await ItemValidator.ValidateAsync(Item))
+        if (ItemValidator != null && !await ItemValidator.ValidateAsync())
         {
             return;
         }

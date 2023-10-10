@@ -1,5 +1,6 @@
 ﻿@using ValueType = PayrollEngine.ValueType
 @using PayrollEngine.WebApp.ViewModel
+@using System.Globalization
 
 @* unsupported value types *@
 @if (Field.ValueType is ValueType.NumericBoolean or ValueType.WebResource or ValueType.None)
@@ -31,6 +32,6 @@ else if (Field.ValueType.IsDateTime())
 @code
 {
     [Parameter] public IFieldObject Field { get; set; }
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public bool Disabled { get; set; }
 }

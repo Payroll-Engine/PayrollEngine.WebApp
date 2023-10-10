@@ -13,19 +13,23 @@ public class ValueFormatter : IValueFormatter
     }
 
     /// <inheritdoc />
-    public string ToString(string json, ValueType valueType) =>
+    public string ToString(string json, ValueType valueType, CultureInfo culture) =>
         string.IsNullOrWhiteSpace(json) ? null
-            : ToString(ValueConvert.ToValue(json, valueType), valueType);
+            : ToString(ValueConvert.ToValue(json, valueType, culture), valueType, culture);
 
     /// <inheritdoc />
-    public string ToString(object value, ValueType valueType)
+    public string ToString(object value, ValueType valueType, CultureInfo culture)
     {
+        if (culture == null)
+        {
+            throw new ArgumentNullException(nameof(culture));
+        }
+
         if (value == null)
         {
             return null;
         }
 
-        var culture = Culture;
         var stringValue = value.ToString();
 
         switch (valueType)

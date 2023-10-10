@@ -17,7 +17,6 @@
                    Margin="@(Dense ? Margin.Dense : Margin.Normal)"
                    Variant="@Variant"
                    Class="@Class"
-                   Style="@Style"
                    Editable="true" />
     <MudTimePicker @bind-Time="@Time"
                    Error="@Error"
@@ -123,8 +122,8 @@
     {
         DateLabel = Attributes.GetEndLabel(Culture) ?? Localizer.Shared.End;
         DateFormat = Attributes.GetEndFormat(Culture) ??
-                     CultureInfo.DateTimeFormat.ShortDatePattern;
-        TimeFormat = CultureInfo.DateTimeFormat.ShortTimePattern;
+                     Culture.DateTimeFormat.ShortDatePattern;
+        TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
         RequiredError = Attributes.GetEndRequired(Culture);
         ReadOnly = Attributes.GetEndReadOnly(Culture) ?? false;
         Help = Attributes.GetEndHelp(Culture);

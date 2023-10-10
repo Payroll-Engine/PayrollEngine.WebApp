@@ -59,7 +59,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">@Localizer.Action.Categories</MudText></td>
-                                                    <td><MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">@string.Join(", ", context.Item.Categories)</MudText></td>
+                                                    <td><MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">
+                                                        @string.Join(", ", context.Item.Categories as IEnumerable<string>)
+                                                    </MudText></td>
                                                 </tr>
                                             </table>
                                             @if (context.Item.Parameters != null && context.Item.Parameters.Any())

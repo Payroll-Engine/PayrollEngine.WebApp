@@ -1,5 +1,6 @@
 ﻿@using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Shared
+@using System.Globalization
 <MudTooltip Delay="200" Placement="Placement.Top" RootStyle="width: 100%">
     <ChildContent>
         <MudTextField T="string"
@@ -25,7 +26,7 @@
                             <tr>
                                 <td>
                                     <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
-                                        @Culture.GetLocalization(parameter.NameLocalizations, parameter.Name)
+                                        @Culture.Name.GetLocalization(parameter.NameLocalizations, parameter.Name)
                                     </MudText>
                                 </td>
                                 <td>
@@ -64,7 +65,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
     [Parameter] public Dictionary<string, object> ParameterAttributes { get; set; } = new();
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public string Class { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 

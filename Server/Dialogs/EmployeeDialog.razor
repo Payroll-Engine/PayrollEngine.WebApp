@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Employee>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -98,6 +98,6 @@
         await base.OnInitializedAsync();
     }
 
-    public async Task<bool> ValidateAsync(Employee employee) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 }

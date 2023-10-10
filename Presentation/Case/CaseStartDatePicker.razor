@@ -49,7 +49,7 @@
     {
         Label = Attributes.GetStartLabel(Culture) ?? Localizer.Shared.Start;
         Format = Attributes.GetStartFormat(Culture) ??
-                     CultureInfo.DateTimeFormat.ShortDatePattern;
+                     Culture.DateTimeFormat.ShortDatePattern;
         RequiredError = Attributes.GetStartRequired(Culture);
         ReadOnly = Attributes.GetStartReadOnly(Culture) ?? false;
         Help = Attributes.GetStartHelp(Culture);

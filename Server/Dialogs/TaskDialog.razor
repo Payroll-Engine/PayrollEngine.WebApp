@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<ViewModel.Task>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Presentation.Component
@@ -52,9 +52,9 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Task Task { get; set; } = new();
-    [Parameter] public IItemValidator<Task> Validator { get; set; }
+    [Parameter] public IItemValidator Validator { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
-    public async Task<bool> ValidateAsync(Task task) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 }

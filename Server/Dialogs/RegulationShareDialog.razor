@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<RegulationShare>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -7,6 +7,7 @@
 @using PayrollEngine.Client.Service
 @using PayrollEngine.Client.QueryExpression
 @using Task = System.Threading.Tasks.Task
+@using System.Globalization
 
 <MudDialog Class="item-dialog">
     <DialogContent>
@@ -36,7 +37,7 @@
                             @foreach (var regulation in ProviderRegulations)
                             {
                                 <MudSelectItem T="string" Value="@regulation.Name">
-                                    @Culture.GetLocalization(regulation.NameLocalizations, regulation.Name)
+                                    @Culture.Name.GetLocalization(regulation.NameLocalizations, regulation.Name)
                                 </MudSelectItem>
                             }
                         </MudSelect>
@@ -67,7 +68,7 @@
                             @foreach (var division in ConsumerDivisions)
                             {
                                 <MudSelectItem T="string" Value="@division.Name">
-                                    @Culture.GetLocalization(division.NameLocalizations, division.Name)
+                                    @Culture.Name.GetLocalization(division.NameLocalizations, division.Name)
                                 </MudSelectItem>
                             }
                         </MudSelect>
@@ -90,7 +91,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public RegulationShare RegulationShare { get; set; } = new();
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
 
     [Inject] private ITenantService TenantService { get; set; }
     [Inject] private IRegulationService RegulationService { get; set; }
@@ -184,7 +185,7 @@
 
     #endregion
 
-    public async Task<bool> ValidateAsync(RegulationShare share) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 
     private async Task SetupConsumerDivisionsAsync()

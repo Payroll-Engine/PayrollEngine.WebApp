@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<WebhookMessage>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -58,6 +58,6 @@
     [Parameter] public WebhookMessage WebhookMessage { get; set; } = new();
     [Inject] private Localizer Localizer { get; set; }
 
-    public async Task<bool> ValidateAsync(WebhookMessage message) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 }

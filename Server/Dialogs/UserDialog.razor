@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<User>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -74,6 +74,6 @@
 
     private string SelectedFeature { get; set; }
 
-    public async Task<bool> ValidateAsync(User user) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 }

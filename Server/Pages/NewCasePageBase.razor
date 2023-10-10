@@ -32,7 +32,7 @@
                                     <MudStack Row="true" Spacing="0" Class="d-flex">
                                         @* case name *@
                                         <MudText Typo="Typo.h5" Class="flex-grow-1">
-                                            @context.GetLocalizedName(PageCulture)
+                                            @context.GetLocalizedName(PageCulture.Name)
                                         </MudText>
                                         @* case icon *@
                                         @{
@@ -48,7 +48,7 @@
                                         // set very first case field focus to true
                                         foreach (var caseField in context.Fields)
                                         {
-                                            if (caseField.Attributes?.GetHidden(PageCulture) ?? false)
+                                            if (caseField.Attributes?.GetHidden(TenantCulture) ?? false)
                                             {
                                                 // don't show hidden attributes
                                                 continue;

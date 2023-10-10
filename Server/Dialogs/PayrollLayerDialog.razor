@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<PayrollLayer>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Presentation
@@ -65,7 +65,7 @@
     [Parameter] public List<string> RegulationNames { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
-    public async Task<bool> ValidateAsync(PayrollLayer payrollLayer) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 
     private string ValidateLevel(int level) =>

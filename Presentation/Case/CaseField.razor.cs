@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
@@ -13,7 +14,7 @@ public partial class CaseField
     [Parameter]
     public CaseFieldSet Field { get; set; }
     [Parameter]
-    public string Culture { get; set; }
+    public CultureInfo Culture { get; set; }
     [Parameter]
     public bool Dense { get; set; }
     [Parameter]

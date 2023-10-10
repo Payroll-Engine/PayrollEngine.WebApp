@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -28,7 +29,7 @@ public partial class ReportDownloadDialog
     [Parameter] public User User { get; set; }
     [Parameter] public Client.Model.Payroll Payroll { get; set; }
     [Parameter] public ReportSet Report { get; set; }
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public ValueFormatter ValueFormatter { get; set; }
 
     [Inject]
@@ -56,9 +57,9 @@ public partial class ReportDownloadDialog
     private string ErrorMessage { get; set; }
     private string DownloadFileName { get; set; }
 
-    private string ReportName => Report.GetLocalizedName(Culture);
+    private string ReportName => Report.GetLocalizedName(Culture.Name);
 
-    private string ReportDescription => Report.GetLocalizedDescription(Culture);
+    private string ReportDescription => Report.GetLocalizedDescription(Culture.Name);
     private bool HasDescription =>
         !string.IsNullOrWhiteSpace(ReportDescription);
 
@@ -94,7 +95,7 @@ public partial class ReportDownloadDialog
         if (documentType is DocumentType.Word or DocumentType.Pdf or DocumentType.Xml && ReportTemplate == null)
         {
             await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
-                Localizer.Report.TemplateNotAvailable(ReportName, Culture));
+                Localizer.Report.TemplateNotAvailable(ReportName, Culture.Name));
             return;
         }
 
@@ -110,14 +111,14 @@ public partial class ReportDownloadDialog
                 new(Tenant.Id, Report.RegulationId), Report.Id,
                 new()
                 {
-                    Culture = Culture,
+                    Culture = Culture.Name,
                     Parameters = parameters,
                     UserId = User.Id
                 });
 
             // report metadata
             var now = DateTime.Now; // use local time (no UTC)
-            var title = Report.GetLocalizedName(Culture);
+            var title = Report.GetLocalizedName(Culture.Name);
             var documentMetadata = new DocumentMetadata
             {
                 Author = User.Identifier,
@@ -142,9 +143,9 @@ public partial class ReportDownloadDialog
                 // download
                 DownloadFileName =
                     $"{Report.Name}_{FileTool.CurrentTimeStamp()}{documentType.GetFileExtension()}";
-                var reportName = Report.GetLocalizedName(Culture);
+                var reportName = Report.GetLocalizedName(Culture.Name);
 
-                var mergeParameters = new Dictionary<string,object>(parameters.Select(x => new KeyValuePair<string, object>(x.Key, x.Value)));
+                var mergeParameters = new Dictionary<string, object>(parameters.Select(x => new KeyValuePair<string, object>(x.Key, x.Value)));
 
                 // document stream
                 MemoryStream documentStream = null;
@@ -287,15 +288,15 @@ public partial class ReportDownloadDialog
             ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
                 new(Tenant.Id, Payroll.Id),
                 reportNames: new[] { Report.Name },
-                culture: Culture)).FirstOrDefault();
+                culture: Culture.Name)).FirstOrDefault();
 
             // fallback template by base culture
             if (ReportTemplate == null)
             {
-                var index = Culture.IndexOf('-');
+                var index = Culture.Name.IndexOf('-');
                 if (index >= 0)
                 {
-                    var baseCulture = Culture.Substring(0, index);
+                    var baseCulture = Culture.Name.Substring(0, index);
                     ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
                         new(Tenant.Id, Payroll.Id),
                         reportNames: new[] { Report.Name },
@@ -361,6 +362,8 @@ public partial class ReportDownloadDialog
 
         foreach (var parameter in report.ViewParameters)
         {
+            //// tenant culture
+            parameter.TenantCulture = Culture;
             // value formatter
             parameter.ValueFormatter = ValueFormatter;
             // change notification
@@ -377,11 +380,33 @@ public partial class ReportDownloadDialog
 
         foreach (var parameter in report.ViewParameters)
         {
+            //// tenant culture
+            parameter.TenantCulture = null;
             // value formatter
             parameter.ValueFormatter = null;
             // change notification
             parameter.ParameterChanged -= UpdateReportParameter;
         }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Tenant != null)
+        {
+            Culture = GetTenantCulture(Tenant);
+        }
+        await base.OnParametersSetAsync();
+    }
+
+    private static CultureInfo GetTenantCulture(Tenant tenant)
+    {
+        var culture = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.InvariantCulture;
+        if (!string.IsNullOrWhiteSpace(tenant.Culture) &&
+            !string.Equals(culture.Name, tenant.Culture))
+        {
+            culture = new CultureInfo(tenant.Culture);
+        }
+        return culture;
     }
 
     private bool Initialized { get; set; }
@@ -391,7 +416,7 @@ public partial class ReportDownloadDialog
         ApplySystemParameters(Report);
         await SetupReportTemplateAsync();
         await base.OnInitializedAsync();
-        
+
         Initialized = true;
         // build initial report parameters
         await UpdateReportAsync(Report);

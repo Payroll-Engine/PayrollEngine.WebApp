@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using MudBlazor;
 using PayrollEngine.WebApp.ViewModel;
 
@@ -6,7 +7,7 @@ namespace PayrollEngine.WebApp.Server.Shared;
 
 public static class IconTool
 {
-    public static string GetCaseIcon(Case @case, string culture = null)
+    public static string GetCaseIcon(Case @case, CultureInfo culture)
     {
         var icon = @case.Attributes.GetIcon(culture);
         if (string.IsNullOrWhiteSpace(icon))

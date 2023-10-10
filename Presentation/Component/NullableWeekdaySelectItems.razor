@@ -7,14 +7,14 @@
 
 @code
 {
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
 
     private List<LabeledValue<PayrollEngine.DayOfWeek?>> Weekdays { get; } = new();
 
     private void SetupWeekdays()
     {
         // culture: fallback to system culture
-        var cultureName = Culture ?? CultureInfo.CurrentCulture.Name;
+        var cultureName = Culture?.Name ?? CultureInfo.CurrentCulture.Name;
         var culture = CultureTool.GetCulture(cultureName);
 
         // day names

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace PayrollEngine.WebApp.ViewModel;
@@ -32,18 +33,18 @@ public class CaseChangeCaseValue : Client.Model.CaseChangeCaseValue, IViewModel,
     /// Format the case value to string
     /// </summary>
     /// <returns>The case value string representation</returns>
-    public string ValueAsString(IValueFormatter valueFormatter)
+    public string ValueAsString(IValueFormatter valueFormatter, CultureInfo culture)
     {
         string valueString;
         // culture support
-        var culture = Attributes.GetCulture();
-        if (ValueType.IsDecimal() && Attributes != null && !string.IsNullOrWhiteSpace(culture))
+        var cultureAttribute = Attributes.GetCulture(culture);
+        if (ValueType.IsDecimal() && Attributes != null && !string.IsNullOrWhiteSpace(cultureAttribute))
         {
-            valueString = valueFormatter.ToString(Value, ValueType);
+            valueString = valueFormatter.ToString(Value, ValueType, culture);
         }
         else
         {
-            valueString = valueFormatter.ToString(Value, ValueType);
+            valueString = valueFormatter.ToString(Value, ValueType, culture);
         }
         return valueString;
     }

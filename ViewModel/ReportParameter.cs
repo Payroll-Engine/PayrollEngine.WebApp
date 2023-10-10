@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
 
@@ -34,6 +35,9 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     /// </summary>
     [JsonIgnore]
     List<LookupObject> IFieldObject.LookupValues => null;
+    
+    [JsonIgnore]
+    public CultureInfo TenantCulture { get; set; }
 
     [JsonIgnore]
     public IValueFormatter ValueFormatter { get; set; }
@@ -50,7 +54,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     [JsonIgnore]
     public string ValueAsString
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToString(Value);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToString(Value, TenantCulture);
         set
         {
             if (!string.Equals(ValueAsString, value))
@@ -65,7 +69,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     [JsonIgnore]
     public int? ValueAsInteger
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToInteger(Value);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToInteger(Value, TenantCulture);
         set
         {
             if (value != ValueAsInteger)
@@ -80,7 +84,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     [JsonIgnore]
     public bool? ValueAsBoolean
     {
-        get => !string.IsNullOrWhiteSpace(Value) && ValueConvert.ToBoolean(Value);
+        get => !string.IsNullOrWhiteSpace(Value) && ValueConvert.ToBoolean(Value, TenantCulture);
         set
         {
             if (value != ValueAsBoolean)
@@ -95,7 +99,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     [JsonIgnore]
     public decimal? ValueAsDecimal
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDecimal(Value);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDecimal(Value, TenantCulture);
         set
         {
             if (value != ValueAsDecimal)
@@ -118,8 +122,8 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     [JsonIgnore]
     public DateTime? ValueAsDateTime
     {
-        get => Date.Parse(Value) ??
-               (string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDateTime(Value));
+        get => Date.Parse(Value, TenantCulture) ??
+               (string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDateTime(Value, TenantCulture));
         set
         {
             if (value != ValueAsDateTime)
@@ -133,11 +137,11 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     [JsonIgnore]
     public string Culture => null;
 
-    public string GetLocalizedName(string culture) =>
-        culture.GetLocalization(NameLocalizations, Name);
+    public string GetLocalizedName(CultureInfo culture) =>
+        culture.Name.GetLocalization(NameLocalizations, Name);
 
-    public string GetLocalizedDescription(string culture) =>
-        culture.GetLocalization(DescriptionLocalizations, Description);
+    public string GetLocalizedDescription(CultureInfo culture) =>
+        culture.Name.GetLocalization(DescriptionLocalizations, Description);
 
     private void OnReportParameterChanged() =>
         ParameterChanged?.Invoke(this);

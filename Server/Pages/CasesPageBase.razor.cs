@@ -576,7 +576,7 @@ public abstract partial class CasesPageBase
                     hidden: false);
 
                 // order
-                cases = cases.OrderBy(x => x.GetLocalizedName(PageCulture)).ToList();
+                cases = cases.OrderBy(x => x.GetLocalizedName(PageCulture.Name)).ToList();
                 payrollCases.AddRange(cases);
             }
             catch (Exception exception)
@@ -616,7 +616,7 @@ public abstract partial class CasesPageBase
         // case filter
         if (!string.IsNullOrWhiteSpace(filter))
         {
-            cases = cases.Where(x => x.IsMatching(filter, PageCulture));
+            cases = cases.Where(x => x.IsMatching(filter, PageCulture.Name));
         }
         AvailableCases = cases.ToList();
     }
@@ -639,7 +639,7 @@ public abstract partial class CasesPageBase
         {
             return;
         }
-        await ApplyFilterAsync(@case.GetLocalizedName(PageCulture));
+        await ApplyFilterAsync(@case.GetLocalizedName(PageCulture.Name));
     }
 
     private void ResetAvailableCases()

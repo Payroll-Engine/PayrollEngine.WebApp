@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor;
@@ -786,11 +787,13 @@ public partial class PayrunJobs : IPayrunJobOperator
     /// Start the payrun parameter dialog
     /// </summary>
     /// <param name="payrunParameters">The payrun parameters to setup</param>
-    private async Task SetupPayrunParametersAsync(List<PayrunParameter> payrunParameters)
+    /// <param name="tenantCulture">The tenant culture</param>
+    private async Task SetupPayrunParametersAsync(List<PayrunParameter> payrunParameters, CultureInfo tenantCulture)
     {
         // setup payrun parameters
         foreach (var payrunParameter in payrunParameters)
         {
+            payrunParameter.TenantCulture = tenantCulture;
             payrunParameter.ValueFormatter = ValueFormatter;
         }
 

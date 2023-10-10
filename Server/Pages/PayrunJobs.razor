@@ -43,11 +43,14 @@
                    ReadOnly="@(Payruns == null || Payruns.Count == 1)"
                    Label="@Localizer.Payrun.Payrun"
                    Variant="Variant.Outlined">
-            @foreach (var payrun in Payruns)
+            @if (Payruns != null)
             {
-                <MudSelectItem T="string" Value="payrun.Name">
-                    @PageCulture.GetLocalization(payrun.NameLocalizations, payrun.Name)
-                </MudSelectItem>
+                foreach (var payrun in Payruns)
+                {
+                    <MudSelectItem T="string" Value="payrun.Name">
+                        @PageCulture.Name.GetLocalization(payrun.NameLocalizations, payrun.Name)
+                    </MudSelectItem>
+                }
             }
         </MudSelect>
     </MudStack>
@@ -137,7 +140,7 @@
                                     {
                                         <MudButton Variant="Variant.Outlined"
                                                    Color="@(LegalSetup.ValidParameters() ? Color.Primary : Color.Error)"
-                                                   OnClick="@(() => SetupPayrunParametersAsync(LegalSetup.Parameters))">
+                                                   OnClick="@(() => SetupPayrunParametersAsync(LegalSetup.Parameters, TenantCulture))">
                                             @Localizer.Payrun.Parameters
                                         </MudButton>
                                     }
@@ -334,7 +337,7 @@
                                     <MudStack Spacing="0">
                                         @* forecast name *@
                                         <MudTextField T="string"
-                                                      @bind-Value="ForecastSetup.ForecastName"
+                                        @bind-Value="ForecastSetup.ForecastName"
                                                       Label="@Localizer.Forecast.Name"
                                                       MaxLength="SystemSpecification.KeyTextLength"
                                                       Margin="Margin.Dense"
@@ -399,7 +402,7 @@
                                     {
                                         <MudButton Variant="Variant.Outlined"
                                                    Color="@(ForecastSetup.ValidParameters() ? Color.Primary : Color.Error)"
-                                                   OnClick="@(() => SetupPayrunParametersAsync(ForecastSetup.Parameters))">
+                                                   OnClick="@(() => SetupPayrunParametersAsync(ForecastSetup.Parameters, TenantCulture))">
                                             @Localizer.Payrun.Parameters
                                         </MudButton>
                                     }

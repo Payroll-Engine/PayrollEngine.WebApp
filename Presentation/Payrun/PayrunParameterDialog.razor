@@ -2,6 +2,7 @@
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Presentation.Field
 @using PayrollEngine.WebApp.Shared
+@using System.Globalization
 
 <MudDialog Style="min-width: 30em;">
     <DialogContent>
@@ -24,7 +25,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
     void Cancel() => MudDialog.Cancel();

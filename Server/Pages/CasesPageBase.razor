@@ -68,13 +68,13 @@
                   Style="max-height: 22em; overflow-y: scroll">
             @foreach (var availableCase in AvailableCases)
             {
-                var caseName = availableCase.GetLocalizedName(PageCulture).TruncateSentence(100);
+                var caseName = availableCase.GetLocalizedName(PageCulture.Name).TruncateSentence(100);
                 <MudStack Spacing="0" Class="d-flex mud-elevation-4 border-solid border rounded-lg pa-2" Style="width: 17em; height: 8.5em">
                     
                     <MudStack Row="true" Spacing="0" Class="d-flex">
                         @* case name *@
                         @{
-                            var fullName = availableCase.GetLocalizedName(PageCulture);
+                            var fullName = availableCase.GetLocalizedName(PageCulture.Name);
                             <MudTooltip Delay="500" Text="@fullName" Placement="Placement.Top" RootStyle="width: 100%">
                                 <MudText Typo="Typo.body1" Style="max-height: 4em" Class="flex-grow-1">@fullName.TruncateSentence(30)</MudText>
                             </MudTooltip>
@@ -92,7 +92,7 @@
 
                     @* case description *@
                     @{
-                        var description = availableCase.GetLocalizedDescription(PageCulture);
+                        var description = availableCase.GetLocalizedDescription(PageCulture.Name);
                         if (!string.IsNullOrWhiteSpace(description))
                         {
                             <MudTooltip Delay="500" Text="@description" Placement="Placement.Top">
@@ -207,7 +207,7 @@ else
                     var change = context.Grouping.FirstOrDefault();
                     if (change != null)
                     {
-                        var caseName = PageCulture.GetLocalization(change.CaseNameLocalizations, change.CaseName);
+                        var caseName = PageCulture.Name.GetLocalization(change.CaseNameLocalizations, change.CaseName);
                         <MudTooltip Delay="500" Placement="Placement.Right">
                             <ChildContent>
                                 <span style="display: inline-block;" class="pa-1">
@@ -283,7 +283,7 @@ else
                         CellStyle="text-align: right">
             <CellTemplate>
                 @ValueFormatter.ToString((string)context.Item.Value,
-                context.Item.ValueType)
+                context.Item.ValueType, PageCulture)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.NumericValue" CellStyle="text-align: right"

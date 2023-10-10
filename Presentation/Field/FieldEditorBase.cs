@@ -10,7 +10,7 @@ namespace PayrollEngine.WebApp.Presentation.Field;
 public abstract class FieldEditorBase : ComponentBase
 {
     [Parameter] public IFieldObject Field { get; set; }
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public Variant Variant { get; set; }
     [Parameter] public string HelperText { get; set; }
     [Parameter] public bool Disabled { get; set; }
@@ -40,25 +40,18 @@ public abstract class FieldEditorBase : ComponentBase
     protected bool Required =>
         !Field.HasValue && Field.ValueMandatory;
 
-    // culture
-    private CultureInfo editCulture;
-    protected CultureInfo EditCulture => 
-        editCulture ??= CultureTool.GetCulture(GetEditCulture());
+    protected override async Task OnParametersSetAsync()
+    {
+        // culture
+        var culture = Field.Attributes.GetCulture(Culture);
+        if (!string.IsNullOrWhiteSpace(culture) && !string.Equals(culture, Culture.Name))
+        {
+            // overwrite parameter value
+            Culture = new CultureInfo(culture);
+        }
 
-    /// <summary>
-    /// Edit culture
-    /// <remarks>[culture by priority]: user > system</remarks>
-    /// </summary>
-    /// <returns></returns>
-    private string GetEditCulture() =>
-        // priority 1: field attribute culture
-        Field.Attributes.GetCulture(Culture) ??
-        // priority 2: field culture
-        Field.Culture ??
-        // priority 3: page/parameter culture
-        Culture ??
-        // priority 4: system culture
-        CultureInfo.CurrentCulture.Name;
+        await base.OnParametersSetAsync();
+    }
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using PayrollEngine.WebApp.Shared;
@@ -7,10 +8,15 @@ namespace PayrollEngine.WebApp.ViewModel;
 
 public class CaseSet : Case, IDisposable
 {
+    private CultureInfo TenantCulture { get; }
+
     public CaseSet(Client.Model.CaseSet copySource, ICaseValueProvider caseValueProvider,
-        IValueFormatter valueFormatter, Localizer localizer) :
+        IValueFormatter valueFormatter, CultureInfo tenantCulture, Localizer localizer) :
         base(copySource)
     {
+        // culture
+        TenantCulture = tenantCulture ?? throw new ArgumentNullException(nameof(tenantCulture));
+
         // fields
         if (copySource.Fields != null)
         {
@@ -21,7 +27,7 @@ public class CaseSet : Case, IDisposable
                 // ignore inactive case fields
                 if (field.Status == ObjectStatus.Active)
                 {
-                    sourceFields.AddAsync(new(field, caseValueProvider, valueFormatter, localizer)).Wait();
+                    sourceFields.AddAsync(new(field, caseValueProvider, valueFormatter, tenantCulture, localizer)).Wait();
                 }
             }
             Fields = sourceFields;
@@ -36,7 +42,7 @@ public class CaseSet : Case, IDisposable
                 // ignore inactive related cases
                 if (relatedCase.Status == ObjectStatus.Active)
                 {
-                    sourceRelatedCases.AddAsync(new(relatedCase, caseValueProvider, valueFormatter, localizer)).Wait();
+                    sourceRelatedCases.AddAsync(new(relatedCase, caseValueProvider, valueFormatter, tenantCulture, localizer)).Wait();
                 }
             }
 
@@ -154,7 +160,7 @@ public class CaseSet : Case, IDisposable
             }
             foreach (var relatedCase in relatedCases)
             {
-                if (!relatedCase.Fields.All(f => f.Attributes?.GetHidden() ?? false))
+                if (!relatedCase.Fields.All(f => f.Attributes?.GetHidden(TenantCulture) ?? false))
                 {
                     visibleRelatedCases.AddAsync(relatedCase).Wait();
                 }
@@ -235,7 +241,7 @@ public class CaseSet : Case, IDisposable
     /// <summary>
     /// Gets or sets a value indicating whether the case fields are valid
     /// </summary>
-    public CaseObjectValidity Validity { get; private  set; }
+    public CaseObjectValidity Validity { get; private set; }
 
     /// <summary>
     /// Updates the validation status

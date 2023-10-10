@@ -285,7 +285,7 @@ public static class Date
 
     #region Parser
 
-    public static DateTime? Parse(string expression)
+    public static DateTime? Parse(string expression, CultureInfo culture)
     {
         if (string.IsNullOrWhiteSpace(expression))
         {
@@ -344,7 +344,7 @@ public static class Date
         }
 
         // date time parsing
-        return ValueConvert.ToDateTime(expression);
+        return ValueConvert.ToDateTime(expression, culture);
     }
 
     #endregion

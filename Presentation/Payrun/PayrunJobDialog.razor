@@ -1,5 +1,6 @@
 ﻿@using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Shared
+@using System.Globalization
 
 <MudDialog Style="min-width: 30em;">
     <DialogContent>
@@ -149,7 +150,7 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Tenant Tenant { get; set; }
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public PayrunJob PayrunJob { get; set; }
     [Parameter] public List<PayrollEngine.WebApp.User> Users { get; set; } = new();
     [Parameter] public List<Employee> Employees { get; set; } = new();

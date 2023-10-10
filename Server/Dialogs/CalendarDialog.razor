@@ -1,4 +1,4 @@
-﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator<Calendar>
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
 @using PayrollEngine.WebApp.Presentation
 @using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Server.Components
@@ -101,11 +101,11 @@
     MudForm form;
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public string Culture { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public Calendar Calendar { get; set; } = new();
     [Inject] private Localizer Localizer { get; set; }
 
-    public async Task<bool> ValidateAsync(Calendar division) =>
+    public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
 
     private string ValidatePeriodUnit(CalendarTimeUnit timeUnit) =>
@@ -114,7 +114,7 @@
 
     private string GetDayName(DayOfWeek dayOfWeek)
     {
-        var culture = Culture ?? CultureInfo.CurrentCulture.Name;
+        var culture = Culture?.Name ?? CultureInfo.CurrentCulture.Name;
         return CultureTool.GetCulture(culture).DateTimeFormat.DayNames[(int)dayOfWeek];
     }
 }
