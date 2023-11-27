@@ -8,13 +8,9 @@ using PayrollEngine.WebApp.Server.Shared;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class EmployeeCase : ICaseValueProvider
+public partial class EmployeeCase() : NewCasePageBase(WorkingItems.TenantView | WorkingItems.PayrollView |
+                                                      WorkingItems.EmployeeView), ICaseValueProvider
 {
-    public EmployeeCase() :
-        base(WorkingItems.TenantView | WorkingItems.PayrollView | WorkingItems.EmployeeView)
-    {
-    }
-
     [Inject]
     private IEmployeeCaseValueService EmployeeCaseValueService { get; set; }
 

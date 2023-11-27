@@ -8,16 +8,12 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Component;
 
-public abstract class EditItemPageBase<TItem, TQuery, TDialog> : ItemPageBase<TItem, TQuery>, IItemOperator<TItem>
+public abstract class EditItemPageBase<TItem, TQuery, TDialog>
+    (WorkingItems workingItems) : ItemPageBase<TItem, TQuery>(workingItems), IItemOperator<TItem>
     where TItem : class, IModel, IKeyEquatable<TItem>, new()
     where TQuery : Query, new()
     where TDialog : ComponentBase
 {
-    protected EditItemPageBase(WorkingItems workingItems) :
-        base(workingItems)
-    {
-    }
-
     #region Model Operations
 
     protected static string ItemTypeName =>

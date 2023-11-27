@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class ErrorLocalizer : LocalizerBase
+public class ErrorLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public ErrorLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Error => PropertyValue();
     public string FileDownloadError => PropertyValue();
     public string FileUploadError => PropertyValue();

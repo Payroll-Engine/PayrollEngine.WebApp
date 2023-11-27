@@ -13,7 +13,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Component;
 
-public abstract class PageBase : ComponentBase, IDisposable
+public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisposable
 {
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
@@ -33,11 +33,6 @@ public abstract class PageBase : ComponentBase, IDisposable
     private IThemeService ThemeService { get; set; }
 
     protected IValueFormatter ValueFormatter => Session.ValueFormatter;
-
-    protected PageBase(WorkingItems workingItems)
-    {
-        WorkingItems = workingItems;
-    }
 
     // the __builder variable is placed to suppress the ReSharper
     // inspection error 'Cannot resolve symbol '__builder'
@@ -67,7 +62,7 @@ public abstract class PageBase : ComponentBase, IDisposable
     /// <summary>
     /// The page working items
     /// </summary>
-    protected virtual WorkingItems WorkingItems { get; }
+    protected virtual WorkingItems WorkingItems { get; } = workingItems;
 
     protected bool WorkingItemsFulfilled(int? tenantId, int? payrollId, int? employeeId) =>
         (!WorkingItems.TenantView() && !WorkingItems.TenantChange() || tenantId.HasValue) &&

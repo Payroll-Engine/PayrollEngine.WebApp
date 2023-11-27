@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class PayrunJobLocalizer : LocalizerBase
+public class PayrunJobLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public PayrunJobLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string PayrunJob => PropertyValue();
     public string PayrunJobs => PropertyValue();
     public string NotAvailable => PropertyValue();

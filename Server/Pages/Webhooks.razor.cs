@@ -2,6 +2,7 @@
 using MudBlazor;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Server.Dialogs;
 using PayrollEngine.WebApp.Server.Shared;
 using PayrollEngine.WebApp.ViewModel;
@@ -9,7 +10,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class Webhooks
+public partial class Webhooks() : EditItemPageBase<Webhook, Query, WebhookDialog>(WorkingItems.TenantChange) 
 {
     [Inject]
     private WebhookBackendService WebhookBackendService { get; set; }
@@ -19,11 +20,6 @@ public partial class Webhooks
     protected override ItemCollection<Webhook> Items { get; } = new();
     protected override string GetLocalizedItemName(bool plural) => 
         plural ? Localizer.Webhook.Webhooks : Localizer.Webhook.Webhook;
-
-    public Webhooks() :
-        base(WorkingItems.TenantChange)
-    {
-    }
 
     private async Task WebhookMessagesAsync(Webhook webhook)
     {

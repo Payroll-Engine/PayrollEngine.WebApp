@@ -5,13 +5,14 @@ using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Server.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class Tenants
+public partial class Tenants() : EditItemPageBase<Tenant, Query, Dialogs.TenantDialog>(WorkingItems.None) 
 {
     [Inject]
     private TenantBackendService TenantBackendService { get; set; }
@@ -24,11 +25,6 @@ public partial class Tenants
     protected override bool AddItemTenantParameter => false;
     protected override string GetLocalizedItemName(bool plural) =>
         plural ? Localizer.Tenant.Tenants : Localizer.Tenant.Tenant;
-
-    public Tenants() :
-        base(WorkingItems.None)
-    {
-    }
 
     protected override async Task<bool> SetupDialogParametersAsync<T>(DialogParameters parameters, ItemOperation operation, T item)
     {

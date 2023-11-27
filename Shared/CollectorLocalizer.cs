@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class CollectorLocalizer : LocalizerBase
+public class CollectorLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public CollectorLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Collector => PropertyValue();
     public string Collectors => PropertyValue();
 

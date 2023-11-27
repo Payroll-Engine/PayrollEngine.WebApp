@@ -6,17 +6,13 @@ using PayrollEngine.WebApp.Server.Shared;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class NationalCases
+public partial class NationalCases() : CasesPageBase(WorkingItems.TenantChange |
+    WorkingItems.PayrollChange) 
 {
     [Inject]
     private NationalCaseChangeValueBackendService CaseValueService { get; set; }
     [Inject]
     private NationalCaseDocumentBackendService CaseDocumentService { get; set; }
-
-    public NationalCases() :
-        base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
-    {
-    }
 
     // mandatory
     protected override CaseType CaseType => CaseType.National;

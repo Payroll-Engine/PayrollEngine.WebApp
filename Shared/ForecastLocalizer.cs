@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class ForecastLocalizer : LocalizerBase
+public class ForecastLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public ForecastLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Forecast => PropertyValue();
     public string Forecasts => PropertyValue();
     public string NotAvailable => PropertyValue();

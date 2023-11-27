@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class RegulationLocalizer : LocalizerBase
+public class RegulationLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public RegulationLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Regulation => PropertyValue();
     public string Regulations => PropertyValue();
     public string NotAvailable => PropertyValue();

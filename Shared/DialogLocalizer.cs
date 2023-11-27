@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class DialogLocalizer : LocalizerBase
+public class DialogLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public DialogLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Ok => PropertyValue();
     public string Cancel => PropertyValue();
     public string Delete => PropertyValue();

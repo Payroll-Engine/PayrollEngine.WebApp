@@ -7,13 +7,9 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Server.Shared;
 
-public class PageRegister
+public class PageRegister(Localizer localizer)
 {
-    private Localizer Localizer { get; }
-    public PageRegister(Localizer localizer)
-    {
-        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
-    }
+    private Localizer Localizer { get; } = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     public List<PageGroupInfo> PageGroups => new()
         {

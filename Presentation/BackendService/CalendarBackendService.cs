@@ -7,14 +7,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class CalendarBackendService : BackendServiceBase<CalendarService, TenantServiceContext, ViewModel.Calendar, Query>
+public class CalendarBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
+    : BackendServiceBase<CalendarService, TenantServiceContext, ViewModel.Calendar, Query>(userSession, httpClientHandler, configuration, localizer)
 {
-    public CalendarBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     /// <summary>The current request context</summary>
     protected override TenantServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) =>
         UserSession.Tenant != null ? new TenantServiceContext(UserSession.Tenant.Id) : null;

@@ -7,14 +7,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class ReportBackendService : BackendServiceBase<ReportService, RegulationServiceContext, ViewModel.Report, Query>
+public class ReportBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
+    : BackendServiceBase<ReportService, RegulationServiceContext, ViewModel.Report, Query>(userSession, httpClientHandler, configuration, localizer)
 {
-    public ReportBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     /// <summary>The current request context</summary>
     protected override RegulationServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)
     {

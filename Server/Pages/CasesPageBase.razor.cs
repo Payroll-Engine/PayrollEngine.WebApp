@@ -11,13 +11,14 @@ using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.Case;
+using PayrollEngine.WebApp.Presentation.Component;
 using Case = PayrollEngine.WebApp.ViewModel.Case;
 using Task = System.Threading.Tasks.Task;
 using CaseChangeCaseValue = PayrollEngine.WebApp.ViewModel.CaseChangeCaseValue;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public abstract partial class CasesPageBase
+public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBase(workingItems) 
 {
     // external services
     [Inject]
@@ -28,11 +29,6 @@ public abstract partial class CasesPageBase
     private ILocalStorageService LocalStorage { get; set; }
     [Inject]
     private IJSRuntime JsRuntime { get; set; }
-
-    protected CasesPageBase(WorkingItems workingItems) :
-        base(workingItems)
-    {
-    }
 
     #region Base type
 

@@ -7,17 +7,12 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public abstract class ChildItemFactory<TParent, TObject> : ItemFactoryBase<TObject>
+public abstract class ChildItemFactory<TParent, TObject>(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations)
+    : ItemFactoryBase<TObject>(tenant, payroll, regulations)
     where TParent : class, IRegulationItem
     where TObject : class, IRegulationItem
 {
-
-    protected ChildItemFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations) :
-        base(tenant, payroll, regulations)
-    {
-    }
-
     protected abstract Task<List<TParent>> QueryParentObjects(int tenantId, int regulationId);
     protected abstract Task<List<TObject>> QueryChildObjects(int tenantId, int regulationId, TParent parentObject);
 

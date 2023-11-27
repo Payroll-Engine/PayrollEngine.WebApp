@@ -7,14 +7,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class LogBackendService : BackendServiceBase<LogService, TenantServiceContext, ViewModel.Log, Query>
+public class LogBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
+    : BackendServiceBase<LogService, TenantServiceContext, ViewModel.Log, Query>(userSession, httpClientHandler, configuration, localizer)
 {
-    public LogBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     /// <summary>The current request context</summary>
     protected override TenantServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) =>
         UserSession.Tenant != null ? new TenantServiceContext(UserSession.Tenant.Id) : null;

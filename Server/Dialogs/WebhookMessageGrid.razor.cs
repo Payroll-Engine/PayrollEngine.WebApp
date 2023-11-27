@@ -31,7 +31,7 @@ public partial class WebhookMessageGrid : IDisposable
     [Inject]
     private Localizer Localizer { get; set; }
 
-    private ItemCollection<WebhookMessage> WebhookMessages { get; set; } = new();
+    private ItemCollection<WebhookMessage> WebhookMessages { get; } = new();
     private MudDataGrid<WebhookMessage> Grid { get; set; }
 
     #region Actions

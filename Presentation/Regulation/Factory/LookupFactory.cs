@@ -6,19 +6,13 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public class LookupFactory : ItemFactoryBase<RegulationLookup>
-{
-    private ILookupService LookupService { get; }
-    private IPayrollService PayrollService { get; }
-
-    public LookupFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+public class LookupFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
         List<Client.Model.Regulation> regulations, IPayrollService payrollService,
-        ILookupService lookupService) :
-        base(tenant, payroll, regulations)
-    {
-        LookupService = lookupService;
-        PayrollService = payrollService;
-    }
+        ILookupService lookupService)
+    : ItemFactoryBase<RegulationLookup>(tenant, payroll, regulations)
+{
+    private ILookupService LookupService { get; } = lookupService;
+    private IPayrollService PayrollService { get; } = payrollService;
 
     protected override async Task<List<RegulationLookup>> QueryItems(Client.Model.Regulation regulation) =>
         await LookupService.QueryAsync<RegulationLookup>(new(Tenant.Id, regulation.Id));

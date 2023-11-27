@@ -14,35 +14,23 @@ using Task = System.Threading.Tasks.Task;
 namespace PayrollEngine.WebApp.Server.Shared;
 
 /// <summary>Bootstrap the user session</summary>
-public class UserSessionBootstrap
+public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
+    IConfiguration configuration,
+    UserSession userSession,
+    IUserService userService,
+    ITaskService taskService,
+    ITenantService tenantService,
+    IEmployeeService employeeService,
+    IPayrollService payrollService)
 {
-    private IHostApplicationLifetime ApplicationLifetime { get; }
-    private IConfiguration Configuration { get; }
-    private UserSession UserSession { get; }
-    private IUserService UserService { get; }
-    private ITaskService TaskService { get; }
-    private ITenantService TenantService { get; }
-    private IEmployeeService EmployeeService { get; }
-    private IPayrollService PayrollService { get; }
-
-    public UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
-        IConfiguration configuration,
-        UserSession userSession,
-        IUserService userService,
-        ITaskService taskService,
-        ITenantService tenantService,
-        IEmployeeService employeeService,
-        IPayrollService payrollService)
-    {
-        ApplicationLifetime = applicationLifetime;
-        Configuration = configuration;
-        UserSession = userSession;
-        UserService = userService;
-        TaskService = taskService;
-        TenantService = tenantService;
-        EmployeeService = employeeService;
-        PayrollService = payrollService;
-    }
+    private IHostApplicationLifetime ApplicationLifetime { get; } = applicationLifetime;
+    private IConfiguration Configuration { get; } = configuration;
+    private UserSession UserSession { get; } = userSession;
+    private IUserService UserService { get; } = userService;
+    private ITaskService TaskService { get; } = taskService;
+    private ITenantService TenantService { get; } = tenantService;
+    private IEmployeeService EmployeeService { get; } = employeeService;
+    private IPayrollService PayrollService { get; } = payrollService;
 
     /// <summary>
     /// Builds the user session <see cref="UserSession"/> based on the web app configuration <see cref="AppConfiguration"/>.

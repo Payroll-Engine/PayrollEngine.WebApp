@@ -9,6 +9,7 @@ using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Presentation.Payrun;
 using PayrollEngine.WebApp.Server.Shared;
 using Employee = PayrollEngine.WebApp.ViewModel.Employee;
@@ -19,7 +20,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class PayrunJobs : IPayrunJobOperator
+public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | WorkingItems.PayrollChange), IPayrunJobOperator
 {
     [Parameter]
     public string Payrun { get; set; }
@@ -38,11 +39,6 @@ public partial class PayrunJobs : IPayrunJobOperator
     private IUserService UserService { get; set; }
     [Inject]
     private IForecastHistoryService ForecastHistoryService { get; set; }
-
-    public PayrunJobs() :
-        base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
-    {
-    }
 
     /// <inheritdoc />
     protected override async Task OnTenantChangedAsync()

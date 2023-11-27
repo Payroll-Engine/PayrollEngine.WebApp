@@ -7,14 +7,9 @@ using PayrollEngine.Client.Service;
 
 namespace PayrollEngine.WebApp.Server.Shared;
 
-public class UserPasswordService : IUserPasswordService
+public class UserPasswordService(IUserService userService) : IUserPasswordService
 {
-    private IUserService UserService { get; }
-
-    public UserPasswordService(IUserService userService)
-    {
-        UserService = userService ?? throw new ArgumentNullException(nameof(userService));
-    }
+    private IUserService UserService { get; } = userService ?? throw new ArgumentNullException(nameof(userService));
 
     public bool IsValidPassword(string test) =>
         ValidatePassword(test).Success;

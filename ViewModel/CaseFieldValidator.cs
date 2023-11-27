@@ -4,16 +4,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
-public class CaseFieldValidator
+public class CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
 {
-    private CaseFieldSet CaseField { get; }
-    private Localizer Localizer { get; }
-
-    public CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
-    {
-        CaseField = caseField ?? throw new ArgumentNullException(nameof(caseField));
-        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
-    }
+    private CaseFieldSet CaseField { get; } = caseField ?? throw new ArgumentNullException(nameof(caseField));
+    private Localizer Localizer { get; } = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
     /// Validate case field

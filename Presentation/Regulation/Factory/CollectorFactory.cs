@@ -6,19 +6,13 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public class CollectorFactory : ItemFactoryBase<RegulationCollector>
-{
-    private ICollectorService CollectorService { get; }
-    private IPayrollService PayrollService { get; }
-
-    public CollectorFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+public class CollectorFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
         List<Client.Model.Regulation> regulations, IPayrollService payrollService,
-        ICollectorService collectorService) :
-        base(tenant, payroll, regulations)
-    {
-        CollectorService = collectorService;
-        PayrollService = payrollService;
-    }
+        ICollectorService collectorService)
+    : ItemFactoryBase<RegulationCollector>(tenant, payroll, regulations)
+{
+    private ICollectorService CollectorService { get; } = collectorService;
+    private IPayrollService PayrollService { get; } = payrollService;
 
     protected override async Task<List<RegulationCollector>> QueryItems(Client.Model.Regulation regulation) =>
         await CollectorService.QueryAsync<RegulationCollector>(new(Tenant.Id, regulation.Id));

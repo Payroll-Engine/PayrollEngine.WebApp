@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Presentation.Regulation;
 using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Presentation.Regulation.Editor;
@@ -12,18 +13,13 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class Regulation
+public partial class Regulation() : PageBase(WorkingItems.TenantChange | WorkingItems.PayrollChange) 
 {
     [Inject]
     private IPayrollService PayrollService { get; set; }
 
     private ItemBrowser ItemBrowser { get; set; }
     private ItemEditorPanel ItemEditorPanel { get; set; }
-
-    public Regulation() :
-        base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
-    {
-    }
 
     protected override async Task OnTenantChangedAsync()
     {

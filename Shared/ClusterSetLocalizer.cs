@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class ClusterSetLocalizer : LocalizerBase
+public class ClusterSetLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public ClusterSetLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string ClusterSet => PropertyValue();
     public string ClusterSets => PropertyValue();
     public string NotAvailable => PropertyValue();

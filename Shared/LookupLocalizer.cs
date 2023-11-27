@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class LookupLocalizer : LocalizerBase
+public class LookupLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public LookupLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Lookup => PropertyValue();
     public string Lookups => PropertyValue();
 

@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class ItemLocalizer : LocalizerBase
+public class ItemLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public ItemLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string CSharpExpression => PropertyValue();
     public string BaseField => PropertyValue();
     public string InitOnlyField => PropertyValue();

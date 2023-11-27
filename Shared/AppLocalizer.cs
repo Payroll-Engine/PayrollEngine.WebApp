@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class AppLocalizer : LocalizerBase
+public class AppLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public AppLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string SelectTenant => PropertyValue();
     public string SelectPayroll => PropertyValue();
     public string SelectPayrollWithPayrun => PropertyValue();

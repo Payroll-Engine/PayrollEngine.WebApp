@@ -8,14 +8,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class CompanyCaseDocumentBackendService : BackendServiceBase<CompanyCaseDocumentService, CaseValueServiceContext, CaseDocument, Query>
+public class CompanyCaseDocumentBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
+    : BackendServiceBase<CompanyCaseDocumentService, CaseValueServiceContext, CaseDocument, Query>(userSession, httpClientHandler, configuration, localizer)
 {
-    public CompanyCaseDocumentBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     protected override CaseValueServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)
     {
         var caseValueId = parameters?.GetValue<int?>(nameof(CaseChangeCaseValue.CaseChangeId));

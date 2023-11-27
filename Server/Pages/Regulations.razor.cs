@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Server.Shared;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class Regulations
+public partial class Regulations() : EditItemPageBase<ViewModel.Regulation, Query, Dialogs.RegulationDialog>(
+    WorkingItems.TenantChange) 
 {
     [Inject]
     private RegulationBackendService RegulationBackendService { get; set; }
@@ -15,9 +17,4 @@ public partial class Regulations
     protected override ItemCollection<ViewModel.Regulation> Items { get; } = new();
     protected override string GetLocalizedItemName(bool plural) => 
         plural ? Localizer.Regulation.Regulations : Localizer.Regulation.Regulation;
-
-    public Regulations() :
-        base(WorkingItems.TenantChange)
-    {
-    }
 }

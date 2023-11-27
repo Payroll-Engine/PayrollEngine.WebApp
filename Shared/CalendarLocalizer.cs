@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class CalendarLocalizer : LocalizerBase
+public class CalendarLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public CalendarLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Calendar => PropertyValue();
     public string Calendars => PropertyValue();
     public string NotAvailable => PropertyValue();

@@ -19,14 +19,9 @@ using Serilog.Extensions.Logging;
 
 namespace PayrollEngine.WebApp.Server;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    private IConfiguration Configuration { get; }
+    private IConfiguration Configuration { get; } = configuration;
 
     // ConfigureServices() must be sync
     public void ConfigureServices(IServiceCollection services)

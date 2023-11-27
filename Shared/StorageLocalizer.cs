@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class StorageLocalizer : LocalizerBase
+public class StorageLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public StorageLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Storage => PropertyValue();
     public string StorageItem => PropertyValue();
     public string NotAvailable => PropertyValue();

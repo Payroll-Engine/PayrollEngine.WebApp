@@ -6,18 +6,12 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public class CaseFactory : ItemFactoryBase<RegulationCase>
+public class CaseFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations, IPayrollService payrollService, ICaseService caseService)
+    : ItemFactoryBase<RegulationCase>(tenant, payroll, regulations)
 {
-    private ICaseService CaseService { get; }
-    private IPayrollService PayrollService { get; }
-
-    public CaseFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations, IPayrollService payrollService, ICaseService caseService) :
-        base(tenant, payroll, regulations)
-    {
-        CaseService = caseService;
-        PayrollService = payrollService;
-    }
+    private ICaseService CaseService { get; } = caseService;
+    private IPayrollService PayrollService { get; } = payrollService;
 
     protected override async Task<List<RegulationCase>> QueryItems(Client.Model.Regulation regulation) =>
         await CaseService.QueryAsync<RegulationCase>(new(Tenant.Id, regulation.Id));

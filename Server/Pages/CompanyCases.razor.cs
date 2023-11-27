@@ -6,17 +6,13 @@ using PayrollEngine.WebApp.Presentation;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class CompanyCases
+public partial class CompanyCases() : CasesPageBase(WorkingItems.TenantChange |
+    WorkingItems.PayrollChange) 
 {
     [Inject]
     private CompanyCaseChangeValueBackendService CaseValueService { get; set; }
     [Inject]
     private CompanyCaseDocumentBackendService CaseDocumentService { get; set; }
-
-    public CompanyCases() :
-        base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
-    {
-    }
 
     // mandatory
     protected override CaseType CaseType => CaseType.Company;

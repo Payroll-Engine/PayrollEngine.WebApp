@@ -12,7 +12,8 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Component;
 
-public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, IItemPageActions
+public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) : PageBase(workingItems), IQueryResolver,
+    IItemPageActions
     where TItem : class, IModel, IEquatable<TItem>, new()
     where TQuery : Query, new()
 {
@@ -20,11 +21,6 @@ public abstract class ItemPageBase<TItem, TQuery> : PageBase, IQueryResolver, II
     private IConfiguration Configuration { get; set; }
     [Inject]
     private IJSRuntime JsRuntime { get; set; }
-
-    protected ItemPageBase(WorkingItems workingItems) :
-        base(workingItems)
-    {
-    }
 
     #region Grid
 

@@ -6,19 +6,13 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public class ScriptFactory : ItemFactoryBase<RegulationScript>
-{
-    private IScriptService ScriptService { get; }
-    private IPayrollService PayrollService { get; }
-
-    public ScriptFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+public class ScriptFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
         List<Client.Model.Regulation> regulations, IPayrollService payrollService
-        , IScriptService scriptService) :
-        base(tenant, payroll, regulations)
-    {
-        ScriptService = scriptService;
-        PayrollService = payrollService;
-    }
+        , IScriptService scriptService)
+    : ItemFactoryBase<RegulationScript>(tenant, payroll, regulations)
+{
+    private IScriptService ScriptService { get; } = scriptService;
+    private IPayrollService PayrollService { get; } = payrollService;
 
     protected override async Task<List<RegulationScript>> QueryItems(Client.Model.Regulation regulation) =>
         await ScriptService.QueryAsync<RegulationScript>(new(Tenant.Id, regulation.Id));

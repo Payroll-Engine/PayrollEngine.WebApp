@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class WageTypeLocalizer : LocalizerBase
+public class WageTypeLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public WageTypeLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string WageType => PropertyValue();
     public string WageTypes => PropertyValue();
     public string WageTypeNumber => PropertyValue();

@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class ScriptLocalizer : LocalizerBase
+public class ScriptLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public ScriptLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Script => PropertyValue();
     public string Scripts => PropertyValue();
 

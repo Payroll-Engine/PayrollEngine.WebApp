@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class LogLocalizer : LocalizerBase
+public class LogLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public LogLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Log => PropertyValue();
     public string Logs => PropertyValue();
     public string NotAvailable => PropertyValue();

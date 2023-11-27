@@ -7,31 +7,25 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public abstract class ItemFactoryBase<TObject> : IItemFactory<TObject>
+public abstract class ItemFactoryBase<TObject>(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+        List<Client.Model.Regulation> regulations)
+    : IItemFactory<TObject>
     where TObject : class, IRegulationItem
 {
     /// <summary>
     /// The tenant
     /// </summary>
-    protected Client.Model.Tenant Tenant { get; }
+    protected Client.Model.Tenant Tenant { get; } = tenant ?? throw new ArgumentNullException(nameof(tenant));
 
     /// <summary>
     /// The payroll
     /// </summary>
-    protected Client.Model.Payroll Payroll { get; }
+    protected Client.Model.Payroll Payroll { get; } = payroll ?? throw new ArgumentNullException(nameof(payroll));
 
     /// <summary>
     /// The regulations
     /// </summary>
-    protected List<Client.Model.Regulation> Regulations { get; }
-
-    protected ItemFactoryBase(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations)
-    {
-        Tenant = tenant ?? throw new ArgumentNullException(nameof(tenant));
-        Payroll = payroll ?? throw new ArgumentNullException(nameof(payroll));
-        Regulations = regulations ?? throw new ArgumentNullException(nameof(regulations));
-    }
+    protected List<Client.Model.Regulation> Regulations { get; } = regulations ?? throw new ArgumentNullException(nameof(regulations));
 
     protected abstract Task<List<TObject>> QueryItems(Client.Model.Regulation regulation);
     public abstract Task<List<TObject>> QueryPayrollItems();

@@ -2,17 +2,10 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class DataGridLocalizer : LocalizerBase
+public class DataGridLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    private readonly SharedLocalizer sharedLocalizer;
-    private readonly DialogLocalizer dialogLocalizer;
-
-    public DataGridLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-        sharedLocalizer = new(factory);
-        dialogLocalizer = new(factory);
-    }
+    private readonly SharedLocalizer sharedLocalizer = new(factory);
+    private readonly DialogLocalizer dialogLocalizer = new(factory);
 
     public string SymbolNotEquals => PropertyValue();
     public string SymbolLess => PropertyValue();

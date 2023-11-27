@@ -8,14 +8,10 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class WebhookMessageBackendService : BackendServiceBase<WebhookMessageService, WebhookServiceContext, WebhookMessage, Query>
+public class WebhookMessageBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
+    : BackendServiceBase<WebhookMessageService, WebhookServiceContext, WebhookMessage, Query>(userSession, httpClientHandler, configuration, localizer)
 {
-    public WebhookMessageBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     /// <summary>The current request context</summary>
     protected override WebhookServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)
     {

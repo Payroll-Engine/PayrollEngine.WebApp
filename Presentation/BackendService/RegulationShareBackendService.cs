@@ -11,21 +11,14 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class RegulationShareBackendService : BackendServiceBase<RegulationShareService, RootServiceContext, RegulationShare, Query>
-{
-    private ITenantService TenantService { get; }
-    private IRegulationService RegulationService { get; }
-    private IDivisionService DivisionService { get; }
-
-    public RegulationShareBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+public class RegulationShareBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
         PayrollHttpConfiguration configuration, Localizer localizer,
-        ITenantService tenantService, IRegulationService regulationService, IDivisionService divisionService) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-        TenantService = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
-        RegulationService = regulationService ?? throw new ArgumentNullException(nameof(regulationService));
-        DivisionService = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
-    }
+        ITenantService tenantService, IRegulationService regulationService, IDivisionService divisionService)
+    : BackendServiceBase<RegulationShareService, RootServiceContext, RegulationShare, Query>(userSession, httpClientHandler, configuration, localizer)
+{
+    private ITenantService TenantService { get; } = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
+    private IRegulationService RegulationService { get; } = regulationService ?? throw new ArgumentNullException(nameof(regulationService));
+    private IDivisionService DivisionService { get; } = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
 
     /// <summary>The current request context</summary>
     protected override RootServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) =>

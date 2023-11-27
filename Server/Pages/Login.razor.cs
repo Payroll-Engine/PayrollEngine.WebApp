@@ -12,10 +12,11 @@ using MudBlazor;
 using PayrollEngine.WebApp.Presentation;
 using Task = System.Threading.Tasks.Task;
 using System.Net.Http;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class Login
+public partial class Login() : PageBase(WorkingItems.None) 
 {
     public enum UserLoginState
     {
@@ -36,11 +37,6 @@ public partial class Login
     private IThemeService ThemeService { get; set; }
     [Inject]
     private IConfiguration Configuration { get; set; }
-
-    public Login() :
-        base(WorkingItems.None)
-    {
-    }
 
     #region Title
 

@@ -14,13 +14,8 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class Reports : IReportOperator
+public partial class Reports() : PageBase(WorkingItems.TenantChange | WorkingItems.PayrollChange), IReportOperator
 {
-    public Reports() :
-        base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
-    {
-    }
-
     [Inject]
     private IPayrollService PayrollService { get; set; }
     [Inject]

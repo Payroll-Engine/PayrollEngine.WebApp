@@ -6,21 +6,14 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public class ReportParameterFactory : ChildItemFactory<RegulationReport, RegulationReportParameter>
-{
-    private IReportService ReportService { get; }
-    private IReportParameterService ReportParameterService { get; }
-    private IPayrollService PayrollService { get; }
-
-    public ReportParameterFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
+public class ReportParameterFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
         List<Client.Model.Regulation> regulations, IPayrollService payrollService,
-        IReportService caseService, IReportParameterService reportParameterService) :
-        base(tenant, payroll, regulations)
-    {
-        ReportService = caseService;
-        ReportParameterService = reportParameterService;
-        PayrollService = payrollService;
-    }
+        IReportService caseService, IReportParameterService reportParameterService)
+    : ChildItemFactory<RegulationReport, RegulationReportParameter>(tenant, payroll, regulations)
+{
+    private IReportService ReportService { get; } = caseService;
+    private IReportParameterService ReportParameterService { get; } = reportParameterService;
+    private IPayrollService PayrollService { get; } = payrollService;
 
     protected override async Task<List<RegulationReportParameter>> QueryItems(Client.Model.Regulation regulation) =>
         await PayrollService.GetReportParametersAsync<RegulationReportParameter>(new(Tenant.Id, Payroll.Id));

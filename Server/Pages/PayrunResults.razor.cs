@@ -18,7 +18,8 @@ using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class PayrunResults
+public partial class PayrunResults() : PageBase(WorkingItems.TenantChange | WorkingItems.PayrollChange |
+                                                WorkingItems.EmployeeChange) 
 {
     [Parameter]
     public string Payrun { get; set; }
@@ -33,11 +34,6 @@ public partial class PayrunResults
     private ILocalStorageService LocalStorage { get; set; }
     [Inject]
     private IJSRuntime JsRuntime { get; set; }
-
-    public PayrunResults() :
-        base(WorkingItems.TenantChange | WorkingItems.PayrollChange | WorkingItems.EmployeeChange)
-    {
-    }
 
     /// <inheritdoc />
     protected override async Task OnTenantChangedAsync()

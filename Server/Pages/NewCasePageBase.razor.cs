@@ -10,13 +10,14 @@ using MudBlazor;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 using CaseSet = PayrollEngine.WebApp.ViewModel.CaseSet;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public abstract partial class NewCasePageBase
+public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageBase(workingItems) 
 {
     private MudForm fieldForm;
     private MudForm changeForm;
@@ -46,11 +47,6 @@ public abstract partial class NewCasePageBase
     /// The root case
     /// </summary>
     private CaseSet RootCase => Cases?.FirstOrDefault();
-
-    protected NewCasePageBase(WorkingItems workingItems) :
-           base(workingItems)
-    {
-    }
 
     private string DefaultDialogTitle => Localizer.Item.AddTitle(CaseName);
 

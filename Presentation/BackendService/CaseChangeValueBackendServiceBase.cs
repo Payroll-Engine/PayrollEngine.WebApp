@@ -9,14 +9,10 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public abstract class CaseChangeValueBackendServiceBase : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery>
+public abstract class CaseChangeValueBackendServiceBase(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
+    : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery>(userSession, httpClientHandler, configuration, localizer)
 {
-    protected CaseChangeValueBackendServiceBase(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     protected override bool CanRead()
     {
         return base.CanRead() && UserSession.Payroll != null;

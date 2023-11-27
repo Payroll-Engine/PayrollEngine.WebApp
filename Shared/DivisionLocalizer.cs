@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class DivisionLocalizer : LocalizerBase
+public class DivisionLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public DivisionLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Division => PropertyValue();
     public string Divisions => PropertyValue();
     public string NotAvailable => PropertyValue();

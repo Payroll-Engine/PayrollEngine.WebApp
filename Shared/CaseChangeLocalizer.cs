@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class CaseChangeLocalizer : LocalizerBase
+public class CaseChangeLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public CaseChangeLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string CaseChange => PropertyValue();
     public string CaseChanges => PropertyValue();
     public string NotAvailable => PropertyValue();

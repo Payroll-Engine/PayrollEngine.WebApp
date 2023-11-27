@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class LoginLocalizer : LocalizerBase
+public class LoginLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public LoginLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string Login => PropertyValue();
     public string MissingBackendService => PropertyValue();
     public string NewPasswordTitle => PropertyValue();

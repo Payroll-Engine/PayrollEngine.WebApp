@@ -6,14 +6,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class NationalCaseChangeValueBackendService : CaseChangeValueBackendServiceBase
+public class NationalCaseChangeValueBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
+        PayrollHttpConfiguration configuration, Localizer localizer)
+    : CaseChangeValueBackendServiceBase(userSession, httpClientHandler, configuration, localizer)
 {
-    public NationalCaseChangeValueBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     protected override void SetupReadQuery(PayrollCaseChangeQuery query, IDictionary<string, object> parameters = null)
     {
         base.SetupReadQuery(query, parameters);

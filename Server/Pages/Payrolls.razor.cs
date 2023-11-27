@@ -7,11 +7,12 @@ using PayrollEngine.WebApp.ViewModel;
 using System.Threading.Tasks;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.BackendService;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Server.Shared;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class Payrolls
+public partial class Payrolls() : EditItemPageBase<Payroll, Query, PayrollDialog>(WorkingItems.TenantChange) 
 {
     [Inject]
     private PayrollBackendService PayrollBackendService { get; set; }
@@ -23,11 +24,6 @@ public partial class Payrolls
     protected override ItemCollection<Payroll> Items { get; } = new();
     protected override string GetLocalizedItemName(bool plural) => 
         plural ? Localizer.Payroll.Payrolls : Localizer.Payroll.Payroll;
-
-    public Payrolls() :
-        base(WorkingItems.TenantChange)
-    {
-    }
 
     protected override async Task<bool> OnItemCommit(Payroll payroll)
     {

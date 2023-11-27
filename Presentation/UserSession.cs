@@ -13,12 +13,14 @@ using Tenant = PayrollEngine.WebApp.ViewModel.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation;
 
-public class UserSession : IDisposable
+public class UserSession(ITenantService tenantService, IDivisionService divisionService,
+        IPayrollService payrollService, IEmployeeService employeeService, IUserService userService)
+    : IDisposable
 {
-    private readonly WorkingItemsWatcher<ITenantService, RootServiceContext, Tenant, Query> tenantWatcher;
-    private readonly WorkingItemsWatcher<IDivisionService, TenantServiceContext, Division, Query> divisionWatcher;
-    private readonly WorkingItemsWatcher<IPayrollService, TenantServiceContext, Payroll, Query> payrollWatcher;
-    private readonly WorkingItemsWatcher<IEmployeeService, TenantServiceContext, Employee, DivisionQuery> employeeWatcher;
+    private readonly WorkingItemsWatcher<ITenantService, RootServiceContext, Tenant, Query> tenantWatcher = new(tenantService);
+    private readonly WorkingItemsWatcher<IDivisionService, TenantServiceContext, Division, Query> divisionWatcher = new(divisionService);
+    private readonly WorkingItemsWatcher<IPayrollService, TenantServiceContext, Payroll, Query> payrollWatcher = new(payrollService);
+    private readonly WorkingItemsWatcher<IEmployeeService, TenantServiceContext, Employee, DivisionQuery> employeeWatcher = new(employeeService);
 
     [Inject]
     private ITaskService TaskService { get; set; }
@@ -38,19 +40,6 @@ public class UserSession : IDisposable
     /// </summary>
     private static bool AutoSelectMode => true;
 
-    public UserSession(ITenantService tenantService, IDivisionService divisionService,
-        IPayrollService payrollService, IEmployeeService employeeService, IUserService userService)
-    {
-        TenantService = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
-        DivisionService = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
-        UserService = userService ?? throw new ArgumentNullException(nameof(userService));
-
-        tenantWatcher = new(tenantService);
-        divisionWatcher = new(divisionService);
-        payrollWatcher = new(payrollService);
-        employeeWatcher = new(employeeService);
-    }
-
     #region Features
 
     /// <summary>
@@ -66,7 +55,7 @@ public class UserSession : IDisposable
 
     public User User { get; private set; }
     public bool UserAvailable => User != null;
-    private IUserService UserService { get; }
+    private IUserService UserService { get; } = userService ?? throw new ArgumentNullException(nameof(userService));
     public AsyncEvent<User> UserChanged { get; set; }
 
     public async Task LoginAsync(Tenant userTenant, User user)
@@ -189,7 +178,7 @@ public class UserSession : IDisposable
     #region Tenant
 
     private Tenant tenant;
-    private ITenantService TenantService { get; }
+    private ITenantService TenantService { get; } = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
     public Tenant Tenant => tenant;
     public ItemCollection<Tenant> Tenants { get; } = new();
 
@@ -325,7 +314,7 @@ public class UserSession : IDisposable
 
     #region Division
 
-    private IDivisionService DivisionService { get; }
+    private IDivisionService DivisionService { get; } = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
     public ItemCollection<Division> Divisions { get; } = new();
 
     private async Task SetupDivisionsAsync()

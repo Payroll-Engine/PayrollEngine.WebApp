@@ -7,13 +7,9 @@ using PayrollEngine.WebApp.Server.Shared;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class NationalCase : ICaseValueProvider
+public partial class NationalCase() : NewCasePageBase(WorkingItems.TenantView | WorkingItems.PayrollView),
+    ICaseValueProvider
 {
-    public NationalCase() :
-        base(WorkingItems.TenantView | WorkingItems.PayrollView)
-    {
-    }
-
     [Inject]
     private INationalCaseValueService NationalCaseValueService { get; set; }
 
