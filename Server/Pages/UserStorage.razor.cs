@@ -10,11 +10,12 @@ using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public class UserStoragePageBase : PageBase
+public class UserStoragePageBase() : PageBase(WorkingItems.None)
 {
-    private static readonly string[] ExcludedItems = {
+    private static readonly string[] ExcludedItems =
+    [
         "i18nextLng"
-    };
+    ];
 
     #region Storage Item
 
@@ -37,12 +38,7 @@ public class UserStoragePageBase : PageBase
     /// <summary>
     /// Storage items
     /// </summary>
-    protected ObservableCollection<StorageItem> Items { get; } = new();
-
-    public UserStoragePageBase() :
-        base(WorkingItems.None)
-    {
-    }
+    protected ObservableCollection<StorageItem> Items { get; } = [];
 
     /// <summary>
     /// Remove storage item
@@ -130,6 +126,10 @@ public class UserStoragePageBase : PageBase
             {
                 // storage key
                 var key = await LocalStorage.KeyAsync(i);
+                if (string.IsNullOrWhiteSpace(key))
+                {
+                    continue;
+                }
 
                 // excluded item
                 if (ExcludedItems.Any(x => string.Equals(x, key, StringComparison.InvariantCultureIgnoreCase)))

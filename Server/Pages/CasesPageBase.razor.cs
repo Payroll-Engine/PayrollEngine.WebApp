@@ -148,7 +148,7 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
     /// <summary>
     /// The working case values
     /// </summary>
-    private List<CaseChangeCaseValue> CaseValues { get; set; } = new();
+    private List<CaseChangeCaseValue> CaseValues { get; set; } = [];
 
     /// <summary>
     /// Check if grid has any filter
@@ -420,7 +420,7 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
     /// <summary>
     /// The selected cluster
     /// </summary>
-    private MudChip SelectedCluster { get; set; }
+    private string SelectedCluster { get; set; }
 
     /// <summary>
     /// Setup payroll clusters
@@ -468,9 +468,9 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
     /// Handler for cluster change
     /// </summary>
     /// <param name="cluster">The selected cluster</param>
-    private void SelectedClusterChanged(MudChip cluster)
+    private void SelectedClusterChanged(string cluster)
     {
-        SetupAvailableCases(cluster?.Text);
+        SetupAvailableCases(cluster);
         SelectedCluster = cluster;
     }
 
@@ -584,7 +584,7 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
 
         // available cases (filtering hidden cases)
         PayrollAvailableCases = !payrollCases.Any()
-            ? new()
+            ? []
             : payrollCases.Where(c => !(c.Attributes?.GetHidden(PageCulture) ?? false)).ToList();
     }
 
@@ -647,7 +647,7 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
     private void AvailableCaseFilterChangedAsync(string value)
     {
         AvailableCaseFilter = value;
-        SetupAvailableCases(SelectedCluster?.Text, value);
+        SetupAvailableCases(SelectedCluster, value);
     }
 
     #endregion

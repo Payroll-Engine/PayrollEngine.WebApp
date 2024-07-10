@@ -1,6 +1,4 @@
 ﻿@typeparam T where T : PayrollEngine.Client.IModel
-
-@using PayrollEngine.Client.Model
 @using PayrollEngine.WebApp.Presentation
 
 <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
@@ -18,7 +16,7 @@
 
     private void Cancel() => MudDialog.Cancel();
 
-    private async System.Threading.Tasks.Task Submit()
+    private async Task Submit()
     {
         // form validator
         if (FormValidator != null && !await FormValidator.ValidateAsync())

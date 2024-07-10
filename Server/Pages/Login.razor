@@ -55,8 +55,10 @@
 
                 @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 {
-                    <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-error">
-                        @ErrorMessage
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
                     </MudPaper>
                 }
             }
@@ -83,8 +85,10 @@
 
                 @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 {
-                    <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-error">
-                        @ErrorMessage
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
                     </MudPaper>
                 }
             }
@@ -128,14 +132,18 @@
                               OnAdornmentClick="TogglePasswordConfirmationVisibility"
                               AdornmentAriaLabel="@Localizer.User.ShowPassword" />
 
-                <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
-                    @Localizer.Login.PasswordInfo
+                <MudPaper Class="mt-4 pa-4 mud-info">
+                    <MudText Typo="Typo.caption">
+                        @Localizer.Login.PasswordInfo
+                    </MudText>
                 </MudPaper>
 
                 @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 {
-                    <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-error">
-                        @ErrorMessage
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
                     </MudPaper>
                 }
 
@@ -173,8 +181,10 @@
 
                 @if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 {
-                    <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-error">
-                        @ErrorMessage
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
                     </MudPaper>
                 }
 

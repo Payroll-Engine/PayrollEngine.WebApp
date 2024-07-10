@@ -127,10 +127,10 @@ public class LookupObject
                 propertyName = values.First().Key;
             }
         }
-        if (string.IsNullOrWhiteSpace(propertyName) || !values.ContainsKey(propertyName))
+        if (string.IsNullOrWhiteSpace(propertyName) || !values.TryGetValue(propertyName, out var value))
         {
             throw new PayrollException($"Unknown lookup property {propertyName}");
         }
-        return values[propertyName].GetValue();
+        return value.GetValue();
     }
 }

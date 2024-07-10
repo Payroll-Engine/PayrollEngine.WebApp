@@ -533,7 +533,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             { nameof(PayrunStartDialog.Setup) , setup }
         };
         var result = await (await DialogService.ShowAsync<PayrunStartDialog>(title, parameters)).Result;
-        if (result.Canceled)
+        if (result == null || result.Canceled)
         {
             return false;
         }
@@ -799,7 +799,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
         };
         var result = await (await DialogService.ShowAsync<PayrunParameterDialog>(
             Localizer.PayrunParameter.PayrunParameters, dialogParameters)).Result;
-        if (!result.Canceled)
+        if (result != null && !result.Canceled)
         {
             StateHasChanged();
         }
@@ -864,7 +864,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     #region Forecast History
 
     private bool HasForecastHistory => ForecastHistory.Any();
-    private List<string> ForecastHistory { get; } = new();
+    private List<string> ForecastHistory { get; } = [];
     private bool ForecastSelection { get; set; }
 
     private void OpenForecastSelection() =>
@@ -873,12 +873,11 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     private void CloseForecastSelection() =>
         ForecastSelection = false;
 
-    private void SelectForecast(object value)
+    private void SelectForecast(string value)
     {
-        var selected = value as string;
-        if (!string.IsNullOrWhiteSpace(selected))
+        if (!string.IsNullOrWhiteSpace(value))
         {
-            ForecastSetup.ForecastName = selected;
+            ForecastSetup.ForecastName = value;
         }
         CloseForecastSelection();
     }

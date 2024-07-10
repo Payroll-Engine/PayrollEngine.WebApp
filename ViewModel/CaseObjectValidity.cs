@@ -16,7 +16,7 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
     /// List of all broken validation rules
     /// </summary>
     public IEnumerable<CaseObjectRule> Rules => rules;
-    private readonly List<CaseObjectRule> rules = new();
+    private readonly List<CaseObjectRule> rules = [];
 
     /// <summary>
     /// Validation rules (rule text only without case object name)

@@ -2,8 +2,7 @@
 @inherits PayrollEngine.WebApp.Presentation.Field.DateTimePickerBase
 
 <MudStack Row="true" Spacing="0" Class="align-baseline">
-    <MudDatePicker @ref="@datePicker"
-    @bind-Date="@Date"
+    <MudDatePicker @bind-Date="@Date"
                    MinDate="@MinDate"
                    MaxDate="@MaxDate"
                    DateFormat="@DateFormat"
@@ -27,8 +26,6 @@
 </MudStack>
 
 @code {
-    MudDatePicker datePicker;
-
     [Parameter] public DateTime? DateTime { get; set; }
     [Parameter] public EventCallback<DateTime?> DateTimeChanged { get; set; }
     [Parameter] public DateTime? MinDate { get; set; }

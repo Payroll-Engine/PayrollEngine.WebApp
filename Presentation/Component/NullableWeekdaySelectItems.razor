@@ -9,7 +9,7 @@
 {
     [Parameter] public CultureInfo Culture { get; set; }
 
-    private List<LabeledValue<PayrollEngine.DayOfWeek?>> Weekdays { get; } = new();
+    private List<LabeledValue<PayrollEngine.DayOfWeek?>> Weekdays { get; } = [];
 
     private void SetupWeekdays()
     {

@@ -20,7 +20,7 @@ public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
     [Inject] private IPayrollService PayrollService { get; set; }
     [Inject] private IUserNotificationService UserNotification { get; set; }
 
-    protected List<CaseSlot> CaseSlots { get; private set; } = new();
+    protected List<CaseSlot> CaseSlots { get; private set; } = [];
     protected CaseSlot SelectedCaseSlot { get; private set; }
     private string Value { get; set; }
 

@@ -6,21 +6,18 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
-public class LookupValueFactory : ChildItemFactory<RegulationLookup, RegulationLookupValue>
+public class LookupValueFactory(
+    Client.Model.Tenant tenant,
+    Client.Model.Payroll payroll,
+    List<Client.Model.Regulation> regulations,
+    IPayrollService payrollService,
+    ILookupService caseService,
+    ILookupValueService lookupValueService)
+    : ChildItemFactory<RegulationLookup, RegulationLookupValue>(tenant, payroll, regulations)
 {
-    private ILookupService LookupService { get; }
-    private ILookupValueService LookupValueService { get; }
-    private IPayrollService PayrollService { get; }
-
-    public LookupValueFactory(Client.Model.Tenant tenant, Client.Model.Payroll payroll,
-        List<Client.Model.Regulation> regulations, IPayrollService payrollService,
-        ILookupService caseService, ILookupValueService lookupValueService) :
-        base(tenant, payroll, regulations)
-    {
-        LookupService = caseService;
-        LookupValueService = lookupValueService;
-        PayrollService = payrollService;
-    }
+    private ILookupService LookupService { get; } = caseService;
+    private ILookupValueService LookupValueService { get; } = lookupValueService;
+    private IPayrollService PayrollService { get; } = payrollService;
 
     protected override async Task<List<RegulationLookupValue>> QueryItems(Client.Model.Regulation regulation) =>
         await PayrollService.GetLookupValuesAsync<RegulationLookupValue>(new(Tenant.Id, Payroll.Id));

@@ -22,7 +22,7 @@
              SortMode="SortMode.Multiple" Filterable="true"
              Hideable="true" ShowColumnOptions="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.ReceiverAddress" Title="@Localizer.Webhook.ReceiverAddress" />
         <PropertyColumn Property="x => x.Action" Title="@Localizer.Webhook.Action">

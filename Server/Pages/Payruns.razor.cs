@@ -25,6 +25,7 @@ public partial class Payruns
     protected override string GetLocalizedItemName(bool plural) => 
         plural ? Localizer.Payrun.Payruns : Localizer.Payrun.Payrun;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public Payruns() :
         base(WorkingItems.TenantChange)
     {

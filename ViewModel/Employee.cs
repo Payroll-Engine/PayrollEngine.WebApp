@@ -52,7 +52,7 @@ public class Employee : Client.Model.Employee, IViewModel,
         }
         set
         {
-            Divisions ??= new();
+            Divisions ??= [];
             Divisions.Clear();
             if (value != null)
             {

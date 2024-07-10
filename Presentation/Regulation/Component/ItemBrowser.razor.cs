@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.Service;
-using PayrollEngine.WebApp.Presentation.Regulation.Factory;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 using Tenant = PayrollEngine.Client.Model.Tenant;

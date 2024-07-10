@@ -276,7 +276,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
 
         try
         {
-            return CustomColumns.TryGetValue(gridId, out var customColumn) ? customColumn : null;
+            return CustomColumns.GetValueOrDefault(gridId);
         }
         catch (Exception exception)
         {

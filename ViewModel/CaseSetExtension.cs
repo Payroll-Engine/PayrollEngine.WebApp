@@ -25,7 +25,7 @@ public static class CaseSetExtension
         // case values
         if (caseSet.Fields != null)
         {
-            caseSetup.Values = new();
+            caseSetup.Values = [];
             foreach (var field in caseSet.Fields)
             {
                 var caseValue = new CaseValueSetup(caseSet.Name, field);
@@ -54,7 +54,7 @@ public static class CaseSetExtension
                 // create case documents from viewmodel
                 if (field.Documents != null)
                 {
-                    caseValue.Documents = new();
+                    caseValue.Documents = [];
                     foreach (var document in field.Documents)
                     {
                         caseValue.Documents.Add(new()
@@ -73,7 +73,7 @@ public static class CaseSetExtension
         // related cases
         if (caseSet.RelatedCases != null)
         {
-            caseSetup.RelatedCases = new();
+            caseSetup.RelatedCases = [];
             foreach (var relatedCase in caseSet.RelatedCases)
             {
                 var relatedCaseSetup = new CaseSetup();

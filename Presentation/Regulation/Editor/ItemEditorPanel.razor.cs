@@ -18,5 +18,5 @@ public partial class ItemEditorPanel
     [Parameter]
     public EventCallback<IRegulationItem> DeriveItem { get; set; }
 
-    protected bool HasItem => Item != null;
+    private bool HasItem => Item != null;
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Localization;
 using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;

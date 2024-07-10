@@ -3,21 +3,26 @@
 @using Tenant = PayrollEngine.WebApp.ViewModel.Tenant
 @using PayrollEngine.Client.Model
 @using PayrollEngine.WebApp.Presentation.Component
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
 
 @inherits MainLayoutBase
 
-<MudThemeProvider @ref="@ThemeProvider" @bind-IsDarkMode="@IsDarkMode"
+<MudThemeProvider @rendermode="InteractiveServer"
+                  @ref="@ThemeProvider"
+                  @bind-IsDarkMode="@IsDarkMode"
                   Theme="@AppTheme" />
-<MudDialogProvider MaxWidth="MaxWidth.ExtraLarge"
+<MudPopoverProvider @rendermode="InteractiveServer" />
+<MudDialogProvider @rendermode="InteractiveServer"
+                   MaxWidth="MaxWidth.ExtraLarge"
                    CloseOnEscapeKey="true" />
-<MudSnackbarProvider />
+<MudSnackbarProvider @rendermode="InteractiveServer" />
 
 <MudLayout>
     @if (Session.UserAvailable)
     {
         <MudAppBar Elevation="1">
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-                           OnClick="NavigationToggleAsync" Title="@Localizer.App.ToggleSidebar" />
+                           OnClick="NavigationToggleAsync" title="@Localizer.App.ToggleSidebar" />
 
             @* app icon or text *@
             @{
@@ -99,9 +104,10 @@
 
             @* user menu *@
             @{
-                @* user settings *@
                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Class="pl-2"
                          AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+
+                    @* user settings *@
                     @switch (Session.User.UserType)
                     {
                         case UserType.Employee:
@@ -136,7 +142,7 @@
                             @Localizer.App.DarkMode
                         </MudMenuItem>
                     }
-                   
+
                     @* about *@
                     <MudMenuItem Icon="@Icons.Material.Filled.Info" OnClick="AboutAsync">
                         @Localizer.App.About

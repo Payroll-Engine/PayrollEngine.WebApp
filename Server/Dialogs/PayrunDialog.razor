@@ -46,8 +46,10 @@
                 <MudTabPanel Text="@Localizer.Payrun.Parameters">
                     <MudStack Class="pa-4" Spacing="1">
                         <PayrunParameterGrid Tenant="Tenant" Payrun="Payrun" Style="min-width: fit-content;" />
-                        <MudPaper Typo="Typo.caption" Class="mt-4 pa-4">
-                            @Localizer.Shared.ImmediateChanges
+                        <MudPaper Class="mt-4 pa-4">
+                            <MudText Typo="Typo.caption">
+                                @Localizer.Shared.ImmediateChanges
+                            </MudText>
                         </MudPaper>
                     </MudStack>
                 </MudTabPanel>

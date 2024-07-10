@@ -47,8 +47,10 @@
                         </MudSelect>
                         @if (User.UserType == UserType.Employee)
                         {
-                            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
-                                @Localizer.Error.MissingEmployee(User.Identifier)
+                            <MudPaper Class="mt-4 pa-4 mud-info">
+                                <MudText Typo="Typo.caption">
+                                    @Localizer.Error.MissingEmployee(User.Identifier)
+                                </MudText>
                             </MudPaper>
                         }
                         <ItemBaseFields Item="User" />

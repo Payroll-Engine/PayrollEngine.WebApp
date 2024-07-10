@@ -1,6 +1,7 @@
 ﻿@using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Presentation.Case
 @using PayrollEngine.WebApp.Server.Shared
+@using PayrollEngine.WebApp.ViewModel
 @inherits PageBase
 
 @* case not available *@
@@ -21,32 +22,34 @@
     @* case edit tree *@
     <MudForm @ref="@fieldForm">
         <ChildContent>
-            <MudTreeView Items="@Cases">
+            <MudTreeView T="CaseSet" Items="@Cases">
                 <ItemTemplate>
                     @{
-                        var style = $"margin-inline-start: {(context == RootCase ? "0" : "1em")}";
-                        <MudTreeViewItem Style="@style" @bind-Expanded="@context.IsExpanded"
-                                         Items="@context.RelatedCases">
+                        var treeCaseSet = (TreeCaseSet)context;
+                        var caseSet = treeCaseSet.CaseSet;
+                        var style = $"margin-inline-start: {(context.Value == RootCase?.Value ? "0" : "1em")}";
+                        <MudTreeViewItem Style="@style" @bind-Expanded="@caseSet.IsExpanded"
+                                         Items="@treeCaseSet.RelatedCases">
                             <Content>
                                 <MudPaper Class="pa-4" Elevation="4">
                                     <MudStack Row="true" Spacing="0" Class="d-flex">
                                         @* case name *@
                                         <MudText Typo="Typo.h5" Class="flex-grow-1">
-                                            @context.GetLocalizedName(PageCulture.Name)
+                                            @caseSet.GetLocalizedName(PageCulture.Name)
                                         </MudText>
                                         @* case icon *@
                                         @{
-                                            var icon = IconTool.GetCaseIcon(context, PageCulture);
+                                            var icon = IconTool.GetCaseIcon(caseSet, PageCulture);
                                             if (!string.IsNullOrWhiteSpace(icon))
                                             {
                                                 <MudIcon Size="Size.Large" Icon="@icon" Color="Color.Surface" />
                                             }
                                         }
                                     </MudStack>
-                                    @if (context.HasAnyField)
+                                    @if (caseSet.HasAnyField)
                                     {
                                         // set very first case field focus to true
-                                        foreach (var caseField in context.Fields)
+                                        foreach (var caseField in caseSet.Fields)
                                         {
                                             if (caseField.Attributes?.GetHidden(TenantCulture) ?? false)
                                             {
@@ -104,9 +107,9 @@
                         <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
                                     Style="max-width: 20em">
                             <MudStack Spacing="0">
-                                <MudList Style="overflow-y: auto; max-height: 40em"
-                                         SelectedItemChanged="@(x => SelectForecast(x.Value))"
-                                         Clickable="true">
+                                <MudList T="string" Style="overflow-y: auto; max-height: 40em"
+                                         SelectedValueChanged="@(x => SelectForecast(x))"
+                                         SelectionMode="SelectionMode.SingleSelection">
                                     @foreach (var history in ForecastHistory)
                                     {
                                         <MudListItem Value="@history">@history</MudListItem>
@@ -129,7 +132,7 @@
                                     <th class="pl-0">@Localizer.Shared.Field</th>
                                     <th class="pl-0">@Localizer.Error.Error</th>
                                 </tr>
-                                @foreach (var rule in RootCase.Validity.Rules)
+                                @foreach (var rule in RootCase.CaseSet.Validity.Rules)
                                 {
                                     <tr>
                                         <td class="pl-0">@rule.Name</td>

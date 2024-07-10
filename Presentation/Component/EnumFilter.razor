@@ -10,8 +10,8 @@
             Style="max-width: 20em">
     <MudStack Spacing="0">
         <MudList Style="overflow-y: auto; max-height: 40em"
-                 SelectedItemChanged="@(x => SelectFilter(x.Value))"
-                 Clickable="true">
+                 SelectedValueChanged="@(x => SelectFilter(x.Value))"
+                 SelectionMode="SelectionMode.SingleSelection">
             <EnumListItems T="TEnum" />
         </MudList>
     </MudStack>

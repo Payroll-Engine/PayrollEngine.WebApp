@@ -62,7 +62,7 @@
              RowStyleFunc="@RowStyleHandler"
              ReadOnly="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.InheritanceKey" Title="@KeyHeader" />
         @if (HasParent)
         {

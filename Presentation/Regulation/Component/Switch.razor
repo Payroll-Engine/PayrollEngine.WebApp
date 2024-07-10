@@ -5,8 +5,8 @@
 <MudSwitch T="bool"
            Label="@Item.GetItemLabel(Field, Localizer)"
            Color="@Color"
-           Checked="@Value"
-           CheckedChanged="@ValueChangedAsync"
+           Value="@Value"
+           ValueChanged="@ValueChangedAsync"
            ReadOnly="@Item.IsReadOnlyField(Field)"
            Required="@Field.Required"
            RequiredError="@Field.RequiredError" />

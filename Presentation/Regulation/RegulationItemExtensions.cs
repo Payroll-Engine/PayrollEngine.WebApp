@@ -75,7 +75,7 @@ public static class RegulationItemExtensions
     /// <param name="obj">The regulation item</param>
     /// <param name="fieldName">The field name</param>
     private static List<RegulationItemValue> GetBaseValues(this IRegulationItem obj, string fieldName) =>
-        obj.BaseItem != null ? GetInheritanceValues(obj.BaseItem, fieldName) : new();
+        obj.BaseItem != null ? GetInheritanceValues(obj.BaseItem, fieldName) : [];
 
     /// <summary>
     /// Get base values

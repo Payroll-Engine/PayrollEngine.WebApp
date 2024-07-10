@@ -24,7 +24,7 @@
     MudForm form;
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
+    [Parameter] public List<PayrunParameter> Parameters { get; set; } = [];
     [Parameter] public CultureInfo Culture { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 

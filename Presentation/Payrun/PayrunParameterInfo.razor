@@ -63,7 +63,7 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public List<PayrunParameter> Parameters { get; set; } = new();
+    [Parameter] public List<PayrunParameter> Parameters { get; set; } = [];
     [Parameter] public Dictionary<string, object> ParameterAttributes { get; set; } = new();
     [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public string Class { get; set; }

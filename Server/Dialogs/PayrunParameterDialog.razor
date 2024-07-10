@@ -20,7 +20,7 @@
                         <LocalizationTextField Item="@PayrunParameter" @bind-Value="PayrunParameter.Description"
                                                PropertyName="@nameof(PayrunParameter.Description)"
                                                Label="Description" />
-                        <MudSwitch T="bool" @bind-Checked="PayrunParameter.Mandatory"
+                        <MudSwitch T="bool" @bind-Value="PayrunParameter.Mandatory"
                                    Color="Color.Primary"
                                    ReadOnly="@PayrunParameter.IsExistingObject"
                                    Label="Mandatory" />

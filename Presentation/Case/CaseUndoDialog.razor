@@ -56,7 +56,7 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public List<CaseChangeCaseValue> CaseChangeValues { get; set; } = new();
+    [Parameter] public List<CaseChangeCaseValue> CaseChangeValues { get; set; } = [];
     [Parameter] public IValueFormatter ValueFormatter { get; set; }
     [Parameter] public CultureInfo Culture { get; set; }
     [Inject] private Localizer Localizer { get; set; }

@@ -6,7 +6,7 @@ namespace PayrollEngine.WebApp;
 
 public class AsyncEvent<T>
 {
-    private readonly List<Func<object, T, Task>> items = new();
+    private readonly List<Func<object, T, Task>> items = [];
     private readonly object locker = new();
 
     public static AsyncEvent<T> operator +(
@@ -55,7 +55,7 @@ public class AsyncEvent<T>
         List<Func<object, T, Task>> callbacks;
         lock (locker)
         {
-            callbacks = new(items);
+            callbacks = [..items];
         }
 
         foreach (var callback in callbacks)

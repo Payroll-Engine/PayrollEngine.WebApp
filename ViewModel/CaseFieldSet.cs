@@ -437,7 +437,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     public AttachmentType AttachmentType { get; }
 
-    public ObservedHashSet<CaseDocument> Documents { get; } = new();
+    public ObservedHashSet<CaseDocument> Documents { get; } = [];
 
     private async System.Threading.Tasks.Task DocumentsHandlerAsync(object sender, CaseDocument document)
     {
@@ -447,7 +447,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     #region Lookup
 
-    public List<LookupObject> LookupValues { get; } = new();
+    public List<LookupObject> LookupValues { get; } = [];
 
     #endregion
 

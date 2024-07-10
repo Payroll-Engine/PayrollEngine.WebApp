@@ -5,11 +5,11 @@ namespace PayrollEngine.WebApp.Shared;
 
 public static class SharedCultures
 {
-    private static string[] SupportedCultures => new[]
-    {
+    private static string[] SupportedCultures =>
+    [
         "en",
         "de"
-    };
+    ];
 
     public static string DefaultCulture => "en-US";
 

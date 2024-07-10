@@ -217,7 +217,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
             }
             else
             {
-                clusters[lastIndex = index] = lastCluster = new() { item };
+                clusters[lastIndex = index] = lastCluster = [item];
             }
         }
 
@@ -305,7 +305,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
                     }
                     else
                     {
-                        cluster = new() { item };
+                        cluster = [item];
                         clusterIndex = index;
                     }
 
@@ -487,8 +487,8 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
                 if (newCluster == null)
                 {
                     Debug.Assert(oldCluster == null);
-                    newCluster = new() { @new };
-                    oldCluster = new() { old };
+                    newCluster = [@new];
+                    oldCluster = [old];
                 }
                 else
                 {
@@ -501,7 +501,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
 
             OnRangeReplaced(i, newCluster!, oldCluster!);
 
-            //exceeding position
+            // exceeding position
             if (count != addedCount)
             {
                 var items = (List<T>)Items;

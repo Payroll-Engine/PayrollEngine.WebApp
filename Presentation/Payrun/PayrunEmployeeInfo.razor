@@ -37,8 +37,8 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public List<Employee> Employees { get; set; } = new();
-    [Parameter] public List<int> SelectedEmployees { get; set; } = new();
+    [Parameter] public List<Employee> Employees { get; set; } = [];
+    [Parameter] public List<int> SelectedEmployees { get; set; } = [];
     [Parameter] public string Class { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 

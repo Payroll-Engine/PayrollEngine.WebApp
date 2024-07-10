@@ -24,6 +24,7 @@ public partial class Employees
     protected override string GetLocalizedItemName(bool plural) => 
         plural ? Localizer.Employee.Employees : Localizer.Employee.Employee;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public Employees() :
         base(WorkingItems.TenantChange)
     {

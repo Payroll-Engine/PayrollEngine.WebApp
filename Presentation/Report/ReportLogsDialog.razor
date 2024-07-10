@@ -48,7 +48,7 @@
     [Inject] private IReportLogService ReportLogService { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
-    private List<ReportLog> ReportLogs { get; set; } = new();
+    private List<ReportLog> ReportLogs { get; set; } = [];
 
     private void Close() => MudDialog.Close(DialogResult.Ok(true));
 

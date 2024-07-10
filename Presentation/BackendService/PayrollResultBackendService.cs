@@ -8,14 +8,14 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class PayrollResultBackendService : BackendServiceBase<PayrollResultValueService, PayrollResultValueServiceContext, ViewModel.PayrollResultValue, Query>
+public class PayrollResultBackendService(
+    UserSession userSession,
+    HttpClientHandler httpClientHandler,
+    PayrollHttpConfiguration configuration,
+    Localizer localizer)
+    : BackendServiceBase<PayrollResultValueService, PayrollResultValueServiceContext, ViewModel.PayrollResultValue,
+        Query>(userSession, httpClientHandler, configuration, localizer)
 {
-    public PayrollResultBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     /// <summary>The current request context</summary>
     protected override PayrollResultValueServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) =>
         UserSession.Tenant != null
@@ -31,11 +31,11 @@ public class PayrollResultBackendService : BackendServiceBase<PayrollResultValue
     protected override void SetupReadQuery(Query query, IDictionary<string, object> parameters = null)
     {
         // payrun
-        if (parameters == null || !parameters.ContainsKey(nameof(ViewModel.PayrollResultValue.PayrunId)))
+        if (parameters == null || !parameters.TryGetValue(nameof(ViewModel.PayrollResultValue.PayrunId), out var payrunId))
         {
             throw new PayrollException("Missing payrun id on payroll result query");
         }
-        var payrunId = parameters[nameof(ViewModel.PayrollResultValue.PayrunId)];
+
         if (payrunId is not int intPayrunId || intPayrunId <= 0)
         {
             throw new PayrollException("Invalid payrun id on payroll result query");

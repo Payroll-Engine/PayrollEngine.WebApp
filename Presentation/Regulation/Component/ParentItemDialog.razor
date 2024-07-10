@@ -2,18 +2,17 @@
 
 @using PayrollEngine.WebApp.ViewModel
 @using PayrollEngine.WebApp.Shared
-<MudDialog DisableSidePadding="true" Style="min-width: 25em">
+<MudDialog Gutters="false" Style="min-width: 25em">
     <DialogContent>
         <div class="px-6">
             <MudStack Class="border rounded" Style="max-height: 20em; overflow-y: scroll">
-                <MudList @ref="list"
-                         Dense="true"
-                         Clickable="true"
+                <MudList T="string" Dense="true"
+                         SelectionMode="SelectionMode.SingleSelection"
                          @ondblclick="@Submit"
                          SelectedValueChanged="SelectedValueChanged">
                     @foreach (var item in Items)
                     {
-                        <MudListItem T="string" Value="@item.Name" Text="@item.InheritanceKey" />
+                        <MudListItem T="string" Value="@item.Name" Text="@item.InheritanceKey"/>
                     }
                 </MudList>
             </MudStack>
@@ -28,10 +27,9 @@
 </MudDialog>
 
 @code {
-    MudList list;
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public List<T> Items { get; set; } = new();
+    [Parameter] public List<T> Items { get; set; } = [];
     [Inject] private Localizer Localizer { get; set; }
 
     private string SelectedValue { get; set; }
@@ -47,6 +45,6 @@
         MudDialog.Close(DialogResult.Ok(SelectedValue));
     }
 
-    private void SelectedValueChanged(object obj) =>
-        SelectedValue = obj as string;
+    private void SelectedValueChanged(string obj) =>
+        SelectedValue = obj;
 }

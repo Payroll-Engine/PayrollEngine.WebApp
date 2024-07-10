@@ -66,7 +66,7 @@ public partial class Reports() : PageBase(WorkingItems.TenantChange | WorkingIte
     /// <summary>
     /// The selected cluster
     /// </summary>
-    private MudChip SelectedCluster { get; set; }
+    private string SelectedCluster { get; set; }
 
     /// <summary>
     /// Setup filtered/working clusters
@@ -102,9 +102,9 @@ public partial class Reports() : PageBase(WorkingItems.TenantChange | WorkingIte
     /// Handler for cluster change
     /// </summary>
     /// <param name="cluster">The selected cluster</param>
-    private void SelectedClusterChanged(MudChip cluster)
+    private void SelectedClusterChanged(string cluster)
     {
-        SetupAvailableReports(cluster?.Text);
+        SetupAvailableReports(cluster);
         SelectedCluster = cluster;
     }
 
@@ -121,8 +121,8 @@ public partial class Reports() : PageBase(WorkingItems.TenantChange | WorkingIte
 
     #region Report
 
-    private List<ReportSet> AllReports { get; set; } = new();
-    private List<ReportSet> AvailableReports { get; set; } = new();
+    private List<ReportSet> AllReports { get; set; } = [];
+    private List<ReportSet> AvailableReports { get; set; } = [];
 
     private async Task SetupReportsAsync()
     {
@@ -144,7 +144,7 @@ public partial class Reports() : PageBase(WorkingItems.TenantChange | WorkingIte
     }
 
     private void SetupAvailableReports() =>
-        SetupAvailableReports(SelectedCluster?.Text);
+        SetupAvailableReports(SelectedCluster);
 
     private void SetupAvailableReports(string cluster)
     {

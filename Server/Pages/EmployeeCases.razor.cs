@@ -16,6 +16,7 @@ public partial class EmployeeCases
     [Inject]
     private IConfiguration Configuration { get; set; }
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public EmployeeCases() :
         // user working items handled dynamic (property overload)
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
@@ -45,7 +46,7 @@ public partial class EmployeeCases
             return true;
         }
 
-        // self service employee match with user
+        // self-service employee match with user
         return Employee != null &&
                string.Equals(Employee.Identifier, User.Identifier);
     }

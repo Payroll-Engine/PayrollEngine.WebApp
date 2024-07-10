@@ -10,16 +10,16 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class PayrunBackendService : BackendServiceBase<PayrunService, TenantServiceContext, ViewModel.Payrun, Query>
+public class PayrunBackendService(
+    UserSession userSession,
+    HttpClientHandler httpClientHandler,
+    PayrollHttpConfiguration configuration,
+    Localizer localizer,
+    IPayrollService payrollService)
+    : BackendServiceBase<PayrunService, TenantServiceContext, ViewModel.Payrun, Query>(userSession, httpClientHandler,
+        configuration, localizer)
 {
-    private IPayrollService PayrollService { get; }
-
-    public PayrunBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer, IPayrollService payrollService) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-        PayrollService = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
-    }
+    private IPayrollService PayrollService { get; } = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
 
     /// <summary>The current request context</summary>
     protected override TenantServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) =>

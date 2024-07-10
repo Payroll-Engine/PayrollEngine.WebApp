@@ -1,6 +1,6 @@
 ﻿@using PayrollEngine.Data
 
-<MudDataGrid @ref="Grid" T="DataRelation"
+<MudDataGrid T="DataRelation"
              Items="@DataRelations"
              ReadOnly="@Item.IsReadOnlyField(Field)">
     <Columns>

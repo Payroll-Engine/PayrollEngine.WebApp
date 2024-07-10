@@ -1,5 +1,4 @@
-﻿@using System.Collections.Generic
-@using System.Globalization
+﻿@using System.Globalization
 
 @foreach (var month in Months)
 {
@@ -9,7 +8,7 @@
 @code
 {
     [Parameter] public CultureInfo Culture { get; set; }
-    private List<LabeledValue<Month?>> Months { get; set; } = new();
+    private List<LabeledValue<Month?>> Months { get; set; } = [];
 
     private void SetupMonths()
     {

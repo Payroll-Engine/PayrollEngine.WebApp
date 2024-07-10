@@ -2,13 +2,8 @@
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class WebhookMessageLocalizer : LocalizerBase
+public class WebhookMessageLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
 {
-    public WebhookMessageLocalizer(IStringLocalizerFactory factory) :
-        base(factory)
-    {
-    }
-
     public string WebhookMessage => PropertyValue();
     public string WebhookMessages => PropertyValue();
     public string NotAvailable => PropertyValue();

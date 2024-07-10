@@ -45,7 +45,7 @@ public partial class ClusterSetGrid : IDisposable
         }
 
         // add cluster set
-        Payroll.ClusterSets ??= new();
+        Payroll.ClusterSets ??= [];
         Payroll.ClusterSets.Add(item);
         ClusterSets.Add(item);
     }

@@ -2,7 +2,7 @@
 <MudDataGrid @ref="Grid" T="WebhookMessage" Items="@WebhookMessages"
              Height="@Height" Class="@Class" Style="@Style">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.ActionName" Title="@Localizer.Webhook.Action" />
         <PropertyColumn Property="x => x.ReceiverAddress" Title="@Localizer.Webhook.ReceiverAddress" />
         <PropertyColumn Property="x => x.RequestDate" Title="@Localizer.WebhookMessage.RequestDate" />

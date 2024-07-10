@@ -3,14 +3,9 @@ using System.Globalization;
 
 namespace PayrollEngine.WebApp;
 
-public class ValueFormatter : IValueFormatter
+public class ValueFormatter(CultureInfo culture) : IValueFormatter
 {
-    private CultureInfo Culture { get; }
-
-    public ValueFormatter(CultureInfo culture)
-    {
-        Culture = culture ?? throw new ArgumentNullException(nameof(culture));
-    }
+    private CultureInfo Culture { get; } = culture ?? throw new ArgumentNullException(nameof(culture));
 
     /// <inheritdoc />
     public string ToString(string json, ValueType valueType, CultureInfo culture) =>

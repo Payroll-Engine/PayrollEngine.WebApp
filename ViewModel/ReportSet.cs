@@ -37,7 +37,7 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
             {
                 return viewParameters;
             }
-            viewParameters = new();
+            viewParameters = [];
             if (Parameters == null)
             {
                 return viewParameters;
@@ -61,7 +61,7 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
             {
                 return viewTemplates;
             }
-            viewTemplates = new();
+            viewTemplates = [];
             if (Templates == null)
             {
                 return viewTemplates;

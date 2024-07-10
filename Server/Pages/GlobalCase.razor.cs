@@ -7,13 +7,9 @@ using PayrollEngine.WebApp.Server.Shared;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public partial class GlobalCase : ICaseValueProvider
+public partial class GlobalCase()
+    : NewCasePageBase(WorkingItems.TenantView | WorkingItems.PayrollView), ICaseValueProvider
 {
-    public GlobalCase() :
-        base(WorkingItems.TenantView | WorkingItems.PayrollView)
-    {
-    }
-
     [Inject]
     private IGlobalCaseValueService GlobalCaseValueService { get; set; }
 

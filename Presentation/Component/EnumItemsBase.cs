@@ -12,7 +12,7 @@ public abstract class EnumItemsBase<T> : ComponentBase where T : struct, Enum
     [Parameter] public bool Ordered { get; set; } = true;
     [Inject] private Localizer Localizer { get; set; }
 
-    protected List<LabeledValue<T>> Values { get; private set; } = new();
+    protected List<LabeledValue<T>> Values { get; private set; } = [];
 
     private void SetupItems()
     {
@@ -26,7 +26,7 @@ public abstract class EnumItemsBase<T> : ComponentBase where T : struct, Enum
         }
 
         // localized enum values
-        List<LabeledValue<T>> values = new();
+        List<LabeledValue<T>> values = [];
         foreach (var item in enumItems)
         {
             var label = Localizer != null ? Localizer.Enum(item) : item.ToString().ToPascalSentence();

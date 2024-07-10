@@ -133,7 +133,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
             if (result.Items == null || result.Items.Length == 0)
             {
-                gridData.Items = Enumerable.Empty<TItem>();
+                gridData.Items = [];
                 return gridData;
             }
 
@@ -172,7 +172,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             var item = await readService.GetAsync<TItem>(CreateServiceContext(), itemId);
 
             // derived notification
-            await OnItemsReadAsync(new() { item });
+            await OnItemsReadAsync([item]);
 
             return item;
         }

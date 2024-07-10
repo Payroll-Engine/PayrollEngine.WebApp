@@ -28,6 +28,7 @@ public partial class PayrollLayers
     protected override string GetLocalizedItemName(bool plural) => 
         plural ? Localizer.PayrollLayer.PayrollLayers : Localizer.PayrollLayer.PayrollLayer;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public PayrollLayers() :
         base(WorkingItems.TenantChange | WorkingItems.PayrollChange)
     {
@@ -105,7 +106,7 @@ public partial class PayrollLayers
         // missing payroll
         if (Payroll == null)
         {
-            Regulations = new();
+            Regulations = [];
             return;
         }
 
@@ -113,7 +114,7 @@ public partial class PayrollLayers
         var regulations = await RegulationService.QueryAsync<ViewModel.Regulation>(new(Tenant.Id));
         if (!regulations.Any())
         {
-            Regulations = new();
+            Regulations = [];
             return;
         }
 

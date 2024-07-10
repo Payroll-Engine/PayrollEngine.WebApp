@@ -10,7 +10,7 @@
 @if (Item.IsExistingObject)
 {
     <MudText Class="d-flex flex-grow-1 justify-center mt-3 py-1 px-4 rounded" Typo="Typo.overline" Align="Align.Center"
-         Style="@($"color:{ThemeService.Palette.TextPrimary}; background:{ThemeService.Palette.BackgroundGrey};")">
+         Style="@($"color:{ThemeService.Palette.TextPrimary}; background:{ThemeService.Palette.BackgroundGray};")">
         @Localizer.Shared.ObjectId @Item.Id&nbsp;&#x2022;&nbsp;@Localizer.Shared.ObjectCreated @Item.Created.ToLocalTime().ToCompactString()
         @if (Item.Created != Item.Updated)
         {

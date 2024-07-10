@@ -6,7 +6,7 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation;
 
-public class AppMudLocalizer : MudLocalizer
+public class AppMudLocalizer(Localizer localizer) : MudLocalizer
 {
     private static readonly Dictionary<string, string> LocalizationMap = new()
     {
@@ -54,25 +54,19 @@ public class AppMudLocalizer : MudLocalizer
         { "MudDataGrid.Value", nameof(DataGridLocalizer.Value) }
     };
 
-    private Localizer Localizer { get; }
-
-    public AppMudLocalizer(Localizer localizer)
-    {
-        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
-    }
+    private Localizer Localizer { get; } = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     public override LocalizedString this[string key]
     {
         get
         {
             // unknown translation
-            if (!LocalizationMap.ContainsKey(key))
+            if (!LocalizationMap.TryGetValue(key, out var localizerKey))
             {
                 Log.Warning($"Unsupported MudBlazor translation key {key}");
                 return base[key];
             }
 
-            var localizerKey = LocalizationMap[key];
             var value = Localizer.DataGrid.Key(localizerKey);
             return new(key, value);
         }

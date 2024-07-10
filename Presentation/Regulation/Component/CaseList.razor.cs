@@ -23,7 +23,7 @@ public partial class CaseList : IRegulationInput
     [Inject]
     private IUserNotificationService UserNotification { get; set; }
 
-    private List<RegulationCase> Cases { get; set; } = new();
+    private List<RegulationCase> Cases { get; set; } = [];
     private RegulationCase SelectedCase { get; set; }
     private string Value { get; set; }
 

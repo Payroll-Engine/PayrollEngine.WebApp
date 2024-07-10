@@ -37,8 +37,6 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
 
-    private MudDataGrid<CaseFieldReference> Grid { get; set; }
-
     protected string FieldLabel => nameof(ViewModel.Case.BaseCaseFields).ToPascalSentence();
 
     #region Value

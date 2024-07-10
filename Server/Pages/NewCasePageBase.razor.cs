@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -13,11 +13,10 @@ using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
-using CaseSet = PayrollEngine.WebApp.ViewModel.CaseSet;
 
 namespace PayrollEngine.WebApp.Server.Pages;
 
-public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageBase(workingItems) 
+public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageBase(workingItems)
 {
     private MudForm fieldForm;
     private MudForm changeForm;
@@ -46,7 +45,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     /// <summary>
     /// The root case
     /// </summary>
-    private CaseSet RootCase => Cases?.FirstOrDefault();
+    private TreeCaseSet RootCase => Cases?.FirstOrDefault();
 
     private string DefaultDialogTitle => Localizer.Item.AddTitle(CaseName);
 
@@ -122,7 +121,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     private string ChangeReason { get; set; }
 
     private bool HasForecastHistory => ForecastHistory.Any();
-    private List<string> ForecastHistory { get; } = new();
+    private List<string> ForecastHistory { get; } = [];
     private bool ForecastSelection { get; set; }
 
     /// <summary>
@@ -136,12 +135,11 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     private void CloseForecastSelection() =>
         ForecastSelection = false;
 
-    private void SelectForecast(object value)
+    private void SelectForecast(string value)
     {
-        var selected = value as string;
-        if (!string.IsNullOrWhiteSpace(selected))
+        if (!string.IsNullOrWhiteSpace(value))
         {
-            Forecast = selected;
+            Forecast = value;
         }
         CloseForecastSelection();
     }
@@ -156,11 +154,11 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
     #region Cases
 
-    private ObservedHashSet<CaseSet> cases = new();
+    private ObservedHashSet<TreeCaseSet> cases = [];
     /// <summary>
     /// The root case collection
     /// </summary>
-    private ObservedHashSet<CaseSet> Cases
+    private ObservedHashSet<TreeCaseSet> Cases
     {
         get => cases;
         set
@@ -205,12 +203,12 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
 
     /// <summary>
-    /// Setup the case including related cases
+    /// Set up the case including related cases.
     /// </summary>
     /// <returns></returns>
     private async Task SetupCaseAsync()
     {
-        var derivedCases = new ObservedHashSet<CaseSet>();
+        var derivedCases = new ObservedHashSet<TreeCaseSet>();
         try
         {
             // build case
@@ -222,11 +220,11 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             }
 
             // convert to view model
-            var caseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
+            var treeCaseSet = new TreeCaseSet(new ViewModel.CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer));
             // Lookups are initially set without taking in consideration possible cases that are only shown in certain conditions
             // Those new lookups are loaded in Update Case method
-            await SetupLookupsAsync(caseSet);
-            await derivedCases.AddAsync(caseSet);
+            await SetupLookupsAsync(treeCaseSet.CaseSet);
+            await derivedCases.AddAsync(treeCaseSet);
         }
         catch (Exception exception)
         {
@@ -241,7 +239,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         if (Cases.Any())
         {
             var @case = Cases.First();
-            ChangeReason = @case.DefaultReason;
+            ChangeReason = @case.CaseSet.DefaultReason;
             StateHasChanged();
         }
     }
@@ -253,7 +251,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     /// </summary>
     /// <remarks>The case update will be also used by related cases</remarks>
     /// <param name="caseSet">The case set to update</param>
-    private async Task UpdateCaseAsync(CaseSet caseSet)
+    private async Task UpdateCaseAsync(ViewModel.CaseSet caseSet)
     {
         if (caseUpdating)
         {
@@ -276,7 +274,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             }
 
             // Updating cases may add more cases to existing list, therefore update of lookups is needed
-            var changeCaseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
+            var changeCaseSet = new ViewModel.CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
             await CaseMerger.MergeAsync(changeCaseSet, caseSet);
             await SetupLookupsAsync(caseSet);
         }
@@ -304,7 +302,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         }
 
         // submit case
-        var caseSet = RootCase;
+        var caseSet = RootCase?.CaseSet;
         if (caseSet == null)
         {
             await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase, Localizer.Case.MissingCase(CaseName));
@@ -431,7 +429,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             caseChangeSetup: caseChangeSetup);
     }
 
-    private CaseChangeSetup GetCaseChange(CaseSet caseSet, bool submitMode)
+    private CaseChangeSetup GetCaseChange(ViewModel.CaseSet caseSet, bool submitMode)
     {
         var caseChangeSetup = new CaseChangeSetup
         {
@@ -454,7 +452,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         {
             foreach (var @case in Cases)
             {
-                @case.FieldChanged += CaseFieldChangedHandlerAsync;
+                @case.CaseSet.FieldChanged += CaseFieldChangedHandlerAsync;
             }
             Cases.Added += CaseAddedHandlerAsync;
             Cases.Removed += CaseRemovedHandlerAsync;
@@ -467,28 +465,28 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         {
             foreach (var @case in Cases)
             {
-                @case.FieldChanged -= CaseFieldChangedHandlerAsync;
+                @case.CaseSet.FieldChanged -= CaseFieldChangedHandlerAsync;
             }
             Cases.Added -= CaseAddedHandlerAsync;
             Cases.Removed -= CaseRemovedHandlerAsync;
         }
     }
 
-    private async Task CaseAddedHandlerAsync(object sender, CaseSet caseSet)
+    private async Task CaseAddedHandlerAsync(object sender, TreeCaseSet caseSet)
     {
-        caseSet.FieldChanged += CaseFieldChangedHandlerAsync;
+        caseSet.CaseSet.FieldChanged += CaseFieldChangedHandlerAsync;
         await UpdateValidationAsync();
     }
 
-    private async Task CaseRemovedHandlerAsync(object sender, CaseSet caseSet)
+    private async Task CaseRemovedHandlerAsync(object sender, TreeCaseSet caseSet)
     {
-        caseSet.FieldChanged -= CaseFieldChangedHandlerAsync;
+        caseSet.CaseSet.FieldChanged -= CaseFieldChangedHandlerAsync;
         await UpdateValidationAsync();
     }
 
-    private async Task CaseFieldChangedHandlerAsync(object sender, CaseSet relatedCaseSet)
+    private async Task CaseFieldChangedHandlerAsync(object sender, ViewModel.CaseSet caseSet)
     {
-        await UpdateCaseAsync(relatedCaseSet);
+        await UpdateCaseAsync(caseSet);
         await UpdateValidationAsync();
         StateHasChanged();
     }
@@ -497,7 +495,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
     #region Lookup
 
-    private async Task SetupLookupsAsync(CaseSet caseSet)
+    private async Task SetupLookupsAsync(ViewModel.CaseSet caseSet)
     {
         try
         {
@@ -605,7 +603,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         {
             foreach (var @case in Cases)
             {
-                if (!@case.Validity.Valid)
+                if (!@case.CaseSet.Validity.Valid)
                 {
                     valid = false;
                     break;

@@ -99,9 +99,9 @@
     [Inject] private IUserNotificationService NotificationService { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
-    private List<Tenant> Tenants { get; set; } = new();
-    private List<Regulation> ProviderRegulations { get; set; } = new();
-    private List<Division> ConsumerDivisions { get; set; } = new();
+    private List<Tenant> Tenants { get; set; } = [];
+    private List<Regulation> ProviderRegulations { get; set; } = [];
+    private List<Division> ConsumerDivisions { get; set; } = [];
 
     private bool HasProviderTenant() =>
         RegulationShare.ProviderTenantId != default;

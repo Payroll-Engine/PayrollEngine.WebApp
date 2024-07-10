@@ -78,7 +78,7 @@ public partial class ItemEditor
             var groupField = groupFields.FirstOrDefault(x => string.Equals(x.Item1, field.Group));
             if (groupField == null)
             {
-                groupFields.Add(new(field.Group, new List<RegulationField> { field }));
+                groupFields.Add(new(field.Group, [field]));
             }
             else
             {

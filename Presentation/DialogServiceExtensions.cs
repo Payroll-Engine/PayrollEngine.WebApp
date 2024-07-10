@@ -10,7 +10,7 @@ namespace PayrollEngine.WebApp.Presentation;
 public static class DialogServiceExtensions
 {
     public static async Task<bool> ShowMessageBoxAsync(this IDialogService dialogService,
-        string title, string message, string yesText = null,
+        string title, string message, string yesText = "OK",
         string noText = null, string cancelText = null)
     {
         var result = await dialogService.ShowMessageBox(title, message, yesText, noText,
@@ -19,7 +19,7 @@ public static class DialogServiceExtensions
     }
 
     public static async Task<bool> ShowMessageBoxAsync(this IDialogService dialogService,
-        string title, MarkupString message, string yesText = null,
+        string title, MarkupString message, string yesText = "OK",
         string noText = null, string cancelText = null)
     {
         var result = await dialogService.ShowMessageBox(title, message, yesText, noText,

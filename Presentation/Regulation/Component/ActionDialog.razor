@@ -14,8 +14,8 @@
                           Lines="Field.Lines" />
             @if (Categories != null && Categories.Count > 2)
             {
-                <MudChipSet MultiSelection="false" SelectedChip="SelectedCategory"
-                            SelectedChipChanged="SelectedCategoryChanged" Class="py-4">
+                <MudChipSet T="string" SelectionMode="SelectionMode.SingleSelection" SelectedValue="SelectedCategory"
+                            SelectedValueChanged="SelectedCategoryChanged" Class="py-4">
                     @foreach (var category in Categories)
                     {
                         <MudChip Text="@category.Label"

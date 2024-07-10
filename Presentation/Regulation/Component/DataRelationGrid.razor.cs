@@ -26,7 +26,6 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
     private Localizer Localizer { get; set; }
 
     private ItemCollection<DataRelation> DataRelations { get; set; } = new();
-    private MudDataGrid<DataRelation> Grid { get; set; }
 
     #region Value
 

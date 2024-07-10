@@ -34,14 +34,18 @@
                         </MudSelect>
                         @if (!Calendar.CycleTimeUnit.IsValidTimeUnit(Calendar.PeriodTimeUnit))
                         {
-                            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-error">
-                                @Localizer.Calendar.InvalidPeriodTimeUnit(Calendar.CycleTimeUnit, Calendar.PeriodTimeUnit)
+                            <MudPaper Class="mt-4 pa-4 mud-error">
+                                <MudText Typo="Typo.caption">
+                                    @Localizer.Calendar.InvalidPeriodTimeUnit(Calendar.CycleTimeUnit, Calendar.PeriodTimeUnit)
+                                </MudText>
                             </MudPaper>
                         }
                         else if (Calendar.CycleTimeUnit != Calendar.PeriodTimeUnit)
                         {
-                            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-info">
-                                @Localizer.Calendar.PeriodCycleHelp(Calendar.CycleTimeUnit, Calendar.PeriodTimeUnit)
+                            <MudPaper Class="mt-4 pa-4 mud-info">
+                                <MudText Typo="Typo.caption">
+                                    @Localizer.Calendar.PeriodCycleHelp(Calendar.CycleTimeUnit, Calendar.PeriodTimeUnit)
+                                </MudText>
                             </MudPaper>
                         }
                         <MudSelect T="CalendarTimeMap" @bind-Value="Calendar.TimeMap" Clearable="true"
@@ -73,15 +77,15 @@
                             <EnumSelectItems T="CalendarWeekMode" />
                         </MudSelect>
                         <MudStack Row="true" Spacing="0">
-                            <MudCheckBox @bind-Checked="@Calendar.WorkMonday" Label="@GetDayName(DayOfWeek.Monday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkTuesday" Label="@GetDayName(DayOfWeek.Tuesday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkWednesday" Label="@GetDayName(DayOfWeek.Wednesday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkThursday" Label="@GetDayName(DayOfWeek.Thursday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkFriday" Label="@GetDayName(DayOfWeek.Friday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Value="@Calendar.WorkMonday" Label="@GetDayName(DayOfWeek.Monday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Value="@Calendar.WorkTuesday" Label="@GetDayName(DayOfWeek.Tuesday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Value="@Calendar.WorkWednesday" Label="@GetDayName(DayOfWeek.Wednesday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Value="@Calendar.WorkThursday" Label="@GetDayName(DayOfWeek.Thursday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Value="@Calendar.WorkFriday" Label="@GetDayName(DayOfWeek.Friday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
                         </MudStack>
                         <MudStack Row="true" Spacing="0">
-                            <MudCheckBox @bind-Checked="@Calendar.WorkSaturday" Label="@GetDayName(DayOfWeek.Saturday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
-                            <MudCheckBox @bind-Checked="@Calendar.WorkSunday" Label="@GetDayName(DayOfWeek.Sunday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Value="@Calendar.WorkSaturday" Label="@GetDayName(DayOfWeek.Saturday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
+                            <MudCheckBox @bind-Value="@Calendar.WorkSunday" Label="@GetDayName(DayOfWeek.Sunday)" Disabled="@(Calendar.WeekMode == CalendarWeekMode.Week)" />
                         </MudStack>
                         <ItemBaseFields Item="Calendar" />
                     </MudStack>

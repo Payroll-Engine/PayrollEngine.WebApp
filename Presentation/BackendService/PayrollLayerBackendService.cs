@@ -8,14 +8,14 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class PayrollLayerBackendService : BackendServiceBase<PayrollLayerService, PayrollServiceContext, PayrollLayer, Query>
+public class PayrollLayerBackendService(
+    UserSession userSession,
+    HttpClientHandler httpClientHandler,
+    PayrollHttpConfiguration configuration,
+    Localizer localizer)
+    : BackendServiceBase<PayrollLayerService, PayrollServiceContext, PayrollLayer, Query>(userSession,
+        httpClientHandler, configuration, localizer)
 {
-    public PayrollLayerBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer) :
-        base(userSession, httpClientHandler, configuration, localizer)
-    {
-    }
-
     /// <summary>The current request context</summary>
     protected override PayrollServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)
     {

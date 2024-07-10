@@ -18,17 +18,16 @@
             {
                 <div class="d-flex flex-grow-1 justify-end">
                     <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync" Accept="@Accept">
-                        <ButtonTemplate>
+                        <ActivatorContent>
                             <MudTooltip Delay="500" Text="@Localizer.Document.ContentUpload" Placement="Placement.Top">
-                                <MudIconButton for="@context"
-                                               HtmlTag="label"
+                                <MudIconButton HtmlTag="label"
                                                Color="Color.Tertiary"
                                                Variant="Variant.Outlined"
                                                Icon="@Icons.Material.Filled.Upload"
                                                Size="Size.Small">
                                 </MudIconButton>
                             </MudTooltip>
-                        </ButtonTemplate>
+                        </ActivatorContent>
                     </MudFileUpload>
                 </div>
             }
@@ -58,7 +57,7 @@
                         else
                         {
                             <MudTooltip Delay="500" Text="@Localizer.Document.DownloadTitle(context.Item.Name)" Placement="Placement.Top">
-                                <MudIconButton @onclick="@(() => DownloadAsync(context.Item))" )
+                                <MudIconButton @onclick="@(() => DownloadAsync(context.Item))"
                                                Color="Color.Primary"
                                                Variant="Variant.Outlined"
                                                Icon="@Icons.Material.Filled.Download"
@@ -100,6 +99,7 @@
             {
                 name += extension;
             }
+
             await JsRuntime.SaveAs(name, Convert.FromBase64String(document.Content));
         }
         catch (Exception exception)
@@ -118,11 +118,11 @@
             await stream.CopyToAsync(memoryStream);
 
             var document = new TDoc
-                {
-                    Name = file.Name,
-                    ContentType = file.ContentType,
-                    Content = Convert.ToBase64String(memoryStream.ToArray())
-                };
+            {
+                Name = file.Name,
+                ContentType = file.ContentType,
+                Content = Convert.ToBase64String(memoryStream.ToArray())
+            };
             await Documents.AddAsync(document);
             await UserNotification.ShowSuccessAsync(Localizer.Document.ContentUploaded(file.Name));
         }

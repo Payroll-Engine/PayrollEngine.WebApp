@@ -37,7 +37,7 @@
     [Inject] private IDialogService DialogService { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
-    public int MaxLength { get; set; } = 524288;
+    public int MaxLength { get; init; } = 524288;
 
     #region Localizations
 

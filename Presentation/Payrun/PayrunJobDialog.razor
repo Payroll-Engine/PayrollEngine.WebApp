@@ -25,7 +25,7 @@
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobReason</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.CreatedReason</MudText>
                         <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"
-                                            SelectedEmployees="@PayrunJob.Employees?.Select(x => x.EmployeeId).ToList()" />
+                                            SelectedEmployees="@(PayrunJob.Employees?.Select(x => x.EmployeeId).ToList() ?? [])" />
                         @if (PayrunJob.Attributes != null && PayrunJob.Attributes.Any())
                         {
                             <PayrunParameterInfo Class="pt-4" Culture="@Culture"
@@ -130,7 +130,7 @@
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobReason</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.CreatedReason</MudText>
                         <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"
-                                            SelectedEmployees="@PayrunJob.Employees?.Select(x => x.EmployeeId).ToList()" />
+                                            SelectedEmployees="@(PayrunJob.Employees?.Select(x => x.EmployeeId).ToList() ?? [])" />
                         @if (PayrunJob.Attributes != null && PayrunJob.Attributes.Any())
                         {
                             <PayrunParameterInfo Class="pt-4" ParameterAttributes="@PayrunJob.Attributes" />
@@ -152,8 +152,8 @@
     [Parameter] public Tenant Tenant { get; set; }
     [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public PayrunJob PayrunJob { get; set; }
-    [Parameter] public List<PayrollEngine.WebApp.User> Users { get; set; } = new();
-    [Parameter] public List<Employee> Employees { get; set; } = new();
+    [Parameter] public List<PayrollEngine.WebApp.User> Users { get; set; } = [];
+    [Parameter] public List<Employee> Employees { get; set; } = [];
     [Inject] private Localizer Localizer { get; set; }
 
     private void Close() => MudDialog.Close(DialogResult.Ok(true));

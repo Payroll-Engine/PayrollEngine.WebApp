@@ -351,9 +351,9 @@
                                         <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
                                                     Style="max-width: 20em">
                                             <MudStack Spacing="0">
-                                                <MudList Style="overflow-y: auto; max-height: 40em"
-                                                         SelectedItemChanged="@(x => SelectForecast(x.Value))"
-                                                         Clickable="true">
+                                                <MudList T="string" Style="overflow-y: auto; max-height: 40em"
+                                                         SelectedValueChanged="@(x => SelectForecast(x))"
+                                                         SelectionMode="SelectionMode.SingleSelection">
                                                     @foreach (var history in ForecastHistory)
                                                     {
                                                         <MudListItem Value="@history">@history</MudListItem>

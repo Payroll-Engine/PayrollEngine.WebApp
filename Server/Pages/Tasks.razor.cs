@@ -29,6 +29,7 @@ public partial class Tasks : ITaskOperator<ViewModel.Task>
     protected override string GetLocalizedItemName(bool plural) => 
         plural ? Localizer.Task.Tasks : Localizer.Task.Task;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public Tasks() :
         base(WorkingItems.TenantChange)
     {

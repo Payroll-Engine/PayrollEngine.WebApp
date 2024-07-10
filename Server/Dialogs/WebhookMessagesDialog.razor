@@ -5,8 +5,10 @@
     <DialogContent>
         <MudStack Class="pa-4" Spacing="1">
             <WebhookMessageGrid Tenant="Tenant" Webhook="Webhook" Style="min-width: fit-content;" />
-            <MudPaper Typo="Typo.caption" Class="mt-4 pa-4 mud-">
-                @Localizer.Shared.ImmediateChanges
+            <MudPaper Class="mt-4 pa-4 mud-">
+                <MudText Typo="Typo.caption">
+                    @Localizer.Shared.ImmediateChanges
+                </MudText>
             </MudPaper>
         </MudStack>
     </DialogContent>

@@ -29,11 +29,11 @@ public class PayrunPayrunJobBackendService(UserSession userSession, HttpClientHa
 
     protected override void SetupReadQuery(Query query, IDictionary<string, object> parameters = null)
     {
-        if (parameters == null || !parameters.ContainsKey(nameof(PayrunJob.PayrunId)))
+        if (parameters == null || !parameters.TryGetValue(nameof(PayrunJob.PayrunId), out var payrunId))
         {
             throw new PayrollException("Missing payrun id on payrun job query");
         }
-        var payrunId = parameters[nameof(PayrunJob.PayrunId)];
+
         if (payrunId is not int intPayrunId || intPayrunId <= 0)
         {
             throw new PayrollException("Invalid payrun id on payrun job query");

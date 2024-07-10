@@ -68,7 +68,7 @@
         // new tenant: no calendars available
         if (Tenant == null || Tenant.Id <= 0)
         {
-            return new();
+            return [];
         }
         var calendars = await CalendarService.QueryAsync<Calendar>(new(Tenant.Id));
         return calendars.Select(x => x.Name).ToList();

@@ -28,7 +28,7 @@
                                        Editable="true" />
                         <MudNumericField T="int" @bind-Value="Regulation.Version"
                                          Label="@Localizer.Regulation.Version" />
-                        <MudSwitch T="bool" @bind-Checked="Regulation.SharedRegulation"
+                        <MudSwitch T="bool" @bind-Value="Regulation.SharedRegulation"
                                    Color="Color.Primary"
                                    ReadOnly="@Regulation.IsExistingObject"
                                    Label="@(Regulation.IsNewObject ? $"{Localizer.Regulation.SharedRegulation} ({Localizer.Shared.Immutable})" : Localizer.Regulation.SharedRegulation)" />

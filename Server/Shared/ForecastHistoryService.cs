@@ -6,15 +6,10 @@ using Blazored.LocalStorage;
 
 namespace PayrollEngine.WebApp.Server.Shared;
 
-public class ForecastHistoryService : IForecastHistoryService
+public class ForecastHistoryService(ILocalStorageService localStorage) : IForecastHistoryService
 {
     private const int historySize = 20;
-    private ILocalStorageService LocalStorage { get; }
-
-    public ForecastHistoryService(ILocalStorageService localStorage)
-    {
-        LocalStorage = localStorage ?? throw new ArgumentNullException(nameof(localStorage));
-    }
+    private ILocalStorageService LocalStorage { get; } = localStorage ?? throw new ArgumentNullException(nameof(localStorage));
 
     public async Task<List<string>> GetHistoryAsync() =>
         await GetStorageHistoryAsync();
@@ -47,7 +42,7 @@ public class ForecastHistoryService : IForecastHistoryService
     private async Task<List<string>> GetStorageHistoryAsync()
     {
         var storage = await LocalStorage.GetItemAsStringAsync("Forecasts");
-        return string.IsNullOrWhiteSpace(storage) ? new() : storage.Split('\t').ToList();
+        return string.IsNullOrWhiteSpace(storage) ? [] : storage.Split('\t').ToList();
     }
 
     private async Task SetStorageHistoryAsync(IReadOnlyCollection<string> history)

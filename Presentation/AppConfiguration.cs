@@ -21,7 +21,7 @@ public class AppConfiguration
     public string AdminEmail { get; set; }
 
     /// <summary>The default features</summary>
-    public List<string> DefaultFeatures { get; set; } = new();
+    public List<string> DefaultFeatures { get; set; } = [];
 
     /// <summary>Log the case changes (default: false)</summary>
     public bool LogCaseChanges { get; set; }

@@ -11,13 +11,13 @@ public class PageRegister(Localizer localizer)
 {
     private Localizer Localizer { get; } = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
-    public List<PageGroupInfo> PageGroups => new()
-        {
-            new(Localizer.Payrun.Payrun, true),
-            new(Localizer.Payroll.Payroll, true),
-            new(Localizer.Shared.FeaturesAdmin),
-            new(Localizer.Shared.FeaturesSystem)
-        };
+    public List<PageGroupInfo> PageGroups =>
+    [
+        new(Localizer.Payrun.Payrun, true),
+        new(Localizer.Payroll.Payroll, true),
+        new(Localizer.Shared.FeaturesAdmin),
+        new(Localizer.Shared.FeaturesSystem)
+    ];
 
     // pages
     public List<PageInfo> Pages => GetPages();

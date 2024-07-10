@@ -24,7 +24,7 @@
              Filterable="true"
              Hideable="true">
     <Columns>
-        <PropertyColumn Property="x => x.Id" IsEditable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
         <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
             <FilterTemplate>
                 <EnumFilter TItem="RegulationShare" TEnum="ObjectStatus" Column="@nameof(RegulationShare.Status)"

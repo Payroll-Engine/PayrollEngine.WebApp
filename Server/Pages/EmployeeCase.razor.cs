@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.Client.Model;
@@ -22,7 +21,7 @@ public partial class EmployeeCase() : NewCasePageBase(WorkingItems.TenantView | 
     {
         if (Employee == null)
         {
-            return Enumerable.Empty<CaseValueSetup>();
+            return [];
         }
         return await EmployeeCaseValueService.QueryAsync<CaseValueSetup>(new(Tenant.Id, Employee.Id), query);
     }

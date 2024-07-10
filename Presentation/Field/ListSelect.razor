@@ -22,7 +22,7 @@
 
 @code
 {
-    private List<Tuple<T, string>> Values { get; set; } = new();
+    private List<Tuple<T, string>> Values { get; set; } = [];
 
     private bool ValuesDisabled =>
         Disabled || !Values.Any();
@@ -105,7 +105,7 @@
         }
 
         // working list
-        List<Tuple<T, string>> values = new();
+        List<Tuple<T, string>> values = [];
         if (!listValues.Any())
         {
             var itemList = Field.Attributes.GetList<T>(Culture);

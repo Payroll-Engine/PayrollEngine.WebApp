@@ -6,7 +6,6 @@ using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Presentation.Regulation;
 using PayrollEngine.WebApp.Presentation.Regulation.Component;
-using PayrollEngine.WebApp.Presentation.Regulation.Editor;
 using PayrollEngine.WebApp.ViewModel;
 using Payroll = PayrollEngine.Client.Model.Payroll;
 using Task = System.Threading.Tasks.Task;
@@ -19,7 +18,6 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
     private IPayrollService PayrollService { get; set; }
 
     private ItemBrowser ItemBrowser { get; set; }
-    private ItemEditorPanel ItemEditorPanel { get; set; }
 
     protected override async Task OnTenantChangedAsync()
     {

@@ -45,7 +45,7 @@ public partial class CollectorMultiSelect : IRegulationInput
         }
         set
         {
-            Value ??= new();
+            Value ??= [];
             Value.Clear();
             if (value != null)
             {

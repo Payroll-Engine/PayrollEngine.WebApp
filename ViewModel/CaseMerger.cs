@@ -31,7 +31,7 @@ public static class CaseMerger
         if (targetCaseSet.RelatedCases == null)
         {
             // initial add
-            targetCaseSet.RelatedCases = new();
+            targetCaseSet.RelatedCases = [];
             await targetCaseSet.RelatedCases.AddRangeAsync(changeCaseSet.RelatedCases);
             return;
         }

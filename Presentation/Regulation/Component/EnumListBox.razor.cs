@@ -124,7 +124,7 @@ public partial class EnumListBox<T> : IRegulationInput
     private List<Tuple<T, string>> GetEnumValues()
     {
         var enumItems = Enum.GetValues(typeof(T)).Cast<T>().ToList();
-        List<Tuple<T, string>> values = new();
+        List<Tuple<T, string>> values = [];
         foreach (var item in enumItems)
         {
             var text = Localizer != null ? Localizer.Enum(item) : item.ToString().ToPascalSentence();

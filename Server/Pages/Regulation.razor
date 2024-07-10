@@ -33,7 +33,7 @@
     return;
 }
 
-<MudButtonGroup OverrideStyles="false" DisableElevation="true">
+<MudButtonGroup OverrideStyles="false" DropShadow="false">
     @* case and case field*@
     <MudButton OnClick="CaseSelected"
                Color="Color.Primary"
@@ -45,7 +45,7 @@
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
              Color="Color.Primary"
              Dense="true"
-             DisableElevation="true"
+             DropShadow="false"
              Style="text-transform: capitalize; width: 2em; display: grid; align-self: initial;"
              AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
              Variant="@CaseVariant">
@@ -97,7 +97,7 @@
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
              Color="Color.Primary"
              Dense="true"
-             DisableElevation="true"
+             DropShadow="false"
              Style="text-transform: capitalize; width: 2em; display: grid; align-self: initial;"
              AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
              Variant="@ReportVariant">
@@ -126,7 +126,7 @@
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
              Color="Color.Primary"
              Dense="true"
-             DisableElevation="true"
+             DropShadow="false"
              Style="text-transform: capitalize; width: 2em; display: grid; align-self: initial;"
              AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
              Variant="@LookupVariant">
@@ -158,7 +158,7 @@
         </ItemBrowser>
     </MudContainer>
     <MudContainer Fixed="true" Class="pa-0 py-4">
-        <ItemEditorPanel @ref="@ItemEditorPanel" EditContext="EditContext"
+        <ItemEditorPanel EditContext="EditContext"
                          ItemType="@WorkingType" Item="@SelectedItem"
                          SaveItem="SaveItem"
                          DeleteItem="DeleteItem"

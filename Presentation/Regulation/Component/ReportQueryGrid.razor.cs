@@ -25,7 +25,6 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
     private Localizer Localizer { get; set; }
 
     private ItemCollection<ReportQuery> Queries { get; set; } = new();
-    private MudDataGrid<ReportQuery> Grid { get; set; }
 
     #region Value
 

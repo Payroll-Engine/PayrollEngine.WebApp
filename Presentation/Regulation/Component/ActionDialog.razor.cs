@@ -49,7 +49,7 @@ public partial class ActionDialog
     };
     private static readonly int UnknownCategoryOrder = 8;
 
-    protected MudChip SelectedCategory { get; set; }
+    protected string SelectedCategory { get; set; }
     protected List<ActionCategory> Categories { get; set; }
 
     private async Task SetupActionsAsync()
@@ -86,7 +86,7 @@ public partial class ActionDialog
             {
                 Name = x,
                 Label = x.ToPascalSentence(),
-                DisplayOrder = CategoryOrders.TryGetValue(x, out var order) ? order : UnknownCategoryOrder
+                DisplayOrder = CategoryOrders.GetValueOrDefault(x, UnknownCategoryOrder)
             }));
         }
 
@@ -124,9 +124,9 @@ public partial class ActionDialog
         CategoryActions = categoryActions.OrderBy(x => x.GetExpressionTemplate()).ToList();
     }
 
-    private void SelectedCategoryChanged(MudChip chip)
+    private void SelectedCategoryChanged(string chip)
     {
-        SetCategory(chip.Text);
+        SetCategory(chip);
         SelectedCategory = chip;
     }
 

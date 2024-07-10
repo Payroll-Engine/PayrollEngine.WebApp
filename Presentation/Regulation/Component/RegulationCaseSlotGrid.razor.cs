@@ -28,7 +28,6 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
     private Localizer Localizer { get; set; }
 
     private ItemCollection<CaseSlot> CaseSlots { get; } = new();
-    private MudDataGrid<CaseSlot> Grid { get; set; }
 
     #region Value
 

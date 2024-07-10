@@ -50,8 +50,8 @@
         @if (HasClusters)
         {
             <MudStack Row="true" Spacing="0" Class="d-flex align-center gap-4">
-                <MudChipSet MultiSelection="false" SelectedChip="SelectedCluster"
-                            SelectedChipChanged="SelectedClusterChanged" Class="pa-0">
+                <MudChipSet T="string" SelectionMode="SelectionMode.SingleSelection" SelectedValue="SelectedCluster"
+                            SelectedValueChanged="SelectedClusterChanged" Class="pa-0">
                     @foreach (var cluster in Clusters)
                     {
                         <MudChip Text="@cluster"
@@ -281,8 +281,8 @@ else
         <PropertyColumn Property="x => x.Value" Title="@Localizer.Shared.Value"
                         CellStyle="text-align: right">
             <CellTemplate>
-                @ValueFormatter.ToString((string)context.Item.Value,
-                context.Item.ValueType, PageCulture)
+                @ValueFormatter.ToString(context.Item.Value,
+                    context.Item.ValueType, PageCulture)
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.NumericValue" CellStyle="text-align: right"

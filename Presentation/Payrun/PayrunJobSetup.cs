@@ -40,7 +40,7 @@ public class PayrunJobSetup
     /// <summary>
     /// The payrun job parameters
     /// </summary>
-    public List<PayrunParameter> Parameters { get; set; } = new();
+    public List<PayrunParameter> Parameters { get; set; } = [];
 
     /// <summary>
     /// Test for valid legal payrun job

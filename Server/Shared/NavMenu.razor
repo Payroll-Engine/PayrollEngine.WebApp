@@ -8,7 +8,7 @@
         foreach (var topPage in topPages)
         {
             <MudNavLink Href="@topPage.PageLink" Match="NavLinkMatch.Prefix"
-                        Title="@topPage.Title">@topPage.PageName</MudNavLink>
+                        title="@topPage.Title">@topPage.PageName</MudNavLink>
         }
 
         // grouped pages
@@ -26,7 +26,7 @@
                         if (Session.UserFeature(groupPage.Feature))
                         {
                             <MudNavLink Href="@groupPage.PageLink" Match="NavLinkMatch.Prefix"
-                                        Title="@groupPage.Title">@groupPage.PageName</MudNavLink>
+                                        title="@groupPage.Title">@groupPage.PageName</MudNavLink>
                         }
                     }
                 </MudNavGroup>

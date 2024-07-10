@@ -201,7 +201,7 @@ public partial class Login() : PageBase(WorkingItems.None)
 
     private const string UserParameter = "user";
 
-    private List<ViewModel.User> Users { get; } = new();
+    private List<ViewModel.User> Users { get; } = [];
 
     /// <summary>
     /// User object of selected user identifier string
@@ -353,7 +353,7 @@ public partial class Login() : PageBase(WorkingItems.None)
 
     private const string TenantParameter = "tenant";
 
-    private List<Tenant> Tenants { get; set; } = new();
+    private List<Tenant> Tenants { get; set; } = [];
 
     /// <summary>
     /// Tenant object of selected tenant identifier in combobox
