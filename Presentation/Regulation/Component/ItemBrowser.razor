@@ -4,7 +4,7 @@
 <div>
     @switch (ItemType)
     {
-        case RegulationItemType.Case:
+         case RegulationItemType.Case:
             <ItemGrid TParent="RegulationCase" TItem="RegulationCase" Items="@CaseBrowser.Cases"
                       ItemsPageSize="ItemsPageSize" ItemType="RegulationItemType.Case"
                       KeyHeader="@Localizer.Shared.Name" AdditionalInfoHeader="@Localizer.Case.CaseType"
@@ -85,7 +85,7 @@
                       Regulations="Regulations" SelectedItemChanged="ChangeSelectedItem" />
             break;
 
-        default:
+         default:
             <p>Unknown regulation item type @ItemType</p>
             break;
     }

@@ -7,6 +7,9 @@ public class RegulationShareLocalizer(IStringLocalizerFactory factory) : Localiz
     public string RegulationShare => PropertyValue();
     public string RegulationShares => PropertyValue();
     public string NotAvailable => PropertyValue();
+    public string MissingTenants => PropertyValue();
+    public string MissingDivisions => PropertyValue();
+    public string MissingSharedRegulations => PropertyValue();
     public string MissingShares => PropertyValue();
 
     public string ProviderTenant => PropertyValue();

@@ -1,19 +1,19 @@
-﻿@using PayrollEngine.WebApp.Presentation
-
-@* title and grid actions *@
+﻿@* title and grid actions *@
 <div class="d-flex pb-2 pt-8">
-    <MudText Typo="Typo.h5">@Title</MudText>
+    <MudText Typo="Typo.h5" Class="pt-4 pb-6">@Title</MudText>
     <div class="d-flex flex-grow-1 justify-end align-end">
-        <MudTooltip Delay="500" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
+        <MudTooltip Delay="1000" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
             <MudIconButton @onclick="@PageActions.ResetFilterAsync"
-                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Color="Color.Primary" 
+                           Variant="@Globals.ButtonVariant"
                            Icon="@Icons.Material.Filled.FilterAltOff"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+        <MudTooltip Delay="1000" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
             <MudIconButton @onclick="@(() => PageActions.ExcelDownloadAsync())"
-                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Color="Color.Primary" 
+                           Variant="@Globals.ButtonVariant"
                            Icon="@Icons.Custom.FileFormats.FileExcel"
                            Class="ml-2"
                            Size="Size.Small" />

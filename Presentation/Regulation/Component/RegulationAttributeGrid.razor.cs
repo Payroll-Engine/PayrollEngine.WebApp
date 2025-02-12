@@ -152,7 +152,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    private async Task DeleteAttributeAsync(AttributeItem item)
+    private async Task RemoveAttributeAsync(AttributeItem item)
     {
         if (item == null)
         {
@@ -169,8 +169,8 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(LocalizedItemFullName),
-                Localizer.Item.DeleteQuery(LocalizedItemFullName)))
+                Localizer.Item.RemoveTitle(LocalizedItemFullName),
+                Localizer.Item.RemoveQuery(LocalizedItemFullName)))
         {
             return;
         }

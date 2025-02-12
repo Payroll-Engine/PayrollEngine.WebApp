@@ -26,7 +26,6 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory,
 
     public AttributeLocalizer Attribute { get; } = new(factory);
 
-    //public ClusterLocalizer Cluster { get; }
     public ClusterSetLocalizer ClusterSet { get; } = new(factory);
 
     public CaseLocalizer Case { get; } = new(factory);
@@ -60,6 +59,13 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory,
 
     public ForecastLocalizer Forecast { get; } = new(factory);
 
+    // blazor controls
+    public NavGroupLocalizer NavGroup { get; } = new(factory);
     public DataGridLocalizer DataGrid { get; } = new(factory);
+    public DataGridPagerLocalizer DataGridPager { get; } = new(factory);
+    public DatePickerLocalizer DataPicker { get; } = new(factory);
+    public InputLocalizer Input { get; } = new(factory);
+    public SnackBarLocalizer SnackBar { get; } = new(factory);
+
     public AppLocalizer App { get; } = new(factory);
 }

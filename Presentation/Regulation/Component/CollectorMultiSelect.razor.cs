@@ -131,7 +131,7 @@ public partial class CollectorMultiSelect : IRegulationInput
         lastObject = Item;
         // The case request needs to be synchronously,
         // otherwise the rendering interrupts the sequence
-        await Task.Run(LoadCollectorsAsync);
+        await LoadCollectorsAsync();
         ApplyFieldValue();
         UpdateState();
         await base.OnInitializedAsync();

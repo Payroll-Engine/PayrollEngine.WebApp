@@ -150,7 +150,8 @@ public static class RegulationItemExtensions
         return buffer.ToString();
     }
 
-    public static string GetItemLabel(this IRegulationItem item, RegulationField field, Localizer localizer)
+    public static string GetItemLabel(this IRegulationItem item, RegulationField field, 
+        Localizer localizer, bool addRequiredMarker = false)
     {
         var label = field.Label ?? field.PropertyName.ToPascalSentence();
 
@@ -172,7 +173,16 @@ public static class RegulationItemExtensions
             return $"{label} ({localizer.Item.ReadOnlyField}) ";
         }
 
-        return label + " ";
+        // label spacing
+        label += (" ");
+
+        // required
+        if (addRequiredMarker && field.Required)
+        {
+            label = label.EnsureEnd("*");
+        }
+
+        return label;
     }
 
     public static bool IsReadOnlyField(this IRegulationItem item, RegulationField field)

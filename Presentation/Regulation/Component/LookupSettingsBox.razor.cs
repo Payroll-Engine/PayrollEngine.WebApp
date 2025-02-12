@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
+using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -23,9 +24,9 @@ public partial class LookupSettingsBox : IRegulationInput
     public string HelperText { get; set; }
 
     [Inject]
-    private IUserNotificationService UserNotification { get; set; }
-    [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private IPayrollService PayrollService { get; set; }
 
     private bool ClearDisabled() =>
         Item.IsReadOnlyField(Field) || Value == null ||
@@ -37,7 +38,7 @@ public partial class LookupSettingsBox : IRegulationInput
 
     #region Value
 
-    private LookupSettings Value { get; set; }
+    private LookupSettings Value { get; set; } = new();
 
     private LookupSettings FieldValue
     {
@@ -77,21 +78,11 @@ public partial class LookupSettingsBox : IRegulationInput
             return;
         }
 
-        // confirmation
-        if (!await DialogService.ShowDeleteMessageBoxAsync(
-                Localizer,
-                Localizer.Item.DeleteTitle(Localizer.CaseField.LookupSettings),
-                Localizer.Item.DeleteQuery(Localizer.CaseField.LookupSettings)))
-        {
-            return;
-        }
-
         await SetFieldValue(null);
 
         // notifications
         await ValueChangedAsync(null);
         UpdateState();
-        await UserNotification.ShowSuccessAsync(Localizer.CaseField.LookupSettingsRemoved);
     }
 
     private async Task EditSettingsAsync()
@@ -99,7 +90,11 @@ public partial class LookupSettingsBox : IRegulationInput
         Value ??= new();
 
         // edit copy
-        var editItem = new LookupSettings(Value);
+        var editItem = Value == null ? new LookupSettings() : new LookupSettings(Value);
+
+        // lookups
+        var lookups = await PayrollService.GetLookupsAsync<RegulationLookup>(
+            new(EditContext.Tenant.Id, EditContext.Payroll.Id));
 
         // dialog parameters
         var parameters = new DialogParameters
@@ -107,6 +102,7 @@ public partial class LookupSettingsBox : IRegulationInput
             { nameof(LookupSettingsDialog.Tenant), EditContext.Tenant },
             { nameof(LookupSettingsDialog.Payroll), EditContext.Payroll },
             { nameof(LookupSettingsDialog.Settings), editItem },
+            { nameof(LookupSettingsDialog.Lookups), lookups },
             { nameof(LookupSettingsDialog.Culture), EditContext.User.Culture }
         };
 
@@ -148,15 +144,15 @@ public partial class LookupSettingsBox : IRegulationInput
 
     private IRegulationItem lastItem;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         lastItem = Item;
         ApplyFieldValue();
         UpdateState();
-        await base.OnInitializedAsync();
+        base.OnInitialized();
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         if (lastItem != Item)
         {
@@ -164,7 +160,7 @@ public partial class LookupSettingsBox : IRegulationInput
             ApplyFieldValue();
             UpdateState();
         }
-        await base.OnParametersSetAsync();
+        base.OnParametersSet();
     }
 
     #endregion

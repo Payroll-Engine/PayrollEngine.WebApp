@@ -14,10 +14,10 @@ public class LookupFactory(Client.Model.Tenant tenant, Client.Model.Payroll payr
     private ILookupService LookupService { get; } = lookupService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationLookup>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationLookup>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await LookupService.QueryAsync<RegulationLookup>(new(Tenant.Id, regulation.Id));
 
-    public override async Task<List<RegulationLookup>> QueryPayrollItems() =>
+    public override async Task<List<RegulationLookup>> QueryPayrollItemsAsync() =>
         await PayrollService.GetLookupsAsync<RegulationLookup>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationLookup> lookups, RegulationLookup lookup)

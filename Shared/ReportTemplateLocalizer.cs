@@ -9,6 +9,8 @@ public class ReportTemplateLocalizer(IStringLocalizerFactory factory) : Localize
     public string NotAvailable => PropertyValue();
 
     public string Content => PropertyValue();
+    public string ContentType => PropertyValue();
     public string Schema => PropertyValue();
     public string Resource => PropertyValue();
+    public string MissingContentError => PropertyValue();
 }

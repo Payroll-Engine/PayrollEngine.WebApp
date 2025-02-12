@@ -14,10 +14,10 @@ public class CollectorFactory(Client.Model.Tenant tenant, Client.Model.Payroll p
     private ICollectorService CollectorService { get; } = collectorService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationCollector>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCollector>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await CollectorService.QueryAsync<RegulationCollector>(new(Tenant.Id, regulation.Id));
 
-    public override async Task<List<RegulationCollector>> QueryPayrollItems() =>
+    public override async Task<List<RegulationCollector>> QueryPayrollItemsAsync() =>
         await PayrollService.GetCollectorsAsync<RegulationCollector>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationCollector> collectors, RegulationCollector collector)

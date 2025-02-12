@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class NationalCaseChangeValueBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer)
-    : CaseChangeValueBackendServiceBase(userSession, httpClientHandler, configuration, localizer)
+public class NationalCaseChangeValueBackendService(UserSession userSession,
+    PayrollHttpClient httpClient,
+    Localizer localizer)
+    : CaseChangeValueBackendServiceBase(userSession, httpClient, localizer)
 {
     protected override void SetupReadQuery(PayrollCaseChangeQuery query, IDictionary<string, object> parameters = null)
     {

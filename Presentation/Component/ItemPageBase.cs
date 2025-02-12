@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
 using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
@@ -12,15 +11,13 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Component;
 
-public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) : PageBase(workingItems), IQueryResolver,
-    IItemPageActions
+public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) : 
+        PageBase(workingItems), IQueryResolver, IItemPageActions
     where TItem : class, IModel, IEquatable<TItem>, new()
     where TQuery : Query, new()
 {
     [Inject]
     private IConfiguration Configuration { get; set; }
-    [Inject]
-    private IJSRuntime JsRuntime { get; set; }
 
     #region Grid
 
@@ -132,7 +129,11 @@ public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) : P
 
         try
         {
-            await ExcelDownload.StartAsync(ItemsGrid, items, JsRuntime, GetLocalizedItemName(true));
+            await ExcelDownload.StartAsync(
+                grid: ItemsGrid, 
+                items: items, 
+                jsRuntime: JsRuntime,
+                name: DownloadTool.ToDownloadFileName(GetLocalizedItemName(true)));
             await UserNotification.ShowSuccessAsync(Localizer.Shared.DownloadCompleted);
         }
         catch (Exception exception)
@@ -199,9 +200,14 @@ public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) : P
 
     #endregion
 
-    protected override async Task OnInitializedAsync()
+    #region Lifecycle
+
+    protected override async Task OnPageInitializedAsync()
     {
         SetupCustomColumns(GridId);
-        await base.OnInitializedAsync();
+        await base.OnPageInitializedAsync();
     }
+
+    #endregion
+
 }

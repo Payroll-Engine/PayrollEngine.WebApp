@@ -15,10 +15,10 @@ public class ReportTemplateFactory(Client.Model.Tenant tenant, Client.Model.Payr
     private IReportTemplateService ReportTemplateService { get; } = caseFieldService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationReportTemplate>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationReportTemplate>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await PayrollService.GetReportTemplatesAsync<RegulationReportTemplate>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<List<RegulationReportTemplate>> QueryPayrollItems() =>
+    public override async Task<List<RegulationReportTemplate>> QueryPayrollItemsAsync() =>
         await PayrollService.GetReportTemplatesAsync<RegulationReportTemplate>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationReportTemplate> reportTemplates,
@@ -35,7 +35,7 @@ public class ReportTemplateFactory(Client.Model.Tenant tenant, Client.Model.Payr
         var report = reportTemplate.Parent as RegulationReport;
         if (report == null || report.Id == 0)
         {
-            throw new PayrollException($"Missing report for report template {reportTemplate.Name}");
+            throw new PayrollException($"Missing report for report template {reportTemplate.Name}.");
         }
 
         // create or update

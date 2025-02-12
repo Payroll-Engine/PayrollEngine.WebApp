@@ -5,7 +5,6 @@ using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation.Regulation.Factory;
 using PayrollEngine.WebApp.ViewModel;
 using Payroll = PayrollEngine.Client.Model.Payroll;
-using Task = System.Threading.Tasks.Task;
 using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
@@ -20,28 +19,30 @@ internal class CaseRelationBrowser : ItemBrowserBase
     }
 
     private ItemCollection<RegulationCaseRelation> caseRelations;
-    private CaseRelationFactory caseRelationFactory;
     private ICaseRelationService CaseRelationService { get; }
+    private CaseRelationFactory caseRelationFactory;
+    private CaseRelationFactory CaseRelationFactory => caseRelationFactory ??=
+        new(Tenant, Payroll, Regulations, PayrollService, CaseRelationService);
 
-    internal override void Reset()
+    internal ItemCollection<RegulationCaseRelation> CaseRelations =>
+        caseRelations ??= LoadCaseRelations();
+    internal override async Task<bool> SaveAsync(IRegulationItem item) =>
+        await CaseRelationFactory.SaveItem(caseRelations, item as RegulationCaseRelation);
+    internal override async Task<IRegulationItem> DeleteAsync(IRegulationItem item) =>
+        await CaseRelationFactory.DeleteItem(caseRelations, item as RegulationCaseRelation);
+
+    protected override void OnContextChanged()
     {
         caseRelations = null;
         caseRelationFactory = null;
     }
 
-    internal ItemCollection<RegulationCaseRelation> CaseRelations => caseRelations ??= LoadCaseRelations();
-    private CaseRelationFactory CaseRelationFactory => caseRelationFactory ??=
-        new(Tenant, Payroll, Regulations, PayrollService, CaseRelationService);
-
-    internal override async Task<bool> SaveAsync(IRegulationItem item) =>
-        await CaseRelationFactory.SaveItem(caseRelations, item as RegulationCaseRelation);
-
-    internal override async Task<IRegulationItem> DeleteAsync(IRegulationItem item) =>
-        await CaseRelationFactory.DeleteItem(caseRelations, item as RegulationCaseRelation);
-
     protected override void OnDispose() =>
         caseRelations?.Dispose();
 
-    private ItemCollection<RegulationCaseRelation> LoadCaseRelations() =>
-        new(Task.Run(CaseRelationFactory.LoadPayrollItems).Result);
+    private ItemCollection<RegulationCaseRelation> LoadCaseRelations()
+    {
+        var items = System.Threading.Tasks.Task.Run(CaseRelationFactory.LoadPayrollItemsAsync).Result;
+        return new ItemCollection<RegulationCaseRelation>(items);
+    }
 }

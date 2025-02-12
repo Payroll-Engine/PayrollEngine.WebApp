@@ -1,0 +1,29 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+
+<TemplateColumn T="ReportSet" ShowColumnOptions="false"
+                ShowFilterIcon="false" Sortable="false">
+    <FilterTemplate />
+    <CellTemplate>
+        <MudStack Row="true" Justify="Justify.FlexEnd" Class="gap-2">
+            <MudTooltip Delay="1000" Text="@Localizer.ReportLog.ReportLogs" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ActionOperator.ShowReportLogAsync(context.Item))"
+                               Icon="@Icons.Material.Outlined.History"
+                               Color="Color.Primary"
+                               Variant="@Globals.ButtonVariant"
+                               Size="Size.Small" />
+            </MudTooltip>
+            <MudTooltip Delay="1000" Text="@Localizer.Report.BuildReport" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ActionOperator.BuildReportAsync(context.Item))"
+                               Icon="@Icons.Material.Filled.Start"
+                               Color="Color.Primary"
+                               Variant="@Globals.ButtonVariant"
+                               Size="Size.Small" />
+            </MudTooltip>
+        </MudStack>
+    </CellTemplate>
+</TemplateColumn>
+
+@code {
+    [Parameter] public IReportOperator ActionOperator { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
+}

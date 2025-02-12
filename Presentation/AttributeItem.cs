@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace PayrollEngine.WebApp.Presentation;
 
@@ -47,13 +46,16 @@ public class AttributeItem
             }
             if (Value is string stringValue && !string.IsNullOrWhiteSpace(stringValue))
             {
-                return JsonSerializer.Deserialize<decimal>(stringValue);
+                if (decimal.TryParse(stringValue, out var value))
+                {
+                    return value;
+                }
             }
             if (Value is decimal decimalValue)
             {
                 return decimalValue;
             }
-            return default;
+            return 0;
         }
         set
         {
@@ -76,13 +78,16 @@ public class AttributeItem
             }
             if (Value is string stringValue && !string.IsNullOrWhiteSpace(stringValue))
             {
-                return JsonSerializer.Deserialize<bool>(stringValue);
+                if (bool.TryParse(stringValue, out var value))
+                {
+                    return value;
+                }
             }
             if (Value is bool boolValue)
             {
                 return boolValue;
             }
-            return default;
+            return false;
         }
         set
         {
@@ -90,7 +95,7 @@ public class AttributeItem
             {
                 throw new InvalidOperationException();
             }
-            Value = JsonSerializer.Serialize(value);
+            Value = value;
         }
     }
 

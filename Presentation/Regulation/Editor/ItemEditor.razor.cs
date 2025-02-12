@@ -16,6 +16,8 @@ public partial class ItemEditor
     [Parameter]
     public IRegulationItem Item { get; set; }
     [Parameter]
+    public IRegulationItemValidator Validator { get; set; }
+    [Parameter]
     public List<RegulationField> Fields { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
@@ -124,6 +126,20 @@ public partial class ItemEditor
         // apply edit object to the referenced object
         CopyTool.CopyObjectProperties(EditItem, Item);
 
+        // validator
+        if (Validator != null)
+        {
+            var validation = Validator.Validate(Item);
+            if (!string.IsNullOrWhiteSpace(validation))
+            {
+                await DialogService.ShowErrorMessageBoxAsync(
+                    Localizer,
+                    Localizer.Item.CreateTitle(ItemTypeName),
+                    validation);
+                return;
+            }
+        }
+
         // call external save action
         await SaveItem.InvokeAsync(EditItem);
 
@@ -188,7 +204,8 @@ public partial class ItemEditor
     }
 
     private void UpdateState() =>
-        IsUnchanged = EditItem.Equals(Item);
+        // new record or changed
+        IsUnchanged =  Item.Id != 0 && EditItem.Equals(Item);
 
     protected override async Task OnInitializedAsync()
     {

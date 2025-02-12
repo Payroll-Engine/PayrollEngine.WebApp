@@ -1,0 +1,18 @@
+﻿@using PayrollEngine.WebApp.Presentation.Component
+
+<div style="text-align: center;" class="pa-8">
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <MudText Typo="Typo.h5" Class="my-4 pb-1 pt-2">@Title</MudText>
+    }
+    <ViewPanel>
+        <Content>
+            <MudProgressCircular Indeterminate="true" />
+        </Content>
+    </ViewPanel>
+</div>
+
+@code
+{
+    [Parameter] public string Title { get; set; }
+}

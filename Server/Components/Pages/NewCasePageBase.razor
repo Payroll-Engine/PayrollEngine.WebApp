@@ -1,0 +1,189 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Case
+@using PayrollEngine.WebApp.Presentation.Component
+@using PayrollEngine.WebApp.Server.Components.Shared
+
+@inherits PageBase
+
+@* busy indicator *@
+@if (IsLoading)
+{
+    <PageBusyIndicator />
+    return;
+}
+
+@* case not available *@
+@if (!CaseAvailable)
+{
+    @if (string.IsNullOrWhiteSpace(CaseName))
+    {
+        <ErrorText Message="@Localizer.Case.SelectCase" />
+    }
+    else
+    {
+        <ErrorText Message="@Localizer.Case.MissingCase(CaseName)" />
+    }
+    return;
+}
+@* empty case *@
+@if (!Cases.Any())
+{
+    <ErrorText Message="@Localizer.Case.SelectCase" />
+    return;
+}
+
+@* case editor *@
+<div class="d-flex flex-grow-1 gap-4 mt-4">
+    @* case edit tree *@
+    <MudForm @ref="@fieldForm" Class="flex-grow-1">
+        <ChildContent>
+            <MudTreeView T="CaseSet" Items="@Cases">
+                <ItemTemplate>
+                    @{
+                        var treeCaseSet = (TreeCaseSet)context;
+                        var caseSet = treeCaseSet.CaseSet;
+                        var style = $"margin-inline-start: {(treeCaseSet.Value == RootCase?.Value ? "0" : "1em")}";
+                        <MudTreeViewItem Style="@style" @bind-Expanded="@caseSet.IsExpanded"
+                                         Items="@treeCaseSet.RelatedCases">
+                            <Content>
+                                <MudPaper Class="pa-4" Elevation="4" Width="100%">
+                                    <MudStack Row="true" Spacing="0" Class="d-flex">
+                                        @* case name *@
+                                        <MudText Typo="Typo.h5" Class="flex-grow-1">
+                                            @caseSet.GetLocalizedName(PageCulture.Name)
+                                        </MudText>
+                                        @* case icon *@
+                                        @{
+                                            var icon = IconTool.GetCaseIcon(caseSet, PageCulture);
+                                            if (!string.IsNullOrWhiteSpace(icon))
+                                            {
+                                                <MudIcon Size="Size.Large" Icon="@icon" Color="Color.Surface" />
+                                            }
+                                        }
+                                    </MudStack>
+
+                                    @if (caseSet.HasAnyField)
+                                    {
+                                        // set very first case field focus to true
+                                        foreach (var caseField in caseSet.Fields)
+                                        {
+                                            if (caseField.Attributes?.GetHidden(TenantCulture) ?? false)
+                                            {
+                                                // don't show hidden attributes
+                                                continue;
+                                            }
+                                            @* case field with a custom culture *@
+                                            <CaseField Culture="@CaseCulture"
+                                                       Field="@caseField"
+                                                       Dense="@Dense"
+                                                       Variant="Variant.Text" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="panelMessage">@Localizer.Case.CaseWithoutFields</div>
+                                    }
+                                </MudPaper>
+                            </Content>
+                        </MudTreeViewItem>
+                    }
+                </ItemTemplate>
+            </MudTreeView>
+        </ChildContent>
+    </MudForm>
+
+    @* side panel *@
+    <MudPaper MaxWidth="30%" Elevation="4" Class="flex-grow-1 pa-4" Style="margin-top: 4px">
+        <MudForm @ref="@changeForm">
+            <MudStack Spacing="0" Class="gap-8">
+
+                @* case inputs *@
+                <div>
+                    <MudTextField T="string" @bind-Value="@ChangeReason"
+                                  Label="@Localizer.CaseChange.Reason"
+                                  Required="true"
+                                  Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                  Lines="3"
+                                  Variant="@Globals.ButtonVariant" />
+
+                    @* forecast change *@
+                    @if (HasFeature(Feature.Forecasts))
+                    {
+                        <MudTextField T="string" @bind-Value="@Forecast"
+                                      Label="@Localizer.Forecast.Name"
+                                      MaxLength="SystemSpecification.KeyTextLength"
+                                      Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                      Adornment="@(HasForecastHistory ? Adornment.End : Adornment.None)"
+                                      AdornmentIcon="@Icons.Material.Filled.History"
+                                      OnAdornmentClick="OpenForecastSelection"
+                                      Class="pt-4" />
+                        @* forecast history *@
+                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection" />
+                        <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
+                                    Style="max-width: 20em">
+                            <MudStack Spacing="0">
+                                <MudList T="string" Style="overflow-y: auto; max-height: 40em"
+                                         SelectedValueChanged="@(x => SelectForecast(x))"
+                                         SelectionMode="SelectionMode.SingleSelection">
+                                    @foreach (var history in ForecastHistory)
+                                    {
+                                        <MudListItem Value="@history">@history</MudListItem>
+                                    }
+                                </MudList>
+                            </MudStack>
+                        </MudPopover>
+                    }
+                </div>
+
+                @* validation *@
+                @if (Validity != null)
+                {
+                    <div>
+                        <MudText Typo="Typo.h6" Color="Color.Error">@Localizer.Case.Validation</MudText>
+                        <MudSimpleTable Dense="@Dense" Outlined="false" Elevation="0"
+                                        Bordered="false" Striped="false">
+                            <tbody>
+                                <tr>
+                                    <th class="pl-0">@Localizer.Shared.Field</th>
+                                    <th class="pl-0">@Localizer.Error.Error</th>
+                                </tr>
+                                @foreach (var rule in Validity.Rules)
+                                {
+                                    <tr>
+                                        <td class="pl-0">@rule.Name</td>
+                                        <td class="pl-0">@rule.RuleText</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </MudSimpleTable>
+                    </div>
+                }
+
+                @* case submit *@
+                <div class="d-flex flex-grow-1 gap-4">
+                    <MudButton Variant="@Globals.ButtonVariant"
+                               Color="Color.Primary"
+                               OnClick="NavigateToParent">
+                        @Localizer.Dialog.Cancel
+                    </MudButton>
+                    <div class="d-flex flex-grow-1 justify-end">
+                        <MudButton Variant="@Globals.ButtonVariant"
+                                   Style="Width: 100%"
+                                   Color="Color.Tertiary"
+                                   Disabled="@Invalid"
+                                   OnClick="SubmitCaseAsync">
+                            @if (string.IsNullOrWhiteSpace(Forecast))
+                            {
+                                @Localizer.Case.SubmitCase
+                            }
+                            else
+                            {
+                                @Localizer.Case.SubmitForecastCase
+                            }
+                        </MudButton>
+                    </div>
+                </div>
+            </MudStack>
+        </MudForm>
+    </MudPaper>
+</div>

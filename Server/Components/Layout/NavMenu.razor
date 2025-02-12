@@ -1,0 +1,55 @@
+﻿@inherits ComponentBase;
+
+@using PayrollEngine.WebApp.Presentation.Component;
+
+<MudNavMenu Bordered="true" Class="pt-1">
+    @if (Session.AnyUserFeature() && PageGroups != null)
+    {
+        // top pages
+        var topPages = Pages.Where(x => x.PageGroup == null && Session.UserFeature(x.Feature));
+        foreach (var topPage in topPages)
+        {
+            <MudNavLink Href="@topPage.PageLink" Match="NavLinkMatch.Prefix"
+                        ForceLoad="true" title="@topPage.Title">
+                @topPage.PageName
+            </MudNavLink>
+        }
+
+        // grouped pages
+        foreach (var pageGroup in PageGroups)
+        {
+            var groupPages = Pages.Where(x => x.PageGroup != null &&
+            string.Equals(x.PageGroup.GroupName, pageGroup.GroupName) &&
+            Session.UserFeature(x.Feature)).ToList();
+            if (groupPages.Any())
+            {
+                <MudNavGroup Title="@pageGroup.GroupName" Expanded="@pageGroup.Expanded"
+                             ExpandedChanged="@(() => GroupExpandChange(pageGroup))">
+                    @foreach (var groupPage in groupPages)
+                    {
+                        if (Session.UserFeature(groupPage.Feature))
+                        {
+                            <MudNavLink Href="@groupPage.PageLink" Match="NavLinkMatch.Prefix"
+                                        ForceLoad="false" title="@groupPage.Title">
+                                @groupPage.PageName
+                            </MudNavLink>
+                        }
+                    }
+                </MudNavGroup>
+            }
+        }
+    }
+    else
+    {
+        <div style="text-align: center">
+            @Localizer.App.MissingFeatures
+        </div>
+
+        // admin email
+        var adminEmail = GetAdminEmail();
+        if (!string.IsNullOrWhiteSpace(adminEmail))
+        {
+            <MailToLink Email="@adminEmail" Text="@Localizer.App.AdminContactError" />
+        }
+    }
+</MudNavMenu>

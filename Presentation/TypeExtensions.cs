@@ -45,7 +45,7 @@ public static class TypeExtensions
         var property = type.GetProperty(propertyName);
         if (property == null)
         {
-            throw new PayrollException($"Invalid localization source property {propertyName}");
+            throw new PayrollException($"Invalid localization source property {propertyName}.");
         }
 
         // localizations property
@@ -53,11 +53,11 @@ public static class TypeExtensions
         var localizationProperty = type.GetProperty(localizationPropertyName);
         if (localizationProperty == null)
         {
-            throw new PayrollException($"Missing localization property {localizationPropertyName}");
+            throw new PayrollException($"Missing localization property {localizationPropertyName}.");
         }
         if (localizationProperty.PropertyType != typeof(Dictionary<string, string>))
         {
-            throw new PayrollException($"Localization property {localizationPropertyName} must be a Dictionary<string,string>");
+            throw new PayrollException($"Localization property {localizationPropertyName} must be a Dictionary<string,string>.");
         }
 
         return localizationProperty;

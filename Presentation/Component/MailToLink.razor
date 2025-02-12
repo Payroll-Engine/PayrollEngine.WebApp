@@ -1,0 +1,13 @@
+﻿@if (string.IsNullOrWhiteSpace(Email))
+{
+    return;
+}
+
+<a href="@($"mailto:{Email}")">@(Text ?? Email)</a>
+
+@code {
+    [Parameter]
+    public string Email { get; set; }
+    [Parameter]
+    public string Text { get; set; }
+}

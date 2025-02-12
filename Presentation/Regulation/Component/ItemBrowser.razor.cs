@@ -76,23 +76,23 @@ public partial class ItemBrowser : IDisposable
             case RegulationItemType.CaseField:
                 return CaseFieldBrowser;
             case RegulationItemType.CaseRelation:
-                return CaseBrowser;
+                return CaseRelationBrowser;
             case RegulationItemType.Collector:
-                return CaseBrowser;
+                return CollectorBrowser;
             case RegulationItemType.WageType:
-                return CaseBrowser;
+                return WageTypeBrowser;
             case RegulationItemType.Report:
-                return CaseBrowser;
+                return ReportBrowser;
             case RegulationItemType.ReportParameter:
-                return CaseBrowser;
+                return ReportParameterBrowser;
             case RegulationItemType.ReportTemplate:
-                return CaseBrowser;
+                return ReportTemplateBrowser;
             case RegulationItemType.Lookup:
-                return CaseBrowser;
+                return LookupBrowser;
             case RegulationItemType.LookupValue:
-                return CaseBrowser;
+                return LookupValueBrowser;
             case RegulationItemType.Script:
-                return CaseBrowser;
+                return ScriptBrowser;
         }
         return null;
     }
@@ -183,11 +183,11 @@ public partial class ItemBrowser : IDisposable
         ScriptBrowser = new(Tenant, Payroll, Regulations, PayrollService, ScriptService);
     }
 
-    private void ResetItemBrowsers()
+    private void UpdateItemBrowsers()
     {
         foreach (var itemType in Enum.GetValues(typeof(RegulationItemType)))
         {
-            GetItemBrowser((RegulationItemType)itemType)?.Reset();
+            GetItemBrowser((RegulationItemType)itemType).ChangeContext(EditContext);
         }
     }
 
@@ -217,18 +217,20 @@ public partial class ItemBrowser : IDisposable
 
     protected override async Task OnParametersSetAsync()
     {
-        // tenant
-        if (lastEditContext != EditContext)
-        {
-            lastEditContext = EditContext;
-            ResetItemBrowsers();
-        }
+        // context change
+        var updateContext = lastEditContext != EditContext;
 
-        // regulations
+        // regulation change
         if (!CompareTool.EqualLists(regulations, Regulations))
         {
             regulations = Regulations;
-            ResetItemBrowsers();
+            updateContext = true;
+        }
+
+        if (updateContext)
+        {
+            lastEditContext = EditContext;
+            UpdateItemBrowsers();
         }
 
         await base.OnParametersSetAsync();

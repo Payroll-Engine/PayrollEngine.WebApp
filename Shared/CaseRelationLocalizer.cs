@@ -18,4 +18,6 @@ public class CaseRelationLocalizer(IStringLocalizerFactory factory) : LocalizerB
 
     public string BuildActions => PropertyValue();
     public string ValidateActions => PropertyValue();
+
+    public string SourceEqualsTargetError => PropertyValue();
 }

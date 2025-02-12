@@ -1,0 +1,24 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+
+<MudDialog TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudStack Class="pa-4" Spacing="1">
+            <WebhookMessageGrid Tenant="Tenant" Webhook="Webhook" Style="min-width: fit-content;" />
+            <MudPaper Class="mt-4 pa-4 mud-">
+                <MudText Typo="Typo.caption">
+                    @Localizer.Shared.ImmediateChanges
+                </MudText>
+            </MudPaper>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="Webhook" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public Tenant Tenant { get; set; }
+    [Parameter] public Webhook Webhook { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
+}

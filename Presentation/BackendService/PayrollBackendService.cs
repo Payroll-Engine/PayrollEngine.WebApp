@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -10,9 +9,12 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class PayrollBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer, IDivisionService divisionService)
-    : BackendServiceBase<PayrollService, TenantServiceContext, Payroll, Query>(userSession, httpClientHandler, configuration, localizer)
+public class PayrollBackendService(UserSession userSession,
+    PayrollHttpClient httpClient,
+    Localizer localizer,
+    IDivisionService divisionService)
+    : BackendServiceBase<PayrollService, TenantServiceContext, Payroll, Query>(
+        userSession, httpClient, localizer)
 {
     private IDivisionService DivisionService { get; } = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
 
@@ -25,7 +27,7 @@ public class PayrollBackendService(UserSession userSession, HttpClientHandler ht
         new(HttpClient);
 
     public async Task ApplyDivisionAsync(Payroll payroll) =>
-        await ApplyDivisionAsync(new[] { payroll });
+        await ApplyDivisionAsync([payroll]);
 
     private async Task ApplyDivisionAsync(IEnumerable<Payroll> payrolls)
     {

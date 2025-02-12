@@ -45,7 +45,8 @@ public static class InputAttributes
     public static readonly string LineCount = $"{Prefix}lineCount";
     public static readonly string MaxLength = $"{Prefix}maxLength";
     public static readonly string Check = $"{Prefix}check";
-    // // no value picker type: the case field value-type pre defines the picker type
+    public static readonly string ValueHistory = $"{Prefix}valueHistory";
+    // no value picker type: the case field value-type pre defines the picker type
 
     // case field attachments
     public static readonly string Attachment = $"{Prefix}attachment";

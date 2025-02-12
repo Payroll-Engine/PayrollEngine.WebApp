@@ -1,0 +1,76 @@
+﻿@using System.Reflection
+@using System.Diagnostics;
+@using Date = PayrollEngine.Date
+@using PayrollEngine.WebApp.Presentation.Component
+
+<MudDialog Class="pe-item-dialog pa-4" TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudStack Class="pa-4 gap-4 align-center">
+            @if (!string.IsNullOrWhiteSpace(AppImage))
+            {
+                <img src="@AppImage" style="max-width: 40em" />
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">@AppTitle</MudText>
+            }
+            <MudText>@Localizer.App.WebAppVersion(AppVersion)</MudText>
+            <MudText>@Localizer.App.BackendVersion(BackendVersion)</MudText>
+            <MudText>@Localizer.App.Copyright(CopyRight)</MudText>
+
+            @* product link *@
+            @if (!string.IsNullOrWhiteSpace(ProductUrl))
+            {
+                <WebLink Url="@ProductUrl" />
+            }
+
+            @* admin email *@
+            @if (!string.IsNullOrWhiteSpace(AdminEmail))
+            {
+                <MailToLink Email="@AdminEmail" Text="@Localizer.App.ContactEmail" />
+            }
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Close">@Localizer.Dialog.Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public string AppTitle { get; set; }
+    [Parameter] public string AppImage { get; set; }
+    [Parameter] public string ProductUrl { get; set; }
+    [Parameter] public string AdminEmail { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
+
+    private string AppVersion { get; set; }
+    private string BackendVersion { get; set; }
+    private string CopyRight { get; set; }
+
+    private void Close() => MudDialog.Close(DialogResult.Ok(true));
+
+    protected override async Task OnInitializedAsync()
+    {
+        // assembly
+        var assembly = GetType().Assembly;
+        var assemblyInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+        var backendAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(PayrollEngine.SystemSpecification).Assembly.Location);
+
+        // version
+        AppVersion = assemblyInfo.ProductVersion;
+        BackendVersion = backendAssemblyInfo.ProductVersion;
+
+        // copyright
+        var copyRight = $"{Date.Now.Year} Software Consulting Giannoudis";
+        if (assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), true).FirstOrDefault()
+            is AssemblyCopyrightAttribute copyRightAttribute)
+        {
+            copyRight = copyRightAttribute.Copyright;
+        }
+        CopyRight = copyRight;
+
+        await base.OnInitializedAsync();
+    }
+}

@@ -20,8 +20,17 @@ public class AppConfiguration
     /// <summary>The administrator contact</summary>
     public string AdminEmail { get; set; }
 
+    /// <summary>The product url </summary>
+    public string ProductUrl { get; set; }
+
     /// <summary>The default features</summary>
     public List<string> DefaultFeatures { get; set; } = [];
+
+    /// <summary>Allow the user to switch the tenant (default: false)</summary>
+    public bool AllowTenantSwitch { get; set; }
+
+    /// <summary>Log HTTP requests (default: false)</summary>
+    public bool LogHttpRequests { get; set; }
 
     /// <summary>Log the case changes (default: false)</summary>
     public bool LogCaseChanges { get; set; }
@@ -31,6 +40,9 @@ public class AppConfiguration
 
     /// <summary>Maximum excel export count (default: 10'000)</summary>
     public int ExcelExportMaxRecords { get; set; } = 10000;
+
+    /// <summary>Maximum download size (default: 512'000)</summary>
+    public long MaxDownloadSize { get; set; } = 512000;
 
     #region Features
 

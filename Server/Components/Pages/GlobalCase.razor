@@ -1,0 +1,31 @@
+﻿@page "/globalcase"
+@page "/globalcase/{caseName}"
+
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits NewCasePageBase;
+
+@* missing feature *@
+@if (!HasFeature(Feature.GlobalCases))
+{
+    NavigateHome();
+    return;
+}
+@* missing tenant *@
+@if (!HasTenant)
+{
+    <ErrorText Message="@Localizer.App.SelectTenant" />
+    return;
+}
+@* missing payroll *@
+@if (!HasPayroll)
+{
+    <ErrorText Message="@Localizer.App.SelectPayroll" />
+    return;
+}
+
+@{
+    // BuildRenderTree needs to be called otherwise inherited HTML won't be rendered.
+    // Might be changed/"fixed" in the future, see: https://github.com/dotnet/aspnetcore/issues/21664
+    base.BuildRenderTree(__builder);
+}

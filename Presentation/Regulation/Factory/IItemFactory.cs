@@ -11,5 +11,5 @@ public interface IItemFactory<TItem>
     /// Query current regulation items
     /// </summary>
     /// <returns>The item collection</returns>
-    Task<List<TItem>> QueryPayrollItems();
+    Task<List<TItem>> QueryPayrollItemsAsync();
 }

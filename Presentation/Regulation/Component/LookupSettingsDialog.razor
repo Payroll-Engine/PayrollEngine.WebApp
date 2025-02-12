@@ -1,25 +1,23 @@
 ﻿@using PayrollEngine.Client.Model
-@using PayrollEngine.Client.Service
 @using PayrollEngine.WebApp.Shared
 @using PayrollEngine.WebApp.ViewModel
 @using Payroll = PayrollEngine.Client.Model.Payroll
 @using Task = System.Threading.Tasks.Task
 @using Tenant = PayrollEngine.WebApp.ViewModel.Tenant
-@using System.Globalization
 
-<MudDialog Class="attribute-dialog">
+<MudDialog Class="pe-attribute-dialog" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudPaper Class="pa-4 mb-2" Elevation="4">
             <MudForm @ref="form">
                 <MudStack Spacing="1">
                     <MudSelect T="string" Label="@Localizer.Lookup.LookupName"
-                    @bind-Value="Settings.LookupName"
+                               @bind-Value="Settings.LookupName"
                                Disabled="@(Lookups == null || Lookups.Count < 1)"
                                Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Lookup.LookupName)">
                         @foreach (var lookup in Lookups)
                         {
                             <MudSelectItem T="string" Value="@lookup.Name">
-                                @Culture.Name.GetLocalization(lookup.NameLocalizations, lookup.Name)
+                                @Culture.GetLocalization(lookup.NameLocalizations, lookup.Name)
                             </MudSelectItem>
                         }
                     </MudSelect>
@@ -34,8 +32,8 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -43,13 +41,14 @@
 @code {
     MudForm form;
 
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public Tenant Tenant { get; set; }
     [Parameter] public Payroll Payroll { get; set; }
-    [Parameter] public LookupSettings Settings { get; set; } = new();
-    [Parameter] public CultureInfo Culture { get; set; }
+    [Parameter] public LookupSettings Settings { get; set; }
+    [Parameter] public List<RegulationLookup> Lookups { get; set; }
+    [Parameter] public string Culture { get; set; }
 
-    [Inject] private IPayrollService PayrollService { get; set; }
+    // [Inject] private IPayrollService PayrollService { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
@@ -61,24 +60,4 @@
             MudDialog.Close(DialogResult.Ok(Settings));
         }
     }
-
-    #region Lookups
-
-    private List<RegulationLookup> Lookups { get; set; } = [];
-
-    private async Task SetupLookupsAsync()
-    {
-        var lookups = await PayrollService.GetLookupsAsync<RegulationLookup>(
-            new(Tenant.Id, Payroll.Id));
-        Lookups = lookups;
-    }
-
-    #endregion
-
-    protected override async Task OnInitializedAsync()
-    {
-        await SetupLookupsAsync();
-        await base.OnInitializedAsync();
-    }
-
 }

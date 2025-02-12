@@ -1,0 +1,64 @@
+﻿@typeparam T where T : IViewAttributeObject
+
+@if (Columns == null)
+{
+    return;
+}
+
+@{
+    var attributeColumns = Columns.GroupBy(x => x.ValueType.GetAttributeType());
+    @foreach (var attributeColumn in attributeColumns)
+    {
+        // data request with order criteria does not provide information about the source column
+        // see IQueryResolver.GetSortColumn() in ModelBasePage
+        // disable sorting on multiple custom columns (per attribute value type)
+        var multiSort = attributeColumn.Count() > 1;
+
+        foreach (var column in attributeColumn)
+        {
+            if (!column.IsValid)
+            {
+                continue;
+            }
+
+            var name = column.ColumnName;
+            var header = column.ColumnHeader;
+            var allowSorting = !multiSort && column.AllowSorting;
+            var allowGrouping = column.AllowGrouping;
+            var allowFiltering = column.AllowFiltering;
+            switch (attributeColumn.Key)
+            {
+                case AttributeValueType.String:
+                    <PropertyColumn T="T" TProperty="string"
+                                    Property="x => x.GetStringAttribute(name)" 
+                                    Title="@header"
+                                    Tag="@($"{TextAttributePrefix}{name}")" 
+                                    ShowColumnOptions="false"
+                                    ShowFilterIcon="@allowFiltering" 
+                                    Filterable="@allowFiltering"
+                                    Sortable="@allowSorting"
+                                    Groupable="@allowGrouping" />
+                    break;
+                case AttributeValueType.Numeric:
+                    <PropertyColumn T="T" TProperty="decimal"
+                                    Property="x => x.GetNumericAttribute(name)" 
+                                    Title="@header"
+                                    Tag="@($"{NumericAttributePrefix}{name}")" 
+                                    ShowColumnOptions="false"
+                                    ShowFilterIcon="@allowFiltering"
+                                    Filterable="@allowFiltering"
+                                    Sortable="@allowSorting" 
+                                    Groupable="@allowGrouping" />
+                    break;
+            }
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    public List<GridColumnConfiguration> Columns { get; set; }
+
+    private string TextAttributePrefix { get; } = PayrollEngine.SystemSpecification.TextAttributePrefix;
+    private string NumericAttributePrefix { get; } = PayrollEngine.SystemSpecification.NumericAttributePrefix;
+}

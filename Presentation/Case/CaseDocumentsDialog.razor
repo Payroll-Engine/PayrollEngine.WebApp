@@ -9,7 +9,7 @@
 
 @inject IJSRuntime JsRuntime;
 
-<MudDialog style="min-width: 40em">
+<MudDialog style="min-width: 40em" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         @* add document *@
         <div class="d-flex flex-grow-1 pb-2">
@@ -19,10 +19,10 @@
                 <div class="d-flex flex-grow-1 justify-end">
                     <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync" Accept="@Accept">
                         <ActivatorContent>
-                            <MudTooltip Delay="500" Text="@Localizer.Document.ContentUpload" Placement="Placement.Top">
+                            <MudTooltip Delay="1000" Text="@Localizer.Document.ContentUpload" Placement="Placement.Top">
                                 <MudIconButton HtmlTag="label"
                                                Color="Color.Tertiary"
-                                               Variant="Variant.Outlined"
+                                               Variant="@Globals.ButtonVariant"
                                                Icon="@Icons.Material.Filled.Upload"
                                                Size="Size.Small">
                                 </MudIconButton>
@@ -33,7 +33,8 @@
             }
         </div>
 
-        <MudDataGrid T="TDoc" Items="Documents"
+        <MudDataGrid T="TDoc" 
+                     Items="Documents"
                      Filterable="false"
                      Dense="true"
                      SortMode="SortMode.None"
@@ -46,20 +47,20 @@
                     <CellTemplate>
                         @if (Editable)
                         {
-                            <MudTooltip Delay="500" Text="@Localizer.Item.RemoveTitle(context.Item.Name)" Placement="Placement.Top">
+                            <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveTitle(context.Item.Name)" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => DeleteAsync(context.Item))"
                                                Color="Color.Secondary"
-                                               Variant="Variant.Outlined"
+                                               Variant="@Globals.ButtonVariant"
                                                Icon="@Icons.Material.Filled.Delete"
                                                Size="Size.Small" />
                             </MudTooltip>
                         }
                         else
                         {
-                            <MudTooltip Delay="500" Text="@Localizer.Document.DownloadTitle(context.Item.Name)" Placement="Placement.Top">
+                            <MudTooltip Delay="1000" Text="@Localizer.Document.DownloadTitle(context.Item.Name)" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => DownloadAsync(context.Item))"
                                                Color="Color.Primary"
-                                               Variant="Variant.Outlined"
+                                               Variant="@Globals.ButtonVariant"
                                                Icon="@Icons.Material.Filled.Download"
                                                Size="Size.Small" />
                             </MudTooltip>
@@ -74,17 +75,19 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Close</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public ObservedHashSet<TDoc> Documents { get; set; }
     [Parameter] public string Accept { get; set; }
     [Parameter] public bool Editable { get; set; }
+
     [Inject] private IUserNotificationService UserNotification { get; set; }
+    [Inject] private IDownloadService DownloadService { get; set; }
     [Inject] private Localizer Localizer { get; set; }
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(true));
@@ -113,7 +116,7 @@
     {
         try
         {
-            await using var stream = file.OpenReadStream();
+            await using var stream = file.OpenReadStream(DownloadService.MaxAllowedSize);
             using var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
 
@@ -124,7 +127,6 @@
                 Content = Convert.ToBase64String(memoryStream.ToArray())
             };
             await Documents.AddAsync(document);
-            await UserNotification.ShowSuccessAsync(Localizer.Document.ContentUploaded(file.Name));
         }
         catch (Exception exception)
         {
@@ -140,7 +142,6 @@
             return;
         }
         await Documents.RemoveAsync(document);
-        await UserNotification.ShowSuccessAsync(Localizer.Document.DocumentRemoved);
         StateHasChanged();
     }
 }

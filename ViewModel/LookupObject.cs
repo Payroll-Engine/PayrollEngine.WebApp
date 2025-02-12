@@ -57,7 +57,7 @@ public class LookupObject
         }
         if (!properties.Any())
         {
-            throw new ArgumentException("Object without properties is not supported", nameof(element));
+            throw new ArgumentException("Object without properties is not supported.", nameof(element));
         }
 
         // range
@@ -66,7 +66,7 @@ public class LookupObject
         // value property
         if (!string.IsNullOrWhiteSpace(valuePropertyName) && !properties.Contains(valuePropertyName))
         {
-            throw new ArgumentException($"Unknown property {valuePropertyName}", nameof(valuePropertyName));
+            throw new ArgumentException($"Unknown property {valuePropertyName}.", nameof(valuePropertyName));
         }
         ValuePropertyName = valuePropertyName ?? properties.First();
         Value = values[ValuePropertyName].GetValue();
@@ -74,7 +74,7 @@ public class LookupObject
         // text property
         if (!string.IsNullOrWhiteSpace(textPropertyName) && !properties.Contains(textPropertyName))
         {
-            throw new ArgumentException($"Unknown property {textPropertyName}", nameof(textPropertyName));
+            throw new ArgumentException($"Unknown property {textPropertyName}.", nameof(textPropertyName));
         }
         TextPropertyName = textPropertyName ?? properties.First();
 
@@ -129,7 +129,7 @@ public class LookupObject
         }
         if (string.IsNullOrWhiteSpace(propertyName) || !values.TryGetValue(propertyName, out var value))
         {
-            throw new PayrollException($"Unknown lookup property {propertyName}");
+            throw new PayrollException($"Unknown lookup property {propertyName}.");
         }
         return value.GetValue();
     }

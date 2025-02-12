@@ -15,10 +15,10 @@ public class ReportParameterFactory(Client.Model.Tenant tenant, Client.Model.Pay
     private IReportParameterService ReportParameterService { get; } = reportParameterService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationReportParameter>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationReportParameter>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await PayrollService.GetReportParametersAsync<RegulationReportParameter>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<List<RegulationReportParameter>> QueryPayrollItems() =>
+    public override async Task<List<RegulationReportParameter>> QueryPayrollItemsAsync() =>
         await PayrollService.GetReportParametersAsync<RegulationReportParameter>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationReportParameter> reportParameters,
@@ -34,7 +34,7 @@ public class ReportParameterFactory(Client.Model.Tenant tenant, Client.Model.Pay
         var report = reportParameter.Parent as RegulationReport;
         if (report == null || report.Id == 0)
         {
-            throw new PayrollException($"Missing report for report parameter {reportParameter.Name}");
+            throw new PayrollException($"Missing report for report parameter {reportParameter.Name}.");
         }
 
         // create or update

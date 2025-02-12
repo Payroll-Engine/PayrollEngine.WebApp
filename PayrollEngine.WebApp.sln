@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
+		Input-Attributes.md = Input-Attributes.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -18,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollEngine.WebApp.Server
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollEngine.WebApp.Presentation", "Presentation\PayrollEngine.WebApp.Presentation.csproj", "{1F8B31B3-CD34-4627-85E6-8294E6409711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollEngine.WebApp.Shared", "Shared\PayrollEngine.WebApp.Shared.csproj", "{B1811D3D-1FDE-4518-BB99-AA823B2779D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollEngine.WebApp.Shared", "Shared\PayrollEngine.WebApp.Shared.csproj", "{B1811D3D-1FDE-4518-BB99-AA823B2779D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

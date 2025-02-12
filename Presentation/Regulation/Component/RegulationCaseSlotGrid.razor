@@ -7,9 +7,10 @@
     <div class="d-flex flex-grow-1 pb-2">
         @Localizer.Shared.None
         <div class="d-flex flex-grow-1 justify-end">
-            <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
+            <MudTooltip Delay="1000" Text="@Localizer.Item.AddHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
                 <MudIconButton @onclick="@AddCaseSlotAsync"
-                               Color="Color.Tertiary" Variant="Variant.Outlined"
+                               Color="Color.Tertiary"
+                               Variant="@Globals.ButtonVariant"
                                Icon="@Icons.Material.Filled.Add"
                                Size="Size.Small" />
             </MudTooltip>
@@ -27,9 +28,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.AddHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddCaseSlotAsync"
-                                       Color="Color.Tertiary" Variant="Variant.Outlined"
+                                       Color="Color.Tertiary"
+                                       Variant="@Globals.ButtonVariant"
                                        Icon="@Icons.Material.Filled.Add"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -38,15 +40,19 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
-                        <MudIconButton @onclick="@(() => DeleteCaseSlotAsync(context.Item))"
-                                       Color="Color.Secondary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => RemoveCaseSlotAsync(context.Item))"
+                                       Color="Color.Secondary"
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.Remove"
+                                       Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="@Localizer.Item.EditHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.EditHelp(Localizer.CaseSlot.CaseSlot)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditCaseSlotAsync(context.Item))"
-                                       Color="Color.Primary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                                       Color="Color.Primary"
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.Edit"
+                                       Size="Size.Small" />
                     </MudTooltip>
                 </MudStack>
             </CellTemplate>

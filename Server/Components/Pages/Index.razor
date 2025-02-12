@@ -1,0 +1,64 @@
+﻿@page "/"
+
+@implements IDisposable
+
+@using Microsoft.Extensions.Configuration
+@using PayrollEngine.WebApp.Presentation.Component
+@using PayrollEngine.WebApp.Server.Components.Shared
+
+@{
+    var image = GetImage();
+    if (!string.IsNullOrWhiteSpace(image))
+    {
+                <ViewPanel Opacity="0.05">
+                    <Content>
+                        <img src="@image" style="width: 50%" />
+                    </Content>
+                </ViewPanel>
+    }
+}
+
+@code
+{
+    private string AppImage { get; set; }
+    private string AppImageDark { get; set; }
+
+    [Inject]
+    private UserSession Session { get; set; }
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+    [Inject]
+    private IConfiguration Configuration { get; set; }
+    [Inject]
+    private IThemeService ThemeService { get; set; }
+
+    private string GetImage() =>
+        ThemeService.IsDarkMode ? AppImageDark : AppImage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // login on missing user session
+        if (Session.UserAvailable)
+        {
+            // application
+            var appConfiguration = Configuration.GetConfiguration<AppConfiguration>();
+            AppImage = appConfiguration.AppImage;
+            AppImageDark = appConfiguration.AppImageDarkMode;
+            ThemeService.DarkModeChanged += DarkModeChanged;
+        }
+        else
+        {
+            NavigationManager.NavigateTo(PageUrls.Login);
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private Task DarkModeChanged(object service, bool darkMode) =>
+        InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        ThemeService.DarkModeChanged -= DarkModeChanged;
+    }
+}

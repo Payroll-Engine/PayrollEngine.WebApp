@@ -19,9 +19,9 @@ public class ReportLocalizer(IStringLocalizerFactory factory) : LocalizerBase(fa
     public string EndExpression => PropertyValue();
 
     public string EmptyReport => PropertyValue();
+    public string BuildReport => PropertyValue();
 
     public string PreparingDownload => PropertyValue();
-    public string ReportDownload => PropertyValue();
     public string ExecutionError => PropertyValue();
 
     public string Xml => PropertyValue();

@@ -12,7 +12,8 @@ public class AppLocalizer(IStringLocalizerFactory factory) : LocalizerBase(facto
 
     public string AccessDenied => PropertyValue();
     public string MissingFeatures => PropertyValue();
-    public string AdminContact => PropertyValue();
+    public string ContactEmail=> PropertyValue();
+    public string AdminContactError => PropertyValue();
 
     public string ToggleSidebar => PropertyValue();
     public string LightMode => PropertyValue();
@@ -25,8 +26,10 @@ public class AppLocalizer(IStringLocalizerFactory factory) : LocalizerBase(facto
     public string ExpandGroups => PropertyValue();
     public string CollapseGroups => PropertyValue();
 
-    public string WebAppVersion => PropertyValue();
-    public string BackendVersion => PropertyValue();
+    public string WebAppVersion(string version) =>
+        FormatValue(PropertyValue(), nameof(version), version);
+    public string BackendVersion(string version) =>
+        FormatValue(PropertyValue(), nameof(version), version);
 
     public string Copyright(string owner) => FormatValue(PropertyValue(), nameof(owner), owner);
 }

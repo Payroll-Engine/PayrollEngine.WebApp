@@ -1,0 +1,34 @@
+﻿@if (Visible && !string.IsNullOrWhiteSpace(Message))
+{
+    <MudPaper Class="mt-4 pa-4">
+        <MudText Typo="Typo.caption">
+            @Message
+        </MudText>
+    </MudPaper>
+}
+
+@code {
+    [Parameter]
+    public string Message { get; set; }
+    [Parameter]
+    public int Delay { get; set; } = 1000;
+
+    // hidden at start
+    private bool Visible { get; set; }
+
+    private async Task SetupVisibilityAsync()
+    {
+        if (Delay > 0)
+        {
+            await Task.Delay(Delay);
+        }
+        Visible = true;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SetupVisibilityAsync();
+        await base.OnInitializedAsync();
+    }
+}

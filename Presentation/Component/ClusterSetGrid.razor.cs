@@ -30,7 +30,7 @@ public partial class ClusterSetGrid : IDisposable
 
     private async Task AddClusterSetAsync()
     {
-        // cluster set create dialog
+        // cluster set add dialog
         var dialog = await (await DialogService.ShowAsync<ClusterSetDialog>(
             Localizer.Item.AddTitle(Localizer.ClusterSet.ClusterSet))).Result;
         if (dialog == null || dialog.Canceled)
@@ -83,7 +83,7 @@ public partial class ClusterSetGrid : IDisposable
         ClusterSets.Add(editItem);
     }
 
-    private async Task DeleteClusterSetAsync(ClusterSet clusterSet)
+    private async Task RemoveClusterSetAsync(ClusterSet clusterSet)
     {
         // existing
         if (!ClusterSets.Contains(clusterSet))
@@ -94,13 +94,13 @@ public partial class ClusterSetGrid : IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(Localizer.ClusterSet.ClusterSet),
-                Localizer.Item.DeleteQuery(clusterSet.Name)))
+                Localizer.Item.RemoveTitle(Localizer.ClusterSet.ClusterSet),
+                Localizer.Item.RemoveQuery(clusterSet.Name)))
         {
             return;
         }
 
-        // delete cluster set
+        // remove cluster set
         Payroll.ClusterSets.Remove(clusterSet);
         ClusterSets.Remove(clusterSet);
     }

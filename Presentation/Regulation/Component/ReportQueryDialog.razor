@@ -1,5 +1,5 @@
 ﻿@using PayrollEngine.WebApp.Shared
-<MudDialog Class="attribute-dialog">
+<MudDialog Class="pe-attribute-dialog" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudPaper Class="pa-4 mb-2" Elevation="4">
             <MudForm @ref="form">
@@ -18,8 +18,8 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -27,7 +27,7 @@
 @code {
     MudForm form;
 
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public IDictionary<string, string> Queries { get; set; }
     [Parameter] public ReportQuery Query { get; set; } = new();
     [Inject] private Localizer Localizer { get; set; }

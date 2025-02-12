@@ -9,7 +9,7 @@
                       Value="@Label"
                       Class="@Class"
                       Adornment="Adornment.End"
-                      Variant="Variant.Outlined"
+                      Variant="@Globals.ButtonVariant"
                       AdornmentIcon="@Icons.Material.Filled.Info" />
     </ChildContent>
     <TooltipContent>
@@ -62,7 +62,7 @@
 </MudTooltip>
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public List<PayrunParameter> Parameters { get; set; } = [];
     [Parameter] public Dictionary<string, object> ParameterAttributes { get; set; } = new();
     [Parameter] public CultureInfo Culture { get; set; }

@@ -7,40 +7,40 @@
 <div class="d-flex flex-grow-1 pb-2">
     <MudText Typo="Typo.h5">@GetItemTypeName(true)</MudText>
     <div class="d-flex flex-grow-1 justify-end">
-        <MudTooltip Delay="500" Text="@Localizer.App.CompactView" Placement="Placement.Top">
+        <MudTooltip Delay="1000" Text="@Localizer.App.CompactView" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
-                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Color="Color.Primary" Variant="@Globals.ButtonVariant"
                            Icon="@Icons.Material.Filled.ViewCompact"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
         @if (HasParent)
         {
-            <MudTooltip Delay="500" Text="@Localizer.App.ExpandGroups" Placement="Placement.Top">
+            <MudTooltip Delay="1000" Text="@Localizer.App.ExpandGroups" Placement="Placement.Top">
                 <MudIconButton @onclick="@ExpandItemGroups"
-                               Color="Color.Primary" Variant="Variant.Outlined"
+                               Color="Color.Primary" Variant="@Globals.ButtonVariant"
                                Icon="@Icons.Material.Filled.AccountTree"
                                Class="ml-2"
                                Size="Size.Small" />
             </MudTooltip>
-            <MudTooltip Delay="500" Text="@Localizer.App.CollapseGroups" Placement="Placement.Top">
+            <MudTooltip Delay="1000" Text="@Localizer.App.CollapseGroups" Placement="Placement.Top">
                 <MudIconButton @onclick="@CollapseItemGroups"
-                               Color="Color.Primary" Variant="Variant.Outlined"
+                               Color="Color.Primary" Variant="@Globals.ButtonVariant"
                                Icon="@Icons.Material.Filled.TableRows"
                                Class="ml-2"
                                Size="Size.Small" />
             </MudTooltip>
         }
-        <MudTooltip Delay="500" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+        <MudTooltip Delay="1000" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
             <MudIconButton @onclick="@ExcelDownloadAsync"
-                           Color="Color.Primary" Variant="Variant.Outlined"
+                           Color="Color.Primary" Variant="@Globals.ButtonVariant"
                            Icon="@Icons.Custom.FileFormats.FileExcel"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(GetItemTypeName())" Placement="Placement.Top">
+        <MudTooltip Delay="1000" Text="@Localizer.Item.AddHelp(GetItemTypeName())" Placement="Placement.Top">
             <MudIconButton @onclick="@AddItemAsync"
-                           Color="Color.Tertiary" Variant="Variant.Outlined"
+                           Color="Color.Tertiary" Variant="@Globals.ButtonVariant"
                            Icon="@Icons.Material.Filled.Add"
                            Class="ml-2"
                            Size="Size.Small" />
@@ -48,7 +48,9 @@
     </div>
 </div>
 
-<MudDataGrid @ref="ItemsGrid" T="TItem" Items="@Items"
+<MudDataGrid @ref="ItemsGrid" 
+             T="TItem" 
+             Items="@Items"
              SelectedItemChanged="SelectedItemChangedAsync"
              MultiSelection="false"
              ShowColumnOptions="false"

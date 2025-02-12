@@ -17,7 +17,8 @@
                    Variant="@Variant"
                    Class="@Class"
                    Editable="true" />
-    <MudTimePicker @bind-Time="@Time"
+    <MudTimePicker Class="pl-4"
+                   @bind-Time="@Time"
                    Error="@Error"
                    TimeFormat="@TimeFormat"
                    Required="@Required"
@@ -106,7 +107,9 @@
         }
         // change
         DateTime = dateTime;
-        DateTimeChanged.InvokeAsync(dateTime);
+
+        // event
+        DateTimeChanged.InvokeAsync(dateTime).Wait();
     }
 
     protected override DatePickerType DatePickerType =>

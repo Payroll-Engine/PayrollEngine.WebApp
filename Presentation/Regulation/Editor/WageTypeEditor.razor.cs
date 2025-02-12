@@ -47,7 +47,6 @@ public partial class WageTypeEditor
             new(nameof(RegulationWageType.Description), typeof(TextBox))
             {
                 Label = Localizer.Shared.Description,
-                Expression = true,
                 Lines = 8
             },
             new(nameof(RegulationWageType.ValueType), typeof(EnumListBox<ValueType>))

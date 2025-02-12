@@ -5,8 +5,9 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Component;
 
-public abstract class MainComponentBase : LayoutComponentBase, IDisposable
+public abstract class MainComponentBase : LayoutComponentBase
 {
+
     [Inject]
     protected UserSession Session { get; set; }
     [Inject]
@@ -16,17 +17,25 @@ public abstract class MainComponentBase : LayoutComponentBase, IDisposable
     [Inject]
     private IJSRuntime JsRuntime { get; set; }
 
-    protected WorkingItems WorkingItems => Session.WorkingItems;
-
     protected bool HasFeature(Feature feature) =>
         Session.UserFeature(feature);
 
 
     #region Working Items
 
-    private async Task WorkingItemsChanged()
+    private WorkingItems workingItems;
+    public WorkingItems WorkingItems
     {
-        await InvokeStateHasChangedAsync();
+        get => workingItems;
+        set
+        {
+            if (value == workingItems)
+            {
+                return;
+            }
+            workingItems = value;
+            StateHasChanged();
+        }
     }
 
     #endregion
@@ -63,39 +72,4 @@ public abstract class MainComponentBase : LayoutComponentBase, IDisposable
 
     #endregion
 
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        // register state change handler
-        Session.WorkingItemsChanged += async (_, _) =>
-        {
-            await WorkingItemsChanged();
-        };
-    }
-
-    // see https://stackoverflow.com/questions/56477829/how-to-fix-the-current-thread-is-not-associated-with-the-renderers-synchroniza
-    // answer: https://stackoverflow.com/a/60353701
-    protected async Task InvokeStateHasChangedAsync()
-    {
-        await InvokeAsync(StateHasChanged);
-    }
-
-    void IDisposable.Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    private void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            // un-register state change handler
-            Session.WorkingItemsChanged -= async (_, _) =>
-            {
-                await WorkingItemsChanged();
-            };
-        }
-    }
 }

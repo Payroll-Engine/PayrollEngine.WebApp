@@ -1,0 +1,221 @@
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
+
+@using Task = System.Threading.Tasks.Task
+@using PayrollEngine.WebApp.Presentation.Component
+@using ClientModel = PayrollEngine.Client.Model
+
+<MudDialog Class="pe-item-dialog" TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
+                    <MudStack Class="pa-4" Spacing="1">
+                        <MudSelect T="string"
+                                   Value="RegulationShare.ProviderTenantIdentifier"
+                                   ValueChanged="ProviderTenantChanged"
+                                   Disabled="@(Tenants == null || Tenants.Count < 1)"
+                                   Label="@Localizer.RegulationShare.ProviderTenant"
+                                   Required="true">
+                            @foreach (var tenant in Tenants)
+                            {
+                                // ignore tenants without shared regulations
+                                if (SharedRegulations.ContainsKey(tenant))
+                                {
+                                    <MudSelectItem T="string" Value="@tenant.Identifier">
+                                        @tenant.Identifier
+                                    </MudSelectItem>
+                                }
+                            }
+                        </MudSelect>
+                        <MudSelect T="string"
+                                   Value="RegulationShare.ProviderRegulationName"
+                                   ValueChanged="ProviderRegulationChanged"
+                                   Disabled="@(ProviderRegulations == null || ProviderRegulations.Count < 1 || !HasProviderTenant())"
+                                   Label="@Localizer.RegulationShare.ProviderRegulation"
+                                   Required="true">
+                            @foreach (var regulation in ProviderRegulations)
+                            {
+                                <MudSelectItem T="string" Value="@regulation.Name">
+                                    @Culture.GetLocalization(regulation.NameLocalizations, regulation.Name)
+                                </MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudSelect T="string"
+                                   Value="RegulationShare.ConsumerTenantIdentifier"
+                                   ValueChanged="ConsumerTenantChanged"
+                                   Disabled="@(Tenants == null || Tenants.Count < 1 || !HasProviderRegulation())"
+                                   Label="@Localizer.RegulationShare.ConsumerTenant"
+                                   Required="true">
+                            @foreach (var tenant in Tenants)
+                            {
+                                // self assignments
+                                if (tenant.Id == RegulationShare.ProviderTenantId)
+                                {
+                                    continue;
+                                }
+                                <MudSelectItem T="string" Value="@tenant.Identifier">
+                                    @tenant.Identifier
+                                </MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudSelect T="string"
+                                   Value="RegulationShare.ConsumerDivisionName"
+                                   ValueChanged="ConsumerDivisionChanged"
+                                   Clearable="true"
+                                   Disabled="@(ConsumerDivisions == null || !HasConsumerTenant())"
+                                   Label="@Localizer.RegulationShare.ConsumerDivision">
+                            @foreach (var division in ConsumerDivisions)
+                            {
+                                <MudSelectItem T="string" Value="@division.Name">
+                                    @Culture.GetLocalization(division.NameLocalizations, division.Name)
+                                </MudSelectItem>
+                            }
+                        </MudSelect>
+                        <ItemBaseFields Item="RegulationShare" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
+                    <AttributesGrid Item="RegulationShare" Class="pe-attributes-grid pa-2" />
+                </MudTabPanel>
+            </MudTabs>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="RegulationShare" FormValidator="this" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public ViewModel.RegulationShare RegulationShare { get; set; } = new();
+    [Parameter] public List<ClientModel.Tenant> Tenants { get; set; } = [];
+    [Parameter] public Dictionary<ClientModel.Tenant, List<ClientModel.Regulation>> SharedRegulations { get; set; } = [];
+    [Parameter] public Dictionary<ClientModel.Tenant, List<ClientModel.Division>> Divisions { get; set; } = [];
+    [Parameter] public string Culture { get; set; }
+
+    [Inject] private Localizer Localizer { get; set; }
+
+    private List<ClientModel.Regulation> ProviderRegulations { get; set; } = [];
+    private List<ClientModel.Division> ConsumerDivisions { get; set; } = [];
+
+    #region Tenant
+
+    private bool HasProviderTenant() =>
+        RegulationShare.ProviderTenantId != 0;
+
+    private bool HasConsumerTenant() =>
+        HasProviderRegulation() && RegulationShare.ConsumerTenantId != 0;
+
+    private void ProviderTenantChanged(string providerTenantIdentifier)
+    {
+        if (string.Equals(RegulationShare.ProviderTenantIdentifier, providerTenantIdentifier) ||
+            string.Equals(RegulationShare.ConsumerTenantIdentifier, providerTenantIdentifier))
+        {
+            return;
+        }
+
+        var providerTenant = Tenants.FirstOrDefault(x => string.Equals(x.Identifier, providerTenantIdentifier));
+        if (providerTenant == null)
+        {
+            return;
+        }
+
+        RegulationShare.ProviderTenantId = providerTenant.Id;
+        RegulationShare.ProviderTenantIdentifier = providerTenant.Identifier;
+        SetupProviderRegulations(providerTenant);
+        StateHasChanged();
+    }
+
+    private void ConsumerTenantChanged(string consumerTenantIdentifier)
+    {
+        if (string.Equals(RegulationShare.ProviderTenantIdentifier, consumerTenantIdentifier))
+        {
+            return;
+        }
+
+        var consumerTenant = Tenants.FirstOrDefault(x => string.Equals(x.Identifier, consumerTenantIdentifier));
+        if (consumerTenant == null)
+        {
+            return;
+        }
+
+        RegulationShare.ConsumerTenantId = consumerTenant.Id;
+        RegulationShare.ConsumerTenantIdentifier = consumerTenant.Identifier;
+        SetupConsumerDivisions(consumerTenant);
+    }
+
+    #endregion
+
+    #region Division
+
+    private void SetupConsumerDivisions(ClientModel.Tenant tenant) =>
+        ConsumerDivisions = Divisions[tenant];
+
+    private void ConsumerDivisionChanged(string consumerDivisionName)
+    {
+        if (string.Equals(RegulationShare.ConsumerDivisionName, consumerDivisionName))
+        {
+            return;
+        }
+
+        var consumerDivision = ConsumerDivisions.FirstOrDefault(x => string.Equals(x.Name, consumerDivisionName));
+
+        RegulationShare.ConsumerDivisionId = consumerDivision?.Id;
+        RegulationShare.ConsumerDivisionName = consumerDivision?.Name;
+    }
+
+    #endregion
+
+    #region Regulation
+
+    private bool HasProviderRegulation() =>
+        HasProviderTenant() & RegulationShare.ProviderRegulationId != 0;
+
+    private void SetupProviderRegulations(ClientModel.Tenant tenant) =>
+        ProviderRegulations = SharedRegulations[tenant];
+
+    private void ProviderRegulationChanged(string providerRegulationName)
+    {
+        if (string.Equals(RegulationShare.ProviderRegulationName, providerRegulationName))
+        {
+            return;
+        }
+
+        var providerRegulation = ProviderRegulations.FirstOrDefault(x => string.Equals(x.Name, providerRegulationName));
+        if (providerRegulation == null)
+        {
+            return;
+        }
+
+        RegulationShare.ProviderRegulationId = providerRegulation.Id;
+        RegulationShare.ProviderRegulationName = providerRegulation.Name;
+        StateHasChanged();
+    }
+
+    #endregion
+
+    #region Lifecycle
+
+    public async Task<bool> ValidateAsync() =>
+        await form.Revalidate();
+
+    protected override void OnInitialized()
+    {
+        var share = RegulationShare;
+        if (!string.IsNullOrWhiteSpace(share.ConsumerTenantIdentifier))
+        {
+            var customerTenant = Tenants.FirstOrDefault(x => string.Equals(x.Identifier, share.ConsumerTenantIdentifier));
+            if (customerTenant != null)
+            {
+                SetupConsumerDivisions(customerTenant);
+            }
+        }
+
+        base.OnInitialized();
+    }
+
+    #endregion
+
+}

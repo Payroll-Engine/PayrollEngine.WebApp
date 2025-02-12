@@ -15,10 +15,10 @@ public class CaseFieldFactory(Client.Model.Tenant tenant, Client.Model.Payroll p
     private ICaseFieldService CaseFieldService { get; } = caseFieldService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationCaseField>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCaseField>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await PayrollService.GetCaseFieldsAsync<RegulationCaseField>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<List<RegulationCaseField>> QueryPayrollItems() =>
+    public override async Task<List<RegulationCaseField>> QueryPayrollItemsAsync() =>
         await PayrollService.GetCaseFieldsAsync<RegulationCaseField>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationCaseField> caseFields, RegulationCaseField caseField)
@@ -27,14 +27,14 @@ public class CaseFieldFactory(Client.Model.Tenant tenant, Client.Model.Payroll p
         var regulation = Regulations?.FirstOrDefault();
         if (regulation == null)
         {
-            throw new PayrollException("Missing case field regulations");
+            throw new PayrollException("Missing case field regulations.");
         }
 
         // case field
         var @case = caseField.Parent as RegulationCase;
         if (@case == null || @case.Id == 0)
         {
-            throw new PayrollException($"Missing case for case field {caseField.Name}");
+            throw new PayrollException($"Missing case for case field {caseField.Name}.");
         }
 
         // create or update
@@ -59,18 +59,18 @@ public class CaseFieldFactory(Client.Model.Tenant tenant, Client.Model.Payroll p
         var regulation = Regulations?.FirstOrDefault();
         if (regulation == null)
         {
-            throw new PayrollException("Missing case field regulations");
+            throw new PayrollException("Missing case field regulations.");
         }
 
         // case field
         if (caseField.Id <= 0)
         {
-            throw new PayrollException($"Unknown case field {caseField.Name} to delete");
+            throw new PayrollException($"Unknown case field {caseField.Name} to delete.");
         }
         var @case = caseField.Parent as RegulationCase;
         if (@case == null || @case.Id == 0)
         {
-            throw new PayrollException($"Missing case for case field {caseField.Name}");
+            throw new PayrollException($"Missing case for case field {caseField.Name}.");
         }
 
         // delete

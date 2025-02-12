@@ -10,6 +10,5 @@ public interface ICaseValueProvider
     /// Retrieve all case values for given case field
     /// </summary>
     /// <param name="query">Query with additional parameters and filters</param>
-    /// <returns></returns>
     Task<IEnumerable<CaseValueSetup>> GetCaseValuesAsync(CaseValueQuery query);
 }

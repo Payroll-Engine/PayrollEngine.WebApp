@@ -4,6 +4,7 @@ namespace PayrollEngine.WebApp.Presentation;
 
 public class PageInfo
 {
+    // ReSharper disable once MemberCanBePrivate.Global
     public Feature Feature { get; }
     public string PageLink { get; }
     public string PageName { get; }
@@ -32,10 +33,11 @@ public class PageInfo
             throw new ArgumentException(nameof(title));
         }
 
-        if (!pageLink.EndsWith('/'))
+        if (!pageLink.StartsWith('/'))
         {
-            pageLink += "/";
+            pageLink = "/" + pageLink;
         }
+
         Feature = feature;
         PageLink = pageLink;
         PageName = pageName;

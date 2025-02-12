@@ -14,10 +14,10 @@ public class WageTypeFactory(Client.Model.Tenant tenant, Client.Model.Payroll pa
     private IWageTypeService WageTypeService { get; } = wageTypeService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationWageType>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationWageType>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await WageTypeService.QueryAsync<RegulationWageType>(new(Tenant.Id, regulation.Id));
 
-    public override async Task<List<RegulationWageType>> QueryPayrollItems() =>
+    public override async Task<List<RegulationWageType>> QueryPayrollItemsAsync() =>
         await PayrollService.GetWageTypesAsync<RegulationWageType>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationWageType> wageTypes, RegulationWageType wageType)

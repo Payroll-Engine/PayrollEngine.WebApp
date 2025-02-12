@@ -1,0 +1,29 @@
+﻿@using Task = PayrollEngine.WebApp.ViewModel.Task
+
+<MudDialog Style="min-width: 30em;" TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudPaper>
+            <MudStack Class="pa-4" Spacing="1">
+                <MudTextField T="string" Value="Task.Name" Label="@Localizer.Shared.Name" ReadOnly="true" />
+                <MudTextField T="string" Value="Task.Category" Label="@Localizer.Task.Category" ReadOnly="true" />
+                <MudTextField T="string" Value="Task.Instruction" Label="@Localizer.Task.Instruction" Lines="4" ReadOnly="true" />
+                <MudTextField T="DateTime?" Value="Task.Scheduled" Label="@Localizer.Task.ScheduledDate" ReadOnly="true" />
+            </MudStack>
+        </MudPaper>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Complete">@Localizer.Task.Complete</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public Task Task { get; set; } = new();
+    [Inject] private Localizer Localizer { get; set; }
+
+    void Complete() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

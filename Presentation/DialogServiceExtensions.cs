@@ -1,7 +1,7 @@
 ﻿using System;
-using MudBlazor;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.WebApp.Shared;
 
@@ -13,18 +13,32 @@ public static class DialogServiceExtensions
         string title, string message, string yesText = "OK",
         string noText = null, string cancelText = null)
     {
-        var result = await dialogService.ShowMessageBox(title, message, yesText, noText,
-            cancelText);
-        return result == true;
+        var options = new MessageBoxOptions
+        {
+            CancelText = cancelText,
+            YesText = yesText,
+            NoText = noText,
+            Message = message
+        };
+        var parameters = new DialogParameters { { nameof(MessageBoxDialog.Options), options } };
+        var result = await (await dialogService.ShowAsync<MessageBoxDialog>(title, parameters)).Result;
+        return result != null && !result.Canceled;
     }
 
     public static async Task<bool> ShowMessageBoxAsync(this IDialogService dialogService,
         string title, MarkupString message, string yesText = "OK",
         string noText = null, string cancelText = null)
     {
-        var result = await dialogService.ShowMessageBox(title, message, yesText, noText,
-            cancelText);
-        return result == true;
+        var options = new MessageBoxOptions
+        {
+            CancelText = cancelText,
+            YesText = yesText,
+            NoText = noText,
+            MarkupMessage = message
+        };
+        var parameters = new DialogParameters { { nameof(MessageBoxDialog.Options), options } };
+        var result = await (await dialogService.ShowAsync<MessageBoxDialog>(title, parameters)).Result;
+        return result != null && !result.Canceled;
     }
 
     public static async Task<bool> ShowDeleteMessageBoxAsync(this IDialogService dialogService, Localizer localizer,

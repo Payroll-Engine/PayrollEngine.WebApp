@@ -14,10 +14,10 @@ public class CaseRelationFactory(Client.Model.Tenant tenant, Client.Model.Payrol
     private ICaseRelationService CaseRelationService { get; } = caseRelationService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationCaseRelation>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCaseRelation>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await CaseRelationService.QueryAsync<RegulationCaseRelation>(new(Tenant.Id, regulation.Id));
 
-    public override async Task<List<RegulationCaseRelation>> QueryPayrollItems() =>
+    public override async Task<List<RegulationCaseRelation>> QueryPayrollItemsAsync() =>
         await PayrollService.GetCaseRelationsAsync<RegulationCaseRelation>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationCaseRelation> caseRelations, RegulationCaseRelation caseRelation)

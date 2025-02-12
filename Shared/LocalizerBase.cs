@@ -44,7 +44,7 @@ public abstract class LocalizerBase
         {
             throw new ArgumentException(nameof(key));
         }
-        return group == null ? Localizer[key] : Localizer[$"{group}.{key}"];
+        return string.IsNullOrWhiteSpace(group) ? Localizer[key] : Localizer[$"{group}.{key}"];
     }
 
     /// <summary>

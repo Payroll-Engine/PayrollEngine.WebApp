@@ -1,7 +1,9 @@
-﻿<ItemEditor EditContext="EditContext"
+﻿@inherits ItemEditorBase<PayrollEngine.WebApp.ViewModel.RegulationReportTemplate>
+
+<ItemEditor EditContext="EditContext"
+            Validator="this"
             Item="Item"
             Fields="Fields"
             SaveItem="SaveItem"
             DeleteItem="DeleteItem"
             DeriveItem="DeriveItem" />
-

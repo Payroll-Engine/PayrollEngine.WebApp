@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
@@ -9,9 +8,11 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public abstract class CaseChangeValueBackendServiceBase(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer)
-    : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, PayrollCaseChangeQuery>(userSession, httpClientHandler, configuration, localizer)
+public abstract class CaseChangeValueBackendServiceBase(UserSession userSession,
+    PayrollHttpClient httpClient, 
+    Localizer localizer)
+    : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, 
+        PayrollCaseChangeQuery>(userSession, httpClient, localizer)
 {
     protected override bool CanRead()
     {

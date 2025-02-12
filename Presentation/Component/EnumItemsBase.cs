@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using PayrollEngine.WebApp.Shared;
 
@@ -35,9 +34,9 @@ public abstract class EnumItemsBase<T> : ComponentBase where T : struct, Enum
         Values = values;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         SetupItems();
-        await base.OnInitializedAsync();
+        base.OnInitialized();
     }
 }

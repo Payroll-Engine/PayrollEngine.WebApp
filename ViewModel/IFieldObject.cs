@@ -12,11 +12,6 @@ public interface IFieldObject : IVariantValue, IAttributeObject
     string Name { get; }
 
     /// <summary>
-    /// Field culture
-    /// </summary>
-    string Culture { get; }
-
-    /// <summary>
     /// Get the localized name
     /// </summary>
     /// <param name="culture">The culture</param>
@@ -31,9 +26,11 @@ public interface IFieldObject : IVariantValue, IAttributeObject
     string GetLocalizedDescription(CultureInfo culture);
 
     /// <summary>
-    /// The value formatter
+    /// Format value
     /// </summary>
-    public IValueFormatter ValueFormatter { get; }
+    /// <param name="culture">The culture</param>
+    /// <returns>The culture description</returns>
+    string FormatValue(CultureInfo culture = null);
 
     /// <summary>
     /// The lookup settings

@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
-using System.Net.Http;
+﻿#if DEBUG
+#define DEBUG_CONNECTION_BREAK
+#endif
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
@@ -7,13 +8,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using PayrollEngine.Client;
+using PayrollEngine.Document;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
-using PayrollEngine.Document;
 using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Server.Components.Shared;
 using PayrollEngine.WebApp.Presentation.BackendService;
-using PayrollEngine.WebApp.Server.Shared;
-using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Server;
 
@@ -21,32 +22,37 @@ public static class ServiceRegistration
 {
     public static async Task AddAppServicesAsync(this IServiceCollection services, IConfiguration configuration)
     {
-        // http client handler
-        // TODO http client handler by configuration
-        var httpClientHandler = await Task.FromResult(new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
-        });
-        services.AddSingleton(httpClientHandler);
-
         // http client configuration
-        var httpClientConfiguration = await GetHttpClientConfigurationAsync(configuration);
-        services.AddSingleton(httpClientConfiguration);
+        var httpConfiguration = await configuration.GetHttpConfigurationAsync();
+        if (httpConfiguration == null)
+        {
+            throw new PayrollException("Missing Payroll HTTP configuration.");
+        }
+        if (!httpConfiguration.Valid())
+        {
+            throw new PayrollException("Invalid Payroll HTTP configuration.");
+        }
+
+        // http services
+        services.AddSingleton(httpConfiguration);
+
+        // http client
+        var httpClient = await PayrollHttpClientFactory.CreatePayrollHttpClientAsync(configuration);
 
         // http connection
-        var httpClient = new PayrollHttpClient(httpClientHandler, httpClientConfiguration);
-        if (!await httpClient.IsConnectionAvailableAsync())
+        var available = await httpClient.IsConnectionAvailableAsync(TenantApiEndpoints.TenantsUrl());
+        if (!available)
         {
-            var message = $"Payroll Engine connection failed: {httpClient.Address}";
+            var message = $"Payroll Engine backend connection failed: {httpClient.Address}.";
             Log.Critical(message);
 
-#if DEBUG
+#if DEBUG_CONNECTION_BREAK
             // debug break point
-            if (Debugger.IsAttached)
+            if (System.Diagnostics.Debugger.IsAttached)
             {
                 // please start the payroll engine backend server
-                Debug.WriteLine($"!!! {message} !!!");
-                Debugger.Break();
+                System.Diagnostics.Debug.WriteLine($"!!! {message} !!!");
+                System.Diagnostics.Debugger.Break();
             }
 #endif
 
@@ -67,16 +73,24 @@ public static class ServiceRegistration
         var tenantCount = await new TenantService(httpClient).QueryCountAsync(new());
         if (tenantCount < 1)
         {
-            var error = $"No tenants available in payroll service: {httpClient.Address}";
+            var error = $"No tenants available in payroll service: {httpClient.Address}.";
             Log.Critical(error);
-            throw new PayrollException(error);
         }
 
-        // system
+        // web
         services.AddSingleton(httpClient);
+
+        // pages
+        var appConfiguration = configuration.GetConfiguration<AppConfiguration>();
+        var appTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
+
+        services.AddSingleton<IPageService>(new PageService(appTitle));
 
         // theme
         services.AddSingleton<IThemeService>(new ThemeService());
+
+        // downloads
+        services.AddSingleton<IDownloadService>(new DownloadService(appConfiguration.MaxDownloadSize));
 
         // localization
         services.AddTransient<Localizer>();
@@ -196,6 +210,7 @@ public static class ServiceRegistration
 
         // session
         services.AddSingleton(new UserSession(
+            configuration,
             new TenantService(httpClient),
             new DivisionService(httpClient),
             new PayrollService(httpClient),
@@ -210,15 +225,5 @@ public static class ServiceRegistration
 
         // forecast
         services.AddScoped<IForecastHistoryService, ForecastHistoryService>();
-    }
-
-    private static async Task<PayrollHttpConfiguration> GetHttpClientConfigurationAsync(IConfiguration configuration)
-    {
-        var httpConfiguration = await configuration.GetHttpConfigurationAsync();
-        if (httpConfiguration == null)
-        {
-            throw new PayrollException("Missing http configuration");
-        }
-        return httpConfiguration;
     }
 }

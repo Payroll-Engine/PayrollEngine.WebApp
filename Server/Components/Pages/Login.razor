@@ -1,0 +1,203 @@
+﻿@page "/login"
+
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits PageBase;
+
+@* already logged in *@
+@if (Session.UserAvailable)
+{
+    NavigateHome();
+    return;
+}
+
+@* missing backend *@
+@if (Initialized && !BackendAvailable)
+{
+    <ErrorText Message="@Localizer.Login.MissingBackendService" />
+    return;
+}
+
+<div class="d-flex justify-center flex-grow-1">
+    <MudPaper Class="pa-4" Style="min-width: 30em; max-width: 50em; margin-top: 5em; text-align: center">
+
+        @* app icon or text *@
+        @if (!string.IsNullOrWhiteSpace(AppImage))
+        {
+            <img src="@(IsDarkMode ? AppImageDark : AppImage)" style="max-width: 25em" class="py-2" />
+        }
+        else
+        {
+            <MudText Typo="Typo.h4" Align="Align.Center" Class="py-2"
+                     Style="min-width: 8em; width: max-content; width: 100%">
+                @AppTitle
+            </MudText>
+        }
+
+        @* login title *@
+        <MudText Typo="Typo.h5"
+                 Align="Align.Center">
+            @Localizer.Login.Login
+        </MudText>
+
+        <MudForm>
+
+            @* Stage 1: User not selected, display text input for user selection *@
+            @if (LoginState == UserLoginState.InputUser)
+            {
+                <MudTextField T="string" Class="my-4"
+                              Value="@UserIdentifier"
+                              AutoFocus="true"
+                              Label="@Localizer.User.User"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              HelperText="@Localizer.Login.UserHelp"
+                              ValueChanged="UserSelected" />
+
+                @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                {
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
+                    </MudPaper>
+                }
+            }
+
+            @* Stage 2: User is selected and exists, but no tenant is selected *@
+            @if (LoginState == UserLoginState.InputTenant)
+            {
+                <MudTextField T="string" Class="mt-4"
+                              Label="@Localizer.User.User"
+                              ReadOnly="true" Disabled="true"
+                              Value="@UserIdentifier" />
+
+                <MudSelect T="string" Class="my-4"
+                           Value="@TenantIdentifier"
+                           ValueChanged="@TenantSelected"
+                           Label="@Localizer.Tenant.Tenant"
+                           HelperText="@Localizer.Login.TenantHelp">
+                    @foreach (var tenant in GetUserTenants())
+                    {
+                        <MudSelectItem T="string" Value="@tenant.Identifier">@tenant.Identifier</MudSelectItem>
+                    }
+                </MudSelect>
+
+                @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                {
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
+                    </MudPaper>
+                }
+            }
+
+            @* Stage 3: User and tenant exist and are valid. *@
+            @if (LoginState == UserLoginState.SetupPassword)
+            {
+                @* Stage 3.1: No password set for user. Show prompt for new password *@
+                <MudText Typo="Typo.h5">@Localizer.Login.NewPasswordTitle</MudText>
+
+                <MudTextField T="string" Class="mt-4"
+                              Label="@Localizer.User.User"
+                              ReadOnly="true" Disabled="true"
+                              Value="@UserIdentifier" />
+
+                <MudTextField T="string" Class="mt-4"
+                              Label="@Localizer.Tenant.Tenant"
+                              ReadOnly="true" Disabled="true"
+                              Value="@TenantIdentifier" />
+
+                <MudTextField T="string" Class="mt-4"
+                              @bind-Value="@NewPassword"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              Label="@Localizer.User.NewPassword"
+                              HelperText="@Localizer.User.NewPasswordHelp"
+                              InputType="@NewPasswordType"
+                              AutoFocus="true"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@NewPasswordIcon"
+                              OnAdornmentClick="ToggleNewPasswordVisibility"
+                              AdornmentAriaLabel="@Localizer.User.ShowPassword" />
+
+                <MudTextField T="string" Class="mt-4"
+                              @bind-Value="@NewPasswordConfirmation"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              Label="@Localizer.User.NewPasswordRepeat"
+                              HelperText="@Localizer.User.NewPasswordRepeatHelp"
+                              InputType="@PasswordConfirmationType"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@PasswordConfirmationIcon"
+                              OnAdornmentClick="TogglePasswordConfirmationVisibility"
+                              AdornmentAriaLabel="@Localizer.User.ShowPassword" />
+
+                <MudPaper Class="mt-4 pa-4 mud-info">
+                    <MudText Typo="Typo.caption">
+                        @Localizer.Login.PasswordInfo
+                    </MudText>
+                </MudPaper>
+
+                @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                {
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
+                    </MudPaper>
+                }
+
+                <MudButton Color="Color.Primary" Class="my-4"
+                           OnClick="SetInitialPasswordAsync"
+                           Variant="@Globals.ButtonVariant"
+                           Disabled="@(!InitialPasswordAvailable())"
+                           FullWidth="true">
+                    @Localizer.Dialog.Ok
+                </MudButton>
+            }
+
+            @* Stage 3.2: User, tenant and password are available, prompt password and enable login *@
+            @if (LoginState == UserLoginState.InputPassword)
+            {
+                <MudTextField T="string" Class="mt-4"
+                              Label="@Localizer.User.User"
+                              ReadOnly="true" Disabled="true"
+                              Value="@UserIdentifier" />
+
+                <MudTextField T="string" Class="mt-4"
+                              Label="@Localizer.Tenant.Tenant"
+                              ReadOnly="true" Disabled="true"
+                              Value="@TenantIdentifier" />
+
+                <MudTextField T="string" Class="mt-4"
+                              @bind-Value="@UserPassword"
+                              MaxLength="SystemSpecification.KeyTextLength"
+                              Label="@Localizer.Login.Password"
+                              InputType="@PasswordType"
+                              AutoFocus="true"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@PasswordIcon"
+                              OnAdornmentClick="TogglePasswordVisibility"
+                              AdornmentAriaLabel="@Localizer.User.ShowPassword" />
+
+                @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                {
+                    <MudPaper Class="mt-4 pa-4 mud-error">
+                        <MudText Typo="Typo.caption">
+                            @ErrorMessage
+                        </MudText>
+                    </MudPaper>
+                }
+
+                <MudButton Color="Color.Tertiary"
+                           OnClick="LoginAsync"
+                           Class="my-4"
+                           Disabled="@(!LoginAvailable())"
+                           Variant="@Globals.ButtonVariant"
+                           FullWidth="true">
+                    @Localizer.Login.Login
+                </MudButton>
+            }
+
+        </MudForm>
+    </MudPaper>
+</div>

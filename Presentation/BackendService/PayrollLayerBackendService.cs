@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -10,11 +9,10 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class PayrollLayerBackendService(
     UserSession userSession,
-    HttpClientHandler httpClientHandler,
-    PayrollHttpConfiguration configuration,
+    PayrollHttpClient httpClient,
     Localizer localizer)
-    : BackendServiceBase<PayrollLayerService, PayrollServiceContext, PayrollLayer, Query>(userSession,
-        httpClientHandler, configuration, localizer)
+    : BackendServiceBase<PayrollLayerService, PayrollServiceContext, PayrollLayer, Query>(
+        userSession, httpClient, localizer)
 {
     /// <summary>The current request context</summary>
     protected override PayrollServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)

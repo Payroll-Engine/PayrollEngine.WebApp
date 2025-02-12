@@ -1,0 +1,63 @@
+﻿@page "/payruns"
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits EditItemPageBase<Payrun, Query, Dialogs.PayrunDialog>
+
+@* missing feature *@
+@if (!HasFeature(Feature.Payruns))
+{
+    NavigateHome();
+    return;
+}
+@* busy indicator *@
+@if (IsLoading)
+{
+    <PageBusyIndicator Title="@Localizer.Payrun.Payruns" />
+    return;
+}
+
+<ItemPageActions PageActions="this" Title="@Localizer.Payrun.Payruns" />
+
+<MudDataGrid @ref="ItemsGrid"
+             T="Payrun"
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true"
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.PayrollName" Sortable="false" Title="@Localizer.Payroll.Payroll"
+                        Filterable="false" ShowFilterIcon="false" />
+        <PropertyColumn Property="x => x.DefaultReason" Title="@Localizer.Payrun.DefaultReason" />
+        <PropertyColumn Property="x => x.RetroTimeType" Title="@Localizer.Payrun.RetroTimeType">
+            <FilterTemplate>
+                <EnumFilter TItem="Payrun" TEnum="RetroTimeType" Column="@nameof(Payrun.RetroTimeType)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
+            <CellTemplate>
+                @Localizer.Enum(context.Item.RetroTimeType)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <ItemActionsColumn T="Payrun" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Payrun" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
+    </PagerContent>
+</MudDataGrid>

@@ -1,0 +1,12 @@
+﻿@if (string.IsNullOrWhiteSpace(Url))
+{
+    return;
+}
+<a href="@Url" target="_blank" and rel="noopener noreferrer">@(Text ?? Url)</a>
+
+@code {
+    [Parameter]
+    public string Url { get; set; }
+    [Parameter]
+    public string Text { get; set; }
+}

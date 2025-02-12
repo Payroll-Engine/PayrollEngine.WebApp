@@ -8,7 +8,7 @@ namespace PayrollEngine.WebApp.Presentation.Component;
 
 public partial class LocalizationsDialog
 {
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
     [Parameter]
     public string LocalizationBase { get; set; }
     [Parameter]
@@ -41,7 +41,7 @@ public partial class LocalizationsDialog
             { nameof(LocalizationDialog.MaxLength), MaxLength }
         };
 
-        // localization create dialog
+        // localization add dialog
         var dialog = await (await DialogService.ShowAsync<LocalizationDialog>(
             Localizer.Item.AddTitle(Localizer.Localization.Localization), parameters)).Result;
         if (dialog == null || dialog.Canceled)
@@ -100,7 +100,7 @@ public partial class LocalizationsDialog
         Localizations[editLocalization.Key] = editLocalization.Value;
     }
 
-    protected async Task DeleteLocalizationAsync(KeyValuePair<string, string> localization)
+    private async Task RemoveLocalizationAsync(KeyValuePair<string, string> localization)
     {
         // readonly or existing
         if (ReadOnly || !Localizations.ContainsKey(localization.Key))
@@ -111,13 +111,13 @@ public partial class LocalizationsDialog
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(Localizer.Localization.Localization),
-                Localizer.Item.DeleteQuery(localization.Key)))
+                Localizer.Item.RemoveTitle(Localizer.Localization.Localization),
+                Localizer.Item.RemoveQuery(localization.Key)))
         {
             return;
         }
 
-        // delete localization
+        // remove localization
         Localizations.Remove(localization.Key);
     }
 

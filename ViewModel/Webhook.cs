@@ -26,11 +26,11 @@ public class Webhook : Client.Model.Webhook, IViewModel, IViewAttributeObject, I
 
     /// <inheritdoc />
     public decimal GetNumericAttribute(string name) =>
-        Attributes?.GetDecimalAttributeValue(name) ?? default;
+        Attributes?.GetDecimalAttributeValue(name) ?? 0;
 
     /// <inheritdoc />
     public bool GetBooleanAttribute(string name) =>
-        Attributes?.GetBooleanAttributeValue(name) ?? default;
+        Attributes?.GetBooleanAttributeValue(name) ?? false;
 
     #endregion
 

@@ -27,8 +27,8 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     [JsonIgnore]
     private CultureInfo TenantCulture { get; }
 
-    [JsonIgnore]
-    public IValueFormatter ValueFormatter { get; }
+    [JsonIgnore] 
+    private IValueFormatter ValueFormatter { get; }
 
     public CaseFieldSet(Client.Model.CaseFieldSet copySource, ICaseValueProvider caseValueProvider,
         IValueFormatter valueFormatter, CultureInfo tenantCulture, Localizer localizer) :
@@ -98,6 +98,20 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     public string GetLocalizedDescription(CultureInfo culture) =>
         culture.Name.GetLocalization(DescriptionLocalizations, Description);
 
+    public string FormatValue(CultureInfo culture = null)
+    {
+        // priority 1: object culture
+        if (!string.IsNullOrWhiteSpace(Culture))
+        {
+            culture = new CultureInfo(Culture);
+        }
+        // priority 2: parameter culture
+        // priority 3: system culture
+        culture ??= CultureInfo.CurrentCulture;
+
+        return ValueFormatter.ToString(Value, ValueType, culture);
+    }
+
     #region Case Value
 
     /// <summary>
@@ -124,7 +138,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             }
             start = value;
             HasStart = start.HasValue;
-            OnFieldChangedAsync().Wait();
+            OnFieldChanged();
         }
     }
 
@@ -165,7 +179,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
                 }
                 end = value;
                 HasEnd = end.HasValue;
-                OnFieldChangedAsync().Wait();
+                OnFieldChanged();
             }
         }
     }
@@ -202,7 +216,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             var lineCount = Attributes.GetLineCount(TenantCulture);
             if (lineCount > 1)
             {
-                return new(ValueFormatter.ToString(Value, ValueType, TenantCulture).Replace("\n", "<br />"));
+                return new(FormatValue(TenantCulture).Replace("\n", "<br />"));
             }
 
             // lookup display text
@@ -221,7 +235,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             {
                 return new();
             }
-            return new($"<a href=\"{Value}\" target=\"_blank\">{Value}</a>");
+            return new(HtmlTool.BuildWebLink(address));
         }
 
         // money
@@ -230,12 +244,22 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             var valueAsDecimal = ValueAsDecimal;
             if (valueAsDecimal.HasValue)
             {
-                return new(ValueFormatter.ToString(Value, ValueType, TenantCulture));
+                return new(FormatValue(TenantCulture));
+            }
+        }
+
+        // percent
+        if (ValueType == ValueType.Percent)
+        {
+            var valueAsPercent = ValueAsPercent;
+            if (valueAsPercent.HasValue)
+            {
+                return new(FormatValue(TenantCulture));
             }
         }
 
         // other values
-        return new(ValueFormatter.ToString(Value, ValueType, TenantCulture));
+        return new(FormatValue(TenantCulture));
     }
 
     /// <summary>Gets or sets the has value</summary>
@@ -264,10 +288,20 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         return HasStart;
     }
 
-    public AsyncEvent<CaseFieldSet> FieldChanged { get; set; }
+    /// <summary>
+    /// Event handler on filed change
+    /// </summary>
+    public AsyncEvent<CaseFieldSet> FieldChanged;
 
     /// <summary>
-    /// Updates the edit status
+    /// Updates the edit status sync
+    /// </summary>
+    /// <returns><c>true</c> if the edit status has been changed</returns>
+    private void OnFieldChanged() =>
+        System.Threading.Tasks.Task.Run(OnFieldChangedAsync);
+
+    /// <summary>
+    /// Updates the edit status sync
     /// </summary>
     /// <returns><c>true</c> if the edit status has been changed</returns>
     private async System.Threading.Tasks.Task OnFieldChangedAsync()
@@ -350,7 +384,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             {
                 stringValue = value;
                 HasValue = value != null && !string.Empty.Equals(value);
-                OnFieldChangedAsync().Wait();
+                OnFieldChanged();
             }
         }
     }
@@ -367,7 +401,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             {
                 dateTimeValue = value;
                 HasValue = dateTimeValue.HasValue;
-                OnFieldChangedAsync().Wait();
+                OnFieldChanged();
             }
         }
     }
@@ -384,7 +418,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             {
                 integerValue = value;
                 HasValue = integerValue.HasValue;
-                OnFieldChangedAsync().Wait();
+                OnFieldChanged();
             }
         }
     }
@@ -401,7 +435,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             {
                 decimalValue = value;
                 HasValue = decimalValue.HasValue;
-                OnFieldChangedAsync().Wait();
+                OnFieldChanged();
             }
         }
     }
@@ -426,7 +460,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             {
                 booleanValue = value;
                 HasValue = booleanValue.HasValue;
-                OnFieldChangedAsync().Wait();
+                OnFieldChanged();
             }
         }
     }
@@ -455,11 +489,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     #region History
 
-    private List<CaseValueSetup> historyValues;
-    public List<CaseValueSetup> HistoryValues =>
-        historyValues ??= System.Threading.Tasks.Task.Run(LoadHistoryValues).Result;
-
-    private async System.Threading.Tasks.Task<List<CaseValueSetup>> LoadHistoryValues()
+    public async System.Threading.Tasks.Task<List<CaseValueSetup>> LoadHistoryValuesAsync()
     {
         // query
         var query = new CaseValueQuery();
@@ -475,7 +505,6 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     /// <param name="query">The query to be updated with new filter</param>
     /// <param name="field">Filter field name</param>
     /// <param name="value">Filter value</param>
-    /// <returns></returns>
     private static void AppendFilter(Query query, string field, string value)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -566,10 +595,4 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     /// <returns>True for objects with the same data</returns>
     public bool Equals(IViewModel compare) =>
         Equals(compare as CaseFieldSet);
-
-    //public void Dispose()
-    //{
-    //    LookupFields?.Dispose();
-    //    Lookups?.Dispose();
-    //}
 }

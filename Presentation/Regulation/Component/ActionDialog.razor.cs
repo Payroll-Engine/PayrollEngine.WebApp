@@ -11,7 +11,7 @@ namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
 public partial class ActionDialog
 {
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
 
     [Parameter]
     public RegulationEditContext EditContext { get; set; }
@@ -157,7 +157,7 @@ public partial class ActionDialog
         // ensure expression/action field
         if (!Field.IsAction)
         {
-            throw new PayrollException($"Field {Field.PropertyName} has no actions");
+            throw new PayrollException($"Field {Field.PropertyName} has no actions.");
         }
 
         // actions

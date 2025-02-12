@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
@@ -26,6 +26,8 @@ public partial class FileBox : IRegulationInput
 
     [Inject]
     private IUserNotificationService UserNotification { get; set; }
+    [Inject] 
+    private IDownloadService DownloadService { get; set; }
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
@@ -34,6 +36,9 @@ public partial class FileBox : IRegulationInput
     private bool ClearDisabled() =>
         Item.IsReadOnlyField(Field) || string.IsNullOrWhiteSpace(Value);
     private bool UploadDisabled() => Item.IsReadOnlyField(Field);
+
+    private string BorderStyle =>
+        Field.Required && string.IsNullOrWhiteSpace(Value) ? "border-color: red" : string.Empty;
 
     #region Upload
 
@@ -61,7 +66,7 @@ public partial class FileBox : IRegulationInput
 
         try
         {
-            await using var stream = file.OpenReadStream();
+            await using var stream = file.OpenReadStream(DownloadService.MaxAllowedSize);
             using var memoryStream = new MemoryStream();
             await stream.CopyToAsync(memoryStream);
 
@@ -143,7 +148,6 @@ public partial class FileBox : IRegulationInput
         // notifications
         await ValueChangedAsync(null);
         UpdateState();
-        await UserNotification.ShowSuccessAsync(Localizer.Document.DocumentRemoved);
     }
 
     #endregion

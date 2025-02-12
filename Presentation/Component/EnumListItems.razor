@@ -3,5 +3,6 @@
 
 @foreach (var value in Values)
 {
-    <MudListItem Value="@value.Value">@value.Label</MudListItem>
+    @* Use the enum name as list item value *@
+    <MudListItem T="string" Value="Enum.GetName(value.Value)">@value.Label</MudListItem>
 }

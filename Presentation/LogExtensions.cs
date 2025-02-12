@@ -1,7 +1,8 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
+using System.Globalization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace PayrollEngine.WebApp.Presentation;
@@ -10,13 +11,23 @@ public static class LogExtensions
 {
     private const LogLevel SystemInfoLogEventLevel = LogLevel.Information;
 
-    public static void UseLog(this IHostApplicationLifetime appLifetime, 
-        IApplicationBuilder appBuilder, IHostEnvironment environment)
+    public static void UseHostLog(this IApplicationBuilder builder)
     {
+        var appLifetime = builder.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
+        if (appLifetime == null)
+        {
+            return;
+        }
+        var environment = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
+        if (environment == null)
+        {
+            return;
+        }
+
         // started
         appLifetime.ApplicationStarted.Register(() =>
         {
-            Log.Information($"{environment.ApplicationName} started on the URL {GetApplicationAddress(appBuilder)}.");
+            Log.Information($"{environment.ApplicationName} started on the URL {GetApplicationAddress(builder)}.");
             if (Log.IsEnabled(SystemInfoLogEventLevel))
             {
                 Log.Write(SystemInfoLogEventLevel, $"Current culture: {CultureInfo.CurrentCulture}");

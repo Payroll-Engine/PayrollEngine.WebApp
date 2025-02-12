@@ -158,7 +158,7 @@ public partial class TextBox : IRegulationInput
         }
 
         var existingLocalizations = GetItemLocalizations();
-        if (CompareTool.EqualDictionaries((IDictionary<string, string>)localizations, existingLocalizations))
+        if (CompareTool.EqualDictionaries<string, string>(localizations, existingLocalizations))
         {
             return;
         }

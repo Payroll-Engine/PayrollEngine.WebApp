@@ -25,8 +25,7 @@ public static class FieldObjectExtensions
             var lineCount = fieldObject.Attributes.GetLineCount(culture);
             if (lineCount > 1)
             {
-                return new(fieldObject.ValueFormatter
-                    .ToString(fieldObject.Value, fieldObject.ValueType, culture).Replace("\n", "<br />"));
+                return new(fieldObject.FormatValue(culture).Replace("\n", "<br />"));
             }
 
             // lookup display text
@@ -45,7 +44,7 @@ public static class FieldObjectExtensions
             {
                 return new();
             }
-            return new($"<a href=\"{fieldObject.Value}\" target=\"_blank\">{fieldObject.Value}</a>");
+            return new(HtmlTool.BuildWebLink(address));
         }
 
         // money
@@ -54,12 +53,21 @@ public static class FieldObjectExtensions
             var valueAsDecimal = fieldObject.ValueAsDecimal;
             if (valueAsDecimal.HasValue)
             {
-                return new(fieldObject.ValueFormatter.ToString(fieldObject.Value, fieldObject.ValueType, culture));
+                return new(fieldObject.FormatValue(culture));
+            }
+        }
+
+        // percent
+        if (fieldObject.ValueType == ValueType.Percent)
+        {
+            var valueAsPercent = fieldObject.ValueAsPercent;
+            if (valueAsPercent.HasValue)
+            {
+                return new(fieldObject.FormatValue(culture));
             }
         }
 
         // other values
-        return new(fieldObject.ValueFormatter.ToString(fieldObject.Value, fieldObject.ValueType, culture));
+        return new(fieldObject.FormatValue(culture));
     }
-
 }

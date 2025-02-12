@@ -5,7 +5,6 @@ using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation.Regulation.Factory;
 using PayrollEngine.WebApp.ViewModel;
 using Payroll = PayrollEngine.Client.Model.Payroll;
-using Task = System.Threading.Tasks.Task;
 using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
@@ -20,27 +19,30 @@ internal class LookupBrowser : ItemBrowserBase
     }
 
     private ItemCollection<RegulationLookup> lookups;
-    private LookupFactory lookupFactory;
     private ILookupService LookupService { get; }
+    private LookupFactory lookupFactory;
+    internal LookupFactory LookupFactory => lookupFactory ??=
+        new(Tenant, Payroll, Regulations, PayrollService, LookupService);
 
-    internal override void Reset()
+    internal ItemCollection<RegulationLookup> Lookups => 
+        lookups ??= LoadLookups();
+    internal override async Task<bool> SaveAsync(IRegulationItem item) =>
+        await LookupFactory.SaveItem(lookups, item as RegulationLookup);
+    internal override async Task<IRegulationItem> DeleteAsync(IRegulationItem item) =>
+        await LookupFactory.DeleteItem(lookups, item as RegulationLookup);
+
+    protected override void OnContextChanged()
     {
         lookups = null;
         lookupFactory = null;
     }
 
-    internal ItemCollection<RegulationLookup> Lookups => lookups ??= LoadLookups();
-    internal LookupFactory LookupFactory => lookupFactory ??=
-        new(Tenant, Payroll, Regulations, PayrollService, LookupService);
-    internal override async Task<bool> SaveAsync(IRegulationItem item) =>
-        await LookupFactory.SaveItem(lookups, item as RegulationLookup);
-
-    internal override async Task<IRegulationItem> DeleteAsync(IRegulationItem item) =>
-        await LookupFactory.DeleteItem(lookups, item as RegulationLookup);
-
     protected override void OnDispose() =>
         lookups?.Dispose();
 
-    private ItemCollection<RegulationLookup> LoadLookups() =>
-        new(Task.Run(LookupFactory.LoadPayrollItems).Result);
+    private ItemCollection<RegulationLookup> LoadLookups()
+    {
+        var items = System.Threading.Tasks.Task.Run(LookupFactory.LoadPayrollItemsAsync).Result;
+        return new ItemCollection<RegulationLookup>(items);
+    }
 }

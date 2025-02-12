@@ -1,7 +1,7 @@
 ﻿@inherits FieldEditorBase
 
 <MudStack Row="true" Spacing="0" Style="width: 100%">
-    <MudDatePicker @bind-Date="@Field.ValueAsDateTime"
+    <MudDatePicker @bind-Date="@Date"
                    DateFormat="@DateFormat"
                    Culture="@Culture"
                    Editable="true"
@@ -26,34 +26,59 @@
 </MudStack>
 
 @code {
-
     private string DateFormat { get; set; }
     private string TimeFormat { get; set; }
     private DateTime? MinValue { get; set; }
     private DateTime? MaxValue { get; set; }
     private OpenTo OpenTo { get; set; }
 
+    private DateTime? Date
+    {
+        get => Field.ValueAsDateTime?.Date;
+        set
+        {
+            if (value == null)
+            {
+                // reset date and time
+                Field.ValueAsDateTime = null;
+            }
+            else
+            {
+                var existing = Field.ValueAsDateTime;
+                if (existing == null)
+                {
+                    Field.ValueAsDateTime = value;
+                    return;
+                }
+
+                // keep time
+                Field.ValueAsDateTime = value.Value.Add(existing.Value.TimeOfDay);
+            }
+        }
+    }
+
     private TimeSpan? Time
     {
         get => Field.ValueAsDateTime?.TimeOfDay;
         set
         {
+            var existing = Field.ValueAsDateTime;
             if (value == null)
             {
-                if (Field.ValueAsDateTime.HasValue)
-                {
-                    Field.ValueAsDateTime = Field.ValueAsDateTime.Value.Date;
-                }
+                // keep date
+                Field.ValueAsDateTime = existing?.Date;
             }
             else
             {
-                if (Field.ValueAsDateTime.HasValue)
+                if (existing == null)
                 {
-                    Field.ValueAsDateTime = Field.ValueAsDateTime.Value.Date + value;
+                    // time of today
+                    Field.ValueAsDateTime = DateTime.Today + value;
                 }
                 else
                 {
-                    Field.ValueAsDateTime = DateTime.Today + value;
+                    // keep date
+                    Field.ValueAsDateTime = existing.Value.Date + value;
                 }
             }
         }

@@ -85,7 +85,7 @@ public partial class CaseList : IRegulationInput
     /// <remarks>The case request needs to be synchronously,
     /// otherwise the rendering interrupts the sequence</remarks>
     /// </summary>
-    private async Task LoadCases()
+    private async Task LoadCasesAsync()
     {
         var cases = await PayrollService.GetCasesAsync<RegulationCase>(
             new(EditContext.Tenant.Id, EditContext.Payroll.Id));
@@ -121,7 +121,7 @@ public partial class CaseList : IRegulationInput
         lastItem = Item;
         // The case request needs to be synchronously,
         // otherwise the rendering interrupts the sequence
-        await Task.Run(LoadCases);
+        await LoadCasesAsync();
         ApplyFieldValue();
         await UpdateStateAsync();
         await base.OnInitializedAsync();

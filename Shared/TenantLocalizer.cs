@@ -9,4 +9,6 @@ public class TenantLocalizer(IStringLocalizerFactory factory) : LocalizerBase(fa
     public string NotAvailable => PropertyValue();
     public string CultureHelp => PropertyValue();
     public string CalendarHelp => PropertyValue();
+    public string UserTenant(string tenant) =>
+        FormatValue(PropertyValue(), nameof(tenant), tenant);
 }

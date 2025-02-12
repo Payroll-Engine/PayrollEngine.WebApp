@@ -133,7 +133,7 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    private async Task DeleteDataRelationAsync(DataRelation item)
+    private async Task RemoveDataRelationAsync(DataRelation item)
     {
         if (item == null)
         {
@@ -149,8 +149,8 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(Localizer.Report.Relation),
-                Localizer.Item.DeleteQuery(item.Name)))
+                Localizer.Item.RemoveTitle(Localizer.Report.Relation),
+                Localizer.Item.RemoveQuery(item.Name)))
         {
             return;
         }

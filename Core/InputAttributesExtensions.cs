@@ -157,6 +157,9 @@ public static class InputAttributesExtensions
     public static bool? GetCheck(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetBooleanAttributeValue(InputAttributes.Check, culture.Name);
 
+    public static bool? GetValueHistory(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.ValueHistory, culture.Name);
+
     // no value picker type: the case field value-type pre defines the picker type
 
     #endregion
@@ -202,7 +205,7 @@ public static class InputAttributesExtensions
             }
             catch (Exception exception)
             {
-                throw new PayrollException($"Invalid json list selection {selection}", exception);
+                throw new PayrollException($"Invalid json list selection {selection}.", exception);
             }
         }
         return default;
@@ -224,7 +227,7 @@ public static class InputAttributesExtensions
                 }
                 catch (Exception exception)
                 {
-                    throw new PayrollException($"Invalid json list value {item}", exception);
+                    throw new PayrollException($"Invalid json list value {item}.", exception);
                 }
             }
         }
@@ -257,7 +260,7 @@ public static class InputAttributesExtensions
         }
         catch (JsonException exception)
         {
-            throw new PayrollException($"Invalid json list: {value}", exception);
+            throw new PayrollException($"Invalid json list: {value}.", exception);
         }
     }
 

@@ -40,7 +40,10 @@ public partial class ReportTemplateEditor
             },
             new(nameof(RegulationReportTemplate.Culture), typeof(TextBox))
             {
-                Label = Localizer.Shared.Culture
+                Label = Localizer.Shared.Culture,
+                Required = true,
+                RequiredError = Localizer.Error.RequiredField(Localizer.Shared.Culture),
+                MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationReportTemplate.Content), typeof(FileBox))
             {
@@ -50,24 +53,35 @@ public partial class ReportTemplateEditor
             },
             new(nameof(RegulationReportTemplate.ContentType), typeof(TextBox))
             {
-                Label = Localizer.Shared.Description
+                Label = Localizer.ReportTemplate.ContentType,
+                MaxLength = SystemSpecification.KeyTextLength
             },
             new(nameof(RegulationReportTemplate.Schema), typeof(FileBox))
             {
-                Label = Localizer.Shared.Description
+                Label = Localizer.ReportTemplate.Schema
             },
             new(nameof(RegulationReportTemplate.Resource), typeof(TextBox))
             {
-                Label = Localizer.Shared.Name,
+                Label = Localizer.ReportTemplate.Resource,
                 MaxLength = SystemSpecification.ResourceTextLength
             },
             new(nameof(RegulationReportTemplate.OverrideType), typeof(EnumListBox<OverrideType>))
             {
-                Label = Localizer.Shared.Description
+                Label = Localizer.Shared.OverrideType
             },
             new(nameof(RegulationReportTemplate.Attributes), null)
         };
         Fields = fields;
+    }
+
+    protected override string OnValidate(RegulationReportTemplate template)
+    {
+        if (string.IsNullOrWhiteSpace(template.Content))
+        {
+            return Localizer.ReportTemplate.MissingContentError;
+        }
+
+        return null;
     }
 
     protected override async Task OnInitializedAsync()

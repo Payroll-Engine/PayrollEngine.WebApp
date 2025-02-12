@@ -22,7 +22,6 @@ public class PayrollLayer : Client.Model.PayrollLayer, IKeyEquatable<PayrollLaye
     /// Compare order by level and priority
     /// </summary>
     /// <param name="compare">The layer to compare</param>
-    /// <returns></returns>
     public bool IsLowerLayerOrder(PayrollLayer compare) =>
         Level < compare.Level ||
         Level == compare.Level && Priority < compare.Priority;

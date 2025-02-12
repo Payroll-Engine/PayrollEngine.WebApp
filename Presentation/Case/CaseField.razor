@@ -2,75 +2,49 @@
 
 @inherits PayrollEngine.WebApp.Presentation.Component.MainComponentBase
 
+@if (Field == null)
+{
+    return;
+}
+
 <MudStack Spacing="0" Class="pt-4">
 
     @* field header *@
     <div class="d-flex">
 
         @* field name *@
-        <MudTooltip Delay="500" Text="@Field.GetLocalizedDescription(Culture)" Placement="Placement.Top">
+        <MudTooltip Delay="1000" Text="@Field.GetLocalizedDescription(Culture)" Placement="Placement.Top">
             <MudText Class="pr-4">@Field.GetLocalizedName(Culture)</MudText>
         </MudTooltip>
 
         @* field actions *@
         <div class="d-flex flex-grow-1 justify-end">
 
-            @* case change history *@
-            @if (HistoryValuesAvailable)
+            @* change history *@
+            @if (UseChangeHistory && VisibleChangeHistory)
             {
-                <MudTooltip Delay="500" Placement="Placement.Top">
-                    <ChildContent>
-                        <MudIcon Color="Color.Primary"
-                                 Class="mx-1"
-                                 Icon="@Icons.Material.Outlined.History" />
-                    </ChildContent>
-                    <TooltipContent>
-                        <MudStack Class="pa-2">
-                            <MudText Typo="Typo.h5" Align="Align.Start">@Localizer.Case.ChangeHistory</MudText>
-                            <table>
-                                <tr>
-                                    <th style="text-align: left">@Localizer.Shared.Start</th>
-                                    <th style="text-align: left">@Localizer.Shared.End</th>
-                                    <th style="text-align: right">@Localizer.Shared.Value</th>
-                                </tr>
-                                @foreach (var historyValue in Field.HistoryValues)
-                                {
-                                    <tr>
-                                        <td>
-                                            <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
-                                                @historyValue.Start?.ToCompactString()
-                                            </MudText>
-                                        </td>
-                                        <td>
-                                            <MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">
-                                                @historyValue.End?.ToCompactString()
-                                            </MudText>
-                                        </td>
-                                        <td>
-                                            <MudText Typo="Typo.body2" Align="Align.End">
-                                                @Field.ValueFormatter.ToString(historyValue.Value, historyValue.ValueType, Culture)
-                                            </MudText>
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
-                        </MudStack>
-                    </TooltipContent>
+                <MudTooltip Delay="1000" Text="@Localizer.Case.ChangeHistory" Placement="Placement.Top">
+                    <MudIconButton @onclick="@ViewChangeHistoryAsync"
+                                   Color="@(ChangeHistoryAvailable ? Color.Tertiary : Color.Primary)"
+                                   Variant="@Globals.ButtonVariant"
+                                   Style="zoom: 0.8"
+                                   Icon="@Icons.Material.Sharp.History"
+                                   Size="Size.Small" />
                 </MudTooltip>
             }
 
             @* attachments *@
             @if (AttachmentsSupported)
             {
-                <MudTooltip Delay="500" Text="@Localizer.CaseField.FieldDocuments" Placement="Placement.Top">
-                    @* attachment color: missing mandatory (error), available (tertiary) and empty (primary) *@
+                @* attachment color: missing mandatory (error), available (tertiary) and empty (primary) *@
+                <MudTooltip Delay="1000" Text="@Localizer.CaseField.FieldDocuments" Placement="Placement.Top">
                     <MudIconButton @onclick="@(() => EditAttachmentsAsync(Field))"
                                    Color="@(!AttachmentsValid ?
                                           Color.Error :
                                           AttachmentsAvailable ?
                                               Color.Tertiary :
                                               Color.Primary)"
-                                   Variant="Variant.Outlined"
+                                   Variant="@Globals.ButtonVariant"
                                    Class="ml-2"
                                    Style="zoom: 0.8"
                                    Icon="@Icons.Material.Filled.AttachFile"
@@ -117,7 +91,7 @@
         </div>
 
         @* field end *@
-        <div class="pl-4" style="width: 25%; align-self: flex-end;">
+        <div class="pl-8" style="width: 25%; align-self: flex-end;">
             @if (Field.EndAvailable())
             {
                 var pickerType = Field.Attributes.GetEndPickerType(Culture);

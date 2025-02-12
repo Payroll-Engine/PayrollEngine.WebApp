@@ -47,7 +47,7 @@ public static class RegulationItemTypeExtensions
             case RegulationItemType.LookupValue:
                 return RegulationItemType.Lookup;
             default:
-                throw new PayrollException($"Regulation item type {itemType} has no parent");
+                throw new PayrollException($"Regulation item type {itemType} has no parent.");
         }
     }
 

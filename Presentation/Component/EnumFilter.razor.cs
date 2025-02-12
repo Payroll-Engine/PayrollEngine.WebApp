@@ -32,13 +32,17 @@ public class EnumFilterBase<T, TEnum> : ComponentBase
     protected void CloseFilter() =>
         FilterOpen = false;
 
-    protected async Task SelectFilter(object value)
+    protected async Task SelectFilterAsync(object value)
     {
-        var enumValues = Enum.GetValues<TEnum>();
-        selection = enumValues.Any(x => Equals(x, value));
+        if (!(value is string stringValue))
+        {
+            return;
+        }
+
+        selection = Enum.GetNames<TEnum>().Any(x => Equals(x, stringValue));
         if (selection)
         {
-            selectedValue = enumValues.First(x => Equals(x, value));
+            selectedValue = Enum.Parse<TEnum>(stringValue);
             filterDefinition.Value = selectedValue;
             await Context.Actions.ApplyFilterAsync(filterDefinition);
         }
@@ -74,7 +78,7 @@ public class EnumFilterBase<T, TEnum> : ComponentBase
                 filterDefinition = new()
                 {
                     Column = column,
-                    Operator = "equals",
+                    Operator = FilterOperator.Enum.Is,
                     Title = Column
                 };
             }

@@ -14,10 +14,10 @@ public class ScriptFactory(Client.Model.Tenant tenant, Client.Model.Payroll payr
     private IScriptService ScriptService { get; } = scriptService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationScript>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationScript>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await ScriptService.QueryAsync<RegulationScript>(new(Tenant.Id, regulation.Id));
 
-    public override async Task<List<RegulationScript>> QueryPayrollItems() =>
+    public override async Task<List<RegulationScript>> QueryPayrollItemsAsync() =>
         await PayrollService.GetScriptsAsync<RegulationScript>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationScript> scripts, RegulationScript script)

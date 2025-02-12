@@ -1,0 +1,60 @@
+﻿<TemplateColumn T="ViewModel.Task" ShowColumnOptions="false"
+                ShowFilterIcon="false" Sortable="false">
+    <HeaderTemplate>
+        <MudStack Row="true" Spacing="0" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+            <MudTooltip Delay="1000" Text="@Localizer.Item.Create" Placement="Placement.Top">
+                <MudIconButton @onclick="@ActionOperator.CreateItemAsync"
+                               Color="Color.Tertiary"
+                               Variant="@Globals.ButtonVariant"
+                               Icon="@Icons.Material.Filled.PostAdd"
+                               Size="Size.Small" />
+            </MudTooltip>
+        </MudStack>
+    </HeaderTemplate>
+    <FilterTemplate>
+    </FilterTemplate>
+    <CellTemplate>
+        <MudStack Row="true" Spacing="0" Class="gap-2">
+            <MudTooltip Delay="1000" Text="@Localizer.Item.Delete" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ActionOperator.DeleteItemAsync(context.Item))"
+                               Color="Color.Secondary"
+                               Variant="@Globals.ButtonVariant"
+                               Icon="@Icons.Material.Filled.Delete"
+                               Size="Size.Small" />
+            </MudTooltip>
+            @if (!context.Item.Completed.HasValue)
+            {
+                <MudTooltip Delay="1000" Text="@Localizer.Task.Complete" Placement="Placement.Top">
+                    <MudIconButton @onclick="@(() => ActionOperator.CompleteItemAsync(context.Item))"
+                               Color="Color.Info"
+                               Variant="@Globals.ButtonVariant"
+                               Icon="@Icons.Material.Filled.Check"
+                               Size="Size.Small" />
+                </MudTooltip>
+            }
+            @foreach (var instructionLink in context.Item.InstructionLinks)
+            {
+                <MudTooltip Delay="1000" Text="@instructionLink.Item3" Placement="Placement.Top">
+                    <MudIconButton Href="@instructionLink.Item2"
+                               Target="_blank"
+                               Color="Color.Info"
+                               Variant="@Globals.ButtonVariant"
+                               Icon="@Icons.Material.Filled.Link"
+                               Size="Size.Small" />
+                </MudTooltip>
+            }
+            <MudTooltip Delay="1000" Text="@Localizer.Item.Edit" Placement="Placement.Top">
+                <MudIconButton @onclick="@(() => ActionOperator.EditItemAsync(context.Item))"
+                               Color="Color.Primary"
+                               Variant="@Globals.ButtonVariant"
+                               Icon="@Icons.Material.Filled.Edit"
+                               Size="Size.Small" />
+            </MudTooltip>
+        </MudStack>
+    </CellTemplate>
+</TemplateColumn>
+
+@code {
+    [Parameter] public ITaskOperator<ViewModel.Task> ActionOperator { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
+}

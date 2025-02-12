@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text.Json;
+using System.Globalization;
+using System.Collections.Generic;
+using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using MudBlazor;
@@ -15,6 +16,10 @@ namespace PayrollEngine.WebApp.Presentation.Component;
 
 public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisposable
 {
+    // access to the main layout (see https://stackoverflow.com/a/66477564)
+    [CascadingParameter]
+    public MainComponentBase Layout { get; set; }
+
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
     [Inject]
@@ -28,9 +33,14 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     [Inject]
     protected Localizer Localizer { get; set; }
     [Inject]
+    protected IJSRuntime JsRuntime { get; set; }
+
+    [Inject]
     private ILogService LogService { get; set; }
     [Inject]
-    private IThemeService ThemeService { get; set; }
+    private IPageService PageService { get; set; }
+    [Inject]
+    protected IThemeService ThemeService { get; set; }
 
     protected IValueFormatter ValueFormatter => Session.ValueFormatter;
 
@@ -98,18 +108,20 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// <summary>
     /// The working tenant
     /// </summary>
-    protected CultureInfo TenantCulture
+    protected CultureInfo TenantCulture => GetTenantCulture(Tenant);
+
+    /// <summary>
+    /// Get tenant culture
+    /// </summary>
+    protected static CultureInfo GetTenantCulture(Tenant tenant)
     {
-        get
+        var culture = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.InvariantCulture;
+        if (!string.IsNullOrWhiteSpace(tenant?.Culture) &&
+            !string.Equals(culture.Name, tenant.Culture))
         {
-            var culture = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.InvariantCulture;
-            if (!string.IsNullOrWhiteSpace(Tenant?.Culture) &&
-                !string.Equals(culture.Name, Tenant.Culture))
-            {
-                culture = new CultureInfo(Tenant.Culture);
-            }
-            return culture;
+            culture = new CultureInfo(tenant.Culture);
         }
+        return culture;
     }
 
     /// <summary>
@@ -125,12 +137,13 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// <summary>
     /// Handler fot tenant change
     /// </summary>
-    protected virtual async Task OnTenantChangedAsync()
+    protected virtual Task OnTenantChangedAsync()
     {
         if (WorkingItems.TenantAvailable())
         {
-            await StateHasChangedAsync();
+            StateHasChanged();
         }
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -205,12 +218,13 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// Payroll changed handler
     /// </summary>
     /// <param name="payroll">The new payroll</param>
-    protected virtual async Task OnPayrollChangedAsync(Payroll payroll)
+    protected virtual Task OnPayrollChangedAsync(Payroll payroll)
     {
         if (WorkingItems.PayrollAvailable())
         {
-            await StateHasChangedAsync();
+            StateHasChanged();
         }
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -237,12 +251,13 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// Employee changed handler
     /// </summary>
     /// <param name="employee">The new employee</param>
-    protected virtual async Task OnEmployeeChangedAsync(Employee employee)
+    protected virtual Task OnEmployeeChangedAsync(Employee employee)
     {
         if (WorkingItems.EmployeeAvailable())
         {
-            await StateHasChangedAsync();
+            StateHasChanged();
         }
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -405,7 +420,43 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
 
     #endregion
 
+    #region Page Title
+
+    private async Task UpdateTitleAsync()
+    {
+        // page name
+        var name = new Uri(NavigationManager.Uri).Segments.Last();
+        if (string.IsNullOrWhiteSpace(name) || name == "/")
+        {
+            return;
+        }
+        name = name.EnsureStart("/");
+
+        // page
+        var pages = PageService.GetPages(Localizer);
+        if (pages == null || !pages.Any())
+        {
+            return;
+        }
+        var page = pages.FirstOrDefault(
+                x => string.Equals(x.PageLink, name, StringComparison.InvariantCultureIgnoreCase));
+
+        // title
+        var title = page == null ? name : page.Title;
+        var baseLabel = PageService.BaseLabel;
+        if (!string.IsNullOrWhiteSpace(baseLabel))
+        {
+            title = $"{baseLabel} - {title}";
+        }
+        await JsRuntime.InvokeVoidAsync("JsFunctions.setDocumentTitle", title);
+    }
+
+    #endregion
+
     #region Lifecycle
+
+    protected bool IsLoading { get; private set; }
+    protected bool Initialized { get; private set; }
 
     private async Task TenantChangedEvent(object sender, Tenant tenant) =>
         await OnTenantChangedAsync();
@@ -416,24 +467,67 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     private async Task EmployeeChangedEvent(object sender, ViewModel.Employee employee) =>
         await OnEmployeeChangedAsync(employee);
 
-    // see https://stackoverflow.com/questions/56477829/how-to-fix-the-current-thread-is-not-associated-with-the-renderers-synchroniza
-    // answer: https://stackoverflow.com/a/60353701
-    private async Task StateHasChangedAsync()
-    {
-        await InvokeAsync(StateHasChanged);
-    }
+    protected virtual Task OnPageInitializedAsync() => Task.CompletedTask;
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
+        IsLoading = true;
+        try
+        {
+            // working items
+            if (User != null)
+            {
+                Layout.WorkingItems = WorkingItems;
+            }
 
-        // register state change handler
-        Session.TenantChanged += TenantChangedEvent;
-        Session.PayrollChanged += PayrollChangedEvent;
-        Session.EmployeeChanged += EmployeeChangedEvent;
+            // register state change handler
+            Session.TenantChanged += TenantChangedEvent;
+            Session.PayrollChanged += PayrollChangedEvent;
+            Session.EmployeeChanged += EmployeeChangedEvent;
 
-        // working items
-        await Session.SetWorkingItemsAsync(WorkingItems);
+            // derived initialization
+            await OnPageInitializedAsync();
+            await base.OnInitializedAsync();
+
+            Initialized = true;
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await UserNotification.ShowErrorMessageBoxAsync(
+                Localizer,
+                Localizer.Error.Error,
+                exception.GetBaseMessage());
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    protected virtual Task OnPageAfterRenderAsync(bool firstRender) => Task.CompletedTask;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                await UpdateTitleAsync();
+            }
+
+            // derived render
+            await OnPageAfterRenderAsync(firstRender);
+            await base.OnAfterRenderAsync(firstRender);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await UserNotification.ShowErrorMessageBoxAsync(
+                Localizer,
+                Localizer.Error.Error,
+                exception.GetBaseMessage());
+        }
     }
 
     void IDisposable.Dispose()

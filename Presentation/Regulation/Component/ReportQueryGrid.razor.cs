@@ -142,7 +142,7 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    private async Task DeleteQueryAsync(ReportQuery item)
+    private async Task RemoveQueryAsync(ReportQuery item)
     {
         if (item == null)
         {
@@ -158,8 +158,8 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(Localizer.ReportQuery.ReportQuery),
-                Localizer.Item.DeleteQuery(item.Name)))
+                Localizer.Item.RemoveTitle(Localizer.ReportQuery.ReportQuery),
+                Localizer.Item.RemoveQuery(item.Name)))
         {
             return;
         }

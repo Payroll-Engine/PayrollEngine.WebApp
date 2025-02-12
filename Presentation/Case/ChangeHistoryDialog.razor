@@ -1,0 +1,46 @@
+﻿@using System.Globalization
+@using PayrollEngine.WebApp.Shared
+@using PayrollEngine.WebApp.ViewModel
+
+<MudDialog TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudDataGrid T="CaseValueSetup" Items="@History">
+            <Columns>
+                <PropertyColumn Property="x => x.Start" Title="@Localizer.Shared.Start">
+                    <CellTemplate>
+                        @context.Item.Start?.ToCompactString()
+                    </CellTemplate>
+                </PropertyColumn>
+                <PropertyColumn Property="x => x.End" Title="@Localizer.Shared.End">
+                    <CellTemplate>
+                        @context.Item.End?.ToCompactString()
+                    </CellTemplate>
+                </PropertyColumn>
+                <PropertyColumn Property="x => x.Value" Title="@Localizer.Shared.Value">
+                    <CellTemplate>
+                        @Field.FormatValue(Culture)
+                    </CellTemplate>
+                </PropertyColumn>
+            </Columns>
+            <NoRecordsContent>
+                @Localizer.Attribute.NotAvailable
+            </NoRecordsContent>
+        </MudDataGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Close">@Localizer.Dialog.Close</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<CaseValueSetup> History { get; set; }
+    [Parameter] public CaseFieldSet Field { get; set; }
+    [Parameter] public CultureInfo Culture { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
+
+    private void Close() => MudDialog.Cancel();
+
+}

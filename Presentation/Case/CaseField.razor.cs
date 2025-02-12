@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
@@ -25,10 +25,45 @@ public partial class CaseField
     [Inject]
     private Localizer Localizer { get; set; }
 
-    #region Change history
+    #region Change History
 
-    private bool HistoryValuesAvailable =>
-        Field.HistoryValues != null && Field.HistoryValues.Any();
+    private bool UseChangeHistory { get; set; } = true;
+    private bool VisibleChangeHistory => !ChangeHistoryLoaded || ChangeHistoryAvailable;
+    private bool ChangeHistoryLoaded { get; set; }
+    private bool ChangeHistoryAvailable { get; set; }
+
+    private void InitChangeHistory()
+    {
+        var userHistory = Field.Attributes.GetValueHistory(Culture);
+        UseChangeHistory = userHistory ?? true;
+    }
+
+    private async Task ViewChangeHistoryAsync()
+    {
+        // load history values
+        var history = await Field.LoadHistoryValuesAsync();
+        ChangeHistoryLoaded = true;
+        ChangeHistoryAvailable = history.Any();
+
+        // no history
+        if (!ChangeHistoryLoaded)
+        {
+            await UserNotificationService.ShowMessageBoxAsync(
+                Localizer,
+                Localizer.CaseField.CaseField,
+                Localizer.CaseField.EmptyChangeHistory);
+            return;
+        }
+
+        // history dialog
+        var parameters = new DialogParameters
+        {
+            { nameof(ChangeHistoryDialog.History), history },
+            { nameof(ChangeHistoryDialog.Field), Field },
+            { nameof(ChangeHistoryDialog.Culture), Culture }
+        };
+        await DialogService.ShowAsync<ChangeHistoryDialog>(Localizer.CaseField.ChangeHistory, parameters);
+    }
 
     #endregion
 
@@ -70,12 +105,22 @@ public partial class CaseField
 
         // dialog
         var dialog = await (await DialogService.ShowAsync<CaseDocumentsDialog<CaseDocument>>(
-            "Case field documents", parameters)).Result;
+            Localizer.CaseField.CaseFieldDocuments, parameters)).Result;
         if (dialog == null || dialog.Canceled)
         {
             return;
         }
         StateHasChanged();
+    }
+
+    #endregion
+
+    #region Lifecycle
+
+    protected override void OnInitialized()
+    {
+        InitChangeHistory();
+        base.OnInitialized();
     }
 
     #endregion

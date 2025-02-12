@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -11,10 +10,18 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class RegulationShareBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer,
-        ITenantService tenantService, IRegulationService regulationService, IDivisionService divisionService)
-    : BackendServiceBase<RegulationShareService, RootServiceContext, RegulationShare, Query>(userSession, httpClientHandler, configuration, localizer)
+/// <summary>
+/// Regulation share backend service
+/// </summary>
+/// <remarks>Tenant authentication is disabled</remarks>
+public class RegulationShareBackendService(UserSession userSession,
+    PayrollHttpClient httpClient,
+    Localizer localizer,
+    ITenantService tenantService,
+    IRegulationService regulationService,
+    IDivisionService divisionService)
+    : BackendServiceBase<RegulationShareService, RootServiceContext, RegulationShare, Query>(
+        userSession, httpClient, localizer, disabledAuthorization: true)
 {
     private ITenantService TenantService { get; } = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
     private IRegulationService RegulationService { get; } = regulationService ?? throw new ArgumentNullException(nameof(regulationService));
@@ -30,7 +37,7 @@ public class RegulationShareBackendService(UserSession userSession, HttpClientHa
 
 
     public async Task ApplyShareAsync(RegulationShare share, IDictionary<string, object> parameters = null) =>
-        await ApplyShareAsync(new[] { share }, parameters);
+        await ApplyShareAsync([share], parameters);
 
     private async Task ApplyShareAsync(IEnumerable<RegulationShare> shares, IDictionary<string, object> parameters = null)
     {

@@ -1,0 +1,134 @@
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
+
+<MudDialog Style="min-width: 30em;" TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
+                    <MudStack Class="pa-4" Spacing="1">
+                        <MudSelect T="string" @bind-Value="PayrollLayer.RegulationName"
+                                   Label="@Localizer.Regulation.Regulation"
+                                   Disabled="@(RegulationNames == null || RegulationNames.Count < 1)"
+                                   Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Regulation.Regulation)">
+                            @foreach (var name in RegulationNames)
+                            {
+                                <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudTooltip Delay="1000" Text="@Localizer.PayrollLayer.NextLevelHelp" 
+                                    RootStyle="width: 100%"  Placement="Placement.Top">
+                            <MudNumericField T="int" @bind-Value="PayrollLayer.Level"
+                                             Label="@Localizer.PayrollLayer.Level"
+                                             HelperText="@Localizer.PayrollLayer.DefaultLevel"
+                                             Min="1"
+                                             Adornment="Adornment.End"
+                                             AdornmentIcon="@Icons.Material.Filled.ArrowUpward"
+                                             OnAdornmentClick="SetNextFreeLevel"
+                                             Validation="@(new Func<int, string>(ValidateLevel))" />
+                        </MudTooltip>
+                        <MudTooltip Delay="1000" Text="@Localizer.PayrollLayer.NextPriorityHelp" 
+                                    RootStyle="width: 100%" Placement="Placement.Top">
+                            <MudNumericField T="int" @bind-Value="PayrollLayer.Priority"
+                                             Label="@Localizer.PayrollLayer.Priority"
+                                             Min="1"
+                                             Adornment="Adornment.End"
+                                             AdornmentIcon="@Icons.Material.Filled.ArrowUpward"
+                                             OnAdornmentClick="SetNextFreePriority"
+                                             Validation="@(new Func<int, string>(ValidatePriority))"
+                                             Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.PayrollLayer.Priority)" />
+                        </MudTooltip>
+                        <ItemBaseFields Item="PayrollLayer" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
+                    <AttributesGrid Item="PayrollLayer" Class="pe-attributes-grid pa-2" />
+                </MudTabPanel>
+            </MudTabs>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="PayrollLayer" FormValidator="this" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public PayrollLayer PayrollLayer { get; set; } = new();
+    [Parameter] public List<PayrollLayer> PayrollLayers { get; set; }
+    [Parameter] public List<string> RegulationNames { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
+
+    public async Task<bool> ValidateAsync() =>
+        await form.Revalidate();
+
+    private string ValidateLevel(int level) =>
+        level <= 0 ? Localizer.PayrollLayer.RuleLevelMin : null;
+
+    private string ValidatePriority(int priority) =>
+        priority <= 0 ? Localizer.PayrollLayer.RulePriorityMin : null;
+
+    private bool HasLevel => PayrollLayer.Level > 0;
+
+    /// <summary>
+    /// Set the payroll layer level to the next free number, the priority may change also
+    /// </summary>
+    private void SetNextFreeLevel()
+    {
+        var maxLevel = GetMaxLevel();
+        PayrollLayer.Level = maxLevel + 1;
+
+        // update priority
+        SetNextFreePriority();
+    }
+
+    /// <summary>
+    /// Get the highest level, zero on missing level
+    /// </summary>
+    /// <remarks>Ignore the editing payroll layer</remarks>
+    /// <returns>Highest level or zero</returns>
+    private int GetMaxLevel() => PayrollLayers
+        .Where(layer => layer != PayrollLayer)
+        .MaxBy(layer => layer.Level)?.Level ?? 0;
+
+    /// <summary>
+    /// Set the payroll layer priority to the next free number
+    /// </summary>
+    private void SetNextFreePriority()
+    {
+        // level is required
+        if (!HasLevel)
+        {
+            return;
+        }
+
+        var maxPriority = GetMaxPriority();
+        PayrollLayer.Priority = maxPriority + 1;
+    }
+
+    /// <summary>
+    /// Get the highest level priority, zero on missing level
+    /// </summary>
+    /// <remarks>Ignore the editing payroll layer</remarks>
+    /// <returns>Highest priority or zero</returns>
+    private int GetMaxPriority()
+    {
+        // level is required
+        if (!HasLevel)
+        {
+            return 0;
+        }
+
+        // level layers
+        var levelLayers = PayrollLayers
+            .Where(layer => layer != PayrollLayer)
+            .Where(layer => layer.Level == PayrollLayer.Level);
+
+        // max priority or zero
+        return levelLayers.MaxBy(layer => layer.Priority)?.Priority ?? 0;
+    }
+}

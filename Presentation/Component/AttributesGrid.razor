@@ -1,5 +1,9 @@
-﻿<MudDataGrid @ref="Grid" T="AttributeItem" Items="@Attributes"
-             Height="@Height" Class="@Class" Style="@Style">
+﻿<MudDataGrid @ref="Grid" 
+             T="AttributeItem"
+             Items="@Attributes"
+             Height="@Height"
+             Class="@Class" 
+             Style="@Style">
     <Columns>
         <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
         <PropertyColumn Property="x => x.ValueType" Title="@Localizer.Shared.ValueType" />
@@ -8,9 +12,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="@Localizer.Item.AddHelp(LocalizedItemName)" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.AddHelp(LocalizedItemName)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddAttributeAsync"
-                                       Color="Color.Tertiary" Variant="Variant.Outlined"
+                                       Color="Color.Tertiary" 
+                                       Variant="@Globals.ButtonVariant"
                                        Icon="@Icons.Material.Filled.Add"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -19,15 +24,18 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteHelp(LocalizedItemName)" Placement="Placement.Top">
-                        <MudIconButton @onclick="@(() => DeleteAttributeAsync(context.Item))"
-                                       Color="Color.Secondary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveHelp(LocalizedItemName)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => RemoveAttributeAsync(context.Item))"
+                                       Color="Color.Secondary" 
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.Remove" Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="@Localizer.Item.EditHelp(LocalizedItemName)" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.EditHelp(LocalizedItemName)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditAttributeAsync(context.Item))"
-                                       Color="Color.Primary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                                       Color="Color.Primary"
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.Edit"
+                                       Size="Size.Small" />
                     </MudTooltip>
                 </MudStack>
             </CellTemplate>

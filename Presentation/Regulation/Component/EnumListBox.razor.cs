@@ -67,7 +67,7 @@ public partial class EnumListBox<T> : IRegulationInput
         }
         if (value != null && !value.GetType().IsEnum)
         {
-            throw new PayrollException($"Invalid value {value} for enum {typeof(T).Name}");
+            throw new PayrollException($"Invalid value {value} for enum {typeof(T).Name}.");
         }
         Value = value != null ? (T)value : default(T);
     }
@@ -87,7 +87,7 @@ public partial class EnumListBox<T> : IRegulationInput
         }
         if (!type.IsEnum)
         {
-            throw new PayrollException($"Invalid enum field {Field.PropertyName}");
+            throw new PayrollException($"Invalid enum field {Field.PropertyName}.");
         }
         return type;
     }

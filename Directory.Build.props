@@ -1,16 +1,17 @@
 <Project>
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<Version>0.8.0-beta.2</Version>
-		<FileVersion>0.8.0</FileVersion>
+		<TargetFramework>net9.0</TargetFramework>
+		<Version>0.9.0-beta.1</Version>
+		<FileVersion>0.9.0</FileVersion>
 		<InformationalVersion></InformationalVersion>
 		<Authors>Jani Giannoudis</Authors>
 		<Company>Software Consulting Giannoudis</Company>
-		<Copyright>2023 Software Consulting Giannoudis</Copyright>
+		<Copyright>2025 Software Consulting Giannoudis</Copyright>
 		<Product>Payroll Engine Web Application</Product>
 		<PackageProjectUrl>https://payrollengine.org/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Payroll-Engine/PayrollEngine.WebApp.git</RepositoryUrl>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -5,14 +5,9 @@
            Culture="@Culture"
            Color="Color.Primary"
            Label="@ValueLabel"
+           LabelPlacement="Placement.Start"
            Error="@Error"
            Disabled="@Disabled"
            ReadOnly="@ReadOnly"
            Required="@Required"
            RequiredError="@ValueRequiredError" />
-
-@code
-{
-    [Parameter]
-    public LabelPosition LabelPosition { get; set; } = LabelPosition.Start;
-}

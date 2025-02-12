@@ -55,7 +55,11 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
     private void ApplyFieldValue()
     {
         CaseSlots.Clear();
-        CaseSlots.AddRange(FieldValue);
+        var fieldValue = FieldValue;
+        if (fieldValue != null)
+        {
+            CaseSlots.AddRange(fieldValue);
+        }
         StateHasChanged();
     }
 
@@ -99,7 +103,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
         // existing
         var existing = CaseSlots.FirstOrDefault(x => string.Equals(x.Name, item.Name));
-        if (existing != null)
+        if (existing == null)
         {
             return;
         }
@@ -128,7 +132,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    private async Task DeleteCaseSlotAsync(CaseSlot item)
+    private async Task RemoveCaseSlotAsync(CaseSlot item)
     {
         if (item == null)
         {
@@ -137,7 +141,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
         // existing
         var existing = CaseSlots.FirstOrDefault(x => string.Equals(x.Name, item.Name));
-        if (existing != null)
+        if (existing == null)
         {
             return;
         }
@@ -145,8 +149,8 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(Localizer.CaseSlot.CaseSlot),
-                Localizer.Item.DeleteQuery(item.Name)))
+                Localizer.Item.RemoveTitle(Localizer.CaseSlot.CaseSlot),
+                Localizer.Item.RemoveQuery(item.Name)))
         {
             return;
         }
@@ -162,21 +166,21 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
     private IRegulationItem lastObject;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         lastObject = Item;
         ApplyFieldValue();
-        await base.OnInitializedAsync();
+        base.OnInitialized();
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         if (lastObject != Item)
         {
             lastObject = Item;
             ApplyFieldValue();
         }
-        await base.OnParametersSetAsync();
+        base.OnParametersSet();
     }
 
     public void Dispose()

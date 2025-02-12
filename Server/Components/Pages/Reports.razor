@@ -1,0 +1,106 @@
+﻿@page "/reports"
+
+@using PayrollEngine.WebApp
+@using PayrollEngine.WebApp.Presentation.Component
+@using PayrollEngine.WebApp.ViewModel
+
+@inherits PageBase
+
+@* missing feature *@
+@if (!HasFeature(Feature.Reports))
+{
+    NavigateHome();
+    return;
+}
+@* busy indicator *@
+@if (IsLoading)
+{
+    <PageBusyIndicator Title="@Localizer.Report.Reports" />
+    return;
+}
+@* missing payroll *@
+@if (!HasPayroll)
+{
+    <MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.Report.Reports</MudText>
+    <ErrorText Message="@Localizer.App.SelectPayroll" />
+    return;
+}
+
+@* title *@
+<MudText Typo="Typo.h5" Class=" pt-8">@Localizer.Report.Reports</MudText>
+
+@* clusters and grid actions *@
+<div class="d-flex pb-2 pt-2">
+
+    @* report clusters *@
+    @if (HasClusters)
+    {
+        <MudStack Row="true" Spacing="0" Class="d-flex align-center gap-4">
+            <MudChipSet T="string" SelectionMode="SelectionMode.SingleSelection" SelectedValue="SelectedCluster"
+                        SelectedValueChanged="SelectedClusterChanged" Class="pa-0">
+                @foreach (var cluster in Clusters)
+                {
+                    <MudChip Text="@cluster"
+                             Default="@string.Equals(cluster, ClusterAll)"
+                             Variant="@Globals.ButtonVariant" SelectedColor="Color.Primary" />
+                }
+            </MudChipSet>
+        </MudStack>
+    }
+
+    <div class="d-flex flex-grow-1 justify-end align-end">
+        <MudTooltip Delay="1000" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
+            <MudIconButton @onclick="@ResetFilterAsync"
+                           Color="Color.Primary" 
+                           Variant="@Globals.ButtonVariant"
+                           Icon="@Icons.Material.Filled.FilterAltOff"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+        <MudTooltip Delay="1000" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+            <MudIconButton @onclick="@ExcelDownloadAsync"
+                           Color="Color.Primary" 
+                           Variant="@Globals.ButtonVariant"
+                           Icon="@Icons.Custom.FileFormats.FileExcel"
+                           Class="ml-2"
+                           Size="Size.Small" />
+        </MudTooltip>
+    </div>
+</div>
+
+@* reports grid *@
+<MudDataGrid @ref="ReportsGrid" 
+             T="ReportSet"
+             Items="AvailableReports"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             Filterable="true"
+             Groupable="false"
+             Hideable="false"
+             ShowColumnOptions="false"
+             SortMode="SortMode.Multiple">
+    <Columns>
+        <PropertyColumn Property="x => x.GetLocalizedName(PageCulture.Name)" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.Description" Title="@Localizer.Shared.Description" />
+        <PropertyColumn Property="x => x.Category" Title="@Localizer.Report.Category" />
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <CustomColumns T="ReportSet" Columns="ColumnConfiguration" />
+        <ReportActionsColumn ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="ReportSet" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
+    </PagerContent>
+    <NoRecordsContent>
+        @Localizer.Report.NotAvailable
+    </NoRecordsContent>
+</MudDataGrid>

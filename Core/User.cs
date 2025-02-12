@@ -45,6 +45,7 @@ public class User : Client.Model.User
         {
             EnsureAttributes();
             var values = FeaturesToCsv(value);
+            Attributes ??= new();
             Attributes.SetMemberAttributeValue(values);
         }
     }

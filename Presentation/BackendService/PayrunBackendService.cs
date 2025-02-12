@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
@@ -12,12 +11,11 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class PayrunBackendService(
     UserSession userSession,
-    HttpClientHandler httpClientHandler,
-    PayrollHttpConfiguration configuration,
+    PayrollHttpClient httpClient,
     Localizer localizer,
     IPayrollService payrollService)
-    : BackendServiceBase<PayrunService, TenantServiceContext, ViewModel.Payrun, Query>(userSession, httpClientHandler,
-        configuration, localizer)
+    : BackendServiceBase<PayrunService, TenantServiceContext, ViewModel.Payrun, Query>(
+        userSession, httpClient, localizer)
 {
     private IPayrollService PayrollService { get; } = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
 
@@ -30,7 +28,7 @@ public class PayrunBackendService(
         new(HttpClient);
 
     public async Task ApplyPayrollAsync(ViewModel.Payrun payrun) =>
-        await ApplyPayrollAsync(new[] { payrun });
+        await ApplyPayrollAsync([payrun]);
 
     private async Task ApplyPayrollAsync(IEnumerable<ViewModel.Payrun> payruns)
     {

@@ -1,19 +1,27 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Model;
+using PayrollEngine.Client.Service;
 using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Component;
 
-public abstract class EditItemPageBase<TItem, TQuery, TDialog>
-    (WorkingItems workingItems) : ItemPageBase<TItem, TQuery>(workingItems), IItemOperator<TItem>
-    where TItem : class, IModel, IKeyEquatable<TItem>, new()
-    where TQuery : Query, new()
-    where TDialog : ComponentBase
+public abstract class EditItemPageBase<TItem, TQuery, TDialog>(WorkingItems workingItems,
+    bool useCalendar = false) :
+    ItemPageBase<TItem, TQuery>(workingItems), IItemOperator<TItem>
+        where TItem : class, IModel, IKeyEquatable<TItem>, new()
+        where TQuery : Query, new()
+        where TDialog : ComponentBase
 {
+    [Inject]
+    private ICalendarService CalendarService { get; set; }
+
+    private bool UseCalendar { get; } = useCalendar;
+
     #region Model Operations
 
     protected static string ItemTypeName =>
@@ -24,11 +32,17 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
 
     protected virtual bool AddItemTenantParameter => true;
 
-    public virtual async Task AddItemAsync()
+    /// <summary>
+    /// Get the tenant of the edit item, by default is this the working tenant
+    /// </summary>
+    /// <remarks>This method should be overriden while editing tenants</remarks>
+    protected virtual Tenant GetItemTenant(ItemOperation operation, TItem item) => Tenant;
+
+    public virtual async Task CreateItemAsync()
     {
         // dialog parameters
         var parameters = new DialogParameters();
-        if (!await SetupDialogParametersAsync<TItem>(parameters, ItemOperation.Create, null))
+        if (!await SetupDialogParametersAsync(parameters, ItemOperation.Create, null))
         {
             return;
         }
@@ -36,6 +50,8 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
         // create
         try
         {
+            // item tenant
+            var itemTenant = GetItemTenant(ItemOperation.Create, null);
 
             // ensure tenant parameter
             if (AddItemTenantParameter && IsDialogParameter(nameof(Tenant)))
@@ -43,7 +59,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
                 var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
                 if (tenant == null)
                 {
-                    parameters.Add(nameof(Tenant), Tenant);
+                    parameters.Add(nameof(Tenant), itemTenant);
                 }
             }
 
@@ -53,12 +69,22 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
                 var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
                 if (culture == null)
                 {
-                    parameters.Add(nameof(Tenant.Culture), TenantCulture);
+                    parameters.Add(nameof(Tenant.Culture), GetTenantCulture(itemTenant));
                 }
             }
 
+            // ensure calendar names parameter
+            if (UseCalendar)
+            {
+                var calendars = await CalendarService.QueryAsync<Calendar>(new(itemTenant.Id));
+                var calendarNames = calendars.Select(x => x.Name).ToList();
+                parameters.Add(nameof(calendarNames), calendarNames);
+            }
+
             // dialog
-            var dialog = await (await DialogService.ShowAsync<TDialog>(Localizer.Item.AddTitle(ItemTypeUiName), parameters)).Result;
+            var dialog = await (await DialogService.ShowAsync<TDialog>(
+                title: Localizer.Item.CreateTitle(ItemTypeUiName),
+                parameters: parameters)).Result;
             if (dialog == null || dialog.Canceled)
             {
                 return;
@@ -87,7 +113,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
             Items.Add(createdItem);
 
             // notification
-            await UserNotification.ShowInformationAsync(Localizer.Item.Added(ItemTypeUiName));
+            await UserNotification.ShowInformationAsync(Localizer.Item.Created(ItemTypeUiName));
         }
         catch (Exception exception)
         {
@@ -109,7 +135,6 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
         // update
         try
         {
-
             // existing
             var existing = await GetItemAsync(item.Id);
             if (existing == null)
@@ -117,6 +142,9 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
                 await UserNotification.ShowErrorAsync(Localizer.Error.UnknownItem(ItemTypeUiName, item));
                 return;
             }
+
+            // item tenant
+            var itemTenant = GetItemTenant(ItemOperation.Edit, item);
 
             // dialog parameters
             var parameters = new DialogParameters {
@@ -134,7 +162,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
                 var tenant = parameters.TryGet<Tenant>(nameof(Tenant));
                 if (tenant == null)
                 {
-                    parameters.Add(nameof(Tenant), Tenant);
+                    parameters.Add(nameof(Tenant), itemTenant);
                 }
             }
 
@@ -144,14 +172,22 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
                 var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
                 if (culture == null)
                 {
-                    parameters.Add(nameof(Tenant.Culture), TenantCulture);
+                    parameters.Add(nameof(Tenant.Culture), GetTenantCulture(itemTenant));
                 }
+            }
+
+            // ensure calendar names parameter
+            if (UseCalendar)
+            {
+                var calendars = await CalendarService.QueryAsync<Calendar>(new(itemTenant.Id));
+                var calendarNames = calendars.Select(x => x.Name).ToList();
+                parameters.Add(nameof(calendarNames), calendarNames);
             }
 
             // dialog
             var title = Localizer.Item.EditTitle(ItemTypeUiName);
 
-            var dialog =  await (await DialogService.ShowAsync<TDialog>(title, parameters)).Result;
+            var dialog = await (await DialogService.ShowAsync<TDialog>(title, parameters)).Result;
             if (dialog == null || dialog.Canceled)
             {
                 await RefreshServerDataAsync();
@@ -200,9 +236,9 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
 
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
-                Localizer,
-                Localizer.Item.DeleteTitle(ItemTypeUiName),
-                Localizer.Item.DeleteQuery(item.GetUiString())))
+                localizer: Localizer,
+                title: Localizer.Item.DeleteTitle(ItemTypeUiName),
+                message: Localizer.Item.DeleteMarkupQuery(item.GetUiString())))
         {
             return;
         }
@@ -244,8 +280,8 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
     /// <param name="operation">The item operation</param>
     /// <param name="item">The edit item</param>
     /// <returns>True for valid dialog parameters</returns>
-    protected virtual Task<bool> SetupDialogParametersAsync<T>(DialogParameters parameters, 
-        ItemOperation operation, T item) =>
+    protected virtual Task<bool> SetupDialogParametersAsync(DialogParameters parameters,
+        ItemOperation operation, TItem item) =>
         Task.FromResult(true);
 
     /// <summary>
@@ -257,4 +293,5 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>
         Task.FromResult(true);
 
     #endregion
+
 }

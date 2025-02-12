@@ -94,7 +94,7 @@ public partial class ActionGrid : IDisposable
         };
 
 
-        // attribute create dialog
+        // attribute add dialog
         var dialog = await (await DialogService.ShowAsync<ActionDialog>(
             Localizer.Item.AddTitle(Localizer.Action.Action), parameters)).Result;
         if (dialog == null || dialog.Canceled)
@@ -167,7 +167,7 @@ public partial class ActionGrid : IDisposable
         await SetFieldValue();
     }
 
-    private async Task DeleteActionAsync(ActionItem action)
+    private async Task RemoveActionAsync(ActionItem action)
     {
         if (action == null)
         {
@@ -183,8 +183,8 @@ public partial class ActionGrid : IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(Localizer.Action.Action),
-                Localizer.Item.DeleteQuery(action.Action)))
+                Localizer.Item.RemoveTitle(Localizer.Action.Action),
+                Localizer.Item.RemoveQuery(action.Action)))
         {
             return;
         }

@@ -1,6 +1,6 @@
 ﻿@using PayrollEngine.WebApp.Shared
 
-<MudDialog style="min-width: 40em">
+<MudDialog style="min-width: 40em" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudPaper Class="pa-4 mb-2" Elevation="4">
             <MudForm @ref="form">
@@ -20,7 +20,7 @@
                         }
                     </MudSelect>
                     <MudTextField T="string" Label="@Localizer.Localization.Localization"
-                    @bind-Value="LocalizationValue"
+                                  @bind-Value="LocalizationValue"
                                   MaxLength="@MaxLength"
                                   Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Localization.Localization)" />
                 </MudStack>
@@ -29,8 +29,8 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -38,8 +38,7 @@
 @code {
     MudForm form;
 
-    [CascadingParameter]
-    MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public string LocalizationBase { get; set; }
     [Parameter] public IDictionary<string, string> Localizations { get; set; }
     [Parameter] public KeyValuePair<string, string> Localization { get; set; }

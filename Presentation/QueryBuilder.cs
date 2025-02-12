@@ -121,7 +121,7 @@ public class QueryBuilder<TQuery, TModel>
         var parameter = QueryParameters.Parameters.FirstOrDefault(x => x.Keys.Contains(whereFilter.Operator));
         if (parameter == null)
         {
-            throw new ArgumentException($"Unknown filter operator {whereFilter.Operator}");
+            throw new ArgumentException($"Unknown filter operator {whereFilter.Operator}.");
         }
 
         // value

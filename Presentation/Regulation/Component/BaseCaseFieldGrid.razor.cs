@@ -74,11 +74,11 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
     {
         // dialog parameters
         var parameters = new DialogParameters
-        {
-            { nameof(BaseCaseFieldsDialog.BaseCaseFields), BaseCaseFields }
-        };
+            {
+                { nameof(BaseCaseFieldsDialog.BaseCaseFields), BaseCaseFields }
+            };
 
-        // attribute create dialog
+        // attribute add dialog
         var dialog = await (await DialogService.ShowAsync<BaseCaseFieldsDialog>(
             Localizer.Item.AddTitle(Localizer.Case.BaseCaseField), parameters)).Result;
         if (dialog == null || dialog.Canceled)
@@ -135,7 +135,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
         await SetFieldValue();
     }
 
-    private async Task DeleteReferenceAsync(CaseFieldReference reference)
+    private async Task RemoveReferenceAsync(CaseFieldReference reference)
     {
         if (reference == null)
         {
@@ -151,8 +151,8 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(Localizer.Case.BaseCaseField),
-                Localizer.Item.DeleteQuery(Localizer.Case.BaseCaseField)))
+                Localizer.Item.RemoveTitle(Localizer.Case.BaseCaseField),
+                Localizer.Item.RemoveQuery(Localizer.Case.BaseCaseField)))
         {
             return;
         }
@@ -164,9 +164,20 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
 
     // load on demand
     private List<CaseField> baseCaseFields;
-    private List<CaseField> BaseCaseFields =>
-        baseCaseFields ??= Task.Run(() => PayrollService.GetCaseFieldsAsync<CaseField>(
-            new(EditContext.Tenant.Id, EditContext.Payroll.Id))).Result.OrderBy(x => x.Name).ToList();
+    private List<CaseField> BaseCaseFields
+    {
+        get
+        {
+            if (baseCaseFields != null)
+            {
+                return baseCaseFields;
+            }
+
+            var context = new PayrollServiceContext(EditContext.Tenant.Id, EditContext.Payroll.Id);
+            baseCaseFields = Task.Run(() => PayrollService.GetCaseFieldsAsync<CaseField>(context)).Result.OrderBy(x => x.Name).ToList();
+            return baseCaseFields;
+        }
+    }
 
     #endregion
 

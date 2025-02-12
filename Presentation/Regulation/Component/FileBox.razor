@@ -1,10 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 
-<MudInputLabel>@Item.GetItemLabel(Field, Localizer)</MudInputLabel>
+<MudInputLabel>@Item.GetItemLabel(Field, Localizer, addRequiredMarker: true)</MudInputLabel>
 
 <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync">
     <ActivatorContent>
-        <MudStack Row="true" Class="align-center border rounded pa-2">
+        <MudStack Row="true" Class="align-center border rounded pa-2" Style="@BorderStyle">
             <MudText Typo="Typo.caption">@ContentInfo</MudText>
             <MudSpacer />
             <MudIconButton Color="Color.Primary" Class="pa-0 ma-0"

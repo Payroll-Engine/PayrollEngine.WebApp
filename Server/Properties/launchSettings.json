@@ -22,6 +22,14 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl1": "tenants",
+      "launchUrl2": "employeecase/All%20Value%20Types",
+      "launchUrl3": "employeecase/All%20Time%20Types",
+      "launchUrl4": "employeecase/EmployeeProfile",
+      "launchUrl5": "employeecases",
+      "launchUrl6": "payrunjobs",
+      "launchUrl7": "payrunresults",
+      "launchUrl8": "reports",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

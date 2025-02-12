@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using PayrollEngine.WebApp.Presentation.Regulation.Factory;
+using Blazored.LocalStorage;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Regulation.Factory;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
-public partial class ItemGrid<TParent, TItem> : ComponentBase
+public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
     where TParent : class, IRegulationItem
     where TItem : class, IRegulationItem
 {
@@ -85,10 +86,11 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
     }
 
     /// <summary>
-    /// Setup the grid
+    /// Initialize the grid
     /// </summary>
-    private async Task SetupGridAsync()
+    private async Task InitGridAsync()
     {
+        // dense
         var denseMode = await LocalStorage.GetItemAsBooleanAsync("RegulationDenseMode");
         if (denseMode.HasValue)
         {
@@ -117,7 +119,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
         // new child item
         if (HasParent)
         {
-            var parentItems = await ParentFactory.QueryPayrollItems();
+            var parentItems = await ParentFactory.QueryPayrollItemsAsync();
             if (!parentItems.Any())
             {
                 Log.Warning($"Missing parent {GetParentTypeName()}");
@@ -177,15 +179,20 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
 
         // create object
         var newObject = Activator.CreateInstance<TItem>();
-        if (newObject != null)
+        if (newObject == null)
         {
-            // object setup
-            newObject.RegulationName = regulation.Name;
-            newObject.Parent = parent;
-
-            // notification
-            await OnSelectedItemChanged(newObject);
+            return;
         }
+
+        // object setup
+        newObject.RegulationName = regulation.Name;
+        newObject.Parent = parent;
+
+        // notification
+        await OnSelectedItemChanged(newObject);
+
+        // reset grid selection
+        await ItemsGrid.SetSelectedItemAsync(newObject);
     }
 
     private async Task SelectedItemChangedAsync(TItem item) =>
@@ -202,9 +209,39 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase
         return string.Empty;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-        await SetupGridAsync();
-        await base.OnInitializedAsync();
+        Items.CollectionChanged += ItemCollectionChanged;
+        return base.OnInitializedAsync();
+    }
+
+    private void ItemCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+    {
+        if (args.Action == NotifyCollectionChangedAction.Add &&
+            args.NewItems != null && args.NewItems.Count == 1)
+        {
+            var item = args.NewItems[0] as TItem;
+            ItemsGrid.SetSelectedItemAsync(item).Wait();
+        }
+        else if (args.Action == NotifyCollectionChangedAction.Remove &&
+                 ItemsGrid.SelectedItem != null &&
+                 args.OldItems != null && args.OldItems.Contains(ItemsGrid.SelectedItem))
+        {
+            ItemsGrid.SetSelectedItemAsync(null).Wait();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitGridAsync();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void Dispose()
+    {
+        Items.CollectionChanged -= ItemCollectionChanged;
     }
 }

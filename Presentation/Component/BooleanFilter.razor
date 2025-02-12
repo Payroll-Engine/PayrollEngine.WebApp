@@ -1,0 +1,17 @@
+﻿@inherits BooleanFilterBase<TItem>
+
+@typeparam TItem
+
+<MudIconButton OnClick="@OpenFilter" Icon="@FilterIcon" Size="@Size.Small" />
+<MudIconButton OnClick="@ClearFilter" Icon="@Icons.Material.Filled.FilterAltOff" Size="@Size.Small" />
+<MudOverlay Visible="@FilterOpen" OnClick="@CloseFilter" />
+<MudPopover Open="@FilterOpen" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter"
+            Style="max-width: 20em">
+    <MudStack Spacing="0">
+        <MudList T="string" Style="overflow-y: auto; max-height: 40em"
+                 SelectedValueChanged="@(x => SelectFilterAsync(x))">
+            <MudListItem T="string" Value="@bool.TrueString">@Localizer.Shared.TrueToggle</MudListItem>
+            <MudListItem T="string" Value="@bool.FalseString">@Localizer.Shared.FalseToggle</MudListItem>
+        </MudList>
+    </MudStack>
+</MudPopover>

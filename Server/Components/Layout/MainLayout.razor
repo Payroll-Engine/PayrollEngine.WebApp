@@ -1,0 +1,178 @@
+﻿@using PayrollEngine.WebApp;
+@using PayrollEngine.Client.Model
+@using PayrollEngine.WebApp.Presentation.Component
+@using Employee = PayrollEngine.WebApp.ViewModel.Employee
+@using Tenant = PayrollEngine.WebApp.ViewModel.Tenant
+
+@inherits MainLayoutBase
+
+<MudThemeProvider @ref="@ThemeProvider"
+                  @bind-IsDarkMode="IsDarkMode"
+                  Theme="@AppTheme" />
+<MudPopoverProvider />
+@* global dialog settings *@
+<MudDialogProvider MaxWidth="MaxWidth.ExtraLarge"
+                   CloseOnEscapeKey="true" />
+<MudSnackbarProvider />
+
+<CascadingValue Value="this">
+    <MudLayout>
+        @if (Session.UserAvailable)
+        {
+            <MudAppBar Elevation="1">
+
+                @* nav bar toggle *@
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+                               OnClick="NavigationToggleAsync" title="@Localizer.App.ToggleSidebar" />
+
+                @* app icon or text *@
+                @{
+                    var appImage = CurrentAppImage;
+                    if (!string.IsNullOrWhiteSpace(appImage))
+                    {
+                        <img src="@appImage" style="max-width: 13em" />
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.h5" Style="min-width: 8em; width: max-content;">
+                            @AppTitle
+                        </MudText>
+                    }
+                }
+
+                @if (Session.AnyUserFeature())
+                {
+                    <MudGrid>
+                        @* working tenant *@
+                        @if (Session.MultiTenantUser && TenantAvailable)
+                        {
+                            <MudItem xs="3" lg="3" Class="pl-12">
+                                <MudSelect T="Tenant" Label="@Localizer.Tenant.Tenant" Value="@Session.Tenant"
+                                           Disabled="@(!TenantChangeEnabled)"
+                                           Clearable="@WorkingItems.TenantReset()"
+                                           ValueChanged="WorkingTenantChangedAsync">
+                                    @foreach (var tenant in Session.Tenants)
+                                    {
+                                        <MudSelectItem Value="@tenant">@tenant.Identifier</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                        }
+                        @* working payroll *@
+                        @if (PayrollAvailable)
+                        {
+                            <MudItem xs="3" lg="3" Class="pl-12">
+                                <MudSelect T="Payroll" Label="@Localizer.Payroll.Payroll" Value="@Session.Payroll"
+                                           Disabled="@(!PayrollChangeEnabled)"
+                                           Clearable="@WorkingItems.PayrollReset()"
+                                           ValueChanged="WorkingPayrollChangedAsync">
+                                    @foreach (var payroll in Session.Payrolls)
+                                    {
+                                        <MudSelectItem Value="@payroll">@GetPayrollName(payroll) &#x2022; @GetPayrollDivisionName(payroll)</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                        }
+                        @* working employee *@
+                        @if (EmployeeAvailable)
+                        {
+                            <MudItem xs="3" lg="3" Class="pl-12">
+                                <MudSelect T="Employee" Label="@Localizer.Employee.Employee" Value="@Session.Employee"
+                                           Disabled="@(!EmployeeChangeEnabled)"
+                                           Clearable="@WorkingItems.EmployeeReset()"
+                                           ValueChanged="WorkingEmployeeChangedAsync">
+                                    @foreach (var employee in Session.Employees)
+                                    {
+                                        <MudSelectItem Value="@employee">@employee.FirstName @employee.LastName &#x2022; @employee.Identifier</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                }
+                <MudSpacer />
+
+                @* working user *@
+                <MudBadge Visible="@(HasFeature(Feature.Tasks) && Session.User.OpenTaskCount > 0)"
+                          Color="Color.Primary"
+                          Content="@Session.User.OpenTaskCount"
+                          OnClick="NavigateToTasks"
+                          Overlap="true">
+                    <MudTooltip Delay="1000"
+                                Text="@(Session.MultiTenantUser ? string.Empty : Localizer.Tenant.UserTenant(Session.Tenant.Identifier))"
+                                Placement="Placement.Top">
+                        <MudInputLabel Class="pr-4" Style="min-width: max-content; display: inline">
+                            @Session.User.FirstName&nbsp;@Session.User.LastName
+                        </MudInputLabel>
+                    </MudTooltip>
+                </MudBadge>
+
+                @* user menu *@
+                @{
+                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Class="pl-2"
+                             AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+
+                        @* user settings *@
+                        @switch (Session.User.UserType)
+                        {
+                            case UserType.Employee:
+                                <MudMenuItem Icon="@Icons.Material.Outlined.AccountBox"
+                                             OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                                break;
+                            case UserType.Administrator:
+                                <MudMenuItem Icon="@Icons.Material.Outlined.SupervisorAccount"
+                                             OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                                break;
+                            case UserType.Supervisor:
+                                <MudMenuItem Icon="@Icons.Material.Outlined.SupervisedUserCircle"
+                                             OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                                break;
+                            case UserType.User:
+                            default:
+                                <MudMenuItem Icon="@Icons.Material.Outlined.AccountCircle"
+                                             OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
+                                break;
+                        }
+
+                        @* dark mode *@
+                        @if (IsDarkMode)
+                        {
+                            <MudMenuItem Icon="@Icons.Material.Filled.LightMode" OnClick="ToggleThemeAsync">
+                                @Localizer.App.LightMode
+                            </MudMenuItem>
+                        }
+                        else
+                        {
+                            <MudMenuItem Icon="@Icons.Material.Filled.DarkMode" OnClick="ToggleThemeAsync">
+                                @Localizer.App.DarkMode
+                            </MudMenuItem>
+                        }
+
+                        @* about *@
+                        <MudMenuItem Icon="@Icons.Material.Filled.Info" OnClick="AboutAsync">
+                            @Localizer.App.About
+                        </MudMenuItem>
+
+                        @* logout *@
+                        @if (UserLoginEnabled())
+                        {
+                            <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutAsync">
+                                @Localizer.App.Logout
+                            </MudMenuItem>
+                        }
+                    </MudMenu>
+                }
+            </MudAppBar>
+            <MudDrawer @bind-Open="NavigationOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+                <NavMenu />
+            </MudDrawer>
+        }
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="ma-0">
+                @Body
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
+</CascadingValue>
+
+<UserNotification @ref="Notification" />

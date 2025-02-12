@@ -82,7 +82,7 @@ public abstract class ChildItemFactory<TParent, TObject>(Client.Model.Tenant ten
             }
             if (regulation == null)
             {
-                throw new PayrollException($"Unknown regulation for item {item}");
+                throw new PayrollException($"Unknown regulation for item {item}.");
             }
 
             // ignore base items on the root regulation

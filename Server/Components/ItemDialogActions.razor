@@ -1,13 +1,12 @@
 ﻿@typeparam T where T : PayrollEngine.Client.IModel
-@using PayrollEngine.WebApp.Presentation
 
 <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-    <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
-    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+    <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+    <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
 </MudStack>
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public T Item { get; set; }
     [Parameter] public IItemValidator FormValidator { get; set; }
     [Parameter] public IItemValidator ItemValidator { get; set; }

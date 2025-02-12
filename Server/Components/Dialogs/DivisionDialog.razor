@@ -1,0 +1,64 @@
+﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
+
+<MudDialog Class="pe-item-dialog" TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields">
+                    <MudStack Class="pa-4" Spacing="1">
+                        <LocalizationTextField @bind-Value="Division.Name"
+                                               Item="@Division"
+                                               PropertyName="@nameof(Division.Name)"
+                                               MaxLength="@SystemSpecification.KeyTextLength"
+                                               ReadOnly="@Division.IsExistingObject"
+                                               Label="@(Division.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
+                                               Validation="@(!string.IsNullOrWhiteSpace(Division.Name))"
+                                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
+                        <MudSelect T=" string" @bind-Value="Division.Culture" Clearable="true"
+                                   Label="@Localizer.Shared.Culture"
+                                   HelperText="@Localizer.Division.CultureHelp">
+                            @foreach (var description in CultureTool.GetCultureDescriptions())
+                            {
+                                <MudSelectItem T="string" Value="@description.Name">@description</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudSelect T=" string" @bind-Value="Division.Calendar"
+                                   Label="@Localizer.Shared.Calendar"
+                                   HelperText="@Localizer.Division.CalendarHelp"
+                                   Disabled="@(CalendarNames == null || CalendarNames.Count < 1)"
+                                   Clearable="true">
+                            @foreach (var calendarName in CalendarNames)
+                            {
+                                <MudSelectItem T="string" Value="@calendarName">@calendarName</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <ItemBaseFields Item="Division" />
+                    </MudStack>
+                </MudTabPanel>
+                <MudTabPanel Text="@Localizer.Attribute.Attributes">
+                    <AttributesGrid Item="Division" Class="pe-attributes-grid pa-2" />
+                </MudTabPanel>
+            </MudTabs>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <ItemDialogActions Item="Division" FormValidator="this" />
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public Tenant Tenant { get; set; } = new();
+    [Parameter] public Division Division { get; set; } = new();
+    [Parameter] public List<string> CalendarNames { get; set; } = [];
+
+    [Inject] private Localizer Localizer { get; set; }
+
+    public async Task<bool> ValidateAsync() =>
+        await form.Revalidate();
+}

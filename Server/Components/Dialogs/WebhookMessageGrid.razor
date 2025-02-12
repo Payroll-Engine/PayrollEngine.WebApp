@@ -1,0 +1,48 @@
+﻿@using PayrollEngine.WebApp.ViewModel
+<MudDataGrid @ref="Grid" 
+             T="WebhookMessage"
+             Items="@WebhookMessages"
+             Height="@Height"
+             Class="@Class"
+             Style="@Style">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.ActionName" Title="@Localizer.Webhook.Action" />
+        <PropertyColumn Property="x => x.ReceiverAddress" Title="@Localizer.Webhook.ReceiverAddress" />
+        <PropertyColumn Property="x => x.RequestDate" Title="@Localizer.WebhookMessage.RequestDate" />
+        <PropertyColumn Property="x => x.RequestMessage" Title="@Localizer.WebhookMessage.RequestMessage" />
+        <PropertyColumn Property="x => x.RequestOperation" Title="@Localizer.WebhookMessage.RequestOperation" />
+        <PropertyColumn Property="x => x.ResponseDate" Title="@Localizer.WebhookMessage.ResponseDate" />
+        <PropertyColumn Property="x => x.ResponseStatus" Title="@Localizer.WebhookMessage.ResponseStatus" />
+        <PropertyColumn Property="x => x.ResponseMessage" Title="@Localizer.WebhookMessage.ResponseMessage" />
+        <TemplateColumn T="WebhookMessage" CellClass="d-flex justify-end" ShowColumnOptions="false"
+                        ShowFilterIcon="false" Sortable="false">
+            <HeaderTemplate>
+                <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.CreateTitle(Localizer.WebhookMessage.WebhookMessage)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@CreateWebhookMessageAsync"
+                                       Color="Color.Tertiary" 
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.PostAdd"
+                                       Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+            </HeaderTemplate>
+            <FilterTemplate />
+            <CellTemplate>
+                <MudStack Row="true">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteTitle(Localizer.WebhookMessage.WebhookMessage)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => DeleteWebhookMessageAsync(context.Item))"
+                                       Color="Color.Secondary" 
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.Delete" 
+                                       Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <NoRecordsContent>
+        @Localizer.WebhookMessage.NotAvailable
+    </NoRecordsContent>
+</MudDataGrid>

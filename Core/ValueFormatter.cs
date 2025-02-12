@@ -68,7 +68,7 @@ public class ValueFormatter(CultureInfo culture) : IValueFormatter
                 stringValue = ((decimal)value).ToString("P", culture);
                 break;
             case ValueType.NumericBoolean:
-                stringValue = (decimal)value != default ? bool.TrueString : bool.FalseString;
+                stringValue = (decimal)value != 0 ? bool.TrueString : bool.FalseString;
                 break;
             // boolean
             case ValueType.Boolean:

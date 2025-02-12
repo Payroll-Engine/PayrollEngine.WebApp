@@ -1,0 +1,52 @@
+﻿<MudDialog Class="dialog" TitleClass="@($"mud-theme-primary pe-dialog-title {TitleStyle} py-4 px-8")" ContentClass="dialog-background-surface py-4 px-8">
+    <DialogContent>
+        @Options.Message
+        @Options.MarkupMessage
+    </DialogContent>
+    <DialogActions>
+        @if (Options.CancelText != null)
+        {
+            <MudButton Color="Color.Error" OnClick="Cancel">@Options.CancelText</MudButton>
+        }
+        @if (Options.NoText != null)
+        {
+            <MudButton Color="Color.Secondary" OnClick="Cancel">@Options.NoText</MudButton>
+        }
+        @if (Options.YesText != null)
+        {
+            <MudButton Color="Color.Primary" OnClick="Submit">@Options.YesText</MudButton>
+        }
+    </DialogActions>
+</MudDialog>
+
+<style>
+    .dialog {
+        min-width: 24em;
+    }
+
+    .title {
+        background-color: lightgrey;
+    }
+
+    .titleDark {
+        background-color: darkslateblue;
+    }
+</style>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public MessageBoxOptions Options { get; set; }
+
+    [Inject]
+    private IThemeService ThemeService { get; set; }
+
+    private string TitleStyle =>
+        ThemeService.IsDarkMode ? "titleDark" : "title";
+
+    private void Submit() =>
+        MudDialog.Close(DialogResult.Ok(true));
+
+    private void Cancel() =>
+        MudDialog.Cancel();
+}

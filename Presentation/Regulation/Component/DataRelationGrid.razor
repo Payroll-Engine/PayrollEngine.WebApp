@@ -13,9 +13,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="500" Text="@Localizer.Item.AddTitle(Localizer.Report.Relation)" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.AddTitle(Localizer.Report.Relation)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddDataRelationAsync"
-                                       Color="Color.Tertiary" Variant="Variant.Outlined"
+                                       Color="Color.Tertiary" 
+                                       Variant="@Globals.ButtonVariant"
                                        Icon="@Icons.Material.Filled.Add"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -24,15 +25,19 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="500" Text="@Localizer.Item.DeleteTitle(Localizer.Report.Relation)" Placement="Placement.Top">
-                        <MudIconButton @onclick="@(() => DeleteDataRelationAsync(context.Item))"
-                                       Color="Color.Secondary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveTitle(Localizer.Report.Relation)" Placement="Placement.Top">
+                        <MudIconButton @onclick="@(() => RemoveDataRelationAsync(context.Item))"
+                                       Color="Color.Secondary" 
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.Delete"
+                                       Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="500" Text="@Localizer.Item.EditTitle(Localizer.Report.Relation)" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.Item.EditTitle(Localizer.Report.Relation)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditDataRelationAsync(context.Item))"
-                                       Color="Color.Primary" Variant="Variant.Outlined"
-                                       Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                                       Color="Color.Primary"
+                                       Variant="@Globals.ButtonVariant"
+                                       Icon="@Icons.Material.Filled.Edit" 
+                                       Size="Size.Small" />
                     </MudTooltip>
                 </MudStack>
             </CellTemplate>

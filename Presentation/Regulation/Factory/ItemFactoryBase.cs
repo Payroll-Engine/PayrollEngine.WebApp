@@ -27,11 +27,11 @@ public abstract class ItemFactoryBase<TObject>(Client.Model.Tenant tenant, Clien
     /// </summary>
     protected List<Client.Model.Regulation> Regulations { get; } = regulations ?? throw new ArgumentNullException(nameof(regulations));
 
-    protected abstract Task<List<TObject>> QueryItems(Client.Model.Regulation regulation);
-    public abstract Task<List<TObject>> QueryPayrollItems();
-    public async Task<List<TObject>> LoadPayrollItems()
+    protected abstract Task<List<TObject>> QueryItemsAsync(Client.Model.Regulation regulation);
+    public abstract Task<List<TObject>> QueryPayrollItemsAsync();
+    public async Task<List<TObject>> LoadPayrollItemsAsync()
     {
-        var items = await QueryPayrollItems();
+        var items = await QueryPayrollItemsAsync();
         await ApplyRegulationsAsync(items);
         return items;
     }
@@ -53,7 +53,7 @@ public abstract class ItemFactoryBase<TObject>(Client.Model.Tenant tenant, Clien
         var regulationObjects = new List<Tuple<Client.Model.Regulation, List<TObject>>>();
         foreach (var regulation in Regulations)
         {
-            var objects = await QueryItems(regulation);
+            var objects = await QueryItemsAsync(regulation);
             regulationObjects.Add(new(regulation, objects));
         }
 
@@ -76,7 +76,7 @@ public abstract class ItemFactoryBase<TObject>(Client.Model.Tenant tenant, Clien
             }
             if (regulation == null)
             {
-                throw new PayrollException($"Unknown regulation for item {item}");
+                throw new PayrollException($"Unknown regulation for item {item}.");
             }
 
             // base objects

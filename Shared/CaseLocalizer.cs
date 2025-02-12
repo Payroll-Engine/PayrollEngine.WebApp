@@ -11,6 +11,7 @@ public class CaseLocalizer(IStringLocalizerFactory factory) : LocalizerBase(fact
     public string CaseType => PropertyValue();
     public string DefaultReason => PropertyValue();
     public string CancellationType => PropertyValue();
+    public string ProcessLevel => PropertyValue();
     public string BaseCase => PropertyValue();
     public string BaseCaseField => PropertyValue();
     public string BaseCaseFields => PropertyValue();
@@ -49,5 +50,7 @@ public class CaseLocalizer(IStringLocalizerFactory factory) : LocalizerBase(fact
     public string CaseIgnored(string @case) =>
         FormatValue(PropertyValue(), nameof(@case), @case);
     public string MissingCase(string name) =>
+        FormatValue(PropertyValue(), nameof(name), name);
+    public string UnknownCase(string name) =>
         FormatValue(PropertyValue(), nameof(name), name);
 }

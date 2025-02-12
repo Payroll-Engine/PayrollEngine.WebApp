@@ -35,6 +35,13 @@ public class SharedLocalizer(IStringLocalizerFactory factory) : LocalizerBase(fa
     public string ValueType => PropertyValue();
     public string Search => PropertyValue();
 
+    // values
+    public string TrueToggle => PropertyValue();
+    public string FalseToggle => PropertyValue();
+    public string BooleanToggle(bool value) =>
+        value ? TrueToggle : FalseToggle;
+
+
     // common
     public string Identifier => PropertyValue();
     public string Name => PropertyValue();

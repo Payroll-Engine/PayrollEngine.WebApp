@@ -1,0 +1,24 @@
+﻿@page "/employeecases"
+
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits CasesPageBase
+
+@* missing feature *@
+@if (!HasFeature(Feature.EmployeeCases))
+{
+    NavigateHome();
+    return;
+}
+@* invalid or missing user *@
+@if (!IsValidUser())
+{
+    <ErrorText Message="@Localizer.App.AccessDenied" />
+    return;
+}
+
+@{
+    // BuildRenderTree needs to be called otherwise inherited HTML won't be rendered.
+    // Might be changed/"fixed" in the future, see: https://github.com/dotnet/aspnetcore/issues/21664
+    base.BuildRenderTree(__builder);
+}

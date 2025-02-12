@@ -1,0 +1,480 @@
+﻿@page "/payrunjobs"
+@page "/payrunjobs/{Payrun}"
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Payrun
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits PageBase
+
+@* missing feature *@
+@if (!HasFeature(Feature.Payruns))
+{
+    NavigateHome();
+    return;
+}
+
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-4">@Localizer.PayrunJob.PayrunJobs</MudText>
+@* busy indicator *@
+@if (IsLoading)
+{
+    <PageBusyIndicator />
+    return;
+}
+@* missing payroll *@
+@if (!HasPayroll)
+{
+    <ErrorText Message="@Localizer.App.SelectPayroll" />
+    return;
+}
+@* missing payruns *@
+@if (!HasPayruns)
+{
+    <ErrorText Message="@Localizer.App.SelectPayrollWithPayrun" />
+    return;
+}
+
+@* payrun selection *@
+@if (SelectedPayrun == null)
+{
+    <div class="pa-1 mt-4">@Localizer.App.SelectPayrun</div>
+}
+
+<MudStack Row="true" Spacing="0" Class="d-flex align-center gap-2 my-4">
+    <div style="min-width: fit-content">
+        <MudSelect T="string"
+                   Value="SelectedPayrunName"
+                   ValueChanged="PayrunChanged"
+                   Disabled="@(Payruns == null || Payruns.Count < 1)"
+                   ReadOnly="@(Payruns == null || Payruns.Count == 1)"
+                   Label="@Localizer.Payrun.Payrun"
+                   Variant="@Globals.ButtonVariant">
+            @if (Payruns != null)
+            {
+                foreach (var payrun in Payruns)
+                {
+                    <MudSelectItem T="string" Value="payrun.Name">
+                        @PageCulture.Name.GetLocalization(payrun.NameLocalizations, payrun.Name)
+                    </MudSelectItem>
+                }
+            }
+        </MudSelect>
+    </div>
+    @if (SelectedPayrun != null && HasFeature(Feature.PayrunResults))
+    {
+        <MudButton Variant="@Globals.ButtonVariant" 
+                   Color="Color.Info"
+                   StartIcon="@Icons.Material.Filled.NavigateNext"
+                   Style="height: fit-content; align-self: center;"
+                   OnClick="NavigateToResults">
+            @Localizer.PayrunJob.JobResults
+        </MudButton>
+    }
+</MudStack>
+
+@if (SelectedPayrun == null)
+{
+    return;
+}
+
+@* legal and forecast jobs *@
+@if (Employees != null)
+{
+    <MudGrid Class="pa-4">
+        <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
+
+            @* legal payrun job *@
+            <MudTabPanel Text="@Localizer.PayrunJob.Legal">
+                <MudStack Row="true" Class="gap-4">
+                    @* legal job: new *@
+                    <MudPaper Class="pa-4" Style="min-width: 40em; max-width: 80em">
+                        <MudForm @ref="@legalForm">
+                            <MudStack>
+                                <MudText Typo="Typo.h6">@Localizer.PayrunJob.PayrunJob</MudText>
+
+                                @* job name *@
+                                <MudTextField T="string" @bind-Value="LegalSetup.JobName"
+                                              Label="@Localizer.PayrunJob.JobName"
+                                              MaxLength="SystemSpecification.KeyTextLength"
+                                              ReadOnly="@HasLegalJob"
+                                              Margin="Margin.Dense"
+                                              Required="@(!HasLegalJob)"
+                                              RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobName)" />
+
+                                @* period *@
+                                <MudDatePicker @bind-Date="@LegalSetup.Period"
+                                               Label="@Localizer.PayrunJob.JobPeriod"
+                                               ReadOnly="@HasLegalJob"
+                                               OpenTo="OpenTo.Month"
+                                               Margin="Margin.Dense"
+                                               Required="@(!HasLegalJob)"
+                                               RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobPeriod)"
+                                               Editable="true" />
+
+                                @* employees *@
+                                @if (HasLegalJob)
+                                {
+                                    <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"
+                                                        SelectedEmployees="@LegalSetup.SelectedEmployees.Select(x => x.Id).ToList()" />
+                                }
+                                else
+                                {
+                                    <MudSelect T="Employee" @bind-Value="LegalSetup.SelectedEmployee"
+                                               @bind-SelectedValues="LegalSetup.SelectedEmployees"
+                                               Disabled="@(Employees == null || Employees.Count < 1)"
+                                               ReadOnly="@HasLegalJob"
+                                               Label="@Localizer.Employee.Employees"
+                                               Margin="Margin.Dense"
+                                               Clearable="true"
+                                               MultiSelection="true"
+                                               SelectAll="true"
+                                               SelectAllText="@Localizer.Shared.SelectAll">
+                                        @foreach (var employee in Employees)
+                                        {
+                                            <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                }
+
+                                @* parameter *@
+                                @if (LegalSetup.Parameters.Any())
+                                {
+                                    @if (HasLegalJob)
+                                    {
+                                        <PayrunParameterInfo Culture="@PageCulture" Parameters="@LegalSetup.Parameters" />
+                                    }
+                                    else
+                                    {
+                                        <MudButton Variant="@Globals.ButtonVariant"
+                                                   Color="@(LegalSetup.ValidParameters() ? Color.Primary : Color.Error)"
+                                                   OnClick="@(() => SetupPayrunParametersAsync(LegalSetup.Parameters, TenantCulture))">
+                                            @Localizer.Payrun.Parameters
+                                        </MudButton>
+                                    }
+                                }
+
+                                @* reason *@
+                                <MudTextField T="string"
+                                              @bind-Value="LegalSetup.Reason"
+                                              Label="@Localizer.PayrunJob.JobReason"
+                                              ReadOnly="@HasLegalJob"
+                                              Margin="Margin.Dense"
+                                              Required="@(!HasLegalJob)"
+                                              RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobReason)"
+                                              Lines="3"
+                                              Variant="@Globals.ButtonVariant" />
+                                @if (!HasLegalJob)
+                                {
+                                    <MudButton OnClick="StartLegalJobAsync"
+                                               Style="width: max-content; align-self: end;"
+                                               Variant="@Globals.ButtonVariant"
+                                               Color="Color.Tertiary"
+                                               Disabled="@(!LegalSetup.IsValidLegalJob())">
+                                        @Localizer.PayrunJob.StartPayrun
+                                    </MudButton>
+                                }
+                            </MudStack>
+                        </MudForm>
+                    </MudPaper>
+                    @* legal job: draft *@
+                    @if (HasLegalJob)
+                    {
+                        <MudPaper Class="pa-4" Elevation="@(LegalJob.JobStatus.IsDraft() ? 4 : 1)"
+                                  Style="max-width: 15em; max-width: 25em">
+                            <MudStack Spacing="0" Style="height: 100%">
+                                <MudText Typo="Typo.h6" Color="@(LegalJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
+                                    @Localizer.Enum(PayrunJobStatus.Draft)
+                                </MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
+                                <MudText Class="pr-4">@LegalJob.Created</MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
+                                <MudText Class="pr-4">@GetUserName(LegalJob.CreatedUserId)</MudText>
+                                @if (LegalJob.JobStatus == PayrunJobStatus.Draft)
+                                {
+                                    <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
+                                        <MudButton OnClick="AbortLegalJobAsync"
+                                                   Style="Width: max-content"
+                                                   Variant="@Globals.ButtonVariant"
+                                                   Color="Color.Error">
+                                            @Localizer.Enum(PayrunJobStatus.Abort)
+                                        </MudButton>
+                                        <MudButton OnClick="ReleaseLegalJobAsync"
+                                                   Style="width: max-content"
+                                                   Variant="@Globals.ButtonVariant"
+                                                   Color="Color.Tertiary">
+                                            @Localizer.Enum(PayrunJobStatus.Release)
+                                        </MudButton>
+                                    </div>
+                                }
+                            </MudStack>
+                        </MudPaper>
+                    }
+                    @* legal job: release *@
+                    @if (HasLegalJob && LegalJob.Released.HasValue)
+                    {
+                        <MudPaper Class="pa-4" Elevation="@(LegalJob.JobStatus.IsRelease() ? 4 : 1)"
+                                  Style="max-width: 15em; max-width: 25em">
+                            <MudStack Spacing="0" Style="height: 100%">
+                                <MudText Typo="Typo.h6"
+                                         Color="@(LegalJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
+                                    @Localizer.Enum(PayrunJobStatus.Release)
+                                </MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
+                                <MudText Class="pr-4">@LegalJob.Released</MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
+                                <MudText Class="pr-4">@GetUserName(LegalJob.ReleasedUserId)</MudText>
+                                @if (LegalJob.JobStatus == PayrunJobStatus.Release)
+                                {
+                                    <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
+                                        <MudButton OnClick="AbortLegalJobAsync" Style="Width: max-content" Variant="@Globals.ButtonVariant" Color="Color.Error">
+                                            @Localizer.Enum(PayrunJobStatus.Abort)
+                                        </MudButton>
+                                        <MudButton OnClick="ProcessLegalJobAsync"
+                                                   Style="width: max-content"
+                                                   Variant="@Globals.ButtonVariant"
+                                                   Color="Color.Tertiary">
+                                            @Localizer.Enum(PayrunJobStatus.Process)
+                                        </MudButton>
+                                    </div>
+                                }
+                            </MudStack>
+                        </MudPaper>
+                    }
+                    @* legal job: process *@
+                    @if (HasLegalJob && LegalJob.Processed.HasValue)
+                    {
+                        <MudPaper Class="pa-4" Elevation="@(LegalJob.JobStatus.IsProcess() ? 4 : 1)"
+                                  Style="max-width: 15em; max-width: 25em">
+                            <MudStack Spacing="0" Style="height: 100%">
+                                <MudText Typo="Typo.h6"
+                                         Color="@(LegalJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
+                                    @Localizer.Enum(PayrunJobStatus.Process)
+                                </MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
+                                <MudText Class="pr-4">@LegalJob.Processed</MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
+                                <MudText Class="pr-4">@GetUserName(LegalJob.ProcessedUserId)</MudText>
+                                @if (LegalJob.JobStatus == PayrunJobStatus.Process)
+                                {
+                                    <div class="d-flex align-content-end flex-wrap flex-grow-1 justify-end gap-4">
+                                        <MudButton OnClick="CancelLegalJobAsync"
+                                                   Style="Width: max-content"
+                                                   Variant="@Globals.ButtonVariant"
+                                                   Color="Color.Error">
+                                            @Localizer.Enum(PayrunJobStatus.Cancel)
+                                        </MudButton>
+                                        <MudButton OnClick="CompleteLegalJobAsync"
+                                                   Style="width: max-content"
+                                                   Variant="@Globals.ButtonVariant"
+                                                   Color="Color.Tertiary">
+                                            @Localizer.Enum(PayrunJobStatus.Complete)
+                                        </MudButton>
+                                    </div>
+                                }
+                            </MudStack>
+                        </MudPaper>
+                    }
+                    @* legal job: cancel or abort *@
+                    @if (HasLegalJob && LegalJob.Finished.HasValue &&
+                   LegalJob.JobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort)
+                    {
+                        <MudPaper Class="pa-4" Elevation="4"
+                                  Style="max-width: 15em; max-width: 25em">
+                            <MudStack Spacing="0" Style="height: 100%">
+                                <MudText Typo="Typo.h6" Color="Color.Error">@Localizer.Enum(LegalJob.JobStatus)</MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.PayrunJob.JobDate</MudInputLabel>
+                                <MudText Class="pr-4">@LegalJob.Finished</MudText>
+                                <MudInputLabel Class="pt-2">@Localizer.User.User</MudInputLabel>
+                                <MudText Class="pr-4">@GetUserName(LegalJob.FinishedUserId)</MudText>
+                            </MudStack>
+                        </MudPaper>
+                    }
+                </MudStack>
+
+                @* legal payrun job history *@
+                <MudText Typo="Typo.h5" Class="py-4">@Localizer.PayrunJob.JobHistory</MudText>
+                <MudDataGrid @ref="LegalJobsGrid" 
+                             T="PayrunJob"
+                             ServerData="GetLegalServerDataAsync"
+                             FilterMode="DataGridFilterMode.ColumnFilterRow"
+                             ColumnResizeMode="ResizeMode.Column"
+                             SortMode="SortMode.Multiple"
+                             Filterable="true"
+                             Hideable="true">
+                    <Columns>
+                        <PropertyColumn Property="x => x.Name" Title="@Localizer.PayrunJob.JobName" />
+                        <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
+                            <CellTemplate>
+                                @Localizer.Enum(context.Item.JobStatus)
+                            </CellTemplate>
+                        </PropertyColumn>
+                        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
+                            <CellTemplate>
+                                @ValueFormatter.ToCompactString(context.Item.Created)
+                            </CellTemplate>
+                        </PropertyColumn>
+                        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated"
+                                        InitialDirection="SortDirection.Descending">
+                            <CellTemplate>
+                                @ValueFormatter.ToCompactString(context.Item.Updated)
+                            </CellTemplate>
+                        </PropertyColumn>
+                        <CustomColumns T="PayrunJob" Columns="LegalColumnConfiguration" />
+                        <PayrunJobActionsColumn ActionOperator="this" />
+                    </Columns>
+                    <PagerContent>
+                        <MudDataGridPager T="PayrunJob" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
+                    </PagerContent>
+                    <NoRecordsContent>
+                        @Localizer.PayrunJob.NotAvailable
+                    </NoRecordsContent>
+                </MudDataGrid>
+            </MudTabPanel>
+
+            @* forecast payrun job *@
+            @if (HasFeature(Feature.Forecasts))
+            {
+                <MudTabPanel Text="@Localizer.Forecast.Forecast">
+                    <MudStack Row="true" Class="gap-4">
+                        <MudPaper Class="pa-4" Style="min-width: 40em; max-width: 80em;">
+                            <MudForm @ref="@forecastForm">
+                                <MudStack>
+                                    <MudText Typo="Typo.h6">@Localizer.Forecast.PayrunJob</MudText>
+
+                                    <MudStack Spacing="0">
+                                        @* forecast name *@
+                                        <MudTextField T="string"
+                                                      @bind-Value="ForecastSetup.ForecastName"
+                                                      Label="@Localizer.Forecast.Name"
+                                                      MaxLength="SystemSpecification.KeyTextLength"
+                                                      Margin="Margin.Dense"
+                                                      Required="true"
+                                                      RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.Name)"
+                                                      Adornment="@(HasForecastHistory ? Adornment.End : Adornment.None)"
+                                                      AdornmentIcon="@Icons.Material.Filled.History"
+                                                      OnAdornmentClick="OpenForecastSelection"></MudTextField>
+                                        @* forecast history *@
+                                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection" />
+                                        <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
+                                                    Style="max-width: 20em">
+                                            <MudStack Spacing="0">
+                                                <MudList T="string" Style="overflow-y: auto; max-height: 40em"
+                                                         SelectedValueChanged="@(x => SelectForecast(x))"
+                                                         SelectionMode="SelectionMode.SingleSelection">
+                                                    @foreach (var history in ForecastHistory)
+                                                    {
+                                                        <MudListItem Value="@history">@history</MudListItem>
+                                                    }
+                                                </MudList>
+                                            </MudStack>
+                                        </MudPopover>
+                                    </MudStack>
+                                    @* job name *@
+                                    <MudTextField T="string"
+                                                  @bind-Value="ForecastSetup.JobName"
+                                                  Label="@Localizer.Forecast.JobName"
+                                                  MaxLength="SystemSpecification.KeyTextLength"
+                                                  Margin="Margin.Dense"
+                                                  Required="true"
+                                                  RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobName)" />
+
+                                    @* period *@
+                                    <MudDatePicker @bind-Date="@ForecastSetup.Period"
+                                                   Label="@Localizer.Forecast.JobPeriod"
+                                                   OpenTo="OpenTo.Month"
+                                                   Margin="Margin.Dense"
+                                                   Required="true"
+                                                   RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobPeriod)"
+                                                   Editable="true" />
+
+                                    @* employees *@
+                                    <MudSelect T="Employee"
+                                               @bind-Value="ForecastSetup.SelectedEmployee"
+                                               @bind-SelectedValues="ForecastSetup.SelectedEmployees"
+                                               Label="@Localizer.Employee.Employees"
+                                               Disabled="@(Employees == null || Employees.Count < 1)"
+                                               Margin="Margin.Dense"
+                                               MultiSelection="true"
+                                               Clearable="true"
+                                               SelectAll="true"
+                                               SelectAllText="@Localizer.Shared.SelectAll">
+                                        @foreach (var employee in Employees)
+                                        {
+                                            <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
+                                        }
+                                    </MudSelect>
+
+                                    @* parameter *@
+                                    @if (ForecastSetup.Parameters.Any())
+                                    {
+                                        <MudButton Variant="@Globals.ButtonVariant"
+                                                   Color="@(ForecastSetup.ValidParameters() ? Color.Primary : Color.Error)"
+                                                   OnClick="@(() => SetupPayrunParametersAsync(ForecastSetup.Parameters, TenantCulture))">
+                                            @Localizer.Payrun.Parameters
+                                        </MudButton>
+                                    }
+
+                                    @* reason *@
+                                    <MudTextField T="string"
+                                                  @bind-Value="ForecastSetup.Reason"
+                                                  Label="@Localizer.PayrunJob.JobReason"
+                                                  Margin="Margin.Dense"
+                                                  RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobReason)"
+                                                  Lines="3"
+                                                  Variant="@Globals.ButtonVariant" />
+                                    <MudButton Style="width: max-content; align-self: end;"
+                                               Variant="@Globals.ButtonVariant"
+                                               Color="Color.Tertiary"
+                                               Disabled="@(!ForecastSetup.IsValidForecastJob())"
+                                               OnClick="StartForecastJobAsync">@Localizer.Forecast.StartForecastPayrun</MudButton>
+                                </MudStack>
+                            </MudForm>
+                        </MudPaper>
+                    </MudStack>
+
+                    @* forecast payrun job history *@
+                    <MudText Typo="Typo.h5" Class="py-4">@Localizer.Forecast.JobHistory</MudText>
+                    <MudDataGrid @ref="ForecastJobsGrid"
+                                 T="PayrunJob"
+                                 ServerData="GetForecastServerDataAsync"
+                                 FilterMode="DataGridFilterMode.ColumnFilterRow"
+                                 ColumnResizeMode="ResizeMode.Column"
+                                 SortMode="SortMode.Multiple"
+                                 Filterable="true"
+                                 Hideable="true">
+                        <Columns>
+                            <PropertyColumn Property="x => x.Name" Title="@Localizer.PayrunJob.JobName" />
+                            <PropertyColumn Property="x => x.Forecast" Title="@Localizer.Forecast.Name" />
+                            <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
+                                <CellTemplate>
+                                    @Localizer.Enum(context.Item.JobStatus)
+                                </CellTemplate>
+                            </PropertyColumn>
+                            <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
+                                <CellTemplate>
+                                    @ValueFormatter.ToCompactString(context.Item.Created)
+                                </CellTemplate>
+                            </PropertyColumn>
+                            <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated"
+                                            InitialDirection="SortDirection.Descending">
+                                <CellTemplate>
+                                    @ValueFormatter.ToCompactString(context.Item.Updated)
+                                </CellTemplate>
+                            </PropertyColumn>
+                            <CustomColumns T="PayrunJob" Columns="ForecastColumnConfiguration" />
+                            <PayrunJobActionsColumn ActionOperator="this" Forecasts="true" />
+                        </Columns>
+                        <PagerContent>
+                            <MudDataGridPager T="PayrunJob" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                                              InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
+                        </PagerContent>
+                        <NoRecordsContent>
+                            @Localizer.Forecast.NotAvailable
+                        </NoRecordsContent>
+                    </MudDataGrid>
+                </MudTabPanel>
+            }
+        </MudTabs>
+    </MudGrid>
+}

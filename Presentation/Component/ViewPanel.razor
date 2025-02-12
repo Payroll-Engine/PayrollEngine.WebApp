@@ -1,0 +1,9 @@
+﻿<div style="text-align: center; width: 100%; height: @(Height)vh; align-content: center; opacity: @Opacity;">
+    @Content
+</div>
+
+@code {
+    [Parameter] public RenderFragment Content { get; set; }
+    [Parameter] public int Height { get; set; } = 80;
+    [Parameter] public double Opacity { get; set; } = 1;
+}

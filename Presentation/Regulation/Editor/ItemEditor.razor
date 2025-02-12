@@ -63,27 +63,33 @@
         <MudStack Row="true">
             @if (CanDelete())
             {
-                <MudTooltip Delay="500" Text="@Localizer.Item.DeleteHelp(ItemTypeName)" Placement="Placement.Top">
+                <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteHelp(ItemTypeName)" Placement="Placement.Top">
                     <MudIconButton @onclick="@OnDeleteItemAsync"
-                                   Color="Color.Secondary" Variant="Variant.Outlined"
-                                   Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                                   Color="Color.Secondary"
+                                   Variant="@Globals.ButtonVariant"
+                                   Icon="@Icons.Material.Filled.Delete"
+                                   Size="Size.Small" />
                 </MudTooltip>
             }
             @if (CanSave())
             {
-                <MudTooltip Delay="500" Text="@Localizer.Item.SaveHelp(ItemTypeName)" Placement="Placement.Top">
+                <MudTooltip Delay="1000" Text="@Localizer.Item.SaveHelp(ItemTypeName)" Placement="Placement.Top">
                     <MudIconButton @onclick="@OnSaveItemAsync"
                                    Disabled="@IsUnchanged"
-                                   Color="Color.Tertiary" Variant="Variant.Outlined"
-                                   Icon="@Icons.Material.Filled.Save" Size="Size.Small" />
+                                   Color="Color.Tertiary"
+                                   Variant="@Globals.ButtonVariant"
+                                   Icon="@Icons.Material.Filled.Save"
+                                   Size="Size.Small" />
                 </MudTooltip>
             }
             @if (CanDerive())
             {
-                <MudTooltip Delay="500" Text="@Localizer.Item.DeriveHelp(ItemTypeName)" Placement="Placement.Top">
+                <MudTooltip Delay="1000" Text="@Localizer.Item.DeriveHelp(ItemTypeName)" Placement="Placement.Top">
                     <MudIconButton @onclick="@OnDeriveItemAsync"
-                                   Color="Color.Tertiary" Variant="Variant.Outlined"
-                                   Icon="@Icons.Material.Filled.PlaylistAdd" Size="Size.Small" />
+                                   Color="Color.Tertiary"
+                                   Variant="@Globals.ButtonVariant"
+                                   Icon="@Icons.Material.Filled.PlaylistAdd"
+                                   Size="Size.Small" />
                 </MudTooltip>
             }
         </MudStack>
@@ -163,7 +169,7 @@
                                     {
                                         <TextBox Item="EditItem"
                                                  Field="field"
-                                                 Variant="Variant.Outlined"
+                                                 Variant="@Globals.ButtonVariant"
                                                  ValueChanged="UpdateState"
                                                  Style="font-family: monospace; font-size: medium;"
                                                  HelperText="@Localizer.Item.CSharpExpression" />

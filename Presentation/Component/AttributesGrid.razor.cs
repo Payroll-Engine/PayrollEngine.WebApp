@@ -43,7 +43,7 @@ public partial class AttributesGrid : IDisposable
         }
     }
 
-    private string LocalizedItemName => Localizer.Key(Item.GetType().Name);
+    private string LocalizedItemName => Localizer.Key(Item.GetType().Name, Item.GetType().Name);
     private string LocalizedItemFullName =>
         $"{LocalizedItemName} {Localizer.Attribute.Attribute}";
 
@@ -71,6 +71,7 @@ public partial class AttributesGrid : IDisposable
         }
 
         // add object attribute
+        Item.Attributes ??= new();
         Item.Attributes[item.Name] = item.Value;
         Attributes.Add(item);
     }
@@ -107,7 +108,7 @@ public partial class AttributesGrid : IDisposable
         Item.Attributes[item.Name] = item.Value;
     }
 
-    private async Task DeleteAttributeAsync(AttributeItem item)
+    private async Task RemoveAttributeAsync(AttributeItem item)
     {
         if (item == null)
         {
@@ -124,13 +125,13 @@ public partial class AttributesGrid : IDisposable
         // confirmation
         if (!await DialogService.ShowDeleteMessageBoxAsync(
                 Localizer,
-                Localizer.Item.DeleteTitle(LocalizedItemFullName),
-                Localizer.Item.DeleteQuery(item.Name)))
+                Localizer.Item.RemoveTitle(LocalizedItemFullName),
+                Localizer.Item.RemoveQuery(item.Name)))
         {
             return;
         }
 
-        // delete object attribute
+        // remove object attribute
         Item.Attributes.Remove(item.Name);
         Attributes.Remove(item);
     }

@@ -1,5 +1,5 @@
 ﻿@using PayrollEngine.Client.Model
-<MudDialog Style="min-width: 40em">
+<MudDialog Style="min-width: 40em" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudForm @ref="form">
             <MudTextField T="string"
@@ -20,13 +20,15 @@
                     {
                         <MudChip Text="@category.Label"
                                  Default="@string.Equals(category.Label, Localizer.Shared.All)"
-                                 Variant="Variant.Outlined" SelectedColor="Color.Primary" />
+                                 Variant="@Globals.ButtonVariant" SelectedColor="Color.Primary" />
                     }
                 </MudChipSet>
             }
 
-            <MudDataGrid T="ActionInfo" Height="30em"
-                         FixedHeader="true" Dense="true"
+            <MudDataGrid T="ActionInfo"
+                         Height="30em"
+                         FixedHeader="true"
+                         Dense="true"
                          Items="@CategoryActions"
                          Filterable="true"
                          FilterMode="DataGridFilterMode.ColumnFilterRow"
@@ -39,7 +41,7 @@
                                     Sortable="false">
                         <CellTemplate>
                             <MudStack Row="true">
-                                <MudTooltip Delay="500" Placement="Placement.Top">
+                                <MudTooltip Delay="1000" Placement="Placement.Top">
                                     <ChildContent>
                                         <MudIcon Color="Color.Primary"
                                                  Icon="@Icons.Material.Outlined.Info" />
@@ -93,10 +95,12 @@
                                         </MudStack>
                                     </TooltipContent>
                                 </MudTooltip>
-                                <MudTooltip Delay="500" Text="@Localizer.Action.AppendAction" Placement="Placement.Top">
+                                <MudTooltip Delay="1000" Text="@Localizer.Action.AppendAction" Placement="Placement.Top">
                                     <MudIconButton @onclick="@(() => ApplyAction(context.Item))"
-                                                   Color="Color.Tertiary" Variant="Variant.Outlined"
-                                                   Icon="@Icons.Material.Filled.Add" Size="Size.Small" />
+                                                   Color="Color.Tertiary"
+                                                   Variant="@Globals.ButtonVariant"
+                                                   Icon="@Icons.Material.Filled.Add"
+                                                   Size="Size.Small" />
                                 </MudTooltip>
                             </MudStack>
                         </CellTemplate>
@@ -121,8 +125,8 @@
                 </TooltipContent>
             </MudTooltip>
             <MudSpacer />
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </div>
     </DialogActions>
 </MudDialog>

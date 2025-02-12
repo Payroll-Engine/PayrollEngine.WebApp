@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.WebApp.ViewModel;

@@ -19,10 +19,10 @@ public class LookupValueFactory(
     private ILookupValueService LookupValueService { get; } = lookupValueService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationLookupValue>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationLookupValue>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await PayrollService.GetLookupValuesAsync<RegulationLookupValue>(new(Tenant.Id, Payroll.Id));
 
-    public override async Task<List<RegulationLookupValue>> QueryPayrollItems() =>
+    public override async Task<List<RegulationLookupValue>> QueryPayrollItemsAsync() =>
         await PayrollService.GetLookupValuesAsync<RegulationLookupValue>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationLookupValue> lookupValues,

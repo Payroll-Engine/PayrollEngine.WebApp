@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
-using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Regulation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
 
@@ -92,6 +92,16 @@ public partial class CaseRelationEditor
             }
         };
         Fields = fields;
+    }
+
+    protected override string OnValidate(RegulationCaseRelation caseRelation)
+    {
+        if (string.Equals(caseRelation.SourceCaseName, caseRelation.TargetCaseName))
+        {
+            return Localizer.CaseRelation.SourceEqualsTargetError;
+        }
+
+        return null;
     }
 
     protected override async Task OnInitializedAsync()

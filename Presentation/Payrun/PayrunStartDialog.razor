@@ -8,7 +8,7 @@
 @using Employee = PayrollEngine.WebApp.ViewModel.Employee
 @using Log = PayrollEngine.Log
 
-<MudDialog Style="min-width: 30em;">
+<MudDialog Style="min-width: 30em;" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudStack Spacing="0">
             <MudSimpleTable>
@@ -78,17 +78,17 @@
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
             @if (!Completed && !Failed)
             {
-                <MudButton Variant="Variant.Outlined" OnClick="Cancel"
+                <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel"
                            Disabled="@Executing">@Localizer.Dialog.Cancel</MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Tertiary"
+                <MudButton Variant="@Globals.ButtonVariant" Color="Color.Tertiary"
                            Disabled="@Executing" OnClick="Start">@Localizer.PayrunJob.JobStart</MudButton>
             }
             @if (Completed || Failed)
             {
-                <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                <MudButton Variant="@Globals.ButtonVariant" Color="Color.Info"
                            StartIcon="@Icons.Material.Filled.NavigateNext"
                            OnClick="CloseViewResults">@Localizer.PayrunResult.PayrunResults</MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Tertiary"
+                <MudButton Variant="@Globals.ButtonVariant" Color="Color.Tertiary"
                            OnClick="Close">@Localizer.Dialog.Close</MudButton>
             }
         </MudStack>
@@ -97,7 +97,7 @@
 
 @code {
 
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public List<Employee> Employees { get; set; }
     [Parameter] public Client.Model.Tenant Tenant { get; set; }
     [Parameter] public User User { get; set; }

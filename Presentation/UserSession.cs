@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Globalization;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
@@ -13,10 +14,15 @@ using Tenant = PayrollEngine.WebApp.ViewModel.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation;
 
-public class UserSession(ITenantService tenantService, IDivisionService divisionService,
-        IPayrollService payrollService, IEmployeeService employeeService, IUserService userService)
+public class UserSession(IConfiguration configuration,
+    ITenantService tenantService,
+    IDivisionService divisionService,
+    IPayrollService payrollService,
+    IEmployeeService employeeService,
+    IUserService userService)
     : IDisposable
 {
+    private IConfiguration Configuration { get; } = configuration;
     private readonly WorkingItemsWatcher<ITenantService, RootServiceContext, Tenant, Query> tenantWatcher = new(tenantService);
     private readonly WorkingItemsWatcher<IDivisionService, TenantServiceContext, Division, Query> divisionWatcher = new(divisionService);
     private readonly WorkingItemsWatcher<IPayrollService, TenantServiceContext, Payroll, Query> payrollWatcher = new(payrollService);
@@ -53,9 +59,12 @@ public class UserSession(ITenantService tenantService, IDivisionService division
 
     #region User
 
-    public User User { get; private set; }
-    public bool UserAvailable => User != null;
+    // ReSharper disable once UnusedMember.Local
     private IUserService UserService { get; } = userService ?? throw new ArgumentNullException(nameof(userService));
+
+    public User User { get; private set; }
+    public bool MultiTenantUser { get; private set; }
+    public bool UserAvailable => User != null;
     public AsyncEvent<User> UserChanged { get; set; }
 
     public async Task LoginAsync(Tenant userTenant, User user)
@@ -152,29 +161,6 @@ public class UserSession(ITenantService tenantService, IDivisionService division
 
     #endregion
 
-    #region Working Items
-
-    public AsyncEvent<WorkingItems> WorkingItemsChanged { get; set; }
-    private WorkingItems workingItems;
-    public WorkingItems WorkingItems => workingItems;
-
-    public async Task SetWorkingItemsAsync(WorkingItems newItems)
-    {
-        // no changes
-        if (workingItems == newItems)
-        {
-            return;
-        }
-
-        // change working items
-        workingItems = newItems;
-
-        // notify change
-        await (WorkingItemsChanged?.InvokeAsync(this, workingItems) ?? Task.CompletedTask);
-    }
-
-    #endregion
-
     #region Tenant
 
     private Tenant tenant;
@@ -195,6 +181,7 @@ public class UserSession(ITenantService tenantService, IDivisionService division
     /// <param name="newTenant">The new tenant</param>
     /// <param name="user">The user</param>
     /// <remarks>Debug only: on empty user, the first available user wil be used</remarks>
+    // ReSharper disable once UnusedParameter.Global
     public async Task ChangeTenantAsync(Tenant newTenant, User user = null)
     {
         // no changes
@@ -239,12 +226,12 @@ public class UserSession(ITenantService tenantService, IDivisionService division
         // change tenant
         SetTenant(target);
 
-#if DEBUG
         // user
+#if DEBUG
         user ??= (await UserService.QueryAsync<User>(new(tenant.Id))).FirstOrDefault();
         if (user == null)
         {
-            throw new PayrollException($"Tenant {tenant.Identifier} without user");
+            throw new PayrollException($"Tenant {tenant.Identifier} without user.");
         }
         // user switch
         if (user != User)
@@ -261,6 +248,10 @@ public class UserSession(ITenantService tenantService, IDivisionService division
             await (UserChanged?.InvokeAsync(this, user) ?? Task.CompletedTask);
         }
 #endif
+
+        // multi tenant user
+        var appConfiguration = Configuration.GetConfiguration<AppConfiguration>();
+        MultiTenantUser = appConfiguration.AllowTenantSwitch && await IsMultiTenantUserAsync(user, Tenants);
 
         // divisions
         await SetupDivisionsAsync();
@@ -283,9 +274,9 @@ public class UserSession(ITenantService tenantService, IDivisionService division
             {
                 await ChangePayrollAsync(Payrolls.First());
             }
-            else if (!string.IsNullOrWhiteSpace(user.StartupPayroll))
+            else if (User != null && !string.IsNullOrWhiteSpace(User.StartupPayroll))
             {
-                var startupPayroll = Payrolls.FirstOrDefault(x => string.Equals(x.Name, user.StartupPayroll));
+                var startupPayroll = Payrolls.FirstOrDefault(x => string.Equals(x.Name, User.StartupPayroll));
                 if (startupPayroll != null)
                 {
                     await ChangePayrollAsync(startupPayroll);
@@ -294,7 +285,7 @@ public class UserSession(ITenantService tenantService, IDivisionService division
         }
 
         // log
-        Log.Trace($"Tenant changed to {tenant.Identifier} with user {user.Identifier}");
+        Log.Trace($"Tenant changed to {tenant.Identifier}");
     }
 
     private async Task SetupTenantsAsync()
@@ -308,6 +299,25 @@ public class UserSession(ITenantService tenantService, IDivisionService division
         {
             Log.Error(exception, exception.GetBaseMessage());
         }
+    }
+
+    private async System.Threading.Tasks.Task<bool> IsMultiTenantUserAsync(User user, IEnumerable<Tenant> tenants)
+    {
+        var count = 0;
+        foreach (var curTenant in tenants)
+        {
+            var tenantUser = await UserService.GetAsync<ViewModel.User>(new(curTenant.Id), user.Identifier);
+            if (tenantUser == null)
+            {
+                continue;
+            }
+            count++;
+            if (count > 1)
+            {
+                break;
+            }
+        }
+        return count > 1;
     }
 
     #endregion
@@ -398,7 +408,7 @@ public class UserSession(ITenantService tenantService, IDivisionService division
                 startupEmployee = Employees.FirstOrDefault(x => string.Equals(x.Identifier, User.Identifier));
                 if (startupEmployee == null)
                 {
-                    throw new PayrollException($"Missing user employee: {User.Identifier}");
+                    throw new PayrollException($"Missing user employee: {User.Identifier}.");
                 }
             }
             else
@@ -438,7 +448,7 @@ public class UserSession(ITenantService tenantService, IDivisionService division
                     var division = Divisions.FirstOrDefault(x => x.Id == test.DivisionId);
                     if (division == null)
                     {
-                        throw new PayrollException($"Missing division for derived payroll {test}");
+                        throw new PayrollException($"Missing division for derived payroll {test}.");
                     }
                     test.DivisionName = division.Name;
                 }
@@ -520,7 +530,7 @@ public class UserSession(ITenantService tenantService, IDivisionService division
                 var division = await DivisionService.GetAsync<Division>(new(Tenant), Payroll.DivisionId);
                 if (division == null)
                 {
-                    throw new PayrollException($"Missing division in derived payroll {Payroll}");
+                    throw new PayrollException($"Missing division in derived payroll {Payroll}.");
                 }
 
                 // retrieve all employees

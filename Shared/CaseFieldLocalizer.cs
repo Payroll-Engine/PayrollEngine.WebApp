@@ -30,5 +30,7 @@ public class CaseFieldLocalizer(IStringLocalizerFactory factory) : LocalizerBase
     public string MissingStart => PropertyValue();
     public string MissingEnd => PropertyValue();
     public string MissingAttachment => PropertyValue();
-
+    public string CaseFieldDocuments => PropertyValue();
+    public string EmptyChangeHistory => PropertyValue();
+    public string ChangeHistory => PropertyValue();
 }

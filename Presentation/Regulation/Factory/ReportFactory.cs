@@ -14,10 +14,10 @@ public class ReportFactory(Client.Model.Tenant tenant, Client.Model.Payroll payr
     private IReportService ReportService { get; } = reportService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationReport>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationReport>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await ReportService.QueryAsync<RegulationReport>(new(Tenant.Id, regulation.Id));
 
-    public override async Task<List<RegulationReport>> QueryPayrollItems() =>
+    public override async Task<List<RegulationReport>> QueryPayrollItemsAsync() =>
         await PayrollService.GetReportsAsync<RegulationReport>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationReport> reports,

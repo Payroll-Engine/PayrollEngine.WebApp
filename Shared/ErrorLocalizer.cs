@@ -20,6 +20,8 @@ public class ErrorLocalizer(IStringLocalizerFactory factory) : LocalizerBase(fac
         FormatValue(PropertyValue(), nameof(type), type);
     public string ItemCreate(string type) =>
         FormatValue(PropertyValue(), nameof(type), type);
+    public string ItemDerive(string type) =>
+        FormatValue(PropertyValue(), nameof(type), type);
     public string ItemUpdate(string type) =>
         FormatValue(PropertyValue(), nameof(type), type);
     public string ItemDelete(string type) =>

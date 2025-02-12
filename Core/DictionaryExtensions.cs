@@ -17,6 +17,7 @@ public static class DictionaryExtensions
     {
         return (otherDictionary ?? new Dictionary<TKey, TValue>())
             .OrderBy(kvp => kvp.Key)
+            // ReSharper disable once UsageOfDefaultStructEquality
             .SequenceEqual((dictionary ?? new Dictionary<TKey, TValue>())
                 .OrderBy(kvp => kvp.Key));
     }

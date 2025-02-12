@@ -90,7 +90,7 @@ public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
 
         var @case = (await PayrollService.GetCasesAsync<RegulationCase>(
             new(EditContext.Tenant.Id, EditContext.Payroll.Id),
-            caseNames: new[] { GetSlotCaseName() })).FirstOrDefault();
+            caseNames: [GetSlotCaseName()])).FirstOrDefault();
         if (@case?.Slots != null)
         {
             foreach (var slot in @case.Slots)
@@ -137,7 +137,7 @@ public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
         lastItem = Item;
         // The case request needs to be synchronously,
         // otherwise the rendering interrupts the sequence
-        await Task.Run(SetupCaseSlotsAsync);
+        await SetupCaseSlotsAsync();
         ApplyFieldValue();
         await UpdateStateAsync();
         await base.OnInitializedAsync();

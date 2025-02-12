@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
 using PayrollEngine.Client.Service.Api;
@@ -7,9 +6,11 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class LogBackendService(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer)
-    : BackendServiceBase<LogService, TenantServiceContext, ViewModel.Log, Query>(userSession, httpClientHandler, configuration, localizer)
+public class LogBackendService(UserSession userSession, 
+    PayrollHttpClient httpClient,
+    Localizer localizer)
+    : BackendServiceBase<LogService, TenantServiceContext, ViewModel.Log, Query>(
+        userSession, httpClient, localizer)
 {
     /// <summary>The current request context</summary>
     protected override TenantServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) =>

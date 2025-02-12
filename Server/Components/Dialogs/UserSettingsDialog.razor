@@ -1,0 +1,82 @@
+﻿@using PayrollEngine.Client.Service
+
+<MudDialog Class="pe-item-dialog" TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudPaper Class="pa-4 mb-2" Elevation="4">
+            <MudForm @ref="form">
+                <MudStack Spacing="1">
+                    <MudTextField T="string"
+                                  Value="User.Identifier"
+                                  ReadOnly="true"
+                                  Label="@Localizer.Shared.Identifier" />
+                    <MudTextField T="string" @bind-Value="User.FirstName"
+                                  MaxLength="@SystemSpecification.KeyTextLength"
+                                  Label="@Localizer.User.FirstName" />
+                    <MudTextField T="string" @bind-Value="User.LastName"
+                                  MaxLength="@SystemSpecification.KeyTextLength"
+                                  Label="@Localizer.User.LastName" />
+                    <MudSelect T=" string" @bind-Value="User.Culture" Clearable="true"
+                               Label="@Localizer.Shared.Culture">
+                        @foreach (var cultureData in CultureTool.GetCultureDescriptions())
+                        {
+                            <MudSelectItem T="string" Value="@cultureData.Name">@cultureData</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudStack>
+            </MudForm>
+        </MudPaper>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="ChangePasswordAsync">@Localizer.User.ChangePasswordTitle</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Tertiary" OnClick="SubmitAsync">@Localizer.Dialog.Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    MudForm form;
+
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+    [Parameter] public Client.Model.Tenant Tenant { get; set; } = new();
+    [Parameter] public Client.Model.User User { get; set; } = new();
+
+    [Inject] private IUserService UserService { get; set; }
+    [Inject] private IUserNotificationService UserNotification { get; set; }
+    [Inject] private IDialogService DialogService { get; set; }
+    [Inject] private Localizer Localizer { get; set; }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task SubmitAsync()
+    {
+        if (!await form.Revalidate())
+        {
+            return;
+        }
+
+        try
+        {
+            await UserService.UpdateAsync(new(Tenant.Id), User);
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            await UserNotification.ShowErrorAsync(exception);
+        }
+
+        MudDialog.Close(DialogResult.Ok(User));
+    }
+
+    private async Task ChangePasswordAsync()
+    {
+        // report parameters
+        var parameters = new DialogParameters
+        {
+            { nameof(UserPasswordDialog.Tenant), Tenant },
+            { nameof(UserPasswordDialog.User), User }
+        };
+        await DialogService.ShowAsync<UserPasswordDialog>(Localizer.User.ChangePasswordTitle, parameters);
+    }
+}

@@ -94,7 +94,7 @@ public partial class LocalizationTextField
     private void SetItemLocalizations(Dictionary<string, string> localizations)
     {
         var existingLocalizations = GetItemLocalizations();
-        if (CompareTool.EqualDictionaries((IDictionary<string, string>)localizations, existingLocalizations))
+        if (CompareTool.EqualDictionaries<string, string>(localizations, existingLocalizations))
         {
             return;
         }

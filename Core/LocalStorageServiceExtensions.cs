@@ -8,7 +8,7 @@ namespace PayrollEngine.WebApp;
 public static class LocalStorageServiceExtensions
 {
     public static async Task<bool?> GetItemAsBooleanAsync(this ILocalStorageService storageService,
-        string key, CancellationToken cancellationToken = default)
+        string key, bool? defaultValue = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(key))
         {
@@ -17,7 +17,7 @@ public static class LocalStorageServiceExtensions
 
         if (!await storageService.ContainKeyAsync(key, cancellationToken))
         {
-            return null;
+            return defaultValue;
         }
 
         var value = await storageService.GetItemAsStringAsync(key, cancellationToken);
@@ -25,7 +25,7 @@ public static class LocalStorageServiceExtensions
         {
             return boolValue;
         }
-        return null;
+        return defaultValue;
     }
 
     public static async Task SetItemAsBooleanAsync(this ILocalStorageService storageService,

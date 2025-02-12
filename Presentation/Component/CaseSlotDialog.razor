@@ -2,7 +2,7 @@
 @using PayrollEngine.WebApp.Shared
 @using Task = System.Threading.Tasks.Task
 
-<MudDialog Class="attribute-dialog">
+<MudDialog Class="pe-attribute-dialog" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudPaper>
             <MudForm @ref="form">
@@ -20,8 +20,8 @@
     </DialogContent>
     <DialogActions>
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
-            <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -29,7 +29,7 @@
 @code {
     MudForm form;
 
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public ItemCollection<CaseSlot> CaseSlots { get; set; }
     [Parameter] public CaseSlot CaseSlot { get; set; } = new();
     [Parameter] public bool ReadOnly { get; set; }
@@ -85,7 +85,7 @@
     private void SetItemLocalizations(Dictionary<string, string> localizations)
     {
         var existingLocalizations = GetItemLocalizations();
-        if (CompareTool.EqualDictionaries((IDictionary<string, string>)localizations, existingLocalizations))
+        if (CompareTool.EqualDictionaries<string, string>(localizations, existingLocalizations))
         {
             return;
         }

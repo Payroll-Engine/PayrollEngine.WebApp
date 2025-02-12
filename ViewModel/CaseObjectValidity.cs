@@ -71,4 +71,6 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
         return Valid == compare.Valid &&
                Rules.SequenceEqual(compare.Rules);
     }
+
+    public override string ToString() => $"{rules.Count} rules";
 }

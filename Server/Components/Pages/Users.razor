@@ -1,0 +1,83 @@
+﻿@page "/users"
+
+@using PayrollEngine.WebApp.ViewModel
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits EditItemPageBase<User, Query, Dialogs.UserDialog>
+
+@* missing feature *@
+@if (!HasFeature(Feature.Users))
+{
+    NavigateHome();
+    return;
+}
+@* busy indicator *@
+@if (IsLoading)
+{
+    <PageBusyIndicator Title="@Localizer.User.Users" />
+    return;
+}
+
+<ItemPageActions PageActions="this" Title="@Localizer.User.Users" />
+
+<MudDataGrid @ref="ItemsGrid" 
+             T="User"
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true"
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <FilterTemplate>
+                <EnumFilter TItem="User" TEnum="ObjectStatus" Column="@nameof(User.Status)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
+            <CellTemplate>
+                @Localizer.Enum(context.Item.Status)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Identifier" Title="@Localizer.Shared.Identifier" />
+        <PropertyColumn Property="x => x.FirstName" Title="@Localizer.User.FirstName" />
+        <PropertyColumn Property="x => x.LastName" Title="@Localizer.User.LastName" />
+        <PropertyColumn Property="x => x.Culture" Title="@Localizer.Shared.Culture">
+            <CellTemplate>
+                @CultureTool.GetDisplayName(context.Item.Culture)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.UserType" Title="@Localizer.User.UserType">
+            <FilterTemplate>
+                <EnumFilter TItem="User" TEnum="UserType" Column="@nameof(User.UserType)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
+            <CellTemplate>
+                @Localizer.Enum(context.Item.UserType)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <CustomColumns T="User" Columns="ColumnConfiguration" />
+        @* action column needs to be isolated in a separated component.
+        otherwise there is a rendering sequence issue (custom columns after the action column)
+        *@
+        <ItemActionsColumn T="User" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="User" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
+    </PagerContent>
+    <NoRecordsContent>
+        @Localizer.User.NotAvailable
+    </NoRecordsContent>
+</MudDataGrid>

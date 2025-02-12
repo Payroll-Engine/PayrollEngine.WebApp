@@ -9,9 +9,8 @@
 <MudPopover Open="@FilterOpen" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter"
             Style="max-width: 20em">
     <MudStack Spacing="0">
-        <MudList Style="overflow-y: auto; max-height: 40em"
-                 SelectedValueChanged="@(x => SelectFilter(x.Value))"
-                 SelectionMode="SelectionMode.SingleSelection">
+        <MudList T="string" Style="overflow-y: auto; max-height: 40em"
+                 SelectedValueChanged="@(x => SelectFilterAsync(x))">
             <EnumListItems T="TEnum" />
         </MudList>
     </MudStack>

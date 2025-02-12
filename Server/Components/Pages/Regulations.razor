@@ -1,0 +1,79 @@
+﻿@page "/regulations"
+
+@using PayrollEngine.WebApp.Presentation.Component
+
+@inherits EditItemPageBase<ViewModel.Regulation, Query, Dialogs.RegulationDialog>
+
+@* missing feature *@
+@if (!HasFeature(Feature.Regulations))
+{
+    NavigateHome();
+    return;
+}
+@* busy indicator *@
+@if (IsLoading)
+{
+    <PageBusyIndicator Title="@Localizer.Regulation.Regulations" />
+    return;
+}
+
+<ItemPageActions PageActions="this" Title="@Localizer.Regulation.Regulations" />
+
+<MudDataGrid @ref="ItemsGrid"
+             T="ViewModel.Regulation"
+             ServerData="GetServerDataAsync"
+             EditMode="DataGridEditMode.Form"
+             FilterMode="DataGridFilterMode.ColumnFilterRow"
+             ColumnResizeMode="ResizeMode.Column"
+             SortMode="SortMode.Multiple"
+             Filterable="true"
+             Hideable="true">
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Editable="false" Filterable="false" Title="@Localizer.Shared.ObjectId" />
+        <PropertyColumn Property="x => x.Status" Title="@Localizer.Shared.ObjectStatus">
+            <FilterTemplate>
+                <EnumFilter TItem="ViewModel.Regulation" TEnum="ObjectStatus" Column="@nameof(ViewModel.Regulation.Status)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
+            <CellTemplate>
+                @Localizer.Enum(context.Item.Status)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Name" Title="@Localizer.Shared.Name" />
+        <PropertyColumn Property="x => x.Description" Title="@Localizer.Shared.Description" />
+        <PropertyColumn Property="x => x.Owner" Title="@Localizer.Shared.Owner" />
+        <PropertyColumn Property="x => x.ValidFrom" Title="@Localizer.Regulation.ValidFrom">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.ValidFrom)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Version" Title="@Localizer.Regulation.Version" />
+        <PropertyColumn Property="x => x.SharedRegulation" Title="@Localizer.Regulation.SharedRegulation">
+            <FilterTemplate>
+                <BooleanFilter TItem="ViewModel.Regulation" Column="@nameof(ViewModel.Regulation.SharedRegulation)"
+                               Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
+            <CellTemplate>
+                @Localizer.Shared.BooleanToggle(context.Item.SharedRegulation)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Created)
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Updated" Title="@Localizer.Shared.ObjectUpdated">
+            <CellTemplate>
+                @ValueFormatter.ToCompactString(context.Item.Updated)
+            </CellTemplate>
+        </PropertyColumn>
+        <ItemActionsColumn T="ViewModel.Regulation" ActionOperator="this" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="ViewModel.Regulation" RowsPerPageString="@Localizer.DataGrid.PagerRowsPerPage"
+                          InfoFormat="@Localizer.DataGrid.PagerInfoFormat" />
+    </PagerContent>
+    <NoRecordsContent>
+        @Localizer.Regulation.NotAvailable
+    </NoRecordsContent>
+</MudDataGrid>

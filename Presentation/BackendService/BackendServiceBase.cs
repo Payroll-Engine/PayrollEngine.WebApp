@@ -1,47 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using MudBlazor;
 using PayrollEngine.Client;
-using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Shared;
+using PayrollEngine.Client.Service;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuery> : IBackendService<TItem, TQuery>, IDisposable
+public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuery> :
+    IBackendService<TItem, TQuery>, IDisposable
     where TService : IReadService<TItem, TServiceContext, TQuery>
     where TServiceContext : IServiceContext
     where TItem : class, new()
     where TQuery : Query, new()
 {
     private readonly QueryBuilder<TQuery, TItem> queryBuilder = new();
-    protected UserSession UserSession { get; }
     private Localizer Localizer { get; }
+    private bool DisabledAuthorization { get; }
     private TService Service { get; set; }
+    private readonly string ItemTypeName = typeof(TItem).Name.ToPascalSentence();
 
     /// <summary>The http client</summary>
     protected PayrollHttpClient HttpClient { get; }
+    /// <summary>User session</summary>
+    protected UserSession UserSession { get; }
 
-    private readonly string ItemTypeName = typeof(TItem).Name.ToPascalSentence();
 
-    protected BackendServiceBase(UserSession userSession, HttpClientHandler httpClientHandler,
-        PayrollHttpConfiguration configuration, Localizer localizer)
+    protected BackendServiceBase(UserSession userSession, PayrollHttpClient httpClient,
+        Localizer localizer, bool disabledAuthorization = false)
     {
         UserSession = userSession ?? throw new ArgumentNullException(nameof(userSession));
-        if (httpClientHandler == null)
-        {
-            throw new ArgumentNullException(nameof(httpClientHandler));
-        }
+        HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
-        if (configuration == null)
-        {
-            throw new ArgumentNullException(nameof(configuration));
-        }
+        DisabledAuthorization = disabledAuthorization;
 
         // http connection
-        HttpClient = new(httpClientHandler, configuration);
         UpdateAuthorization();
     }
 
@@ -98,7 +93,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         Service = CreateService();
         if (Service == null)
         {
-            throw new PayrollException("Missing payroll service");
+            throw new PayrollException("Missing payroll service.");
         }
 
         // test for available read state
@@ -166,7 +161,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             var readService = Service as IReadService<TItem, TServiceContext, TQuery>;
             if (readService == null)
             {
-                throw new PayrollException($"Service {typeof(TService).Name} can't create the type {ItemTypeName}");
+                throw new PayrollException($"Service {typeof(TService).Name} can't create the type {ItemTypeName}.");
             }
             Log.Trace($"Read object on {typeof(TService).Name} with id: {itemId}");
             var item = await readService.GetAsync<TItem>(CreateServiceContext(), itemId);
@@ -201,7 +196,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             var createService = Service as ICreateService<TItem, TServiceContext, TQuery>;
             if (createService == null)
             {
-                throw new PayrollException($"Service {typeof(TService).Name} can't create the type {ItemTypeName}");
+                throw new PayrollException($"Service {typeof(TService).Name} can't create the type {ItemTypeName}.");
             }
             Log.Trace($"Create object on {typeof(TService).Name}: {item}");
             return await createService.CreateAsync(CreateServiceContext(), item);
@@ -233,7 +228,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             var crudService = Service as ICrudService<TItem, TServiceContext, TQuery>;
             if (crudService == null)
             {
-                throw new PayrollException($"Service {typeof(TService).Name} can't update the type {ItemTypeName}");
+                throw new PayrollException($"Service {typeof(TService).Name} can't update the type {ItemTypeName}.");
             }
             Log.Trace($"Update object on {typeof(TService).Name}: {item}");
             await crudService.UpdateAsync(CreateServiceContext(), item);
@@ -266,7 +261,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
             var createService = Service as ICreateService<TItem, TServiceContext, TQuery>;
             if (createService == null)
             {
-                throw new PayrollException($"Service {typeof(TService).Name} can't delete the type {ItemTypeName}");
+                throw new PayrollException($"Service {typeof(TService).Name} can't delete the type {ItemTypeName}.");
             }
             Log.Trace($"Delete object on {typeof(TService).Name}: {itemId}");
             await createService.DeleteAsync(CreateServiceContext(), itemId);
@@ -282,8 +277,15 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
     #endregion
 
-    private void UpdateAuthorization() =>
+    private void UpdateAuthorization()
+    {
+        if (DisabledAuthorization || UserSession.Tenant == null)
+        {
+            HttpClient.RemoveTenantAuthorization();
+            return;
+        }
         HttpClient.SetTenantAuthorization(UserSession.Tenant.Identifier);
+    }
 
     public virtual void Dispose()
     {

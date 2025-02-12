@@ -13,10 +13,10 @@ public class CaseFactory(Client.Model.Tenant tenant, Client.Model.Payroll payrol
     private ICaseService CaseService { get; } = caseService;
     private IPayrollService PayrollService { get; } = payrollService;
 
-    protected override async Task<List<RegulationCase>> QueryItems(Client.Model.Regulation regulation) =>
+    protected override async Task<List<RegulationCase>> QueryItemsAsync(Client.Model.Regulation regulation) =>
         await CaseService.QueryAsync<RegulationCase>(new(Tenant.Id, regulation.Id));
 
-    public override async Task<List<RegulationCase>> QueryPayrollItems() =>
+    public override async Task<List<RegulationCase>> QueryPayrollItemsAsync() =>
         await PayrollService.GetCasesAsync<RegulationCase>(new(Tenant.Id, Payroll.Id));
 
     public async Task<bool> SaveItem(ICollection<RegulationCase> cases, RegulationCase @case)

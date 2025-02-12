@@ -103,6 +103,20 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     public string GetLocalizedDescription(CultureInfo culture) =>
         culture.Name.GetLocalization(DescriptionLocalizations, Description);
 
+    public string FormatValue(CultureInfo culture = null)
+    {
+        // priority 1: object culture
+        if (!string.IsNullOrWhiteSpace(Culture))
+        {
+            culture = new CultureInfo(Culture);
+        }
+        // priority 2: parameter culture
+        // priority 3: system culture
+        culture ??= CultureInfo.CurrentCulture;
+
+        return ValueFormatter.ToString(Value, ValueType, culture);
+    }
+
     #endregion
 
     public override string ToString() =>

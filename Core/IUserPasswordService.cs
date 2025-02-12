@@ -4,8 +4,6 @@ namespace PayrollEngine.WebApp;
 
 public interface IUserPasswordService
 {
-    bool IsValidPassword(string test);
-
     /// <summary>
     /// Check if password is correct or not (backend call)
     /// </summary>

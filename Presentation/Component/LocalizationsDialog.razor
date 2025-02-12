@@ -1,4 +1,4 @@
-﻿<MudDialog style="min-width: 40em">
+﻿<MudDialog style="min-width: 40em" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudPaper Class="pa-4 mb-2" Elevation="4">
             <MudStack Spacing="0">
@@ -15,10 +15,12 @@
                         @if (!ReadOnly)
                         {
                             <div class="d-flex flex-grow-1 justify-end">
-                                <MudTooltip Delay="500" Text="@Localizer.Item.AddTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
+                                <MudTooltip Delay="1000" Text="@Localizer.Item.AddTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
                                     <MudIconButton @onclick="@AddLocalizationAsync"
-                                                   Color="Color.Tertiary" Variant="Variant.Outlined"
-                                                   Icon="@Icons.Material.Filled.Add" Size="Size.Small" />
+                                                   Color="Color.Tertiary"
+                                                   Variant="@Globals.ButtonVariant"
+                                                   Icon="@Icons.Material.Filled.Add"
+                                                   Size="Size.Small" />
                                 </MudTooltip>
                             </div>
                         }
@@ -27,8 +29,11 @@
                 else
                 {
                     <MudInputLabel Class="pt-4">@Localizer.Localization.Localizations</MudInputLabel>
-                    <MudDataGrid @ref="Grid" T="KeyValuePair<string, string>" Items="@Localizations"
-                                 Dense="true" Class="mb-4">
+                    <MudDataGrid @ref="Grid"
+                                 T="KeyValuePair<string, string>"
+                                 Items="@Localizations"
+                                 Dense="true"
+                                 Class="mb-4">
                         <Columns>
                             <PropertyColumn Property="x => x.Key" Title="@Localizer.Shared.Culture" />
                             <PropertyColumn Property="x => x.Value" Title="@Localizer.Localization.Localization" />
@@ -38,25 +43,31 @@
                                                 ShowFilterIcon="false" Sortable="false">
                                     <HeaderTemplate>
                                         <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                                            <MudTooltip Delay="500" Text="@Localizer.Item.AddTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
+                                            <MudTooltip Delay="1000" Text="@Localizer.Item.AddTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
                                                 <MudIconButton @onclick="@AddLocalizationAsync"
-                                                               Color="Color.Tertiary" Variant="Variant.Outlined"
-                                                               Icon="@Icons.Material.Filled.Add" Size="Size.Small" />
+                                                               Color="Color.Tertiary"
+                                                               Variant="@Globals.ButtonVariant"
+                                                               Icon="@Icons.Material.Filled.Add"
+                                                               Size="Size.Small" />
                                             </MudTooltip>
                                         </MudStack>
                                     </HeaderTemplate>
                                     <FilterTemplate />
                                     <CellTemplate>
                                         <MudStack Row="true">
-                                            <MudTooltip Delay="500" Text="@Localizer.Item.DeleteTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
-                                                <MudIconButton @onclick="@(() => DeleteLocalizationAsync(context.Item))"
-                                                               Color="Color.Secondary" Variant="Variant.Outlined"
-                                                               Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                                            <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
+                                                <MudIconButton @onclick="@(() => RemoveLocalizationAsync(context.Item))"
+                                                               Color="Color.Secondary"
+                                                               Variant="@Globals.ButtonVariant"
+                                                               Icon="@Icons.Material.Filled.Delete"
+                                                               Size="Size.Small" />
                                             </MudTooltip>
-                                            <MudTooltip Delay="500" Text="@Localizer.Item.EditTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
+                                            <MudTooltip Delay="1000" Text="@Localizer.Item.EditTitle(Localizer.Localization.Localization)" Placement="Placement.Top">
                                                 <MudIconButton @onclick="@(() => EditLocalizationAsync(context.Item))"
-                                                               Color="Color.Primary" Variant="Variant.Outlined"
-                                                               Icon="@Icons.Material.Filled.Edit" Size="Size.Small" />
+                                                               Color="Color.Primary"
+                                                               Variant="@Globals.ButtonVariant"
+                                                               Icon="@Icons.Material.Filled.Edit"
+                                                               Size="Size.Small" />
                                             </MudTooltip>
                                         </MudStack>
                                     </CellTemplate>
@@ -72,9 +83,9 @@
         <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
             @if (!ReadOnly)
             {
-                <MudButton Variant="Variant.Outlined" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
+                <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
             }
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </MudStack>
     </DialogActions>
 </MudDialog>
