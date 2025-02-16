@@ -14,22 +14,20 @@ namespace PayrollEngine.WebApp.Server.Components.Shared;
 
 /// <summary>Bootstrap the user session</summary>
 public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
-    IConfiguration configuration,
-    UserSession userSession,
-    IUserService userService,
-    ITaskService taskService,
-    ITenantService tenantService,
-    IEmployeeService employeeService,
-    IPayrollService payrollService)
+    IConfiguration configuration)
 {
     private IHostApplicationLifetime ApplicationLifetime { get; } = applicationLifetime;
     private IConfiguration Configuration { get; } = configuration;
-    private UserSession UserSession { get; } = userSession;
-    private IUserService UserService { get; } = userService;
-    private ITaskService TaskService { get; } = taskService;
-    private ITenantService TenantService { get; } = tenantService;
-    private IEmployeeService EmployeeService { get; } = employeeService;
-    private IPayrollService PayrollService { get; } = payrollService;
+
+    private UserSession LastUserSession { get; set; }
+
+    public void Update(UserSession userSession)
+    {
+        if (!userSession.UserAvailable && LastUserSession != null)
+        {
+            userSession.ImportFrom(LastUserSession);
+        }
+    }
 
     /// <summary>
     /// Builds the user session <see cref="UserSession"/> based on the web app configuration <see cref="AppConfiguration"/>.
@@ -38,12 +36,16 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
     /// <exception cref="Exception">Currently the startup user is required</exception>
     /// <exception cref="Exception">Currently the startup tenant is required</exception>
     /// <exception cref="Exception">Missing or invalid startup tenant {startupTenant}</exception>
-    public async Task Start()
+    public async Task Apply(UserSession userSession,
+        IUserService userService,
+        ITaskService taskService,
+        ITenantService tenantService,
+        IEmployeeService employeeService,
+        IPayrollService payrollService)
     {
-        // already started
-        if (UserSession.UserAvailable)
+        if (userSession == null)
         {
-            return;
+            throw new ArgumentNullException(nameof(userSession));
         }
 
         try
@@ -58,7 +60,7 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
             // default features
             if (appConfiguration.DefaultFeatures != null)
             {
-                UserSession.SetDefaultFeatures(appConfiguration.DefaultFeatures.Select(Enum.Parse<Feature>));
+                userSession.SetDefaultFeatures(appConfiguration.DefaultFeatures.Select(Enum.Parse<Feature>));
             }
 
             // optional startup configuration
@@ -71,23 +73,23 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
                 Employee employee = null;
 
                 // startup working objects
-                var tenant = await GetStartupTenant(startupConfiguration.StartupTenant);
+                var tenant = await GetStartupTenant(tenantService, startupConfiguration.StartupTenant);
                 if (tenant != null)
                 {
                     // startup user
-                    user = await GetStartupUser(tenant, startupConfiguration.StartupUser);
+                    user = await GetStartupUser(userService, taskService, tenant, startupConfiguration.StartupUser);
                     if (user != null)
                     {
                         // startup payroll
-                        payroll = await GetStartupPayroll(tenant, user);
+                        payroll = await GetStartupPayroll(payrollService, tenant, user);
                         if (payroll != null)
                         {
                             // startup employee
                             employee = user.UserType == UserType.Employee ?
                                 // user employee
-                                await GetUserEmployee(tenant, user) :
+                                await GetUserEmployee(employeeService, tenant, user) :
                                 // regular employee or supervisor
-                                await GetStartupEmployee(tenant, user);
+                                await GetStartupEmployee(employeeService, tenant, user);
                         }
                     }
                 }
@@ -95,7 +97,7 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
                 // default tenant (fallback)
                 if (tenant == null)
                 {
-                    tenant = (await TenantService.QueryAsync<Tenant>(new())).FirstOrDefault();
+                    tenant = (await tenantService.QueryAsync<Tenant>(new())).FirstOrDefault();
                     if (tenant == null)
                     {
                         return;
@@ -105,73 +107,73 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
                 // default user (fallback)
                 if (user == null)
                 {
-                    user = (await UserService.QueryAsync<User>(new(tenant.Id))).FirstOrDefault();
+                    user = (await userService.QueryAsync<User>(new(tenant.Id))).FirstOrDefault();
                     if (user == null)
                     {
                         return;
                     }
-                    await SetupUserTasksAsync(tenant, user);
+                    await SetupUserTasksAsync(taskService, tenant, user);
                 }
 
                 // user login
-                await UserSession.LoginAsync(tenant, user);
+                await userSession.LoginAsync(tenant, user);
 
                 // working payroll
                 if (payroll != null)
                 {
-                    await UserSession.ChangePayrollAsync(payroll);
+                    await userSession.ChangePayrollAsync(payroll);
                 }
 
                 // working employee
                 if (employee != null)
                 {
-                    await UserSession.ChangeEmployeeAsync(employee);
+                    await userSession.ChangeEmployeeAsync(employee);
                 }
+
+                LastUserSession = userSession;
             }
         }
         catch (Exception exception)
         {
             Log.Critical(exception, exception.GetBaseMessage());
-#if DEBUG
             // debug break point
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 System.Diagnostics.Debug.WriteLine($"!!! {exception.GetBaseMessage()} !!!");
             }
-#endif
             ApplicationLifetime.StopApplication();
         }
     }
 
-    private async Task<Tenant> GetStartupTenant(string startupTenant)
+    private async Task<Tenant> GetStartupTenant(ITenantService tenantService, string startupTenant)
     {
         Tenant tenant = null;
         if (!string.IsNullOrWhiteSpace(startupTenant))
         {
-            tenant = (await TenantService.QueryAsync<Tenant>(new())).FirstOrDefault(x =>
+            tenant = (await tenantService.QueryAsync<Tenant>(new())).FirstOrDefault(x =>
                 string.Equals(x.Identifier, startupTenant));
         }
         return tenant;
     }
 
-    private async Task<User> GetStartupUser(Tenant tenant, string startupUser)
+    private async Task<User> GetStartupUser(IUserService userService, ITaskService taskService, Tenant tenant, string startupUser)
     {
         if (string.IsNullOrWhiteSpace(startupUser))
         {
             return null;
         }
-        var user = await UserService.GetAsync<User>(new(tenant.Id), startupUser);
+        var user = await userService.GetAsync<User>(new(tenant.Id), startupUser);
         if (user == null)
         {
             return null;
         }
-        await SetupUserTasksAsync(tenant, user);
+        await SetupUserTasksAsync(taskService, tenant, user);
         return user;
     }
 
-    private async Task SetupUserTasksAsync(Tenant tenant, User user)
+    private async Task SetupUserTasksAsync(ITaskService taskService, Tenant tenant, User user)
     {
-        var tasks = await TaskService.QueryAsync<Client.Model.Task>(new(tenant.Id), new()
+        var tasks = await taskService.QueryAsync<Client.Model.Task>(new(tenant.Id), new()
         {
             Filter = new Equals(nameof(Client.Model.Task.ScheduledUserId), user.Id).
                 And(new Equals(nameof(Client.Model.Task.Completed), null)).
@@ -180,33 +182,34 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
         user.OpenTaskCount = tasks.Count;
     }
 
-    private async Task<ClientModel.Payroll> GetStartupPayroll(Tenant tenant, User user)
+    private async Task<ClientModel.Payroll> GetStartupPayroll(IPayrollService payrollService, Tenant tenant, User user)
     {
         ClientModel.Payroll payroll = null;
         var startupPayroll = user.Attributes.GetValue<string>(nameof(User.StartupPayroll));
         if (!string.IsNullOrWhiteSpace(startupPayroll))
         {
-            payroll = await PayrollService.GetAsync<ClientModel.Payroll>(new(tenant.Id),
+            payroll = await payrollService.GetAsync<ClientModel.Payroll>(new(tenant.Id),
                 startupPayroll);
         }
         return payroll;
     }
 
-    private async Task<Employee> GetUserEmployee(Tenant tenant, User user)
+    private async Task<Employee> GetUserEmployee(IEmployeeService employeeService, Tenant tenant, User user)
     {
         // user and employee must have the same identifier
-        var employee = await EmployeeService.GetAsync<Employee>(new(tenant.Id), user.Identifier);
+        var employee = await employeeService.GetAsync<Employee>(new(tenant.Id), user.Identifier);
         return employee;
     }
 
-    private async Task<Employee> GetStartupEmployee(Tenant tenant, User user)
+    private async Task<Employee> GetStartupEmployee(IEmployeeService employeeService, Tenant tenant, User user)
     {
         Employee employee = null;
         var startupEmployee = user.Attributes.GetValue<string>(nameof(User.StartupEmployee));
         if (!string.IsNullOrWhiteSpace(startupEmployee))
         {
-            employee = await EmployeeService.GetAsync<Employee>(new(tenant.Id), startupEmployee);
+            employee = await employeeService.GetAsync<Employee>(new(tenant.Id), startupEmployee);
         }
         return employee;
     }
 }
+

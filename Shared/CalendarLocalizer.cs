@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class CalendarLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class CalendarLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string Calendar => PropertyValue();
     public string Calendars => PropertyValue();

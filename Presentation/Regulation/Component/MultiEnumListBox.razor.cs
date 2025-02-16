@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -17,6 +18,11 @@ public partial class MultiEnumListBox<T> : IRegulationInput
     public RegulationField Field { get; set; }
     [Parameter]
     public EventCallback<object> ValueChanged { get; set; }
+
+    [Inject]
+    private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     protected List<string> EnumValues { get; set; }
     private List<T> Value { get; set; }
@@ -48,7 +54,7 @@ public partial class MultiEnumListBox<T> : IRegulationInput
     {
         if (!selectedValues.Any())
         {
-            return Localizer.Shared.None;
+            return LocalizerService.Localizer.Shared.None;
         }
         return string.Join(", ", selectedValues.Select(x => x.ToString().ToPascalSentence()));
     }

@@ -15,6 +15,7 @@ using Tenant = PayrollEngine.WebApp.ViewModel.Tenant;
 namespace PayrollEngine.WebApp.Presentation;
 
 public class UserSession(IConfiguration configuration,
+    ICultureService cultureService,
     ITenantService tenantService,
     IDivisionService divisionService,
     IPayrollService payrollService,
@@ -23,6 +24,8 @@ public class UserSession(IConfiguration configuration,
     : IDisposable
 {
     private IConfiguration Configuration { get; } = configuration;
+    private ICultureService CultureService { get; } = cultureService;
+
     private readonly WorkingItemsWatcher<ITenantService, RootServiceContext, Tenant, Query> tenantWatcher = new(tenantService);
     private readonly WorkingItemsWatcher<IDivisionService, TenantServiceContext, Division, Query> divisionWatcher = new(divisionService);
     private readonly WorkingItemsWatcher<IPayrollService, TenantServiceContext, Payroll, Query> payrollWatcher = new(payrollService);
@@ -118,13 +121,10 @@ public class UserSession(IConfiguration configuration,
             user.Culture ??
             // priority 3: system culture
             CultureInfo.CurrentCulture.Name;
-
-        var culture = CultureTool.GetCulture(cultureName);
-        CultureInfo.DefaultThreadCurrentCulture = culture;
-        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        var culture = CultureService.GetCulture(cultureName);
 
         // value format
-        ValueFormatter = new ValueFormatter(culture);
+        ValueFormatter = new ValueFormatter(culture?.CultureInfo ?? CultureInfo.CurrentCulture);
     }
 
     private async Task SetupUserTasks(User user)
@@ -568,5 +568,30 @@ public class UserSession(IConfiguration configuration,
         Divisions?.Dispose();
         Payrolls?.Dispose();
         Employees?.Dispose();
+    }
+
+    public void ImportFrom(UserSession source)
+    {
+        ValueFormatter = source.ValueFormatter;
+
+        User = source.User;
+        MultiTenantUser = source.MultiTenantUser;
+
+        tenant = source.tenant;
+        Tenants.Clear();
+        Tenants.AddRange(source.Tenants);
+        Tenants.Clear();
+        Tenants.AddRange(source.Tenants);
+
+        Divisions.Clear();
+        Divisions.AddRange(source.Divisions);
+
+        payroll = source.payroll;
+        Payrolls.Clear();
+        Payrolls.AddRange(source.Payrolls);
+
+        employee = source.employee;
+        Employees.Clear();
+        Employees.AddRange(source.Employees);
     }
 }

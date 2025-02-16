@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -17,6 +18,11 @@ public partial class EnumListBox<T> : IRegulationInput
     public RegulationField Field { get; set; }
     [Parameter]
     public EventCallback<object> ValueChanged { get; set; }
+
+    [Inject]
+    private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private T Value { get; set; }
 

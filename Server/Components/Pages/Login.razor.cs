@@ -555,8 +555,11 @@ public partial class Login() : PageBase(WorkingItems.None), IDisposable
     private bool BackendAvailable { get; set; }
     private string RedirectPage { get; set; } = PageUrls.Tasks;
 
+    /// <summary>
+    /// Set forceLoad to false, otherwise the user session is lost
+    /// </summary>
     private void GoToRedirectSite() =>
-        NavigationManager.NavigateTo(RedirectPage, true);
+        NavigationManager.NavigateTo(RedirectPage, forceLoad: false);
 
     protected override async Task OnPageInitializedAsync()
     {

@@ -27,8 +27,9 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private ItemCollection<CaseFieldReference> References { get; set; } = new();
 
     private List<CaseFieldReference> FieldValue

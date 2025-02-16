@@ -21,10 +21,12 @@ public partial class AttributesGrid : IDisposable
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
     private ItemCollection<AttributeItem> Attributes { get; set; } = new();
     private MudDataGrid<AttributeItem> Grid { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private void SetupAttributes()
     {

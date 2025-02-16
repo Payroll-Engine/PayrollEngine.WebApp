@@ -1,10 +1,10 @@
 .pe-attributes-grid {
-    min-height: 20em;
+    min-height: 20rem;
 }
 
 .pe-item-dialog {
-    min-width: 30em;
-    max-width: 60em;
+    min-width: 35em;
+    max-width: 70em;
 }
 
 .pe-dialog-title {
@@ -12,6 +12,6 @@
 }
 
 .pe-attribute-dialog {
-    min-width: 30em;
-    max-width: 60em;
+    min-width: 35rem;
+    max-width: 70rem;
 }

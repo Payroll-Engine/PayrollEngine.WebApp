@@ -51,8 +51,9 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
     [Inject]
     private IJSRuntime JsRuntime { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private bool HasParent => ParentFactory != null;
     private MudDataGrid<TItem> ItemsGrid { get; set; }
 

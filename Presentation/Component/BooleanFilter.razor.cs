@@ -16,7 +16,9 @@ public class BooleanFilterBase<T> : ComponentBase
     public string Column { get; set; }
 
     [Inject]
-    protected Localizer Localizer { get; set; }
+    protected ILocalizerService LocalizerService { get; set; }
+
+    protected Localizer Localizer => LocalizerService.Localizer;
 
     protected string FilterIcon { get; private set; } = Icons.Material.Outlined.FilterAlt;
     protected bool FilterOpen { get; private set; }

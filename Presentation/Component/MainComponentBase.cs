@@ -20,7 +20,6 @@ public abstract class MainComponentBase : LayoutComponentBase
     protected bool HasFeature(Feature feature) =>
         Session.UserFeature(feature);
 
-
     #region Working Items
 
     private WorkingItems workingItems;

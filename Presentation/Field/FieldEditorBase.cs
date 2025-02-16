@@ -14,8 +14,9 @@ public abstract class FieldEditorBase : ComponentBase
     [Parameter] public Variant Variant { get; set; }
     [Parameter] public string HelperText { get; set; }
     [Parameter] public bool Disabled { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
 
+    protected Localizer Localizer => LocalizerService.Localizer;
     protected bool Error => !Field.IsValidValue();
 
     protected string ValueHelp { get; private set; }

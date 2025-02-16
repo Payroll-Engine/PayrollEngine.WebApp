@@ -40,7 +40,9 @@
     [Parameter] public List<Employee> Employees { get; set; } = [];
     [Parameter] public List<int> SelectedEmployees { get; set; } = [];
     [Parameter] public string Class { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private string Label
     {

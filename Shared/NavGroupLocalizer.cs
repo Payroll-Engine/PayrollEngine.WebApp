@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using System.Globalization;
+using Microsoft.Extensions.Localization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class NavGroupLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class NavGroupLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string ToggleExpand => PropertyValue();
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Localization;
 
@@ -8,13 +9,20 @@ public abstract class LocalizerBase
 {
     private IStringLocalizerFactory Factory { get; }
     public IStringLocalizer Localizer { get; }
+
+    private CultureInfo ResourceCulture { get; }
+
     private string GroupName { get; }
 
     private const string ResourceName = "Localizations";
 
-    protected LocalizerBase(IStringLocalizerFactory factory, string groupName = null)
+    protected LocalizerBase(IStringLocalizerFactory factory, CultureInfo culture, string groupName = null)
     {
+        // factory
         Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+
+        // culture
+        ResourceCulture = culture ?? throw new ArgumentNullException(nameof(culture));
 
         // localization group: <GroupName>.<LocalizationKey>
         if (string.IsNullOrWhiteSpace(groupName))
@@ -43,6 +51,15 @@ public abstract class LocalizerBase
         if (string.IsNullOrWhiteSpace(key))
         {
             throw new ArgumentException(nameof(key));
+        }
+
+        // culture
+        if (ResourceCulture != null)
+        {
+            if (ResourceCulture != null && !Equals(ResourceCulture, CultureInfo.CurrentUICulture))
+            {
+                CultureInfo.CurrentUICulture = ResourceCulture;
+            }
         }
         return string.IsNullOrWhiteSpace(group) ? Localizer[key] : Localizer[$"{group}.{key}"];
     }

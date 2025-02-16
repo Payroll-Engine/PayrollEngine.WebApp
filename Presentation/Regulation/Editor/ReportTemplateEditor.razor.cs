@@ -22,8 +22,9 @@ public partial class ReportTemplateEditor
     public EventCallback<IRegulationItem> DeriveItem { get; set; }
 
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private List<RegulationField> Fields { get; set; }
 
     private void SetupFields()

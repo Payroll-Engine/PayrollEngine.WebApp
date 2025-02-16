@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
@@ -27,6 +28,10 @@ public partial class LookupSettingsBox : IRegulationInput
     private IDialogService DialogService { get; set; }
     [Inject]
     private IPayrollService PayrollService { get; set; }
+    [Inject]
+    private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private bool ClearDisabled() =>
         Item.IsReadOnlyField(Field) || Value == null ||

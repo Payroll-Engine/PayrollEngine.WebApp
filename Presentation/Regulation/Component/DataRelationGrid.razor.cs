@@ -23,8 +23,9 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private ItemCollection<DataRelation> DataRelations { get; set; } = new();
 
     #region Value

@@ -9,9 +9,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class WebhookMessageBackendService(UserSession userSession,
     PayrollHttpClient httpClient,
-    Localizer localizer)
+    ILocalizerService localizerService)
     : BackendServiceBase<WebhookMessageService, WebhookServiceContext, WebhookMessage, Query>(
-        userSession, httpClient, localizer)
+        userSession, httpClient, localizerService)
 {
     /// <summary>The current request context</summary>
     protected override WebhookServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class CaseRelationLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class CaseRelationLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string Relation => PropertyValue();
     public string CaseRelation => PropertyValue();

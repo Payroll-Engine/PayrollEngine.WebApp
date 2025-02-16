@@ -67,7 +67,9 @@
     [Parameter] public Dictionary<string, object> ParameterAttributes { get; set; } = new();
     [Parameter] public CultureInfo Culture { get; set; }
     [Parameter] public string Class { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private string Label
     {

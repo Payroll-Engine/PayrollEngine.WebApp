@@ -1,5 +1,4 @@
 ﻿@using Date = PayrollEngine.Date
-@using PayrollEngine.WebApp.Shared
 @inherits FieldEditorBase;
 
 @if (!Years.Any())
@@ -29,7 +28,6 @@
 {
     [Parameter] public int MinYear { get; set; }
     [Parameter] public int MaxYear { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
 
     private List<int> Years { get; } = [];
 

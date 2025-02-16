@@ -43,8 +43,9 @@
     [Parameter] public string AppImage { get; set; }
     [Parameter] public string ProductUrl { get; set; }
     [Parameter] public string AdminEmail { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private string AppVersion { get; set; }
     private string BackendVersion { get; set; }
     private string CopyRight { get; set; }

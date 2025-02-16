@@ -88,7 +88,9 @@
 
     [Inject] private IUserNotificationService UserNotification { get; set; }
     [Inject] private IDownloadService DownloadService { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(true));
 

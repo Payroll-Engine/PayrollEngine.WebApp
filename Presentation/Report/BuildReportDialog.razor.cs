@@ -45,8 +45,9 @@ public partial class BuildReportDialog
     [Inject]
     private IJSRuntime JsRuntime { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private Client.Model.ReportTemplate ReportTemplate { get; set; }
 
     private bool Executing { get; set; }

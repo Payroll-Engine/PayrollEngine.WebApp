@@ -11,7 +11,9 @@
     [Parameter] public IItemValidator FormValidator { get; set; }
     [Parameter] public IItemValidator ItemValidator { get; set; }
 
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private void Cancel() => MudDialog.Cancel();
 

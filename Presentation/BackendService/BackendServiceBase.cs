@@ -17,7 +17,8 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     where TQuery : Query, new()
 {
     private readonly QueryBuilder<TQuery, TItem> queryBuilder = new();
-    private Localizer Localizer { get; }
+    private ILocalizerService LocalizerService { get; }
+    private Localizer Localizer => LocalizerService.Localizer;
     private bool DisabledAuthorization { get; }
     private TService Service { get; set; }
     private readonly string ItemTypeName = typeof(TItem).Name.ToPascalSentence();
@@ -29,11 +30,11 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
 
     protected BackendServiceBase(UserSession userSession, PayrollHttpClient httpClient,
-        Localizer localizer, bool disabledAuthorization = false)
+        ILocalizerService localizerService, bool disabledAuthorization = false)
     {
         UserSession = userSession ?? throw new ArgumentNullException(nameof(userSession));
         HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
+        LocalizerService = localizerService ?? throw new ArgumentNullException(nameof(localizerService));
         DisabledAuthorization = disabledAuthorization;
 
         // http connection

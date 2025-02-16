@@ -29,8 +29,9 @@ public partial class PayrunParameterGrid : IDisposable
     [Inject]
     private IUserNotificationService UserNotification { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private ItemCollection<PayrunParameter> PayrunParameters { get; set; } = new();
     private MudDataGrid<PayrunParameter> Grid { get; set; }
 

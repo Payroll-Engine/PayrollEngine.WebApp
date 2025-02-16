@@ -1,5 +1,4 @@
-﻿@using PayrollEngine.WebApp.Shared
-@inherits FieldEditorBase;
+﻿@inherits FieldEditorBase;
 
 <MudSelect T="int?"
 @bind-Value="Field.ValueAsInteger"
@@ -21,8 +20,6 @@
 
 @code
 {
-    [Inject] private Localizer Localizer { get; set; }
-
     private List<Tuple<int, string>> Months { get; } = [];
 
     private bool ValuesDisabled =>

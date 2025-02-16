@@ -107,7 +107,9 @@
 
     [Inject] private IPayrunJobService PayrunJobService { get; set; }
     [Inject] private IUserNotificationService UserNotification { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private bool Executing { get; set; }
     private bool Completed { get; set; }

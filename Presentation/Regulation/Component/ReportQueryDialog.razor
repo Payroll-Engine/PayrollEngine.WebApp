@@ -30,7 +30,9 @@
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public IDictionary<string, string> Queries { get; set; }
     [Parameter] public ReportQuery Query { get; set; } = new();
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private string ValidateName(string name)
     {

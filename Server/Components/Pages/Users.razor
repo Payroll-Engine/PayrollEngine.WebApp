@@ -45,7 +45,7 @@
         <PropertyColumn Property="x => x.LastName" Title="@Localizer.User.LastName" />
         <PropertyColumn Property="x => x.Culture" Title="@Localizer.Shared.Culture">
             <CellTemplate>
-                @CultureTool.GetDisplayName(context.Item.Culture)
+                @CultureService.GetCulture(context.Item.Culture)?.CultureInfo.DisplayName
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.UserType" Title="@Localizer.User.UserType">

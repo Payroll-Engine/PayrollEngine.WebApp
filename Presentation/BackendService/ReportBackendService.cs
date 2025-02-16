@@ -8,9 +8,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class ReportBackendService(UserSession userSession,
     PayrollHttpClient httpClient, 
-    Localizer localizer)
+    ILocalizerService localizerService)
     : BackendServiceBase<ReportService, RegulationServiceContext, ViewModel.Report, Query>(
-        userSession, httpClient, localizer)
+        userSession, httpClient, localizerService)
 {
     /// <summary>The current request context</summary>
     protected override RegulationServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)

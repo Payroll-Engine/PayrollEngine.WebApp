@@ -21,10 +21,11 @@ public partial class ClusterSetGrid : IDisposable
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
     private ItemCollection<ClusterSet> ClusterSets { get; set; } = new();
     private MudDataGrid<ClusterSet> Grid { get; set; }
+    private Localizer Localizer => LocalizerService.Localizer;
 
     #region Actions
 

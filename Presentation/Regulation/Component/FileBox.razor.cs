@@ -31,8 +31,9 @@ public partial class FileBox : IRegulationInput
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private bool ClearDisabled() =>
         Item.IsReadOnlyField(Field) || string.IsNullOrWhiteSpace(Value);
     private bool UploadDisabled() => Item.IsReadOnlyField(Field);

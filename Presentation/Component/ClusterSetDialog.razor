@@ -32,7 +32,9 @@
 
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public ClusterSet ClusterSet { get; set; } = new();
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private void Cancel() => MudDialog.Cancel();
 

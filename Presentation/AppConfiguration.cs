@@ -14,6 +14,9 @@ public class AppConfiguration
     /// <summary>The application image</summary>
     public string AppImage { get; set; }
 
+    /// <summary>The application dark mode (default: system setting)</summary>
+    public bool? DarkMode { get; set; }
+
     /// <summary>The application image in dark mode</summary>
     public string AppImageDarkMode { get; set; }
 
@@ -22,6 +25,10 @@ public class AppConfiguration
 
     /// <summary>The product url </summary>
     public string ProductUrl { get; set; }
+
+    /// <summary>The preferred cultures</summary>
+    // ReSharper disable once CollectionNeverUpdated.Global
+    public List<string> PreferredCultures { get; set; } = [];
 
     /// <summary>The default features</summary>
     public List<string> DefaultFeatures { get; set; } = [];

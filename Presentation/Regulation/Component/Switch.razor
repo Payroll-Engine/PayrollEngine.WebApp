@@ -1,9 +1,9 @@
 ﻿@using PayrollEngine.WebApp.Shared
 
-@inject Localizer Localizer;
+@inject ILocalizerService LocalizerService;
 
 <MudSwitch T="bool"
-           Label="@Item.GetItemLabel(Field, Localizer)"
+           Label="@Item.GetItemLabel(Field, LocalizerService.Localizer)"
            Color="@Color"
            Value="@Value"
            ValueChanged="@ValueChangedAsync"

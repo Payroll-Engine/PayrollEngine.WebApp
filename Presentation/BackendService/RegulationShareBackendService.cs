@@ -16,12 +16,12 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 /// <remarks>Tenant authentication is disabled</remarks>
 public class RegulationShareBackendService(UserSession userSession,
     PayrollHttpClient httpClient,
-    Localizer localizer,
+    ILocalizerService localizerService,
     ITenantService tenantService,
     IRegulationService regulationService,
     IDivisionService divisionService)
     : BackendServiceBase<RegulationShareService, RootServiceContext, RegulationShare, Query>(
-        userSession, httpClient, localizer, disabledAuthorization: true)
+        userSession, httpClient, localizerService, disabledAuthorization: true)
 {
     private ITenantService TenantService { get; } = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
     private IRegulationService RegulationService { get; } = regulationService ?? throw new ArgumentNullException(nameof(regulationService));

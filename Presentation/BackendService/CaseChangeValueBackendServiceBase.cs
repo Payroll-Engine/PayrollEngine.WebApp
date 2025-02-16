@@ -10,9 +10,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public abstract class CaseChangeValueBackendServiceBase(UserSession userSession,
     PayrollHttpClient httpClient, 
-    Localizer localizer)
+    ILocalizerService localizerService)
     : BackendServiceBase<PayrollCaseChangeValueService, PayrollServiceContext, ViewModel.CaseChangeCaseValue, 
-        PayrollCaseChangeQuery>(userSession, httpClient, localizer)
+        PayrollCaseChangeQuery>(userSession, httpClient, localizerService)
 {
     protected override bool CanRead()
     {

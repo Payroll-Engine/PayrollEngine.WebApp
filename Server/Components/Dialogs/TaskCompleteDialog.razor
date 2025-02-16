@@ -22,7 +22,9 @@
 @code {
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public Task Task { get; set; } = new();
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     void Complete() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();

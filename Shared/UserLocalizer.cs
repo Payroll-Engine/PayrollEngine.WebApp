@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class UserLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class UserLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string User => PropertyValue();
     public string Users => PropertyValue();

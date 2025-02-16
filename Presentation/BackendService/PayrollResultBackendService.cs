@@ -10,9 +10,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 public class PayrollResultBackendService(
     UserSession userSession,
     PayrollHttpClient httpClient,
-    Localizer localizer)
+    ILocalizerService localizerService)
     : BackendServiceBase<PayrollResultValueService, PayrollResultValueServiceContext, ViewModel.PayrollResultValue, Query>(
-        userSession, httpClient, localizer)
+        userSession, httpClient, localizerService)
 {
     /// <summary>The current request context</summary>
     protected override PayrollResultValueServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) =>

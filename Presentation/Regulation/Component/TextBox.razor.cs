@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.WebApp.Presentation.Component;
+using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -31,6 +32,10 @@ public partial class TextBox : IRegulationInput
 
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     #region Value
 

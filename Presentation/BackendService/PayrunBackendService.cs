@@ -12,10 +12,10 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 public class PayrunBackendService(
     UserSession userSession,
     PayrollHttpClient httpClient,
-    Localizer localizer,
+    ILocalizerService localizerService,
     IPayrollService payrollService)
     : BackendServiceBase<PayrunService, TenantServiceContext, ViewModel.Payrun, Query>(
-        userSession, httpClient, localizer)
+        userSession, httpClient, localizerService)
 {
     private IPayrollService PayrollService { get; } = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
 

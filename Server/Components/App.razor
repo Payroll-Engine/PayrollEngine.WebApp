@@ -1,10 +1,7 @@
-﻿@using PayrollEngine.WebApp.Server.Components.Shared
-@using static Microsoft.AspNetCore.Components.Web.RenderMode
-
-@inject UserSessionBootstrap bootstrap
-@{
-    Task.Run(bootstrap.Start).Wait();
-}
+﻿@* ReSharper disable RedundantUsingDirective *@
+@using PayrollEngine.Client.Service
+@using PayrollEngine.WebApp.Server.Components.Shared
+@* ReSharper restore RedundantUsingDirective *@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +32,8 @@
 
 <body>
     @* Server side rendering only *@
-    <Routes @rendermode="InteractiveServer" />
+    <Routes @rendermode="new InteractiveServerRenderMode(prerender: false)" />
+    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)" />
 
     @* ReSharper disable Html.PathError *@
     @*     <script src="_framework/blazor.server.js"></script> *@
@@ -47,3 +45,41 @@
 </body>
 
 </html>
+
+@code
+{
+    [Inject]
+    protected UserSession Session { get; set; }
+
+#if DEBUG
+    [Inject]
+    private ITenantService TenantService { get; set; }
+    [Inject]
+    private IUserService UserService { get; set; }
+    [Inject]
+    private ITaskService TaskService { get; set; }
+    [Inject]
+    private IEmployeeService EmployeeService { get; set; }
+    [Inject]
+    private IPayrollService PayrollService { get; set; }
+
+    [Inject]
+    private UserSessionBootstrap UserSessionBootstrap { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // user session bootstrap
+        if (!Session.UserAvailable)
+        {
+            await UserSessionBootstrap.Apply(Session,
+                UserService,
+                TaskService,
+                TenantService,
+                EmployeeService,
+                PayrollService);
+        }
+        await base.OnInitializedAsync();
+    }
+
+#endif
+}

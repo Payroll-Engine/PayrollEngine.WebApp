@@ -8,13 +8,15 @@
 @code
 {
     [Parameter] public CultureInfo Culture { get; set; }
+    [Inject] private ICultureService CultureService { get; set; }
+
     private List<LabeledValue<Month?>> Months { get; set; } = [];
 
     private void SetupMonths()
     {
         // culture: fallback to system culture
         var cultureName = Culture?.Name ?? CultureInfo.CurrentCulture.Name;
-        var culture = CultureTool.GetCulture(cultureName);
+        var culture = CultureService.GetCulture(cultureName).CultureInfo;
 
         // months
         var monthNames = culture.DateTimeFormat.MonthNames.

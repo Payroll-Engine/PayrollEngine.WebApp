@@ -45,7 +45,9 @@
 
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public PayrunParameter PayrunParameter { get; set; } = new();
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     public async Task<bool> ValidateAsync() =>
         await form.Revalidate();

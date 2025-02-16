@@ -30,7 +30,9 @@
 
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public List<T> Items { get; set; } = [];
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private string SelectedValue { get; set; }
 

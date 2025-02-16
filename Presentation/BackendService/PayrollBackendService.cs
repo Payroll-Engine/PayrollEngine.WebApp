@@ -11,10 +11,10 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class PayrollBackendService(UserSession userSession,
     PayrollHttpClient httpClient,
-    Localizer localizer,
+    ILocalizerService localizerService,
     IDivisionService divisionService)
     : BackendServiceBase<PayrollService, TenantServiceContext, Payroll, Query>(
-        userSession, httpClient, localizer)
+        userSession, httpClient, localizerService)
 {
     private IDivisionService DivisionService { get; } = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
 

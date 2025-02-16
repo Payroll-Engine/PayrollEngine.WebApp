@@ -65,7 +65,9 @@ public class Program
            // culture
             if (startupConfig != null)
             {
-                app.RegisterCulture(startupConfig.StartupCulture);
+                var culture = app.Services.GetService<ICultureService>()
+                    .GetCulture(startupConfig.StartupCulture);
+                app.RegisterCulture(culture.CultureInfo);
             }
 
             // configure the HTTP request pipeline

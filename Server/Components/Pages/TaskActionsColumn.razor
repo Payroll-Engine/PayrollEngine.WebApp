@@ -56,5 +56,7 @@
 
 @code {
     [Parameter] public ITaskOperator<ViewModel.Task> ActionOperator { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 }

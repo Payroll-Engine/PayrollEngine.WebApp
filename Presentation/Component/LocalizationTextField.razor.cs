@@ -49,7 +49,9 @@ public partial class LocalizationTextField
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private Dictionary<string, string> Localizations { get; set; } = new();
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Globalization;
 using System.Collections.Generic;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -6,8 +6,11 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation;
 
-public class AppMudLocalizer(Localizer localizer) : MudLocalizer
+public class AppMudLocalizer(IStringLocalizerFactory factory, UserSession userSession) : MudLocalizer
 {
+    private IStringLocalizerFactory Factory { get; } = factory;
+    private UserSession UserSession { get; } = userSession;
+
     private static readonly Dictionary<string, string> LocalizationMap = new()
     {
         // data grid
@@ -90,8 +93,6 @@ public class AppMudLocalizer(Localizer localizer) : MudLocalizer
         { "MudSnackbar_Close", nameof(SnackBarLocalizer.Close) },
     };
 
-    private Localizer Localizer { get; } = localizer ?? throw new ArgumentNullException(nameof(localizer));
-
     public override LocalizedString this[string key]
     {
         get
@@ -103,8 +104,32 @@ public class AppMudLocalizer(Localizer localizer) : MudLocalizer
                 return base[key];
             }
 
-            var value = Localizer.DataGrid.Key(localizerKey);
+            var value = GetLocalizer().DataGrid.Key(localizerKey);
             return new(key, value);
         }
     }
+
+    private Localizer defaultLocalizer;
+    private Localizer localizer;
+    private Localizer GetLocalizer()
+    {
+        if (localizer != null)
+        {
+            return localizer;
+        }
+        if (localizer == null && !string.IsNullOrEmpty(UserSession.User?.Culture))
+        {
+            localizer = new(Factory, new(UserSession.User.Culture));
+            return localizer;
+        }
+
+        if (defaultLocalizer != null)
+        {
+            return defaultLocalizer;
+        }
+
+        defaultLocalizer = new(Factory, CultureInfo.CurrentUICulture);
+        return defaultLocalizer;
+    }
+
 }

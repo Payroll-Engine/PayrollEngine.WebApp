@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class DataGridLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class DataGridLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
-    private readonly SharedLocalizer sharedLocalizer = new(factory);
-    private readonly DialogLocalizer dialogLocalizer = new(factory);
+    private readonly SharedLocalizer sharedLocalizer = new(factory, culture);
+    private readonly DialogLocalizer dialogLocalizer = new(factory, culture);
 
 
     public string AddFilter => PropertyValue();

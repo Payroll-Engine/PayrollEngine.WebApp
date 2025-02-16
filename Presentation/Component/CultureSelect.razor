@@ -1,0 +1,49 @@
+﻿@using PayrollEngine.WebApp.Shared
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+
+<div style="height:55px; overflow-y: hidden;">
+    <MudSelect T="CultureDescription"
+               Value="Culture"
+               ValueChanged="CultureChanged"
+               Label="@Localizer.Shared.Culture"
+               HelperText="@HelperText"
+               Clearable="@Clearable"
+               Required="@Required"
+               RequiredError="@RequiredError"
+               Validation="@Validation" >
+
+        <Virtualize Items="@Cultures" Context="culture">
+
+            <MudSelectItem T="CultureDescription"
+                           Value="@culture">
+                @culture
+            </MudSelectItem>
+
+        </Virtualize>
+
+    </MudSelect>
+</div>
+
+@code {
+    [Parameter] public CultureDescription Culture { get; set; }
+    [Parameter] public EventCallback<CultureDescription> CultureChanged { get; set; }
+    [Parameter] public string HelperText { get; set; }
+    [Parameter] public bool Clearable { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public string RequiredError { get; set; }
+    [Parameter]
+    [Category(CategoryTypes.FormComponent.Validation)]
+    public object Validation { get; set; }
+
+    [Inject] private ICultureService CultureService { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
+    private List<CultureDescription> Cultures { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cultures = CultureService.GetCultures();
+        await base.OnInitializedAsync();
+    }
+}

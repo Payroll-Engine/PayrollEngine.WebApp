@@ -15,7 +15,9 @@ public partial class CaseFieldEditor
     [Parameter] public EventCallback<IRegulationItem> DeleteItem { get; set; }
     [Parameter] public EventCallback<IRegulationItem> DeriveItem { get; set; }
 
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private RegulationCaseField CaseField => Item as RegulationCaseField;
 

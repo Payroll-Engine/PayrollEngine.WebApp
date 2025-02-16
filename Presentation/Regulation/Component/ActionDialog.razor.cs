@@ -27,11 +27,12 @@ public partial class ActionDialog
     public EventCallback ActionCanceled { get; set; }
 
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
     private MudForm form;
     protected List<ActionInfo> CategoryActions { get; set; }
     private List<ActionInfo> AllActions { get; set; }
+    private Localizer Localizer => LocalizerService.Localizer;
 
     #region Action Category
 

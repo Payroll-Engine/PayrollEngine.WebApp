@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class CaseFieldLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class CaseFieldLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string CaseField => PropertyValue();
     public string CaseFields => PropertyValue();

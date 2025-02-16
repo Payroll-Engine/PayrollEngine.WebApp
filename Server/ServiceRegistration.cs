@@ -22,6 +22,9 @@ public static class ServiceRegistration
 {
     public static async Task AddAppServicesAsync(this IServiceCollection services, IConfiguration configuration)
     {
+        // culture
+        services.AddSingleton<ICultureService, CultureService>();
+
         // http client configuration
         var httpConfiguration = await configuration.GetHttpConfigurationAsync();
         if (httpConfiguration == null)
@@ -87,13 +90,13 @@ public static class ServiceRegistration
         services.AddSingleton<IPageService>(new PageService(appTitle));
 
         // theme
-        services.AddSingleton<IThemeService>(new ThemeService());
+        services.AddSingleton<IThemeService, ThemeService>();
 
         // downloads
         services.AddSingleton<IDownloadService>(new DownloadService(appConfiguration.MaxDownloadSize));
 
         // localization
-        services.AddTransient<Localizer>();
+        services.AddScoped<ILocalizerService, LocalizerService>();
         services.AddTransient<MudLocalizer, AppMudLocalizer>();
 
         // tenant
@@ -209,14 +212,8 @@ public static class ServiceRegistration
         services.AddScoped<RegulationShareBackendService>();
 
         // session
-        services.AddSingleton(new UserSession(
-            configuration,
-            new TenantService(httpClient),
-            new DivisionService(httpClient),
-            new PayrollService(httpClient),
-            new EmployeeService(httpClient),
-            new UserService(httpClient)));
-        services.AddScoped<UserSessionBootstrap>();
+        services.AddScoped<UserSession>();
+        services.AddSingleton<UserSessionBootstrap>();
         services.AddScoped<UserSessionSettings>();
 
         // user

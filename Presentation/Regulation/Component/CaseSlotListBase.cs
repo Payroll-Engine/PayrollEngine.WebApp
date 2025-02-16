@@ -16,12 +16,14 @@ public abstract class CaseSlotListBase : ComponentBase, IRegulationInput
     [Parameter] public RegulationField Field { get; set; }
     [Parameter] public EventCallback<object> ValueChanged { get; set; }
 
-    [Inject] protected Localizer Localizer { get; set; }
+    [Inject] protected ILocalizerService LocalizerService { get; set; }
     [Inject] private IPayrollService PayrollService { get; set; }
     [Inject] private IUserNotificationService UserNotification { get; set; }
 
     protected List<CaseSlot> CaseSlots { get; private set; } = [];
     protected CaseSlot SelectedCaseSlot { get; private set; }
+
+    protected Localizer Localizer => LocalizerService.Localizer;
     private string Value { get; set; }
 
     public bool AllowClear => !Field.KeyField && !Field.Required;

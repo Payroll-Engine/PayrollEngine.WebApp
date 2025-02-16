@@ -22,8 +22,9 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private ItemCollection<ReportQuery> Queries { get; set; } = new();
 
     #region Value

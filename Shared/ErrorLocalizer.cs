@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class ErrorLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class ErrorLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string Error => PropertyValue();
     public string FileDownloadError => PropertyValue();

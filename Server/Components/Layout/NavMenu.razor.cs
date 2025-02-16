@@ -19,8 +19,9 @@ public partial class NavMenu : IDisposable
     [Inject]
     private IConfiguration Configuration { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    protected ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private List<PageGroupInfo> PageGroups { get; set; }
     private List<PageInfo> Pages { get; set; }
 

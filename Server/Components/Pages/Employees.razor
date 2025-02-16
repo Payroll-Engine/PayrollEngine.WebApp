@@ -46,7 +46,7 @@
         <PropertyColumn Property="x => x.DivisionsAsString" Title="@Localizer.Division.Division" />
         <PropertyColumn Property="x => x.Culture" Title="@Localizer.Shared.Culture">
             <CellTemplate>
-                @CultureTool.GetDisplayName(context.Item.Culture)
+                @CultureService.GetCulture(context.Item.Culture)?.CultureInfo.DisplayName
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.Calendar" Title="@Localizer.Shared.Calendar" />

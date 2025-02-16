@@ -5,24 +5,28 @@
         <MudPaper Class="pa-4 mb-2" Elevation="4">
             <MudForm @ref="form">
                 <MudStack Spacing="0">
+
+                    @* base localization *@
                     @if (!string.IsNullOrWhiteSpace(LocalizationBase))
                     {
-                        <MudTextField T="string" Label="@Localizer.Localization.LocalizationBase"
+                        <MudTextField T="string"
+                                      Label="@Localizer.Localization.LocalizationBase"
                                       Value="@LocalizationBase"
                                       ReadOnly="true" />
                     }
-                    <MudSelect T="string" Label="@Localizer.Shared.Culture" @bind-Value="LocalizationKey"
-                               Validation="@(new Func<string, string>(ValidateCulture))"
-                               Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Culture)">
-                        @foreach (var description in CultureTool.GetCultureDescriptions())
-                        {
-                            <MudSelectItem T="string" Value="@description.Name">@description</MudSelectItem>
-                        }
-                    </MudSelect>
+
+                    @* culture *@
+                    <CultureSelect @bind-Culture="EditCulture"
+                                   Validation="@(new Func<CultureDescription, string>(ValidateCulture))"
+                                   Required="true"
+                                   RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Culture)" />
+
+                    @* localization *@
                     <MudTextField T="string" Label="@Localizer.Localization.Localization"
                                   @bind-Value="LocalizationValue"
                                   MaxLength="@MaxLength"
-                                  Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Localization.Localization)" />
+                                  Required="true"
+                                  RequiredError="@Localizer.Error.RequiredField(Localizer.Localization.Localization)" />
                 </MudStack>
             </MudForm>
         </MudPaper>
@@ -43,19 +47,23 @@
     [Parameter] public IDictionary<string, string> Localizations { get; set; }
     [Parameter] public KeyValuePair<string, string> Localization { get; set; }
     [Parameter] public int MaxLength { get; set; } = 524288;
-    [Inject] private Localizer Localizer { get; set; }
 
-    private string LocalizationKey { get; set; }
+    [Inject] private ICultureService CultureService { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
     private string LocalizationValue { get; set; }
 
-    private string ValidateCulture(string culture)
+    private CultureDescription EditCulture { get; set; }
+
+    private string ValidateCulture(CultureDescription culture)
     {
-        if (string.IsNullOrWhiteSpace(culture))
+        if (culture == null)
         {
             return Localizer.Error.RequiredField(Localizer.Shared.Culture);
         }
 
-        if (Localizations != null && Localizations.ContainsKey(culture))
+        if (Localizations != null && Localizations.ContainsKey(culture.Name))
         {
             return Localizer.Error.UniqueConflict(Localizer.Shared.Culture);
         }
@@ -66,16 +74,16 @@
 
     private async Task Submit()
     {
-        if (await form.Revalidate())
+        if (await form.Revalidate() && EditCulture != null)
         {
-            var result = new KeyValuePair<string, string>(LocalizationKey, LocalizationValue);
+            var result = new KeyValuePair<string, string>(EditCulture.Name, LocalizationValue);
             MudDialog.Close(DialogResult.Ok(result));
         }
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        LocalizationKey = Localization.Key;
+        EditCulture = CultureService.GetCulture(Localization.Key);
         LocalizationValue = Localization.Value;
         await base.OnParametersSetAsync();
     }

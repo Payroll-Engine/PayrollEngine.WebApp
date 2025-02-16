@@ -6,9 +6,8 @@ using PayrollEngine.WebApp.Shared;
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class EmployeeCaseChangeValueBackendService(UserSession userSession,
-    PayrollHttpClient httpClient
-    , Localizer localizer)
-    : CaseChangeValueBackendServiceBase(userSession, httpClient, localizer)
+    PayrollHttpClient httpClient, ILocalizerService localizerService)
+    : CaseChangeValueBackendServiceBase(userSession, httpClient, localizerService)
 {
     protected override void SetupReadQuery(PayrollCaseChangeQuery query, IDictionary<string, object> parameters = null)
     {

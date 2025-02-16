@@ -21,8 +21,9 @@ public partial class LocalizationsDialog
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    protected Localizer Localizer => LocalizerService.Localizer;
     protected MudDataGrid<KeyValuePair<string, string>> Grid { get; set; }
 
     protected async Task AddLocalizationAsync()

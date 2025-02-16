@@ -7,8 +7,8 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class CompanyCaseChangeValueBackendService(UserSession userSession, 
     PayrollHttpClient httpClient,
-    Localizer localizer)
-    : CaseChangeValueBackendServiceBase(userSession, httpClient, localizer)
+    ILocalizerService localizerService)
+    : CaseChangeValueBackendServiceBase(userSession, httpClient, localizerService)
 {
     protected override void SetupReadQuery(PayrollCaseChangeQuery query, IDictionary<string, object> parameters = null)
     {

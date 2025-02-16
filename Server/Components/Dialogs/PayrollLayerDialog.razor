@@ -61,7 +61,9 @@
     [Parameter] public PayrollLayer PayrollLayer { get; set; } = new();
     [Parameter] public List<PayrollLayer> PayrollLayers { get; set; }
     [Parameter] public List<string> RegulationNames { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     public async Task<bool> ValidateAsync() =>
         await form.Revalidate();

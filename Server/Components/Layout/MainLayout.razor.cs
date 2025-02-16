@@ -18,7 +18,7 @@ namespace PayrollEngine.WebApp.Server.Components.Layout;
 public abstract class MainLayoutBase : MainComponentBase
 {
     [Inject]
-    protected Localizer Localizer { get; set; }
+    protected ILocalizerService LocalizerService { get; set; }
     [Inject]
     private IConfiguration Configuration { get; set; }
     [Inject]
@@ -29,6 +29,12 @@ public abstract class MainLayoutBase : MainComponentBase
     private IDialogService DialogService { get; set; }
     [Inject]
     private PayrollHttpClient PayrollHttpClient { get; set; }
+#if DEBUG
+    [Inject]
+    private UserSessionBootstrap UserSessionBootstrap { get; set; }
+#endif
+
+    protected Localizer Localizer => LocalizerService.Localizer;
 
     /// <summary>
     /// Application title
@@ -149,6 +155,8 @@ public abstract class MainLayoutBase : MainComponentBase
             return;
         }
 
+        var culture = Session.User.Culture;
+
         // dialog parameters
         var parameters = new DialogParameters
         {
@@ -166,7 +174,10 @@ public abstract class MainLayoutBase : MainComponentBase
         Session.UpdateUserState();
 
         // refresh the page
-        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        if (!string.Equals(culture, Session.User.Culture))
+        {
+            NavigationManager.NavigateTo(NavigationManager.Uri, true);
+        }
     }
 
     #endregion
@@ -207,11 +218,11 @@ public abstract class MainLayoutBase : MainComponentBase
         await LocalStorage.SetItemAsBooleanAsync("DarkTheme", IsDarkMode);
     }
 
-    private void SetupTheme()
+    private void SetupTheme(bool? darkMode)
     {
         AppTheme = ThemeService.Theme;
         // system dark mode at bootstrap
-        IsDarkMode = Platform.GetDarkMode();
+        IsDarkMode = darkMode ?? Platform.GetDarkMode();
         ThemeService.IsDarkMode = IsDarkMode;
     }
 
@@ -271,7 +282,7 @@ public abstract class MainLayoutBase : MainComponentBase
 
     protected async Task AboutAsync()
     {
-        // dialog parameters
+        // dialog setup
         var parameters = new DialogParameters
         {
             { nameof(AboutDialog.AppTitle), AppTitle },
@@ -279,7 +290,11 @@ public abstract class MainLayoutBase : MainComponentBase
             { nameof(AboutDialog.ProductUrl), Configuration.GetConfiguration<AppConfiguration>().ProductUrl },
             { nameof(AboutDialog.AdminEmail), Configuration.GetConfiguration<AppConfiguration>().AdminEmail }
         };
-        await DialogService.ShowAsync<AboutDialog>(null, parameters);
+        var options = new DialogOptions
+        {
+            NoHeader = true
+        };
+        await DialogService.ShowAsync<AboutDialog>(null, parameters, options);
     }
 
     private void UpdateAuthorization(string tenantIdentifier)
@@ -301,16 +316,21 @@ public abstract class MainLayoutBase : MainComponentBase
     protected override async Task OnInitializedAsync()
     {
         // application
-        var appConfiguration = Configuration.GetConfiguration<AppConfiguration>();
-        AppTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
-        AppImage = appConfiguration.AppImage;
-        AppImageDarkMode = appConfiguration.AppImageDarkMode;
+        var configuration = Configuration.GetConfiguration<AppConfiguration>();
+        AppTitle = configuration.AppTitle ?? SystemSpecification.ApplicationName;
+        AppImage = configuration.AppImage;
+        AppImageDarkMode = configuration.AppImageDarkMode;
+
+        // user session bootstrap
+#if DEBUG
+        UserSessionBootstrap.Update(Session);
+#endif
 
         // authorization
         UpdateAuthorization(Session.Tenant?.Identifier);
 
         // theme
-        SetupTheme();
+        SetupTheme(configuration.DarkMode);
 
         await base.OnInitializedAsync();
     }

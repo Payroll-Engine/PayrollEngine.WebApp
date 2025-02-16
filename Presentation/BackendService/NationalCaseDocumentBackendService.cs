@@ -9,9 +9,9 @@ namespace PayrollEngine.WebApp.Presentation.BackendService;
 
 public class NationalCaseDocumentBackendService(UserSession userSession,
     PayrollHttpClient httpClient,
-    Localizer localizer)
+    ILocalizerService localizerService)
     : BackendServiceBase<NationalCaseDocumentService, CaseValueServiceContext, CaseDocument, Query>(
-        userSession, httpClient, localizer)
+        userSession, httpClient, localizerService)
 {
     protected override CaseValueServiceContext CreateServiceContext(IDictionary<string, object> parameters = null)
     {

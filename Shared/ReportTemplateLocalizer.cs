@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class ReportTemplateLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class ReportTemplateLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string ReportTemplate => PropertyValue();
     public string ReportTemplates => PropertyValue();

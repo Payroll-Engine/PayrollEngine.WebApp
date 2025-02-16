@@ -9,8 +9,9 @@ namespace PayrollEngine.WebApp.Presentation.Component;
 public abstract class EnumItemsBase<T> : ComponentBase where T : struct, Enum
 {
     [Parameter] public bool Ordered { get; set; } = true;
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     protected List<LabeledValue<T>> Values { get; private set; } = [];
 
     private void SetupItems()

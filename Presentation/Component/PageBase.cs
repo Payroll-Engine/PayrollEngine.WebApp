@@ -31,7 +31,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     [Inject]
     protected IUserNotificationService UserNotification { get; set; }
     [Inject]
-    protected Localizer Localizer { get; set; }
+    protected ILocalizerService LocalizerService { get; set; }
     [Inject]
     protected IJSRuntime JsRuntime { get; set; }
 
@@ -40,8 +40,11 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     [Inject]
     private IPageService PageService { get; set; }
     [Inject]
+    protected ICultureService CultureService { get; set; }
+    [Inject]
     protected IThemeService ThemeService { get; set; }
 
+    protected Localizer Localizer => LocalizerService.Localizer;
     protected IValueFormatter ValueFormatter => Session.ValueFormatter;
 
     // the __builder variable is placed to suppress the ReSharper

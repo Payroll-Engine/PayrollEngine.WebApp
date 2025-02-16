@@ -31,8 +31,9 @@
     [Parameter] public DateTime? MinDate { get; set; }
     [Parameter] public DateTime? MaxDate { get; set; }
     [Parameter] public IMask Mask { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private string DateLabel { get; set; }
     private string DateFormat { get; set; }
     private string TimeFormat { get; set; }

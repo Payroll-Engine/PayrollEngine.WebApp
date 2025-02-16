@@ -3,5 +3,5 @@ namespace PayrollEngine.WebApp;
 
 public interface IMaskedInput
 {
-    public bool TryGetMaskedValue(out string maskedValue);
+    bool TryGetMaskedValue(out string maskedValue);
 }

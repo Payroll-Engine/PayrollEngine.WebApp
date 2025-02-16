@@ -61,7 +61,9 @@
     [Parameter] public AttributeItem Attribute { get; set; } = new();
 
     [Inject] private IDialogService DialogService { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
 
     private string ValidateName(string name)
     {

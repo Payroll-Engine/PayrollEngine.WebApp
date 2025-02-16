@@ -29,8 +29,9 @@ public partial class WebhookMessageGrid : IDisposable
     [Inject]
     private IUserNotificationService UserNotification { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private ItemCollection<WebhookMessage> WebhookMessages { get; } = new();
     private MudDataGrid<WebhookMessage> Grid { get; set; }
 

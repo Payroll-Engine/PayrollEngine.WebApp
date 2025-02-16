@@ -10,11 +10,11 @@
     var image = GetImage();
     if (!string.IsNullOrWhiteSpace(image))
     {
-                <ViewPanel Opacity="0.05">
-                    <Content>
-                        <img src="@image" style="width: 50%" />
-                    </Content>
-                </ViewPanel>
+        <ViewPanel Opacity="0.05">
+            <Content>
+                <img src="@image" style="width: 50%" />
+            </Content>
+        </ViewPanel>
     }
 }
 
@@ -48,7 +48,7 @@
         }
         else
         {
-            NavigationManager.NavigateTo(PageUrls.Login);
+            NavigationManager.NavigateTo(PageUrls.Login, true);
         }
 
         await base.OnInitializedAsync();

@@ -29,8 +29,9 @@ public partial class ItemEditor
     [Inject]
     private IDialogService DialogService { get; set; }
     [Inject]
-    private Localizer Localizer { get; set; }
+    private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private IRegulationItem EditItem { get; set; }
     private MudForm form;
     private IRegulationItem lastItem;

@@ -95,8 +95,9 @@
     [Parameter] public Dictionary<ClientModel.Tenant, List<ClientModel.Division>> Divisions { get; set; } = [];
     [Parameter] public string Culture { get; set; }
 
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
 
+    private Localizer Localizer => LocalizerService.Localizer;
     private List<ClientModel.Regulation> ProviderRegulations { get; set; } = [];
     private List<ClientModel.Division> ConsumerDivisions { get; set; } = [];
 

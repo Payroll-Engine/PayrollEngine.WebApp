@@ -9,6 +9,7 @@
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
                 <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
+                        @* division name *@
                         <LocalizationTextField @bind-Value="Division.Name"
                                                Item="@Division"
                                                PropertyName="@nameof(Division.Name)"
@@ -17,14 +18,13 @@
                                                Label="@(Division.IsNewObject ? $"{Localizer.Shared.Name} ({Localizer.Shared.Immutable})" : Localizer.Shared.Name)"
                                                Validation="@(!string.IsNullOrWhiteSpace(Division.Name))"
                                                Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Name)" />
-                        <MudSelect T=" string" @bind-Value="Division.Culture" Clearable="true"
-                                   Label="@Localizer.Shared.Culture"
-                                   HelperText="@Localizer.Division.CultureHelp">
-                            @foreach (var description in CultureTool.GetCultureDescriptions())
-                            {
-                                <MudSelectItem T="string" Value="@description.Name">@description</MudSelectItem>
-                            }
-                        </MudSelect>
+
+                        @* division culture *@
+                        <CultureSelect @bind-Culture="EditCulture"
+                                       Clearable="true"
+                                       HelperText="@Localizer.Division.CultureHelp" />
+
+                        @* division calendar *@
                         <MudSelect T=" string" @bind-Value="Division.Calendar"
                                    Label="@Localizer.Shared.Calendar"
                                    HelperText="@Localizer.Division.CalendarHelp"
@@ -57,7 +57,16 @@
     [Parameter] public Division Division { get; set; } = new();
     [Parameter] public List<string> CalendarNames { get; set; } = [];
 
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ICultureService CultureService { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
+
+    private CultureDescription EditCulture
+    {
+        get => CultureService.GetCulture(Division.Culture);
+        set => Division.Culture = value?.Name;
+    }
 
     public async Task<bool> ValidateAsync() =>
         await form.Revalidate();

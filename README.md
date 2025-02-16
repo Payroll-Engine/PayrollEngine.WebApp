@@ -78,8 +78,10 @@ The server configuration file `appsetings.json` contains the following settings:
 | `AppTitle`             | The application title                       | string   | Payroll Engine       |
 | `AppImage`             | The application image                       | string   | Payroll Engine image |
 | `AppImageDarkMode`     | The application dark mode image             | string   | Payroll Engine image |
+| `DarkMode`             | Default dark mode at startup                | bool?    | User system setting  |
 | `AdminEmail`           | The administration email for error pages    | string   | -                    |
 | `ProductUrl`           | The product url                             | string   | -                    |
+| `PreferredCultures`    | Preferred cultures in dropdown lists <sup>1)</sup> | string[] | -             |
 | `DefaultFeatures`      | The default features for new users          | string[] | -                    |
 | `AllowTenantSwitch`    | Allow to switch between tenants             | bool     | false                |
 | `LogHttpRequests`      | Log Http request to file                    | bool     | false                |
@@ -87,6 +89,8 @@ The server configuration file `appsetings.json` contains the following settings:
 | `SessionTimeout`       | Web application user session timeout        | timespan | 10 minutes           |
 | `ExcelExportMaxRecords`| Maximum count of excel export rows          | int      | 10'000               |
 | `MaxDownloadSize`      | Maximum download size                       | long     | 512'000              |
+
+<sup>1)</sup> Preferred cultures examples: [ "en-US", "en-AU", "de"]<br />
 
 ### Payroll Http Configuration
 

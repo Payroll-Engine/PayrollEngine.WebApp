@@ -116,20 +116,20 @@
                         @switch (Session.User.UserType)
                         {
                             case UserType.Employee:
-                                <MudMenuItem Icon="@Icons.Material.Outlined.AccountBox"
+                                <MudMenuItem Icon="@Icons.Material.Outlined.AccountBox" Class="px-8"
                                              OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                                 break;
                             case UserType.Administrator:
-                                <MudMenuItem Icon="@Icons.Material.Outlined.SupervisorAccount"
+                                <MudMenuItem Icon="@Icons.Material.Outlined.SupervisorAccount" Class="px-8"
                                              OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                                 break;
                             case UserType.Supervisor:
-                                <MudMenuItem Icon="@Icons.Material.Outlined.SupervisedUserCircle"
+                                <MudMenuItem Icon="@Icons.Material.Outlined.SupervisedUserCircle" Class="px-8"
                                              OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                                 break;
                             case UserType.User:
                             default:
-                                <MudMenuItem Icon="@Icons.Material.Outlined.AccountCircle"
+                                <MudMenuItem Icon="@Icons.Material.Outlined.AccountCircle" Class="px-8"
                                              OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                                 break;
                         }
@@ -137,26 +137,26 @@
                         @* dark mode *@
                         @if (IsDarkMode)
                         {
-                            <MudMenuItem Icon="@Icons.Material.Filled.LightMode" OnClick="ToggleThemeAsync">
+                            <MudMenuItem Icon="@Icons.Material.Filled.LightMode" OnClick="ToggleThemeAsync" Class="px-8">
                                 @Localizer.App.LightMode
                             </MudMenuItem>
                         }
                         else
                         {
-                            <MudMenuItem Icon="@Icons.Material.Filled.DarkMode" OnClick="ToggleThemeAsync">
+                            <MudMenuItem Icon="@Icons.Material.Filled.DarkMode" OnClick="ToggleThemeAsync" Class="px-8">
                                 @Localizer.App.DarkMode
                             </MudMenuItem>
                         }
 
                         @* about *@
-                        <MudMenuItem Icon="@Icons.Material.Filled.Info" OnClick="AboutAsync">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Info" OnClick="AboutAsync" Class="px-8">
                             @Localizer.App.About
                         </MudMenuItem>
 
                         @* logout *@
                         @if (UserLoginEnabled())
                         {
-                            <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutAsync">
+                            <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="LogoutAsync" Class="px-8">
                                 @Localizer.App.Logout
                             </MudMenuItem>
                         }

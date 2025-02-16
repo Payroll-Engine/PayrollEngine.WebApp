@@ -9,21 +9,21 @@
             <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
                 <MudTabPanel Text="@Localizer.Shared.CommonFields">
                     <MudStack Class="pa-4" Spacing="1">
+
+                        @* tenant identifier *@
                         <MudTextField T="string" @bind-Value="Tenant.Identifier"
                                       MaxLength="@SystemSpecification.KeyTextLength"
                                       ReadOnly="@Tenant.IsExistingObject"
                                       Label="@(Tenant.IsNewObject ? $"{Localizer.Shared.Identifier} ({Localizer.Shared.Immutable})" : Localizer.Shared.Identifier)"
                                       Validation="@(!string.IsNullOrWhiteSpace(Tenant.Identifier))"
                                       Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Identifier)" />
-                        <MudSelect T=" string" @bind-Value="Tenant.Culture" 
-                                   Label="@Localizer.Shared.Culture"
-                                   HelperText="@Localizer.Tenant.CultureHelp"
-                                   Clearable="true">
-                            @foreach (var description in CultureTool.GetCultureDescriptions())
-                            {
-                                <MudSelectItem T="string" Value="@description.Name">@description</MudSelectItem>
-                            }
-                        </MudSelect>
+
+                        @* tenant culture *@
+                        <CultureSelect @bind-Culture="EditCulture"
+                                       Clearable="true"
+                                       HelperText="@Localizer.Tenant.CultureHelp" />
+
+                        @* tenant calendar *@
                         <MudSelect T=" string" @bind-Value="Tenant.Calendar"
                                    Label="@Localizer.Shared.Calendar"
                                    HelperText="@Localizer.Tenant.CalendarHelp"
@@ -55,7 +55,16 @@
     [Parameter] public Tenant Tenant { get; set; } = new();
     [Parameter] public List<string> CalendarNames { get; set; } = [];
 
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ICultureService CultureService { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
+
+    private CultureDescription EditCulture
+    {
+        get => CultureService.GetCulture(Tenant.Culture);
+        set => Tenant.Culture = value?.Name;
+    }
 
     public async Task<bool> ValidateAsync() =>
         await form.Revalidate();

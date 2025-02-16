@@ -8,6 +8,7 @@
 @code
 {
     [Parameter] public CultureInfo Culture { get; set; }
+    [Inject] private ICultureService CultureService { get; set; }
 
     private List<LabeledValue<PayrollEngine.DayOfWeek?>> Weekdays { get; } = [];
 
@@ -15,7 +16,7 @@
     {
         // culture: fallback to system culture
         var cultureName = Culture?.Name ?? CultureInfo.CurrentCulture.Name;
-        var culture = CultureTool.GetCulture(cultureName);
+        var culture = CultureService.GetCulture(cultureName).CultureInfo;
 
         // day names
         var dayNames = culture.DateTimeFormat.DayNames.ToList();

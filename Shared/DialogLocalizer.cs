@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class DialogLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class DialogLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string Ok => PropertyValue();
     public string Cancel => PropertyValue();

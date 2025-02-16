@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Localization;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class WebhookMessageLocalizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
+public class WebhookMessageLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+    LocalizerBase(factory, culture: culture)
 {
     public string WebhookMessage => PropertyValue();
     public string WebhookMessages => PropertyValue();

@@ -6,8 +6,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
-public class TenantBackendService(UserSession userSession, PayrollHttpClient httpClient, Localizer localizer)
-    : BackendServiceBase<TenantService, RootServiceContext, ViewModel.Tenant, Query>(userSession, httpClient, localizer)
+public class TenantBackendService(UserSession userSession, PayrollHttpClient httpClient,
+    ILocalizerService localizerService)
+    : BackendServiceBase<TenantService, RootServiceContext, ViewModel.Tenant, Query>(
+        userSession, httpClient, localizerService)
 {
     /// <summary>The current request context</summary>
     protected override RootServiceContext CreateServiceContext(IDictionary<string, object> parameters = null) => new();

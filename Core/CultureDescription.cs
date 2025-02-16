@@ -1,11 +1,13 @@
-﻿
+﻿using System.Globalization;
+
 namespace PayrollEngine.WebApp;
 
-public class CultureDescription
+public class CultureDescription(CultureInfo cultureInfo)
 {
-    public string Name { get; init; }
-    public string DisplayName { get; init; }
+    public CultureInfo CultureInfo { get; } = cultureInfo;
+    public string Name => CultureInfo.Name;
+    private string DisplayName => CultureInfo.DisplayName;
 
     public override string ToString() =>
-        $"{DisplayName} [{Name}]";
+        $"{Name} - {DisplayName}";
 }

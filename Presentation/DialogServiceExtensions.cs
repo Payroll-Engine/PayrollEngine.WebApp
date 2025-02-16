@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.WebApp.Shared;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Presentation;
 

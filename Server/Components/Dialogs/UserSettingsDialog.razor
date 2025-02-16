@@ -1,27 +1,34 @@
 ﻿@using PayrollEngine.Client.Service
+@using PayrollEngine.WebApp.Presentation.Component
+
+<style>
+    div.content > div#removeMe {
+        display: none;
+    }
+</style>
 
 <MudDialog Class="pe-item-dialog" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudPaper Class="pa-4 mb-2" Elevation="4">
             <MudForm @ref="form">
                 <MudStack Spacing="1">
+                    @* user identifier *@
                     <MudTextField T="string"
-                                  Value="User.Identifier"
+                                  Value="EditUser.Identifier"
                                   ReadOnly="true"
                                   Label="@Localizer.Shared.Identifier" />
-                    <MudTextField T="string" @bind-Value="User.FirstName"
+                    @* user first name *@
+                    <MudTextField T="string"
+                                  @bind-Value="EditUser.FirstName"
                                   MaxLength="@SystemSpecification.KeyTextLength"
                                   Label="@Localizer.User.FirstName" />
-                    <MudTextField T="string" @bind-Value="User.LastName"
+                    @* user last name *@
+                    <MudTextField T="string"
+                                  @bind-Value="EditUser.LastName"
                                   MaxLength="@SystemSpecification.KeyTextLength"
                                   Label="@Localizer.User.LastName" />
-                    <MudSelect T=" string" @bind-Value="User.Culture" Clearable="true"
-                               Label="@Localizer.Shared.Culture">
-                        @foreach (var cultureData in CultureTool.GetCultureDescriptions())
-                        {
-                            <MudSelectItem T="string" Value="@cultureData.Name">@cultureData</MudSelectItem>
-                        }
-                    </MudSelect>
+                    @* user culture *@
+                    <CultureSelect @bind-Culture="EditCulture" />
                 </MudStack>
             </MudForm>
         </MudPaper>
@@ -36,7 +43,8 @@
 </MudDialog>
 
 @code {
-    MudForm form;
+    private MudForm form;
+    private Client.Model.User EditUser { get; set; }
 
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public Client.Model.Tenant Tenant { get; set; } = new();
@@ -45,7 +53,16 @@
     [Inject] private IUserService UserService { get; set; }
     [Inject] private IUserNotificationService UserNotification { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
-    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private ICultureService CultureService { get; set; }
+    [Inject] private ILocalizerService LocalizerService { get; set; }
+
+    private Localizer Localizer => LocalizerService.Localizer;
+
+    private CultureDescription EditCulture
+    {
+        get => CultureService.GetCulture(EditUser.Culture);
+        set => EditUser.Culture = value?.Name;
+    }
 
     private void Cancel() => MudDialog.Cancel();
 
@@ -55,6 +72,9 @@
         {
             return;
         }
+
+        // copy edit data
+        CopyTool.CopyProperties(EditUser, User);
 
         try
         {
@@ -78,5 +98,12 @@
             { nameof(UserPasswordDialog.User), User }
         };
         await DialogService.ShowAsync<UserPasswordDialog>(Localizer.User.ChangePasswordTitle, parameters);
+    }
+
+    protected override void OnParametersSet()
+    {
+        // working copy
+        EditUser = new(User);
+        base.OnParametersSet();
     }
 }
