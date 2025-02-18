@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Case object validity
+/// </summary>
 public class CaseObjectValidity : IEquatable<CaseObjectValidity>
 {
     /// <summary>
@@ -28,6 +31,11 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
     /// </summary>
     public string NamedValidationRules => CreateRulesText(true);
 
+    /// <summary>
+    /// Add rule
+    /// </summary>
+    /// <param name="caseObjectName">Case object name</param>
+    /// <param name="ruleText">Rule text</param>
     public void AddRule(string caseObjectName, string ruleText) =>
         AddRule(new(caseObjectName, ruleText));
 
@@ -36,6 +44,10 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
         rules.Add(rule);
     }
 
+    /// <summary>
+    /// Add rules
+    /// </summary>
+    /// <param name="objectRules">Object rules</param>
     public void AddRules(IEnumerable<CaseObjectRule> objectRules)
     {
         rules.AddRange(objectRules);
@@ -72,5 +84,7 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
                Rules.SequenceEqual(compare.Rules);
     }
 
+    /// <inheritdoc />
     public override string ToString() => $"{rules.Count} rules";
+
 }

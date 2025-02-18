@@ -2,6 +2,9 @@
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// User password service
+/// </summary>
 public interface IUserPasswordService
 {
     /// <summary>

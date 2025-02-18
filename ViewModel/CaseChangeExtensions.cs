@@ -4,8 +4,15 @@ using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Extension methods for <see cref="ICaseChange"/>
+/// </summary>
 public static class CaseChangeExtensions
 {
+    /// <summary>
+    /// Get case issues
+    /// </summary>
+    /// <param name="caseChange">Case change</param>
     public static string GetCaseIssues(this ICaseChange caseChange)
     {
         if (caseChange.Issues == null || !caseChange.Issues.Any())

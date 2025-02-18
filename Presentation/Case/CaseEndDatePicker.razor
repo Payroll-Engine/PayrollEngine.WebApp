@@ -43,8 +43,8 @@
     protected override DatePickerType DatePickerType =>
         Attributes.GetEndPickerOpen(Culture) ?? DatePickerType.Day;
 
-    protected override DateTimeType DateTimeType =>
-        Attributes.GetEndPickerType(Culture) ?? DateTimeType.DatePicker;
+    protected override DateTimePickerType DateTimePickerType =>
+        Attributes.GetEndPickerType(Culture) ?? DateTimePickerType.DatePicker;
 
     protected override async Task OnInitializedAsync()
     {

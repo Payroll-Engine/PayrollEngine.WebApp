@@ -3,6 +3,10 @@ using System.Globalization;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Value formatter
+/// </summary>
+/// <param name="culture"></param>
 public class ValueFormatter(CultureInfo culture) : IValueFormatter
 {
     private CultureInfo Culture { get; } = culture ?? throw new ArgumentNullException(nameof(culture));

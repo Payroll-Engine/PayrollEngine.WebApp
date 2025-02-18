@@ -1,18 +1,29 @@
 ﻿using MudBlazor;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.JSInterop;
 using NPOI.XSSF.UserModel;
+using PayrollEngine.IO;
 using PayrollEngine.Data;
 using PayrollEngine.Document;
-using PayrollEngine.IO;
-using Microsoft.JSInterop;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// Excel download tool
+/// </summary>
 public static class ExcelDownload
 {
+    /// <summary>
+    /// Start excel download
+    /// </summary>
+    /// <typeparam name="TItem">Object type</typeparam>
+    /// <param name="grid">Source data grid</param>
+    /// <param name="items">Items to download</param>
+    /// <param name="jsRuntime">Javascript runtime</param>
+    /// <param name="name">Download name</param>
     public static async Task StartAsync<TItem>(MudDataGrid<TItem> grid, IList<TItem> items, IJSRuntime jsRuntime,
         string name = null)
     {

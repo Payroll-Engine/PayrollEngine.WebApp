@@ -2,23 +2,41 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model calendar
+/// </summary>
 public class Calendar : Client.Model.Calendar, IViewModel,
     IViewAttributeObject, IKeyEquatable<Calendar>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Calendar()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Calendar(Calendar copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Calendar(Client.Model.Calendar copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Get localized calendar name
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedName(string culture) =>
         culture.GetLocalization(NameLocalizations, Name);
 

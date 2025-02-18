@@ -5,18 +5,32 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation report template
+/// </summary>
 public class RegulationReportTemplate : ReportTemplate, IRegulationItem, IEquatable<RegulationReportTemplate>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationReportTemplate()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationReportTemplate(RegulationReportTemplate copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationReportTemplate(ReportTemplate copySource) :
         base(copySource)
     {

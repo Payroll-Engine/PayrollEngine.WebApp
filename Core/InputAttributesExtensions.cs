@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Text.Json;
+using System.Globalization;
+using System.Collections.Generic;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Input attribute extensions
+/// </summary>
 public static class InputAttributesExtensions
 {
 
@@ -12,6 +15,9 @@ public static class InputAttributesExtensions
 
     public static string GetIcon(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetStringAttributeValue(InputAttributes.Icon, culture.Name);
+
+    public static CasePriority? GetPriority(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<CasePriority>(InputAttributes.Priority, culture.Name);
 
     #endregion
 
@@ -33,8 +39,8 @@ public static class InputAttributesExtensions
     public static DatePickerType? GetStartPickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.StartPickerOpen, culture.Name);
 
-    public static DateTimeType? GetStartPickerType(this Dictionary<string, object> attributes, CultureInfo culture) =>
-        attributes.GetEnumAttributeValue<DateTimeType>(InputAttributes.StartPickerType, culture.Name);
+    public static DateTimePickerType? GetStartPickerType(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<DateTimePickerType>(InputAttributes.StartPickerType, culture.Name);
 
     public static string GetStartFormat(this Dictionary<string, object> attributes, CultureInfo culture)
     {
@@ -68,8 +74,8 @@ public static class InputAttributesExtensions
     public static DatePickerType? GetEndPickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.EndPickerOpen, culture.Name);
 
-    public static DateTimeType? GetEndPickerType(this Dictionary<string, object> attributes, CultureInfo culture) =>
-        attributes.GetEnumAttributeValue<DateTimeType>(InputAttributes.EndPickerType, culture.Name);
+    public static DateTimePickerType? GetEndPickerType(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<DateTimePickerType>(InputAttributes.EndPickerType, culture.Name);
 
     public static string GetEndFormat(this Dictionary<string, object> attributes, CultureInfo culture)
     {

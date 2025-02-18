@@ -7,10 +7,17 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// Application log extensions
+/// </summary>
 public static class LogExtensions
 {
     private const LogLevel SystemInfoLogEventLevel = LogLevel.Information;
 
+    /// <summary>
+    /// Use log host
+    /// </summary>
+    /// <param name="builder">Application builder</param>
     public static void UseHostLog(this IApplicationBuilder builder)
     {
         var appLifetime = builder.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();

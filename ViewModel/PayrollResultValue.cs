@@ -10,16 +10,27 @@ namespace PayrollEngine.WebApp.ViewModel;
 public class PayrollResultValue : Client.Model.PayrollResultValue, IEquatable<PayrollResultValue>,
     IViewAttributeObject
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public PayrollResultValue()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public PayrollResultValue(PayrollResultValue copySource) :
         base(copySource)
     {
         CultureInfo = copySource.CultureInfo;
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public PayrollResultValue(Client.Model.PayrollResultValue copySource) :
         base(copySource)
     {

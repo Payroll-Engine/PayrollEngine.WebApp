@@ -6,6 +6,11 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// MudBlazor localization
+/// </summary>
+/// <param name="factory"></param>
+/// <param name="userSession"></param>
 public class AppMudLocalizer(IStringLocalizerFactory factory, UserSession userSession) : MudLocalizer
 {
     private IStringLocalizerFactory Factory { get; } = factory;
@@ -93,6 +98,7 @@ public class AppMudLocalizer(IStringLocalizerFactory factory, UserSession userSe
         { "MudSnackbar_Close", nameof(SnackBarLocalizer.Close) },
     };
 
+    /// <inheritdoc />
     public override LocalizedString this[string key]
     {
         get

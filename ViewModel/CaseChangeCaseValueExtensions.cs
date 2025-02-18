@@ -1,5 +1,8 @@
 ﻿namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Extension methods for <see cref="CaseChangeCaseValue"/>
+/// </summary>
 public static class CaseChangeCaseValueExtensions
 {
     /// <summary>

@@ -5,18 +5,32 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation case field
+/// </summary>
 public class RegulationCaseField : CaseField, IRegulationItem, IKeyEquatable<RegulationCaseField>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationCaseField()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationCaseField(RegulationCaseField copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationCaseField(CaseField copySource) :
         base(copySource)
     {
@@ -81,6 +95,7 @@ public class RegulationCaseField : CaseField, IRegulationItem, IKeyEquatable<Reg
     public bool Equals(IViewModel compare) =>
         Equals(compare as RegulationCaseField);
 
+    /// <inheritdoc />
     public bool EqualKey(RegulationCaseField compare) =>
         base.EqualKey(compare);
 }

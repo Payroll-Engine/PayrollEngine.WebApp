@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Variant value
+/// </summary>
 public interface IVariantValue
 {
     /// <summary>

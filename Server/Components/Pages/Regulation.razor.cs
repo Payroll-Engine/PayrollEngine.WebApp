@@ -149,7 +149,7 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemUpdate(regulationItem.ItemName), exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemUpdate(regulationItem.ItemTypeName), exception);
         }
     }
 
@@ -172,7 +172,7 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemDerive(regulationItem.ItemName), exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemDerive(regulationItem.ItemTypeName), exception);
         }
     }
 
@@ -188,7 +188,7 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
             var deleteObject = await ItemBrowser.DeleteItem(regulationItem);
             if (deleteObject == null)
             {
-                await UserNotification.ShowErrorAsync(Localizer.Error.ItemDelete(regulationItem.ItemName));
+                await UserNotification.ShowErrorAsync(Localizer.Error.ItemDelete(regulationItem.ItemTypeName));
             }
             else
             {
@@ -204,7 +204,7 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemDelete(regulationItem.ItemName), exception);
+            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Error.ItemDelete(regulationItem.ItemTypeName), exception);
         }
     }
 

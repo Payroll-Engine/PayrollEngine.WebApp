@@ -1,19 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Globalization;
+using System.Collections.Generic;
 using MudBlazor;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// Query builder
+/// </summary>
+/// <typeparam name="TQuery"></typeparam>
+/// <typeparam name="TModel"></typeparam>
 public class QueryBuilder<TQuery, TModel>
     where TQuery : Query, new()
     where TModel : class
 {
+    /// <summary>
+    /// Maximum item count
+    /// </summary>
     public int? MaximumItemCount { get; set; }
 
+    /// <summary>
+    /// Build query
+    /// </summary>
+    /// <param name="state">Grid state</param>
+    /// <param name="queryResolver">Query resolver</param>
     public TQuery BuildQuery(GridState<TModel> state, IQueryResolver queryResolver = null)
     {
         var query = new TQuery
@@ -46,6 +59,11 @@ public class QueryBuilder<TQuery, TModel>
 
     #region Sort
 
+    /// <summary>
+    /// Build sort string
+    /// </summary>
+    /// <param name="sorts">Sorts</param>
+    /// <param name="queryResolver">Query resolver</param>
     private string BuildSortString(ICollection<SortDefinition<TModel>> sorts, IQueryResolver queryResolver = null)
     {
         if (!sorts.Any())
@@ -75,6 +93,11 @@ public class QueryBuilder<TQuery, TModel>
 
     #region Filter
 
+    /// <summary>
+    /// Build filter string
+    /// </summary>
+    /// <param name="filters">Filters</param>
+    /// <param name="queryResolver">Query resolver</param>
     private string BuildFilterString(ICollection<IFilterDefinition<TModel>> filters, IQueryResolver queryResolver = null)
     {
         if (!filters.Any())
@@ -101,6 +124,11 @@ public class QueryBuilder<TQuery, TModel>
         return filterString;
     }
 
+    /// <summary>
+    /// Format filter
+    /// </summary>
+    /// <param name="whereFilter">where filter</param>
+    /// <param name="queryResolver">Query resolver</param>
     private string FormatFilter(IFilterDefinition<TModel> whereFilter, IQueryResolver queryResolver = null)
     {
         // column
@@ -136,6 +164,10 @@ public class QueryBuilder<TQuery, TModel>
         return filter;
     }
 
+    /// <summary>
+    /// Get filter value
+    /// </summary>
+    /// <param name="whereFilter">where filter</param>
     private object GetFilterValue(IFilterDefinition<TModel> whereFilter)
     {
         if (whereFilter == null)

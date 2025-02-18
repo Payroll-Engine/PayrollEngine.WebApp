@@ -2,18 +2,32 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model tenant
+/// </summary>
 public class Tenant : Client.Model.Tenant, IViewModel,
     IViewAttributeObject, IKeyEquatable<Tenant>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Tenant()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Tenant(Tenant copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Tenant(Client.Model.Tenant copySource) :
         base(copySource)
     {
@@ -47,6 +61,7 @@ public class Tenant : Client.Model.Tenant, IViewModel,
     public bool Equals(IViewModel compare) =>
         Equals(compare as Tenant);
 
+    /// <inheritdoc />
     public bool EqualKey(Tenant compare) =>
         base.EqualKey(compare);
 }

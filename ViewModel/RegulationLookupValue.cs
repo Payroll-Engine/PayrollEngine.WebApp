@@ -1,23 +1,37 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation lookup valu
+/// </summary>
 public class RegulationLookupValue : LookupValue, IRegulationItem, IKeyEquatable<RegulationLookupValue>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationLookupValue()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationLookupValue(RegulationLookupValue copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationLookupValue(LookupValue copySource) :
         base(copySource)
     {
@@ -47,7 +61,7 @@ public class RegulationLookupValue : LookupValue, IRegulationItem, IKeyEquatable
     /// <inheritdoc />
     [JsonIgnore]
     public string InheritanceKey => Key;
-    
+
     /// <inheritdoc />
     [JsonIgnore]
     public string ParentInheritanceKey => Parent?.InheritanceKey;
@@ -61,13 +75,13 @@ public class RegulationLookupValue : LookupValue, IRegulationItem, IKeyEquatable
     public string Description => null;
 
     /// <inheritdoc />
-    public string GetAdditionalInfo(Localizer localizer) => 
+    public string GetAdditionalInfo(Localizer localizer) =>
        RangeValue?.ToString(SystemSpecification.DecimalFormat, CultureInfo.InvariantCulture);
 
     /// <inheritdoc />
     public IRegulationItem Clone() =>
         new RegulationLookupValue(this);
-    
+
     /// <inheritdoc />
     public void ApplyInheritanceKeyTo(IRegulationItem target)
     {
@@ -92,6 +106,7 @@ public class RegulationLookupValue : LookupValue, IRegulationItem, IKeyEquatable
     public bool Equals(IViewModel compare) =>
         Equals(compare as RegulationLookupValue);
 
+    /// <inheritdoc />
     public bool EqualKey(RegulationLookupValue compare) =>
         base.EqualKey(compare);
 }

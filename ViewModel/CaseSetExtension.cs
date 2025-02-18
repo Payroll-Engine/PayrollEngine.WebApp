@@ -2,8 +2,17 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Extension methods for <see cref="CaseSet"/>
+/// </summary>
 public static class CaseSetExtension
 {
+    /// <summary>
+    /// Convert to case change setup
+    /// </summary>
+    /// <param name="caseSet">Case set</param>
+    /// <param name="submitMode">submit mode</param>
+    /// <returns></returns>
     public static CaseSetup ToCaseChangeSetup(this CaseSet caseSet, bool submitMode)
     {
         var caseSetup = new CaseSetup();

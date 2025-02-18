@@ -2,17 +2,31 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model report user
+/// </summary>
 public class User : WebApp.User, IViewModel, IViewAttributeObject, IKeyEquatable<User>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public User()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public User(User copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public User(Client.Model.User copySource) :
         base(copySource)
     {
@@ -52,6 +66,7 @@ public class User : WebApp.User, IViewModel, IViewAttributeObject, IKeyEquatable
     public bool Equals(IViewModel compare) =>
         Equals(compare as User);
 
+    /// <inheritdoc />
     public bool EqualKey(User compare) =>
         base.EqualKey(compare);
 }

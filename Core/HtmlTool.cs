@@ -3,8 +3,18 @@ using System.Text;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Html tool
+/// </summary>
 public static class HtmlTool
 {
+    /// <summary>
+    /// Build web link
+    /// </summary>
+    /// <param name="url">Link url</param>
+    /// <param name="text">Link text (default: url)</param>
+    /// <param name="blankTarget">Target blank link (default: rue)</param>
+    /// <param name="noReferer">No referer link (default: true)</param>
     public static string BuildWebLink(string url, string text = null, bool blankTarget = true, bool noReferer = true)
     {
         if (string.IsNullOrWhiteSpace(url))
@@ -32,6 +42,11 @@ public static class HtmlTool
         return buffer.ToString();
     }
 
+    /// <summary>
+    /// Build mail-to link
+    /// </summary>
+    /// <param name="email">Email address</param>
+    /// <param name="text">Email text</param>
     public static string BuildMailToLink(string email, string text = null)
     {
         if (string.IsNullOrWhiteSpace(email))

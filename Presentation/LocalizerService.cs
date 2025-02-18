@@ -12,6 +12,12 @@ public class LocalizerService : ILocalizerService
     private IStringLocalizerFactory Factory { get; }
     private readonly Localizer defaultLocalizer;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="userSession">USer session</param>
+    /// <param name="cultureService">Culture service</param>
+    /// <param name="factory">String localizer factory</param>
     public LocalizerService(UserSession userSession, ICultureService cultureService, IStringLocalizerFactory factory)
     {
         UserSession = userSession;

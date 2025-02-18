@@ -1,27 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model employee
+/// </summary>
 public class Employee : Client.Model.Employee, IViewModel,
     IViewAttributeObject, IKeyEquatable<Employee>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Employee()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Employee(Employee copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Employee(Client.Model.Employee copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Full name
+    /// </summary>
     public string FullName => $"{FirstName} {LastName}";
 
     #region Attributes
@@ -40,6 +57,9 @@ public class Employee : Client.Model.Employee, IViewModel,
 
     #endregion
 
+    /// <summary>
+    /// Divisions as string
+    /// </summary>
     public string DivisionsAsString
     {
         get
@@ -61,6 +81,9 @@ public class Employee : Client.Model.Employee, IViewModel,
         }
     }
 
+    /// <summary>
+    /// Divisions as enum
+    /// </summary>
     public IEnumerable<string> DivisionsAsEnum
     {
         get => Divisions;
@@ -82,5 +105,6 @@ public class Employee : Client.Model.Employee, IViewModel,
     public bool EqualKey(Employee compare) =>
         base.EqualKey(compare);
 
+    /// <inheritdoc />
     public override string ToString() => FullName;
 }

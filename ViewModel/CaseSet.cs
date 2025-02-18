@@ -6,10 +6,22 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View  model case set
+/// </summary>
 public class CaseSet : Case, IDisposable
 {
     private CultureInfo TenantCulture { get; }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
+    /// <param name="caseValueProvider">Vase value provider</param>
+    /// <param name="valueFormatter">Value formatter</param>
+    /// <param name="tenantCulture">Tenant culture</param>
+    /// <param name="localizer">Localizer</param>
+    /// <exception cref="ArgumentNullException"></exception>
     public CaseSet(Client.Model.CaseSet copySource, ICaseValueProvider caseValueProvider,
         IValueFormatter valueFormatter, CultureInfo tenantCulture, Localizer localizer) :
         base(copySource)
@@ -69,9 +81,15 @@ public class CaseSet : Case, IDisposable
         }
     }
 
+    /// <summary>
+    /// Test for any fields
+    /// </summary>
     public bool HasAnyField =>
         Fields != null && Fields.Any();
 
+    /// <summary>
+    /// Field changed event
+    /// </summary>
     public AsyncEvent<CaseSet> FieldChanged { get; set; }
 
     /// <summary>
@@ -176,6 +194,9 @@ public class CaseSet : Case, IDisposable
         }
     }
 
+    /// <summary>
+    /// Test for any related case
+    /// </summary>
     public bool HasAnyRelatedCase =>
         RelatedCases != null && RelatedCases.Any();
 
@@ -288,12 +309,14 @@ public class CaseSet : Case, IDisposable
 
     #endregion
 
+    /// <inheritdoc />
     void IDisposable.Dispose()
     {
         DisconnectFields();
         DisconnectRelatedCases();
     }
 
+    /// <inheritdoc />
     public override string ToString()
     {
         var buffer = new StringBuilder();

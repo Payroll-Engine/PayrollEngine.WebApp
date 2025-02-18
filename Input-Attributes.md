@@ -5,6 +5,7 @@ The case input attributes can be used to control the behaviour of user input.
 |--|--|--|--|--|
 | <b>General</b> |
 `input.icon`                 | Custom item icon <sup>11)</sup>           | string        | false    | Case                     |
+`input.priority`             | Item priority <sup>12)</sup>              | string        | normal   | Case                     |
 `input.hidden`               | Input is hidden                           | bool          | false    | all                      |
 `input.showDescription`      | Input description is visible              | bool          | false    | all                      |
 | <b>Start</b> |
@@ -38,7 +39,7 @@ The case input attributes can be used to control the behaviour of user input.
 `input.format`               | Input format <sup>4)</sup>                | string        | system   | date, date-time          |
 `input.lineCount`            | Show multiple lines of text               | int           | 1        | text                     |
 `input.maxLength`            | Maximum text length                       | int           | -        | text                     |
-`input.check`                | Input checkbox instead of switch          | bool          | false    | boolean                  |
+`input.check`                | Input checkbox instead of switch          | bool          | false    | bool toggles             |
 `input.valueHistory`         | Enable value history                      | bool          | false    | all                      |
 | <b>Attachment</b> |
 `input.attachment`           | Enable document upload <sup>6)</sup>      | string        | none     | all                      |
@@ -61,7 +62,9 @@ The case input attributes can be used to control the behaviour of user input.
 <sup>8)</sup> JSON array with field value type<br/>
 <sup>9)</sup> JSON array with the same count of list values<br/>
 <sup>10)</sup> Selected list value when available otherwise the selected list item (field value type)<br/>
-<sup>11)</sup> Icon name https://mudblazor.com/features/icons
+<sup>11)</sup> Icon name https://mudblazor.com/features/icons<br/>
+<sup>12)</sup> Item priority: `Low`, `Normal`, `High`, `Critical`<br/>
+
 
 ## Text input mask
 | Mask | Description                                                           |

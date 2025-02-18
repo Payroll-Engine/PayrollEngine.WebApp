@@ -2,17 +2,31 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model webhook
+/// </summary>
 public class Webhook : Client.Model.Webhook, IViewModel, IViewAttributeObject, IKeyEquatable<Webhook>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Webhook()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Webhook(Webhook copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Webhook(Client.Model.Webhook copySource) :
         base(copySource)
     {
@@ -46,6 +60,7 @@ public class Webhook : Client.Model.Webhook, IViewModel, IViewAttributeObject, I
     public bool Equals(IViewModel compare) =>
         Equals(compare as Webhook);
 
+    /// <inheritdoc />
     public bool EqualKey(Webhook compare) =>
         base.EqualKey(compare);
 }

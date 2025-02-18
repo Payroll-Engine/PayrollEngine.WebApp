@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Case value provider
+/// </summary>
 public interface ICaseValueProvider
 {
     /// <summary>

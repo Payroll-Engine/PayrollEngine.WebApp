@@ -5,12 +5,16 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// User notification service
+/// </summary>
 public interface IUserNotificationService
 {
     /// <summary>
     /// Initialize the notification handler
     /// </summary>
     /// <param name="handler">The notification handler</param>
+    // ReSharper disable once UnusedParameter.Global
     void Initialize(IUserNotificationService handler);
 
     /// <summary>

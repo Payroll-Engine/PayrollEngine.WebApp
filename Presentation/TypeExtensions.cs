@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// extension methods for <see cref="Type" />
+/// </summary>
 public static class TypeExtensions
 {
 

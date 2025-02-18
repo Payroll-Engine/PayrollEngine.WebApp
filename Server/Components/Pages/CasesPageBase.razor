@@ -93,14 +93,14 @@
         @* available cases list *@
         <MudPaper Class="pa-4" Elevation="4">
             <MudStack Row="true" Class="d-flex flex-wrap flex-grow-1 align-content-start gap-4 mt-2"
-                      Style="max-height: 26em; overflow-y: auto">
+                      Style="max-height: 27em; overflow-y: auto; padding-bottom: 0.5rem;">
                 @foreach (var availableCase in AvailableCases)
                 {
                     var caseName = availableCase.GetLocalizedName(PageCulture.Name).TruncateSentence(100);
                     var height = CaseDense ? "5.5em" : "8.5em";
                     var buttonZoom = CaseDense ? "0.8" : "1";
                     <MudStack Spacing="0" Class="d-flex mud-elevation-4 border-solid border rounded-lg pa-2"
-                              Style="@($"width: 17em; height: {height}")">
+                              Style="@($"width: 17em; height: {height}; {GetCaseStyle(availableCase)}")">
 
                         <MudStack Row="true" Spacing="0" Class="d-flex">
                             @* case name *@
@@ -116,7 +116,7 @@
                                 var icon = IconTool.GetCaseIcon(availableCase, PageCulture);
                                 if (!string.IsNullOrWhiteSpace(icon))
                                 {
-                                    <MudIcon Icon="@icon" Color="Color.Surface" />
+                                    <MudIcon Icon="@icon" Color="@GetCaseColor(availableCase)" />
                                 }
                             }
                         </MudStack>

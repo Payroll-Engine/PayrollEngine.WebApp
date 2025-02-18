@@ -5,10 +5,15 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <inheritdoc />
 public class UserNotificationService : IUserNotificationService
 {
     private IUserNotificationService handler;
 
+    /// <summary>
+    /// Initialize user notification
+    /// </summary>
+    /// <param name="notificationHandler">Notification handler</param>
     public void Initialize(IUserNotificationService notificationHandler)
     {
         if (IsInitialized)

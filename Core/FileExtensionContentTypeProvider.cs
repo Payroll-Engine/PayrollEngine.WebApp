@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 // ReSharper disable StringLiteralTypo
 
@@ -420,7 +420,7 @@ public class FileExtensionContentTypeProvider
     }
 
     /// <summary>
-    /// The cross reference table of file extensions and content-types.
+    /// The cross-reference table of file extensions and content-types.
     /// </summary>
     private IDictionary<string, string> Mappings { get; }
 

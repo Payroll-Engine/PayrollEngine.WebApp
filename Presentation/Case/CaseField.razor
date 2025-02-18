@@ -66,8 +66,8 @@
         <div style="width: 25%; align-self: flex-end;">
             @if (Field.StartAvailable())
             {
-                var pickerType = Field.Attributes.GetStartPickerType(Culture) ?? DateTimeType.DatePicker;
-                if (pickerType is DateTimeType.DatePicker)
+                var pickerType = Field.Attributes.GetStartPickerType(Culture) ?? DateTimePickerType.DatePicker;
+                if (pickerType is DateTimePickerType.DatePicker)
                 {
                     <CaseStartDatePicker @bind-Date="@Field.Start"
                                          Field="@Field"
@@ -77,7 +77,7 @@
                                          Dense="@Dense"
                                          Variant="@Variant" />
                 }
-                else if (pickerType == DateTimeType.DateTimePicker)
+                else if (pickerType == DateTimePickerType.DateTimePicker)
                 {
                     <CaseStartDateTimePicker @bind-DateTime="@Field.Start"
                                              Field="@Field"
@@ -95,7 +95,7 @@
             @if (Field.EndAvailable())
             {
                 var pickerType = Field.Attributes.GetEndPickerType(Culture);
-                if (pickerType is null or DateTimeType.DatePicker)
+                if (pickerType is null or DateTimePickerType.DatePicker)
                 {
                     <CaseEndDatePicker @bind-Date="@Field.End"
                                        Field="@Field"
@@ -105,7 +105,7 @@
                                        Dense="@Dense"
                                        Variant="@Variant" />
                 }
-                else if (pickerType == DateTimeType.DateTimePicker)
+                else if (pickerType == DateTimePickerType.DateTimePicker)
                 {
                     <CaseEndDateTimePicker @bind-DateTime="@Field.End"
                                            Field="@Field"

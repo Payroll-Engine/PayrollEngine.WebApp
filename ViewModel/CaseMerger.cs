@@ -1,16 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Case merger
+/// </summary>
 public static class CaseMerger
 {
-    public static async System.Threading.Tasks.Task MergeAsync(CaseSet changeCaseSet, CaseSet targetCaseSet)
+    /// <summary>
+    /// Merge cases
+    /// </summary>
+    /// <param name="sourceCaseSet">Source case</param>
+    /// <param name="targetCaseSet">Target case</param>
+    public static async System.Threading.Tasks.Task MergeAsync(CaseSet sourceCaseSet, CaseSet targetCaseSet)
     {
-        if (changeCaseSet == null)
+        if (sourceCaseSet == null)
         {
-            throw new ArgumentNullException(nameof(changeCaseSet));
+            throw new ArgumentNullException(nameof(sourceCaseSet));
         }
         if (targetCaseSet == null)
         {
@@ -18,10 +26,10 @@ public static class CaseMerger
         }
 
         // fields
-        await MergeFieldsAsync(changeCaseSet, targetCaseSet);
+        await MergeFieldsAsync(sourceCaseSet, targetCaseSet);
 
         // relations
-        if (changeCaseSet.RelatedCases == null || !changeCaseSet.RelatedCases.Any())
+        if (sourceCaseSet.RelatedCases == null || !sourceCaseSet.RelatedCases.Any())
         {
             // clear any 
             targetCaseSet.RelatedCases?.ClearAsync();
@@ -32,13 +40,13 @@ public static class CaseMerger
         {
             // initial add
             targetCaseSet.RelatedCases = [];
-            await targetCaseSet.RelatedCases.AddRangeAsync(changeCaseSet.RelatedCases);
+            await targetCaseSet.RelatedCases.AddRangeAsync(sourceCaseSet.RelatedCases);
             return;
         }
 
-        var sourceCases = new List<CaseSet>(changeCaseSet.RelatedCases);
+        var sourceCases = new List<CaseSet>(sourceCaseSet.RelatedCases);
         var targetCases = new List<CaseSet>(targetCaseSet.RelatedCases);
-        if (changeCaseSet.RelatedCases != null)
+        if (sourceCaseSet.RelatedCases != null)
         {
             foreach (var sourceCase in sourceCases)
             {
@@ -70,6 +78,12 @@ public static class CaseMerger
         }
     }
 
+    /// <summary>
+    /// Merge case field
+    /// </summary>
+    /// <param name="sourceCaseSet">Source case</param>
+    /// <param name="targetCaseSet">Target case</param>
+    /// <returns></returns>
     private static async System.Threading.Tasks.Task MergeFieldsAsync(CaseSet sourceCaseSet, CaseSet targetCaseSet)
     {
         if (sourceCaseSet.Fields == null || !sourceCaseSet.Fields.Any())

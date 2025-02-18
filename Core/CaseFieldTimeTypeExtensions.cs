@@ -1,5 +1,8 @@
 ﻿namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Extensions for <see cref="CaseFieldTimeType" />
+/// </summary>
 public static class CaseValueTimeTypeExtensions
 {
     /// <summary>

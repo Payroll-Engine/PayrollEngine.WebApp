@@ -5,37 +5,67 @@ using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model task
+/// </summary>
 public class Task : Client.Model.Task, IViewModel,
     IViewAttributeObject, IKeyEquatable<Task>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Task()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Task(Task copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Task(Client.Model.Task copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Schedule date
+    /// </summary>
     public new DateTime? Scheduled
     {
         get => IsScheduled ? base.Scheduled : null;
         set => base.Scheduled = value ?? DateTime.MinValue;
     }
 
+    /// <summary>
+    /// Test for scheduled task
+    /// </summary>
     public bool IsScheduled => base.Scheduled != DateTime.MinValue;
 
+    /// <summary>
+    /// Get the localized name
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedName(string culture) =>
         culture.GetLocalization(NameLocalizations, Name);
 
+    /// <summary>
+    /// Instruction text
+    /// </summary>
     public string InstructionText =>
         RemoveLinks(Instruction);
 
+    /// <summary>
+    /// Instruction links
+    /// </summary>
     public List<Tuple<string, string, string>> InstructionLinks =>
         ExtractLinks(Instruction);
 
@@ -120,5 +150,6 @@ public class Task : Client.Model.Task, IViewModel,
     public bool Equals(IViewModel compare) =>
         Equals(compare as Task);
 
+    /// <inheritdoc />
     public bool EqualKey(Task compare) => false;
 }

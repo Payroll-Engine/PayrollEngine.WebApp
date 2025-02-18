@@ -2,12 +2,23 @@
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Culture description
+/// </summary>
+/// <param name="cultureInfo"></param>
 public class CultureDescription(CultureInfo cultureInfo)
 {
+    /// <summary>
+    /// Culture info
+    /// </summary>
     public CultureInfo CultureInfo { get; } = cultureInfo;
-    public string Name => CultureInfo.Name;
-    private string DisplayName => CultureInfo.DisplayName;
 
+    /// <summary>
+    /// Culture name
+    /// </summary>
+    public string Name => CultureInfo.Name;
+
+    /// <inheritdoc />
     public override string ToString() =>
-        $"{Name} - {DisplayName}";
+        $"{Name} - {CultureInfo.DisplayName}";
 }

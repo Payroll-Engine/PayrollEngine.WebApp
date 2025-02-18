@@ -5,18 +5,32 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation wage type
+/// </summary>
 public class RegulationWageType : WageType, IRegulationItem, IKeyEquatable<RegulationWageType>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationWageType()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationWageType(RegulationWageType copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationWageType(WageType copySource) :
         base(copySource)
     {
@@ -79,6 +93,7 @@ public class RegulationWageType : WageType, IRegulationItem, IKeyEquatable<Regul
     public bool Equals(IViewModel compare) =>
         Equals(compare as RegulationWageType);
 
+    /// <inheritdoc />
     public bool EqualKey(RegulationWageType compare) =>
         base.EqualKey(compare);
 }

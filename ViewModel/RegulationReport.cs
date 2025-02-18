@@ -4,18 +4,32 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation report
+/// </summary>
 public class RegulationReport : ReportSet, IRegulationItem, IKeyEquatable<RegulationReport>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationReport()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationReport(RegulationReport copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationReport(ReportSet copySource) :
         base(copySource)
     {
@@ -72,6 +86,7 @@ public class RegulationReport : ReportSet, IRegulationItem, IKeyEquatable<Regula
         base.Equals(compare) &&
         CompareTool.EqualProperties(this, compare);
 
+    /// <inheritdoc />
     public bool EqualKey(RegulationReport compare) =>
         base.EqualKey(compare);
 }

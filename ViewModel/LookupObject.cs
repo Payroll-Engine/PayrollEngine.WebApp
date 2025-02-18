@@ -1,25 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Linq;
 using System.Text.Json;
+using System.Globalization;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model lookup object
+/// </summary>
 [SuppressMessage("ReSharper", "LocalizableElement")]
 public class LookupObject
 {
     private readonly Dictionary<string, JsonElement> values = new();
-    public decimal? RangeValue { get; }
-
     private CultureInfo TenantCulture { get; }
     private IValueFormatter ValueFormatter { get; }
     private string ValuePropertyName { get; }
     private string TextPropertyName { get; }
 
-    private readonly object lookupValue;
+    /// <summary>
+    /// Range value
+    /// </summary>
+    public decimal? RangeValue { get; }
 
+    private readonly object lookupValue;
+    /// <summary>
+    /// Lookup value
+    /// </summary>
     public object Value
     {
         get => lookupValue;
@@ -36,12 +44,28 @@ public class LookupObject
         }
     }
 
+    /// <summary>
+    /// Lookup text
+    /// </summary>
     public string Text { get; }
 
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public LookupObject()
     {
     }
 
+    /// <summary>
+    /// Json value constructor
+    /// </summary>
+    /// <param name="element">Json element</param>
+    /// <param name="valueFormatter">Value formatter</param>
+    /// <param name="valueType">Value type</param>
+    /// <param name="tenantCulture">Tenant culture</param>
+    /// <param name="rangeValue">Range value</param>
+    /// <param name="valuePropertyName">Value property name</param>
+    /// <param name="textPropertyName">Text property name</param>
     public LookupObject(JsonElement element, IValueFormatter valueFormatter, ValueType valueType,
         CultureInfo tenantCulture, decimal? rangeValue, string valuePropertyName = null, string textPropertyName = null)
     {
@@ -85,6 +109,10 @@ public class LookupObject
             values[TextPropertyName].GetString();
     }
 
+    /// <summary>
+    /// Get string value
+    /// </summary>
+    /// <param name="propertyName">Property name</param>
     public string GetStringValue(string propertyName)
     {
         // text column
@@ -95,15 +123,27 @@ public class LookupObject
         return GetPropertyValue(propertyName)?.ToString();
     }
 
+    /// <summary>
+    /// Get decimal value
+    /// </summary>
     public decimal? GetDecimalValue(string propertyName) =>
         GetPropertyValue<decimal>(propertyName);
 
+    /// <summary>
+    /// Get integer value
+    /// </summary>
     public int? GetIntegerValue(string propertyName) =>
         GetPropertyValue<int>(propertyName);
 
+    /// <summary>
+    /// Get boolean value
+    /// </summary>
     public bool? GetBooleanValue(string propertyName) =>
         GetPropertyValue<bool>(propertyName);
 
+    /// <summary>
+    /// Get string value
+    /// </summary>
     public DateTime? GetDateTimeValue(string propertyName) =>
         GetPropertyValue<DateTime>(propertyName);
 

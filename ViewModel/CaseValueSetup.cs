@@ -2,8 +2,16 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Case value setup
+/// </summary>
 public class CaseValueSetup : Client.Model.CaseValueSetup, IViewModel, IEquatable<CaseValueSetup>
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="caseName">Case name</param>
+    /// <param name="caseField">Case field</param>
     public CaseValueSetup(string caseName, CaseFieldSet caseField)
     {
         if (string.IsNullOrWhiteSpace(caseName))
@@ -27,6 +35,10 @@ public class CaseValueSetup : Client.Model.CaseValueSetup, IViewModel, IEquatabl
         Attributes = caseField.ValueAttributes;
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public CaseValueSetup(Client.Model.CaseValueSetup copySource) :
         base(copySource)
     {
@@ -47,6 +59,10 @@ public class CaseValueSetup : Client.Model.CaseValueSetup, IViewModel, IEquatabl
         }
     }
 
+    /// <summary>
+    /// Change the value
+    /// </summary>
+    /// <param name="newValue">New value</param>
     public void ChangeValue(string newValue) =>
         Value = newValue;
 

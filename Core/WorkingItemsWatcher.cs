@@ -6,33 +6,55 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Working items watcher
+/// </summary>
+/// <typeparam name="TService">Service to watch</typeparam>
+/// <typeparam name="TServiceContext">Service context</typeparam>
+/// <typeparam name="TItem">Item type</typeparam>
+/// <typeparam name="TQuery">Item query type</typeparam>
 public class WorkingItemsWatcher<TService, TServiceContext, TItem, TQuery>
     where TService : IReadService<TItem, TServiceContext, TQuery>
     where TServiceContext : IServiceContext
     where TItem : class, IModel, new()
     where TQuery : Query, new()
 {
-    private TService ReadService { get; }
+    private TService Service { get; }
 
-    public WorkingItemsWatcher(TService readService)
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="service">Watch service</param>
+    public WorkingItemsWatcher(TService service)
     {
-        if (readService == null)
+        if (service == null)
         {
-            throw new ArgumentNullException(nameof(readService));
+            throw new ArgumentNullException(nameof(service));
         }
-        ReadService = readService;
+        Service = service;
     }
 
+    /// <summary>
+    /// Updated watch state
+    /// </summary>
+    /// <param name="items">Items</param>
+    /// <param name="serviceContext">Service context</param>
     public async Task UpdateAsync(ItemCollection<TItem> items, TServiceContext serviceContext) =>
         await UpdateAsync(items, serviceContext, new()
         {
             Status = ObjectStatus.Active
         });
 
+    /// <summary>
+    /// Updated watch state
+    /// </summary>
+    /// <param name="items">Items</param>
+    /// <param name="serviceContext">Service context</param>
+    /// <param name="query">Service query</param>
     public async Task UpdateAsync(ItemCollection<TItem> items, TServiceContext serviceContext, TQuery query)
     {
         // retrieve all new items
-        var newWorkingItems = await ReadService.QueryAsync<TItem>(serviceContext, query);
+        var newWorkingItems = await Service.QueryAsync<TItem>(serviceContext, query);
 
         // populate collection with working items, or expand if already exists
         var workingItemsToRemove = items.Where(t => !newWorkingItems.Select(n => n.Id).Contains(t.Id)).Select(x => x.Id).ToList();

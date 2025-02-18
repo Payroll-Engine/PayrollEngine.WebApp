@@ -1,21 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
+using System.Globalization;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using PayrollEngine.Client.Model;
 using Microsoft.AspNetCore.Components;
-using PayrollEngine.Client.QueryExpression;
+using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.Shared;
+using PayrollEngine.Client.QueryExpression;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model case filed set
+/// </summary>
 public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable<CaseFieldSet>, IFieldObject
 {
     private readonly bool initialized;
 
+    /// <summary>
+    /// Input value
+    /// </summary>
     // Json ignore required to suppress recursive render errors
     [JsonIgnore]
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
@@ -27,9 +33,18 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     [JsonIgnore]
     private CultureInfo TenantCulture { get; }
 
-    [JsonIgnore] 
+    [JsonIgnore]
     private IValueFormatter ValueFormatter { get; }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
+    /// <param name="caseValueProvider">Case value provider</param>
+    /// <param name="valueFormatter">Value formatter</param>
+    /// <param name="tenantCulture">Tenant culture</param>
+    /// <param name="localizer">Localizer</param>
+    /// <exception cref="ArgumentNullException"></exception>
     public CaseFieldSet(Client.Model.CaseFieldSet copySource, ICaseValueProvider caseValueProvider,
         IValueFormatter valueFormatter, CultureInfo tenantCulture, Localizer localizer) :
         base(copySource)
@@ -88,16 +103,35 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         initialized = true;
     }
 
+    /// <summary>
+    /// Validator
+    /// </summary>
     public CaseFieldValidator Validator { get; }
 
+    /// <summary>
+    /// Test for valid value
+    /// </summary>
+    /// <returns></returns>
     public bool IsValidValue() => Validator.ValidateValue();
 
+    /// <summary>
+    /// Get the localized name
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedName(CultureInfo culture) =>
         culture.Name.GetLocalization(NameLocalizations, Name);
 
+    /// <summary>
+    /// Get localized description
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedDescription(CultureInfo culture) =>
         culture.Name.GetLocalization(DescriptionLocalizations, Description);
 
+    /// <summary>
+    /// Format value
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string FormatValue(CultureInfo culture = null)
     {
         // priority 1: object culture
@@ -122,6 +156,9 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     private bool HasStart { get; set; }
 
+    /// <summary>
+    /// Case field start date
+    /// </summary>
     private DateTime? start;
     public new DateTime? Start
     {
@@ -142,9 +179,15 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         }
     }
 
+    /// <summary>
+    /// start available
+    /// </summary>
     public bool StartAvailable() =>
         TimeType.HasStart();
 
+    /// <summary>
+    /// Test start is missing
+    /// </summary>
     public bool StartMissing()
     {
         if (TimeType == CaseFieldTimeType.Timeless || HasStart)
@@ -165,6 +208,9 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     private bool HasEnd { get; set; }
 
     private DateTime? end;
+    /// <summary>
+    /// Case field end date
+    /// </summary>
     public new DateTime? End
     {
         get => end;
@@ -184,9 +230,15 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         }
     }
 
+    /// <summary>
+    /// Test end date is available
+    /// </summary>
     public bool EndAvailable() =>
         TimeType.HasEnd();
 
+    /// <summary>
+    /// Test for open end
+    /// </summary>
     public bool OpenEnd()
     {
         if (TimeType == CaseFieldTimeType.Timeless)
@@ -198,6 +250,9 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         return !HasEnd;
     }
 
+    /// <summary>
+    /// Get value markup
+    /// </summary>
     public MarkupString GetValueMarkup()
     {
         // string
@@ -266,9 +321,17 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     [JsonIgnore]
     public new bool HasValue { get; private set; }
 
+    /// <summary>
+    /// Tet for available value type
+    /// </summary>
+    /// <returns></returns>
     public bool ValueTypeAvailable() =>
         ValueType != ValueType.None;
 
+    /// <summary>
+    /// Test if value is missing
+    /// </summary>
+    /// <returns></returns>
     public bool ValueMissing()
     {
         if (ValueType == ValueType.None ||
@@ -471,6 +534,9 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     public AttachmentType AttachmentType { get; }
 
+    /// <summary>
+    /// Case filed documents
+    /// </summary>
     public ObservedHashSet<CaseDocument> Documents { get; } = [];
 
     private async System.Threading.Tasks.Task DocumentsHandlerAsync(object sender, CaseDocument document)
@@ -481,6 +547,9 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     #region Lookup
 
+    /// <summary>
+    /// Lookup values
+    /// </summary>
     public List<LookupObject> LookupValues { get; } = [];
 
     #endregion
@@ -489,6 +558,9 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     #region History
 
+    /// <summary>
+    /// Load history values
+    /// </summary>
     public async System.Threading.Tasks.Task<List<CaseValueSetup>> LoadHistoryValuesAsync()
     {
         // query
@@ -528,6 +600,9 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
 
     #region Validation
 
+    /// <summary>
+    /// Get validity
+    /// </summary>
     public CaseObjectValidity Validity { get; private set; } = new();
 
     /// <summary>
@@ -557,9 +632,14 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     private DateTime? ParseDateExpression(string expression) =>
         Date.Parse(expression, TenantCulture);
 
+    /// <summary>
+    /// Check for equal key
+    /// </summary>
+    /// <param name="compare">Compare field</param>
     public bool EqualKey(CaseFieldSet compare) =>
         base.EqualKey(compare);
 
+    /// <inheritdoc />
     public override string ToString()
     {
         var buffer = new StringBuilder();

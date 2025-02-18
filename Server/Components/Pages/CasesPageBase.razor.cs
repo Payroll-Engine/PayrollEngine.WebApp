@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazored.LocalStorage;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using MudBlazor;
+using Blazored.LocalStorage;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
@@ -137,6 +137,16 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
             GridDense = denseMode.Value;
         }
     }
+
+    #endregion
+
+    #region Case
+
+    private Color GetCaseColor(Case @case) =>
+        @case.GetPriority(PageCulture).GetColor();
+
+    private string GetCaseStyle(Case @case) =>
+        @case.GetPriority(PageCulture).GetStyle(ThemeService);
 
     #endregion
 
@@ -643,6 +653,10 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
         {
             cases = cases.Where(x => x.IsMatching(filter, PageCulture.Name));
         }
+
+        // case order
+        cases = cases.OrderByDescending(x => x.GetPriority(PageCulture)).ThenBy(x => x.Name);
+
         AvailableCases = cases.ToList();
     }
 

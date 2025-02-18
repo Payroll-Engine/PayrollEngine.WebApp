@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Extension methods for <see cref="Dictionary{TKey,TValue}" />
+/// </summary>
 public static class DictionaryExtensions
 {
     /// <summary>

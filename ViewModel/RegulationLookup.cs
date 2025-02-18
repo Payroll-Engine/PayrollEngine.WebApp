@@ -4,18 +4,32 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation lookup
+/// </summary>
 public class RegulationLookup : Lookup, IRegulationItem, IKeyEquatable<RegulationLookup>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationLookup()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationLookup(RegulationLookup copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationLookup(Lookup copySource) :
         base(copySource)
     {
@@ -78,6 +92,7 @@ public class RegulationLookup : Lookup, IRegulationItem, IKeyEquatable<Regulatio
     public bool Equals(IViewModel compare) =>
         Equals(compare as RegulationLookup);
 
+    /// <inheritdoc />
     public bool EqualKey(RegulationLookup compare) =>
         base.EqualKey(compare);
 }

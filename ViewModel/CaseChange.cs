@@ -2,17 +2,31 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model case change
+/// </summary>
 public class CaseChange : Client.Model.CaseChange, IViewModel, IEquatable<CaseChange>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public CaseChange()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public CaseChange(CaseChange copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public CaseChange(Client.Model.CaseChange copySource) :
         base(copySource)
     {

@@ -1,12 +1,20 @@
-﻿using System.ComponentModel;
+﻿using System.Linq;
 using System.Globalization;
-using System.Linq;
+using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Extension methods for <see cref="IFieldObject" />
+/// </summary>
 public static class FieldObjectExtensions
 {
+    /// <summary>
+    /// Get value markup
+    /// </summary>
+    /// <param name="fieldObject">Field object</param>
+    /// <param name="culture">Culture</param>
     public static MarkupString GetValueMarkup(this IFieldObject fieldObject, CultureInfo culture)
     {
         // string

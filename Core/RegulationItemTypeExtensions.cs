@@ -2,8 +2,17 @@
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Extension methods for <see cref="RegulationItemType" />
+/// </summary>
 public static class RegulationItemTypeExtensions
 {
+    /// <summary>
+    /// Get localized regulation item type name
+    /// </summary>
+    /// <param name="itemType">Item type</param>
+    /// <param name="localizer">Localizer</param>
+    /// <param name="plural">Plural mode</param>
     public static string LocalizedName(this RegulationItemType itemType, Localizer localizer, bool plural = false)
     {
         switch (itemType)
@@ -35,6 +44,10 @@ public static class RegulationItemTypeExtensions
         }
     }
 
+    /// <summary>
+    /// Get the regulation parent item type
+    /// </summary>
+    /// <param name="itemType">Item type</param>
     public static RegulationItemType ParentType(this RegulationItemType itemType)
     {
         switch (itemType)
@@ -51,6 +64,10 @@ public static class RegulationItemTypeExtensions
         }
     }
 
+    /// <summary>
+    /// Test for parent item type
+    /// </summary>
+    /// <param name="itemType">Item type</param>
     public static bool HasParentType(this RegulationItemType itemType)
     {
         switch (itemType)

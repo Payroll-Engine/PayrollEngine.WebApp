@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Case change case value
+/// </summary>
 public class CaseChangeCaseValue : Client.Model.CaseChangeCaseValue, IViewModel,
     IViewAttributeObject, IEquatable<CaseChangeCaseValue>
 {

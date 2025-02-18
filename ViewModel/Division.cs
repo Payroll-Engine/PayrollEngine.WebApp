@@ -2,23 +2,41 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model division
+/// </summary>
 public class Division : Client.Model.Division, IViewModel,
     IViewAttributeObject, IKeyEquatable<Division>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Division()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Division(Division copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Division(Client.Model.Division copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Get the localized name
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedName(string culture) =>
         culture.GetLocalization(NameLocalizations, Name);
 
@@ -50,6 +68,7 @@ public class Division : Client.Model.Division, IViewModel,
     public bool Equals(IViewModel compare) =>
         Equals(compare as Division);
 
+    /// <inheritdoc />
     public bool EqualKey(Division compare) =>
         base.EqualKey(compare);
 }

@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Data;
 using System.IO;
-using System.Text;
 using System.Xml;
+using System.Data;
+using System.Text;
 using System.Xml.Xsl;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Xml tools
+/// </summary>
 public static class XmlTool
 {
     private static readonly Encoding XmlEncoding = Encoding.UTF8;
@@ -77,6 +80,10 @@ public static class XmlTool
     public static MemoryStream XmlToMemoryStream(string xml) =>
         new(XmlEncoding.GetBytes(xml));
 
+    /// <summary>
+    /// Convert data set to xml
+    /// </summary>
+    /// <param name="dataSet">Data set to convert</param>
     private static XmlNode DataSetToXml(DataSet dataSet)
     {
         using var stream = new MemoryStream();

@@ -24,6 +24,11 @@ public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) :
     protected abstract string GridId { get; }
     protected abstract IBackendService<TItem, TQuery> BackendService { get; }
     protected abstract ItemCollection<TItem> Items { get; }
+    
+    /// <summary>
+    /// Get the localized name
+    /// </summary>
+    /// <param name="plural">Plural</param>
     protected abstract string GetLocalizedItemName(bool plural);
 
     protected MudDataGrid<TItem> ItemsGrid { get; set; }

@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Date definitions
+/// </summary>
 public static class Date
 {
     #region Value

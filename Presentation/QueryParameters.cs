@@ -2,8 +2,14 @@
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// Query parameters
+/// </summary>
 public static class QueryParameters
 {
+    /// <summary>
+    /// Query parameters
+    /// </summary>
     public static readonly List<QueryParameterInfo> Parameters =
     [
         new(["contains"], "contains({0},{1}) "),

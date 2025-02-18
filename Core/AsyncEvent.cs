@@ -1,14 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Async events
+/// </summary>
 public class AsyncEvent<T>
 {
     private readonly List<Func<object, T, Task>> items = [];
     private readonly object locker = new();
 
+    /// <summary>
+    /// + operator
+    /// </summary>
+    /// <param name="args">Event arguments</param>
+    /// <param name="callback">Event callback</param>
     public static AsyncEvent<T> operator +(
         AsyncEvent<T> args, Func<object, T, Task> callback)
     {
@@ -25,6 +33,11 @@ public class AsyncEvent<T>
         return args;
     }
 
+    /// <summary>
+    /// - operator
+    /// </summary>
+    /// <param name="args">Event arguments</param>
+    /// <param name="callback">Event callback</param>
     public static AsyncEvent<T> operator -(
         AsyncEvent<T> args, Func<object, T, Task> callback)
     {
@@ -50,6 +63,11 @@ public class AsyncEvent<T>
         return args;
     }
 
+    /// <summary>
+    /// Invoke event
+    /// </summary>
+    /// <param name="sender">Event sender</param>
+    /// <param name="args">Event arguments</param>
     public async Task InvokeAsync(object sender, T args)
     {
         List<Func<object, T, Task>> callbacks;

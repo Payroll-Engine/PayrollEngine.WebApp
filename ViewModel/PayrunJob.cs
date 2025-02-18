@@ -2,19 +2,33 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model payrun job
+/// </summary>
 public class PayrunJob : Client.Model.PayrunJob, IViewModel,
     IViewAttributeObject, IEquatable<PayrunJob>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public PayrunJob()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public PayrunJob(PayrunJob copySource) :
         base(copySource)
     {
         DivisionName = copySource.DivisionName;
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public PayrunJob(Client.Model.PayrunJob copySource) :
         base(copySource)
     {

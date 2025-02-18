@@ -1,22 +1,36 @@
-﻿using PayrollEngine.Client.Model;
-using System;
+﻿using System;
 using System.Text.Json.Serialization;
+using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation report parameter
+/// </summary>
 public class RegulationReportParameter : ReportParameter, IRegulationItem, IKeyEquatable<RegulationReportParameter>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationReportParameter()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationReportParameter(RegulationReportParameter copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationReportParameter(ReportParameter copySource) :
         base(copySource)
     {
@@ -74,6 +88,7 @@ public class RegulationReportParameter : ReportParameter, IRegulationItem, IKeyE
         base.Equals(compare) &&
         CompareTool.EqualProperties(this, compare);
 
+    /// <inheritdoc />
     public bool EqualKey(RegulationReportParameter compare) =>
         base.EqualKey(compare);
 }

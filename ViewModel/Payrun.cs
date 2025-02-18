@@ -4,16 +4,27 @@ namespace PayrollEngine.WebApp.ViewModel;
 
 public class Payrun : Client.Model.Payrun, IViewModel, IKeyEquatable<Payrun>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Payrun()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Payrun(Payrun copySource) :
         base(copySource)
     {
         DivisionName = copySource.DivisionName;
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Payrun(Client.Model.Payrun copySource) :
         base(copySource)
     {
@@ -39,6 +50,7 @@ public class Payrun : Client.Model.Payrun, IViewModel, IKeyEquatable<Payrun>
     public bool Equals(IViewModel compare) =>
         Equals(compare as Payrun);
 
+    /// <inheritdoc />
     public bool EqualKey(Payrun compare) =>
         base.EqualKey(compare);
 }

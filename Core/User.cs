@@ -1,39 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Application user
+/// </summary>
 public class User : Client.Model.User
 {
     public string FullName => $"{FirstName} {LastName}";
 
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     // ReSharper disable once MemberCanBeProtected.Global
     public User()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
     protected User(User copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Copy base class constructor
+    /// </summary>
     protected User(Client.Model.User copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Test for password
+    /// </summary>
     public bool HasPassword =>
         !string.IsNullOrWhiteSpace(Password);
 
     #region Tasks
 
+    /// <summary>
+    /// Open task count
+    /// </summary>
     public int OpenTaskCount { get; set; }
 
     #endregion
 
     #region Feature
 
+    /// <summary>
+    /// User features
+    /// </summary>
     public List<Feature> Features
     {
         get
@@ -50,13 +71,23 @@ public class User : Client.Model.User
         }
     }
 
+    /// <summary>
+    /// User features as string
+    /// </summary>
     public string FeaturesAsString { get; set; } = string.Empty;
+
+    /// <summary>
+    /// User features as enum
+    /// </summary>
     public IEnumerable<string> FeaturesAsEnum
     {
         get => Features.Select(x => x.ToString());
         set => Features = StringToFeatures(value);
     }
 
+    /// <summary>
+    /// Test user has any feature
+    /// </summary>
     public bool HasAnyFeature() =>
         UserType switch
         {
@@ -90,6 +121,10 @@ public class User : Client.Model.User
                 Features.Contains(feature)
         };
 
+    /// <summary>
+    /// Add feature
+    /// </summary>
+    /// <param name="feature">Feature to add</param>
     private void AddFeature(Feature feature)
     {
         var features = Features;
@@ -100,6 +135,10 @@ public class User : Client.Model.User
         }
     }
 
+    /// <summary>
+    /// Add features
+    /// </summary>
+    /// <param name="features">Features to add</param>
     public void AddFeatures(IEnumerable<Feature> features) =>
         features?.ToList().ForEach(AddFeature);
 
@@ -150,6 +189,9 @@ public class User : Client.Model.User
 
     #region Settings
 
+    /// <summary>
+    /// User startup page
+    /// </summary>
     public string StartupPage
     {
         get => Attributes.GetMemberAttributeValue<string>();
@@ -159,6 +201,9 @@ public class User : Client.Model.User
             Attributes.SetMemberAttributeValue(value);
         }
     }
+    /// <summary>
+    /// User startup payroll
+    /// </summary>
 
     public string StartupPayroll
     {
@@ -170,6 +215,9 @@ public class User : Client.Model.User
         }
     }
 
+    /// <summary>
+    /// User startup employee
+    /// </summary>
     public string StartupEmployee
     {
         get => Attributes.GetMemberAttributeValue<string>();

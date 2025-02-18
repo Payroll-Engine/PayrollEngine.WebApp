@@ -2,6 +2,9 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Grid column configuration
+/// </summary>
 // ReSharper disable once ClassNeverInstantiated.Global
 public class GridColumnConfiguration
 {
@@ -78,5 +81,4 @@ public class GridColumnConfiguration
             .Replace('$', '_')
             .Replace('?', '_');
     }
-
 }

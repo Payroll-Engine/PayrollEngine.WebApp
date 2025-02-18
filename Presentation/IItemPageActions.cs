@@ -2,6 +2,9 @@
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// Item page actions
+/// </summary>
 public interface IItemPageActions
 {
     /// <summary>

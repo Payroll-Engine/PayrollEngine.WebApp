@@ -3,24 +3,42 @@ using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model report set
+/// </summary>
 public class ReportSet : Client.Model.ReportSet, IViewModel,
     IViewAttributeObject, IKeyEquatable<ReportSet>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     // ReSharper disable once MemberCanBeProtected.Global
     public ReportSet()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public ReportSet(ReportSet copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public ReportSet(Report copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public ReportSet(Client.Model.ReportSet copySource) :
         base(copySource)
     {
@@ -28,7 +46,6 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
 
     /// <summary>The report parameters</summary>
     private ObservedHashSet<ReportParameter> viewParameters;
-
     public ObservedHashSet<ReportParameter> ViewParameters
     {
         get
@@ -90,9 +107,17 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
 
     #endregion
 
+    /// <summary>
+    /// Get the localized name
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedName(string culture) =>
         culture.GetLocalization(NameLocalizations, Name);
 
+    /// <summary>
+    /// Get localized description
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedDescription(string culture) =>
         culture.GetLocalization(DescriptionLocalizations, Description);
 
@@ -108,6 +133,7 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
     public bool Equals(IViewModel compare) =>
         Equals(compare as ReportSet);
 
+    /// <inheritdoc />
     public bool EqualKey(ReportSet compare) =>
         base.EqualKey(compare);
 }

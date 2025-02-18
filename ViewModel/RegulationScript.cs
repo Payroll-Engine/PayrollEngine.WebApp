@@ -1,23 +1,37 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model regulation script
+/// </summary>
 public class RegulationScript : Script, IRegulationItem, IKeyEquatable<RegulationScript>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationScript()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     private RegulationScript(RegulationScript copySource) :
         base(copySource)
     {
         CopyTool.CopyProperties(copySource, this);
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected RegulationScript(Script copySource) :
         base(copySource)
     {
@@ -95,6 +109,7 @@ public class RegulationScript : Script, IRegulationItem, IKeyEquatable<Regulatio
     public bool Equals(IViewModel compare) =>
         Equals(compare as RegulationScript);
 
+    /// <inheritdoc />
     public bool EqualKey(RegulationScript compare) =>
         base.EqualKey(compare);
 }

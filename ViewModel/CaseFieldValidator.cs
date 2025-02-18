@@ -4,6 +4,11 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Case field validator
+/// </summary>
+/// <param name="caseField">Case field</param>
+/// <param name="localizer">Localizer</param>
 public class CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
 {
     private CaseFieldSet CaseField { get; } = caseField ?? throw new ArgumentNullException(nameof(caseField));

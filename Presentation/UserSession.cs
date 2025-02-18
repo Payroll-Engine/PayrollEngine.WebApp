@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Model;
-using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
+using PayrollEngine.Client.QueryExpression;
 using Task = System.Threading.Tasks.Task;
 using Division = PayrollEngine.WebApp.ViewModel.Division;
 using Employee = PayrollEngine.WebApp.ViewModel.Employee;
@@ -14,6 +14,16 @@ using Tenant = PayrollEngine.WebApp.ViewModel.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// User session
+/// </summary>
+/// <param name="configuration">Configuration service</param>
+/// <param name="cultureService">Culture service</param>
+/// <param name="tenantService">Tenant service</param>
+/// <param name="divisionService">Division service</param>
+/// <param name="payrollService">Payroll service</param>
+/// <param name="employeeService">Employee service</param>
+/// <param name="userService">User service</param>
 public class UserSession(IConfiguration configuration,
     ICultureService cultureService,
     ITenantService tenantService,
@@ -63,13 +73,34 @@ public class UserSession(IConfiguration configuration,
     #region User
 
     // ReSharper disable once UnusedMember.Local
+
     private IUserService UserService { get; } = userService ?? throw new ArgumentNullException(nameof(userService));
 
+    /// <summary>
+    /// Session user
+    /// </summary>
     public User User { get; private set; }
+
+    /// <summary>
+    /// Multitenant user
+    /// </summary>
     public bool MultiTenantUser { get; private set; }
+
+    /// <summary>
+    /// Test user is available
+    /// </summary>
     public bool UserAvailable => User != null;
+
+    /// <summary>
+    /// User changed event
+    /// </summary>
     public AsyncEvent<User> UserChanged { get; set; }
 
+    /// <summary>
+    /// User login
+    /// </summary>
+    /// <param name="userTenant">Tenant oof the user</param>
+    /// <param name="user">User</param>
     public async Task LoginAsync(Tenant userTenant, User user)
     {
         if (userTenant == null)
@@ -108,6 +139,7 @@ public class UserSession(IConfiguration configuration,
     /// <summary>
     /// Update the user culture
     /// </summary>
+    /// <param name="user">User to update the state</param>
     private void UpdateUserState(User user)
     {
         if (user == null)
@@ -127,6 +159,10 @@ public class UserSession(IConfiguration configuration,
         ValueFormatter = new ValueFormatter(culture?.CultureInfo ?? CultureInfo.CurrentCulture);
     }
 
+    /// <summary>
+    /// Setup user tasks
+    /// </summary>
+    /// <param name="user">User to set up the tasks</param>
     private async Task SetupUserTasks(User user)
     {
         if (TaskService == null)
@@ -143,6 +179,9 @@ public class UserSession(IConfiguration configuration,
         user.OpenTaskCount = tasks.Count;
     }
 
+    /// <summary>
+    /// Logout user
+    /// </summary>
     public async Task LogoutAsync()
     {
         if (User == null)
@@ -153,9 +192,16 @@ public class UserSession(IConfiguration configuration,
         await ChangeTenantAsync(null);
     }
 
+    /// <summary>
+    /// Test for any user feature
+    /// </summary>
     public bool AnyUserFeature() =>
         User != null && User.HasAnyFeature();
 
+    /// <summary>
+    /// Test for user feature
+    /// </summary>
+    /// <param name="feature">Test feature</param>
     public bool UserFeature(Feature feature) =>
         User != null && User.HasFeature(feature);
 
@@ -165,11 +211,26 @@ public class UserSession(IConfiguration configuration,
 
     private Tenant tenant;
     private ITenantService TenantService { get; } = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
+
+    /// <summary>
+    /// Session tenant
+    /// </summary>
     public Tenant Tenant => tenant;
+
+    /// <summary>
+    /// Available tenants
+    /// </summary>
     public ItemCollection<Tenant> Tenants { get; } = new();
 
+    /// <summary>
+    /// Tenant changed event
+    /// </summary>
     public AsyncEvent<Tenant> TenantChanged { get; set; }
 
+    /// <summary>
+    /// Set tenant
+    /// </summary>
+    /// <param name="newTenant">Tenant to set</param>
     private void SetTenant(Tenant newTenant)
     {
         tenant = newTenant;
@@ -288,6 +349,9 @@ public class UserSession(IConfiguration configuration,
         Log.Trace($"Tenant changed to {tenant.Identifier}");
     }
 
+    /// <summary>
+    /// Setup tenant
+    /// </summary>
     private async Task SetupTenantsAsync()
     {
         try
@@ -301,6 +365,9 @@ public class UserSession(IConfiguration configuration,
         }
     }
 
+    /// <summary>
+    /// Test for multi-tenant user
+    /// </summary>
     private async System.Threading.Tasks.Task<bool> IsMultiTenantUserAsync(User user, IEnumerable<Tenant> tenants)
     {
         var count = 0;
@@ -325,8 +392,16 @@ public class UserSession(IConfiguration configuration,
     #region Division
 
     private IDivisionService DivisionService { get; } = divisionService ?? throw new ArgumentNullException(nameof(divisionService));
+
+    /// <summary>
+    /// Session division
+    /// </summary>
     public ItemCollection<Division> Divisions { get; } = new();
 
+    /// <summary>
+    /// Setup division
+    /// </summary>
+    /// <returns></returns>
     private async Task SetupDivisionsAsync()
     {
         try
@@ -341,13 +416,6 @@ public class UserSession(IConfiguration configuration,
         {
             Log.Error(exception, exception.GetBaseMessage());
         }
-    }
-
-    private void ResetSession()
-    {
-        SetTenant(null);
-        Tenants.Clear();
-        ResetPayrolls();
     }
 
     #endregion
@@ -433,6 +501,9 @@ public class UserSession(IConfiguration configuration,
         }
     }
 
+    /// <summary>
+    /// Setup payrolls
+    /// </summary>
     private async Task SetupPayrollsAsync()
     {
         try
@@ -477,15 +548,36 @@ public class UserSession(IConfiguration configuration,
 
     private Employee employee;
 
+    /// <summary>
+    /// Session employee
+    /// </summary>
     public Employee Employee => employee;
+
+    /// <summary>
+    /// Available employees
+    /// </summary>
     public ItemCollection<Employee> Employees { get; } = new();
+
+    /// <summary>
+    /// Employee changed event
+    /// </summary>
     public AsyncEvent<Employee> EmployeeChanged { get; set; }
 
+    /// <summary>
+    /// Set employee
+    /// </summary>
+    /// <param name="newEmployee">Employee to set</param>
     private void SetEmployee(Employee newEmployee)
     {
         employee = newEmployee;
     }
 
+    /// <summary>
+    /// Change employee
+    /// </summary>
+    /// <param name="newEmployee">Employee to set</param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task ChangeEmployeeAsync(Employee newEmployee)
     {
         // no changes
@@ -520,6 +612,9 @@ public class UserSession(IConfiguration configuration,
         await (EmployeeChanged?.InvokeAsync(this, employee) ?? Task.CompletedTask);
     }
 
+    /// <summary>
+    /// Setup employees
+    /// </summary>
     private async Task SetupEmployeesAsync()
     {
         try
@@ -548,6 +643,9 @@ public class UserSession(IConfiguration configuration,
         }
     }
 
+    /// <summary>
+    /// Reset employees
+    /// </summary>
     private void ResetEmployees()
     {
         SetEmployee(null);
@@ -556,20 +654,17 @@ public class UserSession(IConfiguration configuration,
 
     #endregion
 
-    #region User Notifications
+    #region Global
 
+    /// <summary>
+    /// User notifications
+    /// </summary>
     public IUserNotificationService UserNotification { get; set; }
 
-    #endregion
-
-    public void Dispose()
-    {
-        Tenants?.Dispose();
-        Divisions?.Dispose();
-        Payrolls?.Dispose();
-        Employees?.Dispose();
-    }
-
+    /// <summary>
+    /// Import user session
+    /// </summary>
+    /// <param name="source">Import source</param>
     public void ImportFrom(UserSession source)
     {
         ValueFormatter = source.ValueFormatter;
@@ -594,4 +689,26 @@ public class UserSession(IConfiguration configuration,
         Employees.Clear();
         Employees.AddRange(source.Employees);
     }
+
+    /// <summary>
+    /// Reset session
+    /// </summary>
+    private void ResetSession()
+    {
+        SetTenant(null);
+        Tenants.Clear();
+        ResetPayrolls();
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Tenants?.Dispose();
+        Divisions?.Dispose();
+        Payrolls?.Dispose();
+        Employees?.Dispose();
+    }
+
+    #endregion
+
 }

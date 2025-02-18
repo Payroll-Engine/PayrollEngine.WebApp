@@ -8,12 +8,12 @@ namespace PayrollEngine.WebApp.Presentation;
 public interface ICultureService
 {
     /// <summary>
-    /// Get all cultures.
+    /// Get all cultures
     /// </summary>
     List<CultureDescription> GetCultures();
 
     /// <summary>
-    /// Get culture.
+    /// Get culture
     /// </summary>
     /// <param name="cultureName">Culture name</param>
     CultureDescription GetCulture(string cultureName);

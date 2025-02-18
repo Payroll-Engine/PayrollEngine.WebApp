@@ -17,7 +17,7 @@ public abstract class DateTimePickerBase : ComponentBase, IAttributeObject
     [Parameter] public Variant Variant { get; set; }
 
     protected abstract DatePickerType DatePickerType { get; }
-    protected abstract DateTimeType DateTimeType { get; }
+    protected abstract DateTimePickerType DateTimePickerType { get; }
 
     protected bool HasValueHelp =>
         !string.IsNullOrWhiteSpace(Attributes.GetValueHelp(Culture));

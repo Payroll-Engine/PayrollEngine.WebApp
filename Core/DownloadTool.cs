@@ -3,8 +3,16 @@ using PayrollEngine.IO;
 
 namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Download tool
+/// </summary>
 public static class DownloadTool
 {
+    /// <summary>
+    /// Convert file name to download file name
+    /// </summary>
+    /// <param name="fileName">Original file name</param>
+    /// <param name="removeSpaces">Remove spaces</param>
     public static string ToDownloadFileName(string fileName, bool removeSpaces = true)
     {
         if (fileName == null)

@@ -1,17 +1,28 @@
 ﻿namespace PayrollEngine.WebApp;
 
+/// <summary>
+/// Application input attributes
+/// </summary>
 public static class InputAttributes
 {
     private static readonly string Prefix = "input.";
 
-    // case general
-    internal static readonly string Icon = $"{Prefix}icon";
+    #region Case General
 
-    // case field general
+    internal static readonly string Icon = $"{Prefix}icon";
+    internal static readonly string Priority = $"{Prefix}priority";
+
+    #endregion
+
+    #region Case Field General
+
     public static readonly string Hidden = $"{Prefix}hidden";
     public static readonly string ShowDescription = $"{Prefix}showDescription";
 
-    // case field start
+    #endregion
+
+    #region Case Field Start
+
     public static readonly string StartLabel = $"{Prefix}startLabel";
     public static readonly string StartHelp = $"{Prefix}startHelp";
     public static readonly string StartRequired = $"{Prefix}startRequired";
@@ -20,7 +31,10 @@ public static class InputAttributes
     public static readonly string StartPickerOpen = $"{Prefix}startPickerOpen";
     public static readonly string StartPickerType = $"{Prefix}startPickerType";
 
-    // case field end
+    #endregion
+
+    #region Case Field End
+
     public static readonly string EndLabel = $"{Prefix}endLabel";
     public static readonly string EndHelp = $"{Prefix}endHelp";
     public static readonly string EndRequired = $"{Prefix}endRequired";
@@ -29,7 +43,10 @@ public static class InputAttributes
     public static readonly string EndPickerOpen = $"{Prefix}endPickerOpen";
     public static readonly string EndPickerType = $"{Prefix}endPickerType";
 
-    // case field value
+    #endregion
+
+    #region Case Field Value
+
     public static readonly string ValueLabel = $"{Prefix}valueLabel";
     public static readonly string ValueAdornment = $"{Prefix}valueAdornment";
     public static readonly string ValueHelp = $"{Prefix}valueHelp";
@@ -48,12 +65,21 @@ public static class InputAttributes
     public static readonly string ValueHistory = $"{Prefix}valueHistory";
     // no value picker type: the case field value-type pre defines the picker type
 
-    // case field attachments
+    #endregion
+
+    #region Case Field Attachments
+
     public static readonly string Attachment = $"{Prefix}attachment";
     public static readonly string AttachmentExtensions = $"{Prefix}attachmentExtensions";
 
-    // list
+    #endregion
+
+    #region List
+
     public static readonly string List = $"{Prefix}list";
     public static readonly string ListValues = $"{Prefix}listValues";
     public static readonly string ListSelection = $"{Prefix}listSelection";
+
+    #endregion
+
 }

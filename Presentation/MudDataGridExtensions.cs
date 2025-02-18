@@ -6,8 +6,17 @@ using MudBlazor;
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// Extension methods for <see cref="MudDataGrid{T}" />
+/// </summary>
 public static class MudDataGridExtensions
 {
+    /// <summary>
+    /// Build the grid export state
+    /// </summary>
+    /// <param name="dataGrid">Data grid</param>
+    /// <param name="page">Page number</param>
+    /// <param name="pageSize">Page size</param>
     public static GridState<T> BuildExportState<T>(this MudDataGrid<T> dataGrid, int page = 0,
         int pageSize = 0)
     {
@@ -33,6 +42,14 @@ public static class MudDataGridExtensions
         return state;
     }
 
+    /// <summary>
+    /// Set column filter
+    /// </summary>
+    /// <param name="dataGrid">Data grid</param>
+    /// <param name="columnName">Column name</param>
+    /// <param name="filterOperator">Filter operator</param>
+    /// <param name="value">Filter value</param>
+    /// <param name="title">Filter title</param>
     public static async Task SetColumnFilterAsync<T>(this MudDataGrid<T> dataGrid,
         string columnName, string filterOperator, object value, string title = null)
     {
@@ -66,6 +83,10 @@ public static class MudDataGridExtensions
         await dataGrid.AddFilterAsync(filter);
     }
 
+    /// <summary>
+    /// Get column properties
+    /// </summary>
+    /// <param name="dataGrid">Data grid</param>
     public static List<string> GetColumnProperties<T>(this MudDataGrid<T> dataGrid)
     {
         var properties = new List<string>();

@@ -2,8 +2,15 @@
 
 namespace PayrollEngine.WebApp.Presentation;
 
+/// <summary>
+/// Extension methods for <see cref="AttributeValueType" />
+/// </summary>
 public static class AttributeValueTypeExtensions
 {
+    /// <summary>
+    /// Get attribute type
+    /// </summary>
+    /// <param name="valueType">Value type</param>
     public static AttributeValueType GetAttributeType(this ValueType valueType)
     {
         if (valueType.IsNumber())
@@ -17,6 +24,12 @@ public static class AttributeValueTypeExtensions
         return AttributeValueType.String;
     }
 
+    /// <summary>
+    /// Get attribute type
+    /// </summary>
+    /// <param name="value">Value</param>
+    /// <param name="defaultValue">Default attribute type</param>
+    /// <returns></returns>
     public static AttributeValueType GetAttributeType(this object value, AttributeValueType defaultValue = default)
     {
         if (value == null)
@@ -44,5 +57,4 @@ public static class AttributeValueTypeExtensions
         // string
         return AttributeValueType.String;
     }
-
 }

@@ -88,6 +88,9 @@ public class AppConfiguration
     // system
     public bool UserStorage { get; set; }
 
+    /// <summary>
+    /// Get available application features
+    /// </summary>
     public List<Feature> GetFeatures()
     {
         var features = new List<Feature>();

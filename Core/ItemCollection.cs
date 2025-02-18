@@ -700,6 +700,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
 
     #endregion Private Types
 
+    /// <inheritdoc />
     public void Dispose()
     {
         deferredEvents?.Dispose();

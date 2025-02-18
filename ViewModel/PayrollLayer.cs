@@ -2,17 +2,31 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model payroll layer
+/// </summary>
 public class PayrollLayer : Client.Model.PayrollLayer, IKeyEquatable<PayrollLayer>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public PayrollLayer()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public PayrollLayer(PayrollLayer copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public PayrollLayer(Client.Model.PayrollLayer copySource) :
         base(copySource)
     {
@@ -32,6 +46,7 @@ public class PayrollLayer : Client.Model.PayrollLayer, IKeyEquatable<PayrollLaye
     public bool Equals(PayrollLayer compare) =>
         base.Equals(compare);
 
+    /// <inheritdoc />
     public bool EqualKey(PayrollLayer compare) =>
         base.EqualKey(compare);
 }

@@ -4,6 +4,9 @@ using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// Filed object
+/// </summary>
 public interface IFieldObject : IVariantValue, IAttributeObject
 {
     /// <summary>

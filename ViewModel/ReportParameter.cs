@@ -1,23 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model report parameter
+/// </summary>
 public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEquatable<ReportParameter>, IFieldObject
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     // ReSharper disable once MemberCanBeProtected.Global
     public ReportParameter()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     protected ReportParameter(ReportParameter copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public ReportParameter(Client.Model.ReportParameter copySource) :
         base(copySource)
     {
@@ -25,8 +39,14 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
 
     #region Field Object and Variant Value
 
+    /// <summary>
+    /// Parent changed event
+    /// </summary>
     public event Action<ReportParameter> ParameterChanged;
 
+    /// <summary>
+    /// Lookup settings
+    /// </summary>
     [JsonIgnore]
     LookupSettings IFieldObject.LookupSettings => null;
 
@@ -35,18 +55,27 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     /// </summary>
     [JsonIgnore]
     List<LookupObject> IFieldObject.LookupValues => null;
-    
+
+    /// <summary>
+    /// Tenant culture
+    /// </summary>
     [JsonIgnore]
     public CultureInfo TenantCulture { get; set; }
 
+    /// <summary>
+    /// Value formatter
+    /// </summary>
     [JsonIgnore]
     public IValueFormatter ValueFormatter { get; set; }
 
+    /// <inheritdoc />
     [JsonIgnore]
     bool IFieldObject.ValueMandatory => Mandatory;
 
+    /// <inheritdoc />
     bool IFieldObject.IsValidValue() => true;
 
+    /// <inheritdoc />
     [JsonIgnore]
     public bool HasValue => !string.IsNullOrWhiteSpace(Value);
 
@@ -134,15 +163,27 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
         }
     }
 
-    [JsonIgnore] 
+    [JsonIgnore]
     private string Culture => null;
 
+    /// <summary>
+    /// Get the localized name
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedName(CultureInfo culture) =>
         culture.Name.GetLocalization(NameLocalizations, Name);
 
+    /// <summary>
+    /// Get localized description
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedDescription(CultureInfo culture) =>
         culture.Name.GetLocalization(DescriptionLocalizations, Description);
 
+    /// <summary>
+    /// Format value
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string FormatValue(CultureInfo culture = null)
     {
         // priority 1: object culture
@@ -174,6 +215,7 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     public bool Equals(IViewModel compare) =>
         Equals(compare as ReportParameter);
 
+    /// <inheritdoc />
     public bool EqualKey(ReportParameter compare) =>
         base.EqualKey(compare);
 }

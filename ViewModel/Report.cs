@@ -2,18 +2,32 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View model report
+/// </summary>
 public class Report : Client.Model.Report, IViewModel,
     IViewAttributeObject, IKeyEquatable<Report>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Report()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Report(Report copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Report(Client.Model.Report copySource) :
         base(copySource)
     {
@@ -35,9 +49,17 @@ public class Report : Client.Model.Report, IViewModel,
 
     #endregion
 
+    /// <summary>
+    /// Get the localized name
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedName(string culture) =>
         culture.GetLocalization(NameLocalizations, Name);
 
+    /// <summary>
+    /// Get localized description
+    /// </summary>
+    /// <param name="culture">Culture</param>
     public string GetLocalizedDescription(string culture) =>
         culture.GetLocalization(DescriptionLocalizations, Description);
 
@@ -53,6 +75,7 @@ public class Report : Client.Model.Report, IViewModel,
     public bool Equals(IViewModel compare) =>
         Equals(compare as Report);
 
+    /// <inheritdoc />
     public bool EqualKey(Report compare) =>
         base.EqualKey(compare);
 }

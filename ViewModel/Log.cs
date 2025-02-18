@@ -2,17 +2,31 @@
 
 namespace PayrollEngine.WebApp.ViewModel;
 
+/// <summary>
+/// View mode log
+/// </summary>
 public class Log : Client.Model.Log, IViewModel, IEquatable<Log>
 {
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public Log()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Log(Log copySource) :
         base(copySource)
     {
     }
 
+    /// <summary>
+    /// Base model constructor
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
     public Log(Client.Model.Log copySource) :
         base(copySource)
     {
