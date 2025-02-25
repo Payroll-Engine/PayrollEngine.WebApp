@@ -17,6 +17,7 @@ public static class InputAttributes
     #region Case Field General
 
     public static readonly string Hidden = $"{Prefix}hidden";
+    public static readonly string HiddenDates = $"{Prefix}hiddenDates";
     public static readonly string ShowDescription = $"{Prefix}showDescription";
 
     #endregion
@@ -26,7 +27,8 @@ public static class InputAttributes
     public static readonly string StartLabel = $"{Prefix}startLabel";
     public static readonly string StartHelp = $"{Prefix}startHelp";
     public static readonly string StartRequired = $"{Prefix}startRequired";
-    public static readonly string StartReadOnly = $"{Prefix}startReadOny";
+    public static readonly string StartReadOnly = $"{Prefix}startReadOnly";
+    public static readonly string StartHidden = $"{Prefix}startHidden";
     public static readonly string StartFormat = $"{Prefix}startFormat";
     public static readonly string StartPickerOpen = $"{Prefix}startPickerOpen";
     public static readonly string StartPickerType = $"{Prefix}startPickerType";
@@ -38,7 +40,8 @@ public static class InputAttributes
     public static readonly string EndLabel = $"{Prefix}endLabel";
     public static readonly string EndHelp = $"{Prefix}endHelp";
     public static readonly string EndRequired = $"{Prefix}endRequired";
-    public static readonly string EndReadOnly = $"{Prefix}endReadOny";
+    public static readonly string EndReadOnly = $"{Prefix}endReadOnly";
+    public static readonly string EndHidden = $"{Prefix}endHidden";
     public static readonly string EndFormat = $"{Prefix}endFormat";
     public static readonly string EndPickerOpen = $"{Prefix}endPickerOpen";
     public static readonly string EndPickerType = $"{Prefix}endPickerType";

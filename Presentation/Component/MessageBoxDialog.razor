@@ -1,7 +1,14 @@
 ﻿<MudDialog Class="dialog" TitleClass="@($"mud-theme-primary pe-dialog-title {TitleStyle} py-4 px-8")" ContentClass="dialog-background-surface py-4 px-8">
     <DialogContent>
-        @Options.Message
-        @Options.MarkupMessage
+        <MudStack Row="true">
+            <MudIcon Icon="@(Icon ?? Icons.Material.Filled.Info)"
+            Color="@IconColor"
+            Style="font-size: 2rem;" />
+            <MudText Style="align-self: center ">
+                @Options.Message
+                @Options.MarkupMessage
+            </MudText>
+        </MudStack>
     </DialogContent>
     <DialogActions>
         @if (Options.CancelText != null)
@@ -21,15 +28,15 @@
 
 <style>
     .dialog {
-        min-width: 24em;
+    min-width: 24em;
     }
 
     .title {
-        background-color: lightgrey;
+    background-color: lightgrey;
     }
 
     .titleDark {
-        background-color: darkslateblue;
+    background-color: darkslateblue;
     }
 </style>
 
@@ -37,6 +44,8 @@
     [CascadingParameter]
     private IMudDialogInstance MudDialog { get; set; }
     [Parameter] public MessageBoxOptions Options { get; set; }
+    [Parameter] public string Icon { get; set; }
+    [Parameter] public Color IconColor { get; set; } = Color.Info;
 
     [Inject]
     private IThemeService ThemeService { get; set; }

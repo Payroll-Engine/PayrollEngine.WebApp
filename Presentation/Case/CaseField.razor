@@ -13,9 +13,12 @@
     <div class="d-flex">
 
         @* field name *@
-        <MudTooltip Delay="1000" Text="@Field.GetLocalizedDescription(Culture)" Placement="Placement.Top">
-            <MudText Class="pr-4">@Field.GetLocalizedName(Culture)</MudText>
-        </MudTooltip>
+        @if (!HiddenDates)
+        {
+            <MudTooltip Delay="1000" Text="@Field.GetLocalizedDescription(Culture)" Placement="Placement.Top">
+                <MudText Class="pr-4">@Field.GetLocalizedName(Culture)</MudText>
+            </MudTooltip>
+        }
 
         @* field actions *@
         <div class="d-flex flex-grow-1 justify-end">

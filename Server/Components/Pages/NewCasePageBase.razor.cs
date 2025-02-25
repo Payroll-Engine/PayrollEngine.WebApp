@@ -357,13 +357,19 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             if (caseChange.Values.Any())
             {
                 message = Localizer.Case.CaseAdded(caseName);
-                await UserNotification.ShowMessageBoxAsync(Localizer, Localizer.Case.SubmitCase,
-                    Localizer.Case.CaseAdded(caseName));
+                await UserNotification.ShowMessageBoxAsync(
+                    localizer: Localizer,
+                    title: Localizer.Case.SubmitCase,
+                    message: Localizer.Case.CaseAdded(caseName),
+                    icon: Icons.Material.Filled.Check);
             }
             else
             {
                 message = Localizer.Case.CaseIgnored(caseName);
-                await UserNotification.ShowMessageBoxAsync(Localizer, Localizer.Case.SubmitCase, message);
+                await UserNotification.ShowMessageBoxAsync(
+                    localizer: Localizer,
+                    title: Localizer.Case.SubmitCase,
+                    message: message);
             }
 
             // log

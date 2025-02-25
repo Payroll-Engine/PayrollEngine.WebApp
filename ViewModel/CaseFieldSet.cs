@@ -61,6 +61,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         // view
         // do not set the bound fields
         // a null value also initializes zero value on the numeric edits
+        // start
         if (copySource.Start.HasValue)
         {
             Start = copySource.Start;
@@ -70,6 +71,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             Start = ParseDateExpression(DefaultStart);
         }
 
+        // end
         if (copySource.End.HasValue)
         {
             End = copySource.End;
@@ -79,7 +81,8 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             End = ParseDateExpression(DefaultEnd);
         }
 
-        if (copySource.Value != null)
+        // value
+        if (copySource.Value != null && !string.Equals(copySource.Value, DefaultValue))
         {
             Value = copySource.Value;
         }
@@ -88,6 +91,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             Value = ParseValueExpression(DefaultValue);
         }
 
+        // misc
         CancellationDate = copySource.CancellationDate;
         Tags = copySource.Tags;
 

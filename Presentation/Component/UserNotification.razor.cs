@@ -46,13 +46,15 @@ public class UserNotificationBase : ComponentBase, IUserNotificationService
 
     /// <inheritdoc />
     public async Task<bool> ShowMessageBoxAsync(Localizer localizer, string title, string message,
-        string yesText = null, string noText = null, string cancelText = null) =>
-        await DialogService.ShowMessageBoxAsync(title, message, yesText ?? localizer.Dialog.Ok, noText, cancelText);
+        string yesText = null, string noText = null, string cancelText = null, string icon = null) =>
+        await DialogService.ShowMessageBoxAsync(title, message, yesText ?? localizer.Dialog.Ok,
+            noText, cancelText, icon);
 
     /// <inheritdoc />
     public async Task<bool> ShowMessageBoxAsync(Localizer localizer, string title, MarkupString message,
-        string yesText = null, string noText = null, string cancelText = null) =>
-        await DialogService.ShowMessageBoxAsync(title, message, yesText ?? localizer.Dialog.Ok, noText, cancelText);
+        string yesText = null, string noText = null, string cancelText = null, string icon = null) =>
+        await DialogService.ShowMessageBoxAsync(title, message, yesText ?? localizer.Dialog.Ok,
+            noText, cancelText, icon);
 
     /// <inheritdoc />
     public async Task<bool> ShowDeleteMessageBoxAsync(Localizer localizer, string title, string message) =>

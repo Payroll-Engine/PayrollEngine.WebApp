@@ -27,6 +27,8 @@ public partial class CaseField
 
     private Localizer Localizer => LocalizerService.Localizer;
 
+    private bool HiddenDates => Field.Attributes.GetHiddenDates(Culture) ?? false;
+
     #region Change History
 
     private bool UseChangeHistory { get; set; } = true;

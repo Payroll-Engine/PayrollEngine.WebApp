@@ -88,24 +88,24 @@ public class UserNotificationService : IUserNotificationService
 
     /// <inheritdoc />
     public async Task<bool> ShowMessageBoxAsync(Localizer localizer, string title, string message,
-        string yesText = null, string noText = null, string cancelText = null)
+        string yesText = null, string noText = null, string cancelText = null, string icon = null)
     {
         if (handler == null)
         {
             return false;
         }
-        return await handler.ShowMessageBoxAsync(localizer, title, message, yesText, noText, cancelText);
+        return await handler.ShowMessageBoxAsync(localizer, title, message, yesText, noText, cancelText, icon);
     }
 
     /// <inheritdoc />
     public async Task<bool> ShowMessageBoxAsync(Localizer localizer, string title, MarkupString message,
-        string yesText = null, string noText = null, string cancelText = null)
+        string yesText = null, string noText = null, string cancelText = null, string icon = null)
     {
         if (handler == null)
         {
             return false;
         }
-        return await handler.ShowMessageBoxAsync(localizer, title, message, yesText, noText, cancelText);
+        return await handler.ShowMessageBoxAsync(localizer, title, message, yesText, noText, cancelText, icon);
     }
 
     /// <inheritdoc />

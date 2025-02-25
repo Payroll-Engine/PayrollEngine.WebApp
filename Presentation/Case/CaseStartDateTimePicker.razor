@@ -1,29 +1,34 @@
 ﻿@using PayrollEngine.WebApp.Shared
 @inherits PayrollEngine.WebApp.Presentation.Field.DateTimePickerBase
 
-<MudStack Row="true" Spacing="0" Class="align-baseline">
-    <MudDatePicker @bind-Date="@Date"
-                   MinDate="@MinDate"
-                   MaxDate="@MaxDate"
-                   DateFormat="@DateFormat"
-                   Label="@DateLabel"
-                   Mask="@Mask"
-                   ReadOnly="@ReadOnly"
-                   Error="@Error"
-                   Required="@Required"
-                   RequiredError="@RequiredError"
-                   HelperText="@Help"
-                   Margin="@(Dense ? Margin.Dense : Margin.Normal)"
-                   Variant="@Variant"
-                   Class="@Class"
-                   Editable="true" />
-    <MudTimePicker Class="pl-4"
-                   @bind-Time="@Time"
-                   TimeFormat="@TimeFormat"
-                   Required="@Required"
-                   ReadOnly="@ReadOnly"
-                   Editable="true" />
-</MudStack>
+@if (!Hidden)
+{
+    <MudStack Row="true" Spacing="0" Class="align-baseline">
+        <MudDatePicker @bind-Date="@Date"
+                       MinDate="@MinDate"
+                       MaxDate="@MaxDate"
+                       Culture="@Culture"
+                       DateFormat="@DateFormat"
+                       Label="@DateLabel"
+                       Mask="@Mask"
+                       ReadOnly="@ReadOnly"
+                       Error="@Error"
+                       Required="@Required"
+                       RequiredError="@RequiredError"
+                       HelperText="@Help"
+                       Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                       Variant="@Variant"
+                       Class="@Class"
+                       Editable="true" />
+        <MudTimePicker Class="pl-4"
+                       @bind-Time="@Time"
+                       Culture="@Culture"
+                       TimeFormat="@TimeFormat"
+                       Required="@Required"
+                       ReadOnly="@ReadOnly"
+                       Editable="true" />
+    </MudStack>
+}
 
 @code {
     [Parameter] public DateTime? DateTime { get; set; }
@@ -43,6 +48,8 @@
 
     private bool Required => Field.ValueMandatory;
     private bool Error => !Field.Validator.ValidateStart();
+    private bool Hidden => (Attributes.GetHiddenDates(Culture) ?? false) ||
+                           (Attributes.GetStartHidden(Culture) ?? false);
 
     private DateTime? Date
     {

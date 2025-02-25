@@ -68,8 +68,11 @@ public interface IUserNotificationService
     /// <param name="yesText">The yes button text</param>
     /// <param name="noText">The no button text</param>
     /// <param name="cancelText">The cancel button text</param>
-    Task<bool> ShowMessageBoxAsync(Localizer localizer, string title, string message, string yesText = null,
-        string noText = null, string cancelText = null);
+    /// <param name="icon">Display icon</param>
+    Task<bool> ShowMessageBoxAsync(Localizer localizer, string title,
+        string message, string yesText = null,
+        string noText = null, string cancelText = null,
+        string icon = null);
 
     /// <summary>
     /// Show a message box
@@ -80,8 +83,11 @@ public interface IUserNotificationService
     /// <param name="yesText">The yes button text</param>
     /// <param name="noText">The no button text</param>
     /// <param name="cancelText">The cancel button text</param>
-    Task<bool> ShowMessageBoxAsync(Localizer localizer, string title, MarkupString message, string yesText = null,
-        string noText = null, string cancelText = null);
+    /// <param name="icon">Display icon</param>
+    Task<bool> ShowMessageBoxAsync(Localizer localizer, string title,
+        MarkupString message, string yesText = null,
+        string noText = null, string cancelText = null,
+        string icon = null);
 
     /// <summary>
     /// Show a delete confirmation message box

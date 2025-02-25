@@ -26,6 +26,9 @@ public static class InputAttributesExtensions
     public static bool? GetHidden(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetBooleanAttributeValue(InputAttributes.Hidden, culture.Name);
 
+    public static bool? GetHiddenDates(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.HiddenDates, culture.Name);
+
     public static bool? GetShowDescription(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetBooleanAttributeValue(InputAttributes.ShowDescription, culture.Name);
 
@@ -34,7 +37,10 @@ public static class InputAttributesExtensions
     #region Case Field Start
 
     public static bool? GetStartReadOnly(this Dictionary<string, object> attributes, CultureInfo culture) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.StartPickerOpen, culture.Name);
+        attributes.GetBooleanAttributeValue(InputAttributes.StartReadOnly, culture.Name);
+
+    public static bool? GetStartHidden(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.StartHidden, culture.Name);
 
     public static DatePickerType? GetStartPickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.StartPickerOpen, culture.Name);
@@ -69,7 +75,10 @@ public static class InputAttributesExtensions
     #region Case Field End
 
     public static bool? GetEndReadOnly(this Dictionary<string, object> attributes, CultureInfo culture) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.EndPickerOpen, culture.Name);
+        attributes.GetBooleanAttributeValue(InputAttributes.EndReadOnly, culture.Name);
+
+    public static bool? GetEndHidden(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.EndHidden, culture.Name);
 
     public static DatePickerType? GetEndPickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.EndPickerOpen, culture.Name);

@@ -22,10 +22,14 @@ public static class DialogServiceExtensions
     /// <param name="yesText">Yes-button text</param>
     /// <param name="noText">No-button text</param>
     /// <param name="cancelText">Cancel-button text</param>
+    /// <param name="icon">Display icon</param>
+    /// <param name="iconColor">Display icon color</param>
     /// <returns>True for ok-button, otherwise false</returns>
     public static async Task<bool> ShowMessageBoxAsync(this IDialogService dialogService,
         string title, string message, string yesText = "OK",
-        string noText = null, string cancelText = null)
+        string noText = null, string cancelText = null,
+        string icon = Icons.Material.Filled.Info,
+        Color iconColor = Color.Info)
     {
         var options = new MessageBoxOptions
         {
@@ -34,7 +38,12 @@ public static class DialogServiceExtensions
             NoText = noText,
             Message = message
         };
-        var parameters = new DialogParameters { { nameof(MessageBoxDialog.Options), options } };
+        var parameters = new DialogParameters
+        {
+            { nameof(MessageBoxDialog.Options), options },
+            { nameof(MessageBoxDialog.Icon), icon },
+            { nameof(MessageBoxDialog.IconColor), iconColor }
+        };
         var result = await (await dialogService.ShowAsync<MessageBoxDialog>(title, parameters)).Result;
         return result != null && !result.Canceled;
     }
@@ -48,10 +57,14 @@ public static class DialogServiceExtensions
     /// <param name="yesText">Yes-button text</param>
     /// <param name="noText">No-button text</param>
     /// <param name="cancelText">Cancel-button text</param>
+    /// <param name="icon">Display icon</param>
+    /// <param name="iconColor">Display icon color</param>
     /// <returns>True for ok-button, otherwise false</returns>
     public static async Task<bool> ShowMessageBoxAsync(this IDialogService dialogService,
         string title, MarkupString message, string yesText = "OK",
-        string noText = null, string cancelText = null)
+        string noText = null, string cancelText = null,
+        string icon = Icons.Material.Filled.Info,
+        Color iconColor = Color.Info)
     {
         var options = new MessageBoxOptions
         {
@@ -60,7 +73,12 @@ public static class DialogServiceExtensions
             NoText = noText,
             MarkupMessage = message
         };
-        var parameters = new DialogParameters { { nameof(MessageBoxDialog.Options), options } };
+        var parameters = new DialogParameters
+        {
+            { nameof(MessageBoxDialog.Options), options },
+            { nameof(MessageBoxDialog.Icon), icon },
+            { nameof(MessageBoxDialog.IconColor), iconColor }
+        };
         var result = await (await dialogService.ShowAsync<MessageBoxDialog>(title, parameters)).Result;
         return result != null && !result.Canceled;
     }
@@ -77,7 +95,9 @@ public static class DialogServiceExtensions
         string title, string message) =>
         await ShowMessageBoxAsync(dialogService, title, message,
             yesText: localizer.Dialog.Delete,
-            cancelText: localizer.Dialog.Cancel);
+            cancelText: localizer.Dialog.Cancel,
+            icon: Icons.Material.Filled.Delete,
+            iconColor: Color.Error);
 
     /// <summary>
     /// Show delete message box with markup text
@@ -91,7 +111,9 @@ public static class DialogServiceExtensions
         string title, MarkupString message) =>
         await ShowMessageBoxAsync(dialogService, title, message,
             yesText: localizer.Dialog.Delete,
-            cancelText: localizer.Dialog.Cancel);
+            cancelText: localizer.Dialog.Cancel,
+            icon: Icons.Material.Filled.Delete,
+            iconColor: Color.Error);
 
     /// <summary>
     /// Show error message box
@@ -104,7 +126,9 @@ public static class DialogServiceExtensions
         string title, string message) =>
         await ShowMessageBoxAsync(dialogService, title, message,
             yesText: localizer.Dialog.Ok,
-            cancelText: string.Empty);
+            cancelText: string.Empty,
+            icon: Icons.Material.Filled.ErrorOutline,
+            iconColor: Color.Error);
 
     /// <summary>
     /// Show error message box with markup text
@@ -117,7 +141,9 @@ public static class DialogServiceExtensions
         string title, MarkupString message) =>
         await ShowMessageBoxAsync(dialogService, title, message,
             yesText: localizer.Dialog.Ok,
-            cancelText: string.Empty);
+            cancelText: string.Empty,
+            icon: Icons.Material.Filled.ErrorOutline,
+            iconColor: Color.Error);
 
     /// <summary>
     /// Show error message box from exception

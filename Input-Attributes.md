@@ -1,5 +1,5 @@
 # Input Attributes
-The case input attributes can be used to control the behaviour of user input.
+The case input attributes can be used to control the behavior of user input.
 
 | Name                       | Description                               | Type          | Default  | Supported by             |
 |--|--|--|--|--|
@@ -7,12 +7,14 @@ The case input attributes can be used to control the behaviour of user input.
 `input.icon`                 | Custom item icon <sup>11)</sup>           | string        | false    | Case                     |
 `input.priority`             | Item priority <sup>12)</sup>              | string        | normal   | Case                     |
 `input.hidden`               | Input is hidden                           | bool          | false    | all                      |
+`input.hiddenDates`          | Hidden start and end dates                | bool          | false    | Case field               |
 `input.showDescription`      | Input description is visible              | bool          | false    | all                      |
 | <b>Start</b> |
 `input.startLabel`           | Start date input label                    | string        | Start    | all                      |
 `input.startHelp`            | Start date help text                      | string        | -        | all                      |
 `input.startRequired`        | Start date required error text            | string        | Start    | all                      |
-`input.startReadOnly`        | Start date is read only                   | bool          | false    | all (start date)         |
+`input.startReadOnly`        | Start date input to read only             | bool          | false    | all (start date)         |
+`input.startHidden`          | Hide start date                           | bool          | false    | all (start date)         |
 `input.startFormat`          | Start date input format <sup>4)</sup>     | string        | system   | date, date-time          |
 `input.startPickerOpen`      | Start date picker open mode <sup>2)</sup> | string        | day      | date                     |
 `input.startPickerType`      | Start date datetime type <sup>5)</sup>    | string        | date     | all                      |
@@ -20,7 +22,8 @@ The case input attributes can be used to control the behaviour of user input.
 `input.endLabel`             | End date input label                      | string        | End      | all                      |
 `input.endHelp`              | End date help text                        | string        | -        | all                      |
 `input.endRequired`          | End date required error text              | string        | Start    | all                      |
-`input.endReadOnly`          | End date is read only                     | bool          | false    | all (end date)           |
+`input.endReadOnly`          | End date input to read only               | bool          | false    | all (end date)           |
+`input.endHidden`            | Hide end date                             | bool          | false    | all (start date)         |
 `input.endFormat`            | End date input format <sup>4)</sup>       | string        | system   | date, date-time          |
 `input.endPickerOpen`        | End date picker date type <sup>2)</sup>   | string        | day      | date                     |
 `input.endPickerType`        | End  date datetime type <sup>5)</sup>     | string        | date     | all                      |
