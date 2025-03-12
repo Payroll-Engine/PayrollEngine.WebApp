@@ -115,7 +115,6 @@ public class AppMudLocalizer(IStringLocalizerFactory factory, UserSession userSe
         }
     }
 
-    private Localizer defaultLocalizer;
     private Localizer localizer;
     private Localizer GetLocalizer()
     {
@@ -123,19 +122,9 @@ public class AppMudLocalizer(IStringLocalizerFactory factory, UserSession userSe
         {
             return localizer;
         }
-        if (localizer == null && !string.IsNullOrEmpty(UserSession.User?.Culture))
-        {
-            localizer = new(Factory, new(UserSession.User.Culture));
-            return localizer;
-        }
 
-        if (defaultLocalizer != null)
-        {
-            return defaultLocalizer;
-        }
-
-        defaultLocalizer = new(Factory, CultureInfo.CurrentUICulture);
-        return defaultLocalizer;
+        var culture = new CultureInfo(UserSession.GetUserCulture());
+        localizer = new(Factory, culture);
+        return localizer;
     }
-
 }

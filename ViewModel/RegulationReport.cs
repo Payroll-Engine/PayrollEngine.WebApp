@@ -26,15 +26,6 @@ public class RegulationReport : ReportSet, IRegulationItem, IKeyEquatable<Regula
         CopyTool.CopyProperties(copySource, this);
     }
 
-    /// <summary>
-    /// Base model constructor
-    /// </summary>
-    /// <param name="copySource">Copy source</param>
-    protected RegulationReport(ReportSet copySource) :
-        base(copySource)
-    {
-    }
-
     #region Regulation Object
 
     /// <inheritdoc />

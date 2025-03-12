@@ -27,12 +27,6 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     [Parameter]
     public string CaseName { get; set; }
 
-    /// <summary>
-    /// Dense mode
-    /// </summary>
-    [Parameter]
-    public bool Dense { get; set; } = true;
-
     [Inject]
     private IPayrollService PayrollService { get; set; }
     [Inject]
@@ -126,10 +120,21 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
     #region Change and Forecast
 
+
+    private string changeReason;
     /// <summary>
     /// The change reason
     /// </summary>
-    private string ChangeReason { get; set; }
+    private string ChangeReason
+    {
+        get => changeReason;
+        set
+        {
+            changeReason = value;
+            UpdateValidation();
+            StateHasChanged();
+        }
+    }
 
     private bool HasForecastHistory => ForecastHistory.Any();
     private List<string> ForecastHistory { get; } = [];
@@ -164,6 +169,11 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     #endregion
 
     #region Cases
+
+    /// <summary>
+    /// Case info from build and validate
+    /// </summary>
+    private Dictionary<string, object> CaseInfo { get; set; }
 
     private ObservedHashSet<TreeCaseSet> cases = [];
     /// <summary>
@@ -244,17 +254,19 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         // result
         Cases = derivedCases;
 
-        // selection
-        if (Cases.Any())
-        {
-            var @case = Cases.First();
-            ChangeReason = @case.CaseSet.DefaultReason;
-            StateHasChanged();
-        }
+        // user info
+        ApplyCase(Cases.FirstOrDefault()?.CaseSet);
+
+        // validation
+        await InvokeAsync(UpdateValidation);
+
+        // state
+        StateHasChanged();
     }
 
     // toggle to prevent re-entry on nested case field change
     private bool caseUpdating;
+
     /// <summary>
     /// Update the case with the backend result
     /// </summary>
@@ -284,8 +296,18 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
             // Updating cases may add more cases to existing list, therefore update of lookups is needed
             var changeCaseSet = new ViewModel.CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
+
+            // merge case
             await CaseMerger.MergeAsync(changeCaseSet, caseSet);
+
+            // setup lookups
             await SetupLookupsAsync(caseSet);
+
+            await InvokeAsync(() =>
+            {
+                ApplyCase(caseSet);
+                StateHasChanged();
+            });
         }
         catch (Exception exception)
         {
@@ -298,30 +320,77 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         }
     }
 
+    private void ApplyCase(ViewModel.CaseSet caseSet)
+    {
+        // case info
+        var caseInfo = new Dictionary<string, object>();
+        if (RootCase?.CaseSet?.Attributes != null)
+        {
+            foreach (var a in RootCase.CaseSet.Attributes)
+            {
+                LogInformation($"att: {a.Key}={a.Value}");
+            }
+
+            // edit info
+            if (RootCase.CaseSet.Attributes.TryGetValue(InputAttributes.EditInfo, out var buildAttribute))
+            {
+                if (buildAttribute is JsonElement jsonElement)
+                {
+                    LogInformation($"case info: {jsonElement.ToString()}");
+                    var buildInfo = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonElement.ToString());
+                    foreach (var item in buildInfo)
+                    {
+                        caseInfo.Add(item.Key, item.Value);
+                    }
+                }
+            }
+        }
+        CaseInfo = caseInfo;
+
+        // change values
+        if (caseSet != null)
+        {
+            // reason
+            var reason = caseSet.Reason ?? caseSet.DefaultReason;
+            if (!string.IsNullOrWhiteSpace(reason))
+            {
+                changeReason = reason;
+            }
+            else if (!string.IsNullOrWhiteSpace(caseSet.DefaultReason))
+            {
+                changeReason = caseSet.GetLocalizedDefaultReason(PageCulture.Name);
+            }
+
+            // forecast
+            if (!string.IsNullOrWhiteSpace(caseSet.Forecast))
+            {
+                Forecast = caseSet.Forecast;
+            }
+        }
+    }
+
     /// <summary>
     /// Submit the case to the backend
     /// </summary>
     private async Task SubmitCaseAsync()
     {
-        // form validation
-        await changeForm.Validate();
-        if (!changeForm.IsValid)
-        {
-            return;
-        }
-
         // submit case
         var caseSet = RootCase?.CaseSet;
         if (caseSet == null)
         {
-            await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase, Localizer.Case.MissingCase(CaseName));
+            await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase,
+                Localizer.Case.MissingCase(CaseName));
             return;
         }
+
+        var caseTitle = caseSet.GetLocalizedName(PageCulture.Name);
 
         // case validation
         if (!await fieldForm.Revalidate() || !await changeForm.Revalidate())
         {
-            await ShowErrorMessageBoxAsync(Localizer.Case.ValidationFailed);
+            await ShowErrorMessageBoxAsync(
+                Localizer.Case.SubmitCaseTitle(caseTitle),
+                Localizer.Case.ValidationFailed);
             return;
         }
 
@@ -331,8 +400,9 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             var caseChangeSetup = GetCaseChange(caseSet, true);
             if (!caseChangeSetup.CollectCaseValues().Any())
             {
-                await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase,
-                    Localizer.Case.MissingCase(caseSet.Name));
+                await ShowErrorMessageBoxAsync(
+                    Localizer.Case.SubmitCaseTitle(caseTitle),
+                    Localizer.Case.MissingCase(caseTitle));
                 return;
             }
 
@@ -353,19 +423,18 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
             // user notification
             string message;
-            var caseName = User.Culture.GetLocalization(caseSet.NameLocalizations, caseSet.Name);
             if (caseChange.Values.Any())
             {
-                message = Localizer.Case.CaseAdded(caseName);
+                message = Localizer.Case.CaseAdded(caseTitle);
                 await UserNotification.ShowMessageBoxAsync(
                     localizer: Localizer,
-                    title: Localizer.Case.SubmitCase,
-                    message: Localizer.Case.CaseAdded(caseName),
+                    title: Localizer.Case.SubmitCaseTitle(caseTitle),
+                    message: Localizer.Case.CaseAdded(caseTitle),
                     icon: Icons.Material.Filled.Check);
             }
             else
             {
-                message = Localizer.Case.CaseIgnored(caseName);
+                message = Localizer.Case.CaseIgnored(caseTitle);
                 await UserNotification.ShowMessageBoxAsync(
                     localizer: Localizer,
                     title: Localizer.Case.SubmitCase,
@@ -385,7 +454,8 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
-            await ShowErrorMessageBoxAsync(Localizer.Case.SubmitCase, exception);
+            await ShowErrorMessageBoxAsync(
+                Localizer.Case.SubmitCaseTitle(caseTitle), exception);
         }
     }
 
@@ -613,11 +683,16 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
     #region Validation
 
-    private bool Invalid => Validity != null && Validity.Rules.Any();
+    private bool Valid { get; set; }
+
     private CaseObjectValidity Validity { get; set; }
 
+    /// <summary>
+    /// Update case validation including form and build validation
+    /// </summary>
     private void UpdateValidation()
     {
+        // case
         CaseObjectValidity validity = null;
         if (Cases != null)
         {
@@ -631,7 +706,21 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             }
         }
         Validity = validity;
+
+        // valid state
+        var valid = Validity == null && ValidCase && ValidBuild;
+        if (valid != Valid)
+        {
+            Valid = valid;
+            StateHasChanged();
+        }
     }
+
+    private bool ValidCase =>
+        !string.IsNullOrWhiteSpace(ChangeReason);
+
+    private bool ValidBuild =>
+        RootCase?.CaseSet.Attributes.GetValidity(PageCulture) ?? true;
 
     #endregion
 
@@ -667,13 +756,10 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
         // setup case
         await SetupCaseAsync();
-
-        // validation
-        UpdateValidation();
-
         await base.OnPageInitializedAsync();
     }
 
+    private bool initValidation;
     protected override async Task OnPageAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -690,6 +776,14 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
                 Cases.First().Selected = true;
             }
         }
+
+        // validation
+        if (!initValidation && changeForm != null)
+        {
+            UpdateValidation();
+            initValidation = true;
+        }
+
         await base.OnPageAfterRenderAsync(firstRender);
     }
 

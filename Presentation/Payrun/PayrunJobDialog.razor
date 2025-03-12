@@ -16,16 +16,28 @@
                           Style="min-width: 25em; max-width: 40em">
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.h6">@Localizer.PayrunJob.New</MudText>
+
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
-                        <MudText Class="pr-4">@PayrunJob.Created</MudText>
+                        <MudText Class="pr-4">@PayrunJob.Created.ToCompactString()</MudText>
+
                         <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                         <MudText Class="pr-4">@GetUserName(PayrunJob.CreatedUserId)</MudText>
+
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobPeriod</MudInputLabel>
-                        <MudText Class="pr-4">@PayrunJob.PeriodStart</MudText>
-                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobReason</MudInputLabel>
-                        <MudText Class="pr-4">@PayrunJob.CreatedReason</MudText>
+                        <MudText Class="pr-4">@PayrunJob.PeriodStart.ToCompactString()</MudText>
+
+                        @if (PayrunJob.EvaluationDate != null)
+                        {
+                            <MudInputLabel Class="pt-4">@Localizer.PayrunJob.EvaluationDate</MudInputLabel>
+                            <MudText Class="pr-4">@PayrunJob.EvaluationDate?.ToCompactString()</MudText>
+                        }
+
                         <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"
                                             SelectedEmployees="@(PayrunJob.Employees?.Select(x => x.EmployeeId).ToList() ?? [])" />
+
+                        <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobReason</MudInputLabel>
+                        <MudText Class="pr-4">@PayrunJob.CreatedReason</MudText>
+
                         @if (PayrunJob.Attributes != null && PayrunJob.Attributes.Any())
                         {
                             <PayrunParameterInfo Class="pt-4" Culture="@Culture"
@@ -33,6 +45,7 @@
                         }
                     </MudStack>
                 </MudPaper>
+
                 @* legal job: draft *@
                 <MudPaper Class="pa-4" Elevation="@(PayrunJob.JobStatus.IsDraft() ? 4 : 1)"
                           Style="min-width: 15em; max-width: 25em">
@@ -40,12 +53,15 @@
                         <MudText Typo="Typo.h6" Color="@(PayrunJob.JobStatus.IsDraft() ? Color.Tertiary : Color.Default)">
                             @Localizer.Enum(PayrunJobStatus.Draft)
                         </MudText>
+
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
-                        <MudText Class="pr-4">@PayrunJob.Created</MudText>
+                        <MudText Class="pr-4">@PayrunJob.Created.ToCompactString()</MudText>
+
                         <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                         <MudText Class="pr-4">@GetUserName(PayrunJob.CreatedUserId)</MudText>
                     </MudStack>
                 </MudPaper>
+
                 @* legal job: release *@
                 @if (PayrunJob.Released.HasValue)
                 {
@@ -56,13 +72,16 @@
                                      Color="@(PayrunJob.JobStatus == PayrunJobStatus.Release ? Color.Tertiary : Color.Default)">
                                 @Localizer.Enum(PayrunJobStatus.Release)
                             </MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
-                            <MudText Class="pr-4">@PayrunJob.Released</MudText>
+                            <MudText Class="pr-4">@PayrunJob.Released?.ToCompactString()</MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.ReleasedUserId)</MudText>
                         </MudStack>
                     </MudPaper>
                 }
+
                 @* legal job: process *@
                 @if (PayrunJob.Processed.HasValue)
                 {
@@ -73,13 +92,16 @@
                                      Color="@(PayrunJob.JobStatus == PayrunJobStatus.Process ? Color.Tertiary : Color.Default)">
                                 @Localizer.Enum(PayrunJobStatus.Process)
                             </MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
-                            <MudText Class="pr-4">@PayrunJob.Processed</MudText>
+                            <MudText Class="pr-4">@PayrunJob.Processed?.ToCompactString()</MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.ProcessedUserId)</MudText>
                         </MudStack>
                     </MudPaper>
                 }
+
                 @* legal job: complete *@
                 @if (PayrunJob.Finished.HasValue && PayrunJob.JobStatus is PayrunJobStatus.Complete)
                 {
@@ -90,13 +112,16 @@
                                      Color="@(PayrunJob.JobStatus == PayrunJobStatus.Complete ? Color.Tertiary : Color.Default)">
                                 @Localizer.Enum(PayrunJobStatus.Complete)
                             </MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
-                            <MudText Class="pr-4">@PayrunJob.Finished</MudText>
+                            <MudText Class="pr-4">@PayrunJob.Finished?.ToCompactString()</MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.FinishedUserId)</MudText>
                         </MudStack>
                     </MudPaper>
                 }
+
                 @* legal job: cancel or abort *@
                 @if (PayrunJob.Finished.HasValue && PayrunJob.JobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort)
                 {
@@ -104,8 +129,10 @@
                               Style="min-width: 15em; max-width: 25em">
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.h6" Color="Color.Error">@PayrunJob.JobStatus</MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
-                            <MudText Class="pr-4">@PayrunJob.Finished</MudText>
+                            <MudText Class="pr-4">@PayrunJob.Finished?.ToCompactString()</MudText>
+
                             <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                             <MudText Class="pr-4">@GetUserName(PayrunJob.FinishedUserId)</MudText>
                         </MudStack>
@@ -120,13 +147,13 @@
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.h6">@Localizer.PayrunJob.New</MudText>
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobDate</MudInputLabel>
-                        <MudText Class="pr-4">@PayrunJob.Created</MudText>
+                        <MudText Class="pr-4">@PayrunJob.Created.ToCompactString()</MudText>
                         <MudInputLabel Class="pt-4">Name</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.Forecast</MudText>
                         <MudInputLabel Class="pt-4">@Localizer.User.User</MudInputLabel>
                         <MudText Class="pr-4">@GetUserName(PayrunJob.CreatedUserId)</MudText>
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobPeriod</MudInputLabel>
-                        <MudText Class="pr-4">@PayrunJob.PeriodStart</MudText>
+                        <MudText Class="pr-4">@PayrunJob.PeriodStart.ToCompactString()</MudText>
                         <MudInputLabel Class="pt-4">@Localizer.PayrunJob.JobReason</MudInputLabel>
                         <MudText Class="pr-4">@PayrunJob.CreatedReason</MudText>
                         <PayrunEmployeeInfo Class="pt-4" Employees="@Employees"

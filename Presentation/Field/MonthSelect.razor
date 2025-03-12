@@ -1,11 +1,13 @@
 ﻿@inherits FieldEditorBase;
 
 <MudSelect T="int?"
-@bind-Value="Field.ValueAsInteger"
+           @bind-Value="Field.ValueAsInteger"
            Culture="@Culture"
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
+           Variant="@Variant"
+           Dense="true"
            Disabled="@ValuesDisabled"
            ReadOnly="@ReadOnly"
            Required="@Required"
@@ -25,6 +27,7 @@
     private bool ValuesDisabled =>
         Disabled || !Months.Any();
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         // label

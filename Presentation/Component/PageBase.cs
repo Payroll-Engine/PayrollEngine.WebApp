@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Web;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -54,7 +55,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
 
     /// <summary>
     /// Page culture
-    /// <remarks>[culture by priority]: user > system</remarks>
+    /// <remarks>[culture by priority]: user > tenant > system</remarks>
     /// </summary>
     protected CultureInfo PageCulture
     {
@@ -65,7 +66,12 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
             {
                 return new(User.Culture);
             }
-            // priority 2: system culture
+            // priority 2: tenant culture
+            if (!string.IsNullOrWhiteSpace(Tenant.Culture))
+            {
+                return new(Tenant.Culture);
+            }
+            // priority 3: system culture
             return CultureInfo.CurrentCulture;
         }
     }
@@ -442,14 +448,14 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
             return;
         }
         var page = pages.FirstOrDefault(
-                x => string.Equals(x.PageLink, name, StringComparison.InvariantCultureIgnoreCase));
+                x => string.Equals(x.PageLink, name.EnsureStart("/"), StringComparison.InvariantCultureIgnoreCase));
 
         // title
-        var title = page == null ? name : page.Title;
+        var title = HttpUtility.UrlDecode(page == null ? name : page.Title);
         var baseLabel = PageService.BaseLabel;
         if (!string.IsNullOrWhiteSpace(baseLabel))
         {
-            title = $"{baseLabel} - {title}";
+            title = $"{baseLabel} - {title.TrimStart('/').ToPascalSentence(CharacterCase.ToUpper)}";
         }
         await JsRuntime.InvokeVoidAsync("JsFunctions.setDocumentTitle", title);
     }

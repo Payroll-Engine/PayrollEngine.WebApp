@@ -1261,6 +1261,9 @@
 	<data name="PayrunJob.JobHistory" xml:space="preserve">
     <value>Lohnlaufhistorie</value>
   </data>
+	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
+    <value>Auswertungsdatum</value>
+  </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
     <value>Lohnlauf Name</value>
   </data>
@@ -1369,17 +1372,14 @@
 	<data name="Report.Pdf" xml:space="preserve">
     <value>Pdf</value>
   </data>
-	<data name="Report.PreparingDownload" xml:space="preserve">
-    <value>Download vorbereiten...</value>
+	<data name="Report.BuildingReport" xml:space="preserve">
+    <value>Reporterstellung...</value>
   </data>
 	<data name="Report.Word" xml:space="preserve">
     <value>Word</value>
   </data>
 	<data name="Report.Xml" xml:space="preserve">
     <value>XML</value>
-  </data>
-	<data name="Report.XmlRaw" xml:space="preserve">
-    <value>XML-Roh</value>
   </data>
 	<data name="ReportLog.Message" xml:space="preserve">
     <value>Meldung</value>
@@ -1497,9 +1497,6 @@
   </data>
 	<data name="Case.SelectCase" xml:space="preserve">
     <value>Bitte einen Fall wählen</value>
-  </data>
-	<data name="Case.Validation" xml:space="preserve">
-    <value>Validierung</value>
   </data>
 	<data name="CaseChange.CaseChangeGroup" xml:space="preserve">
     <value>Falländerung {group}</value>
@@ -1669,8 +1666,11 @@
 	<data name="Enum.UserType.User" xml:space="preserve">
     <value>Benutzer</value>
   </data>
-	<data name="Enum.UserType.Supervisor" xml:space="preserve">
-    <value>Supervisor</value>
+	<data name="Enum.UserType.TenantAdministrator" xml:space="preserve">
+    <value>Mandantenadministrator</value>
+  </data>
+	<data name="Enum.UserType.SystemAdministrator" xml:space="preserve">
+    <value>Systemadministrator</value>
   </data>
 	<data name="DataGrid.AddFilter" xml:space="preserve">
     <value>Filter hinzufügen</value>
@@ -2299,6 +2299,9 @@
 	<data name="Case.SubmitCase" xml:space="preserve">
     <value>Fall übermitteln</value>
   </data>
+	<data name="Case.SubmitCaseTitle" xml:space="preserve">
+    <value>{case} übermitteln</value>
+  </data>
 	<data name="Case.ValidationFailed" xml:space="preserve">
     <value>Validierung ist fehlgeschlagen</value>
   </data>
@@ -2349,12 +2352,6 @@
   </data>
 	<data name="Error.ItemUpdate" xml:space="preserve">
     <value>Fehler beim Aktualisieren von {type}.</value>
-  </data>
-	<data name="Report.Parameters" xml:space="preserve">
-    <value>Parameter</value>
-  </data>
-	<data name="Enum.UserType.Administrator" xml:space="preserve">
-    <value>Administrator</value>
   </data>
 	<data name="User.PasswordChanged" xml:space="preserve">
     <value>Passwort geänderrt</value>

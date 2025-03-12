@@ -47,12 +47,18 @@ public class LocalizerService : ILocalizerService
 
     private bool BuildLocalizer()
     {
-        if (string.IsNullOrWhiteSpace(UserSession.User?.Culture))
+        if (localizer != null)
+        {
+            return true;
+        }
+
+        if (!UserSession.UserAvailable)
         {
             return false;
         }
 
-        var culture = CultureService.GetCulture(UserSession.User.Culture).CultureInfo;
+        var cultureName = UserSession.GetUserCulture();
+        var culture = CultureService.GetCulture(cultureName).CultureInfo;
         localizer = new Localizer(Factory, culture: culture);
         return true;
     }

@@ -63,13 +63,13 @@ public class ValueFormatter(CultureInfo culture) : IValueFormatter
                 }
                 break;
             case ValueType.Decimal:
-                stringValue = ((decimal)value).ToString("G", culture);
+                stringValue = ((decimal)value).ToString("0.##", culture);
                 break;
             case ValueType.Money:
                 stringValue = ((decimal)value).ToString("C", culture);
                 break;
             case ValueType.Percent:
-                stringValue = ((decimal)value).ToString("P", culture);
+                stringValue = ((decimal)value).ToString("0.##%", culture);
                 break;
             case ValueType.NumericBoolean:
                 stringValue = (decimal)value != 0 ? bool.TrueString : bool.FalseString;

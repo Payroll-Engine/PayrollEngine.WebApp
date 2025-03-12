@@ -1,20 +1,32 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
+using System.Collections;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation;
 
+/// <summary>
+/// Regulation item value
+/// </summary>
 public class RegulationItemValue
 {
     private IRegulationItem Item { get; }
     private object Value { get; }
     private string ValueFormat { get; }
 
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public RegulationItemValue()
     {
     }
 
+    /// <summary>
+    /// Value constructor
+    /// </summary>
+    /// <param name="item">Regulation item</param>
+    /// <param name="value">Item value</param>
+    /// <param name="valueFormat">Value format</param>
     public RegulationItemValue(IRegulationItem item, object value, string valueFormat = null)
     {
         Item = item;
@@ -22,9 +34,15 @@ public class RegulationItemValue
         ValueFormat = valueFormat;
     }
 
+    /// <summary>
+    /// Item object id
+    /// </summary>
     public string ObjectId =>
         Item?.Id.ToString();
 
+    /// <summary>
+    /// Item text
+    /// </summary>
     public string Text
     {
         get
@@ -45,6 +63,9 @@ public class RegulationItemValue
         }
     }
 
+    /// <summary>
+    /// Item value
+    /// </summary>
     public T GetValue<T>() =>
         (T)Convert.ChangeType(Value, typeof(T));
 }

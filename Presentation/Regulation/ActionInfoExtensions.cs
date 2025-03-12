@@ -4,6 +4,9 @@ using PayrollEngine.Client.Model;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation;
 
+/// <summary>
+/// extension methods for <see cref="ActionInfo"/>
+/// </summary>
 public static class ActionInfoExtensions
 {
     /// <summary>

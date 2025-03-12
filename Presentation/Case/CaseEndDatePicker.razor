@@ -16,7 +16,7 @@
                    Required="@Required"
                    RequiredError="@RequiredError"
                    HelperText="@Help"
-                   Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                   Margin="@Margin.Dense"
                    Variant="@Variant"
                    Class="@Class"
                    Style="@Style"
@@ -43,8 +43,11 @@
         (Field.Start.HasValue || !string.IsNullOrWhiteSpace(Field.Value));
 
     private bool Error => !Field.Validator.ValidateEnd();
-    private bool Hidden => (Attributes.GetHiddenDates(Culture) ?? false) ||
-                           (Attributes.GetEndHidden(Culture) ?? false);
+    private bool Hidden => (Attributes.GetEndHidden(Culture) ?? false) ||
+                           (Attributes.GetFieldLayout(Culture) ?? default) is
+                            FieldLayoutMode.StartValue or
+                            FieldLayoutMode.Value or
+                            FieldLayoutMode.ValueCompact;
 
     protected override DatePickerType DatePickerType =>
         Attributes.GetEndPickerOpen(Culture) ?? DatePickerType.Day;

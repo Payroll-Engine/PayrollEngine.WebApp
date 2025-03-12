@@ -7,25 +7,90 @@ using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Field;
 
+/// <summary>
+/// Filed editor base class
+/// </summary>
 public abstract class FieldEditorBase : ComponentBase
 {
+    /// <summary>
+    /// Edit filed
+    /// </summary>
     [Parameter] public IFieldObject Field { get; set; }
+
+    /// <summary>
+    /// Edit culture
+    /// </summary>
     [Parameter] public CultureInfo Culture { get; set; }
-    [Parameter] public Variant Variant { get; set; }
+
+    /// <summary>
+    /// Input help text
+    /// </summary>
     [Parameter] public string HelperText { get; set; }
+
+    /// <summary>
+    /// Disabled input
+    /// </summary>
     [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Localizer service
+    /// </summary>
     [Inject] private ILocalizerService LocalizerService { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     protected Localizer Localizer => LocalizerService.Localizer;
-    protected bool Error => !Field.IsValidValue();
 
-    protected string ValueHelp { get; private set; }
-    protected string ValueAdornmentText { get; private set; }
-    protected Adornment ValueAdornment { get; private set; }
+    /// <summary>
+    /// Value label
+    /// </summary>
     protected string ValueLabel { get; private set; }
-    protected string ValueRequiredError { get; private set; }
+
+    /// <summary>
+    /// Value help
+    /// </summary>
+    protected string ValueHelp { get; private set; }
+
+    /// <summary>
+    /// Value adornment text
+    /// </summary>
+    protected string ValueAdornmentText { get; private set; }
+
+    /// <summary>
+    /// Value adornment
+    /// </summary>
+    protected Adornment ValueAdornment { get; private set; }
+
+    /// <summary>
+    /// Input variant
+    /// </summary>
+    protected Variant Variant { get; private set; }
+
+    /// <summary>
+    /// Rad only input
+    /// </summary>
     protected bool ReadOnly { get; private set; }
 
+    /// <summary>
+    /// Required value
+    /// </summary>
+    protected bool Required => Field.ValueMandatory;
+
+    /// <summary>
+    /// Required error message
+    /// </summary>
+    protected string ValueRequiredError { get; private set; }
+
+    /// <summary>
+    /// Field error
+    /// </summary>
+    protected bool Error => !Field.IsValidValue();
+
+    /// <summary>
+    /// Change the value label
+    /// </summary>
+    /// <param name="label">New label</param>
     protected void SetValueLabel(string label)
     {
         if (string.IsNullOrWhiteSpace(label))
@@ -35,12 +100,7 @@ public abstract class FieldEditorBase : ComponentBase
         ValueLabel = label;
     }
 
-    /// <summary>
-    /// The default MudCheckBox raises a required error on false value
-    /// </summary>
-    protected bool Required =>
-        !Field.HasValue && Field.ValueMandatory;
-
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         // culture
@@ -54,6 +114,7 @@ public abstract class FieldEditorBase : ComponentBase
         await base.OnParametersSetAsync();
     }
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         // label
@@ -76,10 +137,17 @@ public abstract class FieldEditorBase : ComponentBase
         ValueAdornment = string.IsNullOrWhiteSpace(ValueAdornmentText) ?
             Adornment.None : Adornment.End;
 
+        // variant
+        var inputVariant = Field.Attributes.GetVariant(Culture);
+        if (inputVariant != null)
+        {
+            Variant = (Variant)inputVariant.Value;
+        }
+
         // data
         ReadOnly = Field.Attributes.GetValueReadOnly(Culture) ?? false;
         ValueRequiredError = Field.Attributes.GetValueRequired(Culture) ??
-                             Localizer.Error.MissingMandatoryValue;
+                                 Localizer.Error.MissingMandatoryValue;
 
         await base.OnInitializedAsync();
     }

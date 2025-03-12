@@ -10,7 +10,6 @@ public class ReportLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
     public string Reports => PropertyValue();
     public string NotAvailable => PropertyValue();
 
-    public string Parameters => PropertyValue();
     public string Category => PropertyValue();
     public string AttributeMode => PropertyValue();
     public string Relation => PropertyValue();
@@ -23,11 +22,10 @@ public class ReportLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
     public string EmptyReport => PropertyValue();
     public string BuildReport => PropertyValue();
 
-    public string PreparingDownload => PropertyValue();
+    public string BuildingReport => PropertyValue();
     public string ExecutionError => PropertyValue();
 
     public string Xml => PropertyValue();
-    public string XmlRaw => PropertyValue();
     public string Excel => PropertyValue();
     public string Word => PropertyValue();
     public string Pdf => PropertyValue();

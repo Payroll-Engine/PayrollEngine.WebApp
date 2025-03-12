@@ -1,4 +1,5 @@
 ﻿@using PayrollEngine.WebApp.Shared
+
 @inherits PayrollEngine.WebApp.Presentation.Field.DateTimePickerBase
 
 @if (!Hidden)
@@ -16,7 +17,7 @@
                    Required="@Required"
                    RequiredError="@RequiredError"
                    HelperText="@Help"
-                   Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                   Margin="@Margin.Dense"
                    Variant="@Variant"
                    Class="@Class"
                    Style="@Style"
@@ -40,8 +41,9 @@
 
     private bool Required => Field.ValueMandatory;
     private bool Error => !Field.Validator.ValidateStart();
-    private bool Hidden => (Attributes.GetHiddenDates(Culture) ?? false) ||
-                           (Attributes.GetStartHidden(Culture) ?? false);
+    private bool Hidden => (Attributes.GetStartHidden(Culture) ?? false) ||
+                           (Attributes.GetFieldLayout(Culture) ?? default) 
+                           is FieldLayoutMode.Value or FieldLayoutMode.ValueCompact;
 
     protected override DatePickerType DatePickerType =>
         Attributes.GetStartPickerOpen(Culture) ?? DatePickerType.Day;

@@ -20,25 +20,27 @@
     <MudText Typo="Typo.h5">@Localizer.Task.Tasks</MudText>
     <div class="d-flex flex-grow-1 justify-end align-end">
         <MudStack Row="true" Spacing="0" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-            <MudTooltip Delay="1000" Text="@Localizer.Task.CompleteToggleHelp" Placement="Placement.Top">
-                <MudSwitch T="bool" Value="@CompletedTasks" @onclick="@(ToggleTasksFilterAsync)"
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Task.CompleteToggleHelp" Placement="Placement.Top">
+                <MudSwitch T="bool" 
+                           Value="@CompletedTasks"
+                           @onclick="@(ToggleTasksFilterAsync)"
                            LabelPlacement="Placement.Start"
                            Color="Color.Primary">
                     @Localizer.Task.CompleteToggle
                 </MudSwitch>
             </MudTooltip>
-            <MudTooltip Delay="1000" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
                 <MudIconButton @onclick="@ResetFilterAsync"
                                Color="Color.Primary" 
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.FilterAltOff"
                                Class="ml-2"
                                Size="Size.Small" />
             </MudTooltip>
-            <MudTooltip Delay="1000" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
                 <MudIconButton @onclick="@ExcelDownloadAsync"
                                Color="Color.Primary"
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Custom.FileFormats.FileExcel"
                                Class="ml-2"
                                Size="Size.Small" />
@@ -54,6 +56,7 @@
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
              SortMode="SortMode.Multiple"
+             RowsPerPage="@Globals.DataGridRowsPerPage"
              Filterable="true"
              Hideable="true"
              ShowColumnOptions="true">

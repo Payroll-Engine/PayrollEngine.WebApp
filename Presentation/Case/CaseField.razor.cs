@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Globalization;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.Shared;
 using CaseFieldSet = PayrollEngine.WebApp.ViewModel.CaseFieldSet;
-using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Presentation.Case;
 
@@ -15,10 +15,6 @@ public partial class CaseField
     public CaseFieldSet Field { get; set; }
     [Parameter]
     public CultureInfo Culture { get; set; }
-    [Parameter]
-    public bool Dense { get; set; }
-    [Parameter]
-    public Variant Variant { get; set; }
 
     [Inject]
     private IDialogService DialogService { get; set; }
@@ -27,11 +23,59 @@ public partial class CaseField
 
     private Localizer Localizer => LocalizerService.Localizer;
 
-    private bool HiddenDates => Field.Attributes.GetHiddenDates(Culture) ?? false;
+    private bool HasGroup => Group != null;
+    private string Group => Field.Attributes.GetGroup(Culture);
+
+    private Variant Variant
+    {
+        get
+        {
+            var inputVariant = Field.Attributes.GetVariant(Culture);
+            return inputVariant != null ? (Variant)inputVariant.Value : default;
+        }
+    }
+    private bool Separator => Field.Attributes.GetSeparator(Culture) ?? false;
+    private bool HiddenName => Field.Attributes.GetHiddenName(Culture) ?? false;
+    private FieldLayoutMode FieldLayout => Field.Attributes.GetFieldLayout(Culture) ?? FieldLayoutMode.StartEndValue;
+
+    private string GetStartStyle()
+    {
+        switch (FieldLayout)
+        {
+            case FieldLayoutMode.StartEndValue:
+                return "width: 25%";
+            case FieldLayoutMode.StartValue:
+                return "width: 50%";
+            default:
+                return "width: 25%";
+        }
+    }
+
+    private string GetEndStyle()
+    {
+        switch (FieldLayout)
+        {
+            case FieldLayoutMode.StartEndValue:
+                return "width: 25%";
+            default:
+                return "width: 25%";
+        }
+    }
+
+    private string GetValueStyle()
+    {
+        switch (FieldLayout)
+        {
+            case FieldLayoutMode.ValueCompact:
+                return null;
+            default:
+                return "width: 50%";
+        }
+    }
 
     #region Change History
 
-    private bool UseChangeHistory { get; set; } = true;
+    private bool UseChangeHistory { get; set; }
     private bool VisibleChangeHistory => !ChangeHistoryLoaded || ChangeHistoryAvailable;
     private bool ChangeHistoryLoaded { get; set; }
     private bool ChangeHistoryAvailable { get; set; }
@@ -39,7 +83,7 @@ public partial class CaseField
     private void InitChangeHistory()
     {
         var userHistory = Field.Attributes.GetValueHistory(Culture);
-        UseChangeHistory = userHistory ?? true;
+        UseChangeHistory = userHistory ?? false;
     }
 
     private async Task ViewChangeHistoryAsync()

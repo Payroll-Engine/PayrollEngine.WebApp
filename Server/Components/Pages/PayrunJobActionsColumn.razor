@@ -5,21 +5,21 @@
     <FilterTemplate />
     <CellTemplate>
         <MudStack Row="true" Justify="Justify.FlexEnd" Class="gap-2">
-            <MudTooltip Delay="1000" Text="@Localizer.PayrunJob.ShowJobDetails" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.PayrunJob.ShowJobDetails" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.ShowJobAsync(context.Item))"
                                Icon="@Icons.Material.Outlined.Info"
                                Color="Color.Primary"
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Size="Size.Small" />
             </MudTooltip>
             @if (Forecasts)
             {
-                <MudTooltip Delay="1000" Text="@Localizer.Forecast.CopyToForecast" Placement="Placement.Top">
+                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Forecast.CopyToForecast" Placement="Placement.Top">
                     <MudIconButton @onclick="@(() => ActionOperator.CopyForecastJobAsync(context.Item))"
-                               Icon="@Icons.Material.Filled.AutoGraph"
-                               Color="Color.Primary"
-                               Variant="@Globals.ButtonVariant"
-                               Size="Size.Small" />
+                                   Icon="@Icons.Material.Filled.AutoGraph"
+                                   Color="Color.Primary"
+                                   Variant="@Globals.ToolButtonVariant"
+                                   Size="Size.Small" />
                 </MudTooltip>
             }
         </MudStack>

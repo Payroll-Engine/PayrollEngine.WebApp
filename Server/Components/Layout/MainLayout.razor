@@ -44,10 +44,13 @@
                 {
                     <MudGrid>
                         @* working tenant *@
-                        @if (Session.MultiTenantUser && TenantAvailable)
+                        @if (Session.MultiTenantUser && TenantAvailable && Session.Tenants.Count > 1)
                         {
                             <MudItem xs="3" lg="3" Class="pl-12">
-                                <MudSelect T="Tenant" Label="@Localizer.Tenant.Tenant" Value="@Session.Tenant"
+                                <MudSelect T="Tenant"
+                                           Style="width: fit-content"
+                                           Label="@Localizer.Tenant.Tenant"
+                                           Value="@Session.Tenant"
                                            Disabled="@(!TenantChangeEnabled)"
                                            Clearable="@WorkingItems.TenantReset()"
                                            ValueChanged="WorkingTenantChangedAsync">
@@ -59,10 +62,13 @@
                             </MudItem>
                         }
                         @* working payroll *@
-                        @if (PayrollAvailable)
+                        @if (PayrollAvailable && Session.Payrolls.Count > 1)
                         {
                             <MudItem xs="3" lg="3" Class="pl-12">
-                                <MudSelect T="Payroll" Label="@Localizer.Payroll.Payroll" Value="@Session.Payroll"
+                                <MudSelect T="Payroll"
+                                           Style="width: fit-content"
+                                           Label="@Localizer.Payroll.Payroll"
+                                           Value="@Session.Payroll"
                                            Disabled="@(!PayrollChangeEnabled)"
                                            Clearable="@WorkingItems.PayrollReset()"
                                            ValueChanged="WorkingPayrollChangedAsync">
@@ -77,7 +83,10 @@
                         @if (EmployeeAvailable)
                         {
                             <MudItem xs="3" lg="3" Class="pl-12">
-                                <MudSelect T="Employee" Label="@Localizer.Employee.Employee" Value="@Session.Employee"
+                                <MudSelect T="Employee"
+                                           Style="width: fit-content"
+                                           Label="@Localizer.Employee.Employee"
+                                           Value="@Session.Employee"
                                            Disabled="@(!EmployeeChangeEnabled)"
                                            Clearable="@WorkingItems.EmployeeReset()"
                                            ValueChanged="WorkingEmployeeChangedAsync">
@@ -98,7 +107,7 @@
                           Content="@Session.User.OpenTaskCount"
                           OnClick="NavigateToTasks"
                           Overlap="true">
-                    <MudTooltip Delay="1000"
+                    <MudTooltip Delay="@Globals.TooltipDelay"
                                 Text="@(Session.MultiTenantUser ? string.Empty : Localizer.Tenant.UserTenant(Session.Tenant.Identifier))"
                                 Placement="Placement.Top">
                         <MudInputLabel Class="pr-4" Style="min-width: max-content; display: inline">
@@ -119,11 +128,11 @@
                                 <MudMenuItem Icon="@Icons.Material.Outlined.AccountBox" Class="px-8"
                                              OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                                 break;
-                            case UserType.Administrator:
+                            case UserType.TenantAdministrator:
                                 <MudMenuItem Icon="@Icons.Material.Outlined.SupervisorAccount" Class="px-8"
                                              OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                                 break;
-                            case UserType.Supervisor:
+                            case UserType.SystemAdministrator:
                                 <MudMenuItem Icon="@Icons.Material.Outlined.SupervisedUserCircle" Class="px-8"
                                              OnClick="ChangeUserSettingsAsync">@Localizer.User.UserSettings</MudMenuItem>
                                 break;

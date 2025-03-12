@@ -646,7 +646,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Case {case} submitted.
+        ///   Looks up a localized string similar to Case {case} successfully submitted.
         /// </summary>
         internal static string Case_CaseAdded {
             get {
@@ -817,6 +817,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submit {case}.
+        /// </summary>
+        internal static string Case_SubmitCaseTitle {
+            get {
+                return ResourceManager.GetString("Case.SubmitCaseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit forecast case.
         /// </summary>
         internal static string Case_SubmitForecastCase {
@@ -858,15 +867,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Case_ValidateScript {
             get {
                 return ResourceManager.GetString("Case.ValidateScript", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Validation.
-        /// </summary>
-        internal static string Case_Validation {
-            get {
-                return ResourceManager.GetString("Case.Validation", resourceCulture);
             }
         }
         
@@ -3598,15 +3598,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Administrator.
-        /// </summary>
-        internal static string Enum_UserType_Administrator {
-            get {
-                return ResourceManager.GetString("Enum.UserType.Administrator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Employee.
         /// </summary>
         internal static string Enum_UserType_Employee {
@@ -3616,11 +3607,20 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Supervisor.
+        ///   Looks up a localized string similar to System administrator.
         /// </summary>
-        internal static string Enum_UserType_Supervisor {
+        internal static string Enum_UserType_SystemAdministrator {
             get {
-                return ResourceManager.GetString("Enum.UserType.Supervisor", resourceCulture);
+                return ResourceManager.GetString("Enum.UserType.SystemAdministrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tenant administrator.
+        /// </summary>
+        internal static string Enum_UserType_TenantAdministrator {
+            get {
+                return ResourceManager.GetString("Enum.UserType.TenantAdministrator", resourceCulture);
             }
         }
         
@@ -5065,6 +5065,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation date.
+        /// </summary>
+        internal static string PayrunJob_EvaluationDate {
+            get {
+                return ResourceManager.GetString("PayrunJob.EvaluationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payrun job completed successfully.
         /// </summary>
         internal static string PayrunJob_JobCompleted {
@@ -5569,6 +5578,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Building report....
+        /// </summary>
+        internal static string Report_BuildingReport {
+            get {
+                return ResourceManager.GetString("Report.BuildingReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Build report.
         /// </summary>
         internal static string Report_BuildReport {
@@ -5641,29 +5659,11 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameters.
-        /// </summary>
-        internal static string Report_Parameters {
-            get {
-                return ResourceManager.GetString("Report.Parameters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Pdf.
         /// </summary>
         internal static string Report_Pdf {
             get {
                 return ResourceManager.GetString("Report.Pdf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Preparing download....
-        /// </summary>
-        internal static string Report_PreparingDownload {
-            get {
-                return ResourceManager.GetString("Report.PreparingDownload", resourceCulture);
             }
         }
         
@@ -5781,15 +5781,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Report_Xml {
             get {
                 return ResourceManager.GetString("Report.Xml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to XML raw.
-        /// </summary>
-        internal static string Report_XmlRaw {
-            get {
-                return ResourceManager.GetString("Report.XmlRaw", resourceCulture);
             }
         }
         

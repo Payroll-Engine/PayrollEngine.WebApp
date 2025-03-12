@@ -13,10 +13,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.AddTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.AddTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
                         <MudIconButton @onclick="@AddClusterSetAsync"
                                        Color="Color.Tertiary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Add"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -25,17 +25,17 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.RemoveTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => RemoveClusterSetAsync(context.Item))"
                                        Color="Color.Secondary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Remove"
                                        Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.EditTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.EditTitle(Localizer.ClusterSet.ClusterSet)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditClusterSetAsync(context.Item))"
                                        Color="Color.Primary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Edit"
                                        Size="Size.Small" />
                     </MudTooltip>

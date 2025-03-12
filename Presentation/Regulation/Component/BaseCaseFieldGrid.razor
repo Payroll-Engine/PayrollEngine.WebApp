@@ -7,10 +7,10 @@
     <div class="d-flex flex-grow-1 pb-2">
         @Localizer.Shared.None
         <div class="d-flex flex-grow-1 justify-end">
-            <MudTooltip Delay="1000" Text="@Localizer.Item.AddHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.AddHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                 <MudIconButton @onclick="@CreateReferenceAsync"
-                               Color="Color.Tertiary" 
-                               Variant="@Globals.ButtonVariant"
+                               Color="Color.Tertiary"
+                               Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.Add"
                            Size="Size.Small" />
             </MudTooltip>
@@ -30,10 +30,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.AddHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.AddHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                         <MudIconButton @onclick="@CreateReferenceAsync"
                                        Color="Color.Tertiary" 
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Add"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -42,17 +42,17 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.RemoveHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => RemoveReferenceAsync(context.Item))"
                                        Color="Color.Secondary" 
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Remove"
                                        Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.EditHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.EditHelp(Localizer.Case.BaseCaseField)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => UpdateReferenceAsync(context.Item))"
                                        Color="Color.Primary" 
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Edit" 
                                        Size="Size.Small" />
                     </MudTooltip>

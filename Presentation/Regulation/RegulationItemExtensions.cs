@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Collections;
+using System.Globalization;
+using System.Collections.Generic;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation;
 
+/// <summary>
+/// extension methods for <see cref="IRegulationItem"/>
+/// </summary>
 public static class RegulationItemExtensions
 {
     /// <summary>
@@ -106,6 +109,10 @@ public static class RegulationItemExtensions
         return default;
     }
 
+    /// <summary>
+    /// Test for empty value
+    /// </summary>
+    /// <param name="value">Value to test</param>
     private static bool IsEmptyValue(object value)
     {
         if (value == null)
@@ -117,6 +124,12 @@ public static class RegulationItemExtensions
                value is IDictionary dictValue && dictValue.Count == 0;
     }
 
+    /// <summary>
+    /// Get item help
+    /// </summary>
+    /// <param name="item">Regulation item</param>
+    /// <param name="field">Regulation field</param>
+    /// <param name="derivedHelp">Derived help</param>
     public static string GetItemHelp(this IRegulationItem item, RegulationField field,
         string derivedHelp = null)
     {
@@ -150,7 +163,14 @@ public static class RegulationItemExtensions
         return buffer.ToString();
     }
 
-    public static string GetItemLabel(this IRegulationItem item, RegulationField field, 
+    /// <summary>
+    /// Get item label
+    /// </summary>
+    /// <param name="item">Regulation item</param>
+    /// <param name="field">Regulation field</param>
+    /// <param name="localizer">Localizer</param>
+    /// <param name="addRequiredMarker">Required marker</param>
+    public static string GetItemLabel(this IRegulationItem item, RegulationField field,
         Localizer localizer, bool addRequiredMarker = false)
     {
         var label = field.Label ?? field.PropertyName.ToPascalSentence();
@@ -185,6 +205,11 @@ public static class RegulationItemExtensions
         return label;
     }
 
+    /// <summary>
+    /// Test for read only field
+    /// </summary>
+    /// <param name="item">Regulation item</param>
+    /// <param name="field">Regulation field</param>
     public static bool IsReadOnlyField(this IRegulationItem item, RegulationField field)
     {
         // no edit of base fields
@@ -213,6 +238,11 @@ public static class RegulationItemExtensions
         return false;
     }
 
+    /// <summary>
+    /// Test for clearable field
+    /// </summary>
+    /// <param name="item">Regulation item</param>
+    /// <param name="field">Regulation field</param>
     public static bool IsClearableField(this IRegulationItem item, RegulationField field) =>
         !IsReadOnlyField(item, field);
 }

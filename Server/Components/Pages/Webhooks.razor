@@ -27,6 +27,7 @@
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
              SortMode="SortMode.Multiple"
+             RowsPerPage="@Globals.DataGridRowsPerPage"
              Filterable="true"
              Hideable="true"
              ShowColumnOptions="true">
@@ -57,10 +58,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.CreateTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.CreateTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
                         <MudIconButton @onclick="@CreateItemAsync"
                                        Color="Color.Tertiary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.PostAdd"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -69,24 +70,24 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeleteTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeleteItemAsync(context.Item))"
                                        Color="Color.Secondary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Delete"
                                        Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.EditTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.EditTitle(Localizer.Webhook.Webhook)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditItemAsync(context.Item))"
                                        Color="Color.Primary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Edit"
                                        Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="1000" Text="@Localizer.WebhookMessage.WebhookMessages" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.WebhookMessage.WebhookMessages" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => WebhookMessagesAsync(context.Item))"
                                        Color="Color.Primary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Message"
                                        Size="Size.Small" />
                     </MudTooltip>

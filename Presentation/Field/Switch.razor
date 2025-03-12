@@ -9,5 +9,13 @@
            Error="@Error"
            Disabled="@Disabled"
            ReadOnly="@ReadOnly"
-           Required="@Required"
+           Required="@ValueRequired"
            RequiredError="@ValueRequiredError" />
+
+@code
+{
+    /// <summary>
+    /// The default MudCheckBox raises a required error on false value
+    /// </summary>
+    private bool ValueRequired => !Field.HasValue && Required;
+}

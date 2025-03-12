@@ -36,31 +36,35 @@
     @if (HasClusters)
     {
         <MudStack Row="true" Spacing="0" Class="d-flex align-center gap-4">
-            <MudChipSet T="string" SelectionMode="SelectionMode.SingleSelection" SelectedValue="SelectedCluster"
-                        SelectedValueChanged="SelectedClusterChanged" Class="pa-0">
+            <MudChipSet T="string" Class="pa-0"
+                        CheckMark="true"
+                        SelectionMode="SelectionMode.SingleSelection"
+                        SelectedValue="SelectedCluster"
+                        SelectedValueChanged="SelectedClusterChanged">
                 @foreach (var cluster in Clusters)
                 {
                     <MudChip Text="@cluster"
                              Default="@string.Equals(cluster, ClusterAll)"
-                             Variant="@Globals.ButtonVariant" SelectedColor="Color.Primary" />
+                             Variant="@Globals.ButtonVariant"
+                             SelectedColor="Color.Tertiary" />
                 }
             </MudChipSet>
         </MudStack>
     }
 
     <div class="d-flex flex-grow-1 justify-end align-end">
-        <MudTooltip Delay="1000" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
+        <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
-                           Color="Color.Primary" 
-                           Variant="@Globals.ButtonVariant"
+                           Color="Color.Primary"
+                           Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.FilterAltOff"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="1000" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+        <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
             <MudIconButton @onclick="@ExcelDownloadAsync"
-                           Color="Color.Primary" 
-                           Variant="@Globals.ButtonVariant"
+                           Color="Color.Primary"
+                           Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Custom.FileFormats.FileExcel"
                            Class="ml-2"
                            Size="Size.Small" />
@@ -69,11 +73,12 @@
 </div>
 
 @* reports grid *@
-<MudDataGrid @ref="ReportsGrid" 
+<MudDataGrid @ref="ReportsGrid"
              T="ReportSet"
              Items="AvailableReports"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
+             RowsPerPage="@Globals.DataGridRowsPerPage"
              Filterable="true"
              Groupable="false"
              Hideable="false"

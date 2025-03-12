@@ -1,4 +1,5 @@
 ﻿@using Date = PayrollEngine.Date
+
 @inherits FieldEditorBase;
 
 @if (!Years.Any())
@@ -10,12 +11,14 @@
            @bind-Value="Field.ValueAsInteger"
            Culture="@Culture"
            Label="@ValueLabel"
+           Variant="@Variant"
            HelperText="@ValueHelp"
            Error="@Error"
            Disabled="@ValuesDisabled"
            ReadOnly="@ReadOnly"
            Required="@Required"
            RequiredError="@ValueRequiredError"
+           Dense="true"
            Adornment="@ValueAdornment"
            AdornmentText="@ValueAdornmentText">
     @foreach (var year in Years)
@@ -34,6 +37,7 @@
     private bool ValuesDisabled =>
         Disabled || !Years.Any();
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         // label

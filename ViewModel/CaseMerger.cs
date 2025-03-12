@@ -25,6 +25,13 @@ public static class CaseMerger
             throw new ArgumentNullException(nameof(targetCaseSet));
         }
 
+        // reason and forecast
+        targetCaseSet.Reason = sourceCaseSet.Reason;
+        targetCaseSet.Forecast = sourceCaseSet.Forecast;
+
+        // case attributes
+        targetCaseSet.Attributes = MergeAttributes(sourceCaseSet.Attributes, targetCaseSet.Attributes);
+
         // fields
         await MergeFieldsAsync(sourceCaseSet, targetCaseSet);
 
@@ -79,11 +86,10 @@ public static class CaseMerger
     }
 
     /// <summary>
-    /// Merge case field
+    /// Merge case fields
     /// </summary>
     /// <param name="sourceCaseSet">Source case</param>
     /// <param name="targetCaseSet">Target case</param>
-    /// <returns></returns>
     private static async System.Threading.Tasks.Task MergeFieldsAsync(CaseSet sourceCaseSet, CaseSet targetCaseSet)
     {
         if (sourceCaseSet.Fields == null || !sourceCaseSet.Fields.Any())
@@ -96,7 +102,7 @@ public static class CaseMerger
         var sourceFields = new List<CaseFieldSet>(sourceCaseSet.Fields);
         var targetFields = new List<CaseFieldSet>(targetCaseSet.Fields);
 
-        // copy values to existing
+        // case field values
         foreach (var sourceField in sourceFields)
         {
             var targetField = targetFields.FirstOrDefault(x => string.Equals(x.Name, sourceField.Name));
@@ -127,10 +133,7 @@ public static class CaseMerger
                 }
 
                 // attributes
-                if (!sourceField.Attributes.ContentEquals(targetField.Attributes))
-                {
-                    targetField.Attributes = sourceField.Attributes;
-                }
+                targetField.Attributes = MergeAttributes(sourceField.Attributes, targetField.Attributes);
 
                 // remove mapped fields
                 targetFields.RemoveAll(x => string.Equals(x.Name, sourceField.Name));
@@ -147,5 +150,18 @@ public static class CaseMerger
         {
             await targetCaseSet.Fields.RemoveAllAsync(x => string.Equals(x.Name, targetField.Name));
         }
+    }
+
+    private static Dictionary<string, object> MergeAttributes(
+        Dictionary<string, object> sourceDictionary,
+        Dictionary<string, object> targetDictionary)
+    {
+        if (sourceDictionary == null)
+        {
+            return null;
+        }
+        return sourceDictionary.ContentEquals(targetDictionary) ?
+            sourceDictionary :
+            new Dictionary<string, object>(sourceDictionary);
     }
 }

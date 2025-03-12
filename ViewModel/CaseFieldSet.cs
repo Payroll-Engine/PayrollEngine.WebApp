@@ -115,7 +115,6 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     /// <summary>
     /// Test for valid value
     /// </summary>
-    /// <returns></returns>
     public bool IsValidValue() => Validator.ValidateValue();
 
     /// <summary>
@@ -328,14 +327,12 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     /// <summary>
     /// Tet for available value type
     /// </summary>
-    /// <returns></returns>
     public bool ValueTypeAvailable() =>
         ValueType != ValueType.None;
 
     /// <summary>
     /// Test if value is missing
     /// </summary>
-    /// <returns></returns>
     public bool ValueMissing()
     {
         if (ValueType == ValueType.None ||

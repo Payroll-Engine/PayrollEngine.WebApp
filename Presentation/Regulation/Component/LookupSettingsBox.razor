@@ -6,12 +6,14 @@
     <MudSpacer />
     <MudIconButton Color="Color.Primary" Class="pa-0 ma-0"
                    Icon="@Icons.Material.Filled.Clear"
+                   Variant="@Globals.ToolButtonVariant"
                    Disabled="@ClearDisabled()"
                    Size="Size.Small"
                    OnClick="ClearSettingsAsync" />
     <MudIconButton HtmlTag="label"
                    Color="Color.Primary" Class="pa-0 ma-0"
                    Icon="@Icons.Material.Filled.Edit"
+                   Variant="@Globals.ToolButtonVariant"
                    Disabled="@EditDisabled()"
                    Size="Size.Small"
                    OnClick="EditSettingsAsync" />

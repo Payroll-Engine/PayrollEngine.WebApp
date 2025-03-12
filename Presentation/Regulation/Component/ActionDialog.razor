@@ -5,7 +5,7 @@
             <MudTextField T="string"
                           Label="@Field.ActionLabel"
                           HelperText="@(Item.GetItemHelp(Field) ?? Localizer.Action.ActionExpression)"
-            @bind-Value="@Action.Action"
+                          @bind-Value="@Action.Action"
                           ReadOnly="@Item.IsReadOnlyField(Field)"
                           Clearable="true"
                           Required="true"
@@ -14,13 +14,17 @@
                           Lines="Field.Lines" />
             @if (Categories != null && Categories.Count > 2)
             {
-                <MudChipSet T="string" SelectionMode="SelectionMode.SingleSelection" SelectedValue="SelectedCategory"
-                            SelectedValueChanged="SelectedCategoryChanged" Class="py-4">
+                <MudChipSet T="string" Class="py-4"
+                            CheckMark="true"
+                            SelectionMode="SelectionMode.SingleSelection"
+                            SelectedValue="SelectedCategory"
+                            SelectedValueChanged="SelectedCategoryChanged">
                     @foreach (var category in Categories)
                     {
                         <MudChip Text="@category.Label"
                                  Default="@string.Equals(category.Label, Localizer.Shared.All)"
-                                 Variant="@Globals.ButtonVariant" SelectedColor="Color.Primary" />
+                                 Variant="@Globals.ButtonVariant"
+                                 SelectedColor="Color.Tertiary" />
                     }
                 </MudChipSet>
             }
@@ -41,7 +45,7 @@
                                     Sortable="false">
                         <CellTemplate>
                             <MudStack Row="true">
-                                <MudTooltip Delay="1000" Placement="Placement.Top">
+                                <MudTooltip Delay="@Globals.TooltipDelay" Placement="Placement.Top">
                                     <ChildContent>
                                         <MudIcon Color="Color.Primary"
                                                  Icon="@Icons.Material.Outlined.Info" />
@@ -61,9 +65,11 @@
                                                 </tr>
                                                 <tr>
                                                     <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">@Localizer.Action.Categories</MudText></td>
-                                                    <td><MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">
-                                                        @string.Join(", ", context.Item.Categories as IEnumerable<string>)
-                                                    </MudText></td>
+                                                    <td>
+                                                        <MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">
+                                                            @string.Join(", ", context.Item.Categories as IEnumerable<string>)
+                                                        </MudText>
+                                                    </td>
                                                 </tr>
                                             </table>
                                             @if (context.Item.Parameters != null && context.Item.Parameters.Any())
@@ -95,10 +101,10 @@
                                         </MudStack>
                                     </TooltipContent>
                                 </MudTooltip>
-                                <MudTooltip Delay="1000" Text="@Localizer.Action.AppendAction" Placement="Placement.Top">
+                                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Action.AppendAction" Placement="Placement.Top">
                                     <MudIconButton @onclick="@(() => ApplyAction(context.Item))"
                                                    Color="Color.Tertiary"
-                                                   Variant="@Globals.ButtonVariant"
+                                                   Variant="@Globals.ToolButtonVariant"
                                                    Icon="@Icons.Material.Filled.Add"
                                                    Size="Size.Small" />
                                 </MudTooltip>
@@ -121,7 +127,7 @@
                 </ChildContent>
                 <TooltipContent>
                     @* ReSharper disable once Html.PathError *@
-                    <img src="/images/CaseActions.png" style="max-width: 60em" alt="Case Actions"/>
+                    <img src="/images/CaseActions.png" style="max-width: 60em" alt="Case Actions" />
                 </TooltipContent>
             </MudTooltip>
             <MudSpacer />

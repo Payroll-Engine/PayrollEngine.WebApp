@@ -4,9 +4,19 @@
              @bind-Value="@Field.ValueAsBoolean"
              Culture="@Culture"
              Color="Color.Primary"
+             Dense="true"
              Label="@ValueLabel"
              LabelPlacement="Placement.Start"
              Disabled="@Disabled"
              ReadOnly="@ReadOnly"
-             Required="@Required"
+             Required="@ValueRequired"
+             RequiredError="@ValueRequiredError"
              Error="@Error" />
+
+@code
+{
+    /// <summary>
+    /// The default MudCheckBox raises a required error on false value
+    /// </summary>
+    private bool ValueRequired => !Field.HasValue && Required;
+}

@@ -12,7 +12,6 @@ public static class CasePriorityExtensions
     /// Get case priority color
     /// </summary>
     /// <param name="priority">Priority</param>
-    /// <returns></returns>
     public static Color GetColor(this CasePriority priority) =>
         priority switch
         {
@@ -28,7 +27,6 @@ public static class CasePriorityExtensions
     /// </summary>
     /// <param name="priority">Priority</param>
     /// <param name="themeService">Theme service</param>
-    /// <returns></returns>
     public static string GetStyle(this CasePriority priority, IThemeService themeService)
     {
         var backgroundColor = GetBackgroundColor(priority, themeService);
@@ -60,7 +58,6 @@ public static class CasePriorityExtensions
     /// </summary>
     /// <param name="priority">Priority</param>
     /// <param name="themeService">Theme service</param>
-    /// <returns></returns>
     private static MudColor GetBackgroundColor(this CasePriority priority, IThemeService themeService)
     {
         return priority switch
@@ -80,7 +77,6 @@ public static class CasePriorityExtensions
     /// </summary>
     /// <param name="priority">Priority</param>
     /// <param name="themeService">Theme service</param>
-    /// <returns></returns>
     private static MudColor GetBorderColor(this CasePriority priority, IThemeService themeService)
     {
         return priority switch

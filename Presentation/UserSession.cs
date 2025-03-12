@@ -121,42 +121,46 @@ public class UserSession(IConfiguration configuration,
         // user change
         User = user;
         await SetupUserTasks(user);
-        UpdateUserState(user);
 
         // event
         await (UserChanged?.InvokeAsync(this, user) ?? Task.CompletedTask);
 
         // update tenant
         await ChangeTenantAsync(userTenant, user);
+
+        // update state
+        UpdateUserState();
     }
 
     /// <summary>
     /// Update the current user state, including culture and value formatter
     /// </summary>
-    public void UpdateUserState() =>
-        UpdateUserState(User);
+    public void UpdateUserState()
+    {
+        var cultureName = GetUserCulture()  ?? CultureInfo.CurrentCulture.Name;
+        var culture = CultureService.GetCulture(cultureName).CultureInfo;
+        ValueFormatter = new ValueFormatter(culture);
+    }
 
     /// <summary>
-    /// Update the user culture
+    /// Get the user culture
     /// </summary>
-    /// <param name="user">User to update the state</param>
-    private void UpdateUserState(User user)
+    public string GetUserCulture()
     {
-        if (user == null)
+        if (Tenant == null || User == null)
         {
-            return;
+            return null;
         }
 
-        // [culture by priority]: user > system
-        var cultureName =
+        // [culture by priority]: user > tenant > system
+        var culture =
             // priority 1: user culture
-            user.Culture ??
+            User.Culture ??
+            // priority 2: tenant culture
+            Tenant.Culture ??
             // priority 3: system culture
             CultureInfo.CurrentCulture.Name;
-        var culture = CultureService.GetCulture(cultureName);
-
-        // value format
-        ValueFormatter = new ValueFormatter(culture?.CultureInfo ?? CultureInfo.CurrentCulture);
+        return culture;
     }
 
     /// <summary>
@@ -401,7 +405,6 @@ public class UserSession(IConfiguration configuration,
     /// <summary>
     /// Setup division
     /// </summary>
-    /// <returns></returns>
     private async Task SetupDivisionsAsync()
     {
         try
@@ -576,7 +579,6 @@ public class UserSession(IConfiguration configuration,
     /// Change employee
     /// </summary>
     /// <param name="newEmployee">Employee to set</param>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     public async Task ChangeEmployeeAsync(Employee newEmployee)
     {

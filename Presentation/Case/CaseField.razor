@@ -7,16 +7,29 @@
     return;
 }
 
-<MudStack Spacing="0" Class="pt-4">
+<MudStack Spacing="0">
+
+    @* field group *@
+    @if (HasGroup)
+    {
+        <MudPaper Class="my-2 px-2 py-1 gray darken-4 shades-text text-white" Elevation="1">
+            <MudText>@Group</MudText>
+        </MudPaper>
+    }
+    else if (Separator)
+    {
+        @* field separator *@
+        <MudDivider Class="pb-2" />
+    }
 
     @* field header *@
     <div class="d-flex">
 
         @* field name *@
-        @if (!HiddenDates)
+        @if (!HiddenName && FieldLayout is FieldLayoutMode.StartEndValue or FieldLayoutMode.StartValue)
         {
-            <MudTooltip Delay="1000" Text="@Field.GetLocalizedDescription(Culture)" Placement="Placement.Top">
-                <MudText Class="pr-4">@Field.GetLocalizedName(Culture)</MudText>
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Field.GetLocalizedDescription(Culture)" Placement="Placement.Top">
+                <MudText Class="pr-4 pb-1">@Field.GetLocalizedName(Culture)</MudText>
             </MudTooltip>
         }
 
@@ -26,10 +39,10 @@
             @* change history *@
             @if (UseChangeHistory && VisibleChangeHistory)
             {
-                <MudTooltip Delay="1000" Text="@Localizer.Case.ChangeHistory" Placement="Placement.Top">
+                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Case.ChangeHistory" Placement="Placement.Top">
                     <MudIconButton @onclick="@ViewChangeHistoryAsync"
                                    Color="@(ChangeHistoryAvailable ? Color.Tertiary : Color.Primary)"
-                                   Variant="@Globals.ButtonVariant"
+                                   Variant="@Globals.ToolButtonVariant"
                                    Style="zoom: 0.8"
                                    Icon="@Icons.Material.Sharp.History"
                                    Size="Size.Small" />
@@ -40,14 +53,14 @@
             @if (AttachmentsSupported)
             {
                 @* attachment color: missing mandatory (error), available (tertiary) and empty (primary) *@
-                <MudTooltip Delay="1000" Text="@Localizer.CaseField.FieldDocuments" Placement="Placement.Top">
+                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.CaseField.FieldDocuments" Placement="Placement.Top">
                     <MudIconButton @onclick="@(() => EditAttachmentsAsync(Field))"
                                    Color="@(!AttachmentsValid ?
                                           Color.Error :
                                           AttachmentsAvailable ?
                                               Color.Tertiary :
                                               Color.Primary)"
-                                   Variant="@Globals.ButtonVariant"
+                                   Variant="@Globals.ToolButtonVariant"
                                    Class="ml-2"
                                    Style="zoom: 0.8"
                                    Icon="@Icons.Material.Filled.AttachFile"
@@ -65,67 +78,70 @@
 
     @* field inputs: start, end and value *@
     <MudStack Row="true" Spacing="0" Class="d-flex">
+
         @* field start *@
-        <div style="width: 25%; align-self: flex-end;">
-            @if (Field.StartAvailable())
-            {
-                var pickerType = Field.Attributes.GetStartPickerType(Culture) ?? DateTimePickerType.DatePicker;
-                if (pickerType is DateTimePickerType.DatePicker)
+        @if (FieldLayout is not FieldLayoutMode.ValueCompact)
+        {
+            <div style="@($"{GetStartStyle()}; align-self: flex-end;")">
+                @if (Field.StartAvailable())
                 {
-                    <CaseStartDatePicker @bind-Date="@Field.Start"
-                                         Field="@Field"
-                                         Culture="@Culture"
-                                         Attributes="@Field.Attributes"
-                                         MaxDate="@Field.End"
-                                         Dense="@Dense"
-                                         Variant="@Variant" />
-                }
-                else if (pickerType == DateTimePickerType.DateTimePicker)
-                {
-                    <CaseStartDateTimePicker @bind-DateTime="@Field.Start"
+                    var pickerType = Field.Attributes.GetStartPickerType(Culture) ?? DateTimePickerType.DatePicker;
+                    if (pickerType is DateTimePickerType.DatePicker)
+                    {
+                        <CaseStartDatePicker @bind-Date="@Field.Start"
                                              Field="@Field"
                                              Culture="@Culture"
                                              Attributes="@Field.Attributes"
                                              MaxDate="@Field.End"
-                                             Dense="@Dense"
                                              Variant="@Variant" />
+                    }
+                    else if (pickerType == DateTimePickerType.DateTimePicker)
+                    {
+                        <CaseStartDateTimePicker @bind-DateTime="@Field.Start"
+                                                 Field="@Field"
+                                                 Culture="@Culture"
+                                                 Attributes="@Field.Attributes"
+                                                 MaxDate="@Field.End"
+                                                 Variant="@Variant" />
+                    }
                 }
-            }
-        </div>
+            </div>
+        }
 
         @* field end *@
-        <div class="pl-8" style="width: 25%; align-self: flex-end;">
-            @if (Field.EndAvailable())
-            {
-                var pickerType = Field.Attributes.GetEndPickerType(Culture);
-                if (pickerType is null or DateTimePickerType.DatePicker)
+        @if (FieldLayout is not FieldLayoutMode.ValueCompact)
+        {
+            <div class="mx-8" style="@($"{GetEndStyle()}; align-self: flex-end;")">
+                @if (Field.EndAvailable())
                 {
-                    <CaseEndDatePicker @bind-Date="@Field.End"
-                                       Field="@Field"
-                                       Culture="@Culture"
-                                       Attributes="@Field.Attributes"
-                                       MinDate="@Field.Start"
-                                       Dense="@Dense"
-                                       Variant="@Variant" />
-                }
-                else if (pickerType == DateTimePickerType.DateTimePicker)
-                {
-                    <CaseEndDateTimePicker @bind-DateTime="@Field.End"
+                    var pickerType = Field.Attributes.GetEndPickerType(Culture);
+                    if (pickerType is null or DateTimePickerType.DatePicker)
+                    {
+                        <CaseEndDatePicker @bind-Date="@Field.End"
                                            Field="@Field"
                                            Culture="@Culture"
                                            Attributes="@Field.Attributes"
                                            MinDate="@Field.Start"
-                                           Dense="@Dense"
                                            Variant="@Variant" />
+                    }
+                    else if (pickerType == DateTimePickerType.DateTimePicker)
+                    {
+                        <CaseEndDateTimePicker @bind-DateTime="@Field.End"
+                                               Field="@Field"
+                                               Culture="@Culture"
+                                               Attributes="@Field.Attributes"
+                                               MinDate="@Field.Start"
+                                               Variant="@Variant" />
+                    }
                 }
-            }
-        </div>
+            </div>
+        }
 
         @* field value *@
-        <div style="width: 50%;">
+        <div style="@GetValueStyle()">
             @if (Field.ValueTypeAvailable())
             {
-                <div class="d-flex flex-grow-1 justify-end pl-8">
+                <div class="d-flex flex-grow-1 justify-end">
                     @if (Field.LookupSettings == null)
                     {
                         // regular case field

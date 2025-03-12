@@ -1,10 +1,11 @@
 ﻿@inherits FieldEditorBase;
 
 <MudTextField T="string"
-              @bind-Value="@Field.Value"
+              @bind-Value="@Field.ValueAsString"
               Culture="@Culture"
               Lines="@LineCount"
               Mask="@Mask"
+              Margin="Margin.Dense"
               Variant="@Variant"
               Label="@ValueLabel"
               HelperText="@ValueHelp"
@@ -20,6 +21,7 @@
     private int LineCount { get; set; }
     private IMask Mask { get; set; }
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         // lines

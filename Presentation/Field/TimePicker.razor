@@ -1,0 +1,113 @@
+﻿@inherits FieldEditorBase
+
+<MudTimePicker @bind-Time="@Value"
+               TimeFormat="@TimeFormat"
+               Culture="@Culture"
+               Rounded="true"
+               Editable="true" i
+               ShowToolbar="true"
+               Variant="@Variant"
+               Margin="Margin.Dense"
+               Style="@Style"
+               Label="@ValueLabel"
+               HelperText="@ValueHelp"
+               Disabled="@Disabled"
+               Required="@Required"
+               ReadOnly="@ReadOnly"
+               PickerVariant="@PickerVariant"
+               Orientation="@Orientation"
+               OpenTo="@OpenTo"
+               AmPm="@AmPm"
+               TimeEditMode="@TimeEditMode"
+               MinuteSelectionStep="@MinuteSelectionStep"
+               Error="@Error" />
+
+@code {
+
+    private string TimeFormat { get; set; }
+    private string Style { get; set; }
+    private PickerVariant PickerVariant { get; set; }
+    private Orientation Orientation { get; set; }
+    private OpenTo OpenTo { get; set; }
+    private TimePickerType TimePickerType { get; set; }
+    private bool AmPm { get; set; }
+    private TimeEditMode TimeEditMode { get; set; }
+    private int MinuteSelectionStep { get; set; }
+
+    private TimeSpan? Value
+    {
+        get
+        {
+            var fieldValue = Field.ValueAsDecimal;
+            if (fieldValue == null)
+            {
+                return null;
+            }
+            switch (TimePickerType)
+            {
+                case TimePickerType.DayMinute:
+                case TimePickerType.HourMinute:
+                    return TimeSpan.FromMinutes((double)fieldValue.Value);
+                case TimePickerType.Day12:
+                case TimePickerType.Day24:
+                default:
+                    return TimeSpan.FromHours((double)fieldValue.Value);
+            }
+        }
+        set
+        {
+            if (value == null)
+            {
+                Field.ValueAsDecimal = null;
+                return;
+            }
+            switch (TimePickerType)
+            {
+                case TimePickerType.DayMinute:
+                case TimePickerType.HourMinute:
+                    Field.ValueAsDecimal = Convert.ToDecimal(value.Value.TotalMinutes);
+                    break;
+                case TimePickerType.Day12:
+                case TimePickerType.Day24:
+                default:
+                    Field.ValueAsDecimal = Convert.ToDecimal(value.Value.TotalHours);
+                    break;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
+
+        PickerVariant = Field.Attributes.GetValuePickerStatic(Culture) ?? false ?
+            PickerVariant.Static : PickerVariant.Inline;
+        Orientation = PickerVariant == PickerVariant.Static ?
+            Orientation.Landscape : Orientation.Portrait;
+
+        TimePickerType = Field.Attributes.GetValueTimePicker(Culture) ?? TimePickerType.Day24;
+        OpenTo = TimePickerType == TimePickerType.DayMinute ?
+            OpenTo.Minutes : OpenTo.Hours;
+
+        AmPm = TimePickerType == TimePickerType.Day12;
+        switch (TimePickerType)
+        {
+            case TimePickerType.DayHour:
+                TimeEditMode = TimeEditMode.OnlyHours;
+                break;
+            case TimePickerType.HourMinute:
+                TimeEditMode = TimeEditMode.OnlyMinutes;
+                break;
+            default:
+                TimeEditMode = TimeEditMode.Normal;
+                break;
+        }
+
+        MinuteSelectionStep = Field.Attributes.GetIntegerStepSize(Culture) ?? 1;
+
+        Style = PickerVariant == PickerVariant.Static ? "zoom: 0.8" : null;
+
+        await base.OnInitializedAsync();
+    }
+}

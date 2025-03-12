@@ -37,11 +37,12 @@ public class CaseLocalizer(IStringLocalizerFactory factory, CultureInfo culture)
 
     public string SelectCase => PropertyValue();
     public string CaseWithoutFields => PropertyValue();
-    public string Validation => PropertyValue();
     public string ValidationFailed => PropertyValue();
 
     public string SubmitCase => PropertyValue();
     public string SubmitForecastCase => PropertyValue();
+    public string SubmitCaseTitle(string @case) =>
+        FormatValue(PropertyValue(), nameof(@case), @case);
 
     public string StartCase(string @case) =>
         FormatValue(PropertyValue(), nameof(@case), @case);

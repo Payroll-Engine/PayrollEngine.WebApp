@@ -29,6 +29,10 @@ public class CaseSet : Case, IDisposable
         // culture
         TenantCulture = tenantCulture ?? throw new ArgumentNullException(nameof(tenantCulture));
 
+        // change reason and forecast
+        Reason = copySource.Reason;
+        Forecast = copySource.Forecast;
+
         // fields
         if (copySource.Fields != null)
         {
@@ -40,6 +44,27 @@ public class CaseSet : Case, IDisposable
                 if (field.Status == ObjectStatus.Active)
                 {
                     sourceFields.AddAsync(new(field, caseValueProvider, valueFormatter, tenantCulture, localizer)).Wait();
+                }
+            }
+
+            // copy input attributes
+            if (copySource.Attributes != null)
+            {
+                var inputAttributes = copySource.Attributes.Where(x => x.Key.StartsWith(InputAttributes.Prefix)).ToList();
+                if (inputAttributes.Any())
+                {
+                    foreach (var field in sourceFields)
+                    {
+                        field.Attributes ??= new();
+                        foreach (var inputAttribute in inputAttributes)
+                        {
+                            // add only, not replace
+                            if (!field.Attributes.ContainsKey(inputAttribute.Key))
+                            {
+                                field.Attributes[inputAttribute.Key] = inputAttribute.Value;
+                            }
+                        }
+                    }
                 }
             }
             Fields = sourceFields;
@@ -63,6 +88,16 @@ public class CaseSet : Case, IDisposable
 
         UpdateValidationAsync().Wait();
     }
+
+    /// <summary>
+    /// The change reason
+    /// </summary>
+    public string Reason { get; set; }
+
+    /// <summary>
+    /// The change forecast
+    /// </summary>
+    public string Forecast { get; set; }
 
     #region Fields
 

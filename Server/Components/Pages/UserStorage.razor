@@ -20,6 +20,7 @@
 <MudDataGrid T="StorageItem"
              Items="@Items"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
+             RowsPerPage="@Globals.DataGridRowsPerPage"
              Filterable="true"
              Hideable="false">
     <Columns>
@@ -29,11 +30,11 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveAll" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.RemoveAll" Placement="Placement.Top">
                         <MudIconButton @onclick="@RemoveAllAsync"
                                        Disabled="@(Items.Count == 0)"
                                        Color="Color.Secondary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.DeleteSweep"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -41,10 +42,10 @@
             </HeaderTemplate>
             <FilterTemplate />
             <CellTemplate>
-                <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteTitle(context.Item.Key)" Placement="Placement.Top">
+                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeleteTitle(context.Item.Key)" Placement="Placement.Top">
                     <MudIconButton @onclick="@(() => DeleteAsync(context.Item))"
                                    Color="Color.Secondary"
-                                   Variant="@Globals.ButtonVariant"
+                                   Variant="@Globals.ToolButtonVariant"
                                    Icon="@Icons.Material.Filled.Delete"
                                    Size="Size.Small" />
                 </MudTooltip>

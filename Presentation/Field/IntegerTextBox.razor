@@ -7,6 +7,8 @@
                  Min="@MinValue"
                  Max="@MaxValue"
                  Step="@StepSize"
+                 Variant="@Variant"
+                 Margin="Margin.Dense"
                  Label="@ValueLabel"
                  HelperText="@ValueHelp"
                  Error="@Error"
@@ -24,6 +26,7 @@
     private int? StepSize { get; set; }
     private string Format { get; set; }
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         // range

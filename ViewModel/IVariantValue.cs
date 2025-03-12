@@ -16,7 +16,7 @@ public interface IVariantValue
     /// <summary>
     /// The json value
     /// </summary>
-    string Value { get; set; }
+    string Value { get; }
 
     /// <summary>
     /// Test if value is present

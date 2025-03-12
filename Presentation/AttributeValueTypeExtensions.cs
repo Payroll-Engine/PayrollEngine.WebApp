@@ -29,7 +29,6 @@ public static class AttributeValueTypeExtensions
     /// </summary>
     /// <param name="value">Value</param>
     /// <param name="defaultValue">Default attribute type</param>
-    /// <returns></returns>
     public static AttributeValueType GetAttributeType(this object value, AttributeValueType defaultValue = default)
     {
         if (value == null)

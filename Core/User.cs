@@ -91,10 +91,10 @@ public class User : Client.Model.User
     public bool HasAnyFeature() =>
         UserType switch
         {
-            UserType.Administrator =>
+            UserType.TenantAdministrator =>
                 // user admin feature
                 true,
-            UserType.Supervisor =>
+            UserType.SystemAdministrator =>
                 // all features
                 true,
             _ =>
@@ -110,11 +110,11 @@ public class User : Client.Model.User
     public bool HasFeature(Feature feature) =>
         UserType switch
         {
-            UserType.Administrator => 
-                // user admin feature
-                feature == Feature.Users,
-            UserType.Supervisor => 
-                // all features
+            UserType.TenantAdministrator => 
+                // tenant admin
+                true,
+            UserType.SystemAdministrator => 
+                // system admin
                 true,
             _ =>
                 // test in feature list

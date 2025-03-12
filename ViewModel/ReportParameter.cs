@@ -20,15 +20,6 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     }
 
     /// <summary>
-    /// Copy constructor
-    /// </summary>
-    /// <param name="copySource">Copy source</param>
-    protected ReportParameter(ReportParameter copySource) :
-        base(copySource)
-    {
-    }
-
-    /// <summary>
     /// Base model constructor
     /// </summary>
     /// <param name="copySource">Copy source</param>
@@ -43,6 +34,8 @@ public class ReportParameter : Client.Model.ReportParameter, IViewModel, IKeyEqu
     /// Parent changed event
     /// </summary>
     public event Action<ReportParameter> ParameterChanged;
+
+    public bool HasParameterChangedListener => ParameterChanged != null;
 
     /// <summary>
     /// Lookup settings

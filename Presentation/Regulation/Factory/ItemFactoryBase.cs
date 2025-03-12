@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
 
@@ -183,7 +183,7 @@ public abstract class ItemFactoryBase<TObject>(Client.Model.Tenant tenant, Clien
 
     protected void SetUpdatedData(IRegulationItem target)
     {
-        target.Updated = PayrollEngine.Date.Now;
+        target.Updated = Date.Now;
     }
 
 }

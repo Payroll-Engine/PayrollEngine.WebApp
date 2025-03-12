@@ -22,7 +22,7 @@
                                           Lines="6"
                                           Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Shared.Value)" />
                             <div class="d-flex flex-wrap justify-end">
-                                <MudTooltip Delay="1000" Text="@Localizer.Shared.JsonReformat" Placement="Placement.Bottom">
+                                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.JsonReformat" Placement="Placement.Bottom">
                                     <MudIconButton @onclick="@(JsonReformatAsync)"
                                                    Icon="@Icons.Material.Outlined.FormatIndentIncrease" />
                                 </MudTooltip>

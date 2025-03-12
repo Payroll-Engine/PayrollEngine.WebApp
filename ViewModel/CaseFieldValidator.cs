@@ -34,7 +34,7 @@ public class CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
         {
             if (CaseField.ValueMandatory && !hasValue)
             {
-                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingValue);
+                validity.AddRule(CaseField, Localizer.CaseField.MissingValue);
             }
             return validity;
         }
@@ -49,19 +49,19 @@ public class CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
             // start
             if (!hasStart)
             {
-                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingStart);
+                validity.AddRule(CaseField, Localizer.CaseField.MissingStart);
                 return validity;
             }
             // end
             if (CaseField.EndMandatory && !hasEnd)
             {
-                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingEnd);
+                validity.AddRule(CaseField, Localizer.CaseField.MissingEnd);
                 return validity;
             }
             // value
             if (!hasValue)
             {
-                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingValue);
+                validity.AddRule(CaseField, Localizer.CaseField.MissingValue);
                 return validity;
             }
         }
@@ -71,19 +71,19 @@ public class CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
             // start
             if (!hasStart && (hasEnd || hasValue))
             {
-                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingStart);
+                validity.AddRule(CaseField, Localizer.CaseField.MissingStart);
                 return validity;
             }
             // end
             if (CaseField.EndMandatory && hasStart && !hasEnd)
             {
-                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingEnd);
+                validity.AddRule(CaseField, Localizer.CaseField.MissingEnd);
                 return validity;
             }
             // value
             if (hasStart && !hasValue)
             {
-                validity.AddRule(CaseField.Name, Localizer.CaseField.MissingValue);
+                validity.AddRule(CaseField, Localizer.CaseField.MissingValue);
                 return validity;
             }
         }
@@ -92,7 +92,7 @@ public class CaseFieldValidator(CaseFieldSet caseField, Localizer localizer)
         if (CaseField.AttachmentType == AttachmentType.Mandatory &&
             (CaseField.Documents == null || !CaseField.Documents.Any()))
         {
-            validity.AddRule(CaseField.Name, Localizer.CaseField.MissingAttachment);
+            validity.AddRule(CaseField, Localizer.CaseField.MissingAttachment);
         }
 
         return validity;

@@ -4,10 +4,10 @@
                 ShowFilterIcon="false" Sortable="false">
     <HeaderTemplate>
         <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-            <MudTooltip Delay="1000" Text="@Localizer.Item.CreateTitle(TypeName)" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.CreateTitle(TypeName)" Placement="Placement.Top">
                 <MudIconButton @onclick="@ActionOperator.CreateItemAsync"
                                Color="Color.Tertiary"
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.PostAdd"
                                Size="Size.Small" />
             </MudTooltip>
@@ -16,17 +16,17 @@
     <FilterTemplate />
     <CellTemplate>
         <MudStack Row="true">
-            <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteTitle(TypeName)" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeleteTitle(TypeName)" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.DeleteItemAsync(context.Item))"
                                Color="Color.Secondary"
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.Delete"
                                Size="Size.Small" />
             </MudTooltip>
-            <MudTooltip Delay="1000" Text="@Localizer.Item.EditTitle(TypeName)" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.EditTitle(TypeName)" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.EditItemAsync(context.Item))"
                                Color="Color.Primary"
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.Edit"
                                Size="Size.Small" />
             </MudTooltip>

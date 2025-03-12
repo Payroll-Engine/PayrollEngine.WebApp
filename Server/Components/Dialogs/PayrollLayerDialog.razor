@@ -18,7 +18,7 @@
                                 <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
                             }
                         </MudSelect>
-                        <MudTooltip Delay="1000" Text="@Localizer.PayrollLayer.NextLevelHelp" 
+                        <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.PayrollLayer.NextLevelHelp" 
                                     RootStyle="width: 100%"  Placement="Placement.Top">
                             <MudNumericField T="int" @bind-Value="PayrollLayer.Level"
                                              Label="@Localizer.PayrollLayer.Level"
@@ -29,7 +29,7 @@
                                              OnAdornmentClick="SetNextFreeLevel"
                                              Validation="@(new Func<int, string>(ValidateLevel))" />
                         </MudTooltip>
-                        <MudTooltip Delay="1000" Text="@Localizer.PayrollLayer.NextPriorityHelp" 
+                        <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.PayrollLayer.NextPriorityHelp" 
                                     RootStyle="width: 100%" Placement="Placement.Top">
                             <MudNumericField T="int" @bind-Value="PayrollLayer.Priority"
                                              Label="@Localizer.PayrollLayer.Priority"

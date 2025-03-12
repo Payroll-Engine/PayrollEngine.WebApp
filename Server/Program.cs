@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using MudBlazor.Services;
 using Blazored.LocalStorage;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 using SysLog = Serilog;
 using PayrollEngine.Serilog;
@@ -38,10 +38,14 @@ public class Program
         try
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // configuration
             var appConfig = builder.Configuration.GetConfiguration<AppConfiguration>();
             var startupConfig = builder.Configuration.GetConfiguration<StartupConfiguration>();
+            // components
+            Globals.SetConfiguration(builder.Configuration.GetConfiguration<ComponentsConfiguration>());
 
-             // system logs
+            // system logs
             builder.Configuration.SetupSerilog();
             Log.Information("Payroll Engine Web Application started.");
 
@@ -62,7 +66,7 @@ public class Program
             // app logs
             app.UseHostLog();
 
-           // culture
+            // culture
             if (startupConfig != null)
             {
                 var culture = app.Services.GetService<ICultureService>()

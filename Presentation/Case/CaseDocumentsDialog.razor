@@ -19,10 +19,10 @@
                 <div class="d-flex flex-grow-1 justify-end">
                     <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync" Accept="@Accept">
                         <ActivatorContent>
-                            <MudTooltip Delay="1000" Text="@Localizer.Document.ContentUpload" Placement="Placement.Top">
+                            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Document.ContentUpload" Placement="Placement.Top">
                                 <MudIconButton HtmlTag="label"
                                                Color="Color.Tertiary"
-                                               Variant="@Globals.ButtonVariant"
+                                               Variant="@Globals.ToolButtonVariant"
                                                Icon="@Icons.Material.Filled.Upload"
                                                Size="Size.Small">
                                 </MudIconButton>
@@ -47,20 +47,20 @@
                     <CellTemplate>
                         @if (Editable)
                         {
-                            <MudTooltip Delay="1000" Text="@Localizer.Item.RemoveTitle(context.Item.Name)" Placement="Placement.Top">
+                            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.RemoveTitle(context.Item.Name)" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => DeleteAsync(context.Item))"
                                                Color="Color.Secondary"
-                                               Variant="@Globals.ButtonVariant"
+                                               Variant="@Globals.ToolButtonVariant"
                                                Icon="@Icons.Material.Filled.Delete"
                                                Size="Size.Small" />
                             </MudTooltip>
                         }
                         else
                         {
-                            <MudTooltip Delay="1000" Text="@Localizer.Document.DownloadTitle(context.Item.Name)" Placement="Placement.Top">
+                            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Document.DownloadTitle(context.Item.Name)" Placement="Placement.Top">
                                 <MudIconButton @onclick="@(() => DownloadAsync(context.Item))"
                                                Color="Color.Primary"
-                                               Variant="@Globals.ButtonVariant"
+                                               Variant="@Globals.ToolButtonVariant"
                                                Icon="@Icons.Material.Filled.Download"
                                                Size="Size.Small" />
                             </MudTooltip>

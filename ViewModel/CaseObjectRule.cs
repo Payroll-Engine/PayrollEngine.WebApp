@@ -3,14 +3,14 @@
 /// <summary>
 /// Case object rule
 /// </summary>
-/// <param name="name">Rule name</param>
+/// <param name="caseField">Case field</param>
 /// <param name="ruleText">Rule text</param>
-public class CaseObjectRule(string name, string ruleText)
+public class CaseObjectRule(CaseFieldSet caseField, string ruleText)
 {
     /// <summary>
-    /// Rule name
+    /// Case field
     /// </summary>
-    public string Name { get; } = name;
+    public CaseFieldSet CaseField { get; } = caseField;
 
     /// <summary>
     /// Rule text
@@ -18,5 +18,5 @@ public class CaseObjectRule(string name, string ruleText)
     public string RuleText { get; } = ruleText;
 
     /// <inheritdoc />
-    public override string ToString() => $"{Name} - {RuleText}";
+    public override string ToString() => $"{CaseField.Name} - {RuleText}";
 }

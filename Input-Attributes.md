@@ -4,69 +4,80 @@ The case input attributes can be used to control the behavior of user input.
 | Name                       | Description                               | Type          | Default  | Supported by             |
 |--|--|--|--|--|
 | <b>General</b> |
-`input.icon`                 | Custom item icon <sup>11)</sup>           | string        | false    | Case                     |
-`input.priority`             | Item priority <sup>12)</sup>              | string        | normal   | Case                     |
+`input.editInfo`             | Edit info <sup>1)</sup>                   | json dictionary | -      | Case/Report build        |
+`input.validity`             | Valid Item                                | bool          | true     | Case/Report build        |
+`input.icon`                 | Custom item icon <sup>2)</sup>            | string        | false    | Case                     |
+`input.priority`             | Item priority <sup>3)</sup>               | string        | normal   | Case                     |
+`input.group`                | Group text                                | string        | -        | all                      |
+`input.separator`            | Input separator line                      | bool          | false    | all                      |
 `input.hidden`               | Input is hidden                           | bool          | false    | all                      |
-`input.hiddenDates`          | Hidden start and end dates                | bool          | false    | Case field               |
-`input.showDescription`      | Input description is visible              | bool          | false    | all                      |
+`input.hiddenName`           | Hidden name                               | bool          | false    | Case field               |
+`input.showDescription`      | Show input description                    | bool          | false    | all                      |
+`input.variant`              | Input description <sup>4)</sup>           | bool          | false    | all                      |
 | <b>Start</b> |
 `input.startLabel`           | Start date input label                    | string        | Start    | all                      |
 `input.startHelp`            | Start date help text                      | string        | -        | all                      |
 `input.startRequired`        | Start date required error text            | string        | Start    | all                      |
 `input.startReadOnly`        | Start date input to read only             | bool          | false    | all (start date)         |
 `input.startHidden`          | Hide start date                           | bool          | false    | all (start date)         |
-`input.startFormat`          | Start date input format <sup>4)</sup>     | string        | system   | date, date-time          |
-`input.startPickerOpen`      | Start date picker open mode <sup>2)</sup> | string        | day      | date                     |
-`input.startPickerType`      | Start date datetime type <sup>5)</sup>    | string        | date     | all                      |
+`input.startFormat`          | Start date input format <sup>5)</sup>     | string        | system   | date, date-time          |
+`input.startPickerOpen`      | Start date picker mode <sup>6)</sup>      | string        | day      | date                     |
+`input.startPickerType`      | Start date datetime type <sup>7)</sup>    | string        | date     | all                      |
 | <b>End</b> |
 `input.endLabel`             | End date input label                      | string        | End      | all                      |
 `input.endHelp`              | End date help text                        | string        | -        | all                      |
 `input.endRequired`          | End date required error text              | string        | Start    | all                      |
 `input.endReadOnly`          | End date input to read only               | bool          | false    | all (end date)           |
 `input.endHidden`            | Hide end date                             | bool          | false    | all (start date)         |
-`input.endFormat`            | End date input format <sup>4)</sup>       | string        | system   | date, date-time          |
-`input.endPickerOpen`        | End date picker date type <sup>2)</sup>   | string        | day      | date                     |
-`input.endPickerType`        | End  date datetime type <sup>5)</sup>     | string        | date     | all                      |
+`input.endFormat`            | End date input format <sup>5)</sup>       | string        | system   | date, date-time          |
+`input.endPickerOpen`        | End date picker mode <sup>6)</sup>        | string        | day      | date                     |
+`input.endPickerType`        | End date datetime type <sup>7)</sup>      | string        | date     | all                      |
 | <b>Value</b> |
 `input.valueLabel`           | Input value label                         | string        | system   | all                      |
 `input.valueAdornment`       | Input value adornment text                | string        | -        | text, numeric            |
 `input.valueHelp`            | Input value help text                     | string        | -        | all                      |
-`input.valueMask`            | Input mask <sup>3)</sup>                  | string        | -        | text                     |
+`input.valueMask`            | Input mask <sup>8)</sup>                  | string        | -        | text                     |
 `input.valueRequired`        | Input value required error text           | string        | system   | all                      |
 `input.valueReadOnly`        | Input is read only                        | bool          | false    | all                      |
-`input.valuePickerOpen`      | Date picker date type <sup>2)</sup>       | string        | day      | date                     |
-`input.culture`              | Display culture <sup>1)</sup>             | string        | system   | money                    |
+`input.valuePickerOpen`      | Value date picker mode <sup>6)</sup>      | string        | day      | date                     |
+`input.valuePickerStatic`    | Open input value editor                   | bool          | false    | date, time               |
+`input.valueTimePicker`      | Time value picker <sup>9)</sup>           | string        | -        | decimal                  |
+`input.culture`              | Display culture <sup>10)</sup>            | string        | system   | money                    |
 `input.minValue`             | Minimum input value                       | datetime/num  | -        | numeric, date, date-time |
 `input.maxValue`             | Maximum input value                       | datetime/num  | -        | numeric, date, date-time |
 `input.stepSize`             | Step size on spin buttons                 | num           | 1        | numeric                  |
-`input.format`               | Input format <sup>4)</sup>                | string        | system   | date, date-time          |
+`input.format`               | Value input format <sup>5)</sup>          | string        | system   | date, date-time          |
 `input.lineCount`            | Show multiple lines of text               | int           | 1        | text                     |
 `input.maxLength`            | Maximum text length                       | int           | -        | text                     |
 `input.check`                | Input checkbox instead of switch          | bool          | false    | bool toggles             |
 `input.valueHistory`         | Enable value history                      | bool          | false    | all                      |
 | <b>Attachment</b> |
-`input.attachment`           | Enable document upload <sup>6)</sup>      | string        | none     | all                      |
-`input.attachmentExtensions` | Allowed files for upload <sup>7)</sup>    | string        | -        | all                      |
+`input.attachment`           | Enable document upload <sup>11)</sup>      | string        | none    | all                      |
+`input.attachmentExtensions` | Allowed files for upload <sup>12)</sup>    | string        | -       | all                      |
 | <b>List</b> |
-`input.list`                 | Provide list of possible inputs           | object[] <sup>8)</sup>  | -        | all            |
-`input.listValues`           | Provide values for a list                 | object[] <sup>9)</sup>  | key      | all            |
-`input.listSelection`        | Preselected list value                    | string <sup>10)</sup>   | -        | all            |
+`input.list`                 | Provide list of possible inputs           | object[] <sup>13)</sup>  | -        | all           |
+`input.listValues`           | Provide values for a list                 | object[] <sup>14)</sup>  | key      | all           |
+`input.listSelection`        | Preselected list value                    | string <sup>15)</sup>    | -        | all           |
 <br/>
 
-<sup>1)</sup> Culture names https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c<br/>
-<sup>2)</sup> Date picker open mode: `day`, `month` or `year`<br/>
-<sup>3)</sup> Text box input mask `*`<br/>
-<sup>4)</sup> Date and time format<br/>
+
+<sup>1)</sup> Json string/object dictionary with additional item information<br/>
+<sup>2)</sup> Icon name https://mudblazor.com/features/icons<br/>
+<sup>3)</sup> Item priority: `Low`, `Normal`, `High` or `Critical`<br/>
+<sup>4)</sup> Item variant: `Text`, `Filled` or `Outlined`<br/>
+<sup>5)</sup> Date and time format<br/>
     - Standard format strings: https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings<br/>
     - Custom format strings: https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings<br/>
-<sup>5)</sup> Date picker type: `DatePicker` (date only), `DateTimePicker` (date and time)<br/>
-<sup>6)</sup> Document attachment mode: `None`, `Optional`, `Mandatory`<br/>
-<sup>7)</sup> Comma separated string, example: `.jpg,.png`<br/>
-<sup>8)</sup> JSON array with field value type<br/>
-<sup>9)</sup> JSON array with the same count of list values<br/>
-<sup>10)</sup> Selected list value when available otherwise the selected list item (field value type)<br/>
-<sup>11)</sup> Icon name https://mudblazor.com/features/icons<br/>
-<sup>12)</sup> Item priority: `Low`, `Normal`, `High`, `Critical`<br/>
+<sup>6)</sup> Date picker open mode: `Day`, `Month` or `Xear`<br/>
+<sup>7)</sup> Date picker type: `DatePicker` (date only), `DateTimePicker` (date and time)<br/>
+<sup>8)</sup> Text box input mask `*`<br/>
+<sup>9)</sup> Value time picker for decimal values: `Day24`, `Day12`, `DayHour`, `DayMinute` or `HourMinute`<br/>
+<sup>10)</sup> Culture names https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c<br/>
+<sup>11)</sup> Document attachment mode: `None`, `Optional`, `Mandatory`<br/>
+<sup>12)</sup> Comma separated string, example: `.jpg,.png`<br/>
+<sup>13)</sup> JSON array with field value type<br/>
+<sup>14)</sup> JSON array with the same count of list values<br/>
+<sup>15)</sup> Selected list value when available otherwise the selected list item (field value type)<br/>
 
 
 ## Text input mask

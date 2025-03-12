@@ -11,6 +11,32 @@ namespace PayrollEngine.WebApp;
 public static class InputAttributesExtensions
 {
 
+    #region Transient
+
+    public static Dictionary<string, object> GetEditInfo(this Dictionary<string, object> attributes)
+    {
+        if (attributes == null || !attributes.TryGetValue(InputAttributes.EditInfo, out var attribute))
+        {
+            return null;
+        }
+
+        var info = new Dictionary<string, object>();
+        if (attribute is JsonElement jsonElement)
+        {
+            var buildInfo = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonElement.ToString());
+            foreach (var item in buildInfo)
+            {
+                info.Add(item.Key, item.Value);
+            }
+        }
+        return info;
+    }
+
+    public static bool? GetValidity(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.Validity, culture.Name);
+
+    #endregion
+
     #region Case General
 
     public static string GetIcon(this Dictionary<string, object> attributes, CultureInfo culture) =>
@@ -23,14 +49,26 @@ public static class InputAttributesExtensions
 
     #region Case Field General
 
+    public static string GetGroup(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetStringAttributeValue(InputAttributes.Group, culture.Name);
+
+    public static bool? GetSeparator(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.Separator, culture.Name);
+
     public static bool? GetHidden(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetBooleanAttributeValue(InputAttributes.Hidden, culture.Name);
 
-    public static bool? GetHiddenDates(this Dictionary<string, object> attributes, CultureInfo culture) =>
-        attributes.GetBooleanAttributeValue(InputAttributes.HiddenDates, culture.Name);
+    public static bool? GetHiddenName(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.HiddenName, culture.Name);
+
+    public static FieldLayoutMode? GetFieldLayout(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<FieldLayoutMode>(InputAttributes.FieldLayout, culture.Name);
 
     public static bool? GetShowDescription(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetBooleanAttributeValue(InputAttributes.ShowDescription, culture.Name);
+
+    public static InputVariant? GetVariant(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<InputVariant>(InputAttributes.Variant, culture.Name);
 
     #endregion
 
@@ -132,6 +170,12 @@ public static class InputAttributesExtensions
 
     public static DatePickerType? GetValuePickerOpen(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetEnumAttributeValue<DatePickerType>(InputAttributes.ValuePickerOpen, culture.Name);
+
+    public static bool? GetValuePickerStatic(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetBooleanAttributeValue(InputAttributes.ValuePickerStatic, culture.Name);
+
+    public static TimePickerType? GetValueTimePicker(this Dictionary<string, object> attributes, CultureInfo culture) =>
+        attributes.GetEnumAttributeValue<TimePickerType>(InputAttributes.ValueTimePicker, culture.Name);
 
     public static string GetCulture(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetStringAttributeValue(InputAttributes.Culture, culture.Name);

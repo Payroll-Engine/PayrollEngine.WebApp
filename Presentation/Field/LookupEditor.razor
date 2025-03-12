@@ -1,6 +1,6 @@
-﻿@using ValueType = PayrollEngine.ValueType
+﻿@using System.Globalization
 @using PayrollEngine.WebApp.ViewModel
-@using System.Globalization
+@using ValueType = PayrollEngine.ValueType
 
 @* unsupported value types *@
 @if (Field.ValueType is ValueType.NumericBoolean or ValueType.WebResource or ValueType.None)

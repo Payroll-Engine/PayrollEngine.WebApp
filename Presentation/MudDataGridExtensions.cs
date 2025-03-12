@@ -94,7 +94,7 @@ public static class MudDataGridExtensions
         {
             if (column.Tag is string attributeTag)
             {
-                string attributeName = attributeTag.RemoveAttributePrefix();
+                var attributeName = attributeTag.RemoveAttributePrefix();
                 if (string.IsNullOrWhiteSpace(attributeName))
                 {
                     throw new PayrollException($"Invalid attribute tag {attributeTag} in grid column {column.Title}.");

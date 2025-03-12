@@ -4,20 +4,23 @@
 @if (InputType == DecimalInputType.Money)
 {
     <MudNumericField T="decimal?"
-                 @bind-Value="@Field.ValueAsDecimal"
-                 Culture="@Culture"
-                 Min="@MinValue"
-                 Max="@MaxValue"
-                 Step="@StepSize"
-                 Label="@ValueLabel"
-                 HelperText="@ValueHelp"
-                 Error="@Error"
-                 Disabled="@Disabled"
-                 ReadOnly="@ReadOnly"
-                 Required="@Required"
-                 RequiredError="@ValueRequiredError"
-                 Adornment="Adornment.End"
-                 AdornmentText="@(ValueAdornmentText ?? CurrencySymbol)" />
+                     @bind-Value="@Field.ValueAsDecimal"
+                     Culture="@Culture"
+                     Format="@Format"
+                     Min="@MinValue"
+                     Max="@MaxValue"
+                     Step="@StepSize"
+                     Variant="@Variant"
+                     Label="@ValueLabel"
+                     HelperText="@ValueHelp"
+                     Error="@Error"
+                     Margin="Margin.Dense"
+                     Disabled="@Disabled"
+                     ReadOnly="@ReadOnly"
+                     Required="@Required"
+                     RequiredError="@ValueRequiredError"
+                     Adornment="Adornment.End"
+                     AdornmentText="@(ValueAdornmentText ?? CurrencySymbol)" />
     return;
 }
 
@@ -25,20 +28,23 @@
 @if (InputType == DecimalInputType.Percent)
 {
     <MudNumericField T="decimal?"
-                 @bind-Value="@Field.ValueAsPercent"
-                 Culture="@Culture"
-                 Min="@MinValue"
-                 Max="@MaxValue"
-                 Step="@StepSize"
-                 Label="@ValueLabel"
-                 HelperText="@ValueHelp"
-                 Error="@Error"
-                 Disabled="@Disabled"
-                 ReadOnly="@ReadOnly"
-                 Required="@Required"
-                 RequiredError="@ValueRequiredError"
-                 Adornment="Adornment.End"
-                 AdornmentText="@(ValueAdornmentText ?? "%")" />
+                     @bind-Value="@Field.ValueAsPercent"
+                     Culture="@Culture"
+                     Format="@Format"
+                     Min="@MinValue"
+                     Max="@MaxValue"
+                     Step="@StepSize"
+                     Variant="@Variant"
+                     Label="@ValueLabel"
+                     HelperText="@ValueHelp"
+                     Error="@Error"
+                     Margin="Margin.Dense"
+                     Disabled="@Disabled"
+                     ReadOnly="@ReadOnly"
+                     Required="@Required"
+                     RequiredError="@ValueRequiredError"
+                     Adornment="Adornment.End"
+                     AdornmentText="@(ValueAdornmentText ?? "%")" />
     return;
 }
 
@@ -50,9 +56,11 @@
                  Min="@MinValue"
                  Max="@MaxValue"
                  Step="@StepSize"
+                 Variant="@Variant"
                  Label="@ValueLabel"
                  HelperText="@ValueHelp"
                  Error="@Error"
+                 Margin="Margin.Dense"
                  Required="@Required"
                  Disabled="@Disabled"
                  ReadOnly="@ReadOnly"
@@ -73,6 +81,7 @@
     private string CurrencySymbol =>
         Culture?.NumberFormat.CurrencySymbol;
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         // range

@@ -7,14 +7,18 @@
         <MudStack Row="true" Class="align-center border rounded pa-2" Style="@BorderStyle">
             <MudText Typo="Typo.caption">@ContentInfo</MudText>
             <MudSpacer />
-            <MudIconButton Color="Color.Primary" Class="pa-0 ma-0"
+            <MudIconButton Color="Color.Primary" 
+                           Class="pa-0 ma-0"
                            Icon="@Icons.Material.Filled.Clear"
+                           Variant="@Globals.ToolButtonVariant"
                            Disabled="@ClearDisabled()"
                            Size="Size.Small"
                            OnClick="ClearContentAsync" />
             <MudIconButton HtmlTag="label"
-                           Color="Color.Primary" Class="pa-0 ma-0"
+                           Color="Color.Primary" 
+                           Class="pa-0 ma-0"
                            Icon="@Icons.Material.Filled.Upload"
+                           Variant="@Globals.ToolButtonVariant"
                            Disabled="@UploadDisabled()"
                            Size="Size.Small" />
         </MudStack>

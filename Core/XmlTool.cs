@@ -15,6 +15,19 @@ public static class XmlTool
     private static readonly Encoding XmlEncoding = Encoding.UTF8;
 
     /// <summary>
+    /// Test for xsl content type
+    /// </summary>
+    /// <param name="contentType">Content type</param>
+    public static bool IsContentTypeXsl(string contentType)
+    {
+        if (string.IsNullOrWhiteSpace(contentType))
+        {
+            return false;
+        }
+        return "application/xsl".Equals(contentType, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    /// <summary>
     /// Retrieve data set XML
     /// </summary>
     /// <param name="dataSet">The data set</param>
@@ -23,7 +36,7 @@ public static class XmlTool
         DataSetToXml(dataSet).InnerXml;
 
     /// <summary>
-    /// Retrieve transformed XML string based on XSL
+    /// Transform a dataset to XML with support of XSL report content
     /// </summary>
     /// <param name="dataSet">The data set</param>
     /// <param name="xslString">XSL string used for transformation</param>
@@ -34,7 +47,7 @@ public static class XmlTool
         {
             throw new ArgumentException(nameof(dataSet));
         }
-        if (xslString == null)
+        if (string.IsNullOrWhiteSpace(xslString))
         {
             throw new ArgumentException(nameof(xslString));
         }
@@ -42,7 +55,7 @@ public static class XmlTool
         var xmlDocument = DataSetToXml(dataSet);
 
         // style sheet
-        using var xslStream = new MemoryStream(Convert.FromBase64String(xslString));
+        using var xslStream = new MemoryStream(Encoding.ASCII.GetBytes(xslString));
         using var xslReader = XmlReader.Create(xslStream);
         XslCompiledTransform xslt = new();
         xslt.Load(xslReader);
@@ -61,7 +74,7 @@ public static class XmlTool
     /// <returns>Returns true if XML is valid</returns>
     public static bool ValidateXmlString(string xmlString, string xsdString)
     {
-        var xsdStream = new MemoryStream(Convert.FromBase64String(xsdString));
+        var xsdStream = new MemoryStream(Encoding.ASCII.GetBytes(xsdString));
         using var xmlReader = XmlReader.Create(xsdStream);
 
         var xmlDocument = new XmlDocument();

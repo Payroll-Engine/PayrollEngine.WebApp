@@ -133,7 +133,8 @@ public partial class Reports() : PageBase(WorkingItems.TenantChange | WorkingIte
 
         // retrieve active payroll reports
         var reports = await PayrollService.GetReportsAsync<ReportSet>(
-            new(Tenant.Id, Payroll.Id));
+            new(Tenant.Id, Payroll.Id),
+            userType: User.UserType);
         AllReports = reports;
 
         // cluster setup
@@ -215,15 +216,15 @@ public partial class Reports() : PageBase(WorkingItems.TenantChange | WorkingIte
         // report parameters
         var parameters = new DialogParameters
         {
-            { nameof(BuildReportDialog.Tenant), Tenant },
-            { nameof(BuildReportDialog.Culture), PageCulture },
-            { nameof(BuildReportDialog.User), User },
-            { nameof(BuildReportDialog.Payroll), Payroll },
-            { nameof(BuildReportDialog.Report), report },
-            { nameof(BuildReportDialog.ValueFormatter), ValueFormatter }
+            { nameof(ReportBuildDialog.Tenant), Tenant },
+            { nameof(ReportBuildDialog.Culture), PageCulture },
+            { nameof(ReportBuildDialog.User), User },
+            { nameof(ReportBuildDialog.Payroll), Payroll },
+            { nameof(ReportBuildDialog.Report), report },
+            { nameof(ReportBuildDialog.ValueFormatter), ValueFormatter }
         };
-        await DialogService.ShowAsync<BuildReportDialog>(
-            Localizer.Report.BuildReport, parameters);
+        await DialogService.ShowAsync<ReportBuildDialog>(
+            report.GetLocalizedName(PageCulture.Name), parameters);
     }
 
     #endregion

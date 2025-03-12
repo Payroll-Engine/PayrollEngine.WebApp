@@ -12,7 +12,6 @@ public static class CaseSetExtension
     /// </summary>
     /// <param name="caseSet">Case set</param>
     /// <param name="submitMode">submit mode</param>
-    /// <returns></returns>
     public static CaseSetup ToCaseChangeSetup(this CaseSet caseSet, bool submitMode)
     {
         var caseSetup = new CaseSetup();

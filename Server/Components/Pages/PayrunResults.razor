@@ -84,26 +84,26 @@
 @* title and grid actions *@
 <div class="d-flex pb-2">
     <div class="d-flex flex-grow-1 justify-end align-end">
-        <MudTooltip Delay="1000" Text="@Localizer.App.CompactView" Placement="Placement.Top">
+        <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.App.CompactView" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
                            Color="Color.Primary" 
-                           Variant="@Globals.ButtonVariant"
+                           Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.ViewCompact"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="1000" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
+        <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
                            Color="Color.Primary" 
-                           Variant="@Globals.ButtonVariant"
+                           Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.FilterAltOff"
                            Class="ml-2"
                            Size="Size.Small" />
         </MudTooltip>
-        <MudTooltip Delay="1000" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
+        <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
             <MudIconButton @onclick="@ExcelDownloadAsync"
                            Color="Color.Primary"
-                           Variant="@Globals.ButtonVariant"
+                           Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Custom.FileFormats.FileExcel"
                            Class="ml-2"
                            Size="Size.Small" />
@@ -117,6 +117,7 @@
              ServerData="GetServerDataAsync"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
              ColumnResizeMode="ResizeMode.Column"
+             RowsPerPage="@Globals.DataGridRowsPerPage"
              Dense="@Dense"
              Filterable="true"
              Groupable="false"
@@ -124,7 +125,11 @@
              ShowColumnOptions="false"
              SortMode="SortMode.Multiple">
     <Columns>
-        <PropertyColumn Property="x => x.PeriodStart" Title="@Localizer.PayrunResult.Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending" />
+        <PropertyColumn Property="x => x.PeriodStart" Title="@Localizer.PayrunResult.Period" Format="MMM yyyy" InitialDirection="SortDirection.Descending">
+            <CellTemplate>
+                @context.Item.PeriodName
+            </CellTemplate>
+        </PropertyColumn>
         <PropertyColumn Property="x => x.JobName" Title="@Localizer.PayrunJob.JobName" />
         <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
             <FilterTemplate>

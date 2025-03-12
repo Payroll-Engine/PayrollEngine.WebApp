@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Payrun;
@@ -8,9 +8,14 @@ namespace PayrollEngine.WebApp.Presentation.Payrun;
 public class PayrunJobSetup
 {
     /// <summary>
-    /// The payrun time period
+    /// The payrun period date
     /// </summary>
-    public DateTime? Period { get; set; }
+    public DateTime? PeriodStart { get; set; }
+
+    /// <summary>
+    /// The payrun evaluation date
+    /// </summary>
+    public DateTime? EvaluationDate { get; set; }
 
     /// <summary>
     /// Payrun job name
@@ -47,7 +52,7 @@ public class PayrunJobSetup
     /// </summary>
     /// <returns>True for a valid legal job</returns>
     public bool IsValidLegalJob() =>
-        Period.HasValue &&
+        PeriodStart.HasValue &&
         !string.IsNullOrWhiteSpace(JobName) &&
         !string.IsNullOrWhiteSpace(Reason) &&
         ValidParameters();

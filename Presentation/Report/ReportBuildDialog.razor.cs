@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
+using System.Text;
+using System.Linq;
 using System.Net.Http;
 using System.Globalization;
 using System.Collections.Generic;
@@ -14,13 +15,13 @@ using PayrollEngine.IO;
 using PayrollEngine.Data;
 using PayrollEngine.Client;
 using PayrollEngine.Document;
-using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Shared;
+using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Presentation.Report;
 
-public partial class BuildReportDialog
+public partial class ReportBuildDialog
 {
     private MudForm form;
 
@@ -48,8 +49,10 @@ public partial class BuildReportDialog
     private ILocalizerService LocalizerService { get; set; }
 
     private Localizer Localizer => LocalizerService.Localizer;
+    private ReportSet EditReport { get; set; }
     private Client.Model.ReportTemplate ReportTemplate { get; set; }
 
+    private bool Valid { get; set; }
     private bool Executing { get; set; }
     private bool Completed { get; set; }
     private bool Failed { get; set; }
@@ -58,18 +61,25 @@ public partial class BuildReportDialog
     private string ErrorMessage { get; set; }
     private string DownloadFileName { get; set; }
 
-    private string ReportName => Report.GetLocalizedName(Culture.Name);
+    private string ReportName => EditReport.GetLocalizedName(Culture.Name);
 
-    private string ReportDescription => Report.GetLocalizedDescription(Culture.Name);
+    private string ReportDescription => EditReport.GetLocalizedDescription(Culture.Name);
     private bool HasDescription =>
         !string.IsNullOrWhiteSpace(ReportDescription);
 
     private bool HasVisibleParameters() =>
-        Report.ViewParameters == null ||
-        Report.ViewParameters.Count(x => x.Attributes?.GetHidden(Culture) ?? false) != Report.ViewParameters.Count;
+        EditReport.ViewParameters == null ||
+        EditReport.ViewParameters.Count(x => x.Attributes?.GetHidden(Culture) ?? false) != EditReport.ViewParameters.Count;
 
     private bool SupportedDocumentType(DocumentType documentType) =>
-        DataMerge.IsMergeable(documentType);
+        documentType == DocumentType.Excel || DataMerge.IsMergeable(documentType);
+
+    /// <summary>
+    /// Case info from build and validate
+    /// </summary>
+    private Dictionary<string, object> ReportInfo { get; set; }
+
+    #region Actions
 
     protected void Close()
     {
@@ -107,10 +117,10 @@ public partial class BuildReportDialog
             StateHasChanged();
 
             // generate parameter dictionary
-            var parameters = Report.ViewParameters.ToDictionary(p => p.Name, p => p.Value);
+            var parameters = EditReport.ViewParameters.ToDictionary(p => p.Name, p => p.Value);
 
             var response = await ReportService.ExecuteReportAsync(
-                new(Tenant.Id, Report.RegulationId), Report.Id,
+                new(Tenant.Id, EditReport.RegulationId), EditReport.Id,
                 new()
                 {
                     Culture = Culture.Name,
@@ -120,11 +130,11 @@ public partial class BuildReportDialog
 
             // report metadata
             var now = DateTime.Now; // use local time (no UTC)
-            var title = Report.GetLocalizedName(Culture.Name);
+            var title = EditReport.GetLocalizedName(Culture.Name);
             var documentMetadata = new DocumentMetadata
             {
                 Author = User.Identifier,
-                Category = Report.Category,
+                Category = EditReport.Category,
                 Company = Tenant.Identifier,
                 Title = title,
                 Keywords = response.Culture,
@@ -144,8 +154,8 @@ public partial class BuildReportDialog
             {
                 // download
                 DownloadFileName =
-                    $"{Report.Name}_{FileTool.CurrentTimeStamp()}{documentType.GetFileExtension()}";
-                var reportName = Report.GetLocalizedName(Culture.Name);
+                    $"{EditReport.Name}_{FileTool.CurrentTimeStamp()}{documentType.GetFileExtension()}";
+                var reportName = EditReport.GetLocalizedName(Culture.Name);
 
                 var mergeParameters = new Dictionary<string, object>(parameters.Select(x => new KeyValuePair<string, object>(x.Key, x.Value)));
 
@@ -159,33 +169,35 @@ public partial class BuildReportDialog
                     case DocumentType.Word:
                     case DocumentType.Pdf:
                         documentStream = DataMerge.Merge(
-                            new MemoryStream(Convert.FromBase64String(ReportTemplate.Content)),
+                            new MemoryStream(Encoding.ASCII.GetBytes(ReportTemplate.Content)),
                             dataSet, documentType, documentMetadata, mergeParameters);
                         break;
                     case DocumentType.Xml:
-                        var transformedXml = XmlTool.TransformXmlFromXsl(dataSet, ReportTemplate.Content);
-                        if (string.IsNullOrWhiteSpace(ReportTemplate.Schema) ||
-                            XmlTool.ValidateXmlString(transformedXml, ReportTemplate.Schema))
-                        {
-                            documentStream = XmlTool.XmlToMemoryStream(transformedXml);
-                        }
-                        else
-                        {
-                            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
-                                Localizer.Report.XmlValidationError(reportName));
-                        }
-                        break;
                     case DocumentType.XmlRaw:
-                        var rawXml = XmlTool.TransformXml(dataSet);
-                        if (!string.IsNullOrWhiteSpace(rawXml))
-                        {
-                            documentStream = XmlTool.XmlToMemoryStream(rawXml);
-                        }
-                        else
+                        // xml
+                        var xml = XmlTool.IsContentTypeXsl(ReportTemplate.ContentType) ?
+                            // xsl report
+                            XmlTool.TransformXmlFromXsl(dataSet, ReportTemplate.Content) :
+                            // dataset report
+                            XmlTool.TransformXml(dataSet);
+                        if (string.IsNullOrWhiteSpace(xml))
                         {
                             await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
                                 Localizer.Report.EmptyXmlRaw(reportName));
+                            break;
                         }
+
+                        // xsd validation
+                        if (!string.IsNullOrWhiteSpace(ReportTemplate.Schema) &&
+                            !XmlTool.ValidateXmlString(xml, ReportTemplate.Schema))
+                        {
+                            await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
+                                Localizer.Report.XmlValidationError(reportName));
+                            break;
+                        }
+
+                        // xml stream
+                        documentStream = XmlTool.XmlToMemoryStream(xml);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(documentType));
@@ -211,85 +223,80 @@ public partial class BuildReportDialog
         }
     }
 
+    #endregion
+
+    #region Report Load
+
     /// <summary>
     /// Build or rebuild the report including the report parameters
     /// </summary>
-    /// <param name="report">The target report</param>
-    private async Task UpdateReportAsync(ReportSet report = null)
+    private async Task UpdateReportAsync()
     {
-        if (!Initialized)
-        {
-            return;
-        }
-
-        // check if set is loaded for first time to avoid rendering problems
-        ReportSet reportSet;
-        if (report != null)
-        {
-            reportSet = new(report);
-            ApplySystemParameters(reportSet);
-        }
-        else
-        {
-            reportSet = Report;
-        }
-
         // prepare request
         var reportRequest = new Client.Model.ReportRequest
         {
             UserId = User.Id,
             Culture = User.Culture
         };
-        if (reportSet.ViewParameters != null)
+        if (EditReport.ViewParameters != null)
         {
-            reportRequest.Parameters = reportSet.ViewParameters.ToDictionary(p => p.Name, p => p.Value);
+            reportRequest.Parameters = EditReport.ViewParameters.ToDictionary(p => p.Name, p => p.Value);
         }
 
-        // update report
+        // get report and merge
         try
         {
             // retrieve report with updated parameters
             var buildReport = await ReportSetService.GetAsync<ReportSet>(
-                new(Tenant.Id, reportSet.RegulationId), reportSet.Id, reportRequest);
+                new(Tenant.Id, EditReport.RegulationId), EditReport.Id, reportRequest);
             // convert to view model
-            var buildReportSet = new ReportSet(buildReport);
-
-            // clear previous report handler
-            RemoveReportHandler(Report);
-
-            // replace report
-            Report = buildReportSet;
+            ReportMerger.Merge(buildReport, EditReport);
 
             // register new report handler
-            AddReportHandler(buildReportSet);
+            AddReportHandler();
+            ApplySystemParameters();
+            UpdateInfo();
+            await InvokeAsync(UpdateValidation);
         }
         catch (Exception exception)
         {
             Log.Error(exception, exception.GetBaseMessage());
             await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report, exception);
-            return;
         }
-
-        // report template
-        await SetupReportTemplateAsync();
     }
 
     /// <summary>
-    /// Setup the report template
+    /// Update validation
+    /// </summary>
+    private void UpdateValidation()
+    {
+        // valid state
+        var valid = ValidBuild;
+        if (Valid != valid)
+        {
+            Valid = valid;
+        }
+        // update the state in case of info changes
+        StateHasChanged();
+    }
+
+    private bool ValidBuild =>
+        EditReport.Attributes.GetValidity(Culture) ?? true;
+
+    private void UpdateInfo() =>
+        ReportInfo = EditReport.Attributes.GetEditInfo();
+
+    /// <summary>
+    /// Set up the report template
     /// </summary>
     private async Task SetupReportTemplateAsync()
     {
-        if (Report == null)
-        {
-            return;
-        }
-
         try
         {
             // template by culture
             ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
                 new(Tenant.Id, Payroll.Id),
-                reportNames: [Report.Name],
+                reportNames: [EditReport.Name],
                 culture: Culture.Name)).FirstOrDefault();
 
             // fallback 1: template to base culture
@@ -301,7 +308,7 @@ public partial class BuildReportDialog
                     var baseCulture = Culture.Name.Substring(0, index);
                     ReportTemplate = (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
                         new(Tenant.Id, Payroll.Id),
-                        reportNames: [Report.Name],
+                        reportNames: [EditReport.Name],
                         culture: baseCulture)).FirstOrDefault();
                 }
             }
@@ -309,7 +316,7 @@ public partial class BuildReportDialog
             // fallback 2: first available template
             ReportTemplate ??= (await PayrollService.GetReportTemplatesAsync<Client.Model.ReportTemplate>(
                 new(Tenant.Id, Payroll.Id),
-                reportNames: [Report.Name])).FirstOrDefault();
+                reportNames: [EditReport.Name])).FirstOrDefault();
         }
         catch (HttpRequestException exception)
         {
@@ -333,9 +340,25 @@ public partial class BuildReportDialog
         }
     }
 
-    private static void ApplySystemParameters(ReportSet reportSet)
+    private void AddReportHandler()
     {
-        foreach (var parameter in reportSet.ViewParameters)
+        foreach (var parameter in EditReport.ViewParameters)
+        {
+            //// tenant culture
+            parameter.TenantCulture = Culture;
+            // value formatter
+            parameter.ValueFormatter = ValueFormatter;
+            // change notification
+            if (!parameter.HasParameterChangedListener)
+            {
+                parameter.ParameterChanged += ReportParameterChanged;
+            }
+        }
+    }
+
+    private void ApplySystemParameters()
+    {
+        foreach (var parameter in EditReport.ViewParameters)
         {
             switch (parameter.ParameterType)
             {
@@ -350,81 +373,35 @@ public partial class BuildReportDialog
         }
     }
 
-    private void UpdateReportParameter(ReportParameter parameter) =>
-        OnParameterChangedAsync();
+    private void ReportParameterChanged(ReportParameter parameter) =>
+        Task.Run(UpdateReportAsync);
 
-    private void OnParameterChangedAsync()
-    {
-        UpdateReportAsync().Wait();
-        StateHasChanged();
-    }
+    #endregion
 
-    private void AddReportHandler(ReportSet report)
-    {
-        if (report == null)
-        {
-            return;
-        }
+    #region Lfecycle
 
-        foreach (var parameter in report.ViewParameters)
-        {
-            //// tenant culture
-            parameter.TenantCulture = Culture;
-            // value formatter
-            parameter.ValueFormatter = ValueFormatter;
-            // change notification
-            parameter.ParameterChanged += UpdateReportParameter;
-        }
-    }
-
-    private void RemoveReportHandler(ReportSet report)
-    {
-        if (report == null)
-        {
-            return;
-        }
-
-        foreach (var parameter in report.ViewParameters)
-        {
-            //// tenant culture
-            parameter.TenantCulture = null;
-            // value formatter
-            parameter.ValueFormatter = null;
-            // change notification
-            parameter.ParameterChanged -= UpdateReportParameter;
-        }
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (Tenant != null)
-        {
-            Culture = GetTenantCulture(Tenant);
-        }
-        await base.OnParametersSetAsync();
-    }
-
-    private static CultureInfo GetTenantCulture(Tenant tenant)
-    {
-        var culture = CultureInfo.DefaultThreadCurrentCulture ?? CultureInfo.InvariantCulture;
-        if (!string.IsNullOrWhiteSpace(tenant.Culture) &&
-            !string.Equals(culture.Name, tenant.Culture))
-        {
-            culture = new CultureInfo(tenant.Culture);
-        }
-        return culture;
-    }
-
-    private bool Initialized { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        AddReportHandler(Report);
-        ApplySystemParameters(Report);
+        // working copy, don't change report parameter values
+        EditReport = new ReportSet(Report);
+
+        await UpdateReportAsync();
         await SetupReportTemplateAsync();
         await base.OnInitializedAsync();
-
-        Initialized = true;
-        // build initial report parameters
-        await UpdateReportAsync(Report);
     }
+
+    private bool initValidation;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // validation
+        if (!initValidation && form != null)
+        {
+            UpdateValidation();
+            initValidation = true;
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    #endregion
 }

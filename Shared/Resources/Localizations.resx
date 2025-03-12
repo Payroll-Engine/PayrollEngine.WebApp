@@ -907,6 +907,9 @@
 	<data name="PayrunJob.JobHistory" xml:space="preserve">
     <value>Job history</value>
   </data>
+	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
+    <value>Evaluation date</value>
+  </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
     <value>Job name</value>
   </data>
@@ -1081,8 +1084,8 @@
 	<data name="Report.Pdf" xml:space="preserve">
     <value>Pdf</value>
   </data>
-	<data name="Report.PreparingDownload" xml:space="preserve">
-    <value>Preparing download...</value>
+	<data name="Report.BuildingReport" xml:space="preserve">
+    <value>Building report...</value>
   </data>
 	<data name="Report.Relation" xml:space="preserve">
     <value>Relation</value>
@@ -1119,9 +1122,6 @@
   </data>
 	<data name="Report.Xml" xml:space="preserve">
     <value>XML</value>
-  </data>
-	<data name="Report.XmlRaw" xml:space="preserve">
-    <value>XML raw</value>
   </data>
 	<data name="ReportLog.Message" xml:space="preserve">
     <value>Message</value>
@@ -1495,9 +1495,6 @@
 	<data name="Case.SelectCase" xml:space="preserve">
     <value>Please select a case</value>
   </data>
-	<data name="Case.Validation" xml:space="preserve">
-    <value>Validation</value>
-  </data>
 	<data name="CaseChange.CaseChangeGroup" xml:space="preserve">
     <value>Case change {group}</value>
   </data>
@@ -1666,8 +1663,11 @@
 	<data name="Enum.UserType.User" xml:space="preserve">
     <value>User</value>
   </data>
-	<data name="Enum.UserType.Supervisor" xml:space="preserve">
-    <value>Supervisor</value>
+	<data name="Enum.UserType.TenantAdministrator" xml:space="preserve">
+    <value>Tenant administrator</value>
+  </data>
+	<data name="Enum.UserType.SystemAdministrator" xml:space="preserve">
+    <value>System administrator</value>
   </data>
 	<data name="DataGrid.AddFilter" xml:space="preserve">
     <value>Add filter</value>
@@ -2288,7 +2288,7 @@
     <value>{count} periods of '{period}' in the cycle '{cycle}'</value>
   </data>
 	<data name="Case.CaseAdded" xml:space="preserve">
-    <value>Case {case} submitted</value>
+    <value>Case {case} successfully submitted</value>
   </data>
 	<data name="Case.CaseIgnored" xml:space="preserve">
     <value>No data change, the case {case} was ignored</value>
@@ -2298,6 +2298,9 @@
   </data>
 	<data name="Case.SubmitCase" xml:space="preserve">
     <value>Submit case</value>
+  </data>
+	<data name="Case.SubmitCaseTitle" xml:space="preserve">
+    <value>Submit {case}</value>
   </data>
 	<data name="Case.ValidationFailed" xml:space="preserve">
     <value>Validation failed</value>
@@ -2349,12 +2352,6 @@
   </data>
 	<data name="Error.ItemUpdate" xml:space="preserve">
     <value>{type} update error.</value>
-  </data>
-	<data name="Report.Parameters" xml:space="preserve">
-    <value>Parameters</value>
-  </data>
-	<data name="Enum.UserType.Administrator" xml:space="preserve">
-    <value>Administrator</value>
   </data>
 	<data name="User.PasswordChanged" xml:space="preserve">
     <value>Password changed</value>

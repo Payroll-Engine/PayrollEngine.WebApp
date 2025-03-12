@@ -1,0 +1,129 @@
+﻿@using PayrollEngine.Document
+@using PayrollEngine.WebApp.Presentation.Field
+
+<MudDialog Style="min-width: 30rem; max-width: 50rem; min-height: 15rem;" TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+
+        @{
+            var hasParameters = HasVisibleParameters();
+            if (HasDescription || hasParameters)
+            {
+                <MudPaper Elevation="4" Class="pa-4 mt-2 mb-4">
+
+                    @* description *@
+                    @if (HasDescription)
+                    {
+                        <MudText Typo="Typo.h6">@ReportDescription</MudText>
+                    }
+
+                    @* report parameters *@
+                    @if (hasParameters)
+                    {
+                        <MudForm @ref="form">
+                            <FieldEditorStack Fields="@EditReport.ViewParameters" Culture="@Culture" Spacing="4"
+                                              Disabled="@Started" />
+                        </MudForm>
+                    }
+                </MudPaper>
+            }
+        }
+
+        @* notification *@
+        @if (Executing || Failed || Completed)
+        {
+            <MudPaper Elevation="2" Class="pa-4 mb-2">
+                @if (Executing)
+                {
+                    <MudText Class="pb-2">@Localizer.Report.BuildingReport</MudText>
+                    <MudProgressLinear Color="Color.Info" Rounded="true"
+                                       Class="mud-table-loading-progress"
+                                       Indeterminate="true" Size="Size.Large" />
+                }
+                @if (Failed)
+                {
+                    <MudText Color="Color.Error">@Localizer.Report.ExecutionError</MudText>
+                    <MudText>@ErrorMessage</MudText>
+                }
+                else if (Completed)
+                {
+                    <MudText Color="Color.Success">@Localizer.Shared.DownloadCompleted</MudText>
+                    <MudText Color="Color.Success" Typo="Typo.caption">@DownloadFileName</MudText>
+                }
+            </MudPaper>
+        }
+
+        @* report info *@
+        @if (ReportInfo != null && ReportInfo.Any())
+        {
+            <MudPaper Elevation="2" Class="pa-4 mb-2">
+                <MudSimpleTable Dense="@true" Outlined="false" Elevation="0"
+                                Bordered="false" Striped="false">
+                    <tbody>
+                        @foreach (var info in ReportInfo)
+                        {
+                            <tr>
+                                <td class="pl-0">@info.Key</td>
+                                <td class="pl-0">@info.Value</td>
+                            </tr>
+                        }
+                    </tbody>
+                </MudSimpleTable>
+            </MudPaper>
+        }
+
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            @* close button *@
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Close">@Localizer.Dialog.Close</MudButton>
+
+            @* download buttons *@
+            @if (!Completed && !Failed)
+            {
+                @* Xml *@
+                @if (SupportedDocumentType(DocumentType.Excel))
+                {
+                    <MudButton Variant="@Globals.ButtonVariant"
+                               Color="Color.Tertiary"
+                               Disabled="@(!Valid || Started)"
+                               OnClick="@(() => StartAsync(DocumentType.Xml))">
+                        @Localizer.Report.Xml
+                    </MudButton>
+                }
+
+                @* Excel *@
+                @if (SupportedDocumentType(DocumentType.Excel))
+                {
+                    <MudButton Variant="@Globals.ButtonVariant"
+                               Color="Color.Tertiary"
+                               Disabled="@(!Valid || Started)"
+                               OnClick="@(() => StartAsync(DocumentType.Excel))">
+                        @Localizer.Report.Excel
+                    </MudButton>
+                }
+
+                @* Word *@
+                @if (SupportedDocumentType(DocumentType.Word))
+                {
+                    <MudButton Variant="@Globals.ButtonVariant"
+                               Color="Color.Tertiary"
+                               Disabled="@(!Valid || Executing)"
+                               OnClick="@(() => StartAsync(DocumentType.Word))">
+                        @Localizer.Report.Word
+                    </MudButton>
+                }
+
+                @* Pdf *@
+                @if (SupportedDocumentType(DocumentType.Pdf))
+                {
+                    <MudButton Variant="@Globals.ButtonVariant"
+                               Color="Color.Tertiary"
+                               Disabled="@(!Valid || Executing)"
+                               OnClick="@(() => StartAsync(DocumentType.Pdf))">
+                        @Localizer.Report.Pdf
+                    </MudButton>
+                }
+            }
+        </MudStack>
+    </DialogActions>
+</MudDialog>

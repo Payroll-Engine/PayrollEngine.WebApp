@@ -5,18 +5,18 @@
     <FilterTemplate />
     <CellTemplate>
         <MudStack Row="true" Justify="Justify.FlexEnd" Class="gap-2">
-            <MudTooltip Delay="1000" Text="@Localizer.ReportLog.ReportLogs" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.ReportLog.ReportLogs" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.ShowReportLogAsync(context.Item))"
                                Icon="@Icons.Material.Outlined.History"
                                Color="Color.Primary"
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Size="Size.Small" />
             </MudTooltip>
-            <MudTooltip Delay="1000" Text="@Localizer.Report.BuildReport" Placement="Placement.Top">
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Report.BuildReport" Placement="Placement.Top">
                 <MudIconButton @onclick="@(() => ActionOperator.BuildReportAsync(context.Item))"
                                Icon="@Icons.Material.Filled.Start"
                                Color="Color.Primary"
-                               Variant="@Globals.ButtonVariant"
+                               Variant="@Globals.ToolButtonVariant"
                                Size="Size.Small" />
             </MudTooltip>
         </MudStack>

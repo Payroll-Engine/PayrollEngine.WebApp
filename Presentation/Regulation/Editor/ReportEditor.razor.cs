@@ -47,6 +47,10 @@ public partial class ReportEditor
             {
                 Label = Localizer.Report.Category
             },
+            new(nameof(RegulationReport.UserType), typeof(EnumListBox<UserType>))
+            {
+                Label = Localizer.User.UserType
+            },
             new(nameof(RegulationReport.AttributeMode), typeof(EnumListBox<ReportAttributeMode>))
             {
                 Label = Localizer.Report.AttributeMode

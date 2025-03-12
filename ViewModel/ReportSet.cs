@@ -30,64 +30,27 @@ public class ReportSet : Client.Model.ReportSet, IViewModel,
     /// Base model constructor
     /// </summary>
     /// <param name="copySource">Copy source</param>
-    public ReportSet(Report copySource) :
+    protected ReportSet(Client.Model.ReportSet copySource) :
         base(copySource)
     {
-    }
-
-    /// <summary>
-    /// Base model constructor
-    /// </summary>
-    /// <param name="copySource">Copy source</param>
-    public ReportSet(Client.Model.ReportSet copySource) :
-        base(copySource)
-    {
+        ApplyReportSet(copySource);
     }
 
     /// <summary>The report parameters</summary>
-    private ObservedHashSet<ReportParameter> viewParameters;
-    public ObservedHashSet<ReportParameter> ViewParameters
-    {
-        get
-        {
-            if (viewParameters != null)
-            {
-                return viewParameters;
-            }
-            viewParameters = [];
-            if (Parameters == null)
-            {
-                return viewParameters;
-            }
-            // select visible parameters
-            foreach (var parameter in Parameters.Where(x => !x.Hidden))
-            {
-                viewParameters.Add(new(parameter));
-            }
-            return viewParameters;
-        }
-    }
+    //private ObservedHashSet<ReportParameter> viewParameters;
+    public ObservedHashSet<ReportParameter> ViewParameters { get; } = [];
 
-    /// <summary>The report templates</summary>
-    private ObservedHashSet<ReportTemplate> viewTemplates;
-    public ObservedHashSet<ReportTemplate> ViewTemplates
+    /// <summary>
+    /// Apply report set
+    /// </summary>
+    /// <param name="copySource">Copy source</param>
+    public void ApplyReportSet(Client.Model.ReportSet copySource)
     {
-        get
+        // parameters
+        ViewParameters.Clear();
+        foreach (var parameter in copySource.Parameters.Where(x => !x.Hidden))
         {
-            if (viewTemplates != null)
-            {
-                return viewTemplates;
-            }
-            viewTemplates = [];
-            if (Templates == null)
-            {
-                return viewTemplates;
-            }
-            foreach (var template in Templates)
-            {
-                viewTemplates.Add(new(template));
-            }
-            return viewTemplates;
+            ViewParameters.Add(new(parameter));
         }
     }
 

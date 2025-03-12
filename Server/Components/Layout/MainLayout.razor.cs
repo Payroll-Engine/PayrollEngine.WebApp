@@ -57,7 +57,7 @@ public abstract class MainLayoutBase : MainComponentBase
     protected string CurrentAppImage =>
         IsDarkMode ? AppImageDarkMode : AppImage;
 
-    protected bool NavigationOpen { get; set; } = true;
+    protected bool NavigationOpen { get; set; }
 
     #region Tenant
 
@@ -270,6 +270,7 @@ public abstract class MainLayoutBase : MainComponentBase
         if (navigationOpen.HasValue)
         {
             NavigationOpen = navigationOpen.Value;
+            StateHasChanged();
         }
     }
 

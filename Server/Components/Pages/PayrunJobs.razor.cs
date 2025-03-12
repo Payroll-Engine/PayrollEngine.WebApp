@@ -260,7 +260,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             }
 
             LegalJob = legalJob;
-            await ApplyJobSetupAsync(LegalSetup, legalJob);
+            await ApplyToSetupAsync(legalJob, LegalSetup);
         }
         catch (Exception exception)
         {
@@ -403,7 +403,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
         {
             return;
         }
-        await ApplyJobSetupAsync(ForecastSetup, payrunJob);
+        await ApplyToSetupAsync(payrunJob, ForecastSetup);
         StateHasChanged();
     }
 
@@ -439,7 +439,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
                 return;
             }
 
-            await ApplyJobSetupAsync(ForecastSetup, forecastJob);
+            await ApplyToSetupAsync(forecastJob, ForecastSetup);
         }
         catch (Exception exception)
         {
@@ -508,7 +508,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
         var title = string.IsNullOrWhiteSpace(setup.ForecastName) ?
             Localizer.PayrunJob.StartPayrun : Localizer.Forecast.StartForecastPayrun;
 
-        if (!setup.Period.HasValue)
+        if (!setup.PeriodStart.HasValue)
         {
             await UserNotification.ShowErrorMessageBoxAsync(Localizer, title, Localizer.PayrunJob.MissingJobPeriod);
             Log.Error("Missing job period");
@@ -568,15 +568,13 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     }
 
     /// <summary>
-    /// Reset payrun job the reset
+    /// Reset payrun job
     /// </summary>
     /// <param name="setup">The payrun job setup</param>
     private async Task ResetJobSetupAsync(PayrunJobSetup setup)
     {
-        var now = Date.Now;
-        var period = new DateTime(now.Year, now.Month, 1).AddMonths(1);
-        setup.Period = period;
-        setup.JobName = $"{Localizer.Payrun.Payrun} {Date.GetMonthName(period.Month)} {period.Year}";
+        setup.PeriodStart = Date.Today;
+        setup.JobName = $"{Localizer.Payrun.Payrun} {setup.PeriodStart?.ToCompactString()}";
         setup.ForecastName = null;
         setup.SelectedEmployees = null;
 
@@ -591,20 +589,20 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     }
 
     /// <summary>
-    /// Apply payrun job to the payrun job setup
+    /// Apply payrun job to the setup
     /// </summary>
-    /// <param name="setup">The jo setup</param>
     /// <param name="job">The payrun job to apply</param>
-    private async Task ApplyJobSetupAsync(PayrunJobSetup setup, PayrunJob job)
+    /// <param name="setup">The jo setup</param>
+    private async Task ApplyToSetupAsync(PayrunJob job, PayrunJobSetup setup)
     {
-        setup.Period = job.PeriodStart;
+        setup.PeriodStart = job.PeriodStart;
+        setup.EvaluationDate = job.EvaluationDate;
         setup.JobName = job.Name;
         setup.Reason = job.CreatedReason;
         setup.ForecastName = job.Forecast;
         setup.Reason = job.CreatedReason;
-        // employee selection
         setup.SelectedEmployees = job.Employees.Any() ?
-            Employees.Where(x => job.Employees.Any(y => y.Id == x.Id)).ToList() :
+            Employees.Where(x => job.Employees.Any(y => y.EmployeeId == x.Id)).ToList() :
             null;
         setup.Parameters = await PayrunParameterService.QueryAsync<PayrunParameter>(
                 new(Tenant.Id, job.PayrunId));

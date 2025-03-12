@@ -19,10 +19,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.CreateTitle(Localizer.WebhookMessage.WebhookMessage)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.CreateTitle(Localizer.WebhookMessage.WebhookMessage)" Placement="Placement.Top">
                         <MudIconButton @onclick="@CreateWebhookMessageAsync"
                                        Color="Color.Tertiary" 
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.PostAdd"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -31,10 +31,10 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteTitle(Localizer.WebhookMessage.WebhookMessage)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeleteTitle(Localizer.WebhookMessage.WebhookMessage)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeleteWebhookMessageAsync(context.Item))"
                                        Color="Color.Secondary" 
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Delete" 
                                        Size="Size.Small" />
                     </MudTooltip>

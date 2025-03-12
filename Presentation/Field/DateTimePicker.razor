@@ -5,32 +5,47 @@
                    DateFormat="@DateFormat"
                    Culture="@Culture"
                    Editable="true"
+                   Rounded="true"
                    MinDate="@MinValue"
                    MaxDate="@MaxValue"
                    OpenTo="@OpenTo"
+                   Margin="Margin.Dense"
+                   Variant="@Variant"
+                   Style="@Style"
                    Label="@ValueLabel"
                    HelperText="@ValueHelp"
                    Error="@Error"
                    Disabled="@Disabled"
                    ReadOnly="@ReadOnly"
+                   PickerVariant="@PickerVariant"
+                   Orientation="@Orientation"
                    Required="@Required"
                    RequiredError="@ValueRequiredError" />
     <MudTimePicker @bind-Time="@Time"
                    TimeFormat="@TimeFormat"
                    Culture="@Culture"
                    Editable="true"
+                   Rounded="true"
+                   Margin="Margin.Dense"
+                   Variant="@Variant"
+                   Style="@Style"
                    Disabled="@Disabled"
                    Required="@Required"
                    ReadOnly="@ReadOnly"
+                   PickerVariant="@PickerVariant"
+                   Orientation="@Orientation"
                    Error="@Error" />
 </MudStack>
 
 @code {
     private string DateFormat { get; set; }
     private string TimeFormat { get; set; }
+    private string Style { get; set; }
     private DateTime? MinValue { get; set; }
     private DateTime? MaxValue { get; set; }
     private OpenTo OpenTo { get; set; }
+    private PickerVariant PickerVariant { get; set; }
+    private Orientation Orientation { get; set; }
 
     private DateTime? Date
     {
@@ -84,6 +99,7 @@
         }
     }
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         DateFormat = Field.Attributes.GetFormat(Culture) ??
@@ -97,6 +113,14 @@
             DatePickerType.Year => OpenTo.Year,
             _ => OpenTo.Date
         };
+
+        PickerVariant = Field.Attributes.GetValuePickerStatic(Culture) ?? false ?
+            PickerVariant.Static : PickerVariant.Inline;
+
+        Orientation = PickerVariant == PickerVariant.Static ?
+            Orientation.Landscape : Orientation.Portrait;
+
+        Style = PickerVariant == PickerVariant.Static ? "zoom: 0.8" : null;
 
         await base.OnInitializedAsync();
     }

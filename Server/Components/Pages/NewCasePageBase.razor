@@ -15,7 +15,7 @@
 @* case not available *@
 @if (!CaseAvailable)
 {
-    @if (string.IsNullOrWhiteSpace(CaseName))
+    if (string.IsNullOrWhiteSpace(CaseName))
     {
         <ErrorText Message="@Localizer.Case.SelectCase" />
     }
@@ -25,6 +25,7 @@
     }
     return;
 }
+
 @* empty case *@
 @if (!Cases.Any())
 {
@@ -35,9 +36,9 @@
 @* case editor *@
 <div class="d-flex flex-grow-1 gap-4 mt-4">
     @* case edit tree *@
-    <MudForm @ref="@fieldForm" Class="flex-grow-1">
+    <MudForm @ref="@fieldForm">
         <ChildContent>
-            <MudTreeView T="CaseSet" Items="@Cases">
+            <MudTreeView T="CaseSet" Items="@Cases" ReadOnly="true">
                 <ItemTemplate>
                     @{
                         var treeCaseSet = (TreeCaseSet)context;
@@ -46,8 +47,8 @@
                         <MudTreeViewItem Style="@style" @bind-Expanded="@caseSet.IsExpanded"
                                          Items="@treeCaseSet.RelatedCases">
                             <Content>
-                                <MudPaper Class="pa-4" Elevation="4" Width="100%">
-                                    <MudStack Row="true" Spacing="0" Class="d-flex">
+                                <MudPaper Class="pa-4" Elevation="4">
+                                    <MudStack Row="true" Spacing="0" Class="d-flex pb-2">
                                         @* case name *@
                                         <MudText Typo="Typo.h5" Class="flex-grow-1">
                                             @caseSet.GetLocalizedName(PageCulture.Name)
@@ -74,9 +75,7 @@
                                             }
                                             @* case field with a custom culture *@
                                             <CaseField Culture="@CaseCulture"
-                                                       Field="@caseField"
-                                                       Dense="@Dense"
-                                                       Variant="Variant.Text" />
+                                                       Field="@caseField" />
                                         }
                                     }
                                     else
@@ -93,7 +92,7 @@
     </MudForm>
 
     @* side panel *@
-    <MudPaper MaxWidth="30%" Elevation="4" Class="flex-grow-1 pa-4" Style="margin-top: 4px">
+    <MudPaper Elevation="4" Class="pa-4" Style="margin-top: 4px; width: fit-content; min-width: 24rem">
         <MudForm @ref="@changeForm">
             <MudStack Spacing="0" Class="gap-8">
 
@@ -102,7 +101,7 @@
                     <MudTextField T="string" @bind-Value="@ChangeReason"
                                   Label="@Localizer.CaseChange.Reason"
                                   Required="true"
-                                  Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                  Margin="@Margin.Dense"
                                   Lines="3"
                                   Variant="@Globals.ButtonVariant" />
 
@@ -112,7 +111,7 @@
                         <MudTextField T="string" @bind-Value="@Forecast"
                                       Label="@Localizer.Forecast.Name"
                                       MaxLength="SystemSpecification.KeyTextLength"
-                                      Margin="@(Dense ? Margin.Dense : Margin.Normal)"
+                                      Margin="Margin.Dense"
                                       Adornment="@(HasForecastHistory ? Adornment.End : Adornment.None)"
                                       AdornmentIcon="@Icons.Material.Filled.History"
                                       OnAdornmentClick="OpenForecastSelection"
@@ -135,28 +134,36 @@
                     }
                 </div>
 
-                @* validation *@
-                @if (Validity != null)
+                @* case build info *@
+                @if (CaseInfo.Any() || Validity != null)
                 {
-                    <div>
-                        <MudText Typo="Typo.h6" Color="Color.Error">@Localizer.Case.Validation</MudText>
-                        <MudSimpleTable Dense="@Dense" Outlined="false" Elevation="0"
+                    <MudPaper Elevation="2" Class="pa-4">
+                        <MudSimpleTable Dense="@true" Outlined="false" Elevation="0"
                                         Bordered="false" Striped="false">
                             <tbody>
-                                <tr>
-                                    <th class="pl-0">@Localizer.Shared.Field</th>
-                                    <th class="pl-0">@Localizer.Error.Error</th>
-                                </tr>
-                                @foreach (var rule in Validity.Rules)
+                                @if (CaseInfo.Any())
                                 {
-                                    <tr>
-                                        <td class="pl-0">@rule.Name</td>
-                                        <td class="pl-0">@rule.RuleText</td>
-                                    </tr>
+                                    foreach (var info in CaseInfo)
+                                    {
+                                        <tr>
+                                            <td class="pl-0">@info.Key</td>
+                                            <td class="pl-0">@info.Value</td>
+                                        </tr>
+                                    }
+                                }
+                                @if (Validity != null)
+                                {
+                                    @foreach (var rule in Validity.Rules)
+                                    {
+                                        <tr>
+                                            <td class="pl-0">@rule.CaseField.GetLocalizedName(PageCulture)</td>
+                                            <td class="pl-0">@rule.RuleText</td>
+                                        </tr>
+                                    }
                                 }
                             </tbody>
                         </MudSimpleTable>
-                    </div>
+                    </MudPaper>
                 }
 
                 @* case submit *@
@@ -170,7 +177,7 @@
                         <MudButton Variant="@Globals.ButtonVariant"
                                    Style="Width: 100%"
                                    Color="Color.Tertiary"
-                                   Disabled="@Invalid"
+                                   Disabled="@(!Valid)"
                                    OnClick="SubmitCaseAsync">
                             @if (string.IsNullOrWhiteSpace(Forecast))
                             {

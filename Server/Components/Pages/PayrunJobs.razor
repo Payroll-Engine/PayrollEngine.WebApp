@@ -101,14 +101,20 @@
                                               Required="@(!HasLegalJob)"
                                               RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobName)" />
 
-                                @* period *@
-                                <MudDatePicker @bind-Date="@LegalSetup.Period"
+                                @* payrun period *@
+                                <MudDatePicker @bind-Date="@LegalSetup.PeriodStart"
                                                Label="@Localizer.PayrunJob.JobPeriod"
                                                ReadOnly="@HasLegalJob"
-                                               OpenTo="OpenTo.Month"
                                                Margin="Margin.Dense"
                                                Required="@(!HasLegalJob)"
                                                RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobPeriod)"
+                                               Editable="true" />
+
+                                @* evaluation date *@
+                                <MudDatePicker @bind-Date="@LegalSetup.EvaluationDate"
+                                               Label="@Localizer.PayrunJob.EvaluationDate"
+                                               ReadOnly="@HasLegalJob"
+                                               Margin="Margin.Dense"
                                                Editable="true" />
 
                                 @* employees *@
@@ -343,6 +349,7 @@
                                     <MudText Typo="Typo.h6">@Localizer.Forecast.PayrunJob</MudText>
 
                                     <MudStack Spacing="0">
+
                                         @* forecast name *@
                                         <MudTextField T="string"
                                                       @bind-Value="ForecastSetup.ForecastName"
@@ -354,8 +361,9 @@
                                                       Adornment="@(HasForecastHistory ? Adornment.End : Adornment.None)"
                                                       AdornmentIcon="@Icons.Material.Filled.History"
                                                       OnAdornmentClick="OpenForecastSelection"></MudTextField>
+
                                         @* forecast history *@
-                                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection" />
+                                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection"/>
                                         <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
                                                     Style="max-width: 20em">
                                             <MudStack Spacing="0">
@@ -370,6 +378,7 @@
                                             </MudStack>
                                         </MudPopover>
                                     </MudStack>
+
                                     @* job name *@
                                     <MudTextField T="string"
                                                   @bind-Value="ForecastSetup.JobName"
@@ -380,9 +389,8 @@
                                                   RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobName)" />
 
                                     @* period *@
-                                    <MudDatePicker @bind-Date="@ForecastSetup.Period"
+                                    <MudDatePicker @bind-Date="@ForecastSetup.PeriodStart"
                                                    Label="@Localizer.Forecast.JobPeriod"
-                                                   OpenTo="OpenTo.Month"
                                                    Margin="Margin.Dense"
                                                    Required="true"
                                                    RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobPeriod)"

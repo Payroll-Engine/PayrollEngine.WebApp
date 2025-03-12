@@ -70,15 +70,22 @@ else
             <YearSelect Field="@Field" Culture="@Culture" Disabled="@Disabled" />
             break;
         case PayrollEngine.ValueType.Decimal:
-            <DecimalTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled" />
+            @if (Field.Attributes.GetValueTimePicker(Culture) != null)
+            {
+                <TimePicker Field="@Field" Culture="@Culture" Disabled="@Disabled" />
+            }
+            else
+            {
+                <DecimalTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled" />
+            }
             break;
         case PayrollEngine.ValueType.Money:
             <DecimalTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled"
-                InputType="DecimalInputType.Money" />
+                            InputType="DecimalInputType.Money" />
             break;
         case PayrollEngine.ValueType.Percent:
             <DecimalTextBox Field="@Field" Culture="@Culture" Disabled="@Disabled"
-                InputType="DecimalInputType.Percent" />
+                            InputType="DecimalInputType.Percent" />
             break;
         case PayrollEngine.ValueType.DateTime:
             <DateTimePicker Field="@Field" Culture="@Culture" Disabled="@Disabled" />

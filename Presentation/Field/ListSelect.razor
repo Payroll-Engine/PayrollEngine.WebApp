@@ -8,6 +8,8 @@
            Label="@ValueLabel"
            HelperText="@ValueHelp"
            Error="@Error"
+           Variant="@Variant"
+           Dense="true"
            Disabled="@ValuesDisabled"
            ReadOnly="@ReadOnly"
            Required="@Required"
@@ -139,6 +141,7 @@
         }
     }
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         SetupList();

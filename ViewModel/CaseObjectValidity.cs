@@ -34,10 +34,10 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
     /// <summary>
     /// Add rule
     /// </summary>
-    /// <param name="caseObjectName">Case object name</param>
+    /// <param name="caseField">Case field</param>
     /// <param name="ruleText">Rule text</param>
-    public void AddRule(string caseObjectName, string ruleText) =>
-        AddRule(new(caseObjectName, ruleText));
+    public void AddRule(CaseFieldSet caseField, string ruleText) =>
+        AddRule(new(caseField, ruleText));
 
     private void AddRule(CaseObjectRule rule)
     {
@@ -62,7 +62,7 @@ public class CaseObjectValidity : IEquatable<CaseObjectValidity>
             var newRulesLine = $"{rule.RuleText}";
             if (includeObjectName)
             {
-                newRulesLine = $"{rule.Name}: {newRulesLine}";
+                newRulesLine = $"{rule.CaseField.Name}: {newRulesLine}";
             }
             buffer.AppendLine(newRulesLine);
         }

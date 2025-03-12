@@ -16,10 +16,10 @@
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>
                 <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.CreateHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.CreateHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
                         <MudIconButton @onclick="@CreatePayrunParameterAsync"
                                        Color="Color.Tertiary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.PostAdd"
                                        Size="Size.Small" />
                     </MudTooltip>
@@ -28,17 +28,17 @@
             <FilterTemplate />
             <CellTemplate>
                 <MudStack Row="true">
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.DeleteHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeleteHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => DeletePayrunParameterAsync(context.Item))"
                                        Color="Color.Secondary"
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Delete" 
                                        Size="Size.Small" />
                     </MudTooltip>
-                    <MudTooltip Delay="1000" Text="@Localizer.Item.EditHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
+                    <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.EditHelp(Localizer.PayrunParameter.PayrunParameter)" Placement="Placement.Top">
                         <MudIconButton @onclick="@(() => EditPayrunParameterAsync(context.Item))"
                                        Color="Color.Primary" 
-                                       Variant="@Globals.ButtonVariant"
+                                       Variant="@Globals.ToolButtonVariant"
                                        Icon="@Icons.Material.Filled.Edit" 
                                        Size="Size.Small" />
                     </MudTooltip>

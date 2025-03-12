@@ -5,7 +5,15 @@
 /// </summary>
 public static class InputAttributes
 {
-    private static readonly string Prefix = "input.";
+    public static readonly string Prefix = "input.";
+
+    #region Transient
+
+    // transient during object edit
+    public static readonly string EditInfo = $"{Prefix}editInfo";
+    public static readonly string Validity = $"{Prefix}validity";
+
+    #endregion
 
     #region Case General
 
@@ -16,9 +24,13 @@ public static class InputAttributes
 
     #region Case Field General
 
+    public static readonly string Group = $"{Prefix}group";
+    public static readonly string Separator = $"{Prefix}separator";
     public static readonly string Hidden = $"{Prefix}hidden";
-    public static readonly string HiddenDates = $"{Prefix}hiddenDates";
+    public static readonly string HiddenName = $"{Prefix}hiddenName";
+    public static readonly string FieldLayout = $"{Prefix}fieldLayout";
     public static readonly string ShowDescription = $"{Prefix}showDescription";
+    public static readonly string Variant = $"{Prefix}variant";
 
     #endregion
 
@@ -57,6 +69,8 @@ public static class InputAttributes
     public static readonly string ValueRequired = $"{Prefix}valueRequired";
     public static readonly string ValueReadOnly = $"{Prefix}valueReadOnly";
     public static readonly string ValuePickerOpen = $"{Prefix}valuePickerOpen";
+    public static readonly string ValuePickerStatic = $"{Prefix}valuePickerStatic";
+    public static readonly string ValueTimePicker = $"{Prefix}valueTimePicker";
     public static readonly string Culture = $"{Prefix}culture";
     public static readonly string MinValue = $"{Prefix}minValue";
     public static readonly string MaxValue = $"{Prefix}maxValue";
