@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
+using Blazored.LocalStorage;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Server.Components.Shared;
@@ -33,6 +33,12 @@ public partial class NavMenu : IDisposable
         // run the state notification 
         StateHasChanged();
         return Task.CompletedTask;
+    }
+
+    private async Task UserStateChangedEvent(object sender, User user)
+    {
+        SetupPages();
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task GroupExpandChange(PageGroupInfo pageGroup)
@@ -76,6 +82,7 @@ public partial class NavMenu : IDisposable
     {
         // register user change handler
         Session.UserChanged += UserChangedEvent;
+        Session.UserStateChanged += UserStateChangedEvent;
         SetupPages();
         await base.OnInitializedAsync();
     }
@@ -101,6 +108,7 @@ public partial class NavMenu : IDisposable
         {
             // un-register session events
             Session.UserChanged -= UserChangedEvent;
+            Session.UserStateChanged -= UserStateChangedEvent;
         }
     }
 

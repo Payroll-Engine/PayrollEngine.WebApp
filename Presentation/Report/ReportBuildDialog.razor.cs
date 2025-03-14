@@ -72,7 +72,7 @@ public partial class ReportBuildDialog
         EditReport.ViewParameters.Count(x => x.Attributes?.GetHidden(Culture) ?? false) != EditReport.ViewParameters.Count;
 
     private bool SupportedDocumentType(DocumentType documentType) =>
-        documentType == DocumentType.Excel || DataMerge.IsMergeable(documentType);
+        documentType is DocumentType.Json or DocumentType.Excel || DataMerge.IsMergeable(documentType);
 
     /// <summary>
     /// Case info from build and validate
@@ -172,8 +172,12 @@ public partial class ReportBuildDialog
                             new MemoryStream(Encoding.ASCII.GetBytes(ReportTemplate.Content)),
                             dataSet, documentType, documentMetadata, mergeParameters);
                         break;
+                    case DocumentType.Json:
+                        // serialize data set as dictionary
+                        var json = dataSet.Json();
+                        documentStream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+                        break;
                     case DocumentType.Xml:
-                    case DocumentType.XmlRaw:
                         // xml
                         var xml = XmlTool.IsContentTypeXsl(ReportTemplate.ContentType) ?
                             // xsl report
@@ -183,7 +187,7 @@ public partial class ReportBuildDialog
                         if (string.IsNullOrWhiteSpace(xml))
                         {
                             await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.Report.Report,
-                                Localizer.Report.EmptyXmlRaw(reportName));
+                                Localizer.Report.EmptyXml(reportName));
                             break;
                         }
 

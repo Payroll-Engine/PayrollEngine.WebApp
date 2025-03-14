@@ -97,6 +97,11 @@ public class UserSession(IConfiguration configuration,
     public AsyncEvent<User> UserChanged { get; set; }
 
     /// <summary>
+    /// User state changed event
+    /// </summary>
+    public AsyncEvent<User> UserStateChanged { get; set; }
+
+    /// <summary>
     /// User login
     /// </summary>
     /// <param name="userTenant">Tenant oof the user</param>
@@ -129,17 +134,21 @@ public class UserSession(IConfiguration configuration,
         await ChangeTenantAsync(userTenant, user);
 
         // update state
-        UpdateUserState();
+        await UpdateUserStateAsync();
     }
 
     /// <summary>
     /// Update the current user state, including culture and value formatter
     /// </summary>
-    public void UpdateUserState()
+    public async Task UpdateUserStateAsync()
     {
-        var cultureName = GetUserCulture()  ?? CultureInfo.CurrentCulture.Name;
+        var cultureName = GetUserCulture() ?? CultureInfo.CurrentCulture.Name;
         var culture = CultureService.GetCulture(cultureName).CultureInfo;
         ValueFormatter = new ValueFormatter(culture);
+        if (User != null)
+        {
+            await (UserStateChanged?.InvokeAsync(this, User) ?? Task.CompletedTask);
+        }
     }
 
     /// <summary>

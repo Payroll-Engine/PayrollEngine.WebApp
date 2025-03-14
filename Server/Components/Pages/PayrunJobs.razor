@@ -101,13 +101,14 @@
                                               Required="@(!HasLegalJob)"
                                               RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobName)" />
 
-                                @* payrun period *@
-                                <MudDatePicker @bind-Date="@LegalSetup.PeriodStart"
-                                               Label="@Localizer.PayrunJob.JobPeriod"
+                                @* payrun period date *@
+                                <MudDatePicker @bind-Date="@LegalSetupPeriodDate"
+                                               Label="@Localizer.PayrunJob.JobDate"
                                                ReadOnly="@HasLegalJob"
                                                Margin="Margin.Dense"
                                                Required="@(!HasLegalJob)"
-                                               RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobPeriod)"
+                                               RequiredError="@Localizer.Error.RequiredField(Localizer.PayrunJob.JobDate)"
+                                               HelperText="@LegalSetup.Period?.ToString()"
                                                Editable="true" />
 
                                 @* evaluation date *@
@@ -389,11 +390,12 @@
                                                   RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobName)" />
 
                                     @* period *@
-                                    <MudDatePicker @bind-Date="@ForecastSetup.PeriodStart"
-                                                   Label="@Localizer.Forecast.JobPeriod"
+                                    <MudDatePicker @bind-Date="@ForecastSetupPeriodDate"
+                                                   Label="@Localizer.Forecast.JobDate"
                                                    Margin="Margin.Dense"
                                                    Required="true"
-                                                   RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobPeriod)"
+                                                   RequiredError="@Localizer.Error.RequiredField(Localizer.Forecast.JobDate)"
+                                                   HelperText="@ForecastSetup.Period?.ToString()"
                                                    Editable="true" />
 
                                     @* employees *@

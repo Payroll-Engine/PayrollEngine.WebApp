@@ -10,7 +10,12 @@ public class PayrunJobSetup
     /// <summary>
     /// The payrun period date
     /// </summary>
-    public DateTime? PeriodStart { get; set; }
+    public DateTime? PeriodDate { get; set; }
+
+    /// <summary>
+    /// The payrun period
+    /// </summary>
+    public DatePeriod Period { get; set; }
 
     /// <summary>
     /// The payrun evaluation date
@@ -52,7 +57,7 @@ public class PayrunJobSetup
     /// </summary>
     /// <returns>True for a valid legal job</returns>
     public bool IsValidLegalJob() =>
-        PeriodStart.HasValue &&
+        PeriodDate.HasValue &&
         !string.IsNullOrWhiteSpace(JobName) &&
         !string.IsNullOrWhiteSpace(Reason) &&
         ValidParameters();

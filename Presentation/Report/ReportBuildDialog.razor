@@ -80,8 +80,19 @@
             @* download buttons *@
             @if (!Completed && !Failed)
             {
+                @* Json *@
+                @if (SupportedDocumentType(DocumentType.Json))
+                {
+                    <MudButton Variant="@Globals.ButtonVariant"
+                               Color="Color.Tertiary"
+                               Disabled="@(!Valid || Started)"
+                               OnClick="@(() => StartAsync(DocumentType.Json))">
+                        @Localizer.Report.Json
+                    </MudButton>
+                }
+
                 @* Xml *@
-                @if (SupportedDocumentType(DocumentType.Excel))
+                @if (SupportedDocumentType(DocumentType.Xml))
                 {
                     <MudButton Variant="@Globals.ButtonVariant"
                                Color="Color.Tertiary"

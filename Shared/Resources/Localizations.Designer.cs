@@ -4030,7 +4030,16 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forecast job history.
+        ///   Looks up a localized string similar to Forecast date.
+        /// </summary>
+        internal static string Forecast_JobDate {
+            get {
+                return ResourceManager.GetString("Forecast.JobDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job history.
         /// </summary>
         internal static string Forecast_JobHistory {
             get {
@@ -4039,7 +4048,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forecast job name.
+        ///   Looks up a localized string similar to Forecast name.
         /// </summary>
         internal static string Forecast_JobName {
             get {
@@ -4057,7 +4066,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forecast job period.
+        ///   Looks up a localized string similar to Forecast period.
         /// </summary>
         internal static string Forecast_JobPeriod {
             get {
@@ -5110,7 +5119,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job history.
+        ///   Looks up a localized string similar to History.
         /// </summary>
         internal static string PayrunJob_JobHistory {
             get {
@@ -5119,7 +5128,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string PayrunJob_JobName {
             get {
@@ -5128,7 +5137,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job period.
+        ///   Looks up a localized string similar to Period.
         /// </summary>
         internal static string PayrunJob_JobPeriod {
             get {
@@ -5137,7 +5146,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job reason.
+        ///   Looks up a localized string similar to Reason.
         /// </summary>
         internal static string PayrunJob_JobReason {
             get {
@@ -5146,7 +5155,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Payrun job results.
+        ///   Looks up a localized string similar to Job results.
         /// </summary>
         internal static string PayrunJob_JobResults {
             get {
@@ -5164,7 +5173,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job status.
+        ///   Looks up a localized string similar to Status.
         /// </summary>
         internal static string PayrunJob_JobStatus {
             get {
@@ -5614,11 +5623,11 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Empty XML raw report {report}.
+        ///   Looks up a localized string similar to Empty XML report {report}.
         /// </summary>
-        internal static string Report_EmptyXmlRaw {
+        internal static string Report_EmptyXml {
             get {
-                return ResourceManager.GetString("Report.EmptyXmlRaw", resourceCulture);
+                return ResourceManager.GetString("Report.EmptyXml", resourceCulture);
             }
         }
         
@@ -5646,6 +5655,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Report_ExecutionError {
             get {
                 return ResourceManager.GetString("Report.ExecutionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Json.
+        /// </summary>
+        internal static string Report_Json {
+            get {
+                return ResourceManager.GetString("Report.Json", resourceCulture);
             }
         }
         

@@ -155,8 +155,6 @@ public abstract class MainLayoutBase : MainComponentBase
             return;
         }
 
-        var culture = Session.User.Culture;
-
         // dialog parameters
         var parameters = new DialogParameters
         {
@@ -170,14 +168,10 @@ public abstract class MainLayoutBase : MainComponentBase
             return;
         }
 
-        // update user culture
-        Session.UpdateUserState();
-
-        // refresh the page
-        if (!string.Equals(culture, Session.User.Culture))
-        {
-            NavigationManager.NavigateTo(NavigationManager.Uri, true);
-        }
+        // update user culture with localizations
+        LocalizerService.Invalidate();
+        await Session.UpdateUserStateAsync();
+        StateHasChanged();
     }
 
     #endregion

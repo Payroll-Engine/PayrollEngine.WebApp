@@ -584,16 +584,19 @@
     <value>Forecast</value>
   </data>
 	<data name="Forecast.JobHistory" xml:space="preserve">
-    <value>Forecast job history</value>
+    <value>Job history</value>
   </data>
 	<data name="Forecast.JobName" xml:space="preserve">
-    <value>Forecast job name</value>
+    <value>Forecast name</value>
   </data>
 	<data name="Forecast.JobNotSupported" xml:space="preserve">
     <value>Forecast payrun jobs not supported</value>
   </data>
 	<data name="Forecast.JobPeriod" xml:space="preserve">
-    <value>Forecast job period</value>
+    <value>Forecast period</value>
+  </data>
+	<data name="Forecast.JobDate" xml:space="preserve">
+    <value>Forecast date</value>
   </data>
 	<data name="Forecast.Name" xml:space="preserve">
     <value>Forecast name</value>
@@ -905,28 +908,28 @@
     <value>Payrun job execution failed</value>
   </data>
 	<data name="PayrunJob.JobHistory" xml:space="preserve">
-    <value>Job history</value>
+    <value>History</value>
   </data>
 	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
     <value>Evaluation date</value>
   </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
-    <value>Job name</value>
+    <value>Name</value>
   </data>
 	<data name="PayrunJob.JobPeriod" xml:space="preserve">
-    <value>Job period</value>
+    <value>Period</value>
   </data>
 	<data name="PayrunJob.JobReason" xml:space="preserve">
-    <value>Job reason</value>
+    <value>Reason</value>
   </data>
 	<data name="PayrunJob.JobResults" xml:space="preserve">
-    <value>Payrun job results</value>
+    <value>Job results</value>
   </data>
 	<data name="PayrunJob.JobStart" xml:space="preserve">
     <value>Start</value>
   </data>
 	<data name="PayrunJob.JobStatus" xml:space="preserve">
-    <value>Job status</value>
+    <value>Status</value>
   </data>
 	<data name="PayrunJob.JobValidationFailed" xml:space="preserve">
     <value>Payrun job validation failed</value>
@@ -1119,6 +1122,9 @@
   </data>
 	<data name="Report.Word" xml:space="preserve">
     <value>Word</value>
+  </data>
+	<data name="Report.Json" xml:space="preserve">
+    <value>Json</value>
   </data>
 	<data name="Report.Xml" xml:space="preserve">
     <value>XML</value>
@@ -1606,8 +1612,8 @@
 	<data name="Report.EmptyReport" xml:space="preserve">
     <value>Report without data</value>
   </data>
-	<data name="Report.EmptyXmlRaw" xml:space="preserve">
-    <value>Empty XML raw report {report}</value>
+	<data name="Report.EmptyXml" xml:space="preserve">
+    <value>Empty XML report {report}</value>
   </data>
 	<data name="Report.TemplateNotAvailable" xml:space="preserve">
     <value>Report {report} not available in {culture}</value>

@@ -31,7 +31,7 @@
                     @* job period *@
                     <tr>
                         <td style="width: 20%">@Localizer.PayrunJob.JobPeriod</td>
-                        <td>@Setup.PeriodStart?.ToCompactString()</td>
+                        <td>@Period</td>
                     </tr>
 
                     @* job evaluation *@
@@ -124,12 +124,13 @@
 @code {
 
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
-    [Parameter] public List<Employee> Employees { get; set; }
     [Parameter] public Client.Model.Tenant Tenant { get; set; }
     [Parameter] public User User { get; set; }
     [Parameter] public Client.Model.Payroll Payroll { get; set; }
+    [Parameter] public List<Employee> Employees { get; set; }
     [Parameter] public int PayrunId { get; set; }
     [Parameter] public PayrunJobSetup Setup { get; set; }
+    [Parameter] public DatePeriod Period { get; set; }
 
     [Inject] private IPayrunJobService PayrunJobService { get; set; }
     [Inject] private IUserNotificationService UserNotification { get; set; }
@@ -165,7 +166,7 @@
 
     private async Task Start()
     {
-        if (!Setup.PeriodStart.HasValue)
+        if (!Setup.PeriodDate.HasValue)
         {
             return;
         }
@@ -176,7 +177,7 @@
             StateHasChanged();
 
             // ensure UTC without the same date and time
-            var jobPeriod = DateTime.SpecifyKind(Setup.PeriodStart.Value, DateTimeKind.Utc);
+            var jobPeriod = DateTime.SpecifyKind(Setup.PeriodDate.Value, DateTimeKind.Utc);
 
             // employees
             List<string> employeeIdentifiers = null;

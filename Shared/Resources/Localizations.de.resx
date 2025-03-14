@@ -1252,6 +1252,9 @@
 	<data name="Forecast.JobPeriod" xml:space="preserve">
     <value>Forecast Jobperiode</value>
   </data>
+	<data name="Forecast.JobDate" xml:space="preserve">
+    <value>Forecast Datum</value>
+  </data>
 	<data name="Forecast.Name" xml:space="preserve">
     <value>Forecastname</value>
   </data>
@@ -1377,6 +1380,9 @@
   </data>
 	<data name="Report.Word" xml:space="preserve">
     <value>Word</value>
+  </data>
+	<data name="Report.Json" xml:space="preserve">
+    <value>Json</value>
   </data>
 	<data name="Report.Xml" xml:space="preserve">
     <value>XML</value>
@@ -1609,8 +1615,8 @@
 	<data name="Report.EmptyReport" xml:space="preserve">
     <value>Report ohne Daten</value>
   </data>
-	<data name="Report.EmptyXmlRaw" xml:space="preserve">
-    <value>Keine XML Rohdaten im Report {report}</value>
+	<data name="Report.EmptyXml" xml:space="preserve">
+    <value>Keine XML im Report {report}</value>
   </data>
 	<data name="Report.TemplateNotAvailable" xml:space="preserve">
     <value>Report {report} ist nicht verfügbar in {culture}</value>

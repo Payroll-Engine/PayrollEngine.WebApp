@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.Client.Service;
 using PayrollEngine.WebApp.Presentation;
-using PayrollEngine.WebApp.Presentation.BackendService;
-using PayrollEngine.WebApp.Presentation.Component;
+using PayrollEngine.Client.QueryExpression;
 using PayrollEngine.WebApp.Presentation.Payrun;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Server.Components.Shared;
+using PayrollEngine.WebApp.Presentation.BackendService;
+using Division = PayrollEngine.WebApp.ViewModel.Division;
 using Employee = PayrollEngine.WebApp.ViewModel.Employee;
 using Payrun = PayrollEngine.WebApp.ViewModel.Payrun;
 using PayrunJob = PayrollEngine.WebApp.ViewModel.PayrunJob;
@@ -26,6 +27,8 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     public string Payrun { get; set; }
 
     [Inject]
+    private IForecastHistoryService ForecastHistoryService { get; set; }
+    [Inject]
     private PayrunPayrunJobBackendService PayrunPayrunJobBackendService { get; set; }
     [Inject]
     private IPayrunParameterService PayrunParameterService { get; set; }
@@ -34,11 +37,13 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     [Inject]
     private IPayrunService PayrunService { get; set; }
     [Inject]
+    private IDivisionService DivisionService { get; set; }
+    [Inject]
     private IEmployeeService EmployeeService { get; set; }
     [Inject]
     private IUserService UserService { get; set; }
     [Inject]
-    private IForecastHistoryService ForecastHistoryService { get; set; }
+    private ICalendarService CalendarService { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnTenantChangedAsync()
@@ -508,7 +513,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
         var title = string.IsNullOrWhiteSpace(setup.ForecastName) ?
             Localizer.PayrunJob.StartPayrun : Localizer.Forecast.StartForecastPayrun;
 
-        if (!setup.PeriodStart.HasValue)
+        if (!setup.PeriodDate.HasValue)
         {
             await UserNotification.ShowErrorMessageBoxAsync(Localizer, title, Localizer.PayrunJob.MissingJobPeriod);
             Log.Error("Missing job period");
@@ -521,6 +526,8 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             return false;
         }
 
+        var period = await GetCalendarPeriodAsync(setup.PeriodDate);
+
         var employees = setup.SelectedEmployees?.ToList() ?? Employees;
         var parameters = new DialogParameters
         {
@@ -529,7 +536,8 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             { nameof(PayrunStartDialog.Employees), employees },
             { nameof(PayrunStartDialog.Payroll), Payroll},
             { nameof(PayrunStartDialog.PayrunId), SelectedPayrun.Id },
-            { nameof(PayrunStartDialog.Setup) , setup }
+            { nameof(PayrunStartDialog.Period), period },
+            { nameof(PayrunStartDialog.Setup), setup }
         };
         var result = await (await DialogService.ShowAsync<PayrunStartDialog>(title, parameters)).Result;
         if (result == null || result.Canceled)
@@ -552,6 +560,8 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// <param name="payrunJob">The payrun job to show</param>
     async Task IPayrunJobOperator.ShowJobAsync(PayrunJob payrunJob)
     {
+        var period = await GetCalendarPeriodAsync(payrunJob.PeriodStart);
+
         // payrun job dialog (read only)
         var parameters = new DialogParameters
         {
@@ -573,8 +583,8 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// <param name="setup">The payrun job setup</param>
     private async Task ResetJobSetupAsync(PayrunJobSetup setup)
     {
-        setup.PeriodStart = Date.Today;
-        setup.JobName = $"{Localizer.Payrun.Payrun} {setup.PeriodStart?.ToCompactString()}";
+        setup.PeriodDate = Date.Today;
+        setup.JobName = $"{Localizer.Payrun.Payrun} {setup.PeriodDate?.ToCompactString()}";
         setup.ForecastName = null;
         setup.SelectedEmployees = null;
 
@@ -595,7 +605,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// <param name="setup">The jo setup</param>
     private async Task ApplyToSetupAsync(PayrunJob job, PayrunJobSetup setup)
     {
-        setup.PeriodStart = job.PeriodStart;
+        setup.PeriodDate = job.PeriodStart;
         setup.EvaluationDate = job.EvaluationDate;
         setup.JobName = job.Name;
         setup.Reason = job.CreatedReason;
@@ -663,6 +673,25 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
 
     #endregion
 
+    #region Calendar
+
+    /// <summary>
+    /// The payrun job calendar (division or tenant)
+    /// </summary>
+    private string JobCalendar { get; set; }
+
+    private async Task<DatePeriod> GetCalendarPeriodAsync(DateTime? moment)
+    {
+        if (CalendarService == null)
+        {
+            return null;
+        }
+        var period = await CalendarService.GetPeriodAsync(Tenant.Id, PageCulture.Name, JobCalendar, moment ?? Date.Now);
+        return period;
+    }
+
+    #endregion
+
     #region Payruns
 
     /// <summary>
@@ -687,6 +716,30 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     {
         get => SelectedPayrun?.Name;
         set => throw new NotSupportedException();
+    }
+
+    /// <summary>
+    /// Setup payrun calendar
+    /// </summary>
+    private async Task SetupCalendarAsync()
+    {
+        try
+        {
+            var division = await DivisionService.GetAsync<Division>(new(Tenant.Id), Payroll.DivisionId);
+            JobCalendar = division.Calendar ?? Tenant.Calendar;
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, exception.GetBaseMessage());
+            if (Initialized)
+            {
+                await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, exception);
+            }
+            else
+            {
+                await UserNotification.ShowErrorAsync(exception, exception.GetBaseMessage());
+            }
+        }
     }
 
     /// <summary>
@@ -804,6 +857,54 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
 
     #endregion
 
+    #region Jobs
+
+    private DateTime? LegalSetupPeriodDate
+    {
+        // ReSharper disable once UnusedMember.Local
+        get => LegalSetup.PeriodDate;
+        set
+        {
+            LegalSetup.PeriodDate = value;
+            InvokeAsync(UpdateLegalSetupPeriodAsync);
+        }
+    }
+
+    private async Task UpdateLegalSetupPeriodAsync()
+    {
+        var period = await CalendarService.GetPeriodAsync(
+            tenantId: Tenant.Id,
+            cultureName: PageCulture.Name,
+            calendarName: JobCalendar,
+            periodMoment: LegalSetup.PeriodDate);
+        LegalSetup.Period = period;
+        StateHasChanged();
+    }
+
+    private DateTime? ForecastSetupPeriodDate
+    {
+        // ReSharper disable once UnusedMember.Local
+        get => ForecastSetup.PeriodDate;
+        set
+        {
+            ForecastSetup.PeriodDate = value;
+            InvokeAsync(UpdateForecastSetupPeriodAsync);
+        }
+    }
+
+    private async Task UpdateForecastSetupPeriodAsync()
+    {
+        var period = await CalendarService.GetPeriodAsync(
+            tenantId: Tenant.Id,
+            cultureName: PageCulture.Name,
+            calendarName: JobCalendar,
+            periodMoment: ForecastSetup.PeriodDate);
+        ForecastSetup.Period = period;
+        StateHasChanged();
+    }
+
+    #endregion
+
     #region Users
 
     /// <summary>
@@ -912,6 +1013,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             return;
         }
         await SetupEmployeesAsync();
+        await SetupCalendarAsync();
         await SetupPayrunsAsync();
         await SetupPayrunJobsAsync();
     }
@@ -928,6 +1030,8 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
         if (firstRender && HasFeature(Feature.Forecasts))
         {
             await SetupForecastHistoryAsync();
+            await UpdateLegalSetupPeriodAsync();
+            await UpdateForecastSetupPeriodAsync();
 
         }
         await base.OnPageAfterRenderAsync(firstRender);

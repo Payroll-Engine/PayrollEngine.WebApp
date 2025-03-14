@@ -9,4 +9,9 @@ public interface ILocalizerService
     /// Localizer
     /// </summary>
     Localizer Localizer { get; }
+
+    /// <summary>
+    /// Invalidate the localizer
+    /// </summary>
+    void Invalidate();
 }

@@ -25,6 +25,7 @@ public class ReportLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
     public string BuildingReport => PropertyValue();
     public string ExecutionError => PropertyValue();
 
+    public string Json => PropertyValue();
     public string Xml => PropertyValue();
     public string Excel => PropertyValue();
     public string Word => PropertyValue();
@@ -39,6 +40,6 @@ public class ReportLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
         FormatValue(PropertyValue(), nameof(report), report, nameof(culture), culture);
     public string XmlValidationError(string report) =>
         FormatValue(PropertyValue(), nameof(report), report);
-    public string EmptyXmlRaw(string report) =>
+    public string EmptyXml(string report) =>
         FormatValue(PropertyValue(), nameof(report), report);
 }

@@ -14,6 +14,7 @@ public class ForecastLocalizer(IStringLocalizerFactory factory, CultureInfo cult
     public string PayrunJob => PropertyValue();
     public string JobName => PropertyValue();
     public string JobPeriod => PropertyValue();
+    public string JobDate => PropertyValue();
     public string JobHistory => PropertyValue();
 
     public string StartForecastPayrun => PropertyValue();

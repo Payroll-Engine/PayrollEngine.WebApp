@@ -45,6 +45,10 @@ public class LocalizerService : ILocalizerService
         }
     }
 
+    /// <inheritdoc />
+    public void Invalidate() =>
+        localizer = null;
+
     private bool BuildLocalizer()
     {
         if (localizer != null)
