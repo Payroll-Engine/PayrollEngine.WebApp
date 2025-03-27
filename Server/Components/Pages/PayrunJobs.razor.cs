@@ -560,8 +560,6 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// <param name="payrunJob">The payrun job to show</param>
     async Task IPayrunJobOperator.ShowJobAsync(PayrunJob payrunJob)
     {
-        var period = await GetCalendarPeriodAsync(payrunJob.PeriodStart);
-
         // payrun job dialog (read only)
         var parameters = new DialogParameters
         {
