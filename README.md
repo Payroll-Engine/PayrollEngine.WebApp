@@ -1,7 +1,7 @@
 # Payroll Engine Web Application
 👉 This application is part of the [Payroll Engine](https://github.com/Payroll-Engine/PayrollEngine/wiki).
 
-The Web Application provides full access to the Payroll Engine. For a better understanding of the working concepts, it is recommended to read the [Payroll Engine Whitepaper](https://github.com/Payroll-Engine/PayrollEngine/blob/main/Documents/PayrolEnginelWhitepaper.pdf).
+The Web Application provides full access to the Payroll Engine. For a better understanding of the working concepts, it is recommended to read the [Payroll Engine Whitepaper](https://github.com/Payroll-Engine/PayrollEngine/blob/main/docs/PayrollEngineWhitepaper.pdf).
 
 ## Features
 The functions of the web app are divided into features:
