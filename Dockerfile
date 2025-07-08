@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # copy solution and project files
@@ -20,7 +20,7 @@ WORKDIR "/src/Server"
 RUN dotnet publish "PayrollEngine.WebApp.Server.csproj" -c Release -o /app/publish --no-restore
 
 # final stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "PayrollEngine.WebApp.Server.dll"] 
