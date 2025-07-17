@@ -129,6 +129,21 @@ The case input attributes can be used to control the behavior of user input.
 
 👉 Input Attributes [Reference](Input-Attributes.md).
 
+## Docker Support
+Build the Docker image:
+   ```bash
+   docker build -t payroll-webapp .
+   ```
+
+Run with backend connection:
+   ```bash
+   docker run -p 8081:5001 \
+     -e BackendAddress="http://localhost:5000" \
+     payroll-webapp
+   ```
+
+Verify web app is accessible at http://localhost:8081
+
 ## Solution projects
 The.NET Core application consists of the following projects:
 
