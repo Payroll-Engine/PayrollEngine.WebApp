@@ -5,17 +5,15 @@
 		<Version>0.9.0-beta.6</Version>
 		<FileVersion>0.9.0</FileVersion>
 		<InformationalVersion>0.9.0-beta.6</InformationalVersion>
-		<Description>Payroll Engine WebApp</Description>
-		<Company>Payroll Engine GmbH</Company>
-		<Product>Payroll Engine</Product>
-		<Copyright>Copyright © 2024</Copyright>
-		<NeutralLanguage>en</NeutralLanguage>
-		<Nullable>enable</Nullable>
 		<Authors>Jani Giannoudis</Authors>
 		<Company>Software Consulting Giannoudis</Company>
 		<Copyright>2025 Software Consulting Giannoudis</Copyright>
+		<Product>Payroll Engine WebApp</Product>
 		<PackageProjectUrl>https://payrollengine.org/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Payroll-Engine/PayrollEngine.WebApp.git</RepositoryUrl>
+		<!-- Docker build compatibility: suppress nullable warnings and treat them as non-blocking -->
+		<NoWarn>1701;1702;8034;AD0001;RMG020;RMG012;CS8618</NoWarn>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	</PropertyGroup>
 
