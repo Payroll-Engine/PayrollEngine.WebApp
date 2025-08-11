@@ -183,20 +183,24 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
     /// <summary>
     /// Expand all case changes
     /// </summary>
-    private void ExpandItemGroups() =>
-        CaseValuesGrid?.ExpandAllGroups();
+    private async Task ExpandItemGroupsAsync()
+    {
+        if (CaseValuesGrid != null)
+        {
+            await CaseValuesGrid.ExpandAllGroupsAsync();
+        }
+    }
 
     /// <summary>
     /// Collapse all case changes
     /// </summary>
-    private void CollapseItemGroups() =>
-        CaseValuesGrid?.CollapseAllGroups();
-
-    /// <summary>
-    /// Reset the expand state
-    /// </summary>
-    protected void ResetItemGroups() =>
-        CaseValuesGrid?.ExpandAllGroups();
+    private async Task CollapseItemGroupsAsync()
+    {
+        if (CaseValuesGrid != null)
+        {
+            await CaseValuesGrid.CollapseAllGroupsAsync();
+        }
+    }
 
     /// <summary>
     /// Reset all grid filters
@@ -714,7 +718,7 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
             await InitGridAsync();
             if (StartExpandGroups)
             {
-                ExpandItemGroups();
+                await ExpandItemGroupsAsync();
                 StateHasChanged();
                 StartExpandGroups = false;
             }

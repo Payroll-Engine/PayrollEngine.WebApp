@@ -234,9 +234,9 @@ public abstract class MainLayoutBase : MainComponentBase
         }
         else
         {
-            darkModeSetting = await ThemeProvider.GetSystemPreference();
+            darkModeSetting = await ThemeProvider.GetSystemDarkModeAsync();
         }
-        var darkMode = darkModeSetting ?? await ThemeProvider.GetSystemPreference();
+        var darkMode = darkModeSetting ?? await ThemeProvider.GetSystemDarkModeAsync();
         if (darkMode != IsDarkMode)
         {
             IsDarkMode = darkMode;

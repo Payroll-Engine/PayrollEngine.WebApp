@@ -99,13 +99,13 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
         }
     }
 
-    private void ExpandItemGroups() =>
-        ItemsGrid.ExpandAllGroups();
+    private async Task ExpandItemGroupsAsync() =>
+        await ItemsGrid.ExpandAllGroupsAsync();
 
-    private void CollapseItemGroups() =>
-        ItemsGrid.CollapseAllGroups();
+    private async Task CollapseItemGroupsAsync() =>
+        await ItemsGrid.CollapseAllGroupsAsync();
 
-    private async Task OnSelectedItemChanged(TItem item) =>
+    private async Task OnSelectedItemChangedAsync(TItem item) =>
         await SelectedItemChanged.InvokeAsync(item);
 
     private async Task AddItemAsync()
@@ -190,14 +190,14 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
         newObject.Parent = parent;
 
         // notification
-        await OnSelectedItemChanged(newObject);
+        await OnSelectedItemChangedAsync(newObject);
 
         // reset grid selection
         await ItemsGrid.SetSelectedItemAsync(newObject);
     }
 
     private async Task SelectedItemChangedAsync(TItem item) =>
-        await OnSelectedItemChanged(item);
+        await OnSelectedItemChangedAsync(item);
 
     private string RowStyleHandler(TItem item, int _)
     {

@@ -18,7 +18,7 @@
         @if (HasParent)
         {
             <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.App.ExpandGroups" Placement="Placement.Top">
-                <MudIconButton @onclick="@ExpandItemGroups"
+                <MudIconButton @onclick="@ExpandItemGroupsAsync"
                                Color="Color.Primary"
                                Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.AccountTree"
@@ -26,7 +26,7 @@
                                Size="Size.Small" />
             </MudTooltip>
             <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.App.CollapseGroups" Placement="Placement.Top">
-                <MudIconButton @onclick="@CollapseItemGroups"
+                <MudIconButton @onclick="@CollapseItemGroupsAsync"
                                Color="Color.Primary"
                                Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.TableRows"
