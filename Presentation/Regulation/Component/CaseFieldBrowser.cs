@@ -9,7 +9,7 @@ using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
-internal class CaseFieldBrowser : ItemBrowserBase
+internal sealed class CaseFieldBrowser : ItemBrowserBase
 {
     internal CaseFieldBrowser(Tenant tenant, Payroll payroll, List<Client.Model.Regulation> regulations,
         IPayrollService payrollService, ICaseService caseService, ICaseFieldService caseFieldService) :

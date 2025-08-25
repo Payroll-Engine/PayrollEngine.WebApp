@@ -9,7 +9,7 @@ using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
-internal class LookupBrowser : ItemBrowserBase
+internal sealed class LookupBrowser : ItemBrowserBase
 {
     internal LookupBrowser(Tenant tenant, Payroll payroll, List<Client.Model.Regulation> regulations,
         IPayrollService payrollService, ILookupService lookupService) :

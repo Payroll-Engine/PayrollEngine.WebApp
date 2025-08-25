@@ -9,7 +9,7 @@ using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
-internal class ReportBrowser : ItemBrowserBase
+internal sealed class ReportBrowser : ItemBrowserBase
 {
     internal ReportBrowser(Tenant tenant, Payroll payroll, List<Client.Model.Regulation> regulations,
         IPayrollService payrollService, IReportService reportService) :

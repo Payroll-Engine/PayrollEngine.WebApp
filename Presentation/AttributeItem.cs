@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace PayrollEngine.WebApp.Presentation;
 
@@ -64,7 +65,7 @@ public class AttributeItem
             }
             if (Value is string stringValue && !string.IsNullOrWhiteSpace(stringValue))
             {
-                if (decimal.TryParse(stringValue, out var value))
+                if (decimal.TryParse(stringValue, CultureInfo.InvariantCulture, out var value))
                 {
                     return value;
                 }

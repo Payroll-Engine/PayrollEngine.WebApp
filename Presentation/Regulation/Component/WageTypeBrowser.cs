@@ -9,7 +9,7 @@ using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
-internal class WageTypeBrowser : ItemBrowserBase
+internal sealed class WageTypeBrowser : ItemBrowserBase
 {
     internal WageTypeBrowser(Tenant tenant, Payroll payroll, List<Client.Model.Regulation> regulations,
         IPayrollService payrollService, IWageTypeService wageTypeService) :

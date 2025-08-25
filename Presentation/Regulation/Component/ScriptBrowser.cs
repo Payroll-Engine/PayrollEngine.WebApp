@@ -9,7 +9,7 @@ using Tenant = PayrollEngine.Client.Model.Tenant;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
-internal class ScriptBrowser : ItemBrowserBase
+internal sealed class ScriptBrowser : ItemBrowserBase
 {
     internal ScriptBrowser(Tenant tenant, Payroll payroll, List<Client.Model.Regulation> regulations,
         IPayrollService payrollService, IScriptService scriptService) :
