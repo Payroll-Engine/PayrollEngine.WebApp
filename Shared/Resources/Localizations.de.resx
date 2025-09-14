@@ -1861,6 +1861,12 @@
 	<data name="SnackBar.Close" xml:space="preserve">
     <value>Snackbar schliessen</value>
   </data>
+	<data name="TimePicker.Open" xml:space="preserve">
+    <value>Öffnen</value>
+  </data>
+	<data name="DatePicker.Open" xml:space="preserve">
+    <value>Öffnen</value>
+  </data>
 	<data name="DatePicker.PrevMonth" xml:space="preserve">
     <value>Vorheriger Monat {0}</value>
   </data>

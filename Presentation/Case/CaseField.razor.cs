@@ -15,6 +15,8 @@ public partial class CaseField
     public CaseFieldSet Field { get; set; }
     [Parameter]
     public CultureInfo Culture { get; set; }
+    [Parameter]
+    public CultureInfo ValueCulture { get; set; }
 
     [Inject]
     private IDialogService DialogService { get; set; }

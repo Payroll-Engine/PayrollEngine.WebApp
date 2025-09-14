@@ -78,9 +78,6 @@
     private decimal? StepSize { get; set; }
     private string Format { get; set; }
 
-    private string CurrencySymbol =>
-        Culture?.NumberFormat.CurrencySymbol;
-
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
@@ -26,6 +27,7 @@ public partial class ActionGrid : IDisposable
     private ILocalizerService LocalizerService { get; set; }
 
     private Localizer Localizer => LocalizerService.Localizer;
+    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     private MudDataGrid<ActionItem> Grid { get; set; }
     private ItemCollection<ActionItem> Actions { get; set; }
 

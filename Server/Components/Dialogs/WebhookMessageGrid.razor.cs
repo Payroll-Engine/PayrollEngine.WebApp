@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Service;
-using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
@@ -33,6 +33,7 @@ public partial class WebhookMessageGrid : IDisposable
 
     private Localizer Localizer => LocalizerService.Localizer;
     private ItemCollection<WebhookMessage> WebhookMessages { get; } = new();
+    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     private MudDataGrid<WebhookMessage> Grid { get; set; }
 
     #region Actions

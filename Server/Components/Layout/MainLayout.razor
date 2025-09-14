@@ -178,7 +178,9 @@
         }
         <MudMainContent>
             <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="ma-0">
-                @Body
+                <ErrorHandler>
+                    @Body
+                </ErrorHandler>
             </MudContainer>
         </MudMainContent>
     </MudLayout>

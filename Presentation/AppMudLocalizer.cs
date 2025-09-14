@@ -85,7 +85,11 @@ public class AppMudLocalizer(IStringLocalizerFactory factory, UserSession userSe
         { "MudInput_Decrement", nameof(InputLocalizer.Increment) },
         { "MudInput_Increment", nameof(InputLocalizer.Decrement) },
 
+        // time picker
+        { "MudTimePicker_Open", nameof(TimePickerLocalizer.Open) },
+
         // date picker
+        { "MudBaseDatePicker_Open", nameof(DatePickerLocalizer.Open) },
         { "MudBaseDatePicker_NextMonth", nameof(DatePickerLocalizer.NextMonth) },
         { "MudBaseDatePicker_NextYear", nameof(DatePickerLocalizer.NextYear) },
         { "MudBaseDatePicker_PrevMonth", nameof(DatePickerLocalizer.PrevMonth) },

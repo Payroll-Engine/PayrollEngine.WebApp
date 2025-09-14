@@ -35,7 +35,7 @@ public class User : WebApp.User, IViewModel, IViewAttributeObject, IKeyEquatable
     /// <summary>If password is currently set or not</summary>
     public bool PasswordSet { get; set; }
 
-    /// <summary>The tenant Id</summary>
+    /// <summary>The tenant id</summary>
     public int TenantId { get; set; }
 
     #region Attributes

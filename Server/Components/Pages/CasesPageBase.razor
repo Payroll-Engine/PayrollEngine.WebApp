@@ -334,7 +334,8 @@ else
             <CellTemplate>
                 @* ReSharper disable once RedundantCast *@
                 @ValueFormatter.ToString((string)context.Item.Value,
-                         context.Item.ValueType, PageCulture)
+                         context.Item.ValueType,
+                         culture: GetCultureInfo(context.Item.Culture))
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.NumericValue" CellStyle="text-align: right"

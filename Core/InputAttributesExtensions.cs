@@ -177,9 +177,6 @@ public static class InputAttributesExtensions
     public static TimePickerType? GetValueTimePicker(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetEnumAttributeValue<TimePickerType>(InputAttributes.ValueTimePicker, culture.Name);
 
-    public static string GetCulture(this Dictionary<string, object> attributes, CultureInfo culture) =>
-        attributes.GetStringAttributeValue(InputAttributes.Culture, culture.Name);
-
     public static int? GetMinIntegerValue(this Dictionary<string, object> attributes, CultureInfo culture) =>
         attributes.GetIntegerAttributeValue(InputAttributes.MinValue, culture.Name);
 

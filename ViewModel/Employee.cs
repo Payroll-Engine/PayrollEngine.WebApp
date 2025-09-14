@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using PayrollEngine.Client.Model;
 
@@ -69,15 +68,6 @@ public class Employee : Client.Model.Employee, IViewModel,
                 return string.Empty;
             }
             return string.Join(',', Divisions);
-        }
-        set
-        {
-            Divisions ??= [];
-            Divisions.Clear();
-            if (value != null)
-            {
-                Divisions.AddRange(value.Split(',', StringSplitOptions.RemoveEmptyEntries));
-            }
         }
     }
 

@@ -157,8 +157,14 @@
             </CellTemplate>
         </PropertyColumn>
         <PropertyColumn Property="x => x.KindName" Title="@Localizer.PayrunResult.KindName" />
+        <PropertyColumn Property="x => x.ResultCulture" Title="@Localizer.Shared.Culture" />
         <PropertyColumn Property="x => x.ResultValue" Title="@Localizer.Shared.Value" />
-        <PropertyColumn Property="x => x.ResultNumericValue" Title="@Localizer.Shared.NumericValue" Format="0.##" />
+        <PropertyColumn Property="x => x.ResultNumericValue" Title="@Localizer.Shared.NumericValue">
+            <CellTemplate>
+                @ValueFormatter.ToString((object)context.Item.ResultNumericValue,
+                                context.Item.ResultType, GetCultureInfo(context.Item.ResultCulture))
+            </CellTemplate>
+        </PropertyColumn>
         <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration" />
     </Columns>
     <PagerContent>

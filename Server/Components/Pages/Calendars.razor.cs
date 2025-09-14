@@ -22,7 +22,7 @@ public partial class Calendars() : EditItemPageBase<Calendar, Query, Dialogs.Cal
     protected override async Task<bool> SetupDialogParametersAsync(DialogParameters parameters, ItemOperation operation, Calendar item)
     {
         // culture parameter
-        parameters.Add(nameof(Dialogs.CalendarDialog.Calendar), PageCulture);
+        parameters.Add(nameof(Dialogs.CalendarDialog.CultureInfo), PageCulture);
         return await base.SetupDialogParametersAsync(parameters, operation, item);
     }
 }

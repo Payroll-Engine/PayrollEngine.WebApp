@@ -66,8 +66,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>(WorkingItems work
             // ensure culture parameter
             if (IsDialogParameter(nameof(Tenant.Culture)))
             {
-                var culture = parameters.TryGet<string>(nameof(Tenant.Culture));
-                if (culture == null)
+                if (parameters[nameof(Tenant.Culture)] == null)
                 {
                     parameters.Add(nameof(Tenant.Culture), GetTenantCulture(itemTenant));
                 }
@@ -274,7 +273,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>(WorkingItems work
     }
 
     /// <summary>
-    /// Setup the dialog parameters
+    /// Set up the dialog parameters
     /// </summary>
     /// <param name="parameters">The parameter collection</param>
     /// <param name="operation">The item operation</param>

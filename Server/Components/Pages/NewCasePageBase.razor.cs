@@ -50,6 +50,40 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     /// </summary>
     private CultureInfo CaseCulture { get; set; }
 
+    private CultureInfo GetValueCulture(CaseField caseField)
+    {
+        // priority 1: case field culture
+        if (!string.IsNullOrWhiteSpace(caseField.Culture))
+        {
+            return new(caseField.Culture);
+        }
+
+        // priority 2: employee culture
+        if (Employee != null && !string.IsNullOrWhiteSpace(Employee.Culture))
+        {
+            return new(Employee.Culture);
+        }
+
+        // priority 3: division culture
+        if (Payroll != null && Payroll.DivisionId > 0)
+        {
+            var division = DivisionService.GetAsync<ViewModel.Division>(new(Tenant.Id), Payroll.DivisionId).Result;
+            if (division != null && !string.IsNullOrWhiteSpace(division.Culture))
+            {
+                return new(division.Culture);
+            }
+        }
+
+        // priority 4: tenant culture
+        if (CaseCulture == null && !string.IsNullOrWhiteSpace(Tenant.Culture))
+        {
+            return new(Tenant.Culture);
+        }
+
+        // priority 5: system culture
+        return CultureInfo.CurrentCulture;
+    }
+
     /// <summary>
     /// Setup Case culture
     /// <remarks>[culture by priority]: employee > division > tenant > system</remarks>

@@ -42,7 +42,6 @@ The case input attributes can be used to control the behavior of user input.
 `input.valuePickerOpen`      | Value date picker mode <sup>6)</sup>      | string        | day      | date                     |
 `input.valuePickerStatic`    | Open input value editor                   | bool          | false    | date, time               |
 `input.valueTimePicker`      | Time value picker <sup>9)</sup>           | string        | -        | decimal                  |
-`input.culture`              | Display culture <sup>10)</sup>            | string        | system   | money                    |
 `input.minValue`             | Minimum input value                       | datetime/num  | -        | numeric, date, date-time |
 `input.maxValue`             | Maximum input value                       | datetime/num  | -        | numeric, date, date-time |
 `input.stepSize`             | Step size on spin buttons                 | num           | 1        | numeric                  |
@@ -52,12 +51,12 @@ The case input attributes can be used to control the behavior of user input.
 `input.check`                | Input checkbox instead of switch          | bool          | false    | bool toggles             |
 `input.valueHistory`         | Enable value history                      | bool          | false    | all                      |
 | <b>Attachment</b> |
-`input.attachment`           | Enable document upload <sup>11)</sup>      | string        | none    | all                      |
-`input.attachmentExtensions` | Allowed files for upload <sup>12)</sup>    | string        | -       | all                      |
+`input.attachment`           | Enable document upload <sup>10)</sup>      | string        | none    | all                      |
+`input.attachmentExtensions` | Allowed files for upload <sup>11)</sup>    | string        | -       | all                      |
 | <b>List</b> |
-`input.list`                 | Provide list of possible inputs           | object[] <sup>13)</sup>  | -        | all           |
-`input.listValues`           | Provide values for a list                 | object[] <sup>14)</sup>  | key      | all           |
-`input.listSelection`        | Preselected list value                    | string <sup>15)</sup>    | -        | all           |
+`input.list`                 | Provide list of possible inputs           | object[] <sup>12)</sup>  | -        | all           |
+`input.listValues`           | Provide values for a list                 | object[] <sup>13)</sup>  | key      | all           |
+`input.listSelection`        | Preselected list value                    | string <sup>14)</sup>    | -        | all           |
 <br/>
 
 
@@ -72,12 +71,11 @@ The case input attributes can be used to control the behavior of user input.
 <sup>7)</sup> Date picker type: `DatePicker` (date only), `DateTimePicker` (date and time)<br/>
 <sup>8)</sup> Text box input mask `*`<br/>
 <sup>9)</sup> Value time picker for decimal values: `Day24`, `Day12`, `DayHour`, `DayMinute` or `HourMinute`<br/>
-<sup>10)</sup> Culture names https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c<br/>
-<sup>11)</sup> Document attachment mode: `None`, `Optional`, `Mandatory`<br/>
-<sup>12)</sup> Comma separated string, example: `.jpg,.png`<br/>
-<sup>13)</sup> JSON array with field value type<br/>
-<sup>14)</sup> JSON array with the same count of list values<br/>
-<sup>15)</sup> Selected list value when available otherwise the selected list item (field value type)<br/>
+<sup>10)</sup> Document attachment mode: `None`, `Optional`, `Mandatory`<br/>
+<sup>11)</sup> Comma separated string, example: `.jpg,.png`<br/>
+<sup>12)</sup> JSON array with field value type<br/>
+<sup>13)</sup> JSON array with the same count of list values<br/>
+<sup>14)</sup> Selected list value when available otherwise the selected list item (field value type)<br/>
 
 
 ## Text input mask

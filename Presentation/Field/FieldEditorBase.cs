@@ -43,6 +43,12 @@ public abstract class FieldEditorBase : ComponentBase
     protected Localizer Localizer => LocalizerService.Localizer;
 
     /// <summary>
+    /// Currency symbol
+    /// </summary>
+    protected string CurrencySymbol => Culture?.NumberFormat.CurrencySymbol;
+
+
+    /// <summary>
     /// Value label
     /// </summary>
     protected string ValueLabel { get; private set; }
@@ -98,20 +104,6 @@ public abstract class FieldEditorBase : ComponentBase
             return;
         }
         ValueLabel = label;
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
-    {
-        // culture
-        var culture = Field.Attributes.GetCulture(Culture);
-        if (!string.IsNullOrWhiteSpace(culture) && !string.Equals(culture, Culture.Name))
-        {
-            // overwrite parameter value
-            Culture = new CultureInfo(culture);
-        }
-
-        await base.OnParametersSetAsync();
     }
 
     /// <inheritdoc />

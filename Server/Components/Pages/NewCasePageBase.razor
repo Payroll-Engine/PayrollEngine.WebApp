@@ -75,6 +75,7 @@
                                             }
                                             @* case field with a custom culture *@
                                             <CaseField Culture="@CaseCulture"
+                                                       ValueCulture="@GetValueCulture(caseField)"
                                                        Field="@caseField" />
                                         }
                                     }

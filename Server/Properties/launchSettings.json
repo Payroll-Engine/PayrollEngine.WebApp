@@ -22,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "payrunjobs",
+      "launchUrl": "calendars",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

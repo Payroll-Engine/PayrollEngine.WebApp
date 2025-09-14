@@ -10,7 +10,7 @@
     [Parameter] public CultureInfo Culture { get; set; }
     [Inject] private ICultureService CultureService { get; set; }
 
-    private List<LabeledValue<Month?>> Months { get; set; } = [];
+    private List<LabeledValue<Month?>> Months { get; } = [];
 
     private void SetupMonths()
     {

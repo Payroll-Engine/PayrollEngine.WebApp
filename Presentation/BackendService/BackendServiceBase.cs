@@ -59,7 +59,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     /// <summary>Test for valid read state</summary>
     protected virtual bool CanRead() => true;
 
-    /// <summary>Setup the api service query</summary>
+    /// <summary>Set up the api service query</summary>
     protected virtual void SetupReadQuery(TQuery query, IDictionary<string, object> parameters = null)
     {
     }
@@ -133,7 +133,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
                 return gridData;
             }
 
-            // give option to setup result item before any other operation
+            // give option to set up result item before any other operation
             ProcessReceivedItems(result.Items);
 
             Log.Trace($"response from {typeof(TService).Name}: {result.Items.Length} of {result.Count}");

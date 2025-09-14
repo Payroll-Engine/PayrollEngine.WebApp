@@ -123,7 +123,7 @@ public class RegulationField
     /// The value format
     /// </summary>
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
-    public string Format { get; set; }
+    public string Format { get; init; }
 
     /// <summary>
     /// The UI component type

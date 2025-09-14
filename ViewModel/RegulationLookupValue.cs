@@ -7,7 +7,7 @@ using PayrollEngine.WebApp.Shared;
 namespace PayrollEngine.WebApp.ViewModel;
 
 /// <summary>
-/// View model regulation lookup valu
+/// View model regulation lookup value
 /// </summary>
 public class RegulationLookupValue : LookupValue, IRegulationItem, IKeyEquatable<RegulationLookupValue>
 {

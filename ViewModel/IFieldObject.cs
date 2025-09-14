@@ -31,9 +31,9 @@ public interface IFieldObject : IVariantValue, IAttributeObject
     /// <summary>
     /// Format value
     /// </summary>
-    /// <param name="culture">The culture</param>
+    /// <param name="cultureInfo">The culture</param>
     /// <returns>The culture description</returns>
-    string FormatValue(CultureInfo culture = null);
+    string FormatValue(CultureInfo cultureInfo = null);
 
     /// <summary>
     /// The lookup settings

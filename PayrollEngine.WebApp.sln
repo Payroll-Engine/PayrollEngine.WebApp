@@ -8,8 +8,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5A80DB4-77AE-4360-94B9-660E85A8CBAA}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		asset.json = asset.json
 		Directory.Build.props = Directory.Build.props
+		Dockerfile = Dockerfile
 		Input-Attributes.md = Input-Attributes.md
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject

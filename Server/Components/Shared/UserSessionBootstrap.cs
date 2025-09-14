@@ -72,8 +72,12 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
                 ClientModel.Payroll payroll = null;
                 Employee employee = null;
 
-                // startup working objects
+                // startup tenant
                 var tenant = await GetStartupTenant(tenantService, startupConfiguration.StartupTenant);
+                if (tenant == null && !string.IsNullOrWhiteSpace(startupConfiguration.StartupTenant))
+                {
+                    throw new PayrollException($"Unknown tenant {startupConfiguration.StartupTenant}.");
+                }
                 if (tenant != null)
                 {
                     // startup user

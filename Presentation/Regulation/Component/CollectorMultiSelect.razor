@@ -1,13 +1,13 @@
 ﻿@using PayrollEngine.WebApp.Shared
 
-@inject Localizer Localizer;
+@inject ILocalizerService LocalizerService;
 
 <MudSelect T="string"
-           Label="@Item.GetItemLabel(Field, Localizer)"
+           Label="@Item.GetItemLabel(Field, LocalizerService.Localizer)"
            HelperText="@Item.GetItemHelp(Field)"
            MultiSelection="true"
            SelectAll="true"
-           SelectAllText="@($"Select all {Item.GetItemLabel(Field, Localizer)}")"
+           SelectAllText="@($"Select all {Item.GetItemLabel(Field, LocalizerService.Localizer)}")"
            SelectedValues="SelectedCollectors" SelectedValuesChanged="SelectionChangedAsync"
            Value="@CollectorsAsString"
            Disabled="@(Collectors == null || Collectors.Count < 1)"
@@ -21,3 +21,4 @@
         }
     }
 </MudSelect>
+

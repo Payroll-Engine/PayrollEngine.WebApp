@@ -2077,6 +2077,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        internal static string DatePicker_Open {
+            get {
+                return ResourceManager.GetString("DatePicker.Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Previous month {0}.
         /// </summary>
         internal static string DatePicker_PrevMonth {
@@ -6618,6 +6627,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Tenant_UserTenant {
             get {
                 return ResourceManager.GetString("Tenant.UserTenant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        internal static string TimePicker_Open {
+            get {
+                return ResourceManager.GetString("TimePicker.Open", resourceCulture);
             }
         }
         

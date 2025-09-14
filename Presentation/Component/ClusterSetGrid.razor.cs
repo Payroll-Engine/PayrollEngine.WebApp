@@ -23,7 +23,8 @@ public partial class ClusterSetGrid : IDisposable
     [Inject]
     private ILocalizerService LocalizerService { get; set; }
 
-    private ItemCollection<ClusterSet> ClusterSets { get; set; } = new();
+    private ItemCollection<ClusterSet> ClusterSets { get; } = new();
+    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     private MudDataGrid<ClusterSet> Grid { get; set; }
     private Localizer Localizer => LocalizerService.Localizer;
 

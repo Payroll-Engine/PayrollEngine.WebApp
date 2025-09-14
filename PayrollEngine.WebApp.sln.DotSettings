@@ -4,6 +4,7 @@
 	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/FileMasksToSkip/=Localizations_002Eel_002Eresx/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/FileMasksToSkip/=Localizations_002Eel_002Eresx/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SearchAndNavigation/FileMasksToSkip/=_002A_002E_002A_002Eresx/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/GrammarAndSpelling/GrammarChecking/Exceptions/=ENVIRONMENT_0020environment/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Adaptor/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=caseadmin/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=caserelations/@EntryIndexedValue">True</s:Boolean>

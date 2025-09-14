@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Service;
-using PayrollEngine.WebApp.Presentation;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;
@@ -32,7 +32,8 @@ public partial class PayrunParameterGrid : IDisposable
     private ILocalizerService LocalizerService { get; set; }
 
     private Localizer Localizer => LocalizerService.Localizer;
-    private ItemCollection<PayrunParameter> PayrunParameters { get; set; } = new();
+    private ItemCollection<PayrunParameter> PayrunParameters { get; } = new();
+    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     private MudDataGrid<PayrunParameter> Grid { get; set; }
 
     #region Actions

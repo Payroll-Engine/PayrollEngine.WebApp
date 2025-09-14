@@ -62,12 +62,6 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
         !Mandatory || (Mandatory && HasValue);
 
     /// <summary>
-    /// Culture
-    /// </summary>
-    [JsonIgnore]
-    public string Culture => null;
-
-    /// <summary>
     /// Test for value
     /// </summary>
     [JsonIgnore]
@@ -140,19 +134,14 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     /// <summary>
     /// Format value
     /// </summary>
-    /// <param name="culture">Culture</param>
-    public string FormatValue(CultureInfo culture = null)
+    /// <param name="cultureInfo">Culture</param>
+    public string FormatValue(CultureInfo cultureInfo = null)
     {
-        // priority 1: object culture
-        if (!string.IsNullOrWhiteSpace(Culture))
-        {
-            culture = new CultureInfo(Culture);
-        }
-        // priority 2: parameter culture
-        // priority 3: system culture
-        culture ??= CultureInfo.CurrentCulture;
+        // priority 1: parameter culture
+        // priority 2: system culture
+        cultureInfo ??= CultureInfo.CurrentCulture;
 
-        return ValueFormatter.ToString(Value, ValueType, culture);
+        return ValueFormatter.ToString(Value, ValueType, cultureInfo);
     }
 
     #endregion

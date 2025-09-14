@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client;
 using PayrollEngine.WebApp.Shared;
-using PayrollEngine.WebApp.Presentation.Component;
 
-namespace PayrollEngine.WebApp.Presentation;
+namespace PayrollEngine.WebApp.Presentation.Component;
 
 /// <summary>
 /// extension methods for <see cref="IDialogService"/>
@@ -24,12 +23,16 @@ public static class DialogServiceExtensions
     /// <param name="cancelText">Cancel-button text</param>
     /// <param name="icon">Display icon</param>
     /// <param name="iconColor">Display icon color</param>
+    /// <param name="submitColor">Submit button color</param>
+    /// <param name="submitVariant">Submit variant</param>
     /// <returns>True for ok-button, otherwise false</returns>
     public static async Task<bool> ShowMessageBoxAsync(this IDialogService dialogService,
         string title, string message, string yesText = "OK",
         string noText = null, string cancelText = null,
         string icon = Icons.Material.Filled.Info,
-        Color iconColor = Color.Info)
+        Color iconColor = Color.Info,
+        Color submitColor = Color.Primary,
+        Variant submitVariant = Variant.Outlined)
     {
         var options = new MessageBoxOptions
         {
@@ -42,7 +45,9 @@ public static class DialogServiceExtensions
         {
             { nameof(MessageBoxDialog.Options), options },
             { nameof(MessageBoxDialog.Icon), icon },
-            { nameof(MessageBoxDialog.IconColor), iconColor }
+            { nameof(MessageBoxDialog.IconColor), iconColor },
+            { nameof(MessageBoxDialog.SubmitColor), submitColor },
+            { nameof(MessageBoxDialog.SubmitVariant), submitVariant }
         };
         var result = await (await dialogService.ShowAsync<MessageBoxDialog>(title, parameters)).Result;
         return result != null && !result.Canceled;
@@ -59,12 +64,16 @@ public static class DialogServiceExtensions
     /// <param name="cancelText">Cancel-button text</param>
     /// <param name="icon">Display icon</param>
     /// <param name="iconColor">Display icon color</param>
+    /// <param name="submitColor">Submit button color</param>
+    /// <param name="submitVariant">Submit variant</param>
     /// <returns>True for ok-button, otherwise false</returns>
     public static async Task<bool> ShowMessageBoxAsync(this IDialogService dialogService,
         string title, MarkupString message, string yesText = "OK",
         string noText = null, string cancelText = null,
         string icon = Icons.Material.Filled.Info,
-        Color iconColor = Color.Info)
+        Color iconColor = Color.Info,
+        Color submitColor = Color.Primary,
+        Variant submitVariant = Variant.Outlined)
     {
         var options = new MessageBoxOptions
         {
@@ -77,7 +86,9 @@ public static class DialogServiceExtensions
         {
             { nameof(MessageBoxDialog.Options), options },
             { nameof(MessageBoxDialog.Icon), icon },
-            { nameof(MessageBoxDialog.IconColor), iconColor }
+            { nameof(MessageBoxDialog.IconColor), iconColor },
+            { nameof(MessageBoxDialog.SubmitColor), submitColor },
+            { nameof(MessageBoxDialog.SubmitVariant), submitVariant }
         };
         var result = await (await dialogService.ShowAsync<MessageBoxDialog>(title, parameters)).Result;
         return result != null && !result.Canceled;
@@ -93,11 +104,13 @@ public static class DialogServiceExtensions
     /// <returns>True for ok-button, otherwise false</returns>
     public static async Task<bool> ShowDeleteMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, string message) =>
-        await ShowMessageBoxAsync(dialogService, title, message,
+        await dialogService.ShowMessageBoxAsync(title, message,
             yesText: localizer.Dialog.Delete,
             cancelText: localizer.Dialog.Cancel,
             icon: Icons.Material.Filled.Delete,
-            iconColor: Color.Error);
+            iconColor: Color.Error,
+            submitColor: Color.Error,
+            submitVariant: Variant.Filled);
 
     /// <summary>
     /// Show delete message box with markup text
@@ -109,11 +122,13 @@ public static class DialogServiceExtensions
     /// <returns>True for ok-button, otherwise false</returns>
     public static async Task<bool> ShowDeleteMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, MarkupString message) =>
-        await ShowMessageBoxAsync(dialogService, title, message,
+        await dialogService.ShowMessageBoxAsync(title, message,
             yesText: localizer.Dialog.Delete,
             cancelText: localizer.Dialog.Cancel,
             icon: Icons.Material.Filled.Delete,
-            iconColor: Color.Error);
+            iconColor: Color.Error,
+            submitColor: Color.Error,
+            submitVariant: Variant.Filled);
 
     /// <summary>
     /// Show error message box
@@ -124,7 +139,7 @@ public static class DialogServiceExtensions
     /// <param name="message">Dialog message</param>
     public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, string message) =>
-        await ShowMessageBoxAsync(dialogService, title, message,
+        await dialogService.ShowMessageBoxAsync(title, message,
             yesText: localizer.Dialog.Ok,
             cancelText: string.Empty,
             icon: Icons.Material.Filled.ErrorOutline,
@@ -139,7 +154,7 @@ public static class DialogServiceExtensions
     /// <param name="message">Dialog message</param>
     public static async Task ShowErrorMessageBoxAsync(this IDialogService dialogService, Localizer localizer,
         string title, MarkupString message) =>
-        await ShowMessageBoxAsync(dialogService, title, message,
+        await dialogService.ShowMessageBoxAsync(title, message,
             yesText: localizer.Dialog.Ok,
             cancelText: string.Empty,
             icon: Icons.Material.Filled.ErrorOutline,
@@ -159,6 +174,6 @@ public static class DialogServiceExtensions
             .Replace("\r\n", "<br />")
             .Replace(". ", ".<br />")
             .EnsureEnd("."));
-        await ShowErrorMessageBoxAsync(dialogService, localizer, title, message);
+        await dialogService.ShowErrorMessageBoxAsync(localizer, title, message);
     }
 }

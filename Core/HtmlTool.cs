@@ -30,7 +30,9 @@ public static class HtmlTool
         }
         if (noReferer)
         {
+            // ReSharper disable StringLiteralTypo
             buffer.Append("rel=\"noopener noreferrer\" ");
+            // ReSharper restore StringLiteralTypo
         }
         buffer.Append("href=\"");
         buffer.Append(url);

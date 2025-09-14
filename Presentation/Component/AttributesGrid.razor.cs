@@ -23,7 +23,8 @@ public partial class AttributesGrid : IDisposable
     [Inject]
     private ILocalizerService LocalizerService { get; set; }
 
-    private ItemCollection<AttributeItem> Attributes { get; set; } = new();
+    private ItemCollection<AttributeItem> Attributes { get; } = new();
+    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     private MudDataGrid<AttributeItem> Grid { get; set; }
 
     private Localizer Localizer => LocalizerService.Localizer;

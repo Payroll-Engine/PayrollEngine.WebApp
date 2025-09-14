@@ -13,15 +13,15 @@
     <DialogActions>
         @if (Options.CancelText != null)
         {
-            <MudButton Color="Color.Error" OnClick="Cancel">@Options.CancelText</MudButton>
+            <MudButton Color="Color.Primary" OnClick="Cancel">@Options.CancelText</MudButton>
         }
         @if (Options.NoText != null)
         {
-            <MudButton Color="Color.Secondary" OnClick="Cancel">@Options.NoText</MudButton>
+            <MudButton Color="Color.Primary" OnClick="Cancel">@Options.NoText</MudButton>
         }
         @if (Options.YesText != null)
         {
-            <MudButton Color="Color.Primary" OnClick="Submit">@Options.YesText</MudButton>
+            <MudButton Color="@SubmitColor" Variant="@SubmitVariant" OnClick="Submit">@Options.YesText</MudButton>
         }
     </DialogActions>
 </MudDialog>
@@ -46,6 +46,8 @@
     [Parameter] public MessageBoxOptions Options { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public Color IconColor { get; set; } = Color.Info;
+    [Parameter] public Color SubmitColor { get; set; } = Color.Primary;
+    [Parameter] public Variant SubmitVariant { get; set; }
 
     [Inject]
     private IThemeService ThemeService { get; set; }

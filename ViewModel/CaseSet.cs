@@ -336,7 +336,6 @@ public class CaseSet : Case, IDisposable
             {
                 await GetValidStateAsync(relatedCase, validity);
             }
-            return validity;
         }
 
         return validity;

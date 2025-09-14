@@ -54,6 +54,20 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     protected RenderTreeBuilder __builder { get; set; }
 
     /// <summary>
+    /// Get culture info  with fallback to the page culture
+    /// </summary>
+    /// <param name="culture"></param>
+    /// <returns></returns>
+    protected CultureInfo GetCultureInfo(string culture)
+    {
+        if (string.IsNullOrWhiteSpace(culture))
+        {
+            return PageCulture;
+        }
+        return CultureService.GetCulture(culture)?.CultureInfo ?? PageCulture;
+    }
+
+    /// <summary>
     /// Page culture
     /// <remarks>[culture by priority]: user > tenant > system</remarks>
     /// </summary>

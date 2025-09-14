@@ -244,7 +244,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             {
                 Filter = new Equals(nameof(PayrunJob.PayrollId), Payroll.Id)
                     .And(new Equals(nameof(PayrunJob.PayrunId), SelectedPayrun.Id)
-                        .And(new NotEquals(nameof(PayrunJob.JobStatus), PayrunJobStatus.Forecast.ToString()))),
+                        .And(new NotEquals(nameof(PayrunJob.JobStatus), nameof(PayrunJobStatus.Forecast)))),
                 OrderBy = new OrderBy(nameof(PayrunJob.Updated), OrderDirection.Descending),
                 Top = 1
             };
@@ -431,7 +431,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             {
                 Filter = new Equals(nameof(PayrunJob.PayrollId), Payroll.Id)
                     .And(new Equals(nameof(PayrunJob.PayrunId), SelectedPayrun.Id)
-                        .And(new Equals(nameof(PayrunJob.JobStatus), PayrunJobStatus.Forecast.ToString()))),
+                        .And(new Equals(nameof(PayrunJob.JobStatus), nameof(PayrunJobStatus.Forecast)))),
                 OrderBy = new OrderBy(nameof(PayrunJob.Updated), OrderDirection.Descending),
                 Top = 1
             };
@@ -829,7 +829,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// <summary>
     /// Start the payrun parameter dialog
     /// </summary>
-    /// <param name="payrunParameters">The payrun parameters to setup</param>
+    /// <param name="payrunParameters">The payrun parameters to set up</param>
     /// <param name="tenantCulture">The tenant culture</param>
     private async Task SetupPayrunParametersAsync(List<PayrunParameter> payrunParameters, CultureInfo tenantCulture)
     {
@@ -914,7 +914,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// Get user full name
     /// </summary>
     /// <param name="userId">The user id</param>
-    /// <returns>The user name</returns>
+    /// <returns>The username</returns>
     private string GetUserName(int? userId)
     {
         if (!userId.HasValue)

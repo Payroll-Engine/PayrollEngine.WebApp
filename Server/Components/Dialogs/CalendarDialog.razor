@@ -1,4 +1,5 @@
 ﻿@implements PayrollEngine.WebApp.Presentation.IItemValidator
+
 @using System.Globalization
 @using PayrollEngine.WebApp.Presentation.Component
 @using Calendar = PayrollEngine.WebApp.ViewModel.Calendar
@@ -52,7 +53,7 @@
                         </MudSelect>
                         <MudSelect T="Month?" @bind-Value="Calendar.FirstMonthOfYear" Clearable="true"
                                    Label="@Localizer.Calendar.FirstMonthOfYear">
-                            <NullableMonthSelectItems Culture="@Culture" />
+                            <NullableMonthSelectItems Culture="@CultureInfo" />
                         </MudSelect>
                         <MudNumericField T="decimal?" @bind-Value="Calendar.PeriodDayCount"
                                          Label="@Localizer.Calendar.PeriodDayCount"
@@ -68,7 +69,7 @@
                         </MudSelect>
                         <MudSelect T="PayrollEngine.DayOfWeek?" @bind-Value="Calendar.FirstDayOfWeek" Clearable="true"
                                    Label="@Localizer.Calendar.FirstDayOfWeek">
-                            <NullableWeekdaySelectItems Culture="@Culture" />
+                            <NullableWeekdaySelectItems Culture="@CultureInfo" />
                         </MudSelect>
                         <MudSelect T="CalendarWeekMode" @bind-Value="Calendar.WeekMode"
                                    Label="@Localizer.Calendar.WeekMode">
@@ -103,7 +104,7 @@
     MudForm form;
 
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
-    [Parameter] public CultureInfo Culture { get; set; }
+    [Parameter] public CultureInfo CultureInfo { get; set; }
     [Parameter] public Calendar Calendar { get; set; } = new();
 
     [Inject] private ICultureService CultureService { get; set; }
@@ -120,7 +121,7 @@
 
     private string GetDayName(DayOfWeek dayOfWeek)
     {
-        var culture = Culture?.Name ?? CultureInfo.CurrentCulture.Name;
+        var culture = CultureInfo?.Name ?? CultureInfo.CurrentCulture.Name;
         return CultureService.GetCulture(culture).CultureInfo.DateTimeFormat.DayNames[(int)dayOfWeek];
     }
 }

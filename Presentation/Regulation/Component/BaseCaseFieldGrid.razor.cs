@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
 using Task = System.Threading.Tasks.Task;

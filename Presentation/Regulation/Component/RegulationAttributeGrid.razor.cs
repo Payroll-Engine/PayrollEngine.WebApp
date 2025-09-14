@@ -28,6 +28,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
 
     private Localizer Localizer => LocalizerService.Localizer;
     private ItemCollection<AttributeItem> Attributes { get; set; } = new();
+    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     private MudDataGrid<AttributeItem> Grid { get; set; }
 
     private string LocalizedItemName => Localizer.GroupKey(Item.ItemType.ToString());

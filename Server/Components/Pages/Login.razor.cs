@@ -440,9 +440,14 @@ public partial class Login() : PageBase(WorkingItems.None), IDisposable
 
     #region Password change
 
-    private bool InitialPasswordAvailable() =>
-        LoginState == UserLoginState.SetupPassword &&
-        PayrollEngine.UserPassword.IsValid(NewPassword);
+    private bool InitialPasswordAvailable()
+    {
+        if (LoginState != UserLoginState.SetupPassword || string.IsNullOrWhiteSpace(NewPassword))
+        {
+            return false;
+        }
+        return PayrollEngine.UserPassword.IsValid(NewPassword);
+    }
 
     /// <summary>
     /// Set initial password
@@ -488,7 +493,7 @@ public partial class Login() : PageBase(WorkingItems.None), IDisposable
             return;
         }
 
-        // set viewmodel property to a.) avoid calling backend again and b.) not misuse password property 
+        // set viewmodel property to (a) avoid calling backend again and (b) not misuse password property 
         SelectedUser.PasswordSet = true;
         SelectUser(SelectedUser);
     }

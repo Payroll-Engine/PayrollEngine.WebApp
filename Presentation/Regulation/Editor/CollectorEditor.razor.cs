@@ -57,6 +57,10 @@ public partial class CollectorEditor
             {
                 Label = Localizer.Shared.ValueType
             },
+            new(nameof(RegulationCollector.Culture), typeof(TextBox))
+            {
+                Label = Localizer.Shared.Culture
+            },
             new(nameof(RegulationCollector.Threshold), typeof(NumericTextBox<decimal?>))
             {
                 Label = Localizer.Collector.Threshold,

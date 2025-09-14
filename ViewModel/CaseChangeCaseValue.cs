@@ -36,21 +36,8 @@ public class CaseChangeCaseValue : Client.Model.CaseChangeCaseValue, IViewModel,
     /// Format the case value to string
     /// </summary>
     /// <returns>The case value string representation</returns>
-    public string ValueAsString(IValueFormatter valueFormatter, CultureInfo culture)
-    {
-        string valueString;
-        // culture support
-        var cultureAttribute = Attributes.GetCulture(culture);
-        if (ValueType.IsDecimal() && Attributes != null && !string.IsNullOrWhiteSpace(cultureAttribute))
-        {
-            valueString = valueFormatter.ToString(Value, ValueType, culture);
-        }
-        else
-        {
-            valueString = valueFormatter.ToString(Value, ValueType, culture);
-        }
-        return valueString;
-    }
+    public string ValueAsString(IValueFormatter valueFormatter, CultureInfo culture) =>
+        valueFormatter.ToString(Value, ValueType, culture);
 
     /// <inheritdoc />
     public bool Equals(CaseChangeCaseValue compare) =>

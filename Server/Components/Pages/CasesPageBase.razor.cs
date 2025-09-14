@@ -586,7 +586,7 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
         SetupAvailableCases(ClusterAll);
 
         // case values
-        // the current solutions loads all case change values at the begin
+        // the current solutions loads all case change values at the start
         // the MudDataGrid has problems when using groups in combination with server data
         await SetupCaseValuesAsync();
 

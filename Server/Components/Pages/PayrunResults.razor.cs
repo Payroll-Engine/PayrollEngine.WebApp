@@ -247,7 +247,7 @@ public partial class PayrunResults() : PageBase(WorkingItems.TenantChange | Work
     }
 
     /// <summary>
-    /// Setup the grid
+    /// Set up the grid
     /// </summary>
     private async Task SetupGrid()
     {

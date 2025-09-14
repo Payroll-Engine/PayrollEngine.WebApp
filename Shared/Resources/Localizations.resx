@@ -1524,7 +1524,7 @@
   </data>
 	<data name="Error.Error" xml:space="preserve">
     <value>Error</value>
-  </data>
+  </data>	
 	<data name="Error.MissingMandatoryValue" xml:space="preserve">
     <value>Value is required.</value>
   </data>
@@ -1857,6 +1857,12 @@
   </data>
 	<data name="SnackBar.Close" xml:space="preserve">
     <value>Close snackbar</value>
+  </data>
+	<data name="TimePicker.Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+	<data name="DatePicker.Open" xml:space="preserve">
+    <value>Open</value>
   </data>
 	<data name="DatePicker.PrevMonth" xml:space="preserve">
     <value>Previous month {0}</value>

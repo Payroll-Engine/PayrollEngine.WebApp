@@ -134,19 +134,19 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     /// <summary>
     /// Format value
     /// </summary>
-    /// <param name="culture">Culture</param>
-    public string FormatValue(CultureInfo culture = null)
+    /// <param name="cultureInfo">Culture</param>
+    public string FormatValue(CultureInfo cultureInfo = null)
     {
         // priority 1: object culture
         if (!string.IsNullOrWhiteSpace(Culture))
         {
-            culture = new CultureInfo(Culture);
+            cultureInfo = new CultureInfo(Culture);
         }
         // priority 2: parameter culture
         // priority 3: system culture
-        culture ??= CultureInfo.CurrentCulture;
+        cultureInfo ??= CultureInfo.CurrentCulture;
 
-        return ValueFormatter.ToString(Value, ValueType, culture);
+        return ValueFormatter.ToString(Value, ValueType, cultureInfo);
     }
 
     #region Case Value
@@ -355,7 +355,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
     /// <summary>
     /// Event handler on filed change
     /// </summary>
-    public AsyncEvent<CaseFieldSet> FieldChanged;
+    public AsyncEvent<CaseFieldSet> FieldChanged { get; set; }
 
     /// <summary>
     /// Updates the edit status sync

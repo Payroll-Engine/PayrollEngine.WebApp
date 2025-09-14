@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class DatePickerLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+public class TimePickerLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
     LocalizerBase(factory, culture: culture)
 {
     public string Open => PropertyValue();

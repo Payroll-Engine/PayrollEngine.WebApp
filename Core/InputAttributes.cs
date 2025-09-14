@@ -71,7 +71,6 @@ public static class InputAttributes
     public static readonly string ValuePickerOpen = $"{Prefix}valuePickerOpen";
     public static readonly string ValuePickerStatic = $"{Prefix}valuePickerStatic";
     public static readonly string ValueTimePicker = $"{Prefix}valueTimePicker";
-    public static readonly string Culture = $"{Prefix}culture";
     public static readonly string MinValue = $"{Prefix}minValue";
     public static readonly string MaxValue = $"{Prefix}maxValue";
     public static readonly string StepSize = $"{Prefix}stepSize";

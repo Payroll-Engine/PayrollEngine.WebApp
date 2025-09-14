@@ -7,6 +7,7 @@
                  Label="@Item.GetItemLabel(Field, LocalizerService.Localizer)"
                  HelperText="@Item.GetItemHelp(Field)"
                  Value="@Value" ValueChanged="ValueChangedAsync"
+                 Format="@Field.Format"
                  ReadOnly="@Item.IsReadOnlyField(Field)"
                  Required="@Field.Required"
                  RequiredError="@Field.RequiredError" />

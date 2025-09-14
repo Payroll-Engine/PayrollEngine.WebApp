@@ -63,6 +63,10 @@ public partial class WageTypeEditor
                 Label = Localizer.Calendar.Calendar,
                 Help = Localizer.WageType.CalendarHelp
             },
+            new(nameof(RegulationWageType.Culture), typeof(TextBox))
+            {
+                Label = Localizer.Shared.Culture
+            },
             new(nameof(RegulationWageType.OverrideType), typeof(EnumListBox<OverrideType>))
             {
                 Label = Localizer.Shared.OverrideType

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
