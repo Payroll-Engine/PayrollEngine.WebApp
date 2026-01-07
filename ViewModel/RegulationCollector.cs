@@ -53,15 +53,17 @@ public class RegulationCollector : Collector, IRegulationItem, IKeyEquatable<Reg
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string InheritanceKey => Name;
+    public int ActionCount =>
+        (StartActions?.Count ?? 0) +
+        (ApplyActions?.Count ?? 0) +
+        (EndActions?.Count ?? 0);
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string ParentInheritanceKey => null;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string Description => null;
+    public int ExpressionCount =>
+        (string.IsNullOrWhiteSpace(StartExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(ApplyExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(EndExpression) ? 0 : 1);
 
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer)

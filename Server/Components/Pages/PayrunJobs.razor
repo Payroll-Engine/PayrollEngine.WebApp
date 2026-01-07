@@ -51,18 +51,19 @@
                    Variant="@Globals.ButtonVariant">
             @if (Payruns != null)
             {
-                foreach (var payrun in Payruns)
-                {
-                    <MudSelectItem T="string" Value="payrun.Name">
-                        @PageCulture.Name.GetLocalization(payrun.NameLocalizations, payrun.Name)
-                    </MudSelectItem>
-                }
+                <div style="overflow-y:auto">
+                    <Virtualize Items="@Payruns" Context="payrun">
+                        <MudSelectItem T="string" Value="payrun.Name">
+                            @PageCulture.Name.GetLocalization(payrun.NameLocalizations, payrun.Name)
+                        </MudSelectItem>
+                    </Virtualize>
+                </div>
             }
         </MudSelect>
     </div>
     @if (SelectedPayrun != null && HasFeature(Feature.PayrunResults))
     {
-        <MudButton Variant="@Globals.ButtonVariant" 
+        <MudButton Variant="@Globals.ButtonVariant"
                    Color="Color.Info"
                    StartIcon="@Icons.Material.Filled.NavigateNext"
                    Style="height: fit-content; align-self: center;"
@@ -136,10 +137,13 @@
                                                MultiSelection="true"
                                                SelectAll="true"
                                                SelectAllText="@Localizer.Shared.SelectAll">
-                                        @foreach (var employee in Employees)
-                                        {
-                                            <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
-                                        }
+                                        <div style="overflow-y:auto">
+                                            <Virtualize Items="@Employees" Context="employee">
+                                                <MudSelectItem T="Employee" Value="employee">
+                                                    @employee.FirstName @employee.LastName
+                                                </MudSelectItem>
+                                            </Virtualize>
+                                        </div>
                                     </MudSelect>
                                 }
 
@@ -283,7 +287,7 @@
                     }
                     @* legal job: cancel or abort *@
                     @if (HasLegalJob && LegalJob.Finished.HasValue &&
-                   LegalJob.JobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort)
+                                    LegalJob.JobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort)
                     {
                         <MudPaper Class="pa-4" Elevation="4"
                                   Style="max-width: 15em; max-width: 25em">
@@ -300,7 +304,7 @@
 
                 @* legal payrun job history *@
                 <MudText Typo="Typo.h5" Class="py-4">@Localizer.PayrunJob.JobHistory</MudText>
-                <MudDataGrid @ref="LegalJobsGrid" 
+                <MudDataGrid @ref="LegalJobsGrid"
                              T="PayrunJob"
                              ServerData="GetLegalServerDataAsync"
                              FilterMode="DataGridFilterMode.ColumnFilterRow"
@@ -365,17 +369,18 @@
                                                       OnAdornmentClick="OpenForecastSelection"></MudTextField>
 
                                         @* forecast history *@
-                                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection"/>
+                                        <MudOverlay Visible="@ForecastSelection" OnClick="@CloseForecastSelection" />
                                         <MudPopover Open="@ForecastSelection" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
                                                     Style="max-width: 20em">
                                             <MudStack Spacing="0">
                                                 <MudList T="string" Style="overflow-y: auto; max-height: 40em"
                                                          SelectedValueChanged="@(x => SelectForecast(x))"
                                                          SelectionMode="SelectionMode.SingleSelection">
-                                                    @foreach (var history in ForecastHistory)
-                                                    {
-                                                        <MudListItem Value="@history">@history</MudListItem>
-                                                    }
+                                                    <div style="overflow-y:auto">
+                                                        <Virtualize Items="@ForecastHistory" Context="history">
+                                                            <MudListItem Value="@history">@history</MudListItem>
+                                                        </Virtualize>
+                                                    </div>
                                                 </MudList>
                                             </MudStack>
                                         </MudPopover>
@@ -410,10 +415,13 @@
                                                Clearable="true"
                                                SelectAll="true"
                                                SelectAllText="@Localizer.Shared.SelectAll">
-                                        @foreach (var employee in Employees)
-                                        {
-                                            <MudSelectItem T="Employee" Value="employee">@employee.FirstName @employee.LastName</MudSelectItem>
-                                        }
+                                        <div style="overflow-y:auto">
+                                            <Virtualize Items="@Employees" Context="employee">
+                                                <MudSelectItem T="Employee" Value="employee">
+                                                    @employee.FirstName @employee.LastName
+                                                </MudSelectItem>
+                                            </Virtualize>
+                                        </div>
                                     </MudSelect>
 
                                     @* parameter *@

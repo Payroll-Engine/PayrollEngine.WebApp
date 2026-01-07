@@ -54,10 +54,13 @@
                                            Disabled="@(!TenantChangeEnabled)"
                                            Clearable="@WorkingItems.TenantReset()"
                                            ValueChanged="WorkingTenantChangedAsync">
-                                    @foreach (var tenant in Session.Tenants)
-                                    {
-                                        <MudSelectItem Value="@tenant">@tenant.Identifier</MudSelectItem>
-                                    }
+                                    <div style="overflow-y:auto">
+                                        <Virtualize Items="@Session.Tenants" Context="tenant">
+                                            <MudSelectItem Value="@tenant">
+                                                @tenant.Identifier
+                                            </MudSelectItem>
+                                        </Virtualize>
+                                    </div>
                                 </MudSelect>
                             </MudItem>
                         }
@@ -72,10 +75,13 @@
                                            Disabled="@(!PayrollChangeEnabled)"
                                            Clearable="@WorkingItems.PayrollReset()"
                                            ValueChanged="WorkingPayrollChangedAsync">
-                                    @foreach (var payroll in Session.Payrolls)
-                                    {
-                                        <MudSelectItem Value="@payroll">@GetPayrollName(payroll) &#x2022; @GetPayrollDivisionName(payroll)</MudSelectItem>
-                                    }
+                                    <div style="overflow-y:auto">
+                                        <Virtualize Items="@Session.Payrolls" Context="payroll">
+                                            <MudSelectItem Value="@payroll">
+                                                @GetPayrollName(payroll) &#x2022; @GetPayrollDivisionName(payroll)
+                                            </MudSelectItem>
+                                        </Virtualize>
+                                    </div>
                                 </MudSelect>
                             </MudItem>
                         }
@@ -90,10 +96,13 @@
                                            Disabled="@(!EmployeeChangeEnabled)"
                                            Clearable="@WorkingItems.EmployeeReset()"
                                            ValueChanged="WorkingEmployeeChangedAsync">
-                                    @foreach (var employee in Session.Employees)
-                                    {
-                                        <MudSelectItem Value="@employee">@employee.FirstName @employee.LastName &#x2022; @employee.Identifier</MudSelectItem>
-                                    }
+                                    <div style="overflow-y:auto">
+                                        <Virtualize Items="@Session.Employees" Context="employee">
+                                            <MudSelectItem Value="@employee">
+                                                @employee.FirstName @employee.LastName &#x2022; @employee.Identifier
+                                            </MudSelectItem>
+                                        </Virtualize>
+                                    </div>
                                 </MudSelect>
                             </MudItem>
                         }

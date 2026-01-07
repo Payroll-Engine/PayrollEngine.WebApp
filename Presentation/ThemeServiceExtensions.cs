@@ -7,12 +7,15 @@ namespace PayrollEngine.WebApp.Presentation;
 /// </summary>
 public static class ThemeServiceExtensions
 {
-    /// <summary>
-    /// Selected working type color
-    /// </summary>
     /// <param name="themeService">Theme service</param>
-    public static MudColor SelectedWorkingTypeColor(this IThemeService themeService) =>
-        themeService.IsDarkMode ?
-            themeService.Theme.PaletteDark.Primary :
-            themeService.Theme.PaletteLight.Primary;
+    extension(IThemeService themeService)
+    {
+        /// <summary>
+        /// Selected background color
+        /// </summary>
+        public MudColor SelectedBackgroundColor() =>
+            themeService.IsDarkMode ?
+                themeService.Theme.PaletteDark.Primary:
+                themeService.Theme.PaletteLight.GrayLighter;
+    }
 }

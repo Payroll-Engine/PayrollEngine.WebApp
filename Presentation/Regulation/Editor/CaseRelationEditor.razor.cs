@@ -13,6 +13,8 @@ public partial class CaseRelationEditor
     public RegulationEditContext EditContext { get; set; }
     [Parameter]
     public IRegulationItem Item { get; set; }
+    [Parameter] 
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
     [Parameter]
@@ -80,16 +82,14 @@ public partial class CaseRelationEditor
                 Label = Localizer.CaseRelation.BuildExpression,
                 ActionLabel = Localizer.CaseRelation.BuildActions,
                 Expression = true,
-                Action = FunctionType.CaseRelationBuild,
-                Lines = 8
+                Action = FunctionType.CaseRelationBuild
             },
             new(nameof(RegulationCaseRelation.ValidateExpression), typeof(TextBox))
             {
                 Label = Localizer.CaseRelation.ValidateExpression,
                 ActionLabel = Localizer.CaseRelation.ValidateActions,
                 Expression = true,
-                Action = FunctionType.CaseRelationValidate,
-                Lines = 8
+                Action = FunctionType.CaseRelationValidate
             }
         };
         Fields = fields;

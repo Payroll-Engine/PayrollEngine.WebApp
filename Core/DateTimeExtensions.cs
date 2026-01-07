@@ -23,21 +23,22 @@ public static class DateTimeExtensions
         return moment.Value.TimeOfDay != TimeSpan.Zero;
     }
 
-    /// <summary>
-    /// Convert a date into the UTC value with UTC time adaption
-    /// </summary>
     /// <param name="dateTime">The source date time</param>
-    /// <returns>The UTC date time</returns>
-    public static DateTime SpecifyUtc(this DateTime dateTime) =>
-        Date.SpecifyUtcTime(dateTime);
+    extension(DateTime dateTime)
+    {
+        /// <summary>
+        /// Convert a date into the UTC value with UTC time adaption
+        /// </summary>
+        /// <returns>The UTC date time</returns>
+        public DateTime SpecifyUtc() =>
+            Date.SpecifyUtcTime(dateTime);
 
-    /// <summary>
-    /// Convert a date into the OData date time format
-    /// see https://stackoverflow.com/a/7400007/15659039
-    /// </summary>
-    /// <param name="dateTime">The date time</param>
-    /// <returns>The UTC date time string</returns>
-    public static string ToODataString(this DateTime dateTime) =>
-        dateTime.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
-
+        /// <summary>
+        /// Convert a date into the OData date time format
+        /// see https://stackoverflow.com/a/7400007/15659039
+        /// </summary>
+        /// <returns>The UTC date time string</returns>
+        public string ToODataString() =>
+            dateTime.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+    }
 }

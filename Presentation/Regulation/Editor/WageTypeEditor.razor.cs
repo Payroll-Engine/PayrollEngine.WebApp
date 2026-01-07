@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
-using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Regulation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
 
@@ -13,6 +13,8 @@ public partial class WageTypeEditor
     public RegulationEditContext EditContext { get; set; }
     [Parameter]
     public IRegulationItem Item { get; set; }
+    [Parameter] 
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
     [Parameter]
@@ -47,8 +49,7 @@ public partial class WageTypeEditor
             },
             new(nameof(RegulationWageType.Description), typeof(TextBox))
             {
-                Label = Localizer.Shared.Description,
-                Lines = 8
+                Label = Localizer.Shared.Description
             },
             new(nameof(RegulationWageType.ValueType), typeof(EnumListBox<ValueType>))
             {
@@ -90,14 +91,16 @@ public partial class WageTypeEditor
             new(nameof(RegulationWageType.ValueExpression), typeof(TextBox))
             {
                 Label = Localizer.WageType.ValueExpression,
+                ActionLabel = Localizer.WageType.ValueActions,
                 Expression = true,
-                Lines = 8
+                Action = FunctionType.WageTypeValue
             },
             new(nameof(RegulationWageType.ResultExpression), typeof(TextBox))
             {
                 Label = Localizer.WageType.ResultExpression,
+                ActionLabel = Localizer.WageType.ResultActions,
                 Expression = true,
-                Lines = 8
+                Action = FunctionType.WageTypeResult
             }
         };
         Fields = fields;

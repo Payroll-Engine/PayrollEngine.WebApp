@@ -436,69 +436,65 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         }
     }
 
-    private string stringValue;
     /// <inheritdoc />
     [JsonIgnore]
     public string ValueAsString
     {
-        get => stringValue;
+        get;
         set
         {
-            if (value != stringValue)
+            if (value != field)
             {
-                stringValue = value;
+                field = value;
                 HasValue = value != null && !string.Empty.Equals(value);
                 OnFieldChanged();
             }
         }
     }
 
-    private DateTime? dateTimeValue;
     /// <inheritdoc />
     [JsonIgnore]
     public DateTime? ValueAsDateTime
     {
-        get => dateTimeValue;
+        get;
         set
         {
-            if (value != dateTimeValue)
+            if (value != field)
             {
-                dateTimeValue = value;
-                HasValue = dateTimeValue.HasValue;
+                field = value;
+                HasValue = field.HasValue;
                 OnFieldChanged();
             }
         }
     }
 
-    private int? integerValue;
     /// <inheritdoc />
     [JsonIgnore]
     public int? ValueAsInteger
     {
-        get => integerValue;
+        get;
         set
         {
-            if (value != integerValue)
+            if (value != field)
             {
-                integerValue = value;
-                HasValue = integerValue.HasValue;
+                field = value;
+                HasValue = field.HasValue;
                 OnFieldChanged();
             }
         }
     }
 
-    private decimal? decimalValue;
     /// <inheritdoc />
     [JsonIgnore]
     public decimal? ValueAsDecimal
     {
-        get => decimalValue;
+        get;
         set
         {
-            if (value != decimalValue)
+            if (value != field)
             {
-                decimalValue = value;
-                HasValue = decimalValue.HasValue;
+                field = value;
+                HasValue = field.HasValue;
                 OnFieldChanged();
             }
         }
@@ -512,18 +508,17 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         set => ValueAsDecimal = value / 100;
     }
 
-    private bool? booleanValue;
     /// <inheritdoc />
     [JsonIgnore]
     public bool? ValueAsBoolean
     {
-        get => booleanValue;
+        get;
         set
         {
-            if (value != booleanValue)
+            if (value != field)
             {
-                booleanValue = value;
-                HasValue = booleanValue.HasValue;
+                field = value;
+                HasValue = field.HasValue;
                 OnFieldChanged();
             }
         }

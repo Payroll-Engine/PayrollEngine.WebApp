@@ -1,136 +1,483 @@
-﻿@using PayrollEngine.Client.Model
-<MudDialog Style="min-width: 40em" TitleClass="mud-theme-primary pe-dialog-title">
+﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using PayrollEngine.Action
+@using PayrollEngine.Client.Model
+
+<MudDialog Style="min-width: 50em" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudForm @ref="form">
             <MudTextField T="string"
+                          @ref="@actionEdit"
                           Label="@Field.ActionLabel"
-                          HelperText="@(Item.GetItemHelp(Field) ?? Localizer.Action.ActionExpression)"
+                          HelperText="@(Item.GetItemHelp(Field) ?? Localizer.Action.ActionSyntax)"
                           @bind-Value="@Action.Action"
                           ReadOnly="@Item.IsReadOnlyField(Field)"
                           Clearable="true"
                           Required="true"
-                          Style="font-family: monospace; font-size: medium;"
+                          Style="font-family: monospace; font-size: larger;"
                           RequiredError="@Localizer.Error.RequiredField(Field.ActionLabel)"
-                          Lines="Field.Lines" />
-            @if (Categories != null && Categories.Count > 2)
-            {
-                <MudChipSet T="string" Class="py-4"
-                            CheckMark="true"
-                            SelectionMode="SelectionMode.SingleSelection"
-                            SelectedValue="SelectedCategory"
-                            SelectedValueChanged="SelectedCategoryChanged">
-                    @foreach (var category in Categories)
-                    {
-                        <MudChip Text="@category.Label"
-                                 Default="@string.Equals(category.Label, Localizer.Shared.All)"
-                                 Variant="@Globals.ButtonVariant"
-                                 SelectedColor="Color.Tertiary" />
-                    }
-                </MudChipSet>
-            }
+                          Lines="Field.ActionLines" />
 
-            <MudDataGrid T="ActionInfo"
-                         Height="30em"
-                         FixedHeader="true"
-                         Dense="true"
-                         Items="@CategoryActions"
-                         Filterable="true"
-                         FilterMode="DataGridFilterMode.ColumnFilterRow"
-                         ShowFilterIcons="false">
-                <Columns>
-                    <PropertyColumn Property="x => x.GetExpressionTemplate()" Title="@Localizer.Action.Action" />
-                    <PropertyColumn Property="x => x.Description" Title="@Localizer.Shared.Description" />
-                    <TemplateColumn T="ActionInfo" ShowColumnOptions="false"
-                                    ShowFilterIcon="false"
-                                    Sortable="false">
-                        <CellTemplate>
-                            <MudStack Row="true">
-                                <MudTooltip Delay="@Globals.TooltipDelay" Placement="Placement.Top">
-                                    <ChildContent>
-                                        <MudIcon Color="Color.Primary"
-                                                 Icon="@Icons.Material.Outlined.Info" />
-                                    </ChildContent>
-                                    <TooltipContent>
-                                        <MudStack Class="pa-2">
-                                            <MudText Typo="Typo.h5" Align="Align.Start">@context.Item.Name</MudText>
-                                            <MudText Typo="Typo.subtitle1" Align="Align.Start" Style="font-family: monospace; font-size: medium;">@context.Item.Description</MudText>
-                                            <table>
-                                                <tr>
-                                                    <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">@Localizer.Action.Source</MudText></td>
-                                                    <td><MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">@context.Item.Source</MudText></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">@Localizer.Action.Namespace</MudText></td>
-                                                    <td><MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">@context.Item.Namespace</MudText></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">@Localizer.Action.Categories</MudText></td>
-                                                    <td>
-                                                        <MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">
-                                                            @string.Join(", ", context.Item.Categories as IEnumerable<string>)
-                                                        </MudText>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            @if (context.Item.Parameters != null && context.Item.Parameters.Any())
-                                            {
-                                                <MudText Typo="Typo.h6" Align="Align.Start">@Localizer.Action.Parameters</MudText>
+            <div class="d-flex align-start flex-grow-1 mt-2">
+
+                @* property *@
+                @if (Properties.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Icon="@Icons.Material.Outlined.List"
+                                     Color="Color.Tertiary">
+                                @Localizer.Shared.Property
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@Properties" Context="property">
+                                    <MudMenuItem @onclick="@(() => AppendProperty(property.Name))">
+                                        <ChildContent>
+                                            <div class="d-flex flex-grow-1">
+                                                <MudTooltip Delay="@Globals.TooltipDelay"
+                                                            Text="@property.Description"
+                                                            Placement="Placement.Right">
+                                                    <span style="font-family: monospace">@property.Name</span>
+                                                </MudTooltip>
+                                                <div class="d-flex flex-grow-1 justify-end pl-4">
+                                                    @* property type *@
+                                                    <span style="font-size: smaller">@GetPropertyType(property)</span>
+                                                </div>
+                                            </div>
+                                        </ChildContent>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* marker *@
+                <MudMenu Dense="true">
+                    <ActivatorContent>
+                        <MudChip T="string"
+                                 Color="Color.Tertiary">
+                            &lt;&gt; @Localizer.Action.Marker
+                        </MudChip>
+                    </ActivatorContent>
+                    <ChildContent>
+                        @{
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.Condition"
+                                                  Visible="AvailableMarker(MarkerType.Condition)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.Condition))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.ConditionTrue"
+                                                  Visible="AvailableMarker(MarkerType.ConditionTrue)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.ConditionTrue))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.ConditionFalse"
+                                                  Visible="AvailableMarker(MarkerType.ConditionFalse)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.ConditionFalse))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.CaseValue"
+                                                  Visible="AvailableMarker(MarkerType.CaseValue)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.CaseValue))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.LookupValue"
+                                                  Visible="AvailableMarker(MarkerType.LookupValue)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.LookupValue))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.CaseField"
+                                                  Visible="AvailableMarker(MarkerType.CaseField)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.CaseField))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.SourceCaseField"
+                                                  Visible="AvailableMarker(MarkerType.SourceCaseField)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.SourceCaseField))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.TargetCaseField"
+                                                  Visible="AvailableMarker(MarkerType.TargetCaseField)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.TargetCaseField))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.Collector"
+                                                  Visible="AvailableMarker(MarkerType.Collector)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.Collector))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.WageType"
+                                                  Visible="AvailableMarker(MarkerType.WageType)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.WageType))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.RuntimeValue"
+                                                  Visible="AvailableMarker(MarkerType.RuntimeValue)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.RuntimeValue))" />
+
+                            <ActionMarkerMenuItem MarkerType="MarkerType.PayrunResult"
+                                                  Visible="AvailableMarker(MarkerType.PayrunResult)"
+                                                  OnClick="@(() => AppendMarker(MarkerType.PayrunResult))" />
+                        }
+                    </ChildContent>
+                </MudMenu>
+
+                @* case value *@
+                @if (SupportedMarker(MarkerType.CaseValue) && CaseFields.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Color="Color.Tertiary">
+                                @MarkerType.CaseValue.GetSyntax() @Localizer.CaseValue.CaseValue
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@CaseFields" Context="caseField">
+                                    <MudMenuItem @onclick="@(() => AppendCaseValue(caseField))">
+                                        <span style="font-family: monospace;">@caseField</span>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* lookup *@
+                @if (SupportedMarker(MarkerType.LookupValue) && Lookups.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Color="Color.Tertiary">
+                                @MarkerType.LookupValue.GetSyntax() @Localizer.Lookup.Lookup
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@Lookups" Context="lookup">
+                                    <MudMenuItem @onclick="@(() => AppendLookup(lookup))">
+                                        <span style="font-family: monospace;">@lookup</span>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* case field *@
+                @if (SupportedMarker(MarkerType.CaseField) && CaseFields.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Color="Color.Tertiary">
+                                @MarkerType.CaseField.GetSyntax() @Localizer.CaseField.CaseField
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@CaseFields" Context="caseField">
+                                    <MudMenuItem @onclick="@(() => AppendCaseField(caseField))">
+                                        <span style="font-family: monospace;">@caseField</span>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* source case field *@
+                @if (SupportedMarker(MarkerType.SourceCaseField) && CaseFields.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Color="Color.Tertiary">
+                                @MarkerType.SourceCaseField.GetSyntax() @Localizer.Enum(MarkerType.SourceCaseField)
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@CaseFields" Context="caseField">
+                                    <MudMenuItem @onclick="@(() => AppendCaseField(caseField))">
+                                        <span style="font-family: monospace;">@caseField</span>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* target case field *@
+                @if (SupportedMarker(MarkerType.TargetCaseField) && CaseFields.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Color="Color.Tertiary">
+                                @MarkerType.TargetCaseField.GetSyntax() @Localizer.Enum(MarkerType.TargetCaseField)
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@CaseFields" Context="caseField">
+                                    <MudMenuItem @onclick="@(() => AppendCaseField(caseField))">
+                                        <span style="font-family: monospace;">@caseField</span>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* collector *@
+                @if (SupportedMarker(MarkerType.Collector) && Collectors.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Color="Color.Tertiary">
+                                @MarkerType.Collector.GetSyntax() @Localizer.Collector.Collector
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@Collectors" Context="collector">
+                                    <MudMenuItem @onclick="@(() => AppendCollector(collector))">
+                                        <span style="font-family: monospace;">@collector</span>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* wage type *@
+                @if (SupportedMarker(MarkerType.WageType) && WageTypes.Any())
+                {
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <MudChip T="string"
+                                     Color="Color.Tertiary">
+                                @MarkerType.WageType.GetSyntax() @Localizer.WageType.WageType
+                            </MudChip>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div style="max-height: 30em; overflow-y: auto">
+                                <Virtualize Items="@WageTypes" Context="wageType">
+                                    <MudMenuItem @onclick="@(() => AppendWageType(wageType))">
+                                        <span style="font-family: monospace;">@wageType</span>
+                                    </MudMenuItem>
+                                </Virtualize>
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                }
+
+                @* actions expand/collapse *@
+                <div class="d-flex flex-grow-1 justify-end pl-8">
+                    <MudButton OnClick="ToggleActionsAsync"
+                               Variant="@Globals.ButtonVariant"
+                               StartIcon="@(ActionState is ActionWorkState.Hidden ? Icons.Material.Outlined.ExpandMore : ActionState is ActionWorkState.Loading ? Icons.Material.Outlined.Pending : Icons.Material.Outlined.ExpandLess)">
+                        @switch (ActionState)
+                        {
+                            case ActionWorkState.Hidden:
+                                @Localizer.Action.ShowActions
+                                break;
+                            case ActionWorkState.Loading:
+                                @Localizer.Action.LoadingActions
+                                break;
+                            case ActionWorkState.Visible:
+                                @Localizer.Action.HideActions
+                                break;
+                        }
+                    </MudButton>
+                </div>
+            </div>
+
+            @* actions panel *@
+            <MudCollapse Expanded="@(ActionState is ActionWorkState.Visible)">
+
+                @* action categories *@
+                @if (Categories != null && Categories.Count > 2)
+                {
+                    <MudChipSet T="string" Class="py-4"
+                                CheckMark="true"
+                                SelectionMode="SelectionMode.SingleSelection"
+                                SelectedValue="SelectedCategory"
+                                SelectedValueChanged="SelectedCategoryChanged">
+                        @foreach (var category in Categories)
+                        {
+                            <MudChip Text="@category.Label"
+                                     Default="@string.Equals(category.Label, Localizer.Shared.All)"
+                                     Variant="@Globals.ButtonVariant"
+                                     SelectedColor="Color.Tertiary" />
+                        }
+                    </MudChipSet>
+                }
+
+                @* action grid *@
+                <MudDataGrid T="ActionInfo"
+                             Height="30em"
+                             FixedHeader="true"
+                             Dense="true"
+                             Items="@CategoryActions"
+                             Filterable="true"
+                             FilterMode="DataGridFilterMode.ColumnFilterRow"
+                             ShowFilterIcons="false">
+                    <Columns>
+                        <PropertyColumn Property="x => x.GetExpressionTemplate()"
+                                        CellStyle="font-family: monospace"
+                                        Title="@Localizer.Action.Action" />
+                        <PropertyColumn Property="x => x.Description"
+                                        Title="@Localizer.Shared.Description" />
+                        <TemplateColumn T="ActionInfo"
+                                        ShowColumnOptions="false"
+                                        ShowFilterIcon="false"
+                                        Sortable="false">
+                            <CellTemplate>
+                                <MudStack Row="true" Class="d-flex align-center">
+                                    <MudTooltip Delay="@Globals.TooltipDelay"
+                                                Placement="Placement.Top">
+                                        <ChildContent>
+                                            <MudIcon Color="Color.Primary"
+                                                     Style="vertical-align: middle;"
+                                                     Icon="@Icons.Material.Outlined.Info" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            <MudStack Class="pa-2">
+                                                <MudText Typo="Typo.h5"
+                                                         Align="Align.Start">
+                                                    @context.Item.Name
+                                                </MudText>
+                                                <MudText Typo="Typo.subtitle1"
+                                                         Align="Align.Start"
+                                                         Style="font-size: medium;">
+                                                    @context.Item.Description
+                                                </MudText>
                                                 <table>
-                                                    @foreach (var parameter in context.Item.Parameters)
+                                                    <tr>
+                                                        <td>
+                                                            <MudText Typo="Typo.body2"
+                                                                     Align="Align.Start"
+                                                                     Class="pr-8">
+                                                                @Localizer.Action.Source
+                                                            </MudText>
+                                                        </td>
+                                                        <td>
+                                                            <MudText Typo="Typo.body2"
+                                                                     Align="Align.End"
+                                                                     Style="font-family: monospace; font-size: medium;">
+                                                                @context.Item.Source
+                                                            </MudText>
+                                                        </td>
+                                                    </tr>
+                                                    @if (context.Item.Categories != null)
                                                     {
                                                         <tr>
-                                                            <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8" Style="font-family: monospace; font-size: medium;">@parameter.Name</MudText></td>
-                                                            <td><MudText Typo="Typo.body2" Align="Align.End">@parameter.Description</MudText></td>
+                                                            <td>
+                                                                <MudText Typo="Typo.body2"
+                                                                         Align="Align.Start"
+                                                                         Class="pr-8">
+                                                                    @Localizer.Action.Categories
+                                                                </MudText>
+                                                            </td>
+                                                            <td>
+                                                                <MudText Typo="Typo.body2"
+                                                                         Align="Align.End"
+                                                                         Style="font-family: monospace; font-size: medium;">
+                                                                    @string.Join(", ", context.Item.Categories as IEnumerable<string>)
+                                                                </MudText>
+                                                            </td>
                                                         </tr>
                                                     }
                                                 </table>
-                                            }
-                                            @if (context.Item.Issues != null && context.Item.Issues.Any())
-                                            {
-                                                <MudText Typo="Typo.h6" Align="Align.Start">@Localizer.Action.Issues</MudText>
-                                                <table>
-                                                    @foreach (var issue in context.Item.Issues)
-                                                    {
-                                                        <tr>
-                                                            <td><MudText Typo="Typo.body2" Align="Align.Start" Class="pr-8">@issue.Name</MudText></td>
-                                                            <td><MudText Typo="Typo.body2" Align="Align.End" Style="font-family: monospace; font-size: medium;">@issue.Message</MudText></td>
-                                                        </tr>
-                                                    }
-                                                </table>
-                                            }
-                                        </MudStack>
-                                    </TooltipContent>
-                                </MudTooltip>
-                                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Action.AppendAction" Placement="Placement.Top">
-                                    <MudIconButton @onclick="@(() => ApplyAction(context.Item))"
-                                                   Color="Color.Tertiary"
-                                                   Variant="@Globals.ToolButtonVariant"
-                                                   Icon="@Icons.Material.Filled.Add"
-                                                   Size="Size.Small" />
-                                </MudTooltip>
-                            </MudStack>
-                        </CellTemplate>
-                    </TemplateColumn>
+                                                @if (context.Item.Parameters != null && context.Item.Parameters.Any())
+                                                {
+                                                    <MudText Typo="Typo.h6"
+                                                             Align="Align.Start">
+                                                        @Localizer.Action.Parameters
+                                                    </MudText>
+                                                    <table>
+                                                        @foreach (var parameter in context.Item.Parameters)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <MudText Typo="Typo.body2"
+                                                                             Align="Align.Start"
+                                                                             Class="pr-8"
+                                                                             Style="font-family: monospace; font-size: medium;">
+                                                                        @parameter.Name
+                                                                    </MudText>
+                                                                </td>
+                                                                <td>
+                                                                    <MudText Typo="Typo.body2"
+                                                                             Align="Align.End">
+                                                                        @parameter.Description
+                                                                    </MudText>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                }
+                                                @if (context.Item.Issues != null && context.Item.Issues.Any())
+                                                {
+                                                    <MudText Typo="Typo.h6" Align="Align.Start">@Localizer.Action.Issues</MudText>
+                                                    <table>
+                                                        @foreach (var issue in context.Item.Issues)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <MudText Typo="Typo.body2"
+                                                                             Align="Align.Start"
+                                                                             Class="pr-8">
+                                                                        @issue.Name
+                                                                    </MudText>
+                                                                </td>
+                                                                <td>
+                                                                    <MudText Typo="Typo.body2"
+                                                                             Align="Align.End"
+                                                                             Style="font-family: monospace; font-size: medium;">
+                                                                        @issue.Message
+                                                                    </MudText>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                }
+                                            </MudStack>
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                    <MudTooltip Delay="@Globals.TooltipDelay"
+                                                Text="@Localizer.Action.AppendAction"
+                                                Placement="Placement.Top">
+                                        <MudIconButton @onclick="@(() => AppendAction(context.Item))"
+                                                       Color="Color.Tertiary"
+                                                       Icon="@Icons.Material.Filled.AddCircle"
+                                                       Size="Size.Small" />
+                                    </MudTooltip>
+                                </MudStack>
+                            </CellTemplate>
+                        </TemplateColumn>
 
-                </Columns>
-                <NoRecordsContent>
-                    @Localizer.Action.NotAvailable
-                </NoRecordsContent>
-            </MudDataGrid>
+                    </Columns>
+                    <NoRecordsContent>
+                        @Localizer.Action.NotAvailable
+                    </NoRecordsContent>
+                </MudDataGrid>
+
+            </MudCollapse>
         </MudForm>
     </DialogContent>
+
+    @* dialog buttons *@
     <DialogActions>
         <div class="d-flex flex-grow-1 mx-4 mb-2 gap-2">
-            <MudTooltip Placement="Placement.Top">
-                <ChildContent>
-                    <MudIcon Color="Color.Primary" Icon="@Icons.Material.Outlined.Help" />
-                </ChildContent>
-                <TooltipContent>
-                    @* ReSharper disable once Html.PathError *@
-                    <img src="/images/CaseActions.png" style="max-width: 60em" alt="Case Actions" />
-                </TooltipContent>
-            </MudTooltip>
-            <MudSpacer />
+            <MudStack Row="true" Spacing="0" Class="align-content-center">
+                <MudLink target="_blank"
+                         Underline="Underline.Always"
+                         Href="/images/ActionSyntax.png">
+                    @Localizer.Action.ActionSyntaxHelp
+                </MudLink>
+                <MudIcon Color="Color.Primary" Class="ml-2" Icon="@Icons.Material.Outlined.OpenInNew"/>
+            </MudStack>
+            <MudSpacer/>
             <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
             <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </div>

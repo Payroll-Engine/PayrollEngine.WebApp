@@ -8,92 +8,103 @@
     // case and case field
     case RegulationItemType.Case:
         <CaseEditor EditContext="EditContext"
-            Item="Item"
-            SaveItem="SaveItem"
-            DeleteItem="DeleteItem"
-            DeriveItem="DeriveItem" />
+                    Item="Item"
+                    StateChanged="StateChanged"
+                    SaveItem="SaveItem"
+                    DeleteItem="DeleteItem"
+                    DeriveItem="DeriveItem" />
         break;
     case RegulationItemType.CaseField:
         <CaseFieldEditor EditContext="EditContext"
-                 Item="Item"
-                 SaveItem="SaveItem"
-                 DeleteItem="DeleteItem"
-                 DeriveItem="DeriveItem" />
+                         Item="Item"
+                         StateChanged="StateChanged"
+                         SaveItem="SaveItem"
+                         DeleteItem="DeleteItem"
+                         DeriveItem="DeriveItem" />
         break;
 
     // case relation
     case RegulationItemType.CaseRelation:
         <CaseRelationEditor EditContext="EditContext"
-                    Item="Item"
-                    SaveItem="SaveItem"
-                    DeleteItem="DeleteItem"
-                    DeriveItem="DeriveItem" />
+                            Item="Item"
+                            StateChanged="StateChanged"
+                            SaveItem="SaveItem"
+                            DeleteItem="DeleteItem"
+                            DeriveItem="DeriveItem" />
         break;
 
     // collector
     case RegulationItemType.Collector:
         <CollectorEditor EditContext="EditContext"
-                 Item="Item"
-                 SaveItem="SaveItem"
-                 DeleteItem="DeleteItem"
-                 DeriveItem="DeriveItem" />
+                         Item="Item"
+                         StateChanged="StateChanged"
+                         SaveItem="SaveItem"
+                         DeleteItem="DeleteItem"
+                         DeriveItem="DeriveItem" />
         break;
 
     // wage type
     case RegulationItemType.WageType:
         <WageTypeEditor EditContext="EditContext"
-                Item="Item"
-                SaveItem="SaveItem"
-                DeleteItem="DeleteItem"
-                DeriveItem="DeriveItem" />
+                        Item="Item"
+                        StateChanged="StateChanged"
+                        SaveItem="SaveItem"
+                        DeleteItem="DeleteItem"
+                        DeriveItem="DeriveItem" />
         break;
 
     // report
     case RegulationItemType.Report:
         <ReportEditor EditContext="EditContext"
-              Item="Item"
-              SaveItem="SaveItem"
-              DeleteItem="DeleteItem"
-              DeriveItem="DeriveItem" />
-        break;
-    case RegulationItemType.ReportParameter:
-        <ReportParameterEditor EditContext="EditContext"
-                       Item="Item"
-                       SaveItem="SaveItem"
-                       DeleteItem="DeleteItem"
-                       DeriveItem="DeriveItem" />
-        break;
-    case RegulationItemType.ReportTemplate:
-        <ReportTemplateEditor EditContext="EditContext"
                       Item="Item"
+                      StateChanged="StateChanged"
                       SaveItem="SaveItem"
                       DeleteItem="DeleteItem"
                       DeriveItem="DeriveItem" />
+        break;
+    case RegulationItemType.ReportParameter:
+        <ReportParameterEditor EditContext="EditContext"
+                               Item="Item"
+                               StateChanged="StateChanged"
+                               SaveItem="SaveItem"
+                               DeleteItem="DeleteItem"
+                               DeriveItem="DeriveItem" />
+        break;
+    case RegulationItemType.ReportTemplate:
+        <ReportTemplateEditor EditContext="EditContext"
+                              Item="Item"
+                              StateChanged="StateChanged"
+                              SaveItem="SaveItem"
+                              DeleteItem="DeleteItem"
+                              DeriveItem="DeriveItem" />
         break;
 
     // lookup
     case RegulationItemType.Lookup:
         <LookupEditor EditContext="EditContext"
-              Item="Item"
-              SaveItem="SaveItem"
-              DeleteItem="DeleteItem"
-              DeriveItem="DeriveItem" />
+                      Item="Item"
+                      StateChanged="StateChanged"
+                      SaveItem="SaveItem"
+                      DeleteItem="DeleteItem"
+                      DeriveItem="DeriveItem" />
         break;
     case RegulationItemType.LookupValue:
         <LookupValueEditor EditContext="EditContext"
-                   Item="Item"
-                   SaveItem="SaveItem"
-                   DeleteItem="DeleteItem"
-                   DeriveItem="DeriveItem" />
+                           Item="Item"
+                           StateChanged="StateChanged"
+                           SaveItem="SaveItem"
+                           DeleteItem="DeleteItem"
+                           DeriveItem="DeriveItem" />
         break;
 
     // script
     case RegulationItemType.Script:
         <ScriptEditor EditContext="EditContext"
-              Item="Item"
-              SaveItem="SaveItem"
-              DeleteItem="DeleteItem"
-              DeriveItem="DeriveItem" />
+                      Item="Item"
+                      StateChanged="StateChanged"
+                      SaveItem="SaveItem"
+                      DeleteItem="DeleteItem"
+                      DeriveItem="DeriveItem" />
         break;
 
     default:

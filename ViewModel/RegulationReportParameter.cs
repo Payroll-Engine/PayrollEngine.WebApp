@@ -55,14 +55,6 @@ public class RegulationReportParameter : ReportParameter, IRegulationItem, IKeyE
     public RegulationItemType ItemType => RegulationItemType.ReportParameter;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string InheritanceKey => Name;
-    
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string ParentInheritanceKey => Parent?.InheritanceKey;
-
-    /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => 
         Enum.GetName(typeof(ValueType), ValueType);
 

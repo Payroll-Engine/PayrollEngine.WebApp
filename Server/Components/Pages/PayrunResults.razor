@@ -56,17 +56,18 @@
                    ReadOnly="@(Payruns == null || Payruns.Count == 1)"
                    Label="@Localizer.Payrun.Payrun"
                    Variant="@Globals.ButtonVariant">
-            @foreach (var payrun in Payruns)
-            {
-                <MudSelectItem T="string" Value="payrun.Name">
-                    @PageCulture.Name.GetLocalization(payrun.NameLocalizations, payrun.Name)
-                </MudSelectItem>
-            }
+            <div style="overflow-y:auto">
+                <Virtualize Items="@Payruns" Context="payrun">
+                    <MudSelectItem T="string" Value="payrun.Name">
+                        @PageCulture.Name.GetLocalization(payrun.NameLocalizations, payrun.Name)
+                    </MudSelectItem>
+                </Virtualize>
+            </div>
         </MudSelect>
     </div>
     @if (SelectedPayrun != null && HasFeature(Feature.PayrunJobs))
     {
-        <MudButton Variant="@Globals.ButtonVariant" 
+        <MudButton Variant="@Globals.ButtonVariant"
                    Color="Color.Info"
                    StartIcon="@Icons.Material.Filled.NavigateNext"
                    Style="height: fit-content; align-self: center;"
@@ -86,7 +87,7 @@
     <div class="d-flex flex-grow-1 justify-end align-end">
         <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.App.CompactView" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
-                           Color="Color.Primary" 
+                           Color="Color.Primary"
                            Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.ViewCompact"
                            Class="ml-2"
@@ -94,7 +95,7 @@
         </MudTooltip>
         <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.FilterReset" Placement="Placement.Top">
             <MudIconButton @onclick="@ResetFilterAsync"
-                           Color="Color.Primary" 
+                           Color="Color.Primary"
                            Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.FilterAltOff"
                            Class="ml-2"
@@ -112,7 +113,7 @@
 </div>
 
 @* data grid *@
-<MudDataGrid @ref="ResultsGrid" 
+<MudDataGrid @ref="ResultsGrid"
              T="PayrollResultValue"
              ServerData="GetServerDataAsync"
              FilterMode="DataGridFilterMode.ColumnFilterRow"
@@ -162,7 +163,7 @@
         <PropertyColumn Property="x => x.ResultNumericValue" Title="@Localizer.Shared.NumericValue">
             <CellTemplate>
                 @ValueFormatter.ToString((object)context.Item.ResultNumericValue,
-                                context.Item.ResultType, GetCultureInfo(context.Item.ResultCulture))
+                context.Item.ResultType, GetCultureInfo(context.Item.ResultCulture))
             </CellTemplate>
         </PropertyColumn>
         <CustomColumns T="PayrollResultValue" Columns="ColumnConfiguration" />

@@ -101,17 +101,13 @@ public class CaseSet : Case, IDisposable
 
     #region Fields
 
-    /// <summary>
-    /// The case fields
-    /// </summary>
-    private readonly ObservedHashSet<CaseFieldSet> fields;
     public ObservedHashSet<CaseFieldSet> Fields
     {
-        get => fields;
+        get;
         private init
         {
             DisconnectFields();
-            fields = value;
+            field = value;
             ConnectFields();
         }
     }

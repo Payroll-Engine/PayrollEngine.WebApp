@@ -10,7 +10,6 @@ public class LocalizerService : ILocalizerService
     private UserSession UserSession { get; }
     private ICultureService CultureService { get; }
     private IStringLocalizerFactory Factory { get; }
-    private readonly Localizer defaultLocalizer;
 
     /// <summary>
     /// Constructor
@@ -27,7 +26,7 @@ public class LocalizerService : ILocalizerService
         // build localizer
         if (!BuildLocalizer())
         {
-            defaultLocalizer = new Localizer(factory, CultureInfo.CurrentUICulture);
+            Localizer = new Localizer(factory, CultureInfo.CurrentUICulture);
         }
     }
 
@@ -41,7 +40,7 @@ public class LocalizerService : ILocalizerService
             {
                 BuildLocalizer();
             }
-            return localizer ?? defaultLocalizer;
+            return localizer ?? field;
         }
     }
 

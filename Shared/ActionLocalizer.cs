@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Localization;
-using System.Globalization;
+﻿using System.Globalization;
+using Microsoft.Extensions.Localization;
 
 namespace PayrollEngine.WebApp.Shared;
 
@@ -13,11 +13,15 @@ public class ActionLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
     public string MoveUp => PropertyValue();
     public string MoveDown => PropertyValue();
 
-    public string ActionExpression => PropertyValue();
+    public string ActionSyntax => PropertyValue();
+    public string ActionSyntaxHelp => PropertyValue();
     public string Parameters => PropertyValue();
     public string Issues => PropertyValue();
     public string Source => PropertyValue();
-    public string Namespace => PropertyValue();
     public string Categories => PropertyValue();
     public string AppendAction => PropertyValue();
+    public string Marker => PropertyValue();
+    public string ShowActions => PropertyValue();
+    public string LoadingActions => PropertyValue();
+    public string HideActions => PropertyValue();
 }

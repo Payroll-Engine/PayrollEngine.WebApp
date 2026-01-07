@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Component;
 
@@ -29,6 +29,8 @@ public partial class TextBox : IRegulationInput
     public string Class { get; set; }
     [Parameter]
     public string Style { get; set; }
+    [Parameter]
+    public int? LineCount { get; set; }
 
     [Inject]
     private IDialogService DialogService { get; set; }

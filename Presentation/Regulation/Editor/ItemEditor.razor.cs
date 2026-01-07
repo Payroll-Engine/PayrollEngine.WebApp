@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using MudBlazor;
-using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
 
@@ -20,6 +21,8 @@ public partial class ItemEditor
     public IRegulationItemValidator Validator { get; set; }
     [Parameter]
     public List<RegulationField> Fields { get; set; }
+    [Parameter]
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
     [Parameter]
@@ -38,20 +41,45 @@ public partial class ItemEditor
     private IRegulationItem lastItem;
     private bool HasItem => Item != null;
     private bool HasBaseItem => Item != null && Item.BaseItem != null;
-
     private bool HasId => Item.Id > 0;
-    private bool IsUnchanged { get; set; }
-    private bool IsChanged => !IsUnchanged;
-    protected bool IsUnsaved => HasId && IsChanged;
 
     private string ItemTypeName =>
         Localizer.GroupKey(EditItem.ItemType.ToString());
 
     private string ItemTitle =>
-        IsChanged ? $"{EditItem.InheritanceKey} *" : EditItem.InheritanceKey;
+        Changed ? $"{EditItem.InheritanceKey} *" : EditItem.InheritanceKey;
 
     private string ToUiDate(DateTime dateTime) =>
         dateTime == DateTime.MinValue ? "*" : dateTime.ToCompactString();
+
+    #region State
+
+    private bool Unchanged { get; set; }
+    private bool Changed => !Unchanged;
+    private bool Modified => HasId && Changed;
+
+    private async Task InitStateAsync()
+    {
+        lastItem = Item;
+        EditItem = Item?.Clone();
+        await UpdateStateAsync();
+    }
+
+    private async Task UpdateStateAsync()
+    {
+        // new record or changed
+        var unchanged = Item.Id != 0 && EditItem.Equals(Item);
+        if (unchanged == Unchanged)
+        {
+            return;
+        }
+        Unchanged = unchanged;
+
+        // notify external
+        await StateChanged.InvokeAsync((Item, Modified));
+    }
+
+    #endregion
 
     #region Fields
 
@@ -92,6 +120,12 @@ public partial class ItemEditor
         return groupFields;
     }
 
+    private string GetGroupCountLabel(string groupName)
+    {
+        var count = Item.GetGroupCount(groupName);
+        return count == 0 ? null : $" ({count})";
+    }
+
     private string ParentTypeName =>
         EditItem.Parent != null ? Localizer.GroupKey(EditItem.Parent?.ItemType.ToString()) : null;
 
@@ -105,6 +139,13 @@ public partial class ItemEditor
 
     #region Actions
 
+    private string ActionCountLabel => GetItemCountLabel(Item.ActionCount);
+    private string ExpressionCountLabel => GetItemCountLabel(Item.ExpressionCount);
+    private string AttributeCountLabel => GetItemCountLabel(Item.AttributeCount);
+
+    private static string GetItemCountLabel(int count) =>
+        count == 0 ? null : $" ({count})";
+
     private bool CanDelete() =>
         HasId && (EditItem.IsNew() || EditItem.IsDerived());
 
@@ -116,6 +157,9 @@ public partial class ItemEditor
 
     private bool CanDerive() =>
         EditItem.IsBase();
+
+    private async Task OnUndoChangesAsync() =>
+        await InitStateAsync();
 
     private async Task OnSaveItemAsync()
     {
@@ -146,7 +190,7 @@ public partial class ItemEditor
         await SaveItem.InvokeAsync(EditItem);
 
         // reset state
-        InitState();
+        await InitStateAsync();
     }
 
     private async Task OnDeleteItemAsync()
@@ -173,6 +217,31 @@ public partial class ItemEditor
 
     #endregion
 
+    #region Navigation
+
+    private async Task HandleNavigation(LocationChangingContext context)
+    {
+        // without pending changes
+        if (!Modified)
+        {
+            return;
+        }
+
+        // continue confirmation
+        var result = await DialogService.ShowMessageBox(
+            title: Localizer.Shared.UnsaveChangesTitle,
+            message: Localizer.Shared.UnsaveChangesQuery,
+            yesText: Localizer.Shared.Leave,
+            cancelText: Localizer.Shared.Stay);
+        if (result == null || result == false)
+        {
+            // block the navigation
+            context.PreventNavigation();
+        }
+    }
+
+    #endregion
+
     #region Lifecycle
 
     protected List<string> GetBaseRegulations()
@@ -194,24 +263,13 @@ public partial class ItemEditor
             { nameof(IRegulationInput.EditContext), EditContext },
             { nameof(IRegulationInput.Item), EditItem },
             { nameof(IRegulationInput.Field), field },
-            { nameof(IRegulationInput.ValueChanged), EventCallback.Factory.Create<object>(this, UpdateState) }
+            { nameof(IRegulationInput.ValueChanged), EventCallback.Factory.Create<object>(this, UpdateStateAsync) }
         };
     }
 
-    private void InitState()
-    {
-        lastItem = Item;
-        EditItem = Item?.Clone();
-        UpdateState();
-    }
-
-    private void UpdateState() =>
-        // new record or changed
-        IsUnchanged =  Item.Id != 0 && EditItem.Equals(Item);
-
     protected override async Task OnInitializedAsync()
     {
-        InitState();
+        await InitStateAsync();
         await base.OnInitializedAsync();
     }
 
@@ -220,7 +278,7 @@ public partial class ItemEditor
         // object change
         if (lastItem != Item)
         {
-            InitState();
+            await InitStateAsync();
         }
         await base.OnParametersSetAsync();
     }

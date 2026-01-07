@@ -43,11 +43,10 @@ public class RegulationReport : ReportSet, IRegulationItem, IKeyEquatable<Regula
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string InheritanceKey => Name;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string ParentInheritanceKey => null;
+    public int ExpressionCount =>
+        (string.IsNullOrWhiteSpace(BuildExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(StartExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(EndExpression) ? 0 : 1);
 
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => Category;

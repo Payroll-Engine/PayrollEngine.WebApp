@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
-using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Regulation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
 
@@ -13,6 +13,8 @@ public partial class CollectorEditor
     public RegulationEditContext EditContext { get; set; }
     [Parameter]
     public IRegulationItem Item { get; set; }
+    [Parameter] 
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
     [Parameter]
@@ -87,20 +89,23 @@ public partial class CollectorEditor
             new(nameof(RegulationCollector.StartExpression), typeof(TextBox))
             {
                 Label = Localizer.Collector.StartExpression,
+                ActionLabel = Localizer.Collector.StartActions,
                 Expression = true,
-                Lines = 8
+                Action = FunctionType.CollectorStart
             },
             new(nameof(RegulationCollector.ApplyExpression), typeof(TextBox))
             {
                 Label = Localizer.Collector.ApplyExpression,
+                ActionLabel = Localizer.Collector.ApplyActions,
                 Expression = true,
-                Lines = 8
+                Action = FunctionType.CollectorApply
             },
             new(nameof(RegulationCollector.EndExpression), typeof(TextBox))
             {
                 Label = Localizer.Collector.EndExpression,
+                ActionLabel = Localizer.Collector.EndActions,
                 Expression = true,
-                Lines = 8
+                Action = FunctionType.CollectorEnd
             }
         };
         Fields = fields;

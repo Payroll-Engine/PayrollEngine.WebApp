@@ -61,32 +61,28 @@ public class ActionProvider
     public async Task<List<ActionInfo>> GetActions(FunctionType functionType, string category = null)
     {
         // action setup
-        actions ??= await LoadActions();
-
-        // all actions
-        if (functionType == FunctionType.All)
+        if (actions == null || !actions.Any())
         {
-            return actions;
+            actions = await LoadActions(functionType);
         }
 
-        // function type filter
-        if (string.IsNullOrWhiteSpace(category))
+        // category filter
+        if (!string.IsNullOrWhiteSpace(category))
         {
-            return actions.Where(x => x.FunctionType == functionType).ToList();
+            return actions.Where(x => x.FunctionType == functionType &&
+                                      x.Categories != null && x.Categories.Contains(category)).ToList();
         }
-
-        // function type and category filter
-        return actions.Where(x => x.FunctionType == functionType &&
-                                  x.Categories != null && x.Categories.Contains(category)).ToList();
+        return actions;
     }
 
-    private async Task<List<ActionInfo>> LoadActions()
+    private async Task<List<ActionInfo>> LoadActions(FunctionType functionType)
     {
         var allActions = new List<ActionInfo>();
         // tenant actions with action source system
-        allActions.AddRange(await TenantService.GetSystemScriptActionsAsync<ActionInfo>(TenantId));
+        allActions.AddRange(await TenantService.GetSystemScriptActionsAsync<ActionInfo>(TenantId, functionType));
         // payroll actions with action source script
-        allActions.AddRange(await PayrollService.GetActionsAsync<ActionInfo>(new(TenantId, PayrollId)));
+        allActions.AddRange(await PayrollService.GetActionsAsync<ActionInfo>(new(TenantId, PayrollId),
+            functionType: functionType));
         return allActions;
     }
 }

@@ -52,21 +52,18 @@ public class RegulationField
     /// </summary>
     public string Group { get; init; }
 
-    /// <summary>
-    /// The help message
-    /// </summary>
-    private readonly string help;
     public string Help
     {
         get
         {
-            if (!string.IsNullOrWhiteSpace(help))
+            if (!string.IsNullOrWhiteSpace(field))
             {
-                return help;
+                return field;
             }
+
             return Expression && !IsAction ? "C# Expression" : null;
         }
-        init => help = value;
+        init;
     }
 
     /// <summary>
@@ -108,6 +105,16 @@ public class RegulationField
 
         return null;
     }
+
+    /// <summary>
+    /// The number of action lines (default is 3)
+    /// </summary>
+    public int ActionLines { get; } = 3;
+
+    /// <summary>
+    /// The number of expression lines (default is 1)
+    /// </summary>
+    public int ExpressionLines { get; } = 8;
 
     /// <summary>
     /// The number of edit lines (default is 1)

@@ -1,0 +1,30 @@
+﻿@using PayrollEngine.Action
+@using PayrollEngine.WebApp.Shared
+
+@if (Visible)
+{
+    <MudMenuItem @onclick="@OnClick">
+        <ChildContent>
+            <div class="d-flex flex-grow-1">
+                @LocalizerService.Localizer.Enum(MarkerType)
+                <div class="d-flex flex-grow-1 justify-end pl-4">
+                    <span style="font-family: monospace; background-color: var(--mud-palette-primary); padding: 0 5px; border-radius: 5px;">
+                        @MarkerType.GetSyntax()
+                    </span>
+                </div>
+            </div>
+        </ChildContent>
+    </MudMenuItem>
+}
+
+@code {
+    [Parameter]
+    public MarkerType MarkerType { get; set; }
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Inject]
+    private ILocalizerService LocalizerService { get; set; }
+}

@@ -405,7 +405,7 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
         // dialog
         var parameters = new DialogParameters
         {
-            { nameof(CaseDocumentsDialog<CaseDocument>.Documents), documents }
+            { nameof(CaseDocumentsDialog<>.Documents), documents }
         };
         await DialogService.ShowAsync<CaseDocumentsDialog<CaseDocument>>(Localizer.Document.Documents, parameters);
     }
@@ -707,6 +707,10 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
         {
             await ChangePayrollAsync(Payroll.Id, Employee?.Id);
         }
+
+        await InitCasesAsync();
+        await InitGridAsync();
+
         await base.OnPageInitializedAsync();
     }
 
@@ -714,8 +718,6 @@ public abstract partial class CasesPageBase(WorkingItems workingItems) : PageBas
     {
         if (firstRender)
         {
-            await InitCasesAsync();
-            await InitGridAsync();
             if (StartExpandGroups)
             {
                 await ExpandItemGroupsAsync();

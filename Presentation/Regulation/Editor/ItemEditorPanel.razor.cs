@@ -12,6 +12,8 @@ public partial class ItemEditorPanel
     [Parameter]
     public IRegulationItem Item { get; set; }
     [Parameter]
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
+    [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> DeleteItem { get; set; }

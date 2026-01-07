@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
+using Task = System.Threading.Tasks.Task;
+using Payroll = PayrollEngine.Client.Model.Payroll;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Blazored.LocalStorage;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.ViewModel;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.Component;
 using PayrollEngine.WebApp.Presentation.Regulation;
 using PayrollEngine.WebApp.Presentation.Regulation.Component;
-using PayrollEngine.WebApp.ViewModel;
-using Payroll = PayrollEngine.Client.Model.Payroll;
-using Task = System.Threading.Tasks.Task;
 
 namespace PayrollEngine.WebApp.Server.Components.Pages;
 
@@ -17,6 +18,8 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
 {
     [Inject]
     private IPayrollService PayrollService { get; set; }
+    [Inject]
+    private ILocalStorageService LocalStorage { get; set; }
 
     private ItemBrowser ItemBrowser { get; set; }
 
@@ -51,13 +54,29 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
 
     #region Working Type
 
+    [Parameter]
+    public string WorkingItem { get; set; }
+
+    private RenderFragment UpdateWorkingItem()
+    {
+        if (!string.IsNullOrWhiteSpace(WorkingItem) &&
+            Enum.TryParse<RegulationItemType>(WorkingItem, ignoreCase: true, out var workingType))
+        {
+            SetWorkingType(workingType);
+        }
+        return null;
+    }
+
     private RegulationItemType WorkingType { get; set; }
 
-    private Task SetWorkingType(RegulationItemType itemType)
+    private Color GetItemColor(params RegulationItemType[] itemTypes) =>
+        itemTypes.Contains(WorkingType) ? Color.Primary : Color.Default;
+
+    private void SetWorkingType(RegulationItemType itemType)
     {
         if (WorkingType == itemType)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         switch (itemType)
@@ -78,9 +97,9 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
         }
 
         WorkingType = itemType;
-        // clear editing object
-        SelectedItem = null;
-        return Task.CompletedTask;
+
+        // clear selection
+        ClearSelection();
     }
 
     private string GetItemsLabel(RegulationItemType itemType) =>
@@ -122,12 +141,31 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
     #region Working Item
 
     private IRegulationItem SelectedItem { get; set; }
+    private bool SelectedItemModified { get; set; }
+
+    private void ClearSelection()
+    {
+        // clear editing object
+        SelectedItem = null;
+        SelectedItemModified = false;
+    }
 
     private void ChangeSelectedItem(IRegulationItem item)
     {
-        if (item != SelectedItem)
+        if (item == SelectedItem)
         {
-            SelectedItem = item;
+            return;
+        }
+        // change item
+        SelectedItem = item;
+        SelectedItemModified = false;
+    }
+
+    private void ItemStateChanged((IRegulationItem Item, bool Modified) state)
+    {
+        if (state.Item == SelectedItem)
+        {
+            SelectedItemModified = state.Modified;
         }
     }
 
@@ -243,8 +281,17 @@ public partial class Regulation() : PageBase(WorkingItems.TenantChange | Working
 
     #region Lifecycle
 
+    private ItemGridConfig ItemGridConfig { get; } = new();
+
+    private async Task SetupItemGridAsync()
+    {
+        ItemGridConfig.DenseMode = await LocalStorage.GetItemAsBooleanAsync("RegulationDenseMode") ?? false;
+    }
+
     protected override async Task OnPageInitializedAsync()
     {
+        await SetupItemGridAsync();
+
         if (Session.Payroll != null)
         {
             await SetupEditContextAsync(Session.Payroll);

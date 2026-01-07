@@ -22,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "calendars",
+      "launchUrl": "regulation",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

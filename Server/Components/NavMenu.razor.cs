@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using Blazored.LocalStorage;
-using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Server.Components.Shared;
+using PayrollEngine.WebApp.Shared;
 
-namespace PayrollEngine.WebApp.Server.Components.Layout;
+namespace PayrollEngine.WebApp.Server.Components;
 
 public partial class NavMenu : IDisposable
 {
@@ -37,7 +37,7 @@ public partial class NavMenu : IDisposable
 
     private async Task UserStateChangedEvent(object sender, User user)
     {
-        SetupPages();
+        await SetupPagesAsync();
         await InvokeAsync(StateHasChanged);
     }
 
@@ -49,30 +49,19 @@ public partial class NavMenu : IDisposable
         await LocalStorage.SetItemAsBooleanAsync($"Navigation{pageGroup.GroupName}", pageGroup.Expanded);
     }
 
-    private void SetupPages()
+    private async Task SetupPagesAsync()
     {
         var register = new PageRegister(Localizer);
         Pages = register.Pages;
         PageGroups = register.PageGroups;
-    }
 
-    private async Task InitPagesAsync()
-    {
-        // group expand
-        var changed = false;
         foreach (var pageGroup in PageGroups)
         {
             var groupSetting = await LocalStorage.GetItemAsBooleanAsync($"Navigation{pageGroup.GroupName}");
             if (groupSetting.HasValue && groupSetting.Value != pageGroup.Expanded)
             {
                 pageGroup.Expanded = groupSetting.Value;
-                changed = true;
             }
-        }
-
-        if (changed)
-        {
-            StateHasChanged();
         }
     }
 
@@ -83,17 +72,8 @@ public partial class NavMenu : IDisposable
         // register user change handler
         Session.UserChanged += UserChangedEvent;
         Session.UserStateChanged += UserStateChangedEvent;
-        SetupPages();
+        await SetupPagesAsync();
         await base.OnInitializedAsync();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await InitPagesAsync();
-        }
-        await base.OnAfterRenderAsync(firstRender);
     }
 
     void IDisposable.Dispose()

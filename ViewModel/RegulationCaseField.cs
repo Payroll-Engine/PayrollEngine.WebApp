@@ -1,7 +1,7 @@
-﻿using System;
-using System.Text.Json.Serialization;
-using PayrollEngine.Client.Model;
+﻿using PayrollEngine.Client.Model;
 using PayrollEngine.WebApp.Shared;
+using System;
+using System.Text.Json.Serialization;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -56,12 +56,7 @@ public class RegulationCaseField : CaseField, IRegulationItem, IKeyEquatable<Reg
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string InheritanceKey => Name;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string ParentInheritanceKey =>
-        Parent?.InheritanceKey;
+    public string ParentInheritanceKey => Parent?.InheritanceKey;
 
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => 

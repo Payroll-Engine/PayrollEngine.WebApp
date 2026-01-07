@@ -63,9 +63,8 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
 
     #region Public Properties
 
-    private EqualityComparer<T> comparer;
     private EqualityComparer<T> Comparer =>
-        comparer ??= EqualityComparer<T>.Default;
+        field ??= EqualityComparer<T>.Default;
 
     //private set => comparer = value;
     /// <summary>

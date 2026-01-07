@@ -1,199 +1,217 @@
-﻿@using PayrollEngine.WebApp.Presentation.Regulation.Component
+﻿@using Microsoft.AspNetCore.Components.Routing
+@using PayrollEngine.WebApp.Presentation.Regulation.Component
 
-@if (HasItem)
+@if (!HasItem)
 {
-    <MudPaper Class="d-flex flex-grow-1 border-solid border mud-border-primary pa-4"
-              Elevation="0">
-        <MudStack Row="false" Spacing="0">
-            <table>
-                @{
-                    const string labelStyle = "text-align: right; padding-right: 10px !important; line-height: normal; vertical-align: bottom;";
-                    <tr>
-                        <td style="@labelStyle" class="pr-2">
-                            <MudText Typo="Typo.caption">@ItemTypeName</MudText>
-                        </td>
-                        <td>
-                            <MudText Typo="Typo.body1">@ItemTitle (@EditItem.InheritanceType.ToText(Localizer))</MudText>
-                        </td>
-                    </tr>
-                    @if (EditItem.IsChildItem)
-                    {
-                        <tr>
-                            <td style="@labelStyle">
-                                <MudText Typo="Typo.caption">@ParentTypeName</MudText>
-                            </td>
-                            <MudText Typo="Typo.body1">@EditItem.Parent.InheritanceKey</MudText>
-                        </tr>
-                    }
+    return;
+}
+
+<NavigationLock OnBeforeInternalNavigation="HandleNavigation"
+                ConfirmExternalNavigation="Modified" />
+
+<MudPaper Class="d-flex flex-grow-1 border-solid border mud-border-primary pa-4"
+          Elevation="0">
+    <MudStack Row="false" Spacing="0">
+        <table>
+            @{
+                const string labelStyle = "text-align: right; padding-right: 10px !important; line-height: normal; vertical-align: bottom;";
+                <tr>
+                    <td style="@labelStyle" class="pr-2">
+                        <MudText Typo="Typo.caption">@ItemTypeName</MudText>
+                    </td>
+                    <td>
+                        <MudText Typo="Typo.body1">@ItemTitle (@EditItem.InheritanceType.ToText(Localizer))</MudText>
+                    </td>
+                </tr>
+                @if (EditItem.IsChildItem)
+                {
                     <tr>
                         <td style="@labelStyle">
-                            <MudText Typo="Typo.caption">@Localizer.Regulation.Regulation</MudText>
+                            <MudText Typo="Typo.caption">@ParentTypeName</MudText>
                         </td>
-                        <td>
-                            <MudText Typo="Typo.body1">
-                                @EditItem.RegulationName
-                                @if (HasBaseItem)
-                                {
-                                    var item = Item.BaseItem;
-                                    while (item != null)
-                                    {
-                                        <span>&nbsp;&#8594;&nbsp;</span>
-                                        @item.RegulationName
-                                        item = item.BaseItem;
-                                    }
-                                }
-                            </MudText>
-                        </td>
+                        <MudText Typo="Typo.body1">@EditItem.Parent?.InheritanceKey</MudText>
                     </tr>
                 }
-            </table>
-        </MudStack>
-        <MudSpacer />
-        <MudStack Row="false" Spacing="0" Class="d-flex flex-grow-1">
-            <MudText Typo="Typo.caption">@Localizer.Shared.ObjectCreated @ToUiDate(EditItem.Created)</MudText>
+                <tr>
+                    <td style="@labelStyle">
+                        <MudText Typo="Typo.caption">@Localizer.Regulation.Regulation</MudText>
+                    </td>
+                    <td>
+                        <MudText Typo="Typo.body1">
+                            @EditItem.RegulationName
+                            @if (HasBaseItem)
+                            {
+                                var item = Item.BaseItem;
+                                while (item != null)
+                                {
+                                    <span>&nbsp;&#8594;&nbsp;</span>
+                                    @item.RegulationName
+                                    item = item.BaseItem;
+                                }
+                            }
+                        </MudText>
+                    </td>
+                </tr>
+            }
+        </table>
+    </MudStack>
+    <MudSpacer />
+    <MudStack Row="false" Spacing="0" Class="d-flex flex-grow-1">
+        <MudText Typo="Typo.caption">@Localizer.Shared.ObjectCreated @ToUiDate(EditItem.Created)</MudText>
+        @if (EditItem.Updated != EditItem.Created)
+        {
             <MudText Typo="Typo.caption">@Localizer.Shared.ObjectUpdated @ToUiDate(EditItem.Updated)</MudText>
-            <MudText Typo="Typo.caption">
-                @EditItem.Status
-                @if (HasId)
+        }
+        <MudText Typo="Typo.caption">
+            @EditItem.Status
+            @if (HasId)
+            {
+                <span>&nbsp;&#x2022;&nbsp;@Localizer.Shared.ObjectId @EditItem.Id</span>
+            }
+        </MudText>
+    </MudStack>
+    <MudStack Row="true">
+        @if (CanDelete())
+        {
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeleteHelp(ItemTypeName)" Placement="Placement.Top">
+                <MudIconButton @onclick="@OnDeleteItemAsync"
+                               Color="Color.Secondary"
+                               Variant="@Globals.ToolButtonVariant"
+                               Icon="@Icons.Material.Filled.Delete"
+                               Size="Size.Small" />
+            </MudTooltip>
+        }
+        @if (CanSave())
+        {
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.UndoHelp(ItemTypeName)" Placement="Placement.Top">
+                <MudIconButton @onclick="@OnUndoChangesAsync"
+                               Disabled="@Unchanged"
+                               Color="Color.Primary"
+                               Variant="@Globals.ToolButtonVariant"
+                               Icon="@Icons.Material.Filled.Undo"
+                               Size="Size.Small" />
+            </MudTooltip>
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.SaveHelp(ItemTypeName)" Placement="Placement.Top">
+                <MudIconButton @onclick="@OnSaveItemAsync"
+                               Disabled="@Unchanged"
+                               Color="Color.Tertiary"
+                               Variant="@Globals.ToolButtonVariant"
+                               Icon="@Icons.Material.Filled.Save"
+                               Size="Size.Small" />
+            </MudTooltip>
+        }
+        @if (CanDerive())
+        {
+            <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeriveHelp(ItemTypeName)" Placement="Placement.Top">
+                <MudIconButton @onclick="@OnDeriveItemAsync"
+                               Color="Color.Tertiary"
+                               Variant="@Globals.ToolButtonVariant"
+                               Icon="@Icons.Material.Filled.PlaylistAdd"
+                               Size="Size.Small" />
+            </MudTooltip>
+        }
+    </MudStack>
+</MudPaper>
+
+<MudPaper Outlined="true" Class="mt-4">
+    <MudForm @ref="form">
+        <MudTabs Elevation="2" Rounded="true">
+            @{
+                // common fields
+                var commonFields = GetCommonFields();
+                if (commonFields.Any())
                 {
-                    <span>&nbsp;&#x2022;&nbsp;@Localizer.Shared.ObjectId @EditItem.Id</span>
-                }
-            </MudText>
-        </MudStack>
-        <MudStack Row="true">
-            @if (CanDelete())
-            {
-                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeleteHelp(ItemTypeName)" Placement="Placement.Top">
-                    <MudIconButton @onclick="@OnDeleteItemAsync"
-                                   Color="Color.Secondary"
-                                   Variant="@Globals.ToolButtonVariant"
-                                   Icon="@Icons.Material.Filled.Delete"
-                                   Size="Size.Small" />
-                </MudTooltip>
-            }
-            @if (CanSave())
-            {
-                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.SaveHelp(ItemTypeName)" Placement="Placement.Top">
-                    <MudIconButton @onclick="@OnSaveItemAsync"
-                                   Disabled="@IsUnchanged"
-                                   Color="Color.Tertiary"
-                                   Variant="@Globals.ToolButtonVariant"
-                                   Icon="@Icons.Material.Filled.Save"
-                                   Size="Size.Small" />
-                </MudTooltip>
-            }
-            @if (CanDerive())
-            {
-                <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.DeriveHelp(ItemTypeName)" Placement="Placement.Top">
-                    <MudIconButton @onclick="@OnDeriveItemAsync"
-                                   Color="Color.Tertiary"
-                                   Variant="@Globals.ToolButtonVariant"
-                                   Icon="@Icons.Material.Filled.PlaylistAdd"
-                                   Size="Size.Small" />
-                </MudTooltip>
-            }
-        </MudStack>
-    </MudPaper>
-
-    <MudPaper Outlined="true" Class="mt-4">
-        <MudForm @ref="form">
-            <MudTabs Elevation="2" Rounded="true">
-                @{
-                    // common fields
-                    var commonFields = GetCommonFields();
-                    if (commonFields.Any())
-                    {
-                        <MudTabPanel Text="@Localizer.Shared.CommonFields">
-                            <MudStack Class="pa-4">
-                                @foreach (var field in commonFields)
-                                {
-                                    <div class="row objectField">
-                                        @if (field.ComponentType != null)
-                                        {
-                                            <DynamicComponent Type="@field.ComponentType"
-                                                              Parameters="@GetComponentParameters(field)" />
-                                        }
-                                    </div>
-                                }
-                            </MudStack>
-                        </MudTabPanel>
-                    }
-
-                    // common grouped fields
-                    var groupFields = GetGroupFields();
-                    foreach (var groupField in groupFields)
-                    {
-                        <MudTabPanel Text="@groupField.Item1.ToPascalSentence()">
-                            <MudStack Class="pa-4">
-                                @foreach (var field in groupField.Item2)
-                                {
-                                    <div class="row objectField">
-                                        @if (field.ComponentType != null)
-                                        {
-                                            <DynamicComponent Type="@field.ComponentType"
-                                                              Parameters="@GetComponentParameters(field)" />
-                                        }
-                                    </div>
-                                }
-                            </MudStack>
-                        </MudTabPanel>
-                    }
-
-                    // action fields
-                    var actionFields = GetActionFields();
-                    if (actionFields.Any())
-                    {
-                        <MudTabPanel Text="@Localizer.Action.Actions">
-                            <MudStack Class="pa-4">
-                                @foreach (var field in actionFields)
-                                {
-                                    <ActionGrid Item="EditItem"
-                                                Field="field"
-                                                EditContext="EditContext"
-                                                ValueChanged="UpdateState">
-                                    </ActionGrid>
-                                }
-                            </MudStack>
-                        </MudTabPanel>
-                    }
-
-                    // expression fields
-                    var scriptFields = GetExpressionFields();
-                    if (scriptFields.Any())
-                    {
-                        <MudTabPanel Text="@Localizer.Script.Scripts">
-                            <MudStack Class="pa-4 gap-4">
-                                @foreach (var field in scriptFields)
-                                {
-                                    @if (field.Expression)
+                    <MudTabPanel Text="@Localizer.Shared.CommonFields">
+                        <MudStack Class="pa-4">
+                            @foreach (var field in commonFields)
+                            {
+                                <div class="row objectField">
+                                    @if (field.ComponentType != null)
                                     {
-                                        <TextBox Item="EditItem"
-                                                 Field="field"
-                                                 Variant="@Globals.ButtonVariant"
-                                                 ValueChanged="UpdateState"
-                                                 Style="font-family: monospace; font-size: medium;"
-                                                 HelperText="@Localizer.Item.CSharpExpression" />
+                                        <DynamicComponent Type="@field.ComponentType"
+                                                          Parameters="@GetComponentParameters(field)" />
                                     }
-                                }
-                            </MudStack>
-                        </MudTabPanel>
-                    }
-
-                    // attributes field
-                    if (Item is IAttributeObject && HasAttributeField)
-                    {
-                        <MudTabPanel Text="@Localizer.Attribute.Attributes">
-                            <MudStack Class="pa-4 gap-4">
-                                <RegulationAttributeGrid EditContext="EditContext"
-                                                         Item="EditItem"
-                                                         Field="AttributeField"
-                                                         ValueChanged="UpdateState">
-                                </RegulationAttributeGrid>
-                            </MudStack>
-                        </MudTabPanel>
-                    }
+                                </div>
+                            }
+                        </MudStack>
+                    </MudTabPanel>
                 }
-            </MudTabs>
-        </MudForm>
-    </MudPaper>
-}
+
+                // common grouped fields
+                var groupFields = GetGroupFields();
+                foreach (var groupField in groupFields)
+                {
+                    <MudTabPanel Text="@($"{groupField.Item1.ToPascalSentence()}{GetGroupCountLabel(groupField.Item1)}")">
+                        <MudStack Class="pa-4">
+                            @foreach (var field in groupField.Item2)
+                            {
+                                <div class="row objectField">
+                                    @if (field.ComponentType != null)
+                                    {
+                                        <DynamicComponent Type="@field.ComponentType"
+                                                          Parameters="@GetComponentParameters(field)" />
+                                    }
+                                </div>
+                            }
+                        </MudStack>
+                    </MudTabPanel>
+                }
+
+                // action fields
+                var actionFields = GetActionFields();
+                if (actionFields.Any())
+                {
+                    <MudTabPanel Text="@($"{Localizer.Action.Actions}{ActionCountLabel}")">
+                        <MudStack Class="pa-4">
+                            @foreach (var field in actionFields)
+                            {
+                                <ActionGrid Item="EditItem"
+                                            Field="field"
+                                            EditContext="EditContext"
+                                            ValueChanged="UpdateStateAsync">
+                                </ActionGrid>
+                            }
+                        </MudStack>
+                    </MudTabPanel>
+                }
+
+                // expression fields
+                var scriptFields = GetExpressionFields();
+                if (scriptFields.Any())
+                {
+                    <MudTabPanel Text="@($"{Localizer.Script.Scripts}{ExpressionCountLabel}")">
+                        <MudStack Class="pa-4 gap-4">
+                            @foreach (var field in scriptFields)
+                            {
+                                @if (field.Expression)
+                                {
+                                    <TextBox Item="EditItem"
+                                             Field="field"
+                                             Variant="@Globals.ButtonVariant"
+                                             ValueChanged="UpdateStateAsync"
+                                             LineCount="field.ExpressionLines"
+                                             Style="font-family: monospace; font-size: medium;"
+                                             HelperText="@Localizer.Item.CSharpExpression" />
+                                }
+                            }
+                        </MudStack>
+                    </MudTabPanel>
+                }
+
+                // attributes field
+                if (Item is IAttributeObject && HasAttributeField)
+                {
+                    <MudTabPanel Text="@($"{Localizer.Attribute.Attributes}{AttributeCountLabel}")">
+                        <MudStack Class="pa-4 gap-4">
+                            <RegulationAttributeGrid EditContext="EditContext"
+                                                     Item="EditItem"
+                                                     Field="AttributeField"
+                                                     ValueChanged="UpdateStateAsync">
+                            </RegulationAttributeGrid>
+                        </MudStack>
+                    </MudTabPanel>
+                }
+            }
+        </MudTabs>
+    </MudForm>
+</MudPaper>

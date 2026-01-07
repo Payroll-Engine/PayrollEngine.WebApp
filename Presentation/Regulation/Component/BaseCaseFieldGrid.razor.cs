@@ -165,19 +165,18 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
     }
 
     // load on demand
-    private List<CaseField> baseCaseFields;
     private List<CaseField> BaseCaseFields
     {
         get
         {
-            if (baseCaseFields != null)
+            if (field != null)
             {
-                return baseCaseFields;
+                return field;
             }
 
             var context = new PayrollServiceContext(EditContext.Tenant.Id, EditContext.Payroll.Id);
-            baseCaseFields = Task.Run(() => PayrollService.GetCaseFieldsAsync<CaseField>(context)).Result.OrderBy(x => x.Name).ToList();
-            return baseCaseFields;
+            field = Task.Run(() => PayrollService.GetCaseFieldsAsync<CaseField>(context)).Result.OrderBy(x => x.Name).ToList();
+            return field;
         }
     }
 

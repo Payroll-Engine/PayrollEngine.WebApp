@@ -43,7 +43,6 @@ public class SharedLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
     public string BooleanToggle(bool value) =>
         value ? TrueToggle : FalseToggle;
 
-
     // common
     public string Identifier => PropertyValue();
     public string Name => PropertyValue();
@@ -55,6 +54,8 @@ public class SharedLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
     public string FeaturesAdmin => PropertyValue();
     public string FeaturesSystem => PropertyValue();
     public string CommonFields => PropertyValue();
+    public string Property => PropertyValue();
+    public string Properties => PropertyValue();
 
     // data
     public string FilterReset => PropertyValue();
@@ -63,4 +64,10 @@ public class SharedLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
 
     public string ImmediateChanges => PropertyValue();
     public string JsonReformat => PropertyValue();
+
+    // navigation
+    public string UnsaveChangesTitle => PropertyValue();
+    public string UnsaveChangesQuery => PropertyValue();
+    public string Leave => PropertyValue();
+    public string Stay => PropertyValue();
 }

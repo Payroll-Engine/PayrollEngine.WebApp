@@ -124,30 +124,22 @@ public partial class Login() : PageBase(WorkingItems.None), IDisposable
         }
     }
 
-    /// <summary>
-    /// User identifier string
-    /// </summary>
-    private string userIdentifier;
     private string UserIdentifier
     {
-        get => userIdentifier;
+        get;
         set
         {
-            userIdentifier = value;
+            field = value;
             SetSelectedUser();
         }
     }
 
-    /// <summary>
-    /// Tenant identifier string
-    /// </summary>
-    private string tenantIdentifier;
     private string TenantIdentifier
     {
-        get => tenantIdentifier;
+        get;
         set
         {
-            tenantIdentifier = value;
+            field = value;
             SetSelectedTenant();
         }
     }

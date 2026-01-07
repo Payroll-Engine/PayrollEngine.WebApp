@@ -52,15 +52,24 @@ public class RegulationWageType : WageType, IRegulationItem, IKeyEquatable<Regul
     public RegulationItemType ItemType => RegulationItemType.WageType;
 
     /// <inheritdoc />
+    [JsonIgnore]
+    public int ActionCount =>
+        (ValueActions?.Count ?? 0) +
+        (ResultActions?.Count ?? 0);
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    public int ExpressionCount =>
+        (string.IsNullOrWhiteSpace(ValueExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(ResultExpression) ? 0 : 1);
+
+    /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => Name;
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string InheritanceKey => WageTypeNumber.ToString("0.####", CultureInfo.InvariantCulture);
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string ParentInheritanceKey => null;
+    public string InheritanceKey => 
+        WageTypeNumber.ToString("0.####", CultureInfo.InvariantCulture);
 
     /// <inheritdoc />
     public IRegulationItem Parent { get; set; }

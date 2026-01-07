@@ -57,15 +57,19 @@ public class RegulationCaseRelation : CaseRelation, IRegulationItem, IKeyEquatab
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string ParentInheritanceKey => null;
-
-    /// <inheritdoc />
-    [JsonIgnore]
     public string Name => ToString();
+    
+    /// <inheritdoc />
+    [JsonIgnore]
+    public int ActionCount =>
+        (BuildActions?.Count ?? 0) +
+        (ValidateActions?.Count ?? 0);
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string Description => null;
+    public int ExpressionCount =>
+        (string.IsNullOrWhiteSpace(BuildExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(ValidateExpression) ? 0 : 1);
 
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => null;

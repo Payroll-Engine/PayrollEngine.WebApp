@@ -32,11 +32,13 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
     [Parameter]
     public ItemCollection<TItem> Items { get; set; }
     [Parameter]
-    public int ItemsPageSize { get; set; } = 20;
+    public ItemGridConfig ItemGridConfig { get; set; }
     [Parameter]
     public IItemFactory<TParent> ParentFactory { get; set; }
     [Parameter]
     public RegulationItemType ItemType { get; set; }
+    [Parameter]
+    public bool ItemSelection { get; set; } = true;
     [Parameter]
     public EventCallback<TItem> SelectedItemChanged { get; set; }
 
@@ -73,7 +75,13 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
         return Localizer.Key(key, multiple ? $"{key}s" : key);
     }
 
-    private bool Dense { get; set; }
+    private int RowsPerPage => ItemGridConfig.ItemsPageSize;
+
+    private bool Dense
+    {
+        get => ItemGridConfig.DenseMode;
+        set => ItemGridConfig.DenseMode = value;
+    }
 
     /// <summary>
     /// Toggle the grid dense state
@@ -84,19 +92,6 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
 
         // store dense mode
         await LocalStorage.SetItemAsBooleanAsync("RegulationDenseMode", Dense);
-    }
-
-    /// <summary>
-    /// Initialize the grid
-    /// </summary>
-    private async Task InitGridAsync()
-    {
-        // dense
-        var denseMode = await LocalStorage.GetItemAsBooleanAsync("RegulationDenseMode");
-        if (denseMode.HasValue)
-        {
-            Dense = denseMode.Value;
-        }
     }
 
     private async Task ExpandItemGroupsAsync() =>
@@ -130,7 +125,7 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
             // dialog
             var parameters = new DialogParameters
             {
-                { nameof(ParentItemDialog<TItem>.Items), parentItems }
+                { nameof(ParentItemDialog<>.Items), parentItems }
             };
             var dialog = await (await DialogService.ShowAsync<ParentItemDialog<TParent>>(
                 Localizer.Item.SelectParent(GetParentTypeName()), parameters)).Result;
@@ -196,24 +191,26 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
         await ItemsGrid.SetSelectedItemAsync(newObject);
     }
 
-    private async Task SelectedItemChangedAsync(TItem item) =>
+    private TItem lastSelected;
+    private async Task SelectedItemChangedAsync(TItem item)
+    {
         await OnSelectedItemChangedAsync(item);
+        lastSelected = item;
+    }
 
     private string RowStyleHandler(TItem item, int _)
     {
-        var selectedItem = ItemsGrid.SelectedItem;
-        if (selectedItem != null && item.Id == selectedItem.Id)
+        if (item == lastSelected)
         {
-            var color = ThemeService.SelectedWorkingTypeColor();
-            return $"background-color: {color}";
+            return $"background-color: {ThemeService.SelectedBackgroundColor()};";
         }
         return string.Empty;
     }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         Items.CollectionChanged += ItemCollectionChanged;
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 
     private void ItemCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -230,15 +227,6 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
         {
             ItemsGrid.SetSelectedItemAsync(null).Wait();
         }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await InitGridAsync();
-        }
-        await base.OnAfterRenderAsync(firstRender);
     }
 
     public void Dispose()

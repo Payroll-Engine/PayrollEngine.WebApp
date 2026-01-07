@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text.Json;
+using System.Globalization;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using MudBlazor;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
+using PayrollEngine.WebApp.ViewModel;
 using PayrollEngine.WebApp.Presentation;
 using PayrollEngine.WebApp.Presentation.Component;
-using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using CaseSet = PayrollEngine.WebApp.ViewModel.CaseSet;
 
 namespace PayrollEngine.WebApp.Server.Components.Pages;
 
@@ -50,38 +51,50 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     /// </summary>
     private CultureInfo CaseCulture { get; set; }
 
-    private CultureInfo GetValueCulture(CaseField caseField)
+    private CultureInfo GetValueCulture(CaseField caseField) =>
+        Task.Run(() => GetValueCultureAsync(caseField)).Result;
+
+    private async Task<CultureInfo> GetValueCultureAsync(CaseField caseField) =>
+        new(await GetCultureNameAsync(caseField));
+
+    private async Task<string> GetCultureNameAsync(CaseField caseField = null)
     {
         // priority 1: case field culture
-        if (!string.IsNullOrWhiteSpace(caseField.Culture))
+        if (caseField != null && !string.IsNullOrWhiteSpace(caseField.Culture))
         {
-            return new(caseField.Culture);
+            return caseField.Culture;
         }
 
         // priority 2: employee culture
         if (Employee != null && !string.IsNullOrWhiteSpace(Employee.Culture))
         {
-            return new(Employee.Culture);
+            return Employee.Culture;
         }
 
         // priority 3: division culture
         if (Payroll != null && Payroll.DivisionId > 0)
         {
-            var division = DivisionService.GetAsync<ViewModel.Division>(new(Tenant.Id), Payroll.DivisionId).Result;
+            var division = await DivisionService.GetAsync<ViewModel.Division>(new(Tenant.Id), Payroll.DivisionId);
             if (division != null && !string.IsNullOrWhiteSpace(division.Culture))
             {
-                return new(division.Culture);
+                return division.Culture;
             }
         }
 
         // priority 4: tenant culture
-        if (CaseCulture == null && !string.IsNullOrWhiteSpace(Tenant.Culture))
+        if (!string.IsNullOrWhiteSpace(Tenant.Culture))
         {
-            return new(Tenant.Culture);
+            return Tenant.Culture;
         }
 
-        // priority 5: system culture
-        return CultureInfo.CurrentCulture;
+        // priority 5: user culture
+        if (!string.IsNullOrWhiteSpace(User.Culture))
+        {
+            return User.Culture;
+        }
+
+        // priority 6: system culture
+        return CultureInfo.CurrentCulture.Name;
     }
 
     /// <summary>
@@ -94,41 +107,8 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         {
             return;
         }
-
-        // priority 1: user culture
-        if (User != null && !string.IsNullOrWhiteSpace(User.Culture))
-        {
-            CaseCulture = new(User.Culture);
-            return;
-        }
-
-        // priority 2: employee culture
-        if (Employee != null && !string.IsNullOrWhiteSpace(Employee.Culture))
-        {
-            CaseCulture = new(Employee.Culture);
-            return;
-        }
-
-        // priority 3: division culture
-        if (CaseCulture == null && Payroll != null && Payroll.DivisionId > 0)
-        {
-            var division = await DivisionService.GetAsync<ViewModel.Division>(new(Tenant.Id), Payroll.DivisionId);
-            if (division != null && !string.IsNullOrWhiteSpace(division.Culture))
-            {
-                CaseCulture = new(division.Culture);
-                return;
-            }
-        }
-
-        // priority 4: tenant culture
-        if (CaseCulture == null && !string.IsNullOrWhiteSpace(Tenant.Culture))
-        {
-            CaseCulture = new(Tenant.Culture);
-            return;
-        }
-
-        // priority 5: system culture
-        CaseCulture = CultureInfo.CurrentCulture;
+        var cultureName = await GetCultureNameAsync();
+        CaseCulture = cultureName == null ? CultureInfo.CurrentCulture : new CultureInfo(cultureName);
     }
 
     #endregion
@@ -209,20 +189,19 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     /// </summary>
     private Dictionary<string, object> CaseInfo { get; set; }
 
-    private ObservedHashSet<TreeCaseSet> cases = [];
     /// <summary>
     /// The root case collection
     /// </summary>
     private ObservedHashSet<TreeCaseSet> Cases
     {
-        get => cases;
+        get;
         set
         {
             DisconnectCases();
-            cases = value;
+            field = value;
             ConnectCases();
         }
-    }
+    } = [];
 
     private bool CaseAvailable { get; set; }
 
@@ -273,7 +252,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             }
 
             // convert to view model
-            var treeCaseSet = new TreeCaseSet(new ViewModel.CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer));
+            var treeCaseSet = new TreeCaseSet(new CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer));
             // Lookups are initially set without taking in consideration possible cases that are only shown in certain conditions
             // Those new lookups are loaded in Update Case method
             await SetupLookupsAsync(treeCaseSet.CaseSet);
@@ -306,7 +285,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
     /// </summary>
     /// <remarks>The case update will be also used by related cases</remarks>
     /// <param name="caseSet">The case set to update</param>
-    private async Task UpdateCaseAsync(ViewModel.CaseSet caseSet)
+    private async Task UpdateCaseAsync(CaseSet caseSet)
     {
         if (caseUpdating)
         {
@@ -329,7 +308,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             }
 
             // Updating cases may add more cases to existing list, therefore update of lookups is needed
-            var changeCaseSet = new ViewModel.CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
+            var changeCaseSet = new CaseSet(@case, CaseValueProvider, ValueFormatter, TenantCulture, Localizer);
 
             // merge case
             await CaseMerger.MergeAsync(changeCaseSet, caseSet);
@@ -354,7 +333,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         }
     }
 
-    private void ApplyCase(ViewModel.CaseSet caseSet)
+    private void ApplyCase(CaseSet caseSet)
     {
         // case info
         var caseInfo = new Dictionary<string, object>();
@@ -548,7 +527,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
             caseChangeSetup: caseChangeSetup);
     }
 
-    private CaseChangeSetup GetCaseChange(ViewModel.CaseSet caseSet, bool submitMode)
+    private CaseChangeSetup GetCaseChange(CaseSet caseSet, bool submitMode)
     {
         var caseChangeSetup = new CaseChangeSetup
         {
@@ -605,7 +584,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         return Task.CompletedTask;
     }
 
-    private async Task CaseFieldChangedHandlerAsync(object sender, ViewModel.CaseSet caseSet)
+    private async Task CaseFieldChangedHandlerAsync(object sender, CaseSet caseSet)
     {
         await UpdateCaseAsync(caseSet);
         UpdateValidation();
@@ -619,7 +598,7 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
 
     #region Lookup
 
-    private async Task SetupLookupsAsync(ViewModel.CaseSet caseSet)
+    private async Task SetupLookupsAsync(CaseSet caseSet)
     {
         try
         {
@@ -746,7 +725,8 @@ public abstract partial class NewCasePageBase(WorkingItems workingItems) : PageB
         if (valid != Valid)
         {
             Valid = valid;
-            StateHasChanged();
+            //StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
     }
 

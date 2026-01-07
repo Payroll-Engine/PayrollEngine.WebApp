@@ -1,19 +1,26 @@
 ﻿using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
-using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Regulation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
 
 public partial class CaseFieldEditor
 {
-    [Parameter] public RegulationEditContext EditContext { get; set; }
-    [Parameter] public IRegulationItem Item { get; set; }
-    [Parameter] public EventCallback<IRegulationItem> SaveItem { get; set; }
-    [Parameter] public EventCallback<IRegulationItem> DeleteItem { get; set; }
-    [Parameter] public EventCallback<IRegulationItem> DeriveItem { get; set; }
+    [Parameter]
+    public RegulationEditContext EditContext { get; set; }
+    [Parameter]
+    public IRegulationItem Item { get; set; }
+    [Parameter]
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> SaveItem { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> DeleteItem { get; set; }
+    [Parameter]
+    public EventCallback<IRegulationItem> DeriveItem { get; set; }
 
     [Inject] private ILocalizerService LocalizerService { get; set; }
 
@@ -151,22 +158,6 @@ public partial class CaseFieldEditor
             {
                 Label = Localizer.CaseField.LookupSettings,
                 Group = Localizer.Shared.Value
-            },
-
-            // actions
-            new(nameof(RegulationCaseField.BuildActions), typeof(TextBox))
-            {
-                Label = Localizer.CaseField.BuildActions,
-                ActionLabel = Localizer.CaseField.BuildActions,
-                Action = FunctionType.CaseBuild,
-                Lines = 8
-            },
-            new(nameof(RegulationCaseField.ValidateActions), typeof(TextBox))
-            {
-                Label = Localizer.CaseField.ValidateActions,
-                ActionLabel = Localizer.CaseField.ValidateActions,
-                Action = FunctionType.CaseValidate,
-                Lines = 8
             },
 
             // attributes

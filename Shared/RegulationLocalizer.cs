@@ -12,6 +12,7 @@ public class RegulationLocalizer(IStringLocalizerFactory factory, CultureInfo cu
 
     public string Missing => PropertyValue();
     public string ValidFrom => PropertyValue();
+    public string Namespace => PropertyValue();
     public string Version => PropertyValue();
     public string SharedRegulation => PropertyValue();
 

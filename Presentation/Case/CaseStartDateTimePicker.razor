@@ -5,28 +5,29 @@
 {
     <MudStack Row="true" Spacing="0" Class="align-baseline">
         <MudDatePicker @bind-Date="@Date"
-        MinDate="@MinDate"
-        MaxDate="@MaxDate"
-        Culture="@Culture"
-        DateFormat="@DateFormat"
-        Label="@DateLabel"
-        Mask="@Mask"
-        ReadOnly="@ReadOnly"
-        Error="@Error"
-        Required="@Required"
-        RequiredError="@RequiredError"
-        HelperText="@Help"
-        Margin="@Margin.Dense"
-        Variant="@Variant"
-        Class="@Class"
-        Editable="true" />
+                       MinDate="@MinDate"
+                       MaxDate="@MaxDate"
+                       Culture="@Culture"
+                       DateFormat="@DateFormat"
+                       Label="@DateLabel"
+                       Mask="@Mask"
+                       ReadOnly="@ReadOnly"
+                       Error="@Error"
+                       Required="@Required"
+                       RequiredError="@RequiredError"
+                       OpenTo="OpenTo"
+                       HelperText="@Help"
+                       Margin="@Margin.Dense"
+                       Variant="@Variant"
+                       Class="@Class"
+                       Editable="true" />
         <MudTimePicker Class="pl-4"
-        @bind-Time="@Time"
-        Culture="@Culture"
-        TimeFormat="@TimeFormat"
-        Required="@Required"
-        ReadOnly="@ReadOnly"
-        Editable="true" />
+                       @bind-Time="@Time"
+                       Culture="@Culture"
+                       TimeFormat="@TimeFormat"
+                       Required="@Required"
+                       ReadOnly="@ReadOnly"
+                       Editable="true" />
     </MudStack>
 }
 
@@ -44,6 +45,7 @@
     private string TimeFormat { get; set; }
     private string RequiredError { get; set; }
     private string Help { get; set; }
+    private OpenTo OpenTo { get; set; }
     private bool ReadOnly { get; set; }
 
     private bool Required => Field.ValueMandatory;
@@ -118,8 +120,7 @@
         DateTimeChanged.InvokeAsync(dateTime).Wait();
     }
 
-    protected override DatePickerType DatePickerType =>
-        Attributes.GetStartPickerOpen(Culture) ?? DatePickerType.Day;
+    protected override DatePickerType DatePickerType => default;
 
     protected override DateTimePickerType DateTimePickerType =>
         Attributes.GetStartPickerType(Culture) ?? DateTimePickerType.DatePicker;
@@ -132,6 +133,14 @@
         TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
         RequiredError = Attributes.GetStartRequired(Culture);
         ReadOnly = Attributes.GetStartReadOnly(Culture) ?? false;
+
+        OpenTo = DatePickerType switch
+        {
+            DatePickerType.Month => OpenTo.Month,
+            DatePickerType.Year => OpenTo.Year,
+            _ => OpenTo.Date
+        };
+
         Help = Attributes.GetStartHelp(Culture);
         // keep the edit row layout in sync with the value edit
         if (HasValueHelp && string.IsNullOrWhiteSpace(Help))

@@ -53,14 +53,30 @@ public class RegulationCase : Case, IRegulationItem, IKeyEquatable<RegulationCas
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string InheritanceKey => Name;
+    public int ActionCount =>
+        (AvailableActions?.Count ?? 0) +
+        (BuildActions?.Count ?? 0) +
+        (ValidateActions?.Count ?? 0);
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string ParentInheritanceKey => null;
+    public int ExpressionCount =>
+        (string.IsNullOrWhiteSpace(AvailableExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(BuildExpression) ? 0 : 1) +
+        (string.IsNullOrWhiteSpace(ValidateExpression) ? 0 : 1);
 
     /// <inheritdoc />
-    public string GetAdditionalInfo(Localizer localizer) => 
+    public int GetGroupCount(string groupName)
+    {
+        if (string.Equals(groupName, nameof(Slots)) && Slots != null)
+        {
+            return Slots.Count;
+        }
+        return 0;
+    }
+
+    /// <inheritdoc />
+    public string GetAdditionalInfo(Localizer localizer) =>
         Enum.GetName(typeof(CaseType), CaseType);
 
     /// <inheritdoc />

@@ -1,4 +1,6 @@
 ﻿@page "/regulation"
+@page "/regulation/{WorkingItem}"
+
 @using PayrollEngine.WebApp.Presentation.Component
 @using PayrollEngine.WebApp.Presentation.Regulation.Component
 @using PayrollEngine.WebApp.Presentation.Regulation.Editor
@@ -36,29 +38,38 @@
     return;
 }
 
-<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">@Localizer.Regulation.Regulation @TopRegulationName</MudText>
+@UpdateWorkingItem()
+
+<MudText Typo="Typo.h5" Class="my-4 pb-2 pt-8">
+    @Localizer.Regulation.Regulation @TopRegulationName
+</MudText>
 
 <MudButtonGroup OverrideStyles="false" DropShadow="false">
     @* case and case field*@
     <MudButton OnClick="() => SetWorkingType(SelectedCaseType)"
-               Color="Color.Primary"
+               href=@($"/regulation/{SelectedCaseType.ToString().ToLower()}")
+               Disabled="@SelectedItemModified"
+               Color="@GetItemColor(RegulationItemType.Case, RegulationItemType.CaseField)"
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@CaseVariant">
         @GetItemsLabel(SelectedCaseType)
     </MudButton>
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
-             Color="Color.Primary"
-             Dense="true"
-             DropShadow="false"
+             Disabled="@SelectedItemModified"
+             Color="@GetItemColor(RegulationItemType.Case, RegulationItemType.CaseField)"
              Style="text-transform: capitalize; width: 2em; display: grid; align-self: initial;"
              AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
              Variant="@CaseVariant">
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.Case)"
+                     Disabled="@SelectedItemModified"
+                     href="/regulation/case"
                      Style="text-transform: capitalize;">
             @GetItemsLabel(RegulationItemType.Case)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.CaseField)"
+                     Disabled="@SelectedItemModified"
+                     href="/regulation/casefield"
                      Style="text-transform: capitalize;">
             @GetItemsLabel(RegulationItemType.CaseField)
         </MudMenuItem>
@@ -66,7 +77,9 @@
 
     @* case relation *@
     <MudButton OnClick="() => SetWorkingType(RegulationItemType.CaseRelation)"
-               Color="Color.Primary"
+               href="/regulation/caserelation"
+               Disabled="@SelectedItemModified"
+               Color="@GetItemColor(RegulationItemType.CaseRelation)"
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@CaseRelationVariant">
@@ -75,7 +88,9 @@
 
     @* collector *@
     <MudButton OnClick="() => SetWorkingType(RegulationItemType.Collector)"
-               Color="Color.Primary"
+               href="/regulation/collector"
+               Disabled="@SelectedItemModified"
+               Color="@GetItemColor(RegulationItemType.Collector)"
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@CollectorVariant">
@@ -84,7 +99,9 @@
 
     @* wage type *@
     <MudButton OnClick="() => SetWorkingType(RegulationItemType.WageType)"
-               Color="Color.Primary"
+               href="/regulation/wagetype"
+               Disabled="@SelectedItemModified"
+               Color="@GetItemColor(RegulationItemType.WageType)"
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@WageTypeVariant">
@@ -93,28 +110,35 @@
 
     @* report *@
     <MudButton OnClick="() => SetWorkingType(SelectedReportType)"
-               Color="Color.Primary"
+               href=@($"/regulation/{SelectedReportType.ToString().ToLower()}")
+               Disabled="@SelectedItemModified"
+               Color="@GetItemColor(RegulationItemType.Report, RegulationItemType.ReportParameter, RegulationItemType.ReportTemplate)"
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@ReportVariant">
         @GetItemsLabel(SelectedReportType)
     </MudButton>
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
-             Color="Color.Primary"
-             Dense="true"
-             DropShadow="false"
+             Color="@GetItemColor(RegulationItemType.Report, RegulationItemType.ReportParameter, RegulationItemType.ReportTemplate)"
+             Disabled="@SelectedItemModified"
              Style="text-transform: capitalize; width: 2em; display: grid; align-self: initial;"
              AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
              Variant="@ReportVariant">
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.Report)"
+                     Disabled="@SelectedItemModified"
+                     href="/regulation/report"
                      Style="text-transform: capitalize;">
             @GetItemsLabel(RegulationItemType.Report)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.ReportParameter)"
+                     Disabled="@SelectedItemModified"
+                     href="/regulation/reportparameter"
                      Style="text-transform: capitalize;">
             @GetItemsLabel(RegulationItemType.ReportParameter)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.ReportTemplate)"
+                     Disabled="@SelectedItemModified"
+                     href="/regulation/reporttemplate"
                      Style="text-transform: capitalize;">
             @GetItemsLabel(RegulationItemType.ReportTemplate)
         </MudMenuItem>
@@ -122,24 +146,29 @@
 
     @* lookup *@
     <MudButton OnClick="() => SetWorkingType(SelectedLookupType)"
-               Color="Color.Primary"
+               Disabled="@SelectedItemModified"
+               href=@($"/regulation/{SelectedLookupType.ToString().ToLower()}")
+               Color="@GetItemColor(RegulationItemType.Lookup, RegulationItemType.LookupValue)"
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@LookupVariant">
         @GetItemsLabel(SelectedLookupType)
     </MudButton>
     <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown"
-             Color="Color.Primary"
-             Dense="true"
-             DropShadow="false"
+             Disabled="@SelectedItemModified"
+             Color="@GetItemColor(RegulationItemType.Lookup, RegulationItemType.LookupValue)"
              Style="text-transform: capitalize; width: 2em; display: grid; align-self: initial;"
              AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight"
              Variant="@LookupVariant">
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.Lookup)"
+                     Disabled="@SelectedItemModified"
+                     href="/regulation/lookup"
                      Style="text-transform: capitalize;">
             @GetItemsLabel(RegulationItemType.Lookup)
         </MudMenuItem>
         <MudMenuItem OnClick="() => SetWorkingType(RegulationItemType.LookupValue)"
+                     Disabled="@SelectedItemModified"
+                     href="/regulation/lookupvalue"
                      Style="text-transform: capitalize;">
             @GetItemsLabel(RegulationItemType.LookupValue)
         </MudMenuItem>
@@ -147,7 +176,9 @@
 
     @* script *@
     <MudButton OnClick="() => SetWorkingType(RegulationItemType.Script)"
-               Color="Color.Primary"
+               Disabled="@SelectedItemModified"
+               href="/regulation/script"
+               Color="@GetItemColor(RegulationItemType.Script)"
                Class="px-4"
                Style="text-transform: capitalize;"
                Variant="@ScriptVariant">
@@ -157,17 +188,32 @@
 
 <div class="d-flex flex-grow-1 gap-4">
     <MudContainer Fixed="true" Class="pa-0 py-4">
-        <ItemBrowser @ref="@ItemBrowser" EditContext="EditContext"
-                     ItemType="@WorkingType" SelectedItem="@SelectedItem"
-                     SelectedItemChanged="ChangeSelectedItem">
-        </ItemBrowser>
+        <ItemBrowser @ref="@ItemBrowser"
+                     EditContext="EditContext"
+                     ItemGridConfig="@ItemGridConfig"
+                     ItemType="@WorkingType"
+                     SelectedItem="@SelectedItem"
+                     ItemSelection="@(!SelectedItemModified)"
+                     SelectedItemChanged="ChangeSelectedItem" />
     </MudContainer>
     <MudContainer Fixed="true" Class="pa-0 py-4">
-        <ItemEditorPanel EditContext="EditContext"
-                         ItemType="@WorkingType" Item="@SelectedItem"
-                         SaveItem="SaveItem"
-                         DeleteItem="DeleteItem"
-                         DeriveItem="DeriveItem">
-        </ItemEditorPanel>
+        @if (SelectedItem != null)
+        {
+            <ItemEditorPanel EditContext="EditContext"
+                             ItemType="@WorkingType"
+                             Item="@SelectedItem"
+                             StateChanged="ItemStateChanged"
+                             SaveItem="SaveItem"
+                             DeleteItem="DeleteItem"
+                             DeriveItem="DeriveItem" />
+        }
+        else
+        {
+            <MudPaper Class="mt-4 pa-4">
+                <MudText Typo="Typo.caption">
+                    @Localizer.Item.SelectToChange
+                </MudText>
+            </MudPaper>
+        }
     </MudContainer>
 </div>

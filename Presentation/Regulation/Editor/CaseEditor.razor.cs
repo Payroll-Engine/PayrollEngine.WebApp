@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
-using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Regulation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
 
@@ -13,6 +13,8 @@ public partial class CaseEditor
     public RegulationEditContext EditContext { get; set; }
     [Parameter]
     public IRegulationItem Item { get; set; }
+    [Parameter]
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
     [Parameter]
@@ -103,24 +105,21 @@ public partial class CaseEditor
                 Label = Localizer.Case.AvailableExpression,
                 ActionLabel = Localizer.Case.AvailableActions,
                 Expression = true,
-                Action = FunctionType.CaseAvailable,
-                Lines = 8
+                Action = FunctionType.CaseAvailable
             },
             new(nameof(RegulationCase.BuildExpression), typeof(TextBox))
             {
                 Label = Localizer.Case.BuildExpression,
                 ActionLabel = Localizer.Case.BuildActions,
                 Expression = true,
-                Action = FunctionType.CaseBuild,
-                Lines = 8
+                Action = FunctionType.CaseBuild
             },
             new(nameof(RegulationCase.ValidateExpression), typeof(TextBox))
             {
                 Label = Localizer.Case.ValidateExpression,
                 ActionLabel = Localizer.Case.ValidateActions,
                 Expression = true,
-                Action = FunctionType.CaseValidate,
-                Lines = 8
+                Action = FunctionType.CaseValidate
             },
 
             // attributes

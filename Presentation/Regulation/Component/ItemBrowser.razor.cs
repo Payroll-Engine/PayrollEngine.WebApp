@@ -18,7 +18,10 @@ public partial class ItemBrowser : IDisposable
     [Parameter]
     public IRegulationItem SelectedItem { get; set; }
     [Parameter]
-    public int ItemsPageSize { get; set; } = 20;
+    public ItemGridConfig ItemGridConfig { get; set; }
+
+    [Parameter]
+    public bool ItemSelection { get; set; } = true;
     [Parameter]
     public EventCallback<IRegulationItem> SelectedItemChanged { get; set; }
 

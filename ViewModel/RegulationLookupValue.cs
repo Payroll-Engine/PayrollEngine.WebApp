@@ -69,11 +69,7 @@ public class RegulationLookupValue : LookupValue, IRegulationItem, IKeyEquatable
     /// <inheritdoc />
     [JsonIgnore]
     public string Name => Key;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string Description => null;
-
+    
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) =>
        RangeValue?.ToString(SystemSpecification.DecimalFormat, CultureInfo.InvariantCulture);

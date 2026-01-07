@@ -24,8 +24,6 @@ public class CaseFieldLocalizer(IStringLocalizerFactory factory, CultureInfo cul
     public string ValueMandatory => PropertyValue();
     public string LookupSettings => PropertyValue();
     public string LookupSettingsRemoved => PropertyValue();
-    public string BuildActions => PropertyValue();
-    public string ValidateActions => PropertyValue();
     public string TimeGroup => PropertyValue();
     public string FieldDocuments => PropertyValue();
     public string MissingValue => PropertyValue();

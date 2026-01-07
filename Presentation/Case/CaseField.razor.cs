@@ -148,9 +148,9 @@ public partial class CaseField
         var accept = Field.Attributes?.GetAttachmentExtensions(Culture);
         var parameters = new DialogParameters
         {
-            { nameof(CaseDocumentsDialog<CaseDocument>.Documents), caseField.Documents },
-            { nameof(CaseDocumentsDialog<CaseDocument>.Accept), accept },
-            { nameof(CaseDocumentsDialog<CaseDocument>.Editable), true }
+            { nameof(CaseDocumentsDialog<>.Documents), caseField.Documents },
+            { nameof(CaseDocumentsDialog<>.Accept), accept },
+            { nameof(CaseDocumentsDialog<>.Editable), true }
         };
 
         // dialog

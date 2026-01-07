@@ -56,15 +56,7 @@ public class RegulationReportTemplate : ReportTemplate, IRegulationItem, IEquata
 
     /// <inheritdoc />
     [JsonIgnore]
-    public string InheritanceKey => Name;
-
-    /// <inheritdoc />
-    [JsonIgnore]
     public string ParentInheritanceKey => Parent?.InheritanceKey;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string Description => null;
 
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => 

@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class CollectorLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+public class CollectorLocalizer(IStringLocalizerFactory factory, CultureInfo culture) :
     LocalizerBase(factory, culture: culture)
 {
     public string Collector => PropertyValue();
@@ -15,6 +15,9 @@ public class CollectorLocalizer(IStringLocalizerFactory factory, CultureInfo cul
     public string StartExpression => PropertyValue();
     public string ApplyExpression => PropertyValue();
     public string EndExpression => PropertyValue();
+    public string StartActions => PropertyValue();
+    public string ApplyActions => PropertyValue();
+    public string EndActions => PropertyValue();
     public string MinResult => PropertyValue();
     public string MaxResult => PropertyValue();
 }

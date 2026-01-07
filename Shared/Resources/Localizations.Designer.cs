@@ -19,7 +19,7 @@ namespace PayrollEngine.WebApp.Shared.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Localizations {
@@ -70,20 +70,29 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Action expression.
-        /// </summary>
-        internal static string Action_ActionExpression {
-            get {
-                return ResourceManager.GetString("Action.ActionExpression", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         internal static string Action_Actions {
             get {
                 return ResourceManager.GetString("Action.Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action syntax.
+        /// </summary>
+        internal static string Action_ActionSyntax {
+            get {
+                return ResourceManager.GetString("Action.ActionSyntax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntax help.
+        /// </summary>
+        internal static string Action_ActionSyntaxHelp {
+            get {
+                return ResourceManager.GetString("Action.ActionSyntaxHelp", resourceCulture);
             }
         }
         
@@ -106,11 +115,38 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide actions.
+        /// </summary>
+        internal static string Action_HideActions {
+            get {
+                return ResourceManager.GetString("Action.HideActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Issues.
         /// </summary>
         internal static string Action_Issues {
             get {
                 return ResourceManager.GetString("Action.Issues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading actions.
+        /// </summary>
+        internal static string Action_LoadingActions {
+            get {
+                return ResourceManager.GetString("Action.LoadingActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marker.
+        /// </summary>
+        internal static string Action_Marker {
+            get {
+                return ResourceManager.GetString("Action.Marker", resourceCulture);
             }
         }
         
@@ -133,15 +169,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Namespace.
-        /// </summary>
-        internal static string Action_Namespace {
-            get {
-                return ResourceManager.GetString("Action.Namespace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No action available.
         /// </summary>
         internal static string Action_NotAvailable {
@@ -156,6 +183,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Action_Parameters {
             get {
                 return ResourceManager.GetString("Action.Parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show actions.
+        /// </summary>
+        internal static string Action_ShowActions {
+            get {
+                return ResourceManager.GetString("Action.ShowActions", resourceCulture);
             }
         }
         
@@ -988,15 +1024,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Build actions.
-        /// </summary>
-        internal static string CaseField_BuildActions {
-            get {
-                return ResourceManager.GetString("CaseField.BuildActions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cancellation mode.
         /// </summary>
         internal static string CaseField_CancellationMode {
@@ -1200,15 +1227,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string CaseField_TimeUnit {
             get {
                 return ResourceManager.GetString("CaseField.TimeUnit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Validate actions.
-        /// </summary>
-        internal static string CaseField_ValidateActions {
-            get {
-                return ResourceManager.GetString("CaseField.ValidateActions", resourceCulture);
             }
         }
         
@@ -1456,6 +1474,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply actions.
+        /// </summary>
+        internal static string Collector_ApplyActions {
+            get {
+                return ResourceManager.GetString("Collector.ApplyActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply expression.
         /// </summary>
         internal static string Collector_ApplyExpression {
@@ -1492,6 +1519,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End actions.
+        /// </summary>
+        internal static string Collector_EndActions {
+            get {
+                return ResourceManager.GetString("Collector.EndActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End expression.
         /// </summary>
         internal static string Collector_EndExpression {
@@ -1524,6 +1560,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Collector_Negated {
             get {
                 return ResourceManager.GetString("Collector.Negated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start actions.
+        /// </summary>
+        internal static string Collector_StartActions {
+            get {
+                return ResourceManager.GetString("Collector.StartActions", resourceCulture);
             }
         }
         
@@ -3328,6 +3373,114 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Case field.
+        /// </summary>
+        internal static string Enum_MarkerType_CaseField {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.CaseField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Case value.
+        /// </summary>
+        internal static string Enum_MarkerType_CaseValue {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.CaseValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collector.
+        /// </summary>
+        internal static string Enum_MarkerType_Collector {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.Collector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition.
+        /// </summary>
+        internal static string Enum_MarkerType_Condition {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.Condition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition false.
+        /// </summary>
+        internal static string Enum_MarkerType_ConditionFalse {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.ConditionFalse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition true.
+        /// </summary>
+        internal static string Enum_MarkerType_ConditionTrue {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.ConditionTrue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lookup value.
+        /// </summary>
+        internal static string Enum_MarkerType_LookupValue {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.LookupValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payrun result.
+        /// </summary>
+        internal static string Enum_MarkerType_PayrunResult {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.PayrunResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runtime value.
+        /// </summary>
+        internal static string Enum_MarkerType_RuntimeValue {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.RuntimeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source case field.
+        /// </summary>
+        internal static string Enum_MarkerType_SourceCaseField {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.SourceCaseField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target case field.
+        /// </summary>
+        internal static string Enum_MarkerType_TargetCaseField {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.TargetCaseField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wage type.
+        /// </summary>
+        internal static string Enum_MarkerType_WageType {
+            get {
+                return ResourceManager.GetString("Enum.MarkerType.WageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active.
         /// </summary>
         internal static string Enum_ObjectStatus_Active {
@@ -4444,6 +4597,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select an item to view and edit it..
+        /// </summary>
+        internal static string Item_SelectToChange {
+            get {
+                return ResourceManager.GetString("Item.SelectToChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo {item}.
+        /// </summary>
+        internal static string Item_UndoHelp {
+            get {
+                return ResourceManager.GetString("Item.UndoHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {item} updated.
         /// </summary>
         internal static string Item_Updated {
@@ -5425,6 +5596,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Namespace.
+        /// </summary>
+        internal static string Regulation_Namespace {
+            get {
+                return ResourceManager.GetString("Regulation.Namespace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No regulations available.
         /// </summary>
         internal static string Regulation_NotAvailable {
@@ -6235,6 +6415,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leave.
+        /// </summary>
+        internal static string Shared_Leave {
+            get {
+                return ResourceManager.GetString("Shared.Leave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mandatory.
         /// </summary>
         internal static string Shared_Mandatory {
@@ -6343,6 +6532,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        internal static string Shared_Properties {
+            get {
+                return ResourceManager.GetString("Shared.Properties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property.
+        /// </summary>
+        internal static string Shared_Property {
+            get {
+                return ResourceManager.GetString("Shared.Property", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string Shared_Search {
@@ -6366,6 +6573,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Shared_Start {
             get {
                 return ResourceManager.GetString("Shared.Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stay.
+        /// </summary>
+        internal static string Shared_Stay {
+            get {
+                return ResourceManager.GetString("Shared.Stay", resourceCulture);
             }
         }
         
@@ -6402,6 +6618,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Shared_Type {
             get {
                 return ResourceManager.GetString("Shared.Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have unsaved changes. Are you sure you want to leave?.
+        /// </summary>
+        internal static string Shared_UnsaveChangesQuery {
+            get {
+                return ResourceManager.GetString("Shared.UnsaveChangesQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsaved Changes.
+        /// </summary>
+        internal static string Shared_UnsaveChangesTitle {
+            get {
+                return ResourceManager.GetString("Shared.UnsaveChangesTitle", resourceCulture);
             }
         }
         
@@ -6820,11 +7054,29 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Result actions.
+        /// </summary>
+        internal static string WageType_ResultActions {
+            get {
+                return ResourceManager.GetString("WageType.ResultActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Result expression.
         /// </summary>
         internal static string WageType_ResultExpression {
             get {
                 return ResourceManager.GetString("WageType.ResultExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value actions.
+        /// </summary>
+        internal static string WageType_ValueActions {
+            get {
+                return ResourceManager.GetString("WageType.ValueActions", resourceCulture);
             }
         }
         

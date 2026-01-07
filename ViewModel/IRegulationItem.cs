@@ -41,12 +41,12 @@ public interface IRegulationItem : IViewModel
     /// <summary>
     /// Inheritance key
     /// </summary>
-    string InheritanceKey { get; }
+    string InheritanceKey => Name;
 
     /// <summary>
     /// Parent item inheritance key
     /// </summary>
-    string ParentInheritanceKey { get; }
+    string ParentInheritanceKey => null;
 
     /// <summary>
     /// Item name
@@ -56,7 +56,27 @@ public interface IRegulationItem : IViewModel
     /// <summary>
     /// Item description
     /// </summary>
-    string Description { get; }
+    string Description => null;
+
+    /// <summary>
+    /// Action count
+    /// </summary>
+    int ActionCount => 0;
+
+    /// <summary>
+    /// Expression count
+    /// </summary>
+    int ExpressionCount => 0;
+
+    /// <summary>
+    /// Attribute count
+    /// </summary>
+    int AttributeCount => Attributes?.Count ?? 0;
+
+    /// <summary>
+    /// Get group count
+    /// </summary>
+    int GetGroupCount(string groupName) => 0;
 
     /// <summary>
     /// Get additional item info

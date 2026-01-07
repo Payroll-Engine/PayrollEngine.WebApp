@@ -320,16 +320,8 @@ public partial class PayrunResults() : PageBase(WorkingItems.TenantChange | Work
     protected override async Task OnPageInitializedAsync()
     {
         await SetupPage();
+        await SetupGrid();
         await base.OnPageInitializedAsync();
-   }
-
-    protected override async Task OnPageAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await SetupGrid();
-        }
-        await base.OnPageAfterRenderAsync(firstRender);
     }
 
     #endregion

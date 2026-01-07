@@ -29,6 +29,7 @@ public class CaseValueSetup : Client.Model.CaseValueSetup, IViewModel, IEquatabl
         CaseSlot = caseField.CaseSlot;
         ValueType = caseField.ValueType;
         Value = caseField.Value;
+        Culture = caseField.Culture;
         CancellationDate = caseField.CancellationDate;
         Start = caseField.Start;
         End = caseField.End;

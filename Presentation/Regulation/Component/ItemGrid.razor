@@ -9,6 +9,7 @@
     <div class="d-flex flex-grow-1 justify-end">
         <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.App.CompactView" Placement="Placement.Top">
             <MudIconButton @onclick="@ToggleGridDenseAsync"
+                           Disabled="@(!ItemSelection)"
                            Color="Color.Primary"
                            Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.ViewCompact"
@@ -19,6 +20,7 @@
         {
             <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.App.ExpandGroups" Placement="Placement.Top">
                 <MudIconButton @onclick="@ExpandItemGroupsAsync"
+                               Disabled="@(!ItemSelection)"
                                Color="Color.Primary"
                                Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.AccountTree"
@@ -27,6 +29,7 @@
             </MudTooltip>
             <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.App.CollapseGroups" Placement="Placement.Top">
                 <MudIconButton @onclick="@CollapseItemGroupsAsync"
+                               Disabled="@(!ItemSelection)"
                                Color="Color.Primary"
                                Variant="@Globals.ToolButtonVariant"
                                Icon="@Icons.Material.Filled.TableRows"
@@ -36,6 +39,7 @@
         }
         <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Shared.ExcelDownload" Placement="Placement.Top">
             <MudIconButton @onclick="@ExcelDownloadAsync"
+                           Disabled="@(!ItemSelection)"
                            Color="Color.Primary"
                            Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Custom.FileFormats.FileExcel"
@@ -44,6 +48,7 @@
         </MudTooltip>
         <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Item.AddHelp(GetItemTypeName())" Placement="Placement.Top">
             <MudIconButton @onclick="@AddItemAsync"
+                           Disabled="@(!ItemSelection)"
                            Color="Color.Tertiary"
                            Variant="@Globals.ToolButtonVariant"
                            Icon="@Icons.Material.Filled.Add"
@@ -56,6 +61,7 @@
 <MudDataGrid @ref="ItemsGrid"
              T="TItem"
              Items="@Items"
+             SelectOnRowClick="ItemSelection"
              SelectedItemChanged="SelectedItemChangedAsync"
              MultiSelection="false"
              ShowColumnOptions="false"
@@ -66,7 +72,8 @@
              ColumnResizeMode="ResizeMode.Column"
              Filterable="true"
              Hideable="true"
-             RowClass="cursor-pointer"
+             RowsPerPage="@RowsPerPage"
+             RowClass="@(ItemSelection ? "cursor-pointer" : "cursor-unset")"
              RowStyleFunc="@RowStyleHandler"
              ReadOnly="true">
     <Columns>

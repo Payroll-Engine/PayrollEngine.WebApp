@@ -5,21 +5,20 @@ namespace PayrollEngine.WebApp.Server.Components.Shared;
 
 public class ThemeService : IThemeService
 {
-    private bool darkMode;
-
     /// <inheritdoc />
     public bool IsDarkMode
     {
-        get => darkMode;
+        get;
         set
         {
-            if (value == darkMode)
+            if (value == field)
             {
                 return;
             }
-            darkMode = value;
+
+            field = value;
             // event
-            DarkModeChanged?.InvokeAsync(this, darkMode);
+            DarkModeChanged?.InvokeAsync(this, field);
         }
     }
 

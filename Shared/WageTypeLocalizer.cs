@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace PayrollEngine.WebApp.Shared;
 
-public class WageTypeLocalizer(IStringLocalizerFactory factory, CultureInfo culture) : 
+public class WageTypeLocalizer(IStringLocalizerFactory factory, CultureInfo culture) :
     LocalizerBase(factory, culture: culture)
 {
     public string WageType => PropertyValue();
@@ -12,5 +12,7 @@ public class WageTypeLocalizer(IStringLocalizerFactory factory, CultureInfo cult
     public string CollectorGroups => PropertyValue();
     public string ValueExpression => PropertyValue();
     public string ResultExpression => PropertyValue();
+    public string ValueActions => PropertyValue();
+    public string ResultActions => PropertyValue();
     public string CalendarHelp => PropertyValue();
 }

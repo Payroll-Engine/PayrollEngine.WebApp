@@ -8,7 +8,7 @@
               ReadOnly="@Item.IsReadOnlyField(Field)"
               Required="@Field.Required"
               RequiredError="@Field.RequiredError"
-              Lines="@Field.Lines"
+              Lines="@(LineCount ?? Field.Lines)"
               MaxLength="@Field.MaxLength"
               Adornment="@LocalizationAdornment"
               AdornmentIcon="@Icons.Material.Filled.Language"

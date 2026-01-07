@@ -56,18 +56,6 @@ public class RegulationScript : Script, IRegulationItem, IKeyEquatable<Regulatio
     public RegulationItemType ItemType => RegulationItemType.Script;
 
     /// <inheritdoc />
-    [JsonIgnore]
-    public string InheritanceKey => Name;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string ParentInheritanceKey => null;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string Description => null;
-
-    /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer)
     {
         if (FunctionTypes == null || !FunctionTypes.Any())

@@ -60,6 +60,8 @@ public class ItemLocalizer(IStringLocalizerFactory factory, CultureInfo culture)
         FormatValue(PropertyValue(), nameof(item), item);
     public string DeleteHelp(string item) =>
         FormatValue(PropertyValue(), nameof(item), item);
+    public string UndoHelp(string item) =>
+        FormatValue(PropertyValue(), nameof(item), item);
 
     // remove
     public string Remove => PropertyValue();
@@ -72,6 +74,7 @@ public class ItemLocalizer(IStringLocalizerFactory factory, CultureInfo culture)
     public string Removed(string item) =>
         FormatValue(PropertyValue(), nameof(item), item);
     public string RemoveAll => PropertyValue();
+    public object SelectToChange => PropertyValue();
 
     // save
     public string SaveHelp(string item) =>

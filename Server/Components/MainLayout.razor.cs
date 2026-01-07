@@ -13,7 +13,7 @@ using PayrollEngine.WebApp.ViewModel;
 using ClientModel = PayrollEngine.Client.Model;
 using Task = System.Threading.Tasks.Task;
 
-namespace PayrollEngine.WebApp.Server.Components.Layout;
+namespace PayrollEngine.WebApp.Server.Components;
 
 public abstract class MainLayoutBase : MainComponentBase
 {
@@ -199,7 +199,7 @@ public abstract class MainLayoutBase : MainComponentBase
     #region Theme
 
     protected MudThemeProvider ThemeProvider { get; set; }
-    protected bool IsDarkMode { get; set; }
+    protected bool IsDarkMode { get; set; } = Platform.GetDarkMode();
 
     protected async Task ToggleThemeAsync()
     {
@@ -212,37 +212,25 @@ public abstract class MainLayoutBase : MainComponentBase
         await LocalStorage.SetItemAsBooleanAsync("DarkTheme", IsDarkMode);
     }
 
-    private void SetupTheme(bool? darkMode)
+    private async Task SetupThemeAsync(bool? configDarkMode)
     {
-        AppTheme = ThemeService.Theme;
-        // system dark mode at bootstrap
-        IsDarkMode = darkMode ?? Platform.GetDarkMode();
-        ThemeService.IsDarkMode = IsDarkMode;
-    }
+        bool? darkMode = null;
 
-    private async Task InitThemeAsync()
-    {
-        // user dark mode
-        bool? darkModeSetting = null;
+        // dark mode
         if (await LocalStorage.ContainKeyAsync("DarkTheme"))
         {
             var lastMode = await LocalStorage.GetItemAsStringAsync("DarkTheme");
             if (bool.TryParse(lastMode, out var lastDarkMode))
             {
-                darkModeSetting = lastDarkMode;
+                darkMode = lastDarkMode;
             }
         }
-        else
-        {
-            darkModeSetting = await ThemeProvider.GetSystemDarkModeAsync();
-        }
-        var darkMode = darkModeSetting ?? await ThemeProvider.GetSystemDarkModeAsync();
-        if (darkMode != IsDarkMode)
-        {
-            IsDarkMode = darkMode;
-            StateHasChanged();
-        }
+        darkMode ??= configDarkMode ?? await ThemeProvider.GetSystemDarkModeAsync();
+        IsDarkMode = darkMode.Value;
         ThemeService.IsDarkMode = IsDarkMode;
+
+        // theme
+        AppTheme = ThemeService.Theme;
     }
 
     #endregion
@@ -325,31 +313,20 @@ public abstract class MainLayoutBase : MainComponentBase
         UpdateAuthorization(Session.Tenant?.Identifier);
 
         // theme
-        SetupTheme(configuration.DarkMode);
+        await SetupThemeAsync(configuration.DarkMode);
+        //await InitThemeAsync();
+        await InitNavigationAsync();
+
+        if (!UserNotificationService.IsInitialized)
+        {
+            UserNotificationService.Initialize(Notification);
+            Session.UserNotification = Notification;
+        }
 
         await base.OnInitializedAsync();
     }
 
     protected UserNotification Notification { get; set; }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            // theme
-            await InitThemeAsync();
-            await InitNavigationAsync();
-
-            // notification
-            if (!UserNotificationService.IsInitialized)
-            {
-                UserNotificationService.Initialize(Notification);
-                Session.UserNotification = Notification;
-            }
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
 
     #endregion
 

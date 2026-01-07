@@ -22,17 +22,17 @@ public abstract class MainComponentBase : LayoutComponentBase
 
     #region Working Items
 
-    private WorkingItems workingItems;
     public WorkingItems WorkingItems
     {
-        get => workingItems;
+        get;
         set
         {
-            if (value == workingItems)
+            if (value == field)
             {
                 return;
             }
-            workingItems = value;
+
+            field = value;
             StateHasChanged();
         }
     }

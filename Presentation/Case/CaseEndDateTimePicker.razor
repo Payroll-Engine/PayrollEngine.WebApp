@@ -14,6 +14,7 @@
                        ReadOnly="@ReadOnly"
                        Error="@Error"
                        RequiredError="@RequiredError"
+                       OpenTo="OpenTo"
                        HelperText="@Help"
                        Required="@Required"
                        Margin="@Margin.Dense"
@@ -45,6 +46,7 @@
     private string TimeFormat { get; set; }
     private string RequiredError { get; set; }
     private string Help { get; set; }
+    private OpenTo OpenTo { get; set; }
     private bool ReadOnly { get; set; }
 
     private bool Required =>
@@ -137,6 +139,14 @@
         TimeFormat = Culture.DateTimeFormat.ShortTimePattern;
         RequiredError = Attributes.GetEndRequired(Culture);
         ReadOnly = Attributes.GetEndReadOnly(Culture) ?? false;
+
+        OpenTo = DatePickerType switch
+        {
+            DatePickerType.Month => OpenTo.Month,
+            DatePickerType.Year => OpenTo.Year,
+            _ => OpenTo.Date
+        };
+
         Help = Attributes.GetEndHelp(Culture);
         // keep the edit row layout in sync with the value edit
         if (HasValueHelp && string.IsNullOrWhiteSpace(Help))

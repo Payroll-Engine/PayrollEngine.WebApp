@@ -49,15 +49,7 @@ public class RegulationLookup : Lookup, IRegulationItem, IKeyEquatable<Regulatio
     /// <inheritdoc />
     [JsonIgnore]
     public RegulationItemType ItemType => RegulationItemType.Lookup;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string InheritanceKey => Name;
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public string ParentInheritanceKey => null;
-
+    
     /// <inheritdoc />
     public string GetAdditionalInfo(Localizer localizer) => null;
 

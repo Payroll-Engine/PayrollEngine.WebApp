@@ -96,7 +96,6 @@ public partial class ActionGrid : IDisposable
             { nameof(ActionDialog.Action), action }
         };
 
-
         // attribute add dialog
         var dialog = await (await DialogService.ShowAsync<ActionDialog>(
             Localizer.Item.AddTitle(Localizer.Action.Action), parameters)).Result;
@@ -267,7 +266,7 @@ public partial class ActionGrid : IDisposable
     }
 
     private List<string> GetBaseValue() =>
-        Item.GetBaseValue<List<string>>(Field.PropertyName);
+        Item.GetBaseValue<List<string>>(Field.GetActionFieldName());
 
     #endregion
 

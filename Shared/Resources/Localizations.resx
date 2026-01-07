@@ -58,14 +58,539 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-	<data name="Action.ActionExpression" xml:space="preserve">
-    <value>Action expression</value>
+	<data name="Enum.ObjectStatus.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+	<data name="Enum.ObjectStatus.Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+	<data name="Enum.AttributeValueType.Boolean" xml:space="preserve">
+    <value>Boolean</value>
+  </data>
+	<data name="Enum.AttributeValueType.Numeric" xml:space="preserve">
+    <value>Numeric</value>
+  </data>
+	<data name="Enum.AttributeValueType.String" xml:space="preserve">
+    <value>String</value>
+  </data>
+	<data name="Enum.CalendarTimeMap.Cycle" xml:space="preserve">
+    <value>Cycle</value>
+  </data>
+	<data name="Enum.CalendarTimeMap.Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.BiMonth" xml:space="preserve">
+    <value>Bi-Month</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.BiWeek" xml:space="preserve">
+    <value>Bi-Week</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.CalendarMonth" xml:space="preserve">
+    <value>Calendar month</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.LunisolarMonth" xml:space="preserve">
+    <value>Lunisolar Month</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.Quarter" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.SemiMonth" xml:space="preserve">
+    <value>Semi-Month</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.SemiYear" xml:space="preserve">
+    <value>Semi-Year</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+	<data name="Enum.CalendarTimeUnit.Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+	<data name="Enum.CalendarWeekMode.Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+	<data name="Enum.CalendarWeekMode.WorkWeek" xml:space="preserve">
+    <value>Work week</value>
+  </data>
+	<data name="Enum.CalendarWeekRule.FirstDay" xml:space="preserve">
+    <value>First day</value>
+  </data>
+	<data name="Enum.CalendarWeekRule.FirstFourDayWeek" xml:space="preserve">
+    <value>First four-day week</value>
+  </data>
+	<data name="Enum.CalendarWeekRule.FirstFullWeek" xml:space="preserve">
+    <value>First full week</value>
+  </data>
+	<data name="Enum.PayrunJobStatus.Abort" xml:space="preserve">
+    <value>Abort</value>
+  </data>
+	<data name="Enum.PayrunJobStatus.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+	<data name="Enum.PayrunJobStatus.Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+	<data name="Enum.PayrunJobStatus.Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+	<data name="Enum.PayrunJobStatus.Forecast" xml:space="preserve">
+    <value>Forecast</value>
+  </data>
+	<data name="Enum.PayrunJobStatus.Process" xml:space="preserve">
+    <value>Process</value>
+  </data>
+	<data name="Enum.PayrunJobStatus.Release" xml:space="preserve">
+    <value>Release</value>
+  </data>
+	<data name="Enum.ResultKind.Collector" xml:space="preserve">
+    <value>Collector</value>
+  </data>
+	<data name="Enum.ResultKind.CollectorCustom" xml:space="preserve">
+    <value>Collector custom</value>
+  </data>
+	<data name="Enum.ResultKind.Payrun" xml:space="preserve">
+    <value>Payrun</value>
+  </data>
+	<data name="Enum.ResultKind.WageType" xml:space="preserve">
+    <value>Wage type</value>
+  </data>
+	<data name="Enum.ResultKind.WageTypeCustom" xml:space="preserve">
+    <value>Wage type custom</value>
+  </data>
+	<data name="Enum.RetroTimeType.Anytime" xml:space="preserve">
+    <value>Anytime</value>
+  </data>
+	<data name="Enum.RetroTimeType.Cycle" xml:space="preserve">
+    <value>Cycle</value>
+  </data>
+	<data name="Enum.UserType.Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+	<data name="Enum.UserType.User" xml:space="preserve">
+    <value>User</value>
+  </data>
+	<data name="Enum.UserType.TenantAdministrator" xml:space="preserve">
+    <value>Tenant administrator</value>
+  </data>
+	<data name="Enum.UserType.SystemAdministrator" xml:space="preserve">
+    <value>System administrator</value>
+  </data>
+	<data name="Enum.FunctionType.All" xml:space="preserve">
+    <value>All</value>
+  </data>
+	<data name="Enum.FunctionType.Case" xml:space="preserve">
+    <value>Case</value>
+  </data>
+	<data name="Enum.FunctionType.CaseAvailable" xml:space="preserve">
+    <value>Case available</value>
+  </data>
+	<data name="Enum.FunctionType.CaseBuild" xml:space="preserve">
+    <value>Case build</value>
+  </data>
+	<data name="Enum.FunctionType.CaseChange" xml:space="preserve">
+    <value>Case change</value>
+  </data>
+	<data name="Enum.FunctionType.CaseRelation" xml:space="preserve">
+    <value>Case relation</value>
+  </data>
+	<data name="Enum.FunctionType.CaseRelationBuild" xml:space="preserve">
+    <value>Case relation build</value>
+  </data>
+	<data name="Enum.FunctionType.CaseRelationValidate" xml:space="preserve">
+    <value>Case relation validate</value>
+  </data>
+	<data name="Enum.FunctionType.CaseValidate" xml:space="preserve">
+    <value>Case validate</value>
+  </data>
+	<data name="Enum.FunctionType.Collector" xml:space="preserve">
+    <value>Collector</value>
+  </data>
+	<data name="Enum.FunctionType.CollectorApply" xml:space="preserve">
+    <value>Collector apply</value>
+  </data>
+	<data name="Enum.FunctionType.CollectorEnd" xml:space="preserve">
+    <value>Collector end</value>
+  </data>
+	<data name="Enum.FunctionType.CollectorStart" xml:space="preserve">
+    <value>Collector start</value>
+  </data>
+	<data name="Enum.FunctionType.Payroll" xml:space="preserve">
+    <value>Payroll</value>
+  </data>
+	<data name="Enum.FunctionType.Payrun" xml:space="preserve">
+    <value>Payrun</value>
+  </data>
+	<data name="Enum.FunctionType.PayrunEmployeeAvailable" xml:space="preserve">
+    <value>Payrun employee available</value>
+  </data>
+	<data name="Enum.FunctionType.PayrunEmployeeEnd" xml:space="preserve">
+    <value>Payrun employee end</value>
+  </data>
+	<data name="Enum.FunctionType.PayrunEmployeeStart" xml:space="preserve">
+    <value>Payrun employee start</value>
+  </data>
+	<data name="Enum.FunctionType.PayrunEnd" xml:space="preserve">
+    <value>Payrun end</value>
+  </data>
+	<data name="Enum.FunctionType.PayrunStart" xml:space="preserve">
+    <value>Payrun start</value>
+  </data>
+	<data name="Enum.FunctionType.PayrunWageTypeAvailable" xml:space="preserve">
+    <value>Payrun wage type available</value>
+  </data>
+	<data name="Enum.FunctionType.Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+	<data name="Enum.FunctionType.ReportBuild" xml:space="preserve">
+    <value>Report build</value>
+  </data>
+	<data name="Enum.FunctionType.ReportEnd" xml:space="preserve">
+    <value>Report end</value>
+  </data>
+	<data name="Enum.FunctionType.ReportStart" xml:space="preserve">
+    <value>Report start</value>
+  </data>
+	<data name="Enum.FunctionType.WageType" xml:space="preserve">
+    <value>Wage type</value>
+  </data>
+	<data name="Enum.FunctionType.WageTypeResult" xml:space="preserve">
+    <value>Wage type result</value>
+  </data>
+	<data name="Enum.FunctionType.WageTypeValue" xml:space="preserve">
+    <value>Wage type value</value>
+  </data>
+	<data name="Enum.CaseCancellationType.Case" xml:space="preserve">
+    <value>Case</value>
+  </data>
+	<data name="Enum.CaseCancellationType.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+	<data name="Enum.CaseFieldAggregationType.First" xml:space="preserve">
+    <value>First</value>
+  </data>
+	<data name="Enum.CaseFieldAggregationType.Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+	<data name="Enum.CaseFieldAggregationType.Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+	<data name="Enum.CaseFieldCancellationMode.Invert" xml:space="preserve">
+    <value>Invert</value>
+  </data>
+	<data name="Enum.CaseFieldCancellationMode.Keep" xml:space="preserve">
+    <value>Keep</value>
+  </data>
+	<data name="Enum.CaseFieldCancellationMode.Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+	<data name="Enum.CaseFieldCancellationMode.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+	<data name="Enum.CaseFieldCancellationMode.TimeType" xml:space="preserve">
+    <value>Time type</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.April" xml:space="preserve">
+    <value>April</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.August" xml:space="preserve">
+    <value>August</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.December" xml:space="preserve">
+    <value>December</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.February" xml:space="preserve">
+    <value>February</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.January" xml:space="preserve">
+    <value>January</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.July" xml:space="preserve">
+    <value>July</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.June" xml:space="preserve">
+    <value>June</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.March" xml:space="preserve">
+    <value>March</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.May" xml:space="preserve">
+    <value>May</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.November" xml:space="preserve">
+    <value>November</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.October" xml:space="preserve">
+    <value>October</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.September" xml:space="preserve">
+    <value>September</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+	<data name="Enum.CaseFieldDateType.Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+	<data name="Enum.CaseFieldTimeType.CalendarPeriod" xml:space="preserve">
+    <value>Calendar period</value>
+  </data>
+	<data name="Enum.CaseFieldTimeType.Moment" xml:space="preserve">
+    <value>Moment</value>
+  </data>
+	<data name="Enum.CaseFieldTimeType.Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+	<data name="Enum.CaseFieldTimeType.Timeless" xml:space="preserve">
+    <value>Timeless</value>
+  </data>
+	<data name="Enum.CaseFieldTimeUnit.Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+	<data name="Enum.CaseFieldTimeUnit.HalfDay" xml:space="preserve">
+    <value>Half day</value>
+  </data>
+	<data name="Enum.CaseFieldTimeUnit.Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+	<data name="Enum.CaseType.Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+	<data name="Enum.CaseType.Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+	<data name="Enum.CaseType.Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+	<data name="Enum.CaseType.National" xml:space="preserve">
+    <value>National</value>
+  </data>
+	<data name="Enum.CaseValueCreationMode.Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+	<data name="Enum.CaseValueCreationMode.Discard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+	<data name="Enum.CaseValueCreationMode.OnChanges" xml:space="preserve">
+    <value>On changes</value>
+  </data>
+	<data name="Enum.CollectMode.Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+	<data name="Enum.CollectMode.Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+	<data name="Enum.CollectMode.Maximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+	<data name="Enum.CollectMode.Minimum" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+	<data name="Enum.CollectMode.Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+	<data name="Enum.CollectMode.Range" xml:space="preserve">
+    <value>Range</value>
+  </data>
+	<data name="Enum.OverrideType.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+	<data name="Enum.OverrideType.Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+	<data name="Enum.ReportAttributeMode.Json" xml:space="preserve">
+    <value>Json</value>
+  </data>
+	<data name="Enum.ReportAttributeModeTable" xml:space="preserve">
+    <value>Table</value>
+  </data>
+	<data name="Enum.ReportParameterType.EmployeeId" xml:space="preserve">
+    <value>Employee id</value>
+  </data>
+	<data name="Enum.ReportParameterType.Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
+	<data name="Enum.ReportParameterType.PayrollId" xml:space="preserve">
+    <value>Payroll id</value>
+  </data>
+	<data name="Enum.ReportParameterType.PayrunId" xml:space="preserve">
+    <value>Payrun id</value>
+  </data>
+	<data name="Enum.ReportParameterType.RegulationId" xml:space="preserve">
+    <value>Regulation id</value>
+  </data>
+	<data name="Enum.ReportParameterType.ReportId" xml:space="preserve">
+    <value>Report id</value>
+  </data>
+	<data name="Enum.ReportParameterType.TenantId" xml:space="preserve">
+    <value>Tenant id</value>
+  </data>
+	<data name="Enum.ReportParameterType.Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+	<data name="Enum.ReportParameterType.UserId" xml:space="preserve">
+    <value>User id</value>
+  </data>
+	<data name="Enum.ReportParameterType.Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+	<data name="Enum.ReportParameterType.WebhookId" xml:space="preserve">
+    <value>Webhook id</value>
+  </data>
+	<data name="Enum.ValueScope.Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+	<data name="Enum.ValueScope.Local" xml:space="preserve">
+    <value>Local</value>
+  </data>
+	<data name="Enum.ValueType.Boolean" xml:space="preserve">
+    <value>Boolean</value>
+  </data>
+	<data name="Enum.ValueType.Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+	<data name="Enum.ValueType.DateTime" xml:space="preserve">
+    <value>DateTime</value>
+  </data>
+	<data name="Enum.ValueType.Decimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+	<data name="Enum.ValueType.Integer" xml:space="preserve">
+    <value>Integer</value>
+  </data>
+	<data name="Enum.ValueType.Money" xml:space="preserve">
+    <value>Money</value>
+  </data>
+	<data name="Enum.ValueType.Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+	<data name="Enum.ValueType.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+	<data name="Enum.ValueType.NumericBoolean" xml:space="preserve">
+    <value>Boolean numeric</value>
+  </data>
+	<data name="Enum.ValueType.Percent" xml:space="preserve">
+    <value>Percent</value>
+  </data>
+	<data name="Enum.ValueType.String" xml:space="preserve">
+    <value>String</value>
+  </data>
+	<data name="Enum.ValueType.WebResource" xml:space="preserve">
+    <value>Web resource</value>
+  </data>
+	<data name="Enum.ValueType.Weekday" xml:space="preserve">
+    <value>Weekday</value>
+  </data>
+	<data name="Enum.ValueType.Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+	<data name="Enum.WebhookAction.CaseChangeAdded" xml:space="preserve">
+    <value>Case change added</value>
+  </data>
+	<data name="Enum.WebhookAction.CaseFunctionRequest" xml:space="preserve">
+    <value>Case function request</value>
+  </data>
+	<data name="Enum.WebhookAction.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+	<data name="Enum.WebhookAction.PayrunFunctionRequest" xml:space="preserve">
+    <value>Payrun function request</value>
+  </data>
+	<data name="Enum.WebhookAction.PayrunJobFinish" xml:space="preserve">
+    <value>Payrun job finish</value>
+  </data>
+	<data name="Enum.WebhookAction.PayrunJobProcess" xml:space="preserve">
+    <value>Payrun job process</value>
+  </data>
+	<data name="Enum.WebhookAction.ReportFunctionRequest" xml:space="preserve">
+    <value>Report function request</value>
+  </data>
+	<data name="Enum.WebhookAction.TaskChange" xml:space="preserve">
+    <value>Task change</value>	
+  </data>
+	<data name="Enum.MarkerType.Condition" xml:space="preserve">
+    <value>Condition</value>	
+  </data>
+	<data name="Enum.MarkerType.ConditionTrue" xml:space="preserve">
+    <value>Condition true</value>	
+  </data>
+	<data name="Enum.MarkerType.ConditionFalse" xml:space="preserve">
+    <value>Condition false</value>	
+  </data>
+	<data name="Enum.MarkerType.RuntimeValue" xml:space="preserve">
+    <value>Runtime value</value>	
+  </data>
+	<data name="Enum.MarkerType.LookupValue" xml:space="preserve">
+    <value>Lookup value</value>	
+  </data>
+	<data name="Enum.MarkerType.CaseValue" xml:space="preserve">
+    <value>Case value</value>	
+  </data>
+	<data name="Enum.MarkerType.CaseField" xml:space="preserve">
+    <value>Case field</value>	
+  </data>
+	<data name="Enum.MarkerType.SourceCaseField" xml:space="preserve">
+    <value>Source case field</value>	
+  </data>
+	<data name="Enum.MarkerType.TargetCaseField" xml:space="preserve">
+    <value>Target case field</value>	
+  </data>
+	<data name="Enum.MarkerType.PayrunResult" xml:space="preserve">
+    <value>Payrun result</value>	
+  </data>
+	<data name="Enum.MarkerType.Collector" xml:space="preserve">
+    <value>Collector</value>	
+  </data>
+	<data name="Enum.MarkerType.WageType" xml:space="preserve">
+    <value>Wage type</value>	
+  </data>
+	<data name="Action.ActionSyntax" xml:space="preserve">
+    <value>Action syntax</value>
+  </data>
+	<data name="Action.ActionSyntaxHelp" xml:space="preserve">
+    <value>Syntax help</value>
   </data>
 	<data name="Action.Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
 	<data name="Action.AppendAction" xml:space="preserve">
     <value>Append action</value>
+  </data>
+	<data name="Action.Marker" xml:space="preserve">
+    <value>Marker</value>
+  </data>
+	<data name="Action.ShowActions" xml:space="preserve">
+    <value>Show actions</value>
+  </data>
+	<data name="Action.LoadingActions" xml:space="preserve">
+    <value>Loading actions</value>
+  </data>
+	<data name="Action.HideActions" xml:space="preserve">
+    <value>Hide actions</value>
   </data>
 	<data name="Action.Categories" xml:space="preserve">
     <value>Categories</value>
@@ -78,9 +603,6 @@
   </data>
 	<data name="Action.MoveUp" xml:space="preserve">
     <value>Move up</value>
-  </data>
-	<data name="Action.Namespace" xml:space="preserve">
-    <value>Namespace</value>
   </data>
 	<data name="Action.NotAvailable" xml:space="preserve">
     <value>No action available</value>
@@ -307,9 +829,6 @@
 	<data name="CaseChange.UndoSuccess" xml:space="preserve">
     <value>Undo successful for case {case}</value>
   </data>
-	<data name="CaseField.BuildActions" xml:space="preserve">
-    <value>Build actions</value>
-  </data>
 	<data name="CaseField.CancellationMode" xml:space="preserve">
     <value>Cancellation mode</value>
   </data>
@@ -351,9 +870,6 @@
   </data>
 	<data name="CaseField.TimeUnit" xml:space="preserve">
     <value>Time unit</value>
-  </data>
-	<data name="CaseField.ValidateActions" xml:space="preserve">
-    <value>Validate actions</value>
   </data>
 	<data name="CaseField.ValueCreationMode" xml:space="preserve">
     <value>Value creation mode</value>
@@ -453,6 +969,15 @@
   </data>
 	<data name="Collector.StartExpression" xml:space="preserve">
     <value>Start expression</value>
+  </data>
+	<data name="Collector.StartActions" xml:space="preserve">
+    <value>Start actions</value>
+  </data>
+	<data name="Collector.ApplyActions" xml:space="preserve">
+    <value>Apply actions</value>
+  </data>
+	<data name="Collector.EndActions" xml:space="preserve">
+    <value>End actions</value>
   </data>
 	<data name="Collector.Threshold" xml:space="preserve">
     <value>Threshold</value>
@@ -652,6 +1177,9 @@
 	<data name="Item.DeleteHelp" xml:space="preserve">
     <value>Delete {item}</value>
   </data>
+	<data name="Item.UndoHelp" xml:space="preserve">
+    <value>Undo {item}</value>
+  </data>
 	<data name="Item.DeleteMarkupQuery" xml:space="preserve">
     <value>Delete &lt;b&gt;{item}&lt;/b&gt; permanently?</value>
   </data>
@@ -687,6 +1215,9 @@
   </data>
 	<data name="Item.RemoveAll" xml:space="preserve">
     <value>Remove all</value>
+  </data>
+	<data name="Item.SelectToChange" xml:space="preserve">
+    <value>Select an item to view and edit it.</value>
   </data>
 	<data name="Item.RemoveQuery" xml:space="preserve">
     <value>Remove {item}?</value>
@@ -1027,6 +1558,9 @@
 	<data name="Regulation.ValidFrom" xml:space="preserve">
     <value>Valid from</value>
   </data>
+	<data name="Regulation.Namespace" xml:space="preserve">
+    <value>Namespace</value>
+  </data>
 	<data name="Regulation.Version" xml:space="preserve">
     <value>Version</value>
   </data>
@@ -1212,6 +1746,12 @@
   </data>
 	<data name="Shared.CommonFields" xml:space="preserve">
     <value>Common</value>
+  </data>
+	<data name="Shared.Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+	<data name="Shared.Property" xml:space="preserve">
+    <value>Property</value>
   </data>
 	<data name="Shared.Culture" xml:space="preserve">
     <value>Culture</value>
@@ -1429,6 +1969,12 @@
 	<data name="WageType.ValueExpression" xml:space="preserve">
     <value>Value expression</value>
   </data>
+	<data name="WageType.ResultActions" xml:space="preserve">
+    <value>Result actions</value>
+  </data>
+	<data name="WageType.ValueActions" xml:space="preserve">
+    <value>Value actions</value>
+  </data>
 	<data name="WageType.WageType" xml:space="preserve">
     <value>Wage type</value>
   </data>
@@ -1524,7 +2070,7 @@
   </data>
 	<data name="Error.Error" xml:space="preserve">
     <value>Error</value>
-  </data>	
+  </data>
 	<data name="Error.MissingMandatoryValue" xml:space="preserve">
     <value>Value is required.</value>
   </data>
@@ -1543,69 +2089,6 @@
 	<data name="Shared.FalseToggle" xml:space="preserve">
     <value>No</value>
   </data>
-	<data name="Enum.ObjectStatus.Active" xml:space="preserve">
-    <value>Active</value>
-  </data>
-	<data name="Enum.ObjectStatus.Inactive" xml:space="preserve">
-    <value>Inactive</value>
-  </data>
-	<data name="Enum.AttributeValueType.Boolean" xml:space="preserve">
-    <value>Boolean</value>
-  </data>
-	<data name="Enum.AttributeValueType.Numeric" xml:space="preserve">
-    <value>Numeric</value>
-  </data>
-	<data name="Enum.AttributeValueType.String" xml:space="preserve">
-    <value>String</value>
-  </data>
-	<data name="Enum.CalendarTimeMap.Cycle" xml:space="preserve">
-    <value>Cycle</value>
-  </data>
-	<data name="Enum.CalendarTimeMap.Period" xml:space="preserve">
-    <value>Period</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.BiMonth" xml:space="preserve">
-    <value>Bi-Month</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.BiWeek" xml:space="preserve">
-    <value>Bi-Week</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.CalendarMonth" xml:space="preserve">
-    <value>Calendar month</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.LunisolarMonth" xml:space="preserve">
-    <value>Lunisolar Month</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.Quarter" xml:space="preserve">
-    <value>Quarter</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.SemiMonth" xml:space="preserve">
-    <value>Semi-Month</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.SemiYear" xml:space="preserve">
-    <value>Semi-Year</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.Week" xml:space="preserve">
-    <value>Week</value>
-  </data>
-	<data name="Enum.CalendarTimeUnit.Year" xml:space="preserve">
-    <value>Year</value>
-  </data>
-	<data name="Enum.CalendarWeekMode.Week" xml:space="preserve">
-    <value>Week</value>
-  </data>
-	<data name="Enum.CalendarWeekMode.WorkWeek" xml:space="preserve">
-    <value>Work week</value>
-  </data>
-	<data name="Enum.CalendarWeekRule.FirstDay" xml:space="preserve">
-    <value>First day</value>
-  </data>
-	<data name="Enum.CalendarWeekRule.FirstFourDayWeek" xml:space="preserve">
-    <value>First four-day week</value>
-  </data>
-	<data name="Enum.CalendarWeekRule.FirstFullWeek" xml:space="preserve">
-    <value>First full week</value>
-  </data>
 	<data name="Report.BuildReport" xml:space="preserve">
     <value>Build report</value>
   </data>
@@ -1620,60 +2103,6 @@
   </data>
 	<data name="Report.XmlValidationError" xml:space="preserve">
     <value>Invalid XML report {report}, please check the XSD schema</value>
-  </data>
-	<data name="Enum.PayrunJobStatus.Abort" xml:space="preserve">
-    <value>Abort</value>
-  </data>
-	<data name="Enum.PayrunJobStatus.Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-	<data name="Enum.PayrunJobStatus.Complete" xml:space="preserve">
-    <value>Complete</value>
-  </data>
-	<data name="Enum.PayrunJobStatus.Draft" xml:space="preserve">
-    <value>Draft</value>
-  </data>
-	<data name="Enum.PayrunJobStatus.Forecast" xml:space="preserve">
-    <value>Forecast</value>
-  </data>
-	<data name="Enum.PayrunJobStatus.Process" xml:space="preserve">
-    <value>Process</value>
-  </data>
-	<data name="Enum.PayrunJobStatus.Release" xml:space="preserve">
-    <value>Release</value>
-  </data>
-	<data name="Enum.ResultKind.Collector" xml:space="preserve">
-    <value>Collector</value>
-  </data>
-	<data name="Enum.ResultKind.CollectorCustom" xml:space="preserve">
-    <value>Collector custom</value>
-  </data>
-	<data name="Enum.ResultKind.Payrun" xml:space="preserve">
-    <value>Payrun</value>
-  </data>
-	<data name="Enum.ResultKind.WageType" xml:space="preserve">
-    <value>Wage type</value>
-  </data>
-	<data name="Enum.ResultKind.WageTypeCustom" xml:space="preserve">
-    <value>Wage type custom</value>
-  </data>
-	<data name="Enum.RetroTimeType.Anytime" xml:space="preserve">
-    <value>Anytime</value>
-  </data>
-	<data name="Enum.RetroTimeType.Cycle" xml:space="preserve">
-    <value>Cycle</value>
-  </data>
-	<data name="Enum.UserType.Employee" xml:space="preserve">
-    <value>Employee</value>
-  </data>
-	<data name="Enum.UserType.User" xml:space="preserve">
-    <value>User</value>
-  </data>
-	<data name="Enum.UserType.TenantAdministrator" xml:space="preserve">
-    <value>Tenant administrator</value>
-  </data>
-	<data name="Enum.UserType.SystemAdministrator" xml:space="preserve">
-    <value>System administrator</value>
   </data>
 	<data name="DataGrid.AddFilter" xml:space="preserve">
     <value>Add filter</value>
@@ -1876,360 +2305,6 @@
 	<data name="DatePicker.NextYear" xml:space="preserve">
     <value>Next year {0}</value>
   </data>
-	<data name="Enum.FunctionType.All" xml:space="preserve">
-    <value>All</value>
-  </data>
-	<data name="Enum.FunctionType.Case" xml:space="preserve">
-    <value>Case</value>
-  </data>
-	<data name="Enum.FunctionType.CaseAvailable" xml:space="preserve">
-    <value>Case available</value>
-  </data>
-	<data name="Enum.FunctionType.CaseBuild" xml:space="preserve">
-    <value>Case build</value>
-  </data>
-	<data name="Enum.FunctionType.CaseChange" xml:space="preserve">
-    <value>Case change</value>
-  </data>
-	<data name="Enum.FunctionType.CaseRelation" xml:space="preserve">
-    <value>Case relation</value>
-  </data>
-	<data name="Enum.FunctionType.CaseRelationBuild" xml:space="preserve">
-    <value>Case relation build</value>
-  </data>
-	<data name="Enum.FunctionType.CaseRelationValidate" xml:space="preserve">
-    <value>Case relation validate</value>
-  </data>
-	<data name="Enum.FunctionType.CaseValidate" xml:space="preserve">
-    <value>Case validate</value>
-  </data>
-	<data name="Enum.FunctionType.Collector" xml:space="preserve">
-    <value>Collector</value>
-  </data>
-	<data name="Enum.FunctionType.CollectorApply" xml:space="preserve">
-    <value>Collector apply</value>
-  </data>
-	<data name="Enum.FunctionType.CollectorEnd" xml:space="preserve">
-    <value>Collector end</value>
-  </data>
-	<data name="Enum.FunctionType.CollectorStart" xml:space="preserve">
-    <value>Collector start</value>
-  </data>
-	<data name="Enum.FunctionType.Payroll" xml:space="preserve">
-    <value>Payroll</value>
-  </data>
-	<data name="Enum.FunctionType.Payrun" xml:space="preserve">
-    <value>Payrun</value>
-  </data>
-	<data name="Enum.FunctionType.PayrunEmployeeAvailable" xml:space="preserve">
-    <value>Payrun employee available</value>
-  </data>
-	<data name="Enum.FunctionType.PayrunEmployeeEnd" xml:space="preserve">
-    <value>Payrun employee end</value>
-  </data>
-	<data name="Enum.FunctionType.PayrunEmployeeStart" xml:space="preserve">
-    <value>Payrun employee start</value>
-  </data>
-	<data name="Enum.FunctionType.PayrunEnd" xml:space="preserve">
-    <value>Payrun end</value>
-  </data>
-	<data name="Enum.FunctionType.PayrunStart" xml:space="preserve">
-    <value>Payrun start</value>
-  </data>
-	<data name="Enum.FunctionType.PayrunWageTypeAvailable" xml:space="preserve">
-    <value>Payrun wage type available</value>
-  </data>
-	<data name="Enum.FunctionType.Report" xml:space="preserve">
-    <value>Report</value>
-  </data>
-	<data name="Enum.FunctionType.ReportBuild" xml:space="preserve">
-    <value>Report build</value>
-  </data>
-	<data name="Enum.FunctionType.ReportEnd" xml:space="preserve">
-    <value>Report end</value>
-  </data>
-	<data name="Enum.FunctionType.ReportStart" xml:space="preserve">
-    <value>Report start</value>
-  </data>
-	<data name="Enum.FunctionType.WageType" xml:space="preserve">
-    <value>Wage type</value>
-  </data>
-	<data name="Enum.FunctionType.WageTypeResult" xml:space="preserve">
-    <value>Wage type result</value>
-  </data>
-	<data name="Enum.FunctionType.WageTypeValue" xml:space="preserve">
-    <value>Wage type value</value>
-  </data>
-	<data name="Enum.CaseCancellationType.Case" xml:space="preserve">
-    <value>Case</value>
-  </data>
-	<data name="Enum.CaseCancellationType.None" xml:space="preserve">
-    <value>None</value>
-  </data>
-	<data name="Enum.CaseFieldAggregationType.First" xml:space="preserve">
-    <value>First</value>
-  </data>
-	<data name="Enum.CaseFieldAggregationType.Last" xml:space="preserve">
-    <value>Last</value>
-  </data>
-	<data name="Enum.CaseFieldAggregationType.Summary" xml:space="preserve">
-    <value>Summary</value>
-  </data>
-	<data name="Enum.CaseFieldCancellationMode.Invert" xml:space="preserve">
-    <value>Invert</value>
-  </data>
-	<data name="Enum.CaseFieldCancellationMode.Keep" xml:space="preserve">
-    <value>Keep</value>
-  </data>
-	<data name="Enum.CaseFieldCancellationMode.Previous" xml:space="preserve">
-    <value>Previous</value>
-  </data>
-	<data name="Enum.CaseFieldCancellationMode.Reset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-	<data name="Enum.CaseFieldCancellationMode.TimeType" xml:space="preserve">
-    <value>Time type</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.April" xml:space="preserve">
-    <value>April</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.August" xml:space="preserve">
-    <value>August</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Day" xml:space="preserve">
-    <value>Day</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.December" xml:space="preserve">
-    <value>December</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.February" xml:space="preserve">
-    <value>February</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Friday" xml:space="preserve">
-    <value>Friday</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.January" xml:space="preserve">
-    <value>January</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.July" xml:space="preserve">
-    <value>July</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.June" xml:space="preserve">
-    <value>June</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.March" xml:space="preserve">
-    <value>March</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.May" xml:space="preserve">
-    <value>May</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Monday" xml:space="preserve">
-    <value>Monday</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Month" xml:space="preserve">
-    <value>Month</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.November" xml:space="preserve">
-    <value>November</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.October" xml:space="preserve">
-    <value>October</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Saturday" xml:space="preserve">
-    <value>Saturday</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.September" xml:space="preserve">
-    <value>September</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Sunday" xml:space="preserve">
-    <value>Sunday</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Thursday" xml:space="preserve">
-    <value>Thursday</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Tuesday" xml:space="preserve">
-    <value>Tuesday</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Wednesday" xml:space="preserve">
-    <value>Wednesday</value>
-  </data>
-	<data name="Enum.CaseFieldDateType.Year" xml:space="preserve">
-    <value>Year</value>
-  </data>
-	<data name="Enum.CaseFieldTimeType.CalendarPeriod" xml:space="preserve">
-    <value>Calendar period</value>
-  </data>
-	<data name="Enum.CaseFieldTimeType.Moment" xml:space="preserve">
-    <value>Moment</value>
-  </data>
-	<data name="Enum.CaseFieldTimeType.Period" xml:space="preserve">
-    <value>Period</value>
-  </data>
-	<data name="Enum.CaseFieldTimeType.Timeless" xml:space="preserve">
-    <value>Timeless</value>
-  </data>
-	<data name="Enum.CaseFieldTimeUnit.Day" xml:space="preserve">
-    <value>Day</value>
-  </data>
-	<data name="Enum.CaseFieldTimeUnit.HalfDay" xml:space="preserve">
-    <value>Half day</value>
-  </data>
-	<data name="Enum.CaseFieldTimeUnit.Month" xml:space="preserve">
-    <value>Month</value>
-  </data>
-	<data name="Enum.CaseType.Company" xml:space="preserve">
-    <value>Company</value>
-  </data>
-	<data name="Enum.CaseType.Employee" xml:space="preserve">
-    <value>Employee</value>
-  </data>
-	<data name="Enum.CaseType.Global" xml:space="preserve">
-    <value>Global</value>
-  </data>
-	<data name="Enum.CaseType.National" xml:space="preserve">
-    <value>National</value>
-  </data>
-	<data name="Enum.CaseValueCreationMode.Always" xml:space="preserve">
-    <value>Always</value>
-  </data>
-	<data name="Enum.CaseValueCreationMode.Discard" xml:space="preserve">
-    <value>Discard</value>
-  </data>
-	<data name="Enum.CaseValueCreationMode.OnChanges" xml:space="preserve">
-    <value>On changes</value>
-  </data>
-	<data name="Enum.CollectMode.Average" xml:space="preserve">
-    <value>Average</value>
-  </data>
-	<data name="Enum.CollectMode.Count" xml:space="preserve">
-    <value>Count</value>
-  </data>
-	<data name="Enum.CollectMode.Maximum" xml:space="preserve">
-    <value>Maximum</value>
-  </data>
-	<data name="Enum.CollectMode.Minimum" xml:space="preserve">
-    <value>Minimum</value>
-  </data>
-	<data name="Enum.CollectMode.Summary" xml:space="preserve">
-    <value>Summary</value>
-  </data>
-	<data name="Enum.OverrideType.Active" xml:space="preserve">
-    <value>Active</value>
-  </data>
-	<data name="Enum.OverrideType.Inactive" xml:space="preserve">
-    <value>Inactive</value>
-  </data>
-	<data name="Enum.ReportAttributeMode.Json" xml:space="preserve">
-    <value>Json</value>
-  </data>
-	<data name="Enum.ReportAttributeModeTable" xml:space="preserve">
-    <value>Table</value>
-  </data>
-	<data name="Enum.ReportParameterType.EmployeeId" xml:space="preserve">
-    <value>Employee id</value>
-  </data>
-	<data name="Enum.ReportParameterType.Now" xml:space="preserve">
-    <value>Now</value>
-  </data>
-	<data name="Enum.ReportParameterType.PayrollId" xml:space="preserve">
-    <value>Payroll id</value>
-  </data>
-	<data name="Enum.ReportParameterType.PayrunId" xml:space="preserve">
-    <value>Payrun id</value>
-  </data>
-	<data name="Enum.ReportParameterType.RegulationId" xml:space="preserve">
-    <value>Regulation id</value>
-  </data>
-	<data name="Enum.ReportParameterType.ReportId" xml:space="preserve">
-    <value>Report id</value>
-  </data>
-	<data name="Enum.ReportParameterType.TenantId" xml:space="preserve">
-    <value>Tenant id</value>
-  </data>
-	<data name="Enum.ReportParameterType.Today" xml:space="preserve">
-    <value>Today</value>
-  </data>
-	<data name="Enum.ReportParameterType.UserId" xml:space="preserve">
-    <value>User id</value>
-  </data>
-	<data name="Enum.ReportParameterType.Value" xml:space="preserve">
-    <value>Value</value>
-  </data>
-	<data name="Enum.ReportParameterType.WebhookId" xml:space="preserve">
-    <value>Webhook id</value>
-  </data>
-	<data name="Enum.ValueScope.Global" xml:space="preserve">
-    <value>Global</value>
-  </data>
-	<data name="Enum.ValueScope.Local" xml:space="preserve">
-    <value>Local</value>
-  </data>
-	<data name="Enum.ValueType.Boolean" xml:space="preserve">
-    <value>Boolean</value>
-  </data>
-	<data name="Enum.ValueType.Date" xml:space="preserve">
-    <value>Date</value>
-  </data>
-	<data name="Enum.ValueType.DateTime" xml:space="preserve">
-    <value>DateTime</value>
-  </data>
-	<data name="Enum.ValueType.Decimal" xml:space="preserve">
-    <value>Decimal</value>
-  </data>
-	<data name="Enum.ValueType.Integer" xml:space="preserve">
-    <value>Integer</value>
-  </data>
-	<data name="Enum.ValueType.Money" xml:space="preserve">
-    <value>Money</value>
-  </data>
-	<data name="Enum.ValueType.Month" xml:space="preserve">
-    <value>Month</value>
-  </data>
-	<data name="Enum.ValueType.None" xml:space="preserve">
-    <value>None</value>
-  </data>
-	<data name="Enum.ValueType.NumericBoolean" xml:space="preserve">
-    <value>Boolean numeric</value>
-  </data>
-	<data name="Enum.ValueType.Percent" xml:space="preserve">
-    <value>Percent</value>
-  </data>
-	<data name="Enum.ValueType.String" xml:space="preserve">
-    <value>String</value>
-  </data>
-	<data name="Enum.ValueType.WebResource" xml:space="preserve">
-    <value>Web resource</value>
-  </data>
-	<data name="Enum.ValueType.Weekday" xml:space="preserve">
-    <value>Weekday</value>
-  </data>
-	<data name="Enum.ValueType.Year" xml:space="preserve">
-    <value>Year</value>
-  </data>
-	<data name="Enum.WebhookAction.CaseChangeAdded" xml:space="preserve">
-    <value>Case change added</value>
-  </data>
-	<data name="Enum.WebhookAction.CaseFunctionRequest" xml:space="preserve">
-    <value>Case function request</value>
-  </data>
-	<data name="Enum.WebhookAction.None" xml:space="preserve">
-    <value>None</value>
-  </data>
-	<data name="Enum.WebhookAction.PayrunFunctionRequest" xml:space="preserve">
-    <value>Payrun function request</value>
-  </data>
-	<data name="Enum.WebhookAction.PayrunJobFinish" xml:space="preserve">
-    <value>Payrun job finish</value>
-  </data>
-	<data name="Enum.WebhookAction.PayrunJobProcess" xml:space="preserve">
-    <value>Payrun job process</value>
-  </data>
-	<data name="Enum.WebhookAction.ReportFunctionRequest" xml:space="preserve">
-    <value>Report function request</value>
-  </data>
-	<data name="Enum.WebhookAction.TaskChange" xml:space="preserve">
-    <value>Task change</value>
-  </data>
 	<data name="DataGrid.PagerInfoFormat" xml:space="preserve">
     <value>{first_item}-{last_item} of {all_items}</value>
   </data>
@@ -2341,14 +2416,23 @@
 	<data name="Shared.Hidden" xml:space="preserve">
     <value>Hidden</value>
   </data>
+	<data name="Shared.UnsaveChangesTitle" xml:space="preserve">
+    <value>Unsaved Changes</value>
+  </data>
+	<data name="Shared.UnsaveChangesQuery" xml:space="preserve">
+    <value>You have unsaved changes. Are you sure you want to leave?</value>
+  </data>
+	<data name="Shared.Leave" xml:space="preserve">
+    <value>Leave</value>
+  </data>
+	<data name="Shared.Stay" xml:space="preserve">
+    <value>Stay</value>
+  </data>
 	<data name="Case.SubmitForecastCase" xml:space="preserve">
     <value>Submit forecast case</value>
   </data>
 	<data name="Collector.Negated" xml:space="preserve">
     <value>Negated value</value>
-  </data>
-	<data name="Enum.CollectMode.Range" xml:space="preserve">
-    <value>Range</value>
   </data>
 	<data name="Error.ItemCreate" xml:space="preserve">
     <value>{type} create error.</value>

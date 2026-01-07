@@ -24,22 +24,21 @@ public class LookupObject
     /// </summary>
     public decimal? RangeValue { get; }
 
-    private readonly object lookupValue;
     /// <summary>
     /// Lookup value
     /// </summary>
     public object Value
     {
-        get => lookupValue;
+        get;
         private init
         {
             if (value is string stringValue)
             {
-                lookupValue = ValueConvert.ToValue(stringValue, ValueType.String, TenantCulture);
+                field = ValueConvert.ToValue(stringValue, ValueType.String, TenantCulture);
             }
             else
             {
-                lookupValue = value;
+                field = value;
             }
         }
     }

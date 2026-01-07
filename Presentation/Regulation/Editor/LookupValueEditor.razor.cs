@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using Task = System.Threading.Tasks.Task;
 using Microsoft.AspNetCore.Components;
-using PayrollEngine.WebApp.Presentation.Regulation.Component;
 using PayrollEngine.WebApp.Shared;
 using PayrollEngine.WebApp.ViewModel;
-using Task = System.Threading.Tasks.Task;
+using PayrollEngine.WebApp.Presentation.Regulation.Component;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation.Editor;
 
@@ -13,6 +13,8 @@ public partial class LookupValueEditor
     public RegulationEditContext EditContext { get; set; }
     [Parameter]
     public IRegulationItem Item { get; set; }
+    [Parameter] 
+    public EventCallback<(IRegulationItem Item, bool Modified)> StateChanged { get; set; }
     [Parameter]
     public EventCallback<IRegulationItem> SaveItem { get; set; }
     [Parameter]

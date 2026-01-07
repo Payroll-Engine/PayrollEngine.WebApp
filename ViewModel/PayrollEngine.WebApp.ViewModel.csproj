@@ -12,7 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -16,6 +16,7 @@
                    Error="@Error"
                    Required="@Required"
                    RequiredError="@RequiredError"
+                   OpenTo="OpenTo"
                    HelperText="@Help"
                    Margin="@Margin.Dense"
                    Variant="@Variant"
@@ -37,12 +38,13 @@
     private string Format { get; set; }
     private string RequiredError { get; set; }
     private string Help { get; set; }
+    private OpenTo OpenTo { get; set; }
     private bool ReadOnly { get; set; }
 
     private bool Required => Field.ValueMandatory;
     private bool Error => !Field.Validator.ValidateStart();
     private bool Hidden => (Attributes.GetStartHidden(Culture) ?? false) ||
-                           (Attributes.GetFieldLayout(Culture) ?? default) 
+                           (Attributes.GetFieldLayout(Culture) ?? default)
                            is FieldLayoutMode.Value or FieldLayoutMode.ValueCompact;
 
     protected override DatePickerType DatePickerType =>
@@ -58,6 +60,14 @@
                      Culture.DateTimeFormat.ShortDatePattern;
         RequiredError = Attributes.GetStartRequired(Culture);
         ReadOnly = Attributes.GetStartReadOnly(Culture) ?? false;
+
+        OpenTo = DatePickerType switch
+        {
+            DatePickerType.Month => OpenTo.Month,
+            DatePickerType.Year => OpenTo.Year,
+            _ => OpenTo.Date
+        };
+
         Help = Attributes.GetStartHelp(Culture);
         // keep the edit row layout in sync with the value edit
         if (HasValueHelp && string.IsNullOrWhiteSpace(Help))
