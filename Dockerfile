@@ -1,5 +1,5 @@
 # Build stage with multi-platform support
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG TARGETARCH
 ARG BUILDPLATFORM
 WORKDIR /src
@@ -34,7 +34,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
     fi
 
 # final stage
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "PayrollEngine.WebApp.Server.dll"]
