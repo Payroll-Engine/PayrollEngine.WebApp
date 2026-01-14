@@ -32,8 +32,8 @@ public static class DialogServiceExtensions
             string noText = null, string cancelText = null,
             string icon = Icons.Material.Filled.Info,
             Color iconColor = Color.Info,
-            Color submitColor = Color.Primary,
-            Variant submitVariant = Variant.Outlined)
+            Color submitColor = Color.Tertiary,
+            Variant? submitVariant = null)
         {
             var options = new MessageBoxOptions
             {
@@ -42,6 +42,7 @@ public static class DialogServiceExtensions
                 NoText = noText,
                 Message = message
             };
+            submitVariant ??= Globals.ButtonVariant;
             var parameters = new DialogParameters
             {
                 { nameof(MessageBoxDialog.Options), options },
@@ -71,8 +72,8 @@ public static class DialogServiceExtensions
             string noText = null, string cancelText = null,
             string icon = Icons.Material.Filled.Info,
             Color iconColor = Color.Info,
-            Color submitColor = Color.Primary,
-            Variant submitVariant = Variant.Outlined)
+            Color submitColor = Color.Tertiary,
+            Variant? submitVariant = null)
         {
             var options = new MessageBoxOptions
             {
@@ -81,6 +82,7 @@ public static class DialogServiceExtensions
                 NoText = noText,
                 MarkupMessage = message
             };
+            submitVariant ??= Globals.ButtonVariant;
             var parameters = new DialogParameters
             {
                 { nameof(MessageBoxDialog.Options), options },
@@ -108,7 +110,7 @@ public static class DialogServiceExtensions
                 icon: Icons.Material.Filled.Delete,
                 iconColor: Color.Error,
                 submitColor: Color.Error,
-                submitVariant: Variant.Filled);
+                submitVariant: Globals.ButtonVariant);
 
         /// <summary>
         /// Show delete message box with markup text
@@ -125,7 +127,7 @@ public static class DialogServiceExtensions
                 icon: Icons.Material.Filled.Delete,
                 iconColor: Color.Error,
                 submitColor: Color.Error,
-                submitVariant: Variant.Filled);
+                submitVariant: Globals.ButtonVariant);
 
         /// <summary>
         /// Show error message box

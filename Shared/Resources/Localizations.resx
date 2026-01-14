@@ -1432,8 +1432,8 @@
 	<data name="PayrunJob.JobDate" xml:space="preserve">
     <value>Job date</value>
   </data>
-	<data name="PayrunJob.JobExecuting" xml:space="preserve">
-    <value>Processing...</value>
+	<data name="PayrunJob.JobProcessing" xml:space="preserve">
+    <value>Completed {percent}%</value>
   </data>
 	<data name="PayrunJob.JobFailed" xml:space="preserve">
     <value>Payrun job execution failed</value>
@@ -1494,6 +1494,9 @@
   </data>
 	<data name="PayrunJob.StatusChanged" xml:space="preserve">
     <value>Changed payrun job status to {status}</value>
+  </data>
+	<data name="PayrunJob.ChangeStatusQuery" xml:space="preserve">
+    <value>Changed job status from «{source}» to «{target}»?</value>
   </data>
 	<data name="PayrunParameter.CountParameters" xml:space="preserve">
     <value>{count} parameters</value>

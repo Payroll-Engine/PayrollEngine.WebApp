@@ -154,5 +154,8 @@ public class Program
             options.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
             options.PopoverOptions.ThrowOnDuplicateProvider = false;
         });
+
+        // prevent focus trap error when dialog elements aren't ready
+        MudGlobal.DialogDefaults.DefaultFocus = DefaultFocus.None;
     }
 }

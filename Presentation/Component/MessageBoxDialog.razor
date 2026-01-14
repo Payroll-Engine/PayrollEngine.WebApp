@@ -2,8 +2,8 @@
     <DialogContent>
         <MudStack Row="true">
             <MudIcon Icon="@(Icon ?? Icons.Material.Filled.Info)"
-            Color="@IconColor"
-            Style="font-size: 2rem;" />
+                     Color="@IconColor"
+                     Style="font-size: 2rem; align-self: center;" />
             <MudText Style="align-self: center ">
                 @Options.Message
                 @Options.MarkupMessage
@@ -13,30 +13,40 @@
     <DialogActions>
         @if (Options.CancelText != null)
         {
-            <MudButton Color="Color.Primary" OnClick="Cancel">@Options.CancelText</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant"
+                       OnClick="Cancel">
+                @Options.CancelText
+            </MudButton>
         }
         @if (Options.NoText != null)
         {
-            <MudButton Color="Color.Primary" OnClick="Cancel">@Options.NoText</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant"
+                       OnClick="Cancel">
+                @Options.NoText
+            </MudButton>
         }
         @if (Options.YesText != null)
         {
-            <MudButton Color="@SubmitColor" Variant="@SubmitVariant" OnClick="Submit">@Options.YesText</MudButton>
+            <MudButton Color="@SubmitColor"
+                       Variant="@SubmitVariant"
+                       OnClick="Submit">
+                @Options.YesText
+            </MudButton>
         }
     </DialogActions>
 </MudDialog>
 
 <style>
     .dialog {
-    min-width: 24em;
+        min-width: 24em;
     }
 
     .title {
-    background-color: lightgrey;
+        background-color: lightgrey;
     }
 
     .titleDark {
-    background-color: darkslateblue;
+        background-color: darkslateblue;
     }
 </style>
 
@@ -46,8 +56,8 @@
     [Parameter] public MessageBoxOptions Options { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public Color IconColor { get; set; } = Color.Info;
-    [Parameter] public Color SubmitColor { get; set; } = Color.Primary;
-    [Parameter] public Variant SubmitVariant { get; set; }
+    [Parameter] public Color SubmitColor { get; set; } = Color.Tertiary;
+    [Parameter] public Variant SubmitVariant { get; set; } = Globals.ButtonVariant;
 
     [Inject]
     private IThemeService ThemeService { get; set; }

@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Localization;
-using System.Globalization;
+﻿using System.Globalization;
+using Microsoft.Extensions.Localization;
 
 namespace PayrollEngine.WebApp.Shared;
 
@@ -33,7 +33,8 @@ public class PayrunJobLocalizer(IStringLocalizerFactory factory, CultureInfo cul
     public string MissingJobReason => PropertyValue();
 
     public string JobStart => PropertyValue();
-    public string JobExecuting => PropertyValue();
+    public string JobProcessing(int percent) =>
+        FormatValue(PropertyValue(), nameof(percent), percent);
     public string JobFailed => PropertyValue();
     public string JobCompleted => PropertyValue();
 
@@ -41,4 +42,7 @@ public class PayrunJobLocalizer(IStringLocalizerFactory factory, CultureInfo cul
         FormatValue(PropertyValue(), nameof(status), Enum(status));
     public string StatusChanged(PayrunJobStatus status) =>
         FormatValue(PropertyValue(), nameof(status), Enum(status));
+    public object ChangeStatusQuery(string source, string target) =>
+        FormatValue(PropertyValue(), nameof(source), source, 
+            nameof(target), target);
 }

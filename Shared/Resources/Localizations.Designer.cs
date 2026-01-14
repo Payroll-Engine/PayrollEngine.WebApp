@@ -5236,6 +5236,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changed job status from «{source}» to «{target}»?.
+        /// </summary>
+        internal static string PayrunJob_ChangeStatusQuery {
+            get {
+                return ResourceManager.GetString("PayrunJob.ChangeStatusQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         internal static string PayrunJob_Copy {
@@ -5281,15 +5290,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Processing....
-        /// </summary>
-        internal static string PayrunJob_JobExecuting {
-            get {
-                return ResourceManager.GetString("PayrunJob.JobExecuting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Payrun job execution failed.
         /// </summary>
         internal static string PayrunJob_JobFailed {
@@ -5322,6 +5322,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string PayrunJob_JobPeriod {
             get {
                 return ResourceManager.GetString("PayrunJob.JobPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed {percent}%.
+        /// </summary>
+        internal static string PayrunJob_JobProcessing {
+            get {
+                return ResourceManager.GetString("PayrunJob.JobProcessing", resourceCulture);
             }
         }
         

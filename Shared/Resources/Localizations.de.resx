@@ -1867,8 +1867,8 @@
 	<data name="Forecast.PayrunJob" xml:space="preserve">
     <value>Forecast Lohnlaufjob</value>
   </data>
-	<data name="PayrunJob.JobExecuting" xml:space="preserve">
-    <value>Verarbeiten...</value>
+	<data name="PayrunJob.JobProcessing" xml:space="preserve">
+    <value>Verarbeitet {percent}%</value>
   </data>
 	<data name="PayrunJob.JobStart" xml:space="preserve">
     <value>Start</value>
@@ -1890,6 +1890,9 @@
   </data>
 	<data name="PayrunJob.StatusChanged" xml:space="preserve">
     <value>Lohnlauf Jobstatus ist neu {status}</value>
+  </data>
+	<data name="PayrunJob.ChangeStatusQuery" xml:space="preserve">
+    <value>Jobstatus wechseln von «{source}» zu «{target}»?</value>
   </data>
 	<data name="PayrunResult.KindName" xml:space="preserve">
     <value>Name</value>

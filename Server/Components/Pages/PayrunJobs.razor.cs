@@ -192,11 +192,14 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
         }
 
         // confirmation
+        var source = Localizer.Enum(LegalJob.JobStatus);
+        var target = Localizer.Enum(jobStatus);
         if (!await DialogService.ShowMessageBoxAsync(
-                Localizer.PayrunJob.PayrunJob,
-                new MarkupString($"<br /><b>&#xbb;{jobStatus}&#xab;</b> {Localizer.PayrunJob.PayrunJob} {LegalJob.Name}?<br /><br />"),
-                Localizer.Dialog.Ok,
-                Localizer.Dialog.Cancel))
+                title: Localizer.PayrunJob.PayrunJob,
+                message: new MarkupString($"<br />{Localizer.PayrunJob.ChangeStatusQuery(source, target)}<br /><br />"),
+                yesText: target,
+                noText: Localizer.Dialog.Cancel,
+                submitColor: jobStatus is PayrunJobStatus.Cancel or PayrunJobStatus.Abort ? Color.Error : Color.Tertiary))
         {
             return;
         }
@@ -581,7 +584,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// <param name="setup">The payrun job setup</param>
     private async Task ResetJobSetupAsync(PayrunJobSetup setup)
     {
-        setup.PeriodDate = Date.Today;
+        await SetJobPeriodDateAsync(setup, Date.Today);
         setup.JobName = $"{Localizer.Payrun.Payrun} {setup.PeriodDate?.ToCompactString()}";
         setup.ForecastName = null;
         setup.SelectedEmployees = null;
@@ -603,7 +606,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// <param name="setup">The jo setup</param>
     private async Task ApplyToSetupAsync(PayrunJob job, PayrunJobSetup setup)
     {
-        setup.PeriodDate = job.PeriodStart;
+        await SetJobPeriodDateAsync(setup, job.PeriodStart);
         setup.EvaluationDate = job.EvaluationDate;
         setup.JobName = job.Name;
         setup.Reason = job.CreatedReason;
@@ -861,45 +864,34 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     {
         // ReSharper disable once UnusedMember.Local
         get => LegalSetup.PeriodDate;
-        set
-        {
-            LegalSetup.PeriodDate = value;
-            InvokeAsync(UpdateLegalSetupPeriodAsync);
-        }
-    }
-
-    private async Task UpdateLegalSetupPeriodAsync()
-    {
-        var period = await CalendarService.GetPeriodAsync(
-            tenantId: Tenant.Id,
-            cultureName: PageCulture.Name,
-            calendarName: JobCalendar,
-            periodMoment: LegalSetup.PeriodDate);
-        LegalSetup.Period = period;
-        StateHasChanged();
+        set => InvokeAsync(() => SetJobPeriodDateAsync(LegalSetup, value));
     }
 
     private DateTime? ForecastSetupPeriodDate
     {
         // ReSharper disable once UnusedMember.Local
         get => ForecastSetup.PeriodDate;
-        set
-        {
-            ForecastSetup.PeriodDate = value;
-            InvokeAsync(UpdateForecastSetupPeriodAsync);
-        }
+        set => InvokeAsync(() => SetJobPeriodDateAsync(ForecastSetup, value));
     }
 
-    private async Task UpdateForecastSetupPeriodAsync()
+    private async Task SetJobPeriodDateAsync(PayrunJobSetup setup, DateTime? date)
     {
-        var period = await CalendarService.GetPeriodAsync(
-            tenantId: Tenant.Id,
-            cultureName: PageCulture.Name,
-            calendarName: JobCalendar,
-            periodMoment: ForecastSetup.PeriodDate);
-        ForecastSetup.Period = period;
-        StateHasChanged();
+        if (date == setup.PeriodDate)
+        {
+            return;
+        }
+        setup.PeriodDate = date;
+        await UpdateJobPeriodAsync(setup);
     }
+
+    private async Task UpdateJobPeriodAsync(PayrunJobSetup setup) =>
+        setup.Period = setup.PeriodDate != null ?
+            await CalendarService.GetPeriodAsync(
+                tenantId: Tenant.Id,
+                cultureName: PageCulture.Name,
+                calendarName: JobCalendar,
+                periodMoment: setup.PeriodDate) :
+            new();
 
     #endregion
 
@@ -1028,9 +1020,8 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
         if (firstRender && HasFeature(Feature.Forecasts))
         {
             await SetupForecastHistoryAsync();
-            await UpdateLegalSetupPeriodAsync();
-            await UpdateForecastSetupPeriodAsync();
-
+            await UpdateJobPeriodAsync(LegalSetup);
+            await UpdateJobPeriodAsync(ForecastSetup);
         }
         await base.OnPageAfterRenderAsync(firstRender);
     }

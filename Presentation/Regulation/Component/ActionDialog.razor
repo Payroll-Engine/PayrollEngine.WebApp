@@ -274,7 +274,7 @@
                 <div class="d-flex flex-grow-1 justify-end pl-8">
                     <MudButton OnClick="ToggleActionsAsync"
                                Variant="@Globals.ButtonVariant"
-                               StartIcon="@(ActionState is ActionWorkState.Hidden ? Icons.Material.Outlined.ExpandMore : ActionState is ActionWorkState.Loading ? Icons.Material.Outlined.Pending : Icons.Material.Outlined.ExpandLess)">
+                               StartIcon="@(ActionState is ActionWorkState.Hidden ? Icons.Material.Outlined.ExpandMore : ActionState is ActionWorkState.Loading ? Icons.Material.Outlined.HourglassBottom : Icons.Material.Outlined.ExpandLess)">
                         @switch (ActionState)
                         {
                             case ActionWorkState.Hidden:

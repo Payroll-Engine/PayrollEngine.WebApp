@@ -8,7 +8,7 @@
 @using Employee = PayrollEngine.WebApp.ViewModel.Employee
 @using Log = PayrollEngine.Log
 
-<MudDialog Style="min-width: 30em;" TitleClass="mud-theme-primary pe-dialog-title">
+<MudDialog Style="min-width: 35em;" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudStack Spacing="0">
             <MudSimpleTable>
@@ -78,8 +78,8 @@
             <div class="py-8">
                 @if (Executing)
                 {
-                    <MudText Class="pb-4">
-                        @Localizer.PayrunJob.JobExecuting
+                    <MudText Class="pb-4 px-4">
+                        @StatusMessage
                     </MudText>
                     <MudProgressLinear Color="Color.Info" Rounded="true"
                                        Class="mud-table-loading-progress"
@@ -88,7 +88,7 @@
                 @if (Failed)
                 {
                     <MudText Class="pb-4" Color="Color.Error">
-                        @Localizer.PayrunJob.JobFailed
+                        @ErrorMessage
                     </MudText>
                 }
                 @if (Completed)
@@ -114,6 +114,9 @@
                 <MudButton Variant="@Globals.ButtonVariant" Color="Color.Info"
                            StartIcon="@Icons.Material.Filled.NavigateNext"
                            OnClick="CloseViewResults">@Localizer.PayrunResult.PayrunResults</MudButton>
+            }
+            @if (Completed || Failed || Executing)
+            {
                 <MudButton Variant="@Globals.ButtonVariant" Color="Color.Tertiary"
                            OnClick="Close">@Localizer.Dialog.Close</MudButton>
             }
@@ -141,6 +144,9 @@
     private bool Executing { get; set; }
     private bool Completed { get; set; }
     private bool Failed { get; set; }
+
+    private string StatusMessage { get; set; }
+    private string ErrorMessage { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 
@@ -192,36 +198,55 @@
 
             // new payrun job
             var jobInvocation = new PayrunJobInvocation
-                {
-                    PayrunId = PayrunId,
-                    UserId = User.Id,
-                    Name = Setup.JobName,
-                    Forecast = Setup.ForecastName,
-                    PeriodStart = jobPeriod,
-                    EvaluationDate = Setup.EvaluationDate,
-                    EmployeeIdentifiers = employeeIdentifiers,
-                    Attributes = Setup.Parameters.ToDictionary(p => p.Name, p => p.GetValueByValueType()),
-                    Reason = Setup.Reason,
+            {
+                PayrunId = PayrunId,
+                UserId = User.Id,
+                Name = Setup.JobName,
+                Forecast = Setup.ForecastName,
+                PeriodStart = jobPeriod,
+                EvaluationDate = Setup.EvaluationDate,
+                EmployeeIdentifiers = employeeIdentifiers,
+                Attributes = Setup.Parameters.ToDictionary(p => p.Name, p => p.GetValueByValueType()),
+                Reason = Setup.Reason,
                 // automatic retro mode
-                    RetroPayMode = RetroPayMode.ValueChange
-                };
+                RetroPayMode = RetroPayMode.ValueChange
+            };
 
             // add payrun job
-            var result = await PayrunJobService.StartJobAsync<PayrunJob>(new(Tenant.Id), jobInvocation);
-            if (result == null)
+            var job = await PayrunJobService.StartJobAsync<PayrunJob>(new(Tenant.Id), jobInvocation);
+            if (job == null)
             {
                 await UserNotification.ShowErrorMessageBoxAsync(Localizer, Localizer.PayrunJob.PayrunJob, Localizer.PayrunJob.JobFailed);
+            }
+            else
+            {
+                // wait for completed job
+                while (job.JobEnd == null)
+                {
+                    // status update
+                    var percent = job.TotalEmployeeCount > 0 && job.ProcessedEmployeeCount > 0 ?
+                        (job.ProcessedEmployeeCount * 100) / job.TotalEmployeeCount : 0;
+                    StatusMessage = Localizer.PayrunJob.JobProcessing(percent);
+                    StateHasChanged();
+
+                    // delay for a second
+                    Task.Delay(1000).Wait();
+
+                    // retry
+                    job = await PayrunJobService.GetAsync<PayrunJob>(new(Tenant.Id), job.Id);
+                }
             }
 
             // expected exit
             Executing = false;
-            Completed = true;
+            Completed = job?.JobEnd != null;
             StateHasChanged();
         }
         catch (Exception exception)
         {
             // failed
-            Log.Error(exception, exception.GetBaseMessage());
+            ErrorMessage = exception.GetBaseMessage();
+            Log.Error(exception, ErrorMessage);
             Executing = false;
             Failed = true;
             StateHasChanged();
