@@ -47,7 +47,7 @@
                            (Attributes.GetFieldLayout(Culture) ?? default)
                            is FieldLayoutMode.Value or FieldLayoutMode.ValueCompact;
 
-    protected override DatePickerType DatePickerType =>
+    protected virtual DatePickerType DatePickerType =>
         Attributes.GetStartPickerOpen(Culture) ?? DatePickerType.Day;
 
     protected override DateTimePickerType DateTimePickerType =>

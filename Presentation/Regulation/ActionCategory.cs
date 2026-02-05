@@ -1,4 +1,5 @@
-﻿namespace PayrollEngine.WebApp.Presentation.Regulation;
+﻿
+namespace PayrollEngine.WebApp.Presentation.Regulation;
 
 /// <summary>
 /// Regulation action category
@@ -19,4 +20,7 @@ public class ActionCategory
     /// Display order
     /// </summary>
     public int DisplayOrder { get; init; }
+
+    /// <inheritdoc/>
+    public override string ToString() => Name;
 }

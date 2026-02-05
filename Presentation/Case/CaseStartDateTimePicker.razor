@@ -120,7 +120,7 @@
         DateTimeChanged.InvokeAsync(dateTime).Wait();
     }
 
-    protected override DatePickerType DatePickerType => default;
+    protected virtual DatePickerType DatePickerType => default;
 
     protected override DateTimePickerType DateTimePickerType =>
         Attributes.GetStartPickerType(Culture) ?? DateTimePickerType.DatePicker;

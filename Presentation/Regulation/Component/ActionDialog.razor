@@ -13,7 +13,9 @@
                           ReadOnly="@Item.IsReadOnlyField(Field)"
                           Clearable="true"
                           Required="true"
-                          Style="font-family: monospace; font-size: larger;"
+                          Style="@(Action?.Action != null ? Action.Action.Trim().StartsWith('#') ?
+                                                              "font-family: monospace; font-size: larger; font-style: italic;" :
+                                                              "font-family: monospace; font-size: larger;" : "")"
                           RequiredError="@Localizer.Error.RequiredField(Field.ActionLabel)"
                           Lines="Field.ActionLines" />
 
@@ -292,177 +294,180 @@
             </div>
 
             @* actions panel *@
-            <MudCollapse Expanded="@(ActionState is ActionWorkState.Visible)">
+            @if (ActionState != ActionWorkState.Hidden)
+            {
+                <MudCollapse Expanded="@(ActionState is ActionWorkState.Visible)">
 
-                @* action categories *@
-                @if (Categories != null && Categories.Count > 2)
-                {
-                    <MudChipSet T="string" Class="py-4"
-                                CheckMark="true"
-                                SelectionMode="SelectionMode.SingleSelection"
-                                SelectedValue="SelectedCategory"
-                                SelectedValueChanged="SelectedCategoryChanged">
-                        @foreach (var category in Categories)
-                        {
-                            <MudChip Text="@category.Label"
-                                     Default="@string.Equals(category.Label, Localizer.Shared.All)"
-                                     Variant="@Globals.ButtonVariant"
-                                     SelectedColor="Color.Tertiary" />
-                        }
-                    </MudChipSet>
-                }
+                    @* action categories *@
+                    @if (Categories != null && Categories.Count > 2)
+                    {
+                        <MudChipSet T="string" Class="py-4"
+                                    CheckMark="true"
+                                    SelectionMode="SelectionMode.SingleSelection"
+                                    SelectedValue="SelectedCategory"
+                                    SelectedValueChanged="SelectedCategoryChanged">
+                            @foreach (var category in Categories)
+                            {
+                                <MudChip Text="@category.Label"
+                                         Default="@string.Equals(category.Label, Localizer.Shared.All)"
+                                         Variant="@Globals.ButtonVariant"
+                                         SelectedColor="Color.Tertiary" />
+                            }
+                        </MudChipSet>
+                    }
 
-                @* action grid *@
-                <MudDataGrid T="ActionInfo"
-                             Height="30em"
-                             FixedHeader="true"
-                             Dense="true"
-                             Items="@CategoryActions"
-                             Filterable="true"
-                             FilterMode="DataGridFilterMode.ColumnFilterRow"
-                             ShowFilterIcons="false">
-                    <Columns>
-                        <PropertyColumn Property="x => x.GetExpressionTemplate()"
-                                        CellStyle="font-family: monospace"
-                                        Title="@Localizer.Action.Action" />
-                        <PropertyColumn Property="x => x.Description"
-                                        Title="@Localizer.Shared.Description" />
-                        <TemplateColumn T="ActionInfo"
-                                        ShowColumnOptions="false"
-                                        ShowFilterIcon="false"
-                                        Sortable="false">
-                            <CellTemplate>
-                                <MudStack Row="true" Class="d-flex align-center">
-                                    <MudTooltip Delay="@Globals.TooltipDelay"
-                                                Placement="Placement.Top">
-                                        <ChildContent>
-                                            <MudIcon Color="Color.Primary"
-                                                     Style="vertical-align: middle;"
-                                                     Icon="@Icons.Material.Outlined.Info" />
-                                        </ChildContent>
-                                        <TooltipContent>
-                                            <MudStack Class="pa-2">
-                                                <MudText Typo="Typo.h5"
-                                                         Align="Align.Start">
-                                                    @context.Item.Name
-                                                </MudText>
-                                                <MudText Typo="Typo.subtitle1"
-                                                         Align="Align.Start"
-                                                         Style="font-size: medium;">
-                                                    @context.Item.Description
-                                                </MudText>
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            <MudText Typo="Typo.body2"
-                                                                     Align="Align.Start"
-                                                                     Class="pr-8">
-                                                                @Localizer.Action.Source
-                                                            </MudText>
-                                                        </td>
-                                                        <td>
-                                                            <MudText Typo="Typo.body2"
-                                                                     Align="Align.End"
-                                                                     Style="font-family: monospace; font-size: medium;">
-                                                                @context.Item.Source
-                                                            </MudText>
-                                                        </td>
-                                                    </tr>
-                                                    @if (context.Item.Categories != null)
-                                                    {
+                    @* action grid *@
+                    <MudDataGrid T="ActionInfo"
+                                 Height="30em"
+                                 FixedHeader="true"
+                                 Dense="true"
+                                 Items="@CategoryActions"
+                                 Filterable="true"
+                                 FilterMode="DataGridFilterMode.ColumnFilterRow"
+                                 ShowFilterIcons="false">
+                        <Columns>
+                            <PropertyColumn Property="x => x.GetExpressionTemplate()"
+                                            CellStyle="font-family: monospace"
+                                            Title="@Localizer.Action.Action" />
+                            <PropertyColumn Property="x => x.Description"
+                                            Title="@Localizer.Shared.Description" />
+                            <TemplateColumn T="ActionInfo"
+                                            ShowColumnOptions="false"
+                                            ShowFilterIcon="false"
+                                            Sortable="false">
+                                <CellTemplate>
+                                    <MudStack Row="true" Class="d-flex align-center">
+                                        <MudTooltip Delay="@Globals.TooltipDelay"
+                                                    Placement="Placement.Top">
+                                            <ChildContent>
+                                                <MudIcon Color="Color.Primary"
+                                                         Style="vertical-align: middle;"
+                                                         Icon="@Icons.Material.Outlined.Info" />
+                                            </ChildContent>
+                                            <TooltipContent>
+                                                <MudStack Class="pa-2">
+                                                    <MudText Typo="Typo.h5"
+                                                             Align="Align.Start">
+                                                        @context.Item.Name
+                                                    </MudText>
+                                                    <MudText Typo="Typo.subtitle1"
+                                                             Align="Align.Start"
+                                                             Style="font-size: medium;">
+                                                        @context.Item.Description
+                                                    </MudText>
+                                                    <table>
                                                         <tr>
                                                             <td>
                                                                 <MudText Typo="Typo.body2"
                                                                          Align="Align.Start"
                                                                          Class="pr-8">
-                                                                    @Localizer.Action.Categories
+                                                                    @Localizer.Action.Source
                                                                 </MudText>
                                                             </td>
                                                             <td>
                                                                 <MudText Typo="Typo.body2"
                                                                          Align="Align.End"
                                                                          Style="font-family: monospace; font-size: medium;">
-                                                                    @string.Join(", ", context.Item.Categories as IEnumerable<string>)
+                                                                    @context.Item.Source
                                                                 </MudText>
                                                             </td>
                                                         </tr>
-                                                    }
-                                                </table>
-                                                @if (context.Item.Parameters != null && context.Item.Parameters.Any())
-                                                {
-                                                    <MudText Typo="Typo.h6"
-                                                             Align="Align.Start">
-                                                        @Localizer.Action.Parameters
-                                                    </MudText>
-                                                    <table>
-                                                        @foreach (var parameter in context.Item.Parameters)
-                                                        {
-                                                            <tr>
-                                                                <td>
-                                                                    <MudText Typo="Typo.body2"
-                                                                             Align="Align.Start"
-                                                                             Class="pr-8"
-                                                                             Style="font-family: monospace; font-size: medium;">
-                                                                        @parameter.Name
-                                                                    </MudText>
-                                                                </td>
-                                                                <td>
-                                                                    <MudText Typo="Typo.body2"
-                                                                             Align="Align.End">
-                                                                        @parameter.Description
-                                                                    </MudText>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    </table>
-                                                }
-                                                @if (context.Item.Issues != null && context.Item.Issues.Any())
-                                                {
-                                                    <MudText Typo="Typo.h6" Align="Align.Start">@Localizer.Action.Issues</MudText>
-                                                    <table>
-                                                        @foreach (var issue in context.Item.Issues)
+                                                        @if (context.Item.Categories != null)
                                                         {
                                                             <tr>
                                                                 <td>
                                                                     <MudText Typo="Typo.body2"
                                                                              Align="Align.Start"
                                                                              Class="pr-8">
-                                                                        @issue.Name
+                                                                        @Localizer.Action.Categories
                                                                     </MudText>
                                                                 </td>
                                                                 <td>
                                                                     <MudText Typo="Typo.body2"
                                                                              Align="Align.End"
                                                                              Style="font-family: monospace; font-size: medium;">
-                                                                        @issue.Message
+                                                                        @string.Join(", ", context.Item.Categories as IEnumerable<string>)
                                                                     </MudText>
                                                                 </td>
                                                             </tr>
                                                         }
                                                     </table>
-                                                }
-                                            </MudStack>
-                                        </TooltipContent>
-                                    </MudTooltip>
-                                    <MudTooltip Delay="@Globals.TooltipDelay"
-                                                Text="@Localizer.Action.AppendAction"
-                                                Placement="Placement.Top">
-                                        <MudIconButton @onclick="@(() => AppendAction(context.Item))"
-                                                       Color="Color.Tertiary"
-                                                       Icon="@Icons.Material.Filled.AddCircle"
-                                                       Size="Size.Small" />
-                                    </MudTooltip>
-                                </MudStack>
-                            </CellTemplate>
-                        </TemplateColumn>
+                                                    @if (context.Item.Parameters != null && context.Item.Parameters.Any())
+                                                    {
+                                                        <MudText Typo="Typo.h6"
+                                                                 Align="Align.Start">
+                                                            @Localizer.Action.Parameters
+                                                        </MudText>
+                                                        <table>
+                                                            @foreach (var parameter in context.Item.Parameters)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <MudText Typo="Typo.body2"
+                                                                                 Align="Align.Start"
+                                                                                 Class="pr-8"
+                                                                                 Style="font-family: monospace; font-size: medium;">
+                                                                            @parameter.Name
+                                                                        </MudText>
+                                                                    </td>
+                                                                    <td>
+                                                                        <MudText Typo="Typo.body2"
+                                                                                 Align="Align.End">
+                                                                            @parameter.Description
+                                                                        </MudText>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </table>
+                                                    }
+                                                    @if (context.Item.Issues != null && context.Item.Issues.Any())
+                                                    {
+                                                        <MudText Typo="Typo.h6" Align="Align.Start">@Localizer.Action.Issues</MudText>
+                                                        <table>
+                                                            @foreach (var issue in context.Item.Issues)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <MudText Typo="Typo.body2"
+                                                                                 Align="Align.Start"
+                                                                                 Class="pr-8">
+                                                                            @issue.Name
+                                                                        </MudText>
+                                                                    </td>
+                                                                    <td>
+                                                                        <MudText Typo="Typo.body2"
+                                                                                 Align="Align.End"
+                                                                                 Style="font-family: monospace; font-size: medium;">
+                                                                            @issue.Message
+                                                                        </MudText>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </table>
+                                                    }
+                                                </MudStack>
+                                            </TooltipContent>
+                                        </MudTooltip>
+                                        <MudTooltip Delay="@Globals.TooltipDelay"
+                                                    Text="@Localizer.Action.AppendAction"
+                                                    Placement="Placement.Top">
+                                            <MudIconButton @onclick="@(() => AppendAction(context.Item))"
+                                                           Color="Color.Tertiary"
+                                                           Icon="@Icons.Material.Filled.AddCircle"
+                                                           Size="Size.Small" />
+                                        </MudTooltip>
+                                    </MudStack>
+                                </CellTemplate>
+                            </TemplateColumn>
 
-                    </Columns>
-                    <NoRecordsContent>
-                        @Localizer.Action.NotAvailable
-                    </NoRecordsContent>
-                </MudDataGrid>
+                        </Columns>
+                        <NoRecordsContent>
+                            @Localizer.Action.NotAvailable
+                        </NoRecordsContent>
+                    </MudDataGrid>
 
-            </MudCollapse>
+                </MudCollapse>
+            }
         </MudForm>
     </DialogContent>
 
@@ -475,9 +480,9 @@
                          Href="/images/ActionSyntax.png">
                     @Localizer.Action.ActionSyntaxHelp
                 </MudLink>
-                <MudIcon Color="Color.Primary" Class="ml-2" Icon="@Icons.Material.Outlined.OpenInNew"/>
+                <MudIcon Color="Color.Primary" Class="ml-2" Icon="@Icons.Material.Outlined.OpenInNew" />
             </MudStack>
-            <MudSpacer/>
+            <MudSpacer />
             <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Dialog.Cancel</MudButton>
             <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit">@Localizer.Dialog.Ok</MudButton>
         </div>

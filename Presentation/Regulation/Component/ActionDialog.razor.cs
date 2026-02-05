@@ -112,7 +112,6 @@ public partial class ActionDialog
 
     private async Task<bool> SetupActionsAsync()
     {
-        var state = ActionState;
         try
         {
             // loading state
@@ -162,7 +161,7 @@ public partial class ActionDialog
             categories.AddRange(categoryNames.Select(x => new ActionCategory
             {
                 Name = x,
-                Label = x.ToPascalSentence(),
+                Label = x,
                 DisplayOrder = CategoryOrders.GetValueOrDefault(x, UnknownCategoryOrder)
             }));
         }
@@ -185,7 +184,7 @@ public partial class ActionDialog
         // category
         if (AllActions == null || Categories == null)
         {
-            CategoryActions = new();
+            CategoryActions = [];
             return;
         }
 
@@ -203,7 +202,7 @@ public partial class ActionDialog
         }
 
         // category actions
-        var categoryActions = AllActions.Where(x => x.Categories.Contains(actionCategory.Name));
+        var categoryActions = AllActions.Where(x => x.Categories != null && x.Categories.Contains(actionCategory.Name));
         CategoryActions = categoryActions.OrderBy(x => x.GetExpressionTemplate()).ToList();
     }
 

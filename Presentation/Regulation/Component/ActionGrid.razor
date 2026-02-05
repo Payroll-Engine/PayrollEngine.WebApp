@@ -31,7 +31,13 @@
     <Columns>
         <PropertyColumn Property="x => x.Index" Hidden="true" />
         <PropertyColumn Property="x => x.Action" Title="@Localizer.Action.Action"
-                        CellStyle="font-family: monospace; font-size: medium;" />
+                        CellStyle="font-family: monospace; font-size: medium;">
+            <CellTemplate>
+                <span style="@(context.Item.Action.Trim().StartsWith('#') ? "font-style: italic" : "")">
+                    @context.Item.Action
+                </span>
+            </CellTemplate>
+        </PropertyColumn>
         <TemplateColumn T="ActionItem" CellClass="d-flex justify-end" ShowColumnOptions="false"
                         ShowFilterIcon="false" Sortable="false">
             <HeaderTemplate>

@@ -37,6 +37,7 @@ public partial class TextBox : IRegulationInput
     [Inject]
     private ILocalizerService LocalizerService { get; set; }
 
+    private int Lines => LineCount.HasValue ? Math.Max(LineCount.Value, Field.Lines) : Field.Lines;
     private Localizer Localizer => LocalizerService.Localizer;
 
     #region Value

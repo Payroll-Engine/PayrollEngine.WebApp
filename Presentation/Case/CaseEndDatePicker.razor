@@ -51,7 +51,7 @@
                             FieldLayoutMode.Value or
                             FieldLayoutMode.ValueCompact;
 
-    protected override DatePickerType DatePickerType =>
+    protected virtual DatePickerType DatePickerType =>
         Attributes.GetEndPickerOpen(Culture) ?? DatePickerType.Day;
 
     protected override DateTimePickerType DateTimePickerType =>

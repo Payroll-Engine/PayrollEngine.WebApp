@@ -42,11 +42,6 @@ public abstract class DateTimePickerBase : ComponentBase, IAttributeObject
     [Parameter] public Variant Variant { get; set; }
 
     /// <summary>
-    /// Date picker type
-    /// </summary>
-    protected abstract DatePickerType DatePickerType { get; }
-
-    /// <summary>
     /// Date time picker type
     /// </summary>
     protected abstract DateTimePickerType DateTimePickerType { get; }

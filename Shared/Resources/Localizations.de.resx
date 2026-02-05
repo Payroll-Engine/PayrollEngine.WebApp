@@ -1112,6 +1112,9 @@
     <value>Beschreibung</value>
   </data>
 	<data name="Shared.ExcelDownload" xml:space="preserve">
+    <value>Excel Download</value>
+  </data>
+	<data name="Shared.FeaturesAdmin" xml:space="preserve">
     <value>Administration</value>
   </data>
 	<data name="Shared.FeaturesSystem" xml:space="preserve">

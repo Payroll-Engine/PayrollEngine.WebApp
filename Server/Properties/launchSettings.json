@@ -22,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "regulation",
+      "launchUrl": "regulation/wagetype",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
