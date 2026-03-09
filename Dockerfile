@@ -2,6 +2,7 @@
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG TARGETARCH
 ARG BUILDPLATFORM
+ARG GITHUB_TOKEN
 WORKDIR /src
 
 # copy solution and project files
@@ -14,6 +15,13 @@ COPY ["ViewModel/PayrollEngine.WebApp.ViewModel.csproj", "ViewModel/"]
 
 # copy Directory.Build.props
 COPY ["Directory.Build.props", "./"]
+
+# Configure GitHub Packages NuGet source
+RUN dotnet nuget add source "https://nuget.pkg.github.com/Payroll-Engine/index.json" \
+    --name github \
+    --username github-actions \
+    --password ${GITHUB_TOKEN} \
+    --store-password-in-clear-text
 
 # Restore with architecture-specific runtime
 RUN if [ "$TARGETARCH" = "arm64" ]; then \
