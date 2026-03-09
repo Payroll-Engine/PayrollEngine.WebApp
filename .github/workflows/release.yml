@@ -1,0 +1,208 @@
+name: Build & Publish Docker
+
+on:
+  repository_dispatch:
+    types: [release]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'App version (e.g. 2.1.0 or 2.1.0-rc.1)'
+        required: true
+      dry_run:
+        description: 'Dry run (draft release, no commit, no latest tag)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine parameters
+        id: params
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            VERSION="${{ github.event.client_payload.version }}"
+            DRY_RUN="${{ github.event.client_payload.dry_run }}"
+          else
+            VERSION="${{ inputs.version }}"
+            DRY_RUN="${{ inputs.dry_run }}"
+          fi
+
+          if [[ "$VERSION" == *-* ]]; then
+            IS_PRERELEASE="true"
+          else
+            IS_PRERELEASE="false"
+          fi
+
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "is_prerelease=${IS_PRERELEASE}" >> $GITHUB_OUTPUT
+          echo "dry_run=${DRY_RUN}" >> $GITHUB_OUTPUT
+
+          IMAGE_TAG=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_DISPATCH }}
+          fetch-depth: 0
+
+      # ── Version Guard ────────────────────────────────
+      - name: Check if version already exists
+        if: steps.params.outputs.dry_run != 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_DISPATCH }}
+          script: |
+            const version = '${{ steps.params.outputs.version }}';
+            const tag = `v${version}`;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const errors = [];
+
+            try {
+              await github.rest.git.getRef({ owner, repo, ref: `tags/${tag}` });
+              errors.push(`Git tag '${tag}' already exists`);
+            } catch (e) {
+              if (e.status !== 404) throw e;
+              console.log(`✅ Git tag '${tag}' is available`);
+            }
+
+            try {
+              await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+              errors.push(`GitHub Release '${tag}' already exists`);
+            } catch (e) {
+              if (e.status !== 404) throw e;
+              console.log(`✅ GitHub Release '${tag}' is available`);
+            }
+
+            try {
+              const packageName = repo.toLowerCase();
+              const versions = await github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
+                package_type: 'container',
+                package_name: packageName,
+                org: owner
+              });
+              if (versions.data.some(v => v.metadata?.container?.tags?.includes(version))) {
+                errors.push(`Docker image tag '${version}' already exists on ghcr.io`);
+              } else {
+                console.log(`✅ Docker image tag '${version}' is available`);
+              }
+            } catch (e) {
+              if (e.status === 404) {
+                console.log(`✅ No container package found yet (first publish)`);
+              } else {
+                console.warn(`⚠️ Could not check container registry: ${e.message}`);
+              }
+            }
+
+            if (errors.length > 0) {
+              core.setFailed(`❌ Version guard failed:\n${errors.map(e => `  - ${e}`).join('\n')}`);
+            } else {
+              console.log('\n✅ All version checks passed');
+            }
+
+      # ── Update Directory.Build.props ─────────────────
+      - name: Read current version
+        id: current
+        run: |
+          CURRENT=$(grep -oP '(?<=<Version>)[^<]+' Directory.Build.props)
+          echo "version=${CURRENT}" >> $GITHUB_OUTPUT
+          echo "📋 Current version in Directory.Build.props: ${CURRENT}"
+
+      - name: Update Directory.Build.props
+        run: |
+          VERSION="${{ steps.params.outputs.version }}"
+          CURRENT="${{ steps.current.outputs.version }}"
+
+          if [ "${VERSION}" = "${CURRENT}" ]; then
+            echo "ℹ️ Version already set to ${VERSION}, no change needed"
+          else
+            sed -i "s|<Version>${CURRENT}</Version>|<Version>${VERSION}</Version>|" Directory.Build.props
+            echo "✅ Updated Directory.Build.props: ${CURRENT} → ${VERSION}"
+          fi
+
+          grep '<Version>' Directory.Build.props
+
+      - name: Commit version bump
+        if: steps.params.outputs.dry_run != 'true'
+        run: |
+          VERSION="${{ steps.params.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add Directory.Build.props
+          if git diff --cached --quiet; then
+            echo "ℹ️ No changes to commit (version was already correct)"
+          else
+            git commit -m "release: v${VERSION}"
+            git push
+            echo "✅ Version bump committed and pushed"
+          fi
+
+      # ── Build & Push Docker ──────────────────────────
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Determine Docker tags
+        id: tags
+        run: |
+          IMAGE="${{ env.REGISTRY }}/${{ steps.params.outputs.image_tag }}"
+          VERSION="${{ steps.params.outputs.version }}"
+          IS_PRERELEASE="${{ steps.params.outputs.is_prerelease }}"
+          DRY_RUN="${{ steps.params.outputs.dry_run }}"
+
+          TAGS="${IMAGE}:${VERSION}"
+
+          if [ "${IS_PRERELEASE}" = "false" ] && [ "${DRY_RUN}" != "true" ]; then
+            TAGS="${TAGS},${IMAGE}:latest"
+          fi
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          tags: ${{ steps.tags.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.params.outputs.version }}
+          name: v${{ steps.params.outputs.version }}
+          prerelease: ${{ steps.params.outputs.is_prerelease }}
+          draft: ${{ steps.params.outputs.dry_run == 'true' }}
+          generate_release_notes: true
+
+      - name: Notify orchestrator
+        if: github.event_name == 'repository_dispatch'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT_DISPATCH }}
+          repository: Payroll-Engine/PayrollEngine
+          event-type: app-published
+          client-payload: >-
+            {
+              "repo": "${{ github.repository }}",
+              "version": "${{ steps.params.outputs.version }}"
+            }
