@@ -14,8 +14,8 @@ public static class MudFormExtensions
     /// <param name="form">Form to revalidate</param>
     public static async Task<bool> Revalidate(this MudForm form)
     {
-        form.ResetValidation();
-        await form.Validate();
+        await form.ResetValidationAsync();
+        await form.ValidateAsync();
         return form.IsValid;
     }
 }

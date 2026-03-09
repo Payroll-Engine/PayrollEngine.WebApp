@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -15,7 +15,8 @@ internal sealed class ReportBrowser : ItemBrowserBase
         IPayrollService payrollService, IReportService reportService) :
         base(tenant, payroll, regulations, payrollService)
     {
-        ReportService = reportService ?? throw new ArgumentNullException(nameof(reportService));
+        ArgumentNullException.ThrowIfNull(reportService);
+        ReportService = reportService;
     }
 
     private ItemCollection<RegulationReport> reports;

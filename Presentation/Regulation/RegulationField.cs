@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PayrollEngine.WebApp.Presentation.Regulation;
 
@@ -161,10 +161,7 @@ public class RegulationField
     /// <param name="componentType">The component type</param>
     public RegulationField(string propertyName, Type componentType)
     {
-        if (string.IsNullOrWhiteSpace(propertyName))
-        {
-            throw new ArgumentException(nameof(propertyName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(propertyName);
         if (componentType != null && componentType.GetInterface(nameof(IRegulationInput)) == null)
         {
             throw new ArgumentException(nameof(componentType));

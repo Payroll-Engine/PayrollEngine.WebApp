@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Xml;
 using System.Data;
@@ -47,10 +47,7 @@ public static class XmlTool
         {
             throw new ArgumentException(nameof(dataSet));
         }
-        if (string.IsNullOrWhiteSpace(xslString))
-        {
-            throw new ArgumentException(nameof(xslString));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(xslString);
 
         var xmlDocument = DataSetToXml(dataSet);
 

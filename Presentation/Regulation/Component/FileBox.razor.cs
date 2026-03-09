@@ -57,11 +57,11 @@ public partial class FileBox : IRegulationInput
     {
         // confirmation
         if (!string.IsNullOrWhiteSpace(Value) &&
-            !await DialogService.ShowMessageBoxAsync(
+            await DialogService.ShowMessageBoxAsync(
                 Localizer.Document.ContentUpload,
                 Localizer.Document.ContentReplaceQuery,
                 yesText: Localizer.Document.Replace,
-                cancelText: Localizer.Dialog.Cancel))
+                cancelText: Localizer.Dialog.Cancel) != true)
         {
             return;
         }

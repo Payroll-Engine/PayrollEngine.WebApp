@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 
 namespace PayrollEngine.WebApp;
@@ -17,10 +17,7 @@ public static class HtmlTool
     /// <param name="noReferer">No referer link (default: true)</param>
     public static string BuildWebLink(string url, string text = null, bool blankTarget = true, bool noReferer = true)
     {
-        if (string.IsNullOrWhiteSpace(url))
-        {
-            throw new ArgumentException(nameof(url));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(url);
 
         var buffer = new StringBuilder();
         buffer.Append("<a ");
@@ -51,10 +48,7 @@ public static class HtmlTool
     /// <param name="text">Email text</param>
     public static string BuildMailToLink(string email, string text = null)
     {
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            throw new ArgumentException(nameof(email));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(email);
 
         var buffer = new StringBuilder();
         buffer.Append("<a href=\"mailto:");

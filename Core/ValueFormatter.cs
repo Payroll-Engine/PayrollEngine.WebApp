@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 
 namespace PayrollEngine.WebApp;
@@ -19,10 +19,7 @@ public class ValueFormatter(CultureInfo culture) : IValueFormatter
     /// <inheritdoc />
     public string ToString(object value, ValueType valueType, CultureInfo culture)
     {
-        if (culture == null)
-        {
-            throw new ArgumentNullException(nameof(culture));
-        }
+        ArgumentNullException.ThrowIfNull(culture);
 
         if (value == null)
         {

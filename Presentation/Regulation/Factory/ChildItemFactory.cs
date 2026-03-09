@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,10 +23,7 @@ public abstract class ChildItemFactory<TParent, TObject>(Client.Model.Tenant ten
     /// <param name="items">The item collection</param>
     protected override async Task ApplyRegulationsAsync(List<TObject> items)
     {
-        if (items == null)
-        {
-            throw new ArgumentNullException(nameof(items));
-        }
+        ArgumentNullException.ThrowIfNull(items);
 
         // empty source
         if (!items.Any() || !Regulations.Any())

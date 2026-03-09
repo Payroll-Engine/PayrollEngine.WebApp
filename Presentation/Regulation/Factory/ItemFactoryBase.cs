@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -38,10 +38,7 @@ public abstract class ItemFactoryBase<TObject>(Client.Model.Tenant tenant, Clien
 
     protected virtual async Task ApplyRegulationsAsync(List<TObject> items)
     {
-        if (items == null)
-        {
-            throw new ArgumentNullException(nameof(items));
-        }
+        ArgumentNullException.ThrowIfNull(items);
 
         // empty source
         if (!items.Any() || !Regulations.Any())

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -126,10 +126,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>(WorkingItems work
 
     public virtual async Task EditItemAsync(TItem item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // update
         try
@@ -220,10 +217,7 @@ public abstract class EditItemPageBase<TItem, TQuery, TDialog>(WorkingItems work
 
     public virtual async Task DeleteItemAsync(TItem item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         var deleteItem = await GetItemAsync(item.Id);

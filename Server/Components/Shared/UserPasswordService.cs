@@ -6,10 +6,14 @@ using PayrollEngine.Client.Service;
 
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// User password service for testing and changing passwords
+/// </summary>
 public class UserPasswordService(IUserService userService) : IUserPasswordService
 {
     private IUserService UserService { get; } = userService ?? throw new ArgumentNullException(nameof(userService));
 
+    /// <inheritdoc />
     public async Task<bool> TestPasswordAsync(int tenantId, int userId, string password)
     {
         // initialize password check
@@ -36,6 +40,7 @@ public class UserPasswordService(IUserService userService) : IUserPasswordServic
     private static bool IsBadRequest(HttpRequestException exception) =>
         exception.Message.StartsWith(((int)HttpStatusCode.BadRequest).ToString());
 
+    /// <inheritdoc />
     public async Task<bool> ChangePasswordAsync(int tenantId, int userId, PasswordChangeRequest changeRequest)
     {
         // valid format

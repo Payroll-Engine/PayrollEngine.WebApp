@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using PayrollEngine.Client;
 using PayrollEngine.Client.Service;
@@ -27,10 +27,7 @@ public class WorkingItemsWatcher<TService, TServiceContext, TItem, TQuery>
     /// <param name="service">Watch service</param>
     public WorkingItemsWatcher(TService service)
     {
-        if (service == null)
-        {
-            throw new ArgumentNullException(nameof(service));
-        }
+        ArgumentNullException.ThrowIfNull(service);
         Service = service;
     }
 

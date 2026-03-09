@@ -71,7 +71,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public string ValueAsString
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToString(Value, TenantCulture);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToString(Value);
         set => Value = ValueConvert.ToJson(value);
     }
 
@@ -79,7 +79,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public int? ValueAsInteger
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToInteger(Value, TenantCulture);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToInteger(Value);
         set => Value = ValueConvert.ToJson(value);
     }
 
@@ -87,7 +87,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public bool? ValueAsBoolean
     {
-        get => !string.IsNullOrWhiteSpace(Value) && ValueConvert.ToBoolean(Value, TenantCulture);
+        get => !string.IsNullOrWhiteSpace(Value) && ValueConvert.ToBoolean(Value);
         set => Value = ValueConvert.ToJson(value);
     }
 
@@ -95,7 +95,7 @@ public class PayrunParameter : Client.Model.PayrunParameter, IFieldObject
     [JsonIgnore]
     public decimal? ValueAsDecimal
     {
-        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDecimal(Value, TenantCulture);
+        get => string.IsNullOrWhiteSpace(Value) ? null : ValueConvert.ToDecimal(Value);
         set => Value = ValueConvert.ToJson(value);
 
     }

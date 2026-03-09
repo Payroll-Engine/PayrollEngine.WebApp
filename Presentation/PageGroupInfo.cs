@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PayrollEngine.WebApp.Presentation;
 
@@ -24,10 +24,7 @@ public class PageGroupInfo
     /// <param name="expanded">Expanded state</param>
     public PageGroupInfo(string groupName, bool expanded = false)
     {
-        if (string.IsNullOrWhiteSpace(groupName))
-        {
-            throw new ArgumentException(nameof(groupName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(groupName);
 
         GroupName = groupName;
         Expanded = expanded;

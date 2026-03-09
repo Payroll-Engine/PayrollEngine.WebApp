@@ -1,5 +1,8 @@
 ﻿namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// Grid identifier constants for data grid instances
+/// </summary>
 public static class GridIdentifiers
 {
     // Main

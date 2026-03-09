@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
@@ -49,9 +49,12 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         IValueFormatter valueFormatter, CultureInfo tenantCulture, Localizer localizer) :
         base(copySource)
     {
-        CaseValueProvider = caseValueProvider ?? throw new ArgumentNullException(nameof(caseValueProvider));
-        TenantCulture = tenantCulture ?? throw new ArgumentNullException(nameof(tenantCulture));
-        ValueFormatter = valueFormatter ?? throw new ArgumentNullException(nameof(valueFormatter));
+        ArgumentNullException.ThrowIfNull(caseValueProvider);
+        CaseValueProvider = caseValueProvider;
+        ArgumentNullException.ThrowIfNull(tenantCulture);
+        TenantCulture = tenantCulture;
+        ArgumentNullException.ThrowIfNull(valueFormatter);
+        ValueFormatter = valueFormatter;
 
         Validator = new(this, localizer);
 
@@ -415,7 +418,7 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
         {
             if (ValueType.IsString())
             {
-                ValueAsString = ValueConvert.ToString(value, TenantCulture);
+                ValueAsString = ValueConvert.ToString(value);
             }
             if (ValueType.IsDateTime())
             {
@@ -423,15 +426,15 @@ public class CaseFieldSet : Client.Model.CaseFieldSet, IViewModel, IKeyEquatable
             }
             if (ValueType.IsInteger())
             {
-                ValueAsInteger = ValueConvert.ToInteger(value, TenantCulture);
+                ValueAsInteger = ValueConvert.ToInteger(value);
             }
             if (ValueType.IsDecimal())
             {
-                ValueAsDecimal = ValueConvert.ToDecimal(value, TenantCulture);
+                ValueAsDecimal = ValueConvert.ToDecimal(value);
             }
             if (ValueType.IsBoolean())
             {
-                ValueAsBoolean = ValueConvert.ToBoolean(value, TenantCulture);
+                ValueAsBoolean = ValueConvert.ToBoolean(value);
             }
         }
     }

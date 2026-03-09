@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Localization;
@@ -19,10 +19,12 @@ public abstract class LocalizerBase
     protected LocalizerBase(IStringLocalizerFactory factory, CultureInfo culture, string groupName = null)
     {
         // factory
-        Factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        ArgumentNullException.ThrowIfNull(factory);
+        Factory = factory;
 
         // culture
-        ResourceCulture = culture ?? throw new ArgumentNullException(nameof(culture));
+        ArgumentNullException.ThrowIfNull(culture);
+        ResourceCulture = culture;
 
         // localization group: <GroupName>.<LocalizationKey>
         if (string.IsNullOrWhiteSpace(groupName))
@@ -33,10 +35,7 @@ public abstract class LocalizerBase
 
         // string localizer
         var assemblyName = GetType().Assembly.FullName;
-        if (string.IsNullOrWhiteSpace(assemblyName))
-        {
-            throw new ArgumentException(nameof(assemblyName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(assemblyName);
         Localizer = Factory.Create(ResourceName, assemblyName);
     }
 
@@ -48,10 +47,7 @@ public abstract class LocalizerBase
     /// <param name="key">The localization key</param>
     public string Key(string group, string key)
     {
-        if (string.IsNullOrWhiteSpace(key))
-        {
-            throw new ArgumentException(nameof(key));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
 
         // culture
         if (ResourceCulture != null)

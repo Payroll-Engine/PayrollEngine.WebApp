@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
@@ -102,10 +102,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
 
     private async Task UpdateReferenceAsync(CaseFieldReference reference)
     {
-        if (reference == null)
-        {
-            throw new ArgumentNullException(nameof(reference));
-        }
+        ArgumentNullException.ThrowIfNull(reference);
 
         // existing
         if (!References.Contains(reference))
@@ -139,10 +136,7 @@ public partial class BaseCaseFieldGrid : IRegulationInput, IDisposable
 
     private async Task RemoveReferenceAsync(CaseFieldReference reference)
     {
-        if (reference == null)
-        {
-            throw new ArgumentNullException(nameof(reference));
-        }
+        ArgumentNullException.ThrowIfNull(reference);
 
         // existing
         if (!References.Contains(reference))

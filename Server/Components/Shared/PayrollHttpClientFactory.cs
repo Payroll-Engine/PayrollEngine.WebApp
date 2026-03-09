@@ -1,25 +1,39 @@
-﻿using System;
+using System;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client;
 
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// Factory for creating configured <see cref="PayrollHttpClient"/> instances
+/// </summary>
 internal static class PayrollHttpClientFactory
 {
+    /// <summary>
+    /// Create a new payroll HTTP client with SSL and API key configuration
+    /// </summary>
+    /// <param name="configuration">The application configuration</param>
+    /// <returns>A configured payroll HTTP client</returns>
     internal static async Task<PayrollHttpClient> CreatePayrollHttpClientAsync(IConfiguration configuration)
     {
-        if (configuration == null)
-        {
-            throw new ArgumentNullException(nameof(configuration));
-        }
+        ArgumentNullException.ThrowIfNull(configuration);
 
         // http client handler
         var clientHandler = new HttpClientHandler
         {
-            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+            SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
         };
+
+        // insecure ssl: skip certificate validation (dev only)
+        var allowInsecureSsl = configuration.GetValue<bool>("AllowInsecureSsl");
+        if (allowInsecureSsl)
+        {
+            Log.Warning("SSL certificate validation is disabled (AllowInsecureSsl=true)");
+            clientHandler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
+        }
 
         // http client configuration
         var httpConfiguration = await configuration.GetHttpConfigurationAsync();
@@ -43,6 +57,11 @@ internal static class PayrollHttpClientFactory
         return httpClient;
     }
 
+    /// <summary>
+    /// Get the API key from environment or configuration
+    /// </summary>
+    /// <param name="httpConfiguration">The HTTP configuration</param>
+    /// <returns>The API key, or null if not configured</returns>
     private static string GetApiKey(PayrollHttpConfiguration httpConfiguration)
     {
         // priority 1: environment variable

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Globalization;
 using System.Collections.Generic;
@@ -88,10 +88,7 @@ public class CultureService : ICultureService
     /// <inheritdoc />
     public string GetIsoCurrencySymbol(string cultureName)
     {
-        if (string.IsNullOrWhiteSpace(cultureName))
-        {
-            throw new ArgumentException(nameof(cultureName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(cultureName);
         var cultureInfo = GetCultureInfo(cultureName);
         return cultureInfo == null ? null : new RegionInfo(cultureName).ISOCurrencySymbol;
     }

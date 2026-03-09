@@ -18,8 +18,13 @@ using PayrollEngine.WebApp.Server.Components.Shared;
 
 namespace PayrollEngine.WebApp.Server;
 
+/// <summary>
+/// Web application entry point
+/// </summary>
 public class Program
 {
+    /// <summary>Application entry point</summary>
+    /// <param name="args">Command line arguments</param>
     public static async Task Main(string[] args)
     {
         // configuration
@@ -78,8 +83,8 @@ public class Program
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                // app.UseHsts();
+                // https://aka.ms/aspnetcore-hsts
+                app.UseHsts();
             }
 
             // http request logs
@@ -109,6 +114,8 @@ public class Program
         }
     }
 
+    /// <summary>Register application services and middleware</summary>
+    /// <param name="builder">The web application builder</param>
     private static async Task AddAppServicesAsync(WebApplicationBuilder builder)
     {
         var services = builder.Services;
@@ -156,6 +163,6 @@ public class Program
         });
 
         // prevent focus trap error when dialog elements aren't ready
-        MudGlobal.DialogDefaults.DefaultFocus = DefaultFocus.None;
+        // Note: DefaultFocus is now configured per-dialog via DialogOptions or MudDialogProvider
     }
 }

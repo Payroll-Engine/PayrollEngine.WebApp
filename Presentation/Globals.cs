@@ -34,6 +34,10 @@ public static class Globals
     /// </summary>
     public static int DataGridRowsPerPage => Configuration.DataGridRowsPerPage;
 
+    /// <summary>
+    /// Set the global components configuration
+    /// </summary>
+    /// <param name="configuration">The components configuration</param>
     public static void SetConfiguration(ComponentsConfiguration configuration)
     {
         if (configuration != null)

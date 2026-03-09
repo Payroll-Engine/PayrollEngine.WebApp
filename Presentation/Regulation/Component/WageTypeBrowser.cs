@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -15,7 +15,8 @@ internal sealed class WageTypeBrowser : ItemBrowserBase
         IPayrollService payrollService, IWageTypeService wageTypeService) :
         base(tenant, payroll, regulations, payrollService)
     {
-        WageTypeService = wageTypeService ?? throw new ArgumentNullException(nameof(wageTypeService));
+        ArgumentNullException.ThrowIfNull(wageTypeService);
+        WageTypeService = wageTypeService;
     }
 
     private ItemCollection<RegulationWageType> wageTypes;

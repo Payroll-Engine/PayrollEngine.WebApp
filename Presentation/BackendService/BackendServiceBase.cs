@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -9,6 +9,13 @@ using PayrollEngine.Client.Service;
 
 namespace PayrollEngine.WebApp.Presentation.BackendService;
 
+/// <summary>
+/// Base class for backend services providing CRUD operations
+/// </summary>
+/// <typeparam name="TService">The API service type</typeparam>
+/// <typeparam name="TServiceContext">The service context type</typeparam>
+/// <typeparam name="TItem">The item type</typeparam>
+/// <typeparam name="TQuery">The query type</typeparam>
 public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuery> :
     IBackendService<TItem, TQuery>, IDisposable
     where TService : IReadService<TItem, TServiceContext, TQuery>
@@ -23,18 +30,28 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     private TService Service { get; set; }
     private readonly string ItemTypeName = typeof(TItem).Name.ToPascalSentence();
 
-    /// <summary>The http client</summary>
+    /// <summary>The HTTP client</summary>
     protected PayrollHttpClient HttpClient { get; }
-    /// <summary>User session</summary>
+
+    /// <summary>The user session</summary>
     protected UserSession UserSession { get; }
 
-
+    /// <summary>
+    /// Initializes a new instance of the backend service
+    /// </summary>
+    /// <param name="userSession">The user session</param>
+    /// <param name="httpClient">The HTTP client</param>
+    /// <param name="localizerService">The localizer service</param>
+    /// <param name="disabledAuthorization">Disable tenant authorization</param>
     protected BackendServiceBase(UserSession userSession, PayrollHttpClient httpClient,
         ILocalizerService localizerService, bool disabledAuthorization = false)
     {
-        UserSession = userSession ?? throw new ArgumentNullException(nameof(userSession));
-        HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        LocalizerService = localizerService ?? throw new ArgumentNullException(nameof(localizerService));
+        ArgumentNullException.ThrowIfNull(userSession);
+        UserSession = userSession;
+        ArgumentNullException.ThrowIfNull(httpClient);
+        HttpClient = httpClient;
+        ArgumentNullException.ThrowIfNull(localizerService);
+        LocalizerService = localizerService;
         DisabledAuthorization = disabledAuthorization;
 
         // http connection
@@ -50,7 +67,9 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
     #region Service
 
-    // the current request context
+    /// <summary>Create the service context for the current request</summary>
+    /// <param name="parameters">Optional request parameters</param>
+    /// <returns>The service context</returns>
     protected abstract TServiceContext CreateServiceContext(IDictionary<string, object> parameters = null);
 
     /// <summary>Create the api service</summary>
@@ -64,6 +83,8 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     {
     }
 
+    /// <summary>Process items after receiving from the backend</summary>
+    /// <param name="resultItems">The received items</param>
     protected virtual void ProcessReceivedItems(TItem[] resultItems)
     {
     }
@@ -76,10 +97,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     public virtual async Task<GridData<TItem>> QueryAsync(GridState<TItem> state,
         IQueryResolver resolver = null, IDictionary<string, object> parameters = null)
     {
-        if (state == null)
-        {
-            throw new ArgumentNullException(nameof(state));
-        }
+        ArgumentNullException.ThrowIfNull(state);
 
         var query = queryBuilder.BuildQuery(state, resolver);
         return await QueryAsync(query, parameters);
@@ -180,7 +198,9 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         }
     }
 
-    protected virtual Task OnItemsReadAsync(List<TItem> payrunJobs) =>
+    /// <summary>Called after items have been read from the backend</summary>
+    /// <param name="items">The read items</param>
+    protected virtual Task OnItemsReadAsync(List<TItem> items) =>
         Task.CompletedTask;
 
     #endregion
@@ -278,6 +298,7 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
 
     #endregion
 
+    /// <summary>Update the HTTP client tenant authorization</summary>
     private void UpdateAuthorization()
     {
         if (DisabledAuthorization || UserSession.Tenant == null)
@@ -288,8 +309,9 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
         HttpClient.SetTenantAuthorization(UserSession.Tenant.Identifier);
     }
 
+    /// <inheritdoc />
     public virtual void Dispose()
     {
-        HttpClient?.Dispose();
+        // do not dispose HttpClient: singleton managed by DI container
     }
 }

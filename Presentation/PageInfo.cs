@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PayrollEngine.WebApp.Presentation;
 
@@ -55,18 +55,9 @@ public class PageInfo
     private PageInfo(Feature feature, string pageLink, string pageName, string title,
         PageGroupInfo pageGroup = null)
     {
-        if (string.IsNullOrWhiteSpace(pageLink))
-        {
-            throw new ArgumentException(nameof(pageLink));
-        }
-        if (string.IsNullOrWhiteSpace(pageName))
-        {
-            throw new ArgumentException(nameof(pageName));
-        }
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            throw new ArgumentException(nameof(title));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(pageLink);
+        ArgumentException.ThrowIfNullOrWhiteSpace(pageName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(title);
 
         if (!pageLink.StartsWith('/'))
         {

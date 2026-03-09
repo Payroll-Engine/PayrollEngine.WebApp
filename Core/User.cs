@@ -79,9 +79,9 @@ public class User : Client.Model.User
     /// <summary>
     /// User features as enum
     /// </summary>
-    public IEnumerable<string> FeaturesAsEnum
+    public IReadOnlyCollection<string> FeaturesAsEnum
     {
-        get => Features.Select(x => x.ToString());
+        get => Features.Select(x => x.ToString()).ToList();
         set => Features = StringToFeatures(value);
     }
 

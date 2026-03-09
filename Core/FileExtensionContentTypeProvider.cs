@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -416,7 +416,8 @@ public class FileExtensionContentTypeProvider
     /// <param name="mapping"></param>
     private FileExtensionContentTypeProvider(IDictionary<string, string> mapping)
     {
-        Mappings = mapping ?? throw new ArgumentNullException(nameof(mapping));
+        ArgumentNullException.ThrowIfNull(mapping);
+        Mappings = mapping;
     }
 
     /// <summary>

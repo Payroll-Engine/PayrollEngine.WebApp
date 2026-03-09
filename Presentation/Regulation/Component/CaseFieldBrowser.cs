@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -15,8 +15,10 @@ internal sealed class CaseFieldBrowser : ItemBrowserBase
         IPayrollService payrollService, ICaseService caseService, ICaseFieldService caseFieldService) :
         base(tenant, payroll, regulations, payrollService)
     {
-        CaseService = caseService ?? throw new ArgumentNullException(nameof(caseService));
-        CaseFieldService = caseFieldService ?? throw new ArgumentNullException(nameof(caseFieldService));
+        ArgumentNullException.ThrowIfNull(caseService);
+        CaseService = caseService;
+        ArgumentNullException.ThrowIfNull(caseFieldService);
+        CaseFieldService = caseFieldService;
     }
 
     private ItemCollection<RegulationCaseField> caseFields;

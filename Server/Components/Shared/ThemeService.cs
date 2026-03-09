@@ -3,6 +3,9 @@ using PayrollEngine.WebApp.Presentation;
 
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// Theme service managing dark mode and MudBlazor theme palettes
+/// </summary>
 public class ThemeService : IThemeService
 {
     /// <inheritdoc />
@@ -22,6 +25,7 @@ public class ThemeService : IThemeService
         }
     }
 
+    /// <inheritdoc />
     public AsyncEvent<bool> DarkModeChanged { get; set; }
 
     /// <inheritdoc />
@@ -37,6 +41,4 @@ public class ThemeService : IThemeService
         PaletteDark = new PaletteDark()
     };
 
-    /// <inheritdoc />
-    public Palette Palette => IsDarkMode ? Theme.PaletteDark : Theme.PaletteLight;
 }

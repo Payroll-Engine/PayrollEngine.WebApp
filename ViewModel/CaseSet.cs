@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,7 +27,8 @@ public class CaseSet : Case, IDisposable
         base(copySource)
     {
         // culture
-        TenantCulture = tenantCulture ?? throw new ArgumentNullException(nameof(tenantCulture));
+        ArgumentNullException.ThrowIfNull(tenantCulture);
+        TenantCulture = tenantCulture;
 
         // change reason and forecast
         Reason = copySource.Reason;

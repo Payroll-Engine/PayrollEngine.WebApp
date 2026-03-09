@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -43,8 +43,10 @@ public class ActionProvider
     public ActionProvider(ITenantService tenantService, IPayrollService payrollService,
         int tenantId, int payrollId)
     {
-        TenantService = tenantService ?? throw new ArgumentNullException(nameof(tenantService));
-        PayrollService = payrollService ?? throw new ArgumentNullException(nameof(payrollService));
+        ArgumentNullException.ThrowIfNull(tenantService);
+        TenantService = tenantService;
+        ArgumentNullException.ThrowIfNull(payrollService);
+        PayrollService = payrollService;
         TenantId = tenantId;
         PayrollId = payrollId;
     }

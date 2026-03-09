@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.Json;
 using System.Globalization;
@@ -68,8 +68,10 @@ public class LookupObject
     public LookupObject(JsonElement element, IValueFormatter valueFormatter, ValueType valueType,
         CultureInfo tenantCulture, decimal? rangeValue, string valuePropertyName = null, string textPropertyName = null)
     {
-        TenantCulture = tenantCulture ?? throw new ArgumentNullException(nameof(tenantCulture));
-        ValueFormatter = valueFormatter ?? throw new ArgumentNullException(nameof(valueFormatter));
+        ArgumentNullException.ThrowIfNull(tenantCulture);
+        TenantCulture = tenantCulture;
+        ArgumentNullException.ThrowIfNull(valueFormatter);
+        ValueFormatter = valueFormatter;
 
         // properties
         var properties = new List<string>();

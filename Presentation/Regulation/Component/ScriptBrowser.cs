@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -15,7 +15,8 @@ internal sealed class ScriptBrowser : ItemBrowserBase
         IPayrollService payrollService, IScriptService scriptService) :
         base(tenant, payroll, regulations, payrollService)
     {
-        ScriptService = scriptService ?? throw new ArgumentNullException(nameof(scriptService));
+        ArgumentNullException.ThrowIfNull(scriptService);
+        ScriptService = scriptService;
     }
 
     private ItemCollection<RegulationScript> scripts;

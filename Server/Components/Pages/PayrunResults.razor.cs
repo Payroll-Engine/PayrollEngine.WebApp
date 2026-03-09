@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
@@ -266,8 +267,9 @@ public partial class PayrunResults() : PageBase(WorkingItems.TenantChange | Work
     /// Get forecast payrun server data, handler for data grids
     /// </summary>
     /// <param name="state">The data grid state</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of items</returns>
-    private async Task<GridData<PayrollResultValue>> GetServerDataAsync(GridState<PayrollResultValue> state)
+    private async Task<GridData<PayrollResultValue>> GetServerDataAsync(GridState<PayrollResultValue> state, CancellationToken cancellationToken = default)
     {
         try
         {

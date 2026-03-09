@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.Collections;
@@ -48,10 +48,7 @@ public static class RegulationItemExtensions
         /// <param name="fieldName">The field name</param>
         private List<RegulationItemValue> GetInheritanceValues(string fieldName)
         {
-            if (string.IsNullOrWhiteSpace(fieldName))
-            {
-                throw new ArgumentException(nameof(fieldName));
-            }
+            ArgumentException.ThrowIfNullOrWhiteSpace(fieldName);
 
             var values = new List<RegulationItemValue>();
             while (item != null)
@@ -82,10 +79,7 @@ public static class RegulationItemExtensions
         /// <param name="fieldName">The field name</param>
         public T GetBaseValue<T>(string fieldName)
         {
-            if (string.IsNullOrWhiteSpace(fieldName))
-            {
-                throw new ArgumentException(nameof(fieldName));
-            }
+            ArgumentException.ThrowIfNullOrWhiteSpace(fieldName);
             if (item.BaseItem == null)
             {
                 return default;

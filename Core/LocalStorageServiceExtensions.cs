@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
@@ -21,10 +21,7 @@ public static class LocalStorageServiceExtensions
         /// <param name="cancellationToken">Cancellation token</param>
         public async Task<bool?> GetItemAsBooleanAsync(string key, bool? defaultValue = null, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new ArgumentException(nameof(key));
-            }
+            ArgumentException.ThrowIfNullOrWhiteSpace(key);
 
             if (!await storageService.ContainKeyAsync(key, cancellationToken))
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PayrollEngine.IO;
 
 namespace PayrollEngine.WebApp;
@@ -15,10 +15,7 @@ public static class DownloadTool
     /// <param name="removeSpaces">Remove spaces</param>
     public static string ToDownloadFileName(string fileName, bool removeSpaces = true)
     {
-        if (fileName == null)
-        {
-            throw new ArgumentNullException(nameof(fileName));
-        }
+        ArgumentNullException.ThrowIfNull(fileName);
 
         // ensure upper word
         fileName = fileName.ToSentence(startCase: CharacterCase.ToUpper,

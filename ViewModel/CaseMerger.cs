@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -16,14 +16,8 @@ public static class CaseMerger
     /// <param name="targetCaseSet">Target case</param>
     public static async System.Threading.Tasks.Task MergeAsync(CaseSet sourceCaseSet, CaseSet targetCaseSet)
     {
-        if (sourceCaseSet == null)
-        {
-            throw new ArgumentNullException(nameof(sourceCaseSet));
-        }
-        if (targetCaseSet == null)
-        {
-            throw new ArgumentNullException(nameof(targetCaseSet));
-        }
+        ArgumentNullException.ThrowIfNull(sourceCaseSet);
+        ArgumentNullException.ThrowIfNull(targetCaseSet);
 
         // reason and forecast
         targetCaseSet.Reason = sourceCaseSet.Reason;

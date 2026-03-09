@@ -4,6 +4,9 @@ using PayrollEngine.WebApp.Presentation;
 
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// Page service providing navigation page metadata
+/// </summary>
 public class PageService(string baseLabel) : IPageService
 {
     /// <inheritdoc />

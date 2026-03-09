@@ -131,7 +131,7 @@
     [Parameter] public User User { get; set; }
     [Parameter] public Client.Model.Payroll Payroll { get; set; }
     [Parameter] public List<Employee> Employees { get; set; }
-    [Parameter] public int PayrunId { get; set; }
+    [Parameter] public string PayrunName { get; set; }
     [Parameter] public PayrunJobSetup Setup { get; set; }
     [Parameter] public DatePeriod Period { get; set; }
 
@@ -199,8 +199,8 @@
             // new payrun job
             var jobInvocation = new PayrunJobInvocation
             {
-                PayrunId = PayrunId,
-                UserId = User.Id,
+                PayrunName = PayrunName,
+                UserIdentifier = User.Identifier,
                 Name = Setup.JobName,
                 Forecast = Setup.ForecastName,
                 PeriodStart = jobPeriod,

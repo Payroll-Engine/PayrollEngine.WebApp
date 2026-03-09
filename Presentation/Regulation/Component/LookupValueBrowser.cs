@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -15,8 +15,10 @@ internal sealed class LookupValueBrowser : ItemBrowserBase
         IPayrollService payrollService, ILookupService lookupService, ILookupValueService lookupValueService) :
         base(tenant, payroll, regulations, payrollService)
     {
-        LookupService = lookupService ?? throw new ArgumentNullException(nameof(lookupService));
-        LookupValueService = lookupValueService ?? throw new ArgumentNullException(nameof(lookupValueService));
+        ArgumentNullException.ThrowIfNull(lookupService);
+        LookupService = lookupService;
+        ArgumentNullException.ThrowIfNull(lookupValueService);
+        LookupValueService = lookupValueService;
     }
 
     private ItemCollection<RegulationLookupValue> lookupValues;

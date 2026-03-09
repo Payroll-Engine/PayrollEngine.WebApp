@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,15 +53,9 @@ public static class MudDataGridExtensions
         /// <param name="title">Filter title</param>
         public async Task SetColumnFilterAsync(string columnName, string filterOperator, object value, string title = null)
         {
-            if (string.IsNullOrWhiteSpace(columnName))
-            {
-                throw new ArgumentException(nameof(columnName));
-            }
+            ArgumentException.ThrowIfNullOrWhiteSpace(columnName);
 
-            if (filterOperator == null)
-            {
-                throw new ArgumentNullException(nameof(filterOperator));
-            }
+            ArgumentNullException.ThrowIfNull(filterOperator);
 
             // completed tasks filter
             var column = dataGrid.RenderedColumns.FirstOrDefault(

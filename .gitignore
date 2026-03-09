@@ -336,5 +336,6 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
+logs/
 /NDependOut*
-
+NDependOut/

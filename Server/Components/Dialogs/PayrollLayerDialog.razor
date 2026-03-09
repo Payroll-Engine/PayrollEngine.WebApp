@@ -6,16 +6,19 @@
 <MudDialog Style="min-width: 30em;" TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudForm @ref="form">
-            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-3">
-                <MudTabPanel Text="@Localizer.Shared.CommonFields">
+            <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true">
+                <MudTabPanel Text="@Localizer.Shared.CommonFields" PanelClass="pa-3">
                     <MudStack Class="pa-4" Spacing="1">
                         <MudSelect T="string" @bind-Value="PayrollLayer.RegulationName"
                                    Label="@Localizer.Regulation.Regulation"
                                    Disabled="@(RegulationNames == null || RegulationNames.Count < 1)"
                                    Required="true" RequiredError="@Localizer.Error.RequiredField(Localizer.Regulation.Regulation)">
-                            @foreach (var name in RegulationNames)
+                            @if (RegulationNames != null)
                             {
-                                <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
+                                foreach (var name in RegulationNames)
+                                {
+                                    <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
+                                }
                             }
                         </MudSelect>
                         <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.PayrollLayer.NextLevelHelp" 
@@ -43,7 +46,7 @@
                         <ItemBaseFields Item="PayrollLayer" />
                     </MudStack>
                 </MudTabPanel>
-                <MudTabPanel Text="@Localizer.Attribute.Attributes">
+                <MudTabPanel Text="@Localizer.Attribute.Attributes" PanelClass="pa-3">
                     <AttributesGrid Item="PayrollLayer" Class="pe-attributes-grid pa-2" />
                 </MudTabPanel>
             </MudTabs>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -15,7 +15,8 @@ internal sealed class CollectorBrowser : ItemBrowserBase
         IPayrollService payrollService, ICollectorService collectorService) :
         base(tenant, payroll, regulations, payrollService)
     {
-        CollectorService = collectorService ?? throw new ArgumentNullException(nameof(collectorService));
+        ArgumentNullException.ThrowIfNull(collectorService);
+        CollectorService = collectorService;
     }
 
     private ItemCollection<RegulationCollector> collectors;

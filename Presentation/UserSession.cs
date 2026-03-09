@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Globalization;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using PayrollEngine.Client.Model;
 using PayrollEngine.Client.Service;
@@ -24,13 +23,15 @@ namespace PayrollEngine.WebApp.Presentation;
 /// <param name="payrollService">Payroll service</param>
 /// <param name="employeeService">Employee service</param>
 /// <param name="userService">User service</param>
+/// <param name="taskService">Task service</param>
 public class UserSession(IConfiguration configuration,
     ICultureService cultureService,
     ITenantService tenantService,
     IDivisionService divisionService,
     IPayrollService payrollService,
     IEmployeeService employeeService,
-    IUserService userService)
+    IUserService userService,
+    ITaskService taskService)
     : IDisposable
 {
     private IConfiguration Configuration { get; } = configuration;
@@ -41,8 +42,7 @@ public class UserSession(IConfiguration configuration,
     private readonly WorkingItemsWatcher<IPayrollService, TenantServiceContext, Payroll, Query> payrollWatcher = new(payrollService);
     private readonly WorkingItemsWatcher<IEmployeeService, TenantServiceContext, Employee, DivisionQuery> employeeWatcher = new(employeeService);
 
-    [Inject]
-    private ITaskService TaskService { get; set; }
+    private ITaskService TaskService { get; } = taskService ?? throw new ArgumentNullException(nameof(taskService));
 
     /// <summary>
     /// The value formatter 
@@ -104,18 +104,12 @@ public class UserSession(IConfiguration configuration,
     /// <summary>
     /// User login
     /// </summary>
-    /// <param name="userTenant">Tenant oof the user</param>
+    /// <param name="userTenant">Tenant of the user</param>
     /// <param name="user">User</param>
     public async Task LoginAsync(Tenant userTenant, User user)
     {
-        if (userTenant == null)
-        {
-            throw new ArgumentNullException(nameof(userTenant));
-        }
-        if (user == null)
-        {
-            throw new ArgumentNullException(nameof(user));
-        }
+        ArgumentNullException.ThrowIfNull(userTenant);
+        ArgumentNullException.ThrowIfNull(user);
 
         // user features
         if (DefaultFeatures != null && !user.Features.Any() && !user.HasPassword)
@@ -125,13 +119,15 @@ public class UserSession(IConfiguration configuration,
 
         // user change
         User = user;
-        await SetupUserTasks(user);
 
         // event
         await (UserChanged?.InvokeAsync(this, user) ?? Task.CompletedTask);
 
-        // update tenant
+        // update tenant (must precede task setup: requires Tenant.Id)
         await ChangeTenantAsync(userTenant, user);
+
+        // user tasks (requires tenant)
+        await SetupUserTasks(user);
 
         // update state
         await UpdateUserStateAsync();
@@ -178,11 +174,6 @@ public class UserSession(IConfiguration configuration,
     /// <param name="user">User to set up the tasks</param>
     private async Task SetupUserTasks(User user)
     {
-        if (TaskService == null)
-        {
-            return;
-        }
-
         var tasks = await TaskService.QueryAsync<Client.Model.Task>(new(Tenant.Id), new()
         {
             Filter = new Equals(nameof(Client.Model.Task.ScheduledUserId), user.Id).
@@ -435,15 +426,35 @@ public class UserSession(IConfiguration configuration,
     #region Payroll
 
     private Payroll payroll;
+
+    /// <summary>
+    /// Available payrolls
+    /// </summary>
     public ItemCollection<Payroll> Payrolls { get; } = new();
+
+    /// <summary>
+    /// Session payroll
+    /// </summary>
     public Payroll Payroll => payroll;
+
+    /// <summary>
+    /// Payroll changed event
+    /// </summary>
     public AsyncEvent<Payroll> PayrollChanged { get; set; }
 
+    /// <summary>
+    /// Set payroll
+    /// </summary>
+    /// <param name="newPayroll">Payroll to set</param>
     private void SetPayroll(Payroll newPayroll)
     {
         payroll = newPayroll;
     }
 
+    /// <summary>
+    /// Change the working payroll
+    /// </summary>
+    /// <param name="newPayroll">The new payroll</param>
     public async Task ChangePayrollAsync(Payroll newPayroll)
     {
         // no changes
@@ -547,6 +558,9 @@ public class UserSession(IConfiguration configuration,
         }
     }
 
+    /// <summary>
+    /// Reset payrolls and employees
+    /// </summary>
     private void ResetPayrolls()
     {
         SetPayroll(null);
@@ -684,8 +698,6 @@ public class UserSession(IConfiguration configuration,
         MultiTenantUser = source.MultiTenantUser;
 
         tenant = source.tenant;
-        Tenants.Clear();
-        Tenants.AddRange(source.Tenants);
         Tenants.Clear();
         Tenants.AddRange(source.Tenants);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -20,10 +20,7 @@ public class AsyncEvent<T>
     public static AsyncEvent<T> operator +(
         AsyncEvent<T> args, Func<object, T, Task> callback)
     {
-        if (callback == null)
-        {
-            throw new ArgumentNullException(nameof(callback));
-        }
+        ArgumentNullException.ThrowIfNull(callback);
 
         args ??= new();
         lock (args.locker)
@@ -41,10 +38,7 @@ public class AsyncEvent<T>
     public static AsyncEvent<T> operator -(
         AsyncEvent<T> args, Func<object, T, Task> callback)
     {
-        if (callback == null)
-        {
-            throw new ArgumentNullException(nameof(callback));
-        }
+        ArgumentNullException.ThrowIfNull(callback);
         if (args == null)
         {
             return null;

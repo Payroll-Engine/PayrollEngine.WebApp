@@ -1,6 +1,9 @@
 ﻿
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// Page URL constants for navigation routing
+/// </summary>
 public static class PageUrls
 {
     // Main

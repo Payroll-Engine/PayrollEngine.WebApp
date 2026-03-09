@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -16,15 +16,9 @@ public static class ReportMerger
     /// <param name="targetReportSet">Target report</param>
     public static void Merge(ReportSet sourceReportSet, ReportSet targetReportSet)
     {
-        if (sourceReportSet == null)
-        {
-            throw new ArgumentNullException(nameof(sourceReportSet));
-        }
+        ArgumentNullException.ThrowIfNull(sourceReportSet);
 
-        if (targetReportSet == null)
-        {
-            throw new ArgumentNullException(nameof(targetReportSet));
-        }
+        ArgumentNullException.ThrowIfNull(targetReportSet);
 
         // parameters and templates
         targetReportSet.ApplyReportSet(sourceReportSet);

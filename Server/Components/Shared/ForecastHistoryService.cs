@@ -6,14 +6,19 @@ using Blazored.LocalStorage;
 
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// Forecast history service using local browser storage
+/// </summary>
 public class ForecastHistoryService(ILocalStorageService localStorage) : IForecastHistoryService
 {
     private const int historySize = 20;
     private ILocalStorageService LocalStorage { get; } = localStorage ?? throw new ArgumentNullException(nameof(localStorage));
 
+    /// <inheritdoc />
     public async Task<List<string>> GetHistoryAsync() =>
         await GetStorageHistoryAsync();
 
+    /// <inheritdoc />
     public async Task AddHistoryAsync(string forecast)
     {
         if (string.IsNullOrWhiteSpace(forecast))

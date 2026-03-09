@@ -18,16 +18,16 @@
             {
                 <div class="d-flex flex-grow-1 justify-end">
                     <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync" Accept="@Accept">
-                        <ActivatorContent>
+                        <CustomContent Context="fileUpload">
                             <MudTooltip Delay="@Globals.TooltipDelay" Text="@Localizer.Document.ContentUpload" Placement="Placement.Top">
-                                <MudIconButton HtmlTag="label"
+                                <MudIconButton OnClick="@fileUpload.OpenFilePickerAsync"
                                                Color="Color.Tertiary"
                                                Variant="@Globals.ToolButtonVariant"
                                                Icon="@Icons.Material.Filled.Upload"
                                                Size="Size.Small">
                                 </MudIconButton>
                             </MudTooltip>
-                        </ActivatorContent>
+                        </CustomContent>
                     </MudFileUpload>
                 </div>
             }

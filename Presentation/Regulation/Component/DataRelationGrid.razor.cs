@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -101,10 +101,7 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
 
     private async Task EditDataRelationAsync(DataRelation item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!DataRelations.Contains(item))
@@ -137,10 +134,7 @@ public partial class DataRelationGrid : IRegulationInput, IDisposable
 
     private async Task RemoveDataRelationAsync(DataRelation item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!DataRelations.Contains(item))

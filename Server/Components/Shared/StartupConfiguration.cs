@@ -14,9 +14,9 @@ public class StartupConfiguration
     /// <summary>Start user identifier</summary>
     public string StartupUser { get; set; }
 
-    // <summary>Clear local blazor storage</summary>
+    /// <summary>Clear local blazor storage</summary>
     public bool ClearStorage { get; set; }
 
-    // <summary>Automatic user login</summary>
+    /// <summary>Automatic user login</summary>
     public bool AutoLogin { get; set; }
 }

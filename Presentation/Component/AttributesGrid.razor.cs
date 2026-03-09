@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -81,10 +81,7 @@ public partial class AttributesGrid : IDisposable
 
     private async Task EditAttributeAsync(AttributeItem item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!Item.Attributes.ContainsKey(item.Name) ||
@@ -113,10 +110,7 @@ public partial class AttributesGrid : IDisposable
 
     private async Task RemoveAttributeAsync(AttributeItem item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!Item.Attributes.ContainsKey(item.Name) ||

@@ -45,7 +45,7 @@ public class PayrunJobSetup
     /// <summary>
     /// The selected employees
     /// </summary>
-    public IEnumerable<Employee> SelectedEmployees { get; set; }
+    public IReadOnlyCollection<Employee> SelectedEmployees { get; set; }
 
     /// <summary>
     /// The payrun job parameters

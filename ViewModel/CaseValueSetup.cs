@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PayrollEngine.WebApp.ViewModel;
 
@@ -14,14 +14,8 @@ public class CaseValueSetup : Client.Model.CaseValueSetup, IViewModel, IEquatabl
     /// <param name="caseField">Case field</param>
     public CaseValueSetup(string caseName, CaseFieldSet caseField)
     {
-        if (string.IsNullOrWhiteSpace(caseName))
-        {
-            throw new ArgumentException(nameof(caseName));
-        }
-        if (caseField == null)
-        {
-            throw new ArgumentNullException(nameof(caseField));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(caseName);
+        ArgumentNullException.ThrowIfNull(caseField);
 
         // copy values
         CaseName = caseName;

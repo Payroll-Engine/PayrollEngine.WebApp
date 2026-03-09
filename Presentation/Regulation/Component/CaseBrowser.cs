@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -15,7 +15,8 @@ internal sealed class CaseBrowser : ItemBrowserBase
         IPayrollService payrollService, ICaseService caseService) :
         base(tenant, payroll, regulations, payrollService)
     {
-        CaseService = caseService ?? throw new ArgumentNullException(nameof(caseService));
+        ArgumentNullException.ThrowIfNull(caseService);
+        CaseService = caseService;
     }
 
     private ItemCollection<RegulationCase> cases;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
@@ -102,10 +102,7 @@ public partial class ItemBrowser : IDisposable
 
     public async System.Threading.Tasks.Task<bool> SaveItem(IRegulationItem regulationItem)
     {
-        if (regulationItem == null)
-        {
-            throw new ArgumentNullException(nameof(regulationItem));
-        }
+        ArgumentNullException.ThrowIfNull(regulationItem);
 
         // item browser
         var itemBrowser = GetItemBrowser(regulationItem.ItemType);
@@ -124,10 +121,7 @@ public partial class ItemBrowser : IDisposable
     /// <exception cref="ArgumentNullException"></exception>
     public async System.Threading.Tasks.Task<IRegulationItem> DeleteItem(IRegulationItem regulationItem)
     {
-        if (regulationItem == null)
-        {
-            throw new ArgumentNullException(nameof(regulationItem));
-        }
+        ArgumentNullException.ThrowIfNull(regulationItem);
 
         // item browser
         var itemBrowser = GetItemBrowser(regulationItem.ItemType);
@@ -142,10 +136,7 @@ public partial class ItemBrowser : IDisposable
 
     public IRegulationItem DeriveItem(IRegulationItem regulationItem)
     {
-        if (regulationItem == null)
-        {
-            throw new ArgumentNullException(nameof(regulationItem));
-        }
+        ArgumentNullException.ThrowIfNull(regulationItem);
 
         // regulation
         var regulation = Regulations.FirstOrDefault();

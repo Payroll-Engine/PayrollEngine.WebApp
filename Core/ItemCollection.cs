@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -102,10 +102,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is not in the collection range.</exception>
     private void InsertRange(int index, IEnumerable<T> items)
     {
-        if (items == null)
-        {
-            throw new ArgumentNullException(nameof(items));
-        }
+        ArgumentNullException.ThrowIfNull(items);
         if (index < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(index));
@@ -160,10 +157,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// <exception cref="ArgumentNullException"><paramref name="items"/> is null.</exception>
     public void RemoveRange(IEnumerable<T> items)
     {
-        if (items == null)
-        {
-            throw new ArgumentNullException(nameof(items));
-        }
+        ArgumentNullException.ThrowIfNull(items);
 
         if (Count == 0)
         {
@@ -271,10 +265,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
         {
             throw new ArgumentOutOfRangeException(nameof(index));
         }
-        if (match == null)
-        {
-            throw new ArgumentNullException(nameof(match));
-        }
+        ArgumentNullException.ThrowIfNull(match);
         if (Count == 0)
         {
             return 0;
@@ -418,10 +409,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
         {
             throw new ArgumentOutOfRangeException(nameof(index));
         }
-        if (insertItems == null)
-        {
-            throw new ArgumentNullException(nameof(insertItems));
-        }
+        ArgumentNullException.ThrowIfNull(insertItems);
 
         // remove duplicates
         if (!AllowDuplicates)
@@ -469,6 +457,26 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
             List<T> newCluster = null;
             List<T> oldCluster = null;
 
+            // Raises the Replace event for the accumulated cluster and clears it.
+            void FlushCluster(int followingItemIndex)
+            {
+                if (oldCluster == null || oldCluster.Count == 0)
+                {
+                    Debug.Assert(newCluster == null || newCluster.Count == 0);
+                    return;
+                }
+
+                OnCollectionChanged(new(
+                    NotifyCollectionChangedAction.Replace,
+                    // ReSharper disable once AssignNullToNotNullAttribute
+                    new List<T>(newCluster),
+                    new List<T>(oldCluster),
+                    followingItemIndex - oldCluster.Count));
+
+                oldCluster.Clear();
+                newCluster.Clear();
+            }
+
             var i = index;
             for (; i < rangeCount && i - index < addedCount; i++)
             {
@@ -476,7 +484,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
                 T old = this[i], @new = list[i - index];
                 if (Comparer.Equals(old, @new))
                 {
-                    OnRangeReplaced(i, newCluster!, oldCluster!);
+                    FlushCluster(i);
                     continue;
                 }
 
@@ -498,7 +506,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
                 changesMade = true;
             }
 
-            OnRangeReplaced(i, newCluster!, oldCluster!);
+            FlushCluster(i);
 
             // exceeding position
             if (count != addedCount)
@@ -589,6 +597,7 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
         base.SetItem(index, item);
 
         OnIndexerPropertyChanged();
+        // ReSharper disable once AssignNullToNotNullAttribute -- T is unconstrained, null-forgiving is intentional
         OnCollectionChanged(NotifyCollectionChangedAction.Replace, oldItem!, item!, index);
     }
 
@@ -645,32 +654,6 @@ public class ItemCollection<T> : ObservableCollection<T>, IDisposable
     /// </summary>
     private void OnCollectionReset() =>
         OnCollectionChanged(ItemCollectionCache.ResetCollectionChanged);
-
-    /// <summary>
-    /// Helper to raise event for clustered action and clear cluster.
-    /// </summary>
-    /// <param name="followingItemIndex">The index of the item following the replacement block.</param>
-    /// <param name="newCluster"></param>
-    /// <param name="oldCluster"></param>
-    //TODO should have really been a local method inside ReplaceRange(int index, int count, IEnumerable<T> collection, IEqualityComparer<T> comparer),
-    //move when supported language version updated.
-    private void OnRangeReplaced(int followingItemIndex, ICollection<T> newCluster, ICollection<T> oldCluster)
-    {
-        if (oldCluster == null || oldCluster.Count == 0)
-        {
-            Debug.Assert(newCluster == null || newCluster.Count == 0);
-            return;
-        }
-
-        OnCollectionChanged(new(
-                NotifyCollectionChangedAction.Replace,
-                new List<T>(newCluster),
-                new List<T>(oldCluster),
-                followingItemIndex - oldCluster.Count));
-
-        oldCluster.Clear();
-        newCluster.Clear();
-    }
 
     #endregion Private Methods
 

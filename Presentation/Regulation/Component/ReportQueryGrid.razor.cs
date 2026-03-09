@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -110,10 +110,7 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
 
     private async Task EditQueryAsync(ReportQuery item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!Queries.Contains(item))
@@ -146,10 +143,7 @@ public partial class ReportQueryGrid : IRegulationInput, IDisposable
 
     private async Task RemoveQueryAsync(ReportQuery item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!Queries.Contains(item))

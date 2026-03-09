@@ -228,7 +228,7 @@ public partial class ItemEditor
         }
 
         // continue confirmation
-        var result = await DialogService.ShowMessageBox(
+        var result = await DialogService.ShowMessageBoxAsync(
             title: Localizer.Shared.UnsaveChangesTitle,
             message: Localizer.Shared.UnsaveChangesQuery,
             yesText: Localizer.Shared.Leave,

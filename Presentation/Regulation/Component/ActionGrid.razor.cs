@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
@@ -125,10 +125,7 @@ public partial class ActionGrid : IDisposable
 
     private async Task EditActionAsync(ActionItem action)
     {
-        if (action == null)
-        {
-            throw new ArgumentNullException(nameof(action));
-        }
+        ArgumentNullException.ThrowIfNull(action);
 
         // existing
         if (!Actions.Contains(action))
@@ -171,10 +168,7 @@ public partial class ActionGrid : IDisposable
 
     private async Task RemoveActionAsync(ActionItem action)
     {
-        if (action == null)
-        {
-            throw new ArgumentNullException(nameof(action));
-        }
+        ArgumentNullException.ThrowIfNull(action);
 
         // existing
         if (!Actions.Contains(action))

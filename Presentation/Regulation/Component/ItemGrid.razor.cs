@@ -222,8 +222,8 @@ public partial class ItemGrid<TParent, TItem> : ComponentBase, IDisposable
             ItemsGrid.SetSelectedItemAsync(item).Wait();
         }
         else if (args.Action == NotifyCollectionChangedAction.Remove &&
-                 ItemsGrid.SelectedItem != null &&
-                 args.OldItems != null && args.OldItems.Contains(ItemsGrid.SelectedItem))
+                 lastSelected != null &&
+                 args.OldItems != null && args.OldItems.Contains(lastSelected))
         {
             ItemsGrid.SetSelectedItemAsync(null).Wait();
         }

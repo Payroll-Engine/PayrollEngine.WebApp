@@ -3,7 +3,7 @@
 <MudInputLabel>@Item.GetItemLabel(Field, Localizer, addRequiredMarker: true)</MudInputLabel>
 
 <MudFileUpload T="IBrowserFile" FilesChanged="UploadAsync">
-    <ActivatorContent>
+    <CustomContent Context="fileUpload">
         <MudStack Row="true" Class="align-center border rounded pa-2" Style="@BorderStyle">
             <MudText Typo="Typo.caption">@ContentInfo</MudText>
             <MudSpacer />
@@ -14,7 +14,7 @@
                            Disabled="@ClearDisabled()"
                            Size="Size.Small"
                            OnClick="ClearContentAsync" />
-            <MudIconButton HtmlTag="label"
+            <MudIconButton OnClick="@fileUpload.OpenFilePickerAsync"
                            Color="Color.Primary" 
                            Class="pa-0 ma-0"
                            Icon="@Icons.Material.Filled.Upload"
@@ -22,5 +22,5 @@
                            Disabled="@UploadDisabled()"
                            Size="Size.Small" />
         </MudStack>
-    </ActivatorContent>
+    </CustomContent>
 </MudFileUpload>

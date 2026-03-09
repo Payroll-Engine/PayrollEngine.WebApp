@@ -54,11 +54,11 @@ public partial class CollectorMultiSelect : IRegulationInput
         }
     }
 
-    private IEnumerable<string> SelectedCollectors { get; set; }
+    private IReadOnlyCollection<string> SelectedCollectors { get; set; }
 
     #region Value
 
-    private async Task SelectionChangedAsync(IEnumerable<string> value)
+    private async Task SelectionChangedAsync(IReadOnlyCollection<string> value)
     {
         Value = value.ToList();
         await SetFieldValue(Value);

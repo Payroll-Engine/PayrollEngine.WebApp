@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
@@ -43,9 +44,14 @@ public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) :
             return null;
         }
 
-        // TODO identify sort column
-        // this works only with one custom column type
-        var column = ItemsGrid.RenderedColumns.FirstOrDefault(x => string.Equals(x.PropertyName.ToString(), expression));
+        // match by property name
+        var column = ItemsGrid.RenderedColumns.FirstOrDefault(
+            x => string.Equals(x.PropertyName?.ToString(), expression));
+
+        // fallback: match by tag (attribute columns)
+        column ??= ItemsGrid.RenderedColumns.FirstOrDefault(
+            x => x.Tag is string tag && string.Equals(tag, expression));
+
         return GetColumnName(column);
     }
 
@@ -81,8 +87,10 @@ public abstract class ItemPageBase<TItem, TQuery>(WorkingItems workingItems) :
     /// Get server data, handler for data grids
     /// </summary>
     /// <param name="state">The data grid state</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>Collection of items</returns>
-    protected async Task<GridData<TItem>> GetServerDataAsync(GridState<TItem> state) =>
+    protected async Task<GridData<TItem>> GetServerDataAsync(GridState<TItem> state,
+        CancellationToken cancellationToken = default) =>
         await GetServerDataAsync(state, null);
 
     /// <summary>

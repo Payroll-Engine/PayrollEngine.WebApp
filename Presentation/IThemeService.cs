@@ -14,8 +14,4 @@ public interface IThemeService
     /// <summary>The current theme</summary>
     MudTheme Theme { get; }
 
-    /// <summary>The working palette</summary>
-#pragma warning disable CS0618
-    Palette Palette { get; }
-#pragma warning restore CS0618
 }

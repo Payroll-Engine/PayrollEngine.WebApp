@@ -5,8 +5,17 @@ using PayrollEngine.WebApp.ViewModel;
 
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
+/// <summary>
+/// Tool for resolving MudBlazor icon names from case attributes
+/// </summary>
 public static class IconTool
 {
+    /// <summary>
+    /// Get the icon for a case from its attributes
+    /// </summary>
+    /// <param name="case">The case</param>
+    /// <param name="culture">The culture for localized attributes</param>
+    /// <returns>The icon SVG string, or null if not found</returns>
     public static string GetCaseIcon(Case @case, CultureInfo culture)
     {
         var icon = @case.Attributes.GetIcon(culture);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Collections.Generic;
 
@@ -39,10 +39,7 @@ public static class TypeExtensions
     /// <exception cref="PayrollException"></exception>
     public static PropertyInfo GetLocalizationsProperty(this Type type, string propertyName)
     {
-        if (string.IsNullOrWhiteSpace(propertyName))
-        {
-            throw new ArgumentException(nameof(propertyName));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(propertyName);
 
         // source property
         var property = type.GetProperty(propertyName);

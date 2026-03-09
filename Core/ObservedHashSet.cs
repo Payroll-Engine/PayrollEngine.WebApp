@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -19,10 +19,7 @@ public class ObservedHashSet<T> : HashSet<T>
     /// <param name="item">Item to add</param>
     public async Task AddAsync(T item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
         Add(item);
         await OnAddedAsync(item);
     }
@@ -33,10 +30,7 @@ public class ObservedHashSet<T> : HashSet<T>
     /// <param name="items">Items to add</param>
     public async Task AddRangeAsync(IEnumerable<T> items)
     {
-        if (items == null)
-        {
-            throw new ArgumentNullException(nameof(items));
-        }
+        ArgumentNullException.ThrowIfNull(items);
         foreach (var item in items)
         {
             await AddAsync(item);
@@ -49,10 +43,7 @@ public class ObservedHashSet<T> : HashSet<T>
     /// <param name="item">Item to remove</param>
     public async Task RemoveAsync(T item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
         var removed = Remove(item);
         if (removed)
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayrollEngine.Client.Service;
@@ -17,10 +17,7 @@ internal abstract class ItemBrowserBase(Client.Model.Tenant tenant, Client.Model
 
     internal void ChangeContext(RegulationEditContext context)
     {
-        if (context == null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
+        ArgumentNullException.ThrowIfNull(context);
 
         Tenant = context.Tenant;
         Payroll = context.Payroll;

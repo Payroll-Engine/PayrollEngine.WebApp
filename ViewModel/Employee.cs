@@ -74,9 +74,9 @@ public class Employee : Client.Model.Employee, IViewModel,
     /// <summary>
     /// Divisions as enum
     /// </summary>
-    public IEnumerable<string> DivisionsAsEnum
+    public IReadOnlyCollection<string> DivisionsAsEnum
     {
-        get => Divisions;
+        get => Divisions ?? [];
         set => Divisions = value?.ToList();
     }
 

@@ -33,7 +33,7 @@ public partial class MultiEnumListBox<T> : IRegulationInput
         set => Item.SetPropertyValue(Field.PropertyName, value);
     }
 
-    private IEnumerable<string> SelectedValues { get; set; } = new HashSet<string>();
+    private IReadOnlyCollection<string> SelectedValues { get; set; } = new HashSet<string>();
 
     #region Value
 
@@ -59,7 +59,7 @@ public partial class MultiEnumListBox<T> : IRegulationInput
         return string.Join(", ", selectedValues.Select(x => x.ToString().ToPascalSentence()));
     }
 
-    private async Task SelectionChangedAsync(IEnumerable<string> value)
+    private async Task SelectionChangedAsync(IReadOnlyCollection<string> value)
     {
         Value = value.Select(x => (T)Enum.Parse(typeof(T), x)).ToList();
         await SetFieldValue(Value);

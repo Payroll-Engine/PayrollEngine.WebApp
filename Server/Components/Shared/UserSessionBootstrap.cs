@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +21,8 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
 
     private UserSession LastUserSession { get; set; }
 
+    /// <summary>Restore user session from the last session if available</summary>
+    /// <param name="userSession">The user session to update</param>
     public void Update(UserSession userSession)
     {
         if (!userSession.UserAvailable && LastUserSession != null)
@@ -43,10 +45,7 @@ public class UserSessionBootstrap(IHostApplicationLifetime applicationLifetime,
         IEmployeeService employeeService,
         IPayrollService payrollService)
     {
-        if (userSession == null)
-        {
-            throw new ArgumentNullException(nameof(userSession));
-        }
+        ArgumentNullException.ThrowIfNull(userSession);
 
         try
         {

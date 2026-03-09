@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
@@ -288,8 +289,10 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// Get legal payrun server data, handler for data grids
     /// </summary>
     /// <param name="state">The data grid state</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of items</returns>
-    private async Task<GridData<PayrunJob>> GetLegalServerDataAsync(GridState<PayrunJob> state)
+    private async Task<GridData<PayrunJob>> GetLegalServerDataAsync(GridState<PayrunJob> state,
+        CancellationToken cancellationToken = default)
     {
         try
         {
@@ -407,7 +410,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             Localizer.Forecast.CopyQuery,
             Localizer.PayrunJob.Copy,
             Localizer.Dialog.Cancel);
-        if (!result)
+        if (result != true)
         {
             return;
         }
@@ -467,8 +470,10 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
     /// Get forecast payrun server data, handler for data grids
     /// </summary>
     /// <param name="state">The data grid state</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of items</returns>
-    private async Task<GridData<PayrunJob>> GetForecastServerDataAsync(GridState<PayrunJob> state)
+    private async Task<GridData<PayrunJob>> GetForecastServerDataAsync(GridState<PayrunJob> state,
+        CancellationToken cancellationToken = default)
     {
         try
         {
@@ -538,7 +543,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             { nameof(PayrunStartDialog.User), User },
             { nameof(PayrunStartDialog.Employees), employees },
             { nameof(PayrunStartDialog.Payroll), Payroll},
-            { nameof(PayrunStartDialog.PayrunId), SelectedPayrun.Id },
+            { nameof(PayrunStartDialog.PayrunName), SelectedPayrun.Name },
             { nameof(PayrunStartDialog.Period), period },
             { nameof(PayrunStartDialog.Setup), setup }
         };

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
@@ -119,10 +119,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
 
     private async Task EditAttributeAsync(AttributeItem item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!Item.Attributes.ContainsKey(item.Name) ||
@@ -156,10 +153,7 @@ public partial class RegulationAttributeGrid : IRegulationInput, IDisposable
 
     private async Task RemoveAttributeAsync(AttributeItem item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         if (!Item.Attributes.ContainsKey(item.Name) ||

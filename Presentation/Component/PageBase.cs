@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.Json;
 using System.Globalization;
@@ -54,10 +54,10 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     protected RenderTreeBuilder __builder { get; set; }
 
     /// <summary>
-    /// Get culture info  with fallback to the page culture
+    /// Get culture info with fallback to the page culture
     /// </summary>
-    /// <param name="culture"></param>
-    /// <returns></returns>
+    /// <param name="culture">The culture name</param>
+    /// <returns>The resolved culture info</returns>
     protected CultureInfo GetCultureInfo(string culture)
     {
         if (string.IsNullOrWhiteSpace(culture))
@@ -97,6 +97,9 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// </summary>
     protected virtual WorkingItems WorkingItems { get; } = workingItems;
 
+    /// <summary>
+    /// Test if all required working items are fulfilled
+    /// </summary>
     protected bool WorkingItemsFulfilled(int? tenantId, int? payrollId, int? employeeId) =>
         (!WorkingItems.TenantView() && !WorkingItems.TenantChange() || tenantId.HasValue) &&
         (!WorkingItems.PayrollView() && !WorkingItems.PayrollChange() || payrollId.HasValue) &&
@@ -107,7 +110,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     #region User
 
     /// <summary>
-    ///  Thw working user
+    /// The working user
     /// </summary>
     protected User User => Session.User;
 
@@ -129,7 +132,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     protected Tenant Tenant => Session.Tenant;
 
     /// <summary>
-    /// The working tenant
+    /// The working tenant culture
     /// </summary>
     protected CultureInfo TenantCulture => GetTenantCulture(Tenant);
 
@@ -158,7 +161,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     protected bool IsTenantMissing => !HasTenant;
 
     /// <summary>
-    /// Handler fot tenant change
+    /// Handler for tenant change
     /// </summary>
     protected virtual Task OnTenantChangedAsync()
     {
@@ -190,7 +193,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
 
     /// <summary>
     /// Ensure unique grid ids within the user storage (web cookies)
-    /// do nto use a dot as separator: breaks the grid filtering
+    /// do not use a dot as separator: breaks the grid filtering
     /// </summary>
     /// <param name="gridId">The grid id</param>
     /// <returns>Grid id with tenant prefix</returns>
@@ -198,7 +201,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
         HasTenant ? $"{GetTenantGridId()}_{gridId}" : gridId;
 
     /// <summary>
-    /// The base gird id for custom columns
+    /// The base grid id for custom columns
     /// </summary>
     /// <param name="gridId">The grid id</param>
     /// <returns>The base grid id</returns>
@@ -265,7 +268,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     protected bool HasEmployee => Session.Employee != null;
 
     /// <summary>
-    /// True if employee id missing
+    /// True if employee is missing
     /// </summary>
     protected bool IsEmployeeMissing =>
         WorkingItems.EmployeeChange() && !HasEmployee;
@@ -302,10 +305,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// <returns>The grid custom columns</returns>
     protected List<GridColumnConfiguration> GetColumnConfiguration(string gridId)
     {
-        if (string.IsNullOrWhiteSpace(gridId))
-        {
-            throw new ArgumentException(nameof(gridId));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(gridId);
 
         if (CustomColumns == null)
         {
@@ -326,13 +326,10 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// <summary>
     /// Setup grid custom columns
     /// </summary>
-    /// <param name="gridId"></param>
+    /// <param name="gridId">The grid identifier</param>
     protected void SetupCustomColumns(string gridId)
     {
-        if (string.IsNullOrWhiteSpace(gridId))
-        {
-            throw new ArgumentException(nameof(gridId));
-        }
+        ArgumentException.ThrowIfNullOrWhiteSpace(gridId);
 
         if (Tenant == null || Tenant.Attributes == null)
         {
@@ -370,6 +367,9 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
         CustomColumns = customColumns;
     }
 
+    /// <summary>
+    /// Get the custom column setting attribute name
+    /// </summary>
     private static string GetCustomColumnSettingName(string gridId)
     {
         const string Prefix = "grid.";
@@ -406,38 +406,44 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     /// <summary>The working theme</summary>
     protected MudTheme Theme => ThemeService.Theme;
 
-    /// <summary>The working palette</summary>
-#pragma warning disable CS0618
-    protected Palette Palette => ThemeService.Palette;
 
     #endregion
 
     #region Logging
 
+    /// <summary>Log information message</summary>
     protected void LogInformation(string message) =>
         Log.Information(message);
 
+    /// <summary>Log warning message</summary>
     protected void LogWarning(string message) =>
         Log.Warning(message);
 
+    /// <summary>Log debug message</summary>
     protected void LogDebug(string message) =>
         Log.Debug(message);
 
+    /// <summary>Log verbose message</summary>
     protected void LogVerbose(string message) =>
         Log.Trace(message);
 
+    /// <summary>Log error message</summary>
     protected void LogError(string message) =>
         Log.Error(message);
 
+    /// <summary>Log error with exception</summary>
     protected void LogError(Exception exception) =>
         Log.Error(exception, exception.GetBaseMessage());
 
+    /// <summary>Log error with exception and message</summary>
     protected void LogError(Exception exception, string message) =>
         Log.Error(exception, message);
 
+    /// <summary>Log fatal message</summary>
     protected void LogFatal(string message) =>
         Log.Critical(message);
 
+    /// <summary>Log fatal with exception and message</summary>
     protected void LogFatal(Exception exception, string message) =>
         Log.Critical(exception, message);
 
@@ -445,6 +451,9 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
 
     #region Page Title
 
+    /// <summary>
+    /// Update the browser document title based on the current page
+    /// </summary>
     private async Task UpdateTitleAsync()
     {
         // page name
@@ -478,7 +487,10 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
 
     #region Lifecycle
 
+    /// <summary>True while page is loading</summary>
     protected bool IsLoading { get; private set; }
+
+    /// <summary>True after page initialization completed</summary>
     protected bool Initialized { get; private set; }
 
     private async Task TenantChangedEvent(object sender, Tenant tenant) =>
@@ -490,6 +502,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
     private async Task EmployeeChangedEvent(object sender, ViewModel.Employee employee) =>
         await OnEmployeeChangedAsync(employee);
 
+    /// <summary>Called during page initialization, override for custom setup</summary>
     protected virtual Task OnPageInitializedAsync() => Task.CompletedTask;
 
     protected override async Task OnInitializedAsync()
@@ -528,6 +541,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
         }
     }
 
+    /// <summary>Called after page render, override for custom post-render logic</summary>
     protected virtual Task OnPageAfterRenderAsync(bool firstRender) => Task.CompletedTask;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -559,6 +573,7 @@ public abstract class PageBase(WorkingItems workingItems) : ComponentBase, IDisp
         GC.SuppressFinalize(this);
     }
 
+    /// <summary>Dispose page resources</summary>
     protected virtual void Dispose(bool disposing)
     {
         if (disposing)

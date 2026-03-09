@@ -18,8 +18,16 @@ using PayrollEngine.WebApp.Presentation.BackendService;
 
 namespace PayrollEngine.WebApp.Server;
 
+/// <summary>
+/// Application service registration
+/// </summary>
 public static class ServiceRegistration
 {
+    /// <summary>
+    /// Register all application services into the DI container
+    /// </summary>
+    /// <param name="services">The service collection</param>
+    /// <param name="configuration">The application configuration</param>
     public static async Task AddAppServicesAsync(this IServiceCollection services, IConfiguration configuration)
     {
         // culture
@@ -186,11 +194,7 @@ public static class ServiceRegistration
         services.AddScoped<PayrunPayrunJobBackendService>();
 
         // report
-        services.AddScoped<IReportService, ReportService>();
         services.AddScoped<IDataMerge, DataMerge>();
-
-        // case relations
-        services.AddScoped<ICaseRelationService, CaseRelationService>();
 
         // tasks
         services.AddScoped<ITaskService, TaskService>();

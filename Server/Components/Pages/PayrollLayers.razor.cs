@@ -57,7 +57,7 @@ public partial class PayrollLayers
         }
         if (!regulationNames.Any())
         {
-            await DialogService.ShowMessageBox(ItemTypeUiName, Localizer.PayrollLayer.InvalidPayrollRegulation);
+            await DialogService.ShowMessageBoxAsync(ItemTypeUiName, Localizer.PayrollLayer.InvalidPayrollRegulation);
             return false;
         }
         parameters.Add(nameof(PayrollLayerDialog.RegulationNames), regulationNames);

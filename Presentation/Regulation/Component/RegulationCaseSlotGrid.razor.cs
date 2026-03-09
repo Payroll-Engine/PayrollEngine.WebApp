@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
@@ -97,10 +97,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
     private async Task EditCaseSlotAsync(CaseSlot item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         var existing = CaseSlots.FirstOrDefault(x => string.Equals(x.Name, item.Name));
@@ -135,10 +132,7 @@ public partial class RegulationCaseSlotGrid : IRegulationInput, IDisposable
 
     private async Task RemoveCaseSlotAsync(CaseSlot item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
 
         // existing
         var existing = CaseSlots.FirstOrDefault(x => string.Equals(x.Name, item.Name));
