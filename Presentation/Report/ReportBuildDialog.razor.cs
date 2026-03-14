@@ -40,7 +40,7 @@ public partial class ReportBuildDialog
     [Inject]
     private IReportSetService ReportSetService { get; set; }
     [Inject]
-    private IDataMerge DataMerge { get; set; }
+    private IDocumentService DocumentService { get; set; }
     [Inject]
     private IUserNotificationService UserNotification { get; set; }
     [Inject]
@@ -72,7 +72,7 @@ public partial class ReportBuildDialog
         EditReport.ViewParameters.Count(x => x.Attributes?.GetHidden(Culture) ?? false) != EditReport.ViewParameters.Count;
 
     private bool SupportedDocumentType(DocumentType documentType) =>
-        documentType is DocumentType.Json or DocumentType.Excel || DataMerge.IsMergeable(documentType);
+        documentType is DocumentType.Json or DocumentType.Excel || DocumentService.IsMergeable(documentType);
 
     /// <summary>
     /// Case info from build and validate
@@ -160,16 +160,16 @@ public partial class ReportBuildDialog
                 var mergeParameters = new Dictionary<string, object>(parameters.Select(x => new KeyValuePair<string, object>(x.Key, x.Value)));
 
                 // document stream
-                MemoryStream documentStream = null;
+                Stream documentStream = null;
                 switch (documentType)
                 {
                     case DocumentType.Excel:
-                        documentStream = DataMerge.ExcelMerge(dataSet, documentMetadata, mergeParameters);
+                        documentStream = await DocumentService.ExcelMergeAsync(dataSet, documentMetadata, mergeParameters);
                         break;
                     case DocumentType.Word:
                     case DocumentType.Pdf:
-                        documentStream = DataMerge.Merge(
-                            new MemoryStream(Encoding.ASCII.GetBytes(ReportTemplate.Content)),
+                        documentStream = await DocumentService.MergeAsync(
+                            new MemoryStream(Encoding.UTF8.GetBytes(ReportTemplate.Content)),
                             dataSet, documentType, documentMetadata, mergeParameters);
                         break;
                     case DocumentType.Json:
@@ -210,7 +210,9 @@ public partial class ReportBuildDialog
                 // browser download
                 if (documentStream != null)
                 {
-                    await JsRuntime.SaveAs(DownloadFileName, documentStream.ToArray());
+                    using var memStream = new MemoryStream();
+                    await documentStream.CopyToAsync(memStream);
+                    await JsRuntime.SaveAs(DownloadFileName, memStream.ToArray());
                 }
             }
 

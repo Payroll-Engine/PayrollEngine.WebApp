@@ -7,6 +7,29 @@ The Web Application provides full access to the Payroll Engine. For a better und
 
 ---
 
+## Contents
+
+- [Prerequisites](#prerequisites)
+- [Features](#features)
+- [Setup](#setup)
+- [User Login](#user-login)
+- [Application Configuration](#application-configuration)
+  - [Startup Configuration](#startup-configuration)
+  - [App Configuration](#app-configuration)
+  - [Components Configuration](#components-configuration)
+  - [Security Configuration](#security-configuration)
+  - [Payroll Http Configuration](#payroll-http-configuration)
+  - [Serilog](#serilog)
+- [Application Logs](#application-logs)
+- [API Key](#api-key)
+- [Input Attributes](#input-attributes)
+- [Docker Support](#docker-support)
+- [Solution Projects](#solution-projects)
+- [Third Party Components](#third-party-components)
+- [See Also](#see-also)
+
+---
+
 ## Prerequisites
 
 | Requirement | Minimum |
@@ -17,10 +40,11 @@ The Web Application provides full access to the Payroll Engine. For a better und
 ---
 
 ## Features
+
 The functions of the web app are divided into features:
 
 | Feature             | Group          | Description                             |
-|--|--|--|
+|:--|:--|:--|
 | Tasks               | General        | Manage the user tasks                   |
 | Employee Cases      | General        | Add new employee case                   |
 | Company Cases       | General        | Add new company case                    |
@@ -96,21 +120,8 @@ The web application is accessible at the configured URL.
 
 ---
 
-## Web Application Server
-In order to run the web application server, the web host must support the execution of .NET Core applications. Follow these steps to start the [IIS Express](https://learn.microsoft.com/en-us/iis/extensions/introduction-to-iis-express/iis-express-overview) service for local development:
-- [Dotnet](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet) using the binary file:
-```shell
-dotnet <PathToBin>/PayrollEngine.WebApp.Server.dll --urls=https://localhost:7179/
-```
-- [Dotnet](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet) using the project file, using the working path `Server/`:
-```shell
-dotnet run --urls=https://localhost:7179/
-```
-- Visual Studio Solution `PayrollEngine.WebApp.sln` using the debugger.
-
----
-
 ## User Login
+
 When logging in for the first time, the user must choose a password that complies with the following rules:
 - at least 8 characters
 - 1 numeric character
@@ -119,11 +130,13 @@ When logging in for the first time, the user must choose a password that complie
 - 1 special character
 
 ### Developer login
+
 In debug mode the web application can be started with an automatic login. The desired context is defined with the program settings `AutoLogin`, `StartupTenant` and `StartupUser`. In this mode it is possible to switch between the tenants.
 
 ---
 
 ## Application Configuration
+
 The server configuration file `appsettings.json` contains the following settings:
 
 ### Startup Configuration
@@ -187,16 +200,17 @@ The server configuration file `appsettings.json` contains the following settings
 | `Timeout` | The backend request timeout     | TimeSpan   | 100 seconds |
 | `ApiKey`  | The backend API key             | string     |             |
 
-The Payroll HTTP client configuration can be declared in the following locations.
+The Payroll HTTP client configuration can be declared in the following locations:
 
 | Priority | Source                                                      | Description                                                        |
-|--|--|--|
+|:--|:--|:--|
 | 1.       | Environment variable `PayrollApiConnection`                 | Connection string with the HTTP client configuration               |
 | 2.       | Environment variable `PayrollApiConfiguration`              | HTTP client configuration JSON file name                           |
 | 3.       | File `apisettings.json`                                     | HTTP client configuration JSON file located in the program folder  |
 | 4.       | File `appsettings.json`                                     | HTTP client configuration from the program configuration JSON file |
 
 ### Serilog
+
 File and console logging with [Serilog](https://serilog.net/).
 
 > It is recommended that you save the application settings within your local [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets).
@@ -204,22 +218,25 @@ File and console logging with [Serilog](https://serilog.net/).
 ---
 
 ## Application Logs
+
 The web application server stores its logs in the application folder `logs`.
 
 ---
 
 ## API Key
+
 If a key is required to access the backend API, it must be obtained from one of the following sources (in order of priority):
 
 1. Environment variable `PayrollApiKey`.
-2. From the [Payroll HTTP configuration](#payroll-http-configuration).
+2. From the [Payroll Http Configuration](#payroll-http-configuration).
 
 ---
 
 ## Input Attributes
+
 The case input attributes can be used to control the behavior of user input.
 
-👉 Input Attributes [Reference](Input-Attributes.md).
+> Input Attributes [Reference](Input-Attributes.md).
 
 ---
 
@@ -229,6 +246,7 @@ The recommended way to run the Web Application is as part of the full Docker Com
 See the [Container Setup](https://payrollengine.org/setup/container-setup) documentation.
 
 ### Pre-built image (ghcr.io)
+
 Pull and run the pre-built image:
 ```bash
 docker run -p 8081:8080 \
@@ -240,6 +258,7 @@ docker run -p 8081:8080 \
 Verify web app is accessible at http://localhost:8081
 
 ### Build from source (development)
+
 ```bash
 docker build -t payroll-webapp .
 docker run -p 8081:8080 \
@@ -251,6 +270,7 @@ docker run -p 8081:8080 \
 ---
 
 ## Solution Projects
+
 The .NET Core application consists of the following projects:
 
 | Name                                 | Type             | Description                                       |
@@ -264,6 +284,7 @@ The .NET Core application consists of the following projects:
 ---
 
 ## Third Party Components
+
 - UI with [MudBlazor](https://github.com/MudBlazor/MudBlazor/) — license `MIT`
 - Storage with [LocalStorage](https://github.com/Blazored/LocalStorage/) — license `MIT`
 - Logging with [Serilog](https://github.com/serilog/serilog/) — license `Apache 2.0`
@@ -271,6 +292,7 @@ The .NET Core application consists of the following projects:
 ---
 
 ## See Also
+
 - [Web Application](https://payrollengine.org/tools/web-application) — User documentation
 - [Input Attributes Reference](Input-Attributes.md) — Full attribute reference for case input controls
 - [Payroll Engine Backend](https://github.com/Payroll-Engine/PayrollEngine.Backend) — required backend service

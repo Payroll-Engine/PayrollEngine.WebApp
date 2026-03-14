@@ -52,7 +52,7 @@ public static class XmlTool
         var xmlDocument = DataSetToXml(dataSet);
 
         // style sheet
-        using var xslStream = new MemoryStream(Encoding.ASCII.GetBytes(xslString));
+        using var xslStream = new MemoryStream(Encoding.UTF8.GetBytes(xslString));
         using var xslReader = XmlReader.Create(xslStream);
         XslCompiledTransform xslt = new();
         xslt.Load(xslReader);
@@ -71,7 +71,7 @@ public static class XmlTool
     /// <returns>Returns true if XML is valid</returns>
     public static bool ValidateXmlString(string xmlString, string xsdString)
     {
-        var xsdStream = new MemoryStream(Encoding.ASCII.GetBytes(xsdString));
+        var xsdStream = new MemoryStream(Encoding.UTF8.GetBytes(xsdString));
         using var xmlReader = XmlReader.Create(xsdStream);
 
         var xmlDocument = new XmlDocument();

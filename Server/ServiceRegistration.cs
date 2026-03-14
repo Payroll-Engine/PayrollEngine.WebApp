@@ -194,7 +194,7 @@ public static class ServiceRegistration
         services.AddScoped<PayrunPayrunJobBackendService>();
 
         // report
-        services.AddScoped<IDataMerge, DataMerge>();
+        services.AddScoped<IDocumentService, DocumentService>();
 
         // tasks
         services.AddScoped<ITaskService, TaskService>();
