@@ -116,6 +116,7 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
             await RefreshLegalServerDataAsync();
             // refresh forecast data too
             await RefreshForecastServerDataAsync();
+            StateHasChanged();
         }
     }
 
@@ -243,23 +244,21 @@ public partial class PayrunJobs() : PageBase(WorkingItems.TenantChange | Working
 
         try
         {
-            // retrieve the latest payrun job from the selected payrun, ignoring the forecast jobs
+            // retrieve the latest working payrun job (Draft, Release or Process) from the selected payrun
+            var workingStatusFilter =
+                new Equals(nameof(PayrunJob.JobStatus), nameof(PayrunJobStatus.Draft))
+                    .Or(new Equals(nameof(PayrunJob.JobStatus), nameof(PayrunJobStatus.Release)))
+                    .Or(new Equals(nameof(PayrunJob.JobStatus), nameof(PayrunJobStatus.Process)));
             var query = new Query
             {
                 Filter = new Equals(nameof(PayrunJob.PayrollId), Payroll.Id)
                     .And(new Equals(nameof(PayrunJob.PayrunId), SelectedPayrun.Id)
-                        .And(new NotEquals(nameof(PayrunJob.JobStatus), nameof(PayrunJobStatus.Forecast)))),
+                        .And(workingStatusFilter)),
                 OrderBy = new OrderBy(nameof(PayrunJob.Updated), OrderDirection.Descending),
                 Top = 1
             };
             var legalJob =
                 (await PayrunJobService.QueryAsync<PayrunJob>(new(Tenant.Id), query)).FirstOrDefault();
-
-            // exclude payrun jobs which are in final state
-            if (legalJob != null && legalJob.JobStatus.IsFinal())
-            {
-                legalJob = null;
-            }
 
             if (legalJob == null)
             {

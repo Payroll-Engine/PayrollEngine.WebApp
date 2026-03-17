@@ -34,7 +34,7 @@
 }
 
 @* case editor *@
-<div class="d-flex flex-grow-1 gap-4 mt-4">
+<div class="d-flex flex-wrap flex-grow-1 gap-4 mt-4">
     @* case edit tree *@
     <MudForm @ref="@fieldForm">
         <ChildContent>
@@ -43,11 +43,11 @@
                     @{
                         var treeCaseSet = (TreeCaseSet)context;
                         var caseSet = treeCaseSet.CaseSet;
-                        var style = $"margin-inline-start: {(treeCaseSet.Value == RootCase?.Value ? "0" : "1em")}";
+                        var style = $"margin-inline-start: {(treeCaseSet.Value == RootCase?.Value ? "0" : "1em")}; min-width: 24rem;";
                         <MudTreeViewItem Style="@style" @bind-Expanded="@caseSet.IsExpanded"
                                          Items="@treeCaseSet.RelatedCases">
                             <Content>
-                                <MudPaper Class="pa-4" Elevation="4">
+                                <MudPaper Class="pa-4" Elevation="4" Style="width: 100%">
                                     <MudStack Row="true" Spacing="0" Class="d-flex pb-2">
                                         @* case name *@
                                         <MudText Typo="Typo.h5" Class="flex-grow-1">

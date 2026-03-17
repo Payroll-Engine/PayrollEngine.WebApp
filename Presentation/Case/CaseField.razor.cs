@@ -71,7 +71,7 @@ public partial class CaseField
             case FieldLayoutMode.ValueCompact:
                 return null;
             default:
-                return "width: 50%";
+                return "width: 50%; min-width: 12rem;";
         }
     }
 

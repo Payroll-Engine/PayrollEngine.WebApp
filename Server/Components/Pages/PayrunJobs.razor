@@ -86,7 +86,7 @@
 
             @* legal payrun job *@
             <MudTabPanel Text="@Localizer.PayrunJob.Legal">
-                <MudStack Row="true" Class="gap-4">
+                <MudStack Row="true" Wrap="Wrap.Wrap" Class="gap-4">
                     @* legal job: new *@
                     <MudPaper Class="pa-4" Style="min-width: 40em; max-width: 80em">
                         <MudForm @ref="@legalForm">
@@ -348,7 +348,7 @@
             @if (HasFeature(Feature.Forecasts))
             {
                 <MudTabPanel Text="@Localizer.Forecast.Forecast">
-                    <MudStack Row="true" Class="gap-4">
+                    <MudStack Row="true" Wrap="Wrap.Wrap" Class="gap-4">
                         <MudPaper Class="pa-4" Style="min-width: 40em; max-width: 80em;">
                             <MudForm @ref="@forecastForm">
                                 <MudStack>
