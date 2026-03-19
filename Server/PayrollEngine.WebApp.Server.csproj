@@ -17,7 +17,7 @@
 		<PackageReference Include="PayrollEngine.Serilog" Version="0.10.0-beta.dev" />
 		<PackageReference Include="PayrollEngine.Document" Version="0.10.0-beta.dev" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-		<PackageReference Include="MudBlazor" Version="9.1.0" />
+		<PackageReference Include="MudBlazor" Version="9.2.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />

@@ -50,7 +50,7 @@ public partial class MultiEnumListBox<T> : IRegulationInput
         }
     }
 
-    private string GetMultiSelectionText(List<string> selectedValues)
+    private string GetMultiSelectionText(IReadOnlyList<string> selectedValues)
     {
         if (!selectedValues.Any())
         {

@@ -7,7 +7,7 @@
            SelectAll="true"
            SelectAllText="@Localizer.Shared.SelectAll"
            SelectedValues="SelectedValues" SelectedValuesChanged="SelectionChangedAsync"
-           MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))"
+           MultiSelectionTextFunc="@(new Func<IReadOnlyList<string>, string>(GetMultiSelectionText))"
            Value="ValuesAsString"
            ReadOnly="@Item.IsReadOnlyField(Field)"
            Required="@Field.Required"
