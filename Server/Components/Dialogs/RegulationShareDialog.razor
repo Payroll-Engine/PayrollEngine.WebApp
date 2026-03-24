@@ -71,6 +71,22 @@
                                 </MudSelectItem>
                             }
                         </MudSelect>
+                        <MudSelect T="TenantIsolationLevel"
+                                   @bind-Value="RegulationShare.IsolationLevel"
+                                   Label="@Localizer.RegulationShare.IsolationLevel"
+                                   Required="true">
+                            @foreach (TenantIsolationLevel level in Enum.GetValues(typeof(TenantIsolationLevel)))
+                            {
+                                // None is not a valid share level — shares must grant at least Consolidation
+                                if (level == TenantIsolationLevel.None)
+                                {
+                                    continue;
+                                }
+                                <MudSelectItem T="TenantIsolationLevel" Value="@level">
+                                    @Localizer.Enum(level)
+                                </MudSelectItem>
+                            }
+                        </MudSelect>
                         <ItemBaseFields Item="RegulationShare" />
                     </MudStack>
                 </MudTabPanel>

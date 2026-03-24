@@ -301,6 +301,12 @@ public abstract class BackendServiceBase<TService, TServiceContext, TItem, TQuer
     /// <summary>Update the HTTP client tenant authorization</summary>
     private void UpdateAuthorization()
     {
+        // At Write level the server expects no Auth-Tenant header (unrestricted multi-tenant access)
+        if (UserSession.TenantIsolationLevel >= TenantIsolationLevel.Write)
+        {
+            HttpClient.RemoveTenantAuthorization();
+            return;
+        }
         if (DisabledAuthorization || UserSession.Tenant == null)
         {
             HttpClient.RemoveTenantAuthorization();

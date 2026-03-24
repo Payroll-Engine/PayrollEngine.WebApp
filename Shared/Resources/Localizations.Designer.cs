@@ -3760,6 +3760,42 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consolidation.
+        /// </summary>
+        internal static string Enum_TenantIsolationLevel_Consolidation {
+            get {
+                return ResourceManager.GetString("Enum.TenantIsolationLevel.Consolidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string Enum_TenantIsolationLevel_None {
+            get {
+                return ResourceManager.GetString("Enum.TenantIsolationLevel.None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read.
+        /// </summary>
+        internal static string Enum_TenantIsolationLevel_Read {
+            get {
+                return ResourceManager.GetString("Enum.TenantIsolationLevel.Read", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write.
+        /// </summary>
+        internal static string Enum_TenantIsolationLevel_Write {
+            get {
+                return ResourceManager.GetString("Enum.TenantIsolationLevel.Write", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee.
         /// </summary>
         internal static string Enum_UserType_Employee {
@@ -5682,6 +5718,15 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string RegulationShare_ConsumerTenant {
             get {
                 return ResourceManager.GetString("RegulationShare.ConsumerTenant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Isolation level.
+        /// </summary>
+        internal static string RegulationShare_IsolationLevel {
+            get {
+                return ResourceManager.GetString("RegulationShare.IsolationLevel", resourceCulture);
             }
         }
         

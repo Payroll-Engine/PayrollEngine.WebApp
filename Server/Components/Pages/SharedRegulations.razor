@@ -45,6 +45,15 @@
         <PropertyColumn Property="x => x.ProviderRegulationName" Title="@Localizer.RegulationShare.ProviderRegulation" />
         <PropertyColumn Property="x => x.ConsumerTenantIdentifier" Title="@Localizer.RegulationShare.ConsumerTenant" />
         <PropertyColumn Property="x => x.ConsumerDivisionName" Title="@Localizer.RegulationShare.ConsumerDivision" />
+        <PropertyColumn Property="x => x.IsolationLevel" Title="@Localizer.RegulationShare.IsolationLevel">
+            <FilterTemplate>
+                <EnumFilter TItem="RegulationShare" TEnum="TenantIsolationLevel" Column="@nameof(RegulationShare.IsolationLevel)"
+                            Context="@context" DataGrid="@ItemsGrid" />
+            </FilterTemplate>
+            <CellTemplate>
+                @Localizer.Enum(context.Item.IsolationLevel)
+            </CellTemplate>
+        </PropertyColumn>
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)

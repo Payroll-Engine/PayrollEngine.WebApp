@@ -29,6 +29,8 @@ public abstract class MainLayoutBase : MainComponentBase
     private IDialogService DialogService { get; set; }
     [Inject]
     private PayrollHttpClient PayrollHttpClient { get; set; }
+    [Inject]
+    private IPageService PageService { get; set; }
 #if DEBUG
     [Inject]
     private UserSessionBootstrap UserSessionBootstrap { get; set; }
@@ -282,14 +284,18 @@ public abstract class MainLayoutBase : MainComponentBase
 
     private void UpdateAuthorization(string tenantIdentifier)
     {
+        // At Write level the server expects no Auth-Tenant header
+        if (PageService.TenantIsolationLevel >= TenantIsolationLevel.Write)
+        {
+            PayrollHttpClient.RemoveTenantAuthorization();
+            return;
+        }
         if (string.IsNullOrWhiteSpace(tenantIdentifier))
         {
-            // remove
             PayrollHttpClient.RemoveTenantAuthorization();
         }
         else
         {
-            // set
             PayrollHttpClient.SetTenantAuthorization(tenantIdentifier);
         }
     }

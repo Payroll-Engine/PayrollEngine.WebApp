@@ -1,13 +1,13 @@
-<Project>
+﻿<Project>
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
-		<Version>0.10.0-beta.1</Version>
+		<Version>0.10.0-beta.dev</Version>
 		<FileVersion>0.10.0</FileVersion>
 		<InformationalVersion>0.10.0-beta.dev</InformationalVersion>
 		<Authors>Jani Giannoudis</Authors>
 		<Company>Software Consulting Giannoudis</Company>
-		<Copyright>© 2026 Software Consulting Giannoudis</Copyright>
+		<Copyright>Â© 2026 Software Consulting Giannoudis</Copyright>
 		<Product>Payroll Engine WebApp</Product>
 		<PackageProjectUrl>https://payrollengine.org/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Payroll-Engine/PayrollEngine.WebApp.git</RepositoryUrl>

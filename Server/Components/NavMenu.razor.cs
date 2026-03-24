@@ -20,6 +20,8 @@ public partial class NavMenu : IDisposable
     private IConfiguration Configuration { get; set; }
     [Inject]
     protected ILocalizerService LocalizerService { get; set; }
+    [Inject]
+    private IPageService PageService { get; set; }
 
     private Localizer Localizer => LocalizerService.Localizer;
     private List<PageGroupInfo> PageGroups { get; set; }
@@ -51,7 +53,7 @@ public partial class NavMenu : IDisposable
 
     private async Task SetupPagesAsync()
     {
-        var register = new PageRegister(Localizer);
+        var register = new PageRegister(Localizer, PageService.TenantIsolationLevel);
         Pages = register.Pages;
         PageGroups = register.PageGroups;
 

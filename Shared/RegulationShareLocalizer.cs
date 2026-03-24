@@ -14,6 +14,8 @@ public class RegulationShareLocalizer(IStringLocalizerFactory factory, CultureIn
     public string MissingSharedRegulations => PropertyValue();
     public string MissingShares => PropertyValue();
 
+    public string IsolationLevel => PropertyValue();
+
     public string ProviderTenant => PropertyValue();
     public string ProviderRegulation => PropertyValue();
     public string ConsumerTenant => PropertyValue();

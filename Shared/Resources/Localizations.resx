@@ -163,6 +163,18 @@
 	<data name="Enum.RetroTimeType.Cycle" xml:space="preserve">
     <value>Cycle</value>
   </data>
+	<data name="Enum.TenantIsolationLevel.None" xml:space="preserve">
+	<value>None</value>
+  </data>
+	<data name="Enum.TenantIsolationLevel.Consolidation" xml:space="preserve">
+	<value>Consolidation</value>
+  </data>
+	<data name="Enum.TenantIsolationLevel.Read" xml:space="preserve">
+	<value>Read</value>
+  </data>
+	<data name="Enum.TenantIsolationLevel.Write" xml:space="preserve">
+	<value>Write</value>
+  </data>
 	<data name="Enum.UserType.Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
@@ -1599,6 +1611,9 @@
   </data>
 	<data name="RegulationShare.RegulationShares" xml:space="preserve">
     <value>Regulation shares</value>
+  </data>
+	<data name="RegulationShare.IsolationLevel" xml:space="preserve">
+    <value>Isolation level</value>
   </data>
 	<data name="Report.AttributeMode" xml:space="preserve">
     <value>Attribute mode</value>

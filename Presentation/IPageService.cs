@@ -9,6 +9,9 @@ public interface IPageService
     /// <summary>Page base label</summary>
     string BaseLabel { get; }
 
+    /// <summary>Server-wide tenant isolation level — controls page visibility</summary>
+    TenantIsolationLevel TenantIsolationLevel { get; }
+
     /// <summary>Get available pages</summary>
     List<PageInfo> GetPages(Localizer localizer);
 }

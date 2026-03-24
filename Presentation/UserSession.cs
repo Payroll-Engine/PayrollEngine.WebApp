@@ -18,6 +18,7 @@ namespace PayrollEngine.WebApp.Presentation;
 /// </summary>
 /// <param name="configuration">Configuration service</param>
 /// <param name="cultureService">Culture service</param>
+/// <param name="pageService">Page service (provides TenantIsolationLevel)</param>
 /// <param name="tenantService">Tenant service</param>
 /// <param name="divisionService">Division service</param>
 /// <param name="payrollService">Payroll service</param>
@@ -26,6 +27,7 @@ namespace PayrollEngine.WebApp.Presentation;
 /// <param name="taskService">Task service</param>
 public class UserSession(IConfiguration configuration,
     ICultureService cultureService,
+    IPageService pageService,
     ITenantService tenantService,
     IDivisionService divisionService,
     IPayrollService payrollService,
@@ -36,6 +38,9 @@ public class UserSession(IConfiguration configuration,
 {
     private IConfiguration Configuration { get; } = configuration;
     private ICultureService CultureService { get; } = cultureService;
+
+    /// <summary>Server-wide tenant isolation level — controls whether the Auth-Tenant header is sent</summary>
+    public TenantIsolationLevel TenantIsolationLevel => pageService.TenantIsolationLevel;
 
     private readonly WorkingItemsWatcher<ITenantService, RootServiceContext, Tenant, Query> tenantWatcher = new(tenantService);
     private readonly WorkingItemsWatcher<IDivisionService, TenantServiceContext, Division, Query> divisionWatcher = new(divisionService);

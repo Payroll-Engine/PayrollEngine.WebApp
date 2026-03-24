@@ -1,6 +1,7 @@
 ﻿#if DEBUG
 #define DEBUG_CONNECTION_BREAK
 #endif
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
@@ -95,7 +96,20 @@ public static class ServiceRegistration
         var appConfiguration = configuration.GetConfiguration<AppConfiguration>();
         var appTitle = appConfiguration.AppTitle ?? SystemSpecification.ApplicationName;
 
-        services.AddSingleton<IPageService>(new PageService(appTitle));
+        // query TenantIsolationLevel from backend — controls which pages are visible (e.g. SharedRegulations)
+        // defensive: fall back to None on any error (e.g. backend not yet rebuilt with [SkipTenantAuth])
+        var tenantIsolationLevel = TenantIsolationLevel.None;
+        try
+        {
+            var backendInfo = await new AdminService(httpClient).GetBackendInformationAsync();
+            tenantIsolationLevel = backendInfo?.Runtime?.TenantIsolationLevel ?? TenantIsolationLevel.None;
+        }
+        catch (Exception ex)
+        {
+            Log.Warning($"Could not retrieve backend information at startup — defaulting TenantIsolationLevel to None: {ex.GetBaseMessage()}");
+        }
+
+        services.AddSingleton<IPageService>(new PageService(appTitle, tenantIsolationLevel));
 
         // theme
         services.AddSingleton<IThemeService, ThemeService>();

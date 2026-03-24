@@ -7,9 +7,10 @@ using PayrollEngine.WebApp.Shared;
 
 namespace PayrollEngine.WebApp.Server.Components.Shared;
 
-public class PageRegister(Localizer localizer)
+public class PageRegister(Localizer localizer, TenantIsolationLevel tenantIsolationLevel = TenantIsolationLevel.None)
 {
     private Localizer Localizer { get; } = localizer ?? throw new ArgumentNullException(nameof(localizer));
+    private TenantIsolationLevel TenantIsolationLevel { get; } = tenantIsolationLevel;
 
     public List<PageGroupInfo> PageGroups =>
     [
@@ -34,7 +35,7 @@ public class PageRegister(Localizer localizer)
         var systemGroup = groups.First(x => string.Equals(x.GroupName, Localizer.Shared.FeaturesSystem));
 #endif
 
-        return new()
+        var pages = new List<PageInfo>
         {
             // main
             new(Feature.Tasks, PageUrls.Tasks, Localizer.Task.Tasks),
@@ -50,7 +51,6 @@ public class PageRegister(Localizer localizer)
             new(Feature.Payruns, PageUrls.Payruns, Localizer.Payrun.Payruns, payrunGroup),
 
             // payroll
-            new(Feature.SharedRegulations, PageUrls.SharedRegulations, Localizer.RegulationShare.RegulationShares, payrollGroup),
             new(Feature.Payrolls, PageUrls.Payrolls, Localizer.Payroll.Payrolls, payrollGroup),
             new(Feature.PayrollLayers, PageUrls.PayrollLayers, Localizer.PayrollLayer.PayrollLayers,  payrollGroup),
             new(Feature.Regulations, PageUrls.Regulations, Localizer.Regulation.Regulations,  payrollGroup),
@@ -70,5 +70,15 @@ public class PageRegister(Localizer localizer)
             , new(Feature.UserStorage, PageUrls.UserStorage, Localizer.Storage.Storage, systemGroup)
 #endif
         };
+
+        // SharedRegulations only visible when regulation sharing is active (>= Consolidation)
+            if (TenantIsolationLevel >= TenantIsolationLevel.Consolidation)
+        {
+            var employeesIndex = pages.FindIndex(p => p.Feature == Feature.Employees);
+            pages.Insert(employeesIndex, new(Feature.SharedRegulations, PageUrls.SharedRegulations,
+                Localizer.RegulationShare.RegulationShares, adminGroup));
+        }
+
+        return pages;
     }
 }
