@@ -32,9 +32,16 @@ jobs:
           if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
             VERSION="${{ github.event.client_payload.version }}"
             DRY_RUN="${{ github.event.client_payload.dry_run }}"
+            NUGET_SOURCE="${{ github.event.client_payload.nuget_source }}"
           else
             VERSION="${{ inputs.version }}"
             DRY_RUN="${{ inputs.dry_run }}"
+            NUGET_SOURCE="github"
+          fi
+
+          # Default to github if not specified (backward compatible)
+          if [ -z "${NUGET_SOURCE}" ]; then
+            NUGET_SOURCE="github"
           fi
 
           if [[ "$VERSION" == *-* ]]; then
@@ -46,6 +53,7 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "is_prerelease=${IS_PRERELEASE}" >> $GITHUB_OUTPUT
           echo "dry_run=${DRY_RUN}" >> $GITHUB_OUTPUT
+          echo "nuget_source=${NUGET_SOURCE}" >> $GITHUB_OUTPUT
 
           IMAGE_TAG=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
@@ -189,6 +197,7 @@ jobs:
           push: true
           build-args: |
             GITHUB_TOKEN=${{ secrets.PAT_DISPATCH }}
+            NUGET_SOURCE=${{ steps.params.outputs.nuget_source }}
           tags: ${{ steps.tags.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
