@@ -27,9 +27,9 @@
                         <LocalizationTextField Item="@Payrun" @bind-Value="Payrun.DefaultReason"
                                                PropertyName="@nameof(Payrun.DefaultReason)"
                                                Label="@Localizer.Payrun.DefaultReason" />
-                        <MudSelect T="RetroTimeType" Label="@Localizer.Payrun.RetroTimeType" @bind-Value="Payrun.RetroTimeType">
-                            <EnumSelectItems T="RetroTimeType" />
-                        </MudSelect>
+                        <MudNumericField T="int" Label="@Localizer.Payrun.RetroTimeType" @bind-Value="Payrun.RetroBackCycles"
+                                          Min="-1" HideSpinButtons="false"
+                                          HelperText="-1 = unlimited, 0 = current cycle only, n = n back cycles" />
                         <ItemBaseFields Item="Payrun" />
                     </MudStack>
                 </MudTabPanel>
