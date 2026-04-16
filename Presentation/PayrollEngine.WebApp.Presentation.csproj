@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<AssemblyName>PayrollEngine.WebApp.Presentation</AssemblyName>
@@ -6,11 +6,21 @@
 		<Description>Payroll Engine Web Application Presentation</Description>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<AcceptNPOIOSMFLicense>true</AcceptNPOIOSMFLicense>
+	</PropertyGroup>
+
+	<!-- suppress unpatched low-severity advisories in transitive System.Security.Cryptography.Xml -->
+	<ItemGroup>
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-37gx-xxp4-5rgx" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-w3x6-4m5h-cxqf" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.5" />
-		<PackageReference Include="PayrollEngine.Document" Version="0.10.0-beta.dev" />
+		<PackageReference Include="PayrollEngine.Document" Version="$(PayrollEngineVersion)" />
 		<PackageReference Include="MudBlazor" Version="9.2.0" />
-		<PackageReference Include="NPOI" Version="2.7.6" />
+		<PackageReference Include="NPOI" Version="2.8.0" />
 	</ItemGroup>
 
 	<ItemGroup>
