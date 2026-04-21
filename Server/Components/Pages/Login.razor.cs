@@ -539,7 +539,7 @@ public partial class Login() : PageBase(WorkingItems.None), IDisposable
                                              && u.TenantId == tenant?.Id);
 
         // check if user has no password set 
-        return user != null && string.IsNullOrEmpty(user.Password) &&
+        return user != null && !user.PasswordAvailable &&
                !user.PasswordSet;
     }
 
