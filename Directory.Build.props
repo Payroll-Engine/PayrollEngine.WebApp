@@ -2,8 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
-		<Version>0.10.0-beta.dev</Version>
-		<PayrollEngineVersion>0.10.0-beta.dev</PayrollEngineVersion>
+		<Version>1.0.0</Version>
+		<PayrollEngineVersion>1.0.0</PayrollEngineVersion>
 		<FileVersion>0.10.0</FileVersion>
 		<InformationalVersion>0.10.0-beta.dev</InformationalVersion>
 		<Authors>Jani Giannoudis</Authors>
