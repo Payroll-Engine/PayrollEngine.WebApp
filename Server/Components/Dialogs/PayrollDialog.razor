@@ -34,14 +34,14 @@
                 </MudTabPanel>
                 <MudTabPanel Text="Clusters">
                     <MudStack Class="pa-4" Spacing="1">
-                        <MudTextField T="string" Label="@Localizer.Case.Case" @bind-Value="Payroll.ClusterSetCase" />
-                        <MudTextField T="string" Label="@Localizer.CaseField.CaseField" @bind-Value="Payroll.ClusterSetCaseField" />
-                        <MudTextField T="string" Label="@Localizer.CaseValue.CaseValue" @bind-Value="Payroll.ClusterSetCaseValue" />
-                        <MudTextField T="string" Label="@Localizer.Collector.Collector" @bind-Value="Payroll.ClusterSetCollector" />
-                        <MudTextField T="string" Label="@Localizer.Payroll.CollectorRetro" @bind-Value="Payroll.ClusterSetCollectorRetro" />
-                        <MudTextField T="string" Label="@Localizer.WageType.WageType" @bind-Value="Payroll.ClusterSetWageType" />
-                        <MudTextField T="string" Label="@Localizer.Payroll.WageTypeRetro" @bind-Value="Payroll.ClusterSetWageTypeRetro" />
-                        <MudTextField T="string" Label="@Localizer.Payroll.WageTypePeriod" @bind-Value="Payroll.ClusterSetWageTypePeriod" />
+                        <MudTextField T="string" Label="@Localizer.Case.Case" @bind-Value="Payroll.ClusterSet.ClusterSetCase" />
+                        <MudTextField T="string" Label="@Localizer.CaseField.CaseField" @bind-Value="Payroll.ClusterSet.ClusterSetCaseField" />
+                        <MudTextField T="string" Label="@Localizer.CaseValue.CaseValue" @bind-Value="Payroll.ClusterSet.ClusterSetCaseValue" />
+                        <MudTextField T="string" Label="@Localizer.Collector.Collector" @bind-Value="Payroll.ClusterSet.ClusterSetCollector" />
+                        <MudTextField T="string" Label="@Localizer.Payroll.CollectorRetro" @bind-Value="Payroll.ClusterSet.ClusterSetCollectorRetro" />
+                        <MudTextField T="string" Label="@Localizer.WageType.WageType" @bind-Value="Payroll.ClusterSet.ClusterSetWageType" />
+                        <MudTextField T="string" Label="@Localizer.Payroll.WageTypeRetro" @bind-Value="Payroll.ClusterSet.ClusterSetWageTypeRetro" />
+                        <MudTextField T="string" Label="@Localizer.Payroll.WageTypePeriod" @bind-Value="Payroll.ClusterSet.ClusterSetWageTypePeriod" />
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="@Localizer.ClusterSet.ClusterSets">
@@ -67,6 +67,11 @@
     [Inject] private ILocalizerService LocalizerService { get; set; }
 
     private Localizer Localizer => LocalizerService.Localizer;
+
+    protected override void OnParametersSet()
+    {
+        Payroll.ClusterSet ??= new();
+    }
 
     public async Task<bool> ValidateAsync() =>
         await form.Revalidate();

@@ -28,7 +28,7 @@ public abstract class CaseChangeValueBackendServiceBase(UserSession userSession,
         // division filter
         query.DivisionId = UserSession.Payroll.DivisionId;
         // set cluster filter if available
-        var clusterSetFilter = UserSession.Payroll.ClusterSetCase;
+        var clusterSetFilter = UserSession.Payroll.ClusterSet?.ClusterSetCase;
         if (!string.IsNullOrWhiteSpace(clusterSetFilter))
         {
             query.ClusterSetName = clusterSetFilter;
