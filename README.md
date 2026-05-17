@@ -140,6 +140,17 @@ The web application is accessible at the configured URL.
 
 ## User Login
 
+The Web Application requires at least one tenant and user in the backend database.
+Use the [PayrollConsole](https://github.com/Payroll-Engine/PayrollEngine.PayrollConsole) CLI to import payroll data:
+
+```shell
+pecmd PayrollImport <exchange-file.json>
+```
+
+See the [Getting Started](https://payrollengine.org/getting-started) guide and the [Container Setup](https://payrollengine.org/setup/container-setup) documentation for a complete walkthrough.
+
+### Password Rules
+
 When logging in for the first time, the user must choose a password that complies with the following rules:
 - at least 8 characters
 - 1 numeric character
