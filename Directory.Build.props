@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<PayrollEngineVersion>1.0.0</PayrollEngineVersion>
 		<FileVersion>0.10.0</FileVersion>
 		<InformationalVersion>0.10.0-beta.dev</InformationalVersion>

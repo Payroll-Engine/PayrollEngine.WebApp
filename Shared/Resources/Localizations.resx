@@ -683,7 +683,7 @@
     <value>Issues</value>
   </data>
 	<data name="Action.MoveDown" xml:space="preserve">
-    <value>Mode down</value>
+    <value>Move down</value>
   </data>
 	<data name="Action.MoveUp" xml:space="preserve">
     <value>Move up</value>
