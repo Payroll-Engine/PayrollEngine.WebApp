@@ -986,10 +986,10 @@
     <value>Source case slot</value>
   </data>
 	<data name="CaseRelation.TargetCaseName" xml:space="preserve">
-    <value>Target case  name</value>
+    <value>Target case name</value>
   </data>
 	<data name="CaseRelation.TargetCaseSlot" xml:space="preserve">
-    <value>Target case  slot</value>
+    <value>Target case slot</value>
   </data>
 	<data name="CaseRelation.ValidateActions" xml:space="preserve">
     <value>Validate actions</value>
@@ -1628,7 +1628,7 @@
     <value>New</value>
   </data>
 	<data name="Regulation.Missing" xml:space="preserve">
-    <value>Please create the regulation before</value>
+    <value>Please create the regulation first</value>
   </data>
 	<data name="Regulation.NotAvailable" xml:space="preserve">
     <value>No regulations available</value>
@@ -1822,7 +1822,7 @@
 	<data name="Script.SingleFunction" xml:space="preserve">
     <value>1 function</value>
   </data>
-	<data name="Shared,Text" xml:space="preserve">
+	<data name="Shared.Text" xml:space="preserve">
     <value>Text</value>
   </data>
 	<data name="Shared.All" xml:space="preserve">

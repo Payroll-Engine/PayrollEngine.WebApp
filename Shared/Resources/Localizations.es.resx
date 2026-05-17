@@ -1822,7 +1822,7 @@
 	<data name="Script.SingleFunction" xml:space="preserve">
     <value>1 función</value>
   </data>
-	<data name="Shared,Text" xml:space="preserve">
+	<data name="Shared.Text" xml:space="preserve">
     <value>Texto</value>
   </data>
 	<data name="Shared.All" xml:space="preserve">

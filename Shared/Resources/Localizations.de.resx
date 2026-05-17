@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -1735,7 +1735,7 @@
 	<data name="Item.Removed" xml:space="preserve">
     <value>{item} entfernt</value>
   </data>
-	<data name="Shared,Text" xml:space="preserve">
+	<data name="Shared.Text" xml:space="preserve">
     <value>Text</value>
   </data>
 	<data name="Shared.DownloadCompleted" xml:space="preserve">
