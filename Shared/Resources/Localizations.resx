@@ -505,6 +505,15 @@
 	<data name="Enum.OverrideType.Inactive" xml:space="preserve">
     <value>Inactive</value>
   </data>
+	<data name="Enum.LookupRangeMode.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+	<data name="Enum.LookupRangeMode.Threshold" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+	<data name="Enum.LookupRangeMode.Progressive" xml:space="preserve">
+    <value>Progressive</value>
+  </data>
 	<data name="Enum.ReportAttributeMode.Json" xml:space="preserve">
     <value>Json</value>
   </data>
@@ -1386,6 +1395,9 @@
   </data>
 	<data name="Lookup.Lookups" xml:space="preserve">
     <value>Lookups</value>
+  </data>
+	<data name="Lookup.RangeMode" xml:space="preserve">
+    <value>Range mode</value>
   </data>
 	<data name="Lookup.RangeSize" xml:space="preserve">
     <value>Range size</value>

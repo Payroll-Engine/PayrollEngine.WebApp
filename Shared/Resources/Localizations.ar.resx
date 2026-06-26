@@ -505,6 +505,15 @@
 	<data name="Enum.OverrideType.Inactive" xml:space="preserve">
     <value>غير نشط</value>
   </data>
+	<data name="Enum.LookupRangeMode.None" xml:space="preserve">
+    <value>لا شيء</value>
+  </data>
+	<data name="Enum.LookupRangeMode.Threshold" xml:space="preserve">
+    <value>عتبة</value>
+  </data>
+	<data name="Enum.LookupRangeMode.Progressive" xml:space="preserve">
+    <value>تصاعدي</value>
+  </data>
 	<data name="Enum.ReportAttributeMode.Json" xml:space="preserve">
     <value>Json</value>
   </data>
@@ -1386,6 +1395,9 @@
   </data>
 	<data name="Lookup.Lookups" xml:space="preserve">
     <value>القوائم المرجعية</value>
+  </data>
+	<data name="Lookup.RangeMode" xml:space="preserve">
+    <value>وضع النطاق</value>
   </data>
 	<data name="Lookup.RangeSize" xml:space="preserve">
     <value>حجم النطاق</value>

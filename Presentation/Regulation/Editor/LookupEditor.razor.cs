@@ -48,6 +48,10 @@ public partial class LookupEditor
             {
                 Label = Localizer.Shared.OverrideType
             },
+            new(nameof(RegulationLookup.RangeMode), typeof(EnumListBox<LookupRangeMode>))
+            {
+                Label = Localizer.Lookup.RangeMode
+            },
             new(nameof(RegulationLookup.RangeSize), typeof(NumericTextBox<decimal?>))
             {
                 Label = Localizer.Lookup.RangeSize,

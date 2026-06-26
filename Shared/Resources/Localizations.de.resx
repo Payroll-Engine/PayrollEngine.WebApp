@@ -505,6 +505,15 @@
 	<data name="Enum.OverrideType.Inactive" xml:space="preserve">
     <value>Inaktiv</value>
   </data>
+	<data name="Enum.LookupRangeMode.None" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+	<data name="Enum.LookupRangeMode.Threshold" xml:space="preserve">
+    <value>Schwellenwert</value>
+  </data>
+	<data name="Enum.LookupRangeMode.Progressive" xml:space="preserve">
+    <value>Progressiv</value>
+  </data>
 	<data name="Enum.ReportAttributeMode.Json" xml:space="preserve">
     <value>Json</value>
   </data>
@@ -1605,6 +1614,9 @@
   </data>
 	<data name="WageType.WageTypeNumber" xml:space="preserve">
     <value>Lohnart-Nummer</value>
+  </data>
+	<data name="Lookup.RangeMode" xml:space="preserve">
+    <value>Bereichsmodus</value>
   </data>
 	<data name="Lookup.RangeSize" xml:space="preserve">
     <value>Wertebereich</value>

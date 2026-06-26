@@ -12,5 +12,6 @@ public class LookupLocalizer(IStringLocalizerFactory factory, CultureInfo cultur
     public string LookupName => PropertyValue();
     public string ValueFieldName => PropertyValue();
     public string TextFieldName => PropertyValue();
+    public string RangeMode => PropertyValue();
     public string RangeSize => PropertyValue();
 }
