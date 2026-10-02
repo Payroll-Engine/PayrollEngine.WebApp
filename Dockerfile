@@ -28,12 +28,16 @@ RUN if [ "${NUGET_SOURCE}" = "github" ]; then \
         --store-password-in-clear-text; \
     fi
 
-# Restore with architecture-specific runtime
-RUN if [ "$TARGETARCH" = "arm64" ]; then \
-      dotnet restore "PayrollEngine.WebApp.sln" --runtime linux-arm64; \
-    else \
-      dotnet restore "PayrollEngine.WebApp.sln" --runtime linux-x64; \
-    fi
+# Restore with architecture-specific runtime.
+# Retries bypass the NuGet HTTP cache: freshly published packages may not yet be
+# visible on every nuget.org CDN node.
+RUN RID=linux-x64; [ "$TARGETARCH" = "arm64" ] && RID=linux-arm64; \
+    for i in 1 2 3 4 5 6; do \
+      if [ $i -eq 1 ]; then CACHE=""; else CACHE="--no-http-cache"; fi; \
+      dotnet restore "PayrollEngine.WebApp.sln" --runtime $RID $CACHE && break; \
+      [ $i -eq 6 ] && exit 1; \
+      echo "Restore attempt $i failed, retrying in 90s"; sleep 90; \
+    done
 
 # copy everything else
 COPY . .

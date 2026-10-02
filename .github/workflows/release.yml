@@ -72,7 +72,7 @@ jobs:
           IMAGE_TAG=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: ${{ secrets.PAT_DISPATCH }}
           fetch-depth: 0
@@ -80,7 +80,7 @@ jobs:
       # ── Version Guard ────────────────────────────────
       - name: Check if version already exists
         if: steps.params.outputs.dry_run != 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.PAT_DISPATCH }}
           script: |
@@ -177,14 +177,14 @@ jobs:
       # ── Build & Push Docker ──────────────────────────
 
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Determine Docker tags
         id: tags
@@ -202,7 +202,7 @@ jobs:
           echo "tags=${TAGS}" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -215,7 +215,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.params.outputs.version }}
           name: v${{ steps.params.outputs.version }}
