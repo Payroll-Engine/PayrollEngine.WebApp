@@ -1540,6 +1540,12 @@
 	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
     <value>تاريخ التقييم</value>
   </data>
+	<data name="PayrunJob.PayDate" xml:space="preserve">
+    <value>تاريخ الدفع</value>
+  </data>
+	<data name="PayrunJob.PayDateHelp" xml:space="preserve">
+    <value>اختياري: يتجاوز تاريخ الدفع في التقويم (مثل الدفع المبكر قبل عطلة)</value>
+  </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
     <value>الاسم</value>
   </data>
@@ -2472,6 +2478,24 @@
   </data>
 	<data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
     <value>تجاوز عدد أيام الفترة الفعلي</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDate" xml:space="preserve">
+    <value>تاريخ تثبيت الفترة</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateHelp" xml:space="preserve">
+    <value>تاريخ بدء أي فترة كل أسبوعين: يحدد إيقاع الأيام الأربعة عشر ويوم بدء الفترة عبر جميع السنوات</value>
+  </data>
+	<data name="Calendar.PayDateOffset" xml:space="preserve">
+    <value>إزاحة تاريخ الدفع (أيام)</value>
+  </data>
+	<data name="Calendar.PayDateOffsetHelp" xml:space="preserve">
+    <value>تاريخ الدفع = نهاية الفترة + أيام الإزاحة</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateLocked" xml:space="preserve">
+    <value>غير قابل للتغيير: توجد مهام تشغيل رواتب لهذا التقويم</value>
+  </data>
+	<data name="Calendar.AnchorWeekdayMismatch" xml:space="preserve">
+    <value>تاريخ تثبيت الفترة يوافق {anchorDay}: تبدأ الفترات يوم {anchorDay} وليس في أول يوم من الأسبوع ({firstDay})</value>
   </data>
 	<data name="Calendar.PeriodCycleHelp" xml:space="preserve">
     <value>عدد الفترات: {count} من نوع '{period}' في الدورة '{cycle}'</value>

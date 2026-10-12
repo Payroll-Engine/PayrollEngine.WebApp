@@ -119,6 +119,15 @@
                                                Margin="Margin.Dense"
                                                Editable="true" />
 
+                                @* pay date override *@
+                                <MudDatePicker @bind-Date="@LegalSetup.PayDate"
+                                               Label="@Localizer.PayrunJob.PayDate"
+                                               HelperText="@Localizer.PayrunJob.PayDateHelp"
+                                               ReadOnly="@HasLegalJob"
+                                               Margin="Margin.Dense"
+                                               Clearable="true"
+                                               Editable="true" />
+
                                 @* employees *@
                                 @if (HasLegalJob)
                                 {
@@ -318,6 +327,11 @@
                         <PropertyColumn Property="x => x.JobStatus" Title="@Localizer.PayrunJob.JobStatus">
                             <CellTemplate>
                                 @Localizer.Enum(context.Item.JobStatus)
+                            </CellTemplate>
+                        </PropertyColumn>
+                        <PropertyColumn Property="x => x.PayDate" Title="@Localizer.PayrunJob.PayDate">
+                            <CellTemplate>
+                                @ValueFormatter.ToCompactString(context.Item.PayDate)
                             </CellTemplate>
                         </PropertyColumn>
                         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated">

@@ -520,6 +520,60 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Period anchor date.
+        /// </summary>
+        internal static string Calendar_PeriodAnchorDate {
+            get {
+                return ResourceManager.GetString("Calendar.PeriodAnchorDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date of any bi-weekly period: defines the 14-day rhythm and the weekday of the period start across all years.
+        /// </summary>
+        internal static string Calendar_PeriodAnchorDateHelp {
+            get {
+                return ResourceManager.GetString("Calendar.PeriodAnchorDateHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pay date offset (days).
+        /// </summary>
+        internal static string Calendar_PayDateOffset {
+            get {
+                return ResourceManager.GetString("Calendar.PayDateOffset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pay date = period end + offset days.
+        /// </summary>
+        internal static string Calendar_PayDateOffsetHelp {
+            get {
+                return ResourceManager.GetString("Calendar.PayDateOffsetHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot be changed: payrun jobs exist for this calendar.
+        /// </summary>
+        internal static string Calendar_PeriodAnchorDateLocked {
+            get {
+                return ResourceManager.GetString("Calendar.PeriodAnchorDateLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The period anchor date is a {anchorDay}: periods start on {anchorDay}, not on the first day of week ({firstDay}).
+        /// </summary>
+        internal static string Calendar_AnchorWeekdayMismatch {
+            get {
+                return ResourceManager.GetString("Calendar.AnchorWeekdayMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Period time unit.
         /// </summary>
         internal static string Calendar_PeriodTimeUnit {
@@ -5304,6 +5358,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string PayrunJob_EvaluationDate {
             get {
                 return ResourceManager.GetString("PayrunJob.EvaluationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pay date.
+        /// </summary>
+        internal static string PayrunJob_PayDate {
+            get {
+                return ResourceManager.GetString("PayrunJob.PayDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optional: overrides the calendar pay date (e.g. early payment before a holiday).
+        /// </summary>
+        internal static string PayrunJob_PayDateHelp {
+            get {
+                return ResourceManager.GetString("PayrunJob.PayDateHelp", resourceCulture);
             }
         }
         

@@ -21,6 +21,8 @@ public class PayrunJobLocalizer(IStringLocalizerFactory factory, CultureInfo cul
     public string JobPeriod => PropertyValue();
     public string JobHistory => PropertyValue();
     public string EvaluationDate => PropertyValue();
+    public string PayDate => PropertyValue();
+    public string PayDateHelp => PropertyValue();
 
     public string StartPayrun => PropertyValue();
     public string ShowJobDetails => PropertyValue();

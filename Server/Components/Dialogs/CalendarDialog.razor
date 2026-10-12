@@ -59,6 +59,10 @@
                                          Label="@Localizer.Calendar.PeriodDayCount"
                                          HelperText="@Localizer.Calendar.PeriodDayCountHelp"
                                          Format="0.##" Clearable="true" />
+                        <MudNumericField T="int?" @bind-Value="Calendar.PayDateOffset"
+                                         Label="@Localizer.Calendar.PayDateOffset"
+                                         HelperText="@Localizer.Calendar.PayDateOffsetHelp"
+                                         Clearable="true" />
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="@Localizer.Enum(CalendarTimeUnit.Week)">
@@ -71,6 +75,23 @@
                                    Label="@Localizer.Calendar.FirstDayOfWeek">
                             <NullableWeekdaySelectItems Culture="@CultureInfo" />
                         </MudSelect>
+                        <MudDatePicker @bind-Date="Calendar.PeriodAnchorDate"
+                                       Label="@Localizer.Calendar.PeriodAnchorDate"
+                                       HelperText="@(PeriodAnchorDateLocked ? Localizer.Calendar.PeriodAnchorDateLocked : Localizer.Calendar.PeriodAnchorDateHelp)"
+                                       ReadOnly="@PeriodAnchorDateLocked"
+                                       Clearable="@(!PeriodAnchorDateLocked)"
+                                       Editable="@(!PeriodAnchorDateLocked)" />
+                        @if (Calendar.PeriodAnchorDate.HasValue && Calendar.FirstDayOfWeek.HasValue &&
+                             (int)Calendar.PeriodAnchorDate.Value.DayOfWeek != (int)Calendar.FirstDayOfWeek.Value)
+                        {
+                            <MudPaper Class="mt-4 pa-4 mud-warning">
+                                <MudText Typo="Typo.caption">
+                                    @Localizer.Calendar.AnchorWeekdayMismatch(
+                                        GetDayName((DayOfWeek)(int)Calendar.PeriodAnchorDate.Value.DayOfWeek),
+                                        GetDayName((DayOfWeek)(int)Calendar.FirstDayOfWeek.Value))
+                                </MudText>
+                            </MudPaper>
+                        }
                         <MudSelect T="CalendarWeekMode" @bind-Value="Calendar.WeekMode"
                                    Label="@Localizer.Calendar.WeekMode">
                             <EnumSelectItems T="CalendarWeekMode" />
@@ -106,6 +127,7 @@
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
     [Parameter] public CultureInfo CultureInfo { get; set; }
     [Parameter] public Calendar Calendar { get; set; } = new();
+    [Parameter] public bool PeriodAnchorDateLocked { get; set; }
 
     [Inject] private ICultureService CultureService { get; set; }
     [Inject] private ILocalizerService LocalizerService { get; set; }

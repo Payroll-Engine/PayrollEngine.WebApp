@@ -23,6 +23,11 @@ public class PayrunJobSetup
     public DateTime? EvaluationDate { get; set; }
 
     /// <summary>
+    /// The payrun pay date override, null=calendar pay date
+    /// </summary>
+    public DateTime? PayDate { get; set; }
+
+    /// <summary>
     /// Payrun job name
     /// </summary>
     public string JobName { get; set; }

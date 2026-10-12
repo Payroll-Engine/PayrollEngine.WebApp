@@ -205,6 +205,7 @@
                 Forecast = Setup.ForecastName,
                 PeriodStart = jobPeriod,
                 EvaluationDate = Setup.EvaluationDate,
+                PayDate = Setup.PayDate,
                 EmployeeIdentifiers = employeeIdentifiers,
                 Attributes = Setup.Parameters.ToDictionary(p => p.Name, p => p.GetValueByValueType()),
                 Reason = Setup.Reason,

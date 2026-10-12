@@ -1912,6 +1912,12 @@
 	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
     <value>Auswertungsdatum</value>
   </data>
+	<data name="PayrunJob.PayDate" xml:space="preserve">
+    <value>Zahltag</value>
+  </data>
+	<data name="PayrunJob.PayDateHelp" xml:space="preserve">
+    <value>Optional: übersteuert den Kalender-Zahltag (z.B. Vorauszahlung vor einem Feiertag)</value>
+  </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
     <value>Lohnlauf Name</value>
   </data>
@@ -2472,6 +2478,24 @@
   </data>
 	<data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
     <value>Effektive Anzahl der Periodentage übersteuern</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDate" xml:space="preserve">
+    <value>Perioden-Ankerdatum</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateHelp" xml:space="preserve">
+    <value>Startdatum einer beliebigen zweiwöchentlichen Periode: legt den 14-Tage-Rhythmus und den Wochentag des Periodenstarts über alle Jahre fest</value>
+  </data>
+	<data name="Calendar.PayDateOffset" xml:space="preserve">
+    <value>Zahltag-Versatz (Tage)</value>
+  </data>
+	<data name="Calendar.PayDateOffsetHelp" xml:space="preserve">
+    <value>Zahltag = Periodenende + Versatz in Tagen</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateLocked" xml:space="preserve">
+    <value>Nicht änderbar: für diesen Kalender existieren Lohnlaufjobs</value>
+  </data>
+	<data name="Calendar.AnchorWeekdayMismatch" xml:space="preserve">
+    <value>Das Perioden-Ankerdatum ist ein {anchorDay}: Perioden beginnen am {anchorDay}, nicht am ersten Tag der Woche ({firstDay})</value>
   </data>
 	<data name="Calendar.PeriodCycleHelp" xml:space="preserve">
     <value>{count} Perioden von '{period}' im Zyklus '{cycle}'</value>

@@ -24,8 +24,17 @@ public class CalendarLocalizer(IStringLocalizerFactory factory, CultureInfo cult
     public string YearWeekRule => PropertyValue();
     public string FirstDayOfWeek => PropertyValue();
 
+    public string PeriodAnchorDate => PropertyValue();
+    public string PayDateOffset => PropertyValue();
+
     public string PeriodTimeUnitHelp => PropertyValue();
     public string PeriodDayCountHelp => PropertyValue();
+    public string PeriodAnchorDateHelp => PropertyValue();
+    public string PayDateOffsetHelp => PropertyValue();
+    public string PeriodAnchorDateLocked => PropertyValue();
+
+    public string AnchorWeekdayMismatch(string anchorDay, string firstDay) =>
+        FormatValue(PropertyValue(), nameof(anchorDay), anchorDay, nameof(firstDay), firstDay);
 
     public string InvalidPeriodTimeUnit(CalendarTimeUnit cycle, CalendarTimeUnit period) =>
         FormatValue(PropertyValue(), nameof(cycle), Enum(cycle), nameof(period), Enum(period));

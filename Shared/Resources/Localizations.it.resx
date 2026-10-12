@@ -1540,6 +1540,12 @@
 	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
     <value>Data di valutazione</value>
   </data>
+	<data name="PayrunJob.PayDate" xml:space="preserve">
+    <value>Data di pagamento</value>
+  </data>
+	<data name="PayrunJob.PayDateHelp" xml:space="preserve">
+    <value>Facoltativo: sostituisce la data di pagamento del calendario (ad es. pagamento anticipato prima di un festivo)</value>
+  </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
     <value>Nome</value>
   </data>
@@ -2472,6 +2478,24 @@
   </data>
 	<data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
     <value>Sovrascrive il conteggio effettivo dei giorni del periodo</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDate" xml:space="preserve">
+    <value>Data di ancoraggio del periodo</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateHelp" xml:space="preserve">
+    <value>Data di inizio di un qualsiasi periodo bisettimanale: definisce il ritmo di 14 giorni e il giorno di inizio del periodo per tutti gli anni</value>
+  </data>
+	<data name="Calendar.PayDateOffset" xml:space="preserve">
+    <value>Scostamento data di pagamento (giorni)</value>
+  </data>
+	<data name="Calendar.PayDateOffsetHelp" xml:space="preserve">
+    <value>Data di pagamento = fine periodo + giorni di scostamento</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateLocked" xml:space="preserve">
+    <value>Non modificabile: esistono job di elaborazione paghe per questo calendario</value>
+  </data>
+	<data name="Calendar.AnchorWeekdayMismatch" xml:space="preserve">
+    <value>La data di ancoraggio del periodo è un {anchorDay}: i periodi iniziano di {anchorDay}, non il primo giorno della settimana ({firstDay})</value>
   </data>
 	<data name="Calendar.PeriodCycleHelp" xml:space="preserve">
     <value>{count} periodi di '{period}' nel ciclo '{cycle}'</value>

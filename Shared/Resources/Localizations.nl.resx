@@ -1540,6 +1540,12 @@
 	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
     <value>Evaluatiedatum</value>
   </data>
+	<data name="PayrunJob.PayDate" xml:space="preserve">
+    <value>Betaaldatum</value>
+  </data>
+	<data name="PayrunJob.PayDateHelp" xml:space="preserve">
+    <value>Optioneel: overschrijft de betaaldatum van de kalender (bijv. vervroegde betaling vóór een feestdag)</value>
+  </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
     <value>Naam</value>
   </data>
@@ -2472,6 +2478,24 @@
   </data>
 	<data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
     <value>Het effectieve aantal dagen in de periode overschrijven</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDate" xml:space="preserve">
+    <value>Ankerdatum periode</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateHelp" xml:space="preserve">
+    <value>Begindatum van een willekeurige tweewekelijkse periode: legt het 14-daagse ritme en de weekdag van de periodestart over alle jaren vast</value>
+  </data>
+	<data name="Calendar.PayDateOffset" xml:space="preserve">
+    <value>Verschuiving betaaldatum (dagen)</value>
+  </data>
+	<data name="Calendar.PayDateOffsetHelp" xml:space="preserve">
+    <value>Betaaldatum = einde periode + dagen verschuiving</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateLocked" xml:space="preserve">
+    <value>Niet wijzigbaar: er bestaan loonverwerkingstaken voor deze kalender</value>
+  </data>
+	<data name="Calendar.AnchorWeekdayMismatch" xml:space="preserve">
+    <value>De ankerdatum van de periode valt op een {anchorDay}: perioden beginnen op {anchorDay}, niet op de eerste dag van de week ({firstDay})</value>
   </data>
 	<data name="Calendar.PeriodCycleHelp" xml:space="preserve">
     <value>{count} perioden van '{period}' in de cyclus '{cycle}'</value>

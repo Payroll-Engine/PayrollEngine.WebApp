@@ -1540,6 +1540,12 @@
 	<data name="PayrunJob.EvaluationDate" xml:space="preserve">
     <value>Evaluation date</value>
   </data>
+	<data name="PayrunJob.PayDate" xml:space="preserve">
+    <value>Pay date</value>
+  </data>
+	<data name="PayrunJob.PayDateHelp" xml:space="preserve">
+    <value>Optional: overrides the calendar pay date (e.g. early payment before a holiday)</value>
+  </data>
 	<data name="PayrunJob.JobName" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -2472,6 +2478,24 @@
   </data>
 	<data name="Calendar.PeriodDayCountHelp" xml:space="preserve">
     <value>Override the effective period day count</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDate" xml:space="preserve">
+    <value>Period anchor date</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateHelp" xml:space="preserve">
+    <value>Start date of any bi-weekly period: defines the 14-day rhythm and the weekday of the period start across all years</value>
+  </data>
+	<data name="Calendar.PayDateOffset" xml:space="preserve">
+    <value>Pay date offset (days)</value>
+  </data>
+	<data name="Calendar.PayDateOffsetHelp" xml:space="preserve">
+    <value>Pay date = period end + offset days</value>
+  </data>
+	<data name="Calendar.PeriodAnchorDateLocked" xml:space="preserve">
+    <value>Cannot be changed: payrun jobs exist for this calendar</value>
+  </data>
+	<data name="Calendar.AnchorWeekdayMismatch" xml:space="preserve">
+    <value>The period anchor date is a {anchorDay}: periods start on {anchorDay}, not on the first day of week ({firstDay})</value>
   </data>
 	<data name="Calendar.PeriodCycleHelp" xml:space="preserve">
     <value>{count} periods of '{period}' in the cycle '{cycle}'</value>
