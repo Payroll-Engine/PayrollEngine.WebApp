@@ -63,6 +63,13 @@
                                          Label="@Localizer.Calendar.PayDateOffset"
                                          HelperText="@Localizer.Calendar.PayDateOffsetHelp"
                                          Clearable="true" />
+                        <MudSelect T="CalendarCycleAssignment?" @bind-Value="Calendar.CycleAssignment"
+                                   Label="@Localizer.Calendar.CycleAssignment"
+                                   HelperText="@(PeriodAnchorDateLocked ? Localizer.Calendar.PeriodAnchorDateLocked : Localizer.Calendar.CycleAssignmentHelp)"
+                                   ReadOnly="@PeriodAnchorDateLocked"
+                                   Clearable="@(!PeriodAnchorDateLocked)">
+                            <NullableEnumSelectItems T="CalendarCycleAssignment?" />
+                        </MudSelect>
                     </MudStack>
                 </MudTabPanel>
                 <MudTabPanel Text="@Localizer.Enum(CalendarTimeUnit.Week)">

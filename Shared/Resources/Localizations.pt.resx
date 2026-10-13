@@ -112,6 +112,12 @@
 	<data name="Enum.CalendarWeekMode.WorkWeek" xml:space="preserve">
     <value>Semana de trabalho</value>
   </data>
+	<data name="Enum.CalendarCycleAssignment.PayDate" xml:space="preserve">
+    <value>Data de pagamento</value>
+  </data>
+	<data name="Enum.CalendarCycleAssignment.PeriodEnd" xml:space="preserve">
+    <value>Fim do período</value>
+  </data>
 	<data name="Enum.CalendarWeekRule.FirstDay" xml:space="preserve">
     <value>Primeiro dia</value>
   </data>
@@ -2493,6 +2499,12 @@
   </data>
 	<data name="Calendar.PeriodAnchorDateLocked" xml:space="preserve">
     <value>Não editável: existem tarefas de processamento para este calendário</value>
+  </data>
+	<data name="Calendar.CycleAssignment" xml:space="preserve">
+    <value>Atribuição ao ciclo</value>
+  </data>
+	<data name="Calendar.CycleAssignmentHelp" xml:space="preserve">
+    <value>Data que atribui o período ao ciclo (ano fiscal) e à versão da regulamentação (padrão: data de pagamento)</value>
   </data>
 	<data name="Calendar.AnchorWeekdayMismatch" xml:space="preserve">
     <value>A data de âncora do período é {anchorDay}: os períodos começam em {anchorDay}, não no primeiro dia da semana ({firstDay})</value>

@@ -26,11 +26,13 @@ public class CalendarLocalizer(IStringLocalizerFactory factory, CultureInfo cult
 
     public string PeriodAnchorDate => PropertyValue();
     public string PayDateOffset => PropertyValue();
+    public string CycleAssignment => PropertyValue();
 
     public string PeriodTimeUnitHelp => PropertyValue();
     public string PeriodDayCountHelp => PropertyValue();
     public string PeriodAnchorDateHelp => PropertyValue();
     public string PayDateOffsetHelp => PropertyValue();
+    public string CycleAssignmentHelp => PropertyValue();
     public string PeriodAnchorDateLocked => PropertyValue();
 
     public string AnchorWeekdayMismatch(string anchorDay, string firstDay) =>

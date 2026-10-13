@@ -565,6 +565,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cycle assignment.
+        /// </summary>
+        internal static string Calendar_CycleAssignment {
+            get {
+                return ResourceManager.GetString("Calendar.CycleAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date assigning the period to the cycle (tax year) and to the regulation version (default: pay date).
+        /// </summary>
+        internal static string Calendar_CycleAssignmentHelp {
+            get {
+                return ResourceManager.GetString("Calendar.CycleAssignmentHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The period anchor date is a {anchorDay}: periods start on {anchorDay}, not on the first day of week ({firstDay}).
         /// </summary>
         internal static string Calendar_AnchorWeekdayMismatch {
@@ -2676,6 +2694,24 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Enum_CalendarWeekMode_WorkWeek {
             get {
                 return ResourceManager.GetString("Enum.CalendarWeekMode.WorkWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pay date.
+        /// </summary>
+        internal static string Enum_CalendarCycleAssignment_PayDate {
+            get {
+                return ResourceManager.GetString("Enum.CalendarCycleAssignment.PayDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period end.
+        /// </summary>
+        internal static string Enum_CalendarCycleAssignment_PeriodEnd {
+            get {
+                return ResourceManager.GetString("Enum.CalendarCycleAssignment.PeriodEnd", resourceCulture);
             }
         }
         
