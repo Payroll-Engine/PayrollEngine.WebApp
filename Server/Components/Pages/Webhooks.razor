@@ -44,6 +44,12 @@
                 @Localizer.Enum(context.Item.Action)
             </CellTemplate>
         </PropertyColumn>
+        <PropertyColumn Property="x => x.Signed" Title="@Localizer.Webhook.Signed" Filterable="false">
+            <CellTemplate>
+                <MudIcon Icon="@(context.Item.Signed ? Icons.Material.Filled.Lock : Icons.Material.Filled.LockOpen)"
+                         Size="Size.Small" Title="@(context.Item.Signed ? Localizer.Webhook.Signed : string.Empty)" />
+            </CellTemplate>
+        </PropertyColumn>
         <PropertyColumn Property="x => x.Created" Title="@Localizer.Shared.ObjectCreated" InitialDirection="SortDirection.Descending">
             <CellTemplate>
                 @ValueFormatter.ToCompactString(context.Item.Created)

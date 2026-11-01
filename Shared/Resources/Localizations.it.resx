@@ -2107,6 +2107,18 @@
 	<data name="Webhook.ReceiverAddress" xml:space="preserve">
     <value>Indirizzo destinatario</value>
   </data>
+	<data name="Webhook.Secret" xml:space="preserve">
+    <value>Secret</value>
+  </data>
+	<data name="Webhook.SecretKeep" xml:space="preserve">
+    <value>A secret is set. Leave empty to keep it.</value>
+  </data>
+	<data name="Webhook.SecretRemove" xml:space="preserve">
+    <value>Remove the secret</value>
+  </data>
+	<data name="Webhook.Signed" xml:space="preserve">
+    <value>Signed</value>
+  </data>
 	<data name="Webhook.Webhook" xml:space="preserve">
     <value>Webhook</value>
   </data>

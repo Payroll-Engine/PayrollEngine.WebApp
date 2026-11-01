@@ -12,4 +12,8 @@ public class WebhookLocalizer(IStringLocalizerFactory factory, CultureInfo cultu
 
     public string ReceiverAddress => PropertyValue();
     public string Action => PropertyValue();
+    public string Secret => PropertyValue();
+    public string SecretKeep => PropertyValue();
+    public string SecretRemove => PropertyValue();
+    public string Signed => PropertyValue();
 }

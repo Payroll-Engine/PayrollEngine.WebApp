@@ -1378,6 +1378,18 @@
 	<data name="Webhook.ReceiverAddress" xml:space="preserve">
     <value>Empfängeradresse</value>
   </data>
+	<data name="Webhook.Secret" xml:space="preserve">
+    <value>Geheimnis (Secret)</value>
+  </data>
+	<data name="Webhook.SecretKeep" xml:space="preserve">
+    <value>Ein Secret ist gesetzt. Leer lassen, um es zu behalten.</value>
+  </data>
+	<data name="Webhook.SecretRemove" xml:space="preserve">
+    <value>Secret entfernen</value>
+  </data>
+	<data name="Webhook.Signed" xml:space="preserve">
+    <value>Signiert</value>
+  </data>
 	<data name="Webhook.Webhook" xml:space="preserve">
     <value>Webhook</value>
   </data>

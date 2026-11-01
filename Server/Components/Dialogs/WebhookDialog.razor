@@ -26,6 +26,23 @@
                                    Required="true" RequiredError="Receiver is required">
                             <EnumSelectItems T="WebhookAction" />
                         </MudSelect>
+                        @* secret: write-only, the backend never returns it (null = keep, empty = remove) *@
+                        <MudTextField T="string" @bind-Value="SecretInput"
+                                      InputType="@SecretType"
+                                      MaxLength="256"
+                                      Immediate="true"
+                                      Disabled="@removeSecret"
+                                      Label="@Localizer.Webhook.Secret"
+                                      HelperText="@(Webhook.Signed ? Localizer.Webhook.SecretKeep : null)"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@SecretIcon"
+                                      OnAdornmentClick="ToggleSecretVisibility"
+                                      AdornmentAriaLabel="@Localizer.User.ShowPassword" />
+                        @if (Webhook.Signed)
+                        {
+                            <MudCheckBox T="bool" Value="@removeSecret" ValueChanged="@OnRemoveSecretChanged"
+                                         Label="@Localizer.Webhook.SecretRemove" />
+                        }
                         <ItemBaseFields Item="Webhook" />
                     </MudStack>
                 </MudTabPanel>
@@ -48,6 +65,45 @@
     [Inject] private ILocalizerService LocalizerService { get; set; }
 
     private Localizer Localizer => LocalizerService.Localizer;
+
+    // webhook secret: null keeps the stored secret, empty removes it, any other value replaces it
+    private bool removeSecret;
+    private string secretInput;
+
+    private string SecretInput
+    {
+        get => secretInput;
+        set
+        {
+            secretInput = value;
+            Webhook.Secret = !string.IsNullOrEmpty(value) ? value : null;
+        }
+    }
+
+    // show/hide the secret while typing
+    private InputType SecretType { get; set; } = InputType.Password;
+    private string SecretIcon { get; set; } = Icons.Material.Filled.VisibilityOff;
+
+    private void ToggleSecretVisibility()
+    {
+        if (SecretType == InputType.Text)
+        {
+            SecretType = InputType.Password;
+            SecretIcon = Icons.Material.Filled.VisibilityOff;
+        }
+        else
+        {
+            SecretType = InputType.Text;
+            SecretIcon = Icons.Material.Filled.Visibility;
+        }
+    }
+
+    private void OnRemoveSecretChanged(bool remove)
+    {
+        removeSecret = remove;
+        secretInput = null;
+        Webhook.Secret = remove ? string.Empty : null;
+    }
 
     public async Task<bool> ValidateAsync() =>
         await form.Revalidate();
