@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.JSInterop;
-using NPOI.XSSF.UserModel;
 using PayrollEngine.IO;
 using PayrollEngine.Data;
 using PayrollEngine.Document;
@@ -40,17 +39,12 @@ public static class ExcelDownload
         var dataTable = items.ToSystemDataTable(name, includeRows: true, properties: properties);
         dataSet.Tables.Add(dataTable);
 
-        // xlsx workbook
-        using var workbook = new XSSFWorkbook();
-        // import 
-        workbook.Import(dataSet);
-
-        // result
-        using var resultStream = new MemoryStream();
-        workbook.Write(resultStream, true);
-        resultStream.Seek(0, SeekOrigin.Begin);
+        // xlsx document
+        await using var resultStream = await new DocumentService().ExcelMergeAsync(dataSet, new DocumentMetadata());
+        using var buffer = new MemoryStream();
+        await resultStream.CopyToAsync(buffer);
 
         var download = $"{name}_{FileTool.CurrentTimeStamp()}{FileExtensions.ExcelDocument}";
-        await jsRuntime.SaveAs(download, resultStream.ToArray());
+        await jsRuntime.SaveAs(download, buffer.ToArray());
     }
 }
