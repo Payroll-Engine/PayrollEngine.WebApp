@@ -29,4 +29,17 @@
 	  <ProjectReference Include="..\Presentation\PayrollEngine.WebApp.Presentation.csproj" />
 	</ItemGroup>
 
+	<!-- license notices of the distributed third-party components -->
+	<ItemGroup>
+		<None Include="..\LICENSE" Link="LICENSE">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\THIRD-PARTY-NOTICES.md" Link="THIRD-PARTY-NOTICES.md">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\LICENSES\Apache-2.0.txt" Link="LICENSES\Apache-2.0.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>
