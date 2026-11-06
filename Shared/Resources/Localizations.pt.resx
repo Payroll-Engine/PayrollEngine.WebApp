@@ -616,17 +616,11 @@
 	<data name="Enum.WebhookAction.None" xml:space="preserve">
     <value>Nenhum</value>
   </data>
-	<data name="Enum.WebhookAction.PayrunFunctionRequest" xml:space="preserve">
-    <value>Pedido de função de processamento</value>
-  </data>
 	<data name="Enum.WebhookAction.PayrunJobFinish" xml:space="preserve">
     <value>Fim da tarefa de processamento</value>
   </data>
 	<data name="Enum.WebhookAction.PayrunJobProcess" xml:space="preserve">
     <value>Processamento da tarefa</value>
-  </data>
-	<data name="Enum.WebhookAction.ReportFunctionRequest" xml:space="preserve">
-    <value>Pedido de função de relatório</value>
   </data>
 	<data name="Enum.WebhookAction.TaskChange" xml:space="preserve">
     <value>Alteração de tarefa</value>

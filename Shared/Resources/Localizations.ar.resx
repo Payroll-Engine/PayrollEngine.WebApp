@@ -616,17 +616,11 @@
 	<data name="Enum.WebhookAction.None" xml:space="preserve">
     <value>لا شيء</value>
   </data>
-	<data name="Enum.WebhookAction.PayrunFunctionRequest" xml:space="preserve">
-    <value>طلب دالة دورة الرواتب</value>
-  </data>
 	<data name="Enum.WebhookAction.PayrunJobFinish" xml:space="preserve">
     <value>انتهاء مهمة دورة الرواتب</value>
   </data>
 	<data name="Enum.WebhookAction.PayrunJobProcess" xml:space="preserve">
     <value>معالجة مهمة دورة الرواتب</value>
-  </data>
-	<data name="Enum.WebhookAction.ReportFunctionRequest" xml:space="preserve">
-    <value>طلب دالة التقرير</value>
   </data>
 	<data name="Enum.WebhookAction.TaskChange" xml:space="preserve">
     <value>تغيير المهمة</value>

@@ -4093,15 +4093,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Payrun function request.
-        /// </summary>
-        internal static string Enum_WebhookAction_PayrunFunctionRequest {
-            get {
-                return ResourceManager.GetString("Enum.WebhookAction.PayrunFunctionRequest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Payrun job finish.
         /// </summary>
         internal static string Enum_WebhookAction_PayrunJobFinish {
@@ -4116,15 +4107,6 @@ namespace PayrollEngine.WebApp.Shared.Resources {
         internal static string Enum_WebhookAction_PayrunJobProcess {
             get {
                 return ResourceManager.GetString("Enum.WebhookAction.PayrunJobProcess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Report function request.
-        /// </summary>
-        internal static string Enum_WebhookAction_ReportFunctionRequest {
-            get {
-                return ResourceManager.GetString("Enum.WebhookAction.ReportFunctionRequest", resourceCulture);
             }
         }
         
